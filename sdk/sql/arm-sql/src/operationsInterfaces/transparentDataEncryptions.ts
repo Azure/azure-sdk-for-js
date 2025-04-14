@@ -15,8 +15,8 @@ import {
   TransparentDataEncryptionsGetOptionalParams,
   TransparentDataEncryptionsGetResponse,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
-  TransparentDataEncryptionsCreateOrUpdateResponse
-} from "../models";
+  TransparentDataEncryptionsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TransparentDataEncryptions. */
@@ -34,7 +34,7 @@ export interface TransparentDataEncryptions {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: TransparentDataEncryptionsListByDatabaseOptionalParams
+    options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LogicalDatabaseTransparentDataEncryption>;
   /**
    * Gets a logical database's transparent data encryption.
@@ -51,7 +51,7 @@ export interface TransparentDataEncryptions {
     serverName: string,
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
-    options?: TransparentDataEncryptionsGetOptionalParams
+    options?: TransparentDataEncryptionsGetOptionalParams,
   ): Promise<TransparentDataEncryptionsGetResponse>;
   /**
    * Updates a logical database's transparent data encryption configuration.
@@ -69,7 +69,7 @@ export interface TransparentDataEncryptions {
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: LogicalDatabaseTransparentDataEncryption,
-    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TransparentDataEncryptionsCreateOrUpdateResponse>,
@@ -92,6 +92,6 @@ export interface TransparentDataEncryptions {
     databaseName: string,
     tdeName: TransparentDataEncryptionName,
     parameters: LogicalDatabaseTransparentDataEncryption,
-    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<TransparentDataEncryptionsCreateOrUpdateResponse>;
 }

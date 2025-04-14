@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftStorageSync } from "../microsoftStorageSync";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftStorageSync } from "../microsoftStorageSync.js";
 import {
   PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
   PrivateLinkResourcesListByStorageSyncServiceResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {

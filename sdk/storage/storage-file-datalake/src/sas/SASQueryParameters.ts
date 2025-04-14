@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { UserDelegationKey } from "../models";
-import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { truncatedISO8061Date } from "../utils/utils.common";
+// Licensed under the MIT License.
+
+import type { UserDelegationKey } from "../models.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import { truncatedISO8061Date } from "../utils/utils.common.js";
 
 /**
  * Protocols for generated SAS.
@@ -58,7 +60,7 @@ export interface SASQueryParametersOptions {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
   /**
@@ -67,7 +69,7 @@ export interface SASQueryParametersOptions {
   encryptionScope?: string;
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
-   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
   resource?: string;
   /**
@@ -172,13 +174,13 @@ export class SASQueryParameters {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
 
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
-   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
   public readonly resource?: string;
 
@@ -348,7 +350,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     agentObjectId?: string,
     correlationId?: string,
-    encryptionScope?: string
+    encryptionScope?: string,
   );
 
   /**
@@ -382,7 +384,7 @@ export class SASQueryParameters {
     preauthorizedAgentObjectId?: string,
     agentObjectId?: string,
     correlationId?: string,
-    encryptionScope?: string
+    encryptionScope?: string,
   ) {
     this.version = version;
     this.signature = signature;
@@ -504,21 +506,21 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined
+            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined,
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined
+            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined,
           );
           break;
         case "sip":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.ipRange ? ipRangeToString(this.ipRange) : undefined
+            this.ipRange ? ipRangeToString(this.ipRange) : undefined,
           );
           break;
         case "si":
@@ -537,14 +539,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined
+            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined,
           );
           break;
         case "ske": // Signed key expiry time
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined
+            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined,
           );
           break;
         case "sks": // Signed key service

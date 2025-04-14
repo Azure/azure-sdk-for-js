@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary This samples shows how to make a GET request using default http client.
@@ -22,7 +22,7 @@ async function main() {
   });
   request.allowInsecureConnection = true;
   const response = await client.sendRequest(request);
-  console.dir(response);
+  await console.dir(response);
 }
 
 main()

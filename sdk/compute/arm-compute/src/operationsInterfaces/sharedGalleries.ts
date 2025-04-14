@@ -11,8 +11,8 @@ import {
   SharedGallery,
   SharedGalleriesListOptionalParams,
   SharedGalleriesGetOptionalParams,
-  SharedGalleriesGetResponse
-} from "../models";
+  SharedGalleriesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SharedGalleries. */
@@ -24,7 +24,7 @@ export interface SharedGalleries {
    */
   list(
     location: string,
-    options?: SharedGalleriesListOptionalParams
+    options?: SharedGalleriesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGallery>;
   /**
    * Get a shared gallery by subscription id or tenant id.
@@ -35,6 +35,6 @@ export interface SharedGalleries {
   get(
     location: string,
     galleryUniqueName: string,
-    options?: SharedGalleriesGetOptionalParams
+    options?: SharedGalleriesGetOptionalParams,
   ): Promise<SharedGalleriesGetResponse>;
 }

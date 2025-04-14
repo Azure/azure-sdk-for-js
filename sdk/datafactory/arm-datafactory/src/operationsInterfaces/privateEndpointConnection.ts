@@ -12,8 +12,8 @@ import {
   PrivateEndpointConnectionCreateOrUpdateResponse,
   PrivateEndpointConnectionGetOptionalParams,
   PrivateEndpointConnectionGetResponse,
-  PrivateEndpointConnectionDeleteOptionalParams
-} from "../models";
+  PrivateEndpointConnectionDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a PrivateEndpointConnection. */
 export interface PrivateEndpointConnection {
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnection {
     factoryName: string,
     privateEndpointConnectionName: string,
     privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
-    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
   /**
    * Gets a private endpoint connection
@@ -43,7 +43,7 @@ export interface PrivateEndpointConnection {
     resourceGroupName: string,
     factoryName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionGetOptionalParams
+    options?: PrivateEndpointConnectionGetOptionalParams,
   ): Promise<PrivateEndpointConnectionGetResponse>;
   /**
    * Deletes a private endpoint connection
@@ -56,6 +56,6 @@ export interface PrivateEndpointConnection {
     resourceGroupName: string,
     factoryName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionDeleteOptionalParams
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
   ): Promise<void>;
 }

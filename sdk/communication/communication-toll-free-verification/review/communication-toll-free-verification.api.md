@@ -4,13 +4,11 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
-import { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TokenCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Address {
@@ -23,7 +21,7 @@ export interface Address {
 }
 
 // @public
-export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther";
+export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
 
 // @public (undocumented)
 export interface BusinessInformation {
@@ -134,16 +132,17 @@ export interface OptInDetails {
     // (undocumented)
     description?: string;
     // (undocumented)
-    options?: Option[];
+    options?: Option_2[];
 }
 
 // @public (undocumented)
-export interface Option {
+interface Option_2 {
     // (undocumented)
     imageUrls?: string[];
     // (undocumented)
     type: Type;
 }
+export { Option_2 as Option }
 
 // @public
 export interface ReviewNote {

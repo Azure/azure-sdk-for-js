@@ -19,14 +19,14 @@ import {
   CommunicationsGatewaysImpl,
   NameAvailabilityImpl,
   TestLinesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   CommunicationsGateways,
   NameAvailability,
   TestLines
-} from "./operationsInterfaces";
-import { MicrosoftVoiceServicesOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftVoiceServicesOptionalParams } from "./models/index.js";
 
 export class MicrosoftVoiceServices extends coreClient.ServiceClient {
   $host: string;
@@ -60,7 +60,7 @@ export class MicrosoftVoiceServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-voiceservices/1.0.0`;
+    const packageDetails = `azsdk-js-arm-voiceservices/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

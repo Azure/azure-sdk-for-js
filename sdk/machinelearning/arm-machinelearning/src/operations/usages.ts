@@ -7,30 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Usages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Usages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   Usage,
   UsagesListNextOptionalParams,
   UsagesListOptionalParams,
   UsagesListResponse,
-  UsagesListNextResponse
-} from "../models";
+  UsagesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */
 export class UsagesImpl implements Usages {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class Usages class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -42,7 +42,7 @@ export class UsagesImpl implements Usages {
    */
   public list(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -57,14 +57,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: UsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingAll(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class UsagesImpl implements Usages {
    */
   private _list(
     location: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): Promise<UsagesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class UsagesImpl implements Usages {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams
+    options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -130,44 +130,42 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

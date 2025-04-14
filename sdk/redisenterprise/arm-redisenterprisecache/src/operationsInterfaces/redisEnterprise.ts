@@ -19,40 +19,40 @@ import {
   RedisEnterpriseUpdateResponse,
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
-  RedisEnterpriseGetResponse
-} from "../models";
+  RedisEnterpriseGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RedisEnterprise. */
 export interface RedisEnterprise {
   /**
-   * Lists all RedisEnterprise clusters in a resource group.
+   * Lists all Redis Enterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RedisEnterpriseListByResourceGroupOptionalParams
+    options?: RedisEnterpriseListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
-   * Gets all RedisEnterprise clusters in the specified subscription.
+   * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   list(
-    options?: RedisEnterpriseListOptionalParams
+    options?: RedisEnterpriseListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: RedisEnterpriseCreateOptionalParams
+    options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisEnterpriseCreateResponse>,
@@ -62,28 +62,28 @@ export interface RedisEnterprise {
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: RedisEnterpriseCreateOptionalParams
+    options?: RedisEnterpriseCreateOptionalParams,
   ): Promise<RedisEnterpriseCreateResponse>;
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: RedisEnterpriseUpdateOptionalParams
+    options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisEnterpriseUpdateResponse>,
@@ -91,49 +91,49 @@ export interface RedisEnterprise {
     >
   >;
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: RedisEnterpriseUpdateOptionalParams
+    options?: RedisEnterpriseUpdateOptionalParams,
   ): Promise<RedisEnterpriseUpdateResponse>;
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseDeleteOptionalParams
+    options?: RedisEnterpriseDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseDeleteOptionalParams
+    options?: RedisEnterpriseDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Gets information about a RedisEnterprise cluster
+   * Gets information about a Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the RedisEnterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: RedisEnterpriseGetOptionalParams
+    options?: RedisEnterpriseGetOptionalParams,
   ): Promise<RedisEnterpriseGetResponse>;
 }

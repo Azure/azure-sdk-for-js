@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  SecurityPartnerProvidersUpdateTagsParameters,
-} from "@azure-rest/arm-network";
+import type { SecurityPartnerProvidersUpdateTagsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates tags of a Security Partner Provider resource.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Updates tags of a Security Partner Provider resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SecurityPartnerProviderUpdateTags.json
  */
-async function updateSecurityPartnerProviderTags() {
+async function updateSecurityPartnerProviderTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +26,7 @@ async function updateSecurityPartnerProviderTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       subscriptionId,
       resourceGroupName,
-      securityPartnerProviderName
+      securityPartnerProviderName,
     )
     .patch(options);
   console.log(result);

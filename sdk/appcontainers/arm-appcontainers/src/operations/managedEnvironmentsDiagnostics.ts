@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedEnvironmentsDiagnostics } from "../operationsInterfaces";
+import { ManagedEnvironmentsDiagnostics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   ManagedEnvironmentsDiagnosticsGetRootOptionalParams,
-  ManagedEnvironmentsDiagnosticsGetRootResponse
-} from "../models";
+  ManagedEnvironmentsDiagnosticsGetRootResponse,
+} from "../models/index.js";
 
 /** Class containing ManagedEnvironmentsDiagnostics operations. */
 export class ManagedEnvironmentsDiagnosticsImpl
-  implements ManagedEnvironmentsDiagnostics {
+  implements ManagedEnvironmentsDiagnostics
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -38,11 +39,11 @@ export class ManagedEnvironmentsDiagnosticsImpl
   getRoot(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams
+    options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams,
   ): Promise<ManagedEnvironmentsDiagnosticsGetRootResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
-      getRootOperationSpec
+      getRootOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class ManagedEnvironmentsDiagnosticsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getRootOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/detectorProperties/rootApi/",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/detectorProperties/rootApi/",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironment
+      bodyMapper: Mappers.ManagedEnvironment,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-import { TokenCredential } from "@azure/core-auth";
-
-import { logger } from "./log";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { logger } from "./log.js";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -61,6 +59,7 @@ import {
   CertificatePollerOptions,
   IssuerProperties,
   CertificateContactAll,
+  ActionType,
   CertificatePolicyAction,
   LifetimeAction,
   RequireAtLeastOne,
@@ -77,41 +76,39 @@ import {
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
   PollerLikeWithCancellation,
-} from "./certificatesModels";
+} from "./certificatesModels.js";
 
+import type {
+  CertificateIssuerSetParameters,
+  CertificateIssuerUpdateParameters,
+} from "./generated/models/index.js";
 import {
-  GetCertificatesOptionalParams,
-  GetCertificateIssuersOptionalParams,
-  GetCertificateVersionsOptionalParams,
-  SetCertificateIssuerOptionalParams,
   BackupCertificateResult,
-  GetDeletedCertificatesOptionalParams,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
   X509CertificateProperties,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  ActionType,
   DeletionRecoveryLevel,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
-import { DeleteCertificatePoller } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { CertificateOperationState } from "./lro/operation/operation";
-import { DeleteCertificateState } from "./lro/delete/operation";
-import { CreateCertificateState } from "./lro/create/operation";
-import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { parseCertificateBytes } from "./utils";
-import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier";
+} from "./generated/models/index.js";
+import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
+import { CreateCertificatePoller } from "./lro/create/poller.js";
+import { CertificateOperationPoller } from "./lro/operation/poller.js";
+import { DeleteCertificatePoller } from "./lro/delete/poller.js";
+import { RecoverDeletedCertificatePoller } from "./lro/recover/poller.js";
+import { CertificateOperationState } from "./lro/operation/operation.js";
+import { DeleteCertificateState } from "./lro/delete/operation.js";
+import { CreateCertificateState } from "./lro/create/operation.js";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
+import { parseCertificateBytes } from "./utils.js";
+import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -120,17 +117,19 @@ import {
   getDeletedCertificateFromDeletedCertificateBundle,
   getDeletedCertificateFromItem,
   getPropertiesFromCertificateBundle,
+  mapPagedAsyncIterable,
   toCoreAttributes,
   toCorePolicy,
   toPublicIssuer,
   toPublicPolicy,
-} from "./transformations";
-import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
-import { tracingClient } from "./tracing";
+} from "./transformations.js";
+import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
+import { tracingClient } from "./tracing.js";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "./constants.js";
 
 export {
   CertificateClientOptions,
-  ActionType,
   AdministratorContact,
   ArrayOneOrMore,
   BackupCertificateResult,
@@ -147,6 +146,7 @@ export {
   CertificateOperationError,
   CertificatePolicy,
   ImportCertificatePolicy,
+  ActionType,
   CertificatePolicyAction,
   CertificatePolicyProperties,
   PolicySubjectProperties,
@@ -217,7 +217,6 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
-// eslint-disable-next-line no-use-before-define
 export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
   TState,
   TResult
@@ -244,18 +243,16 @@ export class CertificateClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    clientOptions: CertificateClientOptions = {}
+    clientOptions: CertificateClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [],
-      challengeCallbacks: createKeyVaultChallengeCallbacks(clientOptions),
-    });
-
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const internalClientPipelineOptions: KeyVaultClientOptionalParams = {
       ...clientOptions,
+      apiVersion: clientOptions.serviceVersion || LATEST_API_VERSION,
+      userAgentOptions: {
+        userAgentPrefix: `${clientOptions.userAgentOptions?.userAgentPrefix} azsdk-js-keyvault-certificates/${SDK_VERSION}`,
+      },
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -266,63 +263,21 @@ export class CertificateClient {
       },
     };
 
-    this.client = new KeyVaultClient(
-      clientOptions.serviceVersion || LATEST_API_VERSION,
-      internalClientPipelineOptions
-    );
-    this.client.pipeline.addPolicy(authPolicy);
-  }
+    this.client = new KeyVaultClient(this.vaultUrl, credential, internalClientPipelineOptions);
 
-  private async *listPropertiesOfCertificatesPage(
-    continuationState: PageSettings,
-    options: ListPropertiesOfCertificatesOptions = {}
-  ): AsyncIterableIterator<CertificateProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: GetCertificatesOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        includePending: options.includePending,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificatesPage",
-        optionsComplete,
-        (updatedOptions) => this.client.getCertificates(this.vaultUrl, updatedOptions)
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getPropertiesFromCertificateBundle, this);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificatesPage",
-        options,
-        (updatedOptions) =>
-          this.client.getCertificatesNext(
-            this.vaultUrl,
-            continuationState.continuationToken!,
-            updatedOptions
-          )
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getPropertiesFromCertificateBundle, this);
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listPropertiesOfCertificatesAll(
-    options: ListPropertiesOfCertificatesOptions = {}
-  ): AsyncIterableIterator<CertificateProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfCertificatesPage(f, options)) {
-      for (const certificate of page) {
-        yield certificate;
-      }
-    }
+    this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions));
+    // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
+    this.client.pipeline.addPolicy({
+      name: "ContentTypePolicy",
+      sendRequest(request, next) {
+        const contentType = request.headers.get("Content-Type") ?? "";
+        if (contentType.startsWith("application/json")) {
+          request.headers.set("Content-Type", "application/json");
+        }
+        return next(request);
+      },
+    });
   }
 
   /**
@@ -330,12 +285,22 @@ export class CertificateClient {
    * in the response. No values are returned for the certificates. This operations requires the certificates/list permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:IndexListCertificates
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * // All in one call
    * for await (const certificateProperties of client.listPropertiesOfCertificates()) {
    *   console.log(certificateProperties);
    * }
+   *
    * // By pages
    * for await (const page of client.listPropertiesOfCertificates().byPage()) {
    *   for (const certificateProperties of page) {
@@ -347,80 +312,12 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public listPropertiesOfCertificates(
-    options: ListPropertiesOfCertificatesOptions = {}
+    options: ListPropertiesOfCertificatesOptions = {},
   ): PagedAsyncIterableIterator<CertificateProperties> {
-    const iter = this.listPropertiesOfCertificatesAll(options);
-
-    const result = {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfCertificatesPage(settings, options),
-    };
-
-    return result;
-  }
-
-  private async *listPropertiesOfCertificateVersionsPage(
-    certificateName: string,
-    continuationState: PageSettings,
-    options: ListPropertiesOfCertificateVersionsOptions = {}
-  ): AsyncIterableIterator<CertificateProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const optionsComplete: GetCertificateVersionsOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificateVersionsPage",
-        optionsComplete,
-        (updatedOptions) =>
-          this.client.getCertificateVersions(this.vaultUrl, certificateName, updatedOptions)
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getPropertiesFromCertificateBundle, this);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfCertificateVersionsPage",
-        options,
-        (updatedOptions) =>
-          this.client.getCertificateVersions(
-            continuationState.continuationToken!,
-            certificateName,
-            updatedOptions
-          )
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getPropertiesFromCertificateBundle, this);
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listPropertiesOfCertificateVersionsAll(
-    certificateName: string,
-    options: ListPropertiesOfCertificateVersionsOptions = {}
-  ): AsyncIterableIterator<CertificateProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfCertificateVersionsPage(
-      certificateName,
-      f,
-      options
-    )) {
-      for (const item of page) {
-        yield item;
-      }
-    }
+    return mapPagedAsyncIterable(
+      this.client.getCertificates(options),
+      getPropertiesFromCertificateBundle,
+    );
   }
 
   /**
@@ -428,9 +325,20 @@ export class CertificateClient {
    * vault. This operation requires the certificates/list permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * for await (const certificateProperties of client.listPropertiesOfCertificateVersions("MyCertificate")) {
+   * ```ts snippet:IndexListCertificateVersions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
+   * for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+   *   "MyCertificate",
+   * )) {
    *   console.log(certificateProperties.version!);
    * }
    * ```
@@ -440,22 +348,12 @@ export class CertificateClient {
    */
   public listPropertiesOfCertificateVersions(
     certificateName: string,
-    options: ListPropertiesOfCertificateVersionsOptions = {}
+    options: ListPropertiesOfCertificateVersionsOptions = {},
   ): PagedAsyncIterableIterator<CertificateProperties> {
-    const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, options);
-
-    const result = {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfCertificateVersionsPage(certificateName, settings, options),
-    };
-
-    return result;
+    return mapPagedAsyncIterable(
+      this.client.getCertificateVersions(certificateName, options),
+      getPropertiesFromCertificateBundle,
+    );
   }
 
   /**
@@ -466,25 +364,38 @@ export class CertificateClient {
    * This operation requires the certificates/delete permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * const createPoller = await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
-   * await createPoller.pollUntilDone();
+   * ```ts snippet:ReadmeSampleDeleteCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
    *
-   * const deletePoller = await client.beginDeleteCertificate("MyCertificate");
+   * const credential = new DefaultAzureCredential();
    *
-   * // Serializing the poller
-   * const serialized = deletePoller.toString();
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
    *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginDeleteCertificate("MyCertificate", { resumeFrom: serialized });
+   * const client = new CertificateClient(keyVaultUrl, credential);
    *
-   * // Waiting until it's done
-   * const deletedCertificate = await deletePoller.pollUntilDone();
-   * console.log(deletedCertificate);
+   * const certificateName = "MyCertificate";
+   *
+   * const poller = await client.beginDeleteCertificate(certificateName);
+   *
+   * // You can use the deleted certificate immediately:
+   * const deletedCertificate = poller.getResult();
+   *
+   * // The certificate is being deleted. Only wait for it if you want to restore it or purge it.
+   * await poller.pollUntilDone();
+   *
+   * // You can also get the deleted certificate this way:
+   * await client.getDeletedCertificate(certificateName);
+   *
+   * // Deleted certificates can also be recovered or purged.
+   *
+   * // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
+   * // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
+   * // await recoverPoller.pollUntilDone();
+   *
+   * // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
+   * await client.purgeDeletedCertificate(certificateName);
    * ```
    * Deletes a certificate from a specified key vault.
    * @param certificateName - The name of the certificate.
@@ -492,7 +403,7 @@ export class CertificateClient {
    */
   public async beginDeleteCertificate(
     certificateName: string,
-    options: BeginDeleteCertificateOptions = {}
+    options: BeginDeleteCertificateOptions = {},
   ): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>> {
     const poller = new DeleteCertificatePoller({
       certificateName,
@@ -510,34 +421,38 @@ export class CertificateClient {
    * Deletes all of the certificate contacts. This operation requires the certificates/managecontacts permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new CertificateClient(url, credentials);
-   * await client.setContacts([{
-   *   email: "b@b.com",
-   *   name: "b",
-   *   phone: "222222222222"
-   * }]);
+   * ```ts snippet:CertificateClientDeleteContacts
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * await client.deleteContacts();
    * ```
    * Deletes all of the certificate contacts
    * @param options - The optional parameters
    */
   public deleteContacts(
-    options: DeleteContactsOptions = {}
+    options: DeleteContactsOptions = {},
   ): Promise<CertificateContact[] | undefined> {
     let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.deleteContacts",
       options,
       async (updatedOptions) => {
-        await this.client.deleteCertificateContacts(this.vaultUrl, {
+        await this.client.deleteCertificateContacts({
           ...updatedOptions,
           onResponse: (response) => {
             parsedBody = response.parsedBody;
           },
         });
         return coreContactsToCertificateContacts(parsedBody);
-      }
+      },
     );
   }
 
@@ -545,13 +460,24 @@ export class CertificateClient {
    * Sets the certificate contacts for the key vault. This operation requires the certificates/managecontacts permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new CertificateClient(url, credentials);
-   * await client.setContacts([{
-   *   email: "b@b.com",
-   *   name: "b",
-   *   phone: "222222222222"
-   * }]);
+   * ```ts snippet:CertificateClientSetContacts
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
+   * await client.setContacts([
+   *   {
+   *     email: "b@b.com",
+   *     name: "b",
+   *     phone: "222222222222",
+   *   },
+   * ]);
    * ```
    * Sets the certificate contacts.
    * @param contacts - The contacts to use
@@ -559,7 +485,7 @@ export class CertificateClient {
    */
   public setContacts(
     contacts: CertificateContact[],
-    options: SetContactsOptions = {}
+    options: SetContactsOptions = {},
   ): Promise<CertificateContact[] | undefined> {
     const coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
@@ -567,23 +493,16 @@ export class CertificateClient {
       phone: x ? x.phone : undefined,
     }));
 
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.setContacts",
       options,
       async (updatedOptions) => {
-        await this.client.setCertificateContacts(
-          this.vaultUrl,
+        const response = await this.client.setCertificateContacts(
           { contactList: coreContacts },
-          {
-            ...updatedOptions,
-            onResponse: (response) => {
-              parsedBody = response.parsedBody;
-            },
-          }
+          updatedOptions,
         );
-        return coreContactsToCertificateContacts(parsedBody);
-      }
+        return coreContactsToCertificateContacts(response);
+      },
     );
   }
 
@@ -591,15 +510,21 @@ export class CertificateClient {
    * Returns the set of certificate contact resources in the specified key vault. This operation requires the certificates/managecontacts permission.
    *
    * Example usage:
-   * ```ts
-   * let client = new CertificateClient(url, credentials);
-   * await client.setContacts([{
-   *   email: "b@b.com",
-   *   name: "b",
-   *   phone: "222222222222"
-   * }]);
+   * ```ts snippet:CertificateClientGetContacts
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * const contacts = await client.getContacts();
-   * console.log(contacts);
+   * for (const contact of contacts) {
+   *   console.log(contact);
+   * }
    * ```
    * Sets the certificate contacts.
    * @param options - The optional parameters
@@ -609,70 +534,33 @@ export class CertificateClient {
       "CertificateClient.getContacts",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificateContacts(this.vaultUrl, updatedOptions);
+        const result = await this.client.getCertificateContacts(updatedOptions);
         return coreContactsToCertificateContacts(result);
-      }
+      },
     );
   }
-
-  private async *listPropertiesOfIssuersPage(
-    continuationState: PageSettings,
-    options: ListPropertiesOfIssuersOptions = {}
-  ): AsyncIterableIterator<IssuerProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: GetCertificateIssuersOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfIssuersPage",
-        requestOptionsComplete,
-        (updatedOptions) => this.client.getCertificateIssuers(this.vaultUrl, updatedOptions)
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listPropertiesOfIssuersPage",
-        options,
-        (updatedOptions) =>
-          this.client.getCertificateIssuers(continuationState.continuationToken!, updatedOptions)
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listPropertiesOfIssuersAll(
-    options: ListPropertiesOfIssuersOptions = {}
-  ): AsyncIterableIterator<IssuerProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfIssuersPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
-  }
-
   /**
    * Returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientListIssuers
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * await client.createIssuer("IssuerName", "Test");
+   *
    * // All in one call
    * for await (const issuerProperties of client.listPropertiesOfIssuers()) {
    *   console.log(issuerProperties);
    * }
+   *
    * // By pages
    * for await (const page of client.listPropertiesOfIssuers().byPage()) {
    *   for (const issuerProperties of page) {
@@ -684,21 +572,9 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public listPropertiesOfIssuers(
-    options: ListPropertiesOfIssuersOptions = {}
+    options: ListPropertiesOfIssuersOptions = {},
   ): PagedAsyncIterableIterator<IssuerProperties> {
-    const iter = this.listPropertiesOfIssuersAll(options);
-
-    const result = {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, options),
-    };
-
-    return result;
+    return this.client.getCertificateIssuers(options);
   }
 
   /**
@@ -706,8 +582,17 @@ export class CertificateClient {
    * operation requires the certificates/setissuers permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientCreateIssuer
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * await client.createIssuer("IssuerName", "Test");
    * ```
    * Sets the specified certificate issuer.
@@ -718,7 +603,7 @@ export class CertificateClient {
   public createIssuer(
     issuerName: string,
     provider: string,
-    options: CreateIssuerOptions = {}
+    options: CreateIssuerOptions = {},
   ): Promise<CertificateIssuer> {
     return tracingClient.withSpan(
       "CertificateClient.createIssuer",
@@ -726,19 +611,19 @@ export class CertificateClient {
       async (updatedOptions) => {
         const { accountId, password } = updatedOptions;
 
-        const generatedOptions: SetCertificateIssuerOptionalParams = {
-          ...updatedOptions,
+        const parameters: CertificateIssuerSetParameters = {
           credentials: {
             accountId,
             password,
           },
+          provider,
         };
 
         if (
           updatedOptions.organizationId ||
           (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
         ) {
-          generatedOptions.organizationDetails = {
+          parameters.organizationDetails = {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
@@ -752,20 +637,18 @@ export class CertificateClient {
         }
 
         if (updatedOptions.enabled !== undefined) {
-          generatedOptions.attributes = {
+          parameters.attributes = {
             enabled: updatedOptions.enabled,
           };
         }
 
-        let parsedBody: any;
-        await this.client.setCertificateIssuer(this.vaultUrl, issuerName, provider, {
-          ...generatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return toPublicIssuer(parsedBody);
-      }
+        const response = await this.client.setCertificateIssuer(
+          issuerName,
+          parameters,
+          updatedOptions,
+        );
+        return toPublicIssuer(response);
+      },
     );
   }
 
@@ -774,11 +657,19 @@ export class CertificateClient {
    * entity. This operation requires the certificates/setissuers permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Test");
+   * ```ts snippet:CertificateClientUpdateIssuer
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * await client.updateIssuer("IssuerName", {
-   *   provider: "Provider2"
+   *   provider: "Provider2",
    * });
    * ```
    * Updates the specified certificate issuer.
@@ -787,7 +678,7 @@ export class CertificateClient {
    */
   public async updateIssuer(
     issuerName: string,
-    options: UpdateIssuerOptions = {}
+    options: UpdateIssuerOptions = {},
   ): Promise<CertificateIssuer> {
     return tracingClient.withSpan(
       "CertificateClient.updateIssuer",
@@ -795,19 +686,22 @@ export class CertificateClient {
       async (updatedOptions) => {
         const { accountId, password } = options;
 
-        const generatedOptions: SetCertificateIssuerOptionalParams = {
-          ...updatedOptions,
+        const parameters: CertificateIssuerUpdateParameters = {
           credentials: {
             accountId,
             password,
           },
         };
 
+        if (updatedOptions.provider) {
+          parameters.provider = updatedOptions.provider;
+        }
+
         if (
           updatedOptions.organizationId ||
           (updatedOptions.administratorContacts && updatedOptions.administratorContacts.length)
         ) {
-          generatedOptions.organizationDetails = {
+          parameters.organizationDetails = {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
@@ -821,21 +715,18 @@ export class CertificateClient {
         }
 
         if (updatedOptions.enabled) {
-          generatedOptions.attributes = {
+          parameters.attributes = {
             enabled: updatedOptions.enabled,
           };
         }
 
-        let parsedBody: any;
-        await this.client.updateCertificateIssuer(this.vaultUrl, issuerName, {
-          ...generatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-
-        return toPublicIssuer(parsedBody);
-      }
+        const response = await this.client.updateCertificateIssuer(
+          issuerName,
+          parameters,
+          updatedOptions,
+        );
+        return toPublicIssuer(response);
+      },
     );
   }
 
@@ -845,9 +736,17 @@ export class CertificateClient {
    * permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Test");
+   * ```ts snippet:CertificateClientGetIssuer
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * const certificateIssuer = await client.getIssuer("IssuerName");
    * console.log(certificateIssuer);
    * ```
@@ -856,19 +755,15 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public getIssuer(issuerName: string, options: GetIssuerOptions = {}): Promise<CertificateIssuer> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.getIssuer",
       options,
       async (updatedOptions) => {
-        await this.client.getCertificateIssuer(this.vaultUrl, issuerName, {
+        const response = await this.client.getCertificateIssuer(issuerName, {
           ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
         });
-        return toPublicIssuer(parsedBody);
-      }
+        return toPublicIssuer(response);
+      },
     );
   }
 
@@ -877,9 +772,17 @@ export class CertificateClient {
    * the vault. This operation requires the certificates/manageissuers/deleteissuers permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * ```ts snippet:CertificateClientDeleteIssuer
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
    * await client.deleteIssuer("IssuerName");
    * ```
    * Deletes the specified certificate issuer.
@@ -888,21 +791,15 @@ export class CertificateClient {
    */
   public deleteIssuer(
     issuerName: string,
-    options: DeleteIssuerOptions = {}
+    options: DeleteIssuerOptions = {},
   ): Promise<CertificateIssuer> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.deleteIssuer",
       options,
       async (updatedOptions) => {
-        await this.client.deleteCertificateIssuer(this.vaultUrl, issuerName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return toPublicIssuer(parsedBody);
-      }
+        const response = await this.client.deleteCertificateIssuer(issuerName, updatedOptions);
+        return toPublicIssuer(response);
+      },
     );
   }
 
@@ -915,26 +812,31 @@ export class CertificateClient {
    * This operation requires the certificates/create permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:ReadmeSampleCreateCertificatePoller
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
+   * const certificateName = "MyCertificateName";
    * const certificatePolicy = {
    *   issuerName: "Self",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * };
-   * const createPoller = await client.beginCreateCertificate("MyCertificate", certificatePolicy);
    *
-   * // The pending certificate can be obtained by calling the following method:
-   * const pendingCertificate = createPoller.getResult();
+   * const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
    *
-   * // Serializing the poller
-   * const serialized = createPoller.toString();
+   * // You can use the pending certificate immediately:
+   * const pendingCertificate = poller.getResult();
    *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginCreateCertificate("MyCertificate", certificatePolicy, { resumeFrom: serialized });
-   *
-   * // Waiting until it's done
-   * const certificate = await createPoller.pollUntilDone();
-   * console.log(certificate);
+   * // Or you can wait until the certificate finishes being signed:
+   * const keyVaultCertificate = await poller.pollUntilDone();
+   * console.log(keyVaultCertificate);
    * ```
    * Creates a certificate
    * @param certificateName - The name of the certificate
@@ -944,7 +846,7 @@ export class CertificateClient {
   public async beginCreateCertificate(
     certificateName: string,
     policy: CertificatePolicy,
-    options: BeginCreateCertificateOptions = {}
+    options: BeginCreateCertificateOptions = {},
   ): Promise<PollerLikeWithCancellation<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const poller = new CreateCertificatePoller({
       vaultUrl: this.vaultUrl,
@@ -965,15 +867,21 @@ export class CertificateClient {
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * const poller = await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
-   * await poller.pollUntilDone();
-   * const certificate = await client.getCertificate("MyCertificate");
-   * console.log(certificate);
+   * ```ts snippet:CertificateClientGetCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(keyVaultUrl, credential);
+   *
+   * const certificateName = "MyCertificate";
+   *
+   * const result = await client.getCertificate(certificateName);
+   * console.log(result.name);
    * ```
    * Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param certificateName - The name of the certificate
@@ -981,20 +889,15 @@ export class CertificateClient {
    */
   public getCertificate(
     certificateName: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "CertificateClient.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -1002,16 +905,29 @@ export class CertificateClient {
    * Gets information about a specific certificate on a specific version. It won't return the certificate's policy. This operation requires the certificates/get permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * const poller = await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
-   * await poller.pollUntilDone();
-   * const certificateWithPolicy = await client.getCertificate("MyCertificate");
-   * const certificate = await client.getCertificateVersion("MyCertificate", certificateWithPolicy.properties.version!);
-   * console.log(certificate);
+   * ```ts snippet:CertificateClientGetCertificateVersion
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
+   * const certificateName = "MyCertificateName";
+   *
+   * const latestCertificate = await client.getCertificate(certificateName);
+   * console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
+   * const specificCertificate = await client.getCertificateVersion(
+   *   certificateName,
+   *   latestCertificate.properties.version,
+   * );
+   * console.log(
+   *   `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
+   *   specificCertificate,
+   * );
    * ```
    * Retrieves a certificate from the certificate's name and a specified version
    * @param certificateName - The name of the certificate
@@ -1021,7 +937,7 @@ export class CertificateClient {
   public getCertificateVersion(
     certificateName: string,
     version: string,
-    options: GetCertificateVersionOptions = {}
+    options: GetCertificateVersionOptions = {},
   ): Promise<KeyVaultCertificate> {
     return tracingClient.withSpan(
       "CertificateClient.getCertificateVersion",
@@ -1030,14 +946,9 @@ export class CertificateClient {
         if (!version) {
           throw new Error("The 'version' cannot be empty.");
         }
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          version,
-          updatedOptions
-        );
+        const result = await this.client.getCertificate(certificateName, version, updatedOptions);
         return getCertificateFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -1046,19 +957,26 @@ export class CertificateClient {
    * If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. This operation requires the certificates/import permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * // See: @azure/keyvault-secrets
+   * ```ts snippet:CertificateClientImportCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   * import { SecretClient } from "@azure/keyvault-secrets";
+   * import { isNodeLike } from "@azure/core-util";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   * const secretClient = new SecretClient(url, credential);
+   *
    * const certificateSecret = await secretClient.getSecret("MyCertificate");
    * const base64EncodedCertificate = certificateSecret.value!;
-   * let buffer: Uint8Array;
    *
-   * if (isNode) {
-   *   buffer = Buffer.from(base64EncodedCertificate, "base64");
-   * } else {
-   *   buffer = Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
-   * }
-   *
+   * const buffer = isNodeLike
+   *   ? Buffer.from(base64EncodedCertificate, "base64")
+   *   : Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
    * await client.importCertificate("MyCertificate", buffer);
    * ```
    * Imports a certificate from a certificate's secret value
@@ -1069,7 +987,7 @@ export class CertificateClient {
   public importCertificate(
     certificateName: string,
     certificateBytes: Uint8Array,
-    options: ImportCertificateOptions = {}
+    options: ImportCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "CertificateClient.importCertificate",
@@ -1077,16 +995,19 @@ export class CertificateClient {
       async (updatedOptions) => {
         const base64EncodedCertificate = parseCertificateBytes(
           certificateBytes,
-          updatedOptions.policy?.contentType
+          updatedOptions.policy?.contentType,
         );
         const result = await this.client.importCertificate(
-          this.vaultUrl,
           certificateName,
-          base64EncodedCertificate,
-          updatedOptions
+          {
+            base64EncodedCertificate,
+            preserveCertOrder: updatedOptions.preserveCertificateOrder,
+            ...updatedOptions,
+          },
+          updatedOptions,
         );
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -1094,12 +1015,17 @@ export class CertificateClient {
    * The getCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
+   * ```ts snippet:CertificateClientGetCertificatePolicy
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * const policy = await client.getCertificatePolicy("MyCertificate");
    * console.log(policy);
    * ```
@@ -1109,21 +1035,15 @@ export class CertificateClient {
    */
   public getCertificatePolicy(
     certificateName: string,
-    options: GetCertificatePolicyOptions = {}
+    options: GetCertificatePolicyOptions = {},
   ): Promise<CertificatePolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.getCertificatePolicy",
       options,
       async (updatedOptions) => {
-        await this.client.getCertificatePolicy(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (res) => {
-            parsedBody = res.parsedBody;
-          },
-        });
-        return toPublicPolicy(parsedBody);
-      }
+        const response = await this.client.getCertificatePolicy(certificateName, updatedOptions);
+        return toPublicPolicy(response);
+      },
     );
   }
 
@@ -1137,7 +1057,7 @@ export class CertificateClient {
   public updateCertificatePolicy(
     certificateName: string,
     policy: CertificatePolicy,
-    options: UpdateCertificatePolicyOptions = {}
+    options: UpdateCertificatePolicyOptions = {},
   ): Promise<CertificatePolicy> {
     let parsedBody: any;
     return tracingClient.withSpan(
@@ -1145,14 +1065,9 @@ export class CertificateClient {
       options,
       async (updatedOptions) => {
         const corePolicy = toCorePolicy(undefined, policy);
-        await this.client.updateCertificatePolicy(this.vaultUrl, certificateName, corePolicy, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
+        await this.client.updateCertificatePolicy(certificateName, corePolicy, updatedOptions);
         return toPublicPolicy(parsedBody);
-      }
+      },
     );
   }
 
@@ -1161,19 +1076,23 @@ export class CertificateClient {
    * certificate's attributes. This operation requires the certificates/update permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * await client.beginCreateCertificate("MyCertificate", {
-   *   issuerName: "Self",
-   *   subject: "cn=MyCert"
-   * });
+   * ```ts snippet:CertificateClientUpdateCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
    *
    * // You may pass an empty string for version which will update
    * // the latest version of the certificate
    * await client.updateCertificateProperties("MyCertificate", "", {
    *   tags: {
-   *     customTag: "value"
-   *   }
+   *     customTag: "value",
+   *   },
    * });
    * ```
    * Updates a certificate
@@ -1184,22 +1103,23 @@ export class CertificateClient {
   public updateCertificateProperties(
     certificateName: string,
     version: string,
-    options: UpdateCertificatePropertiesOptions = {}
+    options: UpdateCertificatePropertiesOptions = {},
   ): Promise<KeyVaultCertificate> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.updateCertificateProperties",
       options,
       async (updatedOptions) => {
-        await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
-          ...updatedOptions,
-          certificateAttributes: toCoreAttributes(options),
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
+        const response = await this.client.updateCertificate(
+          certificateName,
+          version,
+          {
+            certificateAttributes: toCoreAttributes(options),
+            tags: options.tags,
           },
-        });
-        return getCertificateFromCertificateBundle(parsedBody);
-      }
+          updatedOptions,
+        );
+        return getCertificateFromCertificateBundle(response);
+      },
     );
   }
 
@@ -1208,11 +1128,20 @@ export class CertificateClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the certificate is fully recovered.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientGetCertificateOperation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * const createPoller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * });
    *
    * const poller = await client.getCertificateOperation("MyCertificate");
@@ -1227,7 +1156,7 @@ export class CertificateClient {
    */
   public async getCertificateOperation(
     certificateName: string,
-    options: GetCertificateOperationOptions = {}
+    options: GetCertificateOperationOptions = {},
   ): Promise<PollerLikeWithCancellation<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1247,14 +1176,24 @@ export class CertificateClient {
    * The certificate is no longer created. This operation requires the certificates/update permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientDeleteCertificateOperation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * });
    * await client.deleteCertificateOperation("MyCertificate");
-   * await client.getCertificateOperation("MyCertificate"); // Throws error: Pending certificate not found: "MyCertificate"
+   *
+   * await client.getCertificateOperation("MyCertificate");
    * ```
    * Delete a certificate's operation
    * @param certificateName - The name of the certificate
@@ -1262,21 +1201,18 @@ export class CertificateClient {
    */
   public deleteCertificateOperation(
     certificateName: string,
-    options: DeleteCertificateOperationOptions = {}
+    options: DeleteCertificateOperationOptions = {},
   ): Promise<CertificateOperation> {
     return tracingClient.withSpan(
       "CertificateClient.deleteCertificateOperation",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.deleteCertificateOperation(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
-      }
+        const operation = await this.client.deleteCertificateOperation(
+          certificateName,
+          updatedOptions,
+        );
+        return getCertificateOperationFromCoreOperation(certificateName, operation);
+      },
     );
   }
 
@@ -1284,28 +1220,41 @@ export class CertificateClient {
    * Performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientMergeCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   * import { writeFileSync, readFileSync } from "node:fs";
+   * import { execSync } from "node:child_process";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Unknown",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
    * const { csr } = poller.getOperationState().certificateOperation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
-   * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
+   * const wrappedCsr = [
+   *   "-----BEGIN CERTIFICATE REQUEST-----",
+   *   base64Csr,
+   *   "-----END CERTIFICATE REQUEST-----",
+   * ].join("\n");
    *
-   * const fs = require("fs");
-   * fs.writeFileSync("test.csr", wrappedCsr);
+   * writeFileSync("test.csr", wrappedCsr);
    *
    * // Certificate available locally made using:
    * //   openssl genrsa -out ca.key 2048
    * //   openssl req -new -x509 -key ca.key -out ca.crt
    * // You can read more about how to create a fake certificate authority here: https://gist.github.com/Soarez/9688998
    *
-   * const childProcess = require("child_process");
-   * childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
-   * const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
+   * execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
+   * const base64Crt = readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
    *
    * await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
    * ```
@@ -1317,21 +1266,20 @@ export class CertificateClient {
   public mergeCertificate(
     certificateName: string,
     x509Certificates: Uint8Array[],
-    options: MergeCertificateOptions = {}
+    options: MergeCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.mergeCertificate",
       options,
       async (updatedOptions) => {
-        await this.client.mergeCertificate(this.vaultUrl, certificateName, x509Certificates, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
-      }
+        const response = await this.client.mergeCertificate(
+          certificateName,
+          { x509Certificates },
+
+          updatedOptions,
+        );
+        return getCertificateWithPolicyFromCertificateBundle(response);
+      },
     );
   }
 
@@ -1340,11 +1288,20 @@ export class CertificateClient {
    * This operation requires the certificates/backup permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientBackupCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * ```
@@ -1354,21 +1311,15 @@ export class CertificateClient {
    */
   public backupCertificate(
     certificateName: string,
-    options: BackupCertificateOptions = {}
+    options: BackupCertificateOptions = {},
   ): Promise<Uint8Array | undefined> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.backupCertificate",
       options,
       async (updatedOptions) => {
-        await this.client.backupCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return parsedBody.value;
-      }
+        const response = await this.client.backupCertificate(certificateName, updatedOptions);
+        return response.value;
+      },
     );
   }
 
@@ -1376,15 +1327,26 @@ export class CertificateClient {
    * Restores a backed up certificate, and all its versions, to a vault. This operation requires the certificates/restore permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientRestoreCertificateBackup
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
-   *   subject: "cn=MyCert"
+   *   subject: "cn=MyCert",
    * });
    * const backup = await client.backupCertificate("MyCertificate");
+   *
    * const poller = await client.beginDeleteCertificate("MyCertificate");
    * await poller.pollUntilDone();
+   *
    * // Some time is required before we're able to restore the certificate
    * await client.restoreCertificateBackup(backup!);
    * ```
@@ -1394,74 +1356,19 @@ export class CertificateClient {
    */
   public restoreCertificateBackup(
     backup: Uint8Array,
-    options: RestoreCertificateBackupOptions = {}
+    options: RestoreCertificateBackupOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.restoreCertificateBackup",
       options,
       async (updatedOptions) => {
-        await this.client.restoreCertificate(this.vaultUrl, backup, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
-      }
+        const response = await this.client.restoreCertificate(
+          { certificateBundleBackup: backup },
+          updatedOptions,
+        );
+        return getCertificateWithPolicyFromCertificateBundle(response);
+      },
     );
-  }
-
-  private async *listDeletedCertificatesPage(
-    continuationState: PageSettings,
-    options: ListDeletedCertificatesOptions = {}
-  ): AsyncIterableIterator<DeletedCertificate[]> {
-    if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: GetDeletedCertificatesOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        includePending: options.includePending,
-        ...options,
-      };
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listDeletedCertificatesPage",
-        requestOptionsComplete,
-        (updatedOptions) => this.client.getDeletedCertificates(this.vaultUrl, updatedOptions)
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getDeletedCertificateFromItem, this);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await tracingClient.withSpan(
-        "CertificateClient.listDeletedCertificatesPage",
-        options,
-        (updatedOptions) =>
-          this.client.getDeletedCertificatesNext(
-            this.vaultUrl,
-            continuationState.continuationToken!,
-            updatedOptions
-          )
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getDeletedCertificateFromItem, this);
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listDeletedCertificatesAll(
-    options: ListDeletedCertificatesOptions = {}
-  ): AsyncIterableIterator<DeletedCertificate> {
-    const f = {};
-
-    for await (const page of this.listDeletedCertificatesPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
   }
 
   /**
@@ -1469,11 +1376,21 @@ export class CertificateClient {
    * information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientListDeletedCertificates
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * for await (const deletedCertificate of client.listDeletedCertificates()) {
    *   console.log(deletedCertificate);
    * }
+   *
    * for await (const page of client.listDeletedCertificates().byPage()) {
    *   for (const deletedCertificate of page) {
    *     console.log(deletedCertificate);
@@ -1484,21 +1401,12 @@ export class CertificateClient {
    * @param options - The optional parameters
    */
   public listDeletedCertificates(
-    options: ListDeletedCertificatesOptions = {}
+    options: ListDeletedCertificatesOptions = {},
   ): PagedAsyncIterableIterator<DeletedCertificate> {
-    const iter = this.listDeletedCertificatesAll(options);
-
-    const result = {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, options),
-    };
-
-    return result;
+    return mapPagedAsyncIterable(
+      this.client.getDeletedCertificates(options),
+      getDeletedCertificateFromItem,
+    );
   }
 
   /**
@@ -1506,8 +1414,17 @@ export class CertificateClient {
    * current deletion recovery level. This operation requires the certificates/get permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientGetDeletedCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
    * console.log("Deleted certificate:", deletedCertificate);
    * ```
@@ -1517,21 +1434,15 @@ export class CertificateClient {
    */
   public getDeletedCertificate(
     certificateName: string,
-    options: GetDeletedCertificateOptions = {}
+    options: GetDeletedCertificateOptions = {},
   ): Promise<DeletedCertificate> {
     return tracingClient.withSpan(
       "CertificateClient.getDeletedCertificate",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
-      }
+        const response = await this.client.getDeletedCertificate(certificateName, updatedOptions);
+        return getDeletedCertificateFromDeletedCertificateBundle(response);
+      },
     );
   }
 
@@ -1540,10 +1451,20 @@ export class CertificateClient {
    * recovery level does not specify 'Purgeable'. This operation requires the certificate/purge permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientPurgeDeletedCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
+   *
    * const deletePoller = await client.beginDeleteCertificate("MyCertificate");
    * await deletePoller.pollUntilDone();
+   *
    * // Deleting a certificate takes time, make sure to wait before purging it
    * client.purgeDeletedCertificate("MyCertificate");
    * ```
@@ -1553,15 +1474,15 @@ export class CertificateClient {
    */
   public async purgeDeletedCertificate(
     certificateName: string,
-    options: PurgeDeletedCertificateOptions = {}
+    options: PurgeDeletedCertificateOptions = {},
   ): Promise<null> {
     return tracingClient.withSpan(
       "CertificateClient.purgeDeletedCertificate",
       options,
       async (updatedOptions) => {
-        await this.client.purgeDeletedCertificate(this.vaultUrl, certificateName, updatedOptions);
+        await this.client.purgeDeletedCertificate(certificateName, updatedOptions);
         return null;
-      }
+      },
     );
   }
 
@@ -1572,19 +1493,21 @@ export class CertificateClient {
    * This operation requires the certificates/recover permission.
    *
    * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
+   * ```ts snippet:CertificateClientRecoverDeletedCertificate
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { CertificateClient } from "@azure/keyvault-certificates";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new CertificateClient(url, credential);
    *
    * const deletePoller = await client.beginDeleteCertificate("MyCertificate");
    * await deletePoller.pollUntilDone();
    *
    * const recoverPoller = await client.beginRecoverDeletedCertificate("MyCertificate");
-   *
-   * // Serializing the poller
-   * const serialized = deletePoller.toString();
-   *
-   * // A new poller can be created with:
-   * // const newPoller = await client.beginRecoverDeletedCertificate("MyCertificate", { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const certificate = await recoverPoller.pollUntilDone();
@@ -1596,7 +1519,7 @@ export class CertificateClient {
    */
   public async beginRecoverDeletedCertificate(
     certificateName: string,
-    options: BeginRecoverDeletedCertificateOptions = {}
+    options: BeginRecoverDeletedCertificateOptions = {},
   ): Promise<PollerLike<RecoverDeletedCertificateState, KeyVaultCertificateWithPolicy>> {
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,

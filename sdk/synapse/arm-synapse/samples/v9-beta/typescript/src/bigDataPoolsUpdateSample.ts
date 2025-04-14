@@ -13,9 +13,7 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch a Big Data pool.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Patch a Big Data pool.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/UpdateBigDataPool.json
  */
-async function updateABigDataPool() {
+async function updateABigDataPool(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "01234567-89ab-4def-0123-456789abcdef";
@@ -43,7 +41,7 @@ async function updateABigDataPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateABigDataPool();
 }
 

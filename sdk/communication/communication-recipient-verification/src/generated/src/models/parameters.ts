@@ -14,7 +14,7 @@ import {
 import {
   VerificationRequest as VerificationRequestMapper,
   VerificationCodeRequest as VerificationCodeRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

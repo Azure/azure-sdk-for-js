@@ -9,7 +9,7 @@
 import {
   IntegrationRuntimeNodeIpAddressGetOptionalParams,
   IntegrationRuntimeNodeIpAddressGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeNodeIpAddressOperations. */
 export interface IntegrationRuntimeNodeIpAddressOperations {

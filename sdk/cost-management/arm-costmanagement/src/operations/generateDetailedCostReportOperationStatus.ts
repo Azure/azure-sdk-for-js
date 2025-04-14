@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GenerateDetailedCostReportOperationStatus } from "../operationsInterfaces";
+import { GenerateDetailedCostReportOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CostManagementClient } from "../costManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CostManagementClient } from "../costManagementClient.js";
 import {
   GenerateDetailedCostReportOperationStatusGetOptionalParams,
   GenerateDetailedCostReportOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GenerateDetailedCostReportOperationStatus operations. */
 export class GenerateDetailedCostReportOperationStatusImpl

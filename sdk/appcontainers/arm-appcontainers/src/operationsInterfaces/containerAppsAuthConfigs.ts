@@ -14,8 +14,8 @@ import {
   ContainerAppsAuthConfigsGetResponse,
   ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ContainerAppsAuthConfigsCreateOrUpdateResponse,
-  ContainerAppsAuthConfigsDeleteOptionalParams
-} from "../models";
+  ContainerAppsAuthConfigsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerAppsAuthConfigs. */
@@ -29,7 +29,7 @@ export interface ContainerAppsAuthConfigs {
   listByContainerApp(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams
+    options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<AuthConfig>;
   /**
    * Get a AuthConfig of a Container App.
@@ -42,7 +42,7 @@ export interface ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     authConfigName: string,
-    options?: ContainerAppsAuthConfigsGetOptionalParams
+    options?: ContainerAppsAuthConfigsGetOptionalParams,
   ): Promise<ContainerAppsAuthConfigsGetResponse>;
   /**
    * Create or update the AuthConfig for a Container App.
@@ -57,7 +57,7 @@ export interface ContainerAppsAuthConfigs {
     containerAppName: string,
     authConfigName: string,
     authConfigEnvelope: AuthConfig,
-    options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
+    options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsAuthConfigsCreateOrUpdateResponse>;
   /**
    * Delete a Container App AuthConfig.
@@ -70,6 +70,6 @@ export interface ContainerAppsAuthConfigs {
     resourceGroupName: string,
     containerAppName: string,
     authConfigName: string,
-    options?: ContainerAppsAuthConfigsDeleteOptionalParams
+    options?: ContainerAppsAuthConfigsDeleteOptionalParams,
   ): Promise<void>;
 }

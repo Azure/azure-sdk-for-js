@@ -10,12 +10,10 @@
 // Licensed under the MIT License.
 import {
   JitNetworkAccessPolicyInitiateRequest,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Initiate a JIT access from a specific Just-in-Time policy configuration.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Initiate a JIT access from a specific Just-in-Time policy configuration.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/JitNetworkAccessPolicies/InitiateJitNetworkAccessPolicy_example.json
  */
-async function initiateAnActionOnAJitNetworkAccessPolicy() {
+async function initiateAnActionOnAJitNetworkAccessPolicy(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -34,11 +32,10 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     justification: "testing a new version of the product",
     virtualMachines: [
       {
-        id:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() }]
-      }
-    ]
+        id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+        ports: [{ allowedSourceAddressPrefix: "192.127.0.2", number: 3389, endTimeUtc: new Date() }],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -46,12 +43,12 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     resourceGroupName,
     ascLocation,
     jitNetworkAccessPolicyName,
-    body
+    body,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   initiateAnActionOnAJitNetworkAccessPolicy();
 }
 

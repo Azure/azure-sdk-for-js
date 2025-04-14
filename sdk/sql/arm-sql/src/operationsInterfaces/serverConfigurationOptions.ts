@@ -15,8 +15,8 @@ import {
   ServerConfigurationOptionsGetOptionalParams,
   ServerConfigurationOptionsGetResponse,
   ServerConfigurationOptionsCreateOrUpdateOptionalParams,
-  ServerConfigurationOptionsCreateOrUpdateResponse
-} from "../models";
+  ServerConfigurationOptionsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerConfigurationOptions. */
@@ -31,7 +31,7 @@ export interface ServerConfigurationOptions {
   listByManagedInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams
+    options?: ServerConfigurationOptionsListByManagedInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerConfigurationOption>;
   /**
    * Gets managed instance server configuration option.
@@ -45,7 +45,7 @@ export interface ServerConfigurationOptions {
     resourceGroupName: string,
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
-    options?: ServerConfigurationOptionsGetOptionalParams
+    options?: ServerConfigurationOptionsGetOptionalParams,
   ): Promise<ServerConfigurationOptionsGetResponse>;
   /**
    * Updates managed instance server configuration option.
@@ -61,7 +61,7 @@ export interface ServerConfigurationOptions {
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
     parameters: ServerConfigurationOption,
-    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams
+    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServerConfigurationOptionsCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ServerConfigurationOptions {
     managedInstanceName: string,
     serverConfigurationOptionName: ServerConfigurationOptionName,
     parameters: ServerConfigurationOption,
-    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams
+    options?: ServerConfigurationOptionsCreateOrUpdateOptionalParams,
   ): Promise<ServerConfigurationOptionsCreateOrUpdateResponse>;
 }

@@ -12,8 +12,8 @@ import {
   TopologyListOptionalParams,
   TopologyListByHomeRegionOptionalParams,
   TopologyGetOptionalParams,
-  TopologyGetResponse
-} from "../models";
+  TopologyGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Topology. */
@@ -23,7 +23,7 @@ export interface Topology {
    * @param options The options parameters.
    */
   list(
-    options?: TopologyListOptionalParams
+    options?: TopologyListOptionalParams,
   ): PagedAsyncIterableIterator<TopologyResource>;
   /**
    * Gets a list that allows to build a topology view of a subscription and location.
@@ -33,7 +33,7 @@ export interface Topology {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: TopologyListByHomeRegionOptionalParams
+    options?: TopologyListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<TopologyResource>;
   /**
    * Gets a specific topology component.
@@ -48,6 +48,6 @@ export interface Topology {
     resourceGroupName: string,
     ascLocation: string,
     topologyResourceName: string,
-    options?: TopologyGetOptionalParams
+    options?: TopologyGetOptionalParams,
   ): Promise<TopologyGetResponse>;
 }

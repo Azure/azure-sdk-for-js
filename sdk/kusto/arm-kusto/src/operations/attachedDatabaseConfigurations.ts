@@ -7,13 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AttachedDatabaseConfigurations } from "../operationsInterfaces";
+import { AttachedDatabaseConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AttachedDatabaseConfiguration,
   AttachedDatabaseConfigurationsListByClusterOptionalParams,
@@ -25,13 +29,14 @@ import {
   AttachedDatabaseConfigurationsGetResponse,
   AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   AttachedDatabaseConfigurationsCreateOrUpdateResponse,
-  AttachedDatabaseConfigurationsDeleteOptionalParams
-} from "../models";
+  AttachedDatabaseConfigurationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AttachedDatabaseConfigurations operations. */
 export class AttachedDatabaseConfigurationsImpl
-  implements AttachedDatabaseConfigurations {
+  implements AttachedDatabaseConfigurations
+{
   private readonly client: KustoManagementClient;
 
   /**
@@ -44,19 +49,19 @@ export class AttachedDatabaseConfigurationsImpl
 
   /**
    * Returns the list of attached database configurations of the given Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +78,9 @@ export class AttachedDatabaseConfigurationsImpl
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +88,7 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AttachedDatabaseConfiguration[]> {
     let result: AttachedDatabaseConfigurationsListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -93,12 +98,12 @@ export class AttachedDatabaseConfigurationsImpl
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): AsyncIterableIterator<AttachedDatabaseConfiguration> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,7 +111,7 @@ export class AttachedDatabaseConfigurationsImpl
 
   /**
    * Checks that the attached database configuration resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -115,34 +120,34 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     resourceName: AttachedDatabaseConfigurationsCheckNameRequest,
-    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
+    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, resourceName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
   /**
    * Returns the list of attached database configurations of the given Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
   /**
    * Returns an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.
@@ -151,22 +156,22 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsGetOptionalParams
+    options?: AttachedDatabaseConfigurationsGetOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         attachedDatabaseConfigurationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -177,30 +182,29 @@ export class AttachedDatabaseConfigurationsImpl
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
       AttachedDatabaseConfigurationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +213,8 @@ export class AttachedDatabaseConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,25 +222,28 @@ export class AttachedDatabaseConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         attachedDatabaseConfigurationName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AttachedDatabaseConfigurationsCreateOrUpdateResponse,
+      OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -244,7 +251,7 @@ export class AttachedDatabaseConfigurationsImpl
 
   /**
    * Creates or updates an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -255,21 +262,21 @@ export class AttachedDatabaseConfigurationsImpl
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       attachedDatabaseConfigurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deletes the attached database configuration with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.
@@ -278,25 +285,24 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -305,8 +311,8 @@ export class AttachedDatabaseConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -314,24 +320,24 @@ export class AttachedDatabaseConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         attachedDatabaseConfigurationName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -339,7 +345,7 @@ export class AttachedDatabaseConfigurationsImpl
 
   /**
    * Deletes the attached database configuration with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.
@@ -348,13 +354,13 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       attachedDatabaseConfigurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -363,16 +369,15 @@ export class AttachedDatabaseConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resourceName1,
   queryParameters: [Parameters.apiVersion],
@@ -380,45 +385,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfigurationListResult
+      bodyMapper: Mappers.AttachedDatabaseConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -426,31 +408,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.attachedDatabaseConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     201: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     202: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     204: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -459,15 +461,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.attachedDatabaseConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -475,8 +476,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -484,8 +485,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.attachedDatabaseConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

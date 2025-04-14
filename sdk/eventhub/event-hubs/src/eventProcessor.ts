@@ -1,19 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
-import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition";
-import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { logErrorStackTrace, logger } from "./logger";
-import { CloseReason } from "./models/public";
-import { CommonEventProcessorOptions } from "./models/private";
-import { ConnectionContext } from "./connectionContext";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
-import { OperationOptions } from "./util/operationOptions";
-import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
-import { delayWithoutThrow } from "./util/delayWithoutThrow";
-import { getRandomName } from "./util/utils";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { Checkpoint } from "./partitionProcessor.js";
+import { PartitionProcessor } from "./partitionProcessor.js";
+import type { EventPosition } from "./eventPosition.js";
+import { isEventPosition, latestEventPosition } from "./eventPosition.js";
+import type { PumpManager } from "./pumpManager.js";
+import { PumpManagerImpl } from "./pumpManager.js";
+import { logErrorStackTrace, logger } from "./logger.js";
+import { CloseReason } from "./models/public.js";
+import type { CommonEventProcessorOptions } from "./models/private.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
+import type { OperationOptions } from "./util/operationOptions.js";
+import type { SubscriptionEventHandlers } from "./eventHubConsumerClientModels.js";
+import { delayWithoutThrow } from "./util/delayWithoutThrow.js";
+import { getRandomName } from "./util/utils.js";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -83,7 +88,7 @@ export interface CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
@@ -97,7 +102,7 @@ export interface CheckpointStore {
    */
   claimOwnership(
     partitionOwnership: PartitionOwnership[],
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<PartitionOwnership[]>;
 
   /**
@@ -126,7 +131,7 @@ export interface CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<Checkpoint[]>;
 }
 
@@ -138,7 +143,7 @@ export interface CheckpointStore {
  * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
  *
  * Example usage with default values:
- * ```ts
+ * ```ts snippet:ignore
  * {
  *     maxBatchSize: 1,
  *     maxWaitTimeInSeconds: 60,
@@ -212,7 +217,7 @@ export class EventProcessor {
     private _context: ConnectionContext,
     private _subscriptionEventHandlers: SubscriptionEventHandlers,
     private _checkpointStore: CheckpointStore,
-    options: FullEventProcessorOptions
+    options: FullEventProcessorOptions,
   ) {
     if (options.ownerId) {
       this._id = options.ownerId;
@@ -241,7 +246,7 @@ export class EventProcessor {
 
   private _createPartitionOwnershipRequest(
     partitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIdToClaim: string
+    partitionIdToClaim: string,
   ): PartitionOwnership {
     const previousPartitionOwnership = partitionOwnershipMap.get(partitionIdToClaim);
     const partitionOwnership: PartitionOwnership = {
@@ -261,16 +266,16 @@ export class EventProcessor {
    */
   private async _claimOwnership(
     ownershipRequest: PartitionOwnership,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void> {
     if (abortSignal.aborted) {
       logger.verbose(
-        `[${this._id}] Subscription was closed before claiming ownership of ${ownershipRequest.partitionId}.`
+        `[${this._id}] Subscription was closed before claiming ownership of ${ownershipRequest.partitionId}.`,
       );
       return;
     }
     logger.info(
-      `[${this._id}] Attempting to claim ownership of partition ${ownershipRequest.partitionId}.`
+      `[${this._id}] Attempting to claim ownership of partition ${ownershipRequest.partitionId}.`,
     );
     try {
       const claimedOwnerships = await this._checkpointStore.claimOwnership([ownershipRequest]);
@@ -282,13 +287,13 @@ export class EventProcessor {
       }
 
       logger.info(
-        `[${this._id}] Successfully claimed ownership of partition ${ownershipRequest.partitionId}.`
+        `[${this._id}] Successfully claimed ownership of partition ${ownershipRequest.partitionId}.`,
       );
 
       await this._startPump(ownershipRequest.partitionId, abortSignal);
     } catch (err: any) {
       logger.warning(
-        `[${this._id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
+        `[${this._id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`,
       );
       logErrorStackTrace(err);
       await this._handleSubscriptionError(err);
@@ -298,20 +303,20 @@ export class EventProcessor {
   private async _startPump(partitionId: string, abortSignal: AbortSignalLike): Promise<void> {
     if (abortSignal.aborted) {
       logger.verbose(
-        `[${this._id}] The subscription was closed before starting to read from ${partitionId}.`
+        `[${this._id}] The subscription was closed before starting to read from ${partitionId}.`,
       );
       return;
     }
 
     if (this._pumpManager.isReceivingFromPartition(partitionId)) {
       logger.verbose(
-        `[${this._id}] There is already an active partitionPump for partition "${partitionId}", skipping pump creation.`
+        `[${this._id}] There is already an active partitionPump for partition "${partitionId}", skipping pump creation.`,
       );
       return;
     }
 
     logger.verbose(
-      `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
+      `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`,
     );
 
     const partitionProcessor = new PartitionProcessor(
@@ -323,7 +328,7 @@ export class EventProcessor {
         consumerGroup: this._consumerGroup,
         partitionId: partitionId,
         eventProcessorId: this._id,
-      }
+      },
     );
 
     const eventPosition = await this._getStartingPosition(partitionId);
@@ -331,7 +336,7 @@ export class EventProcessor {
       eventPosition,
       this._context,
       partitionProcessor,
-      abortSignal
+      abortSignal,
     );
 
     logger.verbose(`[${this._id}] PartitionPump created successfully.`);
@@ -341,11 +346,11 @@ export class EventProcessor {
     const availableCheckpoints = await this._checkpointStore.listCheckpoints(
       this._fullyQualifiedNamespace,
       this._eventHubName,
-      this._consumerGroup
+      this._consumerGroup,
     );
 
     const validCheckpoints = availableCheckpoints.filter(
-      (chk) => chk.partitionId === partitionIdToClaim
+      (chk) => chk.partitionId === partitionIdToClaim,
     );
 
     if (validCheckpoints.length > 0) {
@@ -353,28 +358,28 @@ export class EventProcessor {
     }
 
     logger.verbose(
-      `No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`
+      `No checkpoint found for partition ${partitionIdToClaim}. Looking for fallback.`,
     );
     return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
   private async _runLoopForSinglePartition(
     partitionId: string,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void> {
     while (!abortSignal.aborted) {
       try {
         await this._startPump(partitionId, abortSignal);
       } catch (err: any) {
         logger.warning(
-          `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
+          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.name}: ${err?.message}`,
         );
         logErrorStackTrace(err);
         await this._handleSubscriptionError(err);
       } finally {
         // sleep for some time after which we can attempt to create a pump again.
         logger.verbose(
-          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`,
         );
         // swallow errors from delay since it's fine for delay to exit early
         await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
@@ -395,7 +400,7 @@ export class EventProcessor {
    */
   private async _runLoopWithLoadBalancing(
     loadBalancingStrategy: LoadBalancingStrategy,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void> {
     let cancelLoopResolver;
     // This provides a mechanism for exiting the loop early
@@ -415,12 +420,12 @@ export class EventProcessor {
       const iterationStartTimeInMs = Date.now();
       try {
         const { partitionIds } = await this._context.managementSession!.getEventHubProperties({
-          abortSignal: abortSignal,
+          abortSignal,
         });
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err: any) {
         logger.warning(
-          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.name}: ${err?.message}`
+          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.name}: ${err?.message}`,
         );
         logErrorStackTrace(err);
         // Protect against the scenario where the user awaits on subscription.close() from inside processError.
@@ -430,7 +435,7 @@ export class EventProcessor {
         const iterationDeltaInMs = Date.now() - iterationStartTimeInMs;
         const delayDurationInMs = Math.max(this._loopIntervalInMs - iterationDeltaInMs, 0);
         logger.verbose(
-          `[${this._id}] Pausing the EventProcessor loop for ${delayDurationInMs} ms.`
+          `[${this._id}] Pausing the EventProcessor loop for ${delayDurationInMs} ms.`,
         );
         // Swallow the error since it's fine to exit early from the delay.
         await delayWithoutThrow(delayDurationInMs, abortSignal);
@@ -446,18 +451,18 @@ export class EventProcessor {
   private async _performLoadBalancing(
     loadBalancingStrategy: LoadBalancingStrategy,
     partitionIds: string[],
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void> {
-    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
+    if (abortSignal.aborted) throw new AbortError(StandardAbortMessage);
 
     // Retrieve current partition ownership details from the datastore.
     const partitionOwnership = await this._checkpointStore.listOwnership(
       this._fullyQualifiedNamespace,
       this._eventHubName,
-      this._consumerGroup
+      this._consumerGroup,
     );
 
-    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
+    if (abortSignal.aborted) throw new AbortError(StandardAbortMessage);
 
     const { partitionOwnershipMap, partitionsToClaim } = computePartitionsToClaim({
       id: this._id,
@@ -471,7 +476,7 @@ export class EventProcessor {
     for (const partitionToClaim of partitionsToClaim) {
       const partitionOwnershipRequest = this._createPartitionOwnershipRequest(
         partitionOwnershipMap,
-        partitionToClaim
+        partitionToClaim,
       );
 
       await this._claimOwnership(partitionOwnershipRequest, abortSignal);
@@ -500,7 +505,7 @@ export class EventProcessor {
         });
       } catch (errorFromUser: any) {
         logger.verbose(
-          `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
+          `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`,
         );
       }
     }
@@ -530,13 +535,13 @@ export class EventProcessor {
       logger.verbose(`[${this._id}] Single partition target: ${this._processingTarget}`);
       this._loopTask = this._runLoopForSinglePartition(
         this._processingTarget,
-        this._abortController.signal
+        this._abortController.signal,
       );
     } else {
       logger.verbose(`[${this._id}] Multiple partitions, using load balancer`);
       this._loopTask = this._runLoopWithLoadBalancing(
         this._loadBalancingStrategy,
-        this._abortController.signal
+        this._abortController.signal,
       );
     }
   }
@@ -554,10 +559,8 @@ export class EventProcessor {
    */
   async stop(): Promise<void> {
     logger.verbose(`[${this._id}] Stopping an EventProcessor.`);
-    if (this._abortController) {
-      // cancel the event processor loop
-      this._abortController.abort();
-    }
+    // cancel the event processor loop
+    this._abortController?.abort();
 
     try {
       // remove all existing pumps
@@ -569,7 +572,7 @@ export class EventProcessor {
         await this._loopTask;
       }
     } catch (err: any) {
-      logger.verbose(`[${this._id}] An error occured while stopping the EventProcessor: ${err}`);
+      logger.verbose(`[${this._id}] An error occurred while stopping the EventProcessor: ${err}`);
     } finally {
       logger.verbose(`[${this._id}] EventProcessor stopped.`);
     }
@@ -586,7 +589,7 @@ export class EventProcessor {
     const allOwnerships = await this._checkpointStore.listOwnership(
       this._fullyQualifiedNamespace,
       this._eventHubName,
-      this._consumerGroup
+      this._consumerGroup,
     );
     const ourOwnerships = allOwnerships.filter((ownership) => ownership.ownerId === this._id);
     // unclaim any partitions that we currently own
@@ -603,7 +606,7 @@ function isAbandoned(ownership: PartitionOwnership): boolean {
 
 function getStartPosition(
   partitionIdToClaim: string,
-  startPositions?: EventPosition | { [partitionId: string]: EventPosition }
+  startPositions?: EventPosition | { [partitionId: string]: EventPosition },
 ): EventPosition {
   if (startPositions == null) {
     return latestEventPosition;
@@ -663,7 +666,7 @@ function computePartitionsToClaim(inputs: {
   const partitionsToClaim = loadBalancingStrategy.getPartitionsToClaim(
     id,
     nonAbandonedPartitionOwnershipMap,
-    partitionIds
+    partitionIds,
   );
   partitionsToClaim.push(...partitionsToRenew);
 

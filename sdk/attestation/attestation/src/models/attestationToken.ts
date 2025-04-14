@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
-import { JsonWebKey } from "../generated/models";
-import { base64UrlDecodeString } from "../utils/base64";
-import { bytesToString } from "../utils/utf8";
-import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
+import type { JsonWebKey } from "../generated/models/index.js";
+import { base64UrlDecodeString } from "../utils/base64.js";
+import { bytesToString } from "../utils/utf8.js";
+import type { AttestationSigner } from "./attestationSigner.js";
+import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
-import * as Mappers from "../generated/models/mappers";
-import { TypeDeserializer } from "../utils/typeDeserializer";
-import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers";
+import * as Mappers from "../generated/models/mappers.js";
+import { TypeDeserializer } from "../utils/typeDeserializer.js";
+import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers.js";
 
 /**
  * Options used to validate attestation tokens.
@@ -74,7 +75,7 @@ export interface AttestationTokenValidationOptions {
    */
   validateAttestationToken?: (
     token: AttestationToken,
-    signer?: AttestationSigner
+    signer?: AttestationSigner,
   ) => string[] | undefined;
 }
 
@@ -112,7 +113,7 @@ export interface AttestationToken {
    */
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
-    options?: AttestationTokenValidationOptions
+    options?: AttestationTokenValidationOptions,
   ): string[];
 
   /** ********* JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
@@ -295,7 +296,7 @@ export class AttestationTokenImpl implements AttestationToken {
       validateExpirationTime: true,
       validateToken: true,
       validateNotBeforeTime: true,
-    }
+    },
   ): string[] {
     let problems = new Array<string>();
     if (!options.validateToken) {
@@ -344,7 +345,7 @@ export class AttestationTokenImpl implements AttestationToken {
     if (this.issuer && options.validateIssuer) {
       if (this.issuer !== options.expectedIssuer) {
         problems.push(
-          "Found issuer: " + this.issuer + "; expected issuer: " + options.expectedIssuer
+          "Found issuer: " + this.issuer + "; expected issuer: " + options.expectedIssuer,
         );
       }
     }
@@ -391,7 +392,7 @@ export class AttestationTokenImpl implements AttestationToken {
   }
 
   private getCandidateSigners(
-    possibleSigningCertificates?: AttestationSigner[]
+    possibleSigningCertificates?: AttestationSigner[],
   ): AttestationSigner[] {
     const candidateSigners = new Array<AttestationSigner>();
 
@@ -520,13 +521,13 @@ export class AttestationTokenImpl implements AttestationToken {
       jwk = TypeDeserializer.deserialize(
         this._header.jwk,
         [Mappers.JsonWebKey],
-        "JsonWebKey"
+        "JsonWebKey",
       ) as JsonWebKey;
     } else {
       jwk = TypeDeserializer.deserialize(
         this._header,
         { JsonWebKey: Mappers.JsonWebKey },
-        "JsonWebKey"
+        "JsonWebKey",
       ) as JsonWebKey;
     }
     return _attestationSignerFromGenerated(jwk);
@@ -588,7 +589,7 @@ export class AttestationTokenImpl implements AttestationToken {
 
     if ((!params.privateKey && params.certificate) || (params.privateKey && !params.certificate)) {
       throw new Error(
-        "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+        "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
       );
     }
 
@@ -616,7 +617,7 @@ export class AttestationTokenImpl implements AttestationToken {
       header.alg,
       header,
       params.body ?? "",
-      params.privateKey
+      params.privateKey,
     );
     return new AttestationTokenImpl(encodedToken);
   }

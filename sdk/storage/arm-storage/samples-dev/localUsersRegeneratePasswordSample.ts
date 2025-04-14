@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerate the local user SSH password.
  *
  * @summary Regenerate the local user SSH password.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserRegeneratePassword.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUserRegeneratePassword.json
  */
-async function regenerateLocalUserPassword() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+async function regenerateLocalUserPassword(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const credential = new DefaultAzureCredential();
@@ -27,9 +27,13 @@ async function regenerateLocalUserPassword() {
   const result = await client.localUsersOperations.regeneratePassword(
     resourceGroupName,
     accountName,
-    username
+    username,
   );
   console.log(result);
 }
 
-regenerateLocalUserPassword().catch(console.error);
+async function main(): Promise<void> {
+  await regenerateLocalUserPassword();
+}
+
+main().catch(console.error);

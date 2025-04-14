@@ -11,8 +11,8 @@ import {
   QueryStatistics,
   ManagedDatabaseQueriesListByQueryOptionalParams,
   ManagedDatabaseQueriesGetOptionalParams,
-  ManagedDatabaseQueriesGetResponse
-} from "../models";
+  ManagedDatabaseQueriesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseQueries. */
@@ -31,7 +31,7 @@ export interface ManagedDatabaseQueries {
     managedInstanceName: string,
     databaseName: string,
     queryId: string,
-    options?: ManagedDatabaseQueriesListByQueryOptionalParams
+    options?: ManagedDatabaseQueriesListByQueryOptionalParams,
   ): PagedAsyncIterableIterator<QueryStatistics>;
   /**
    * Get query by query id.
@@ -47,6 +47,6 @@ export interface ManagedDatabaseQueries {
     managedInstanceName: string,
     databaseName: string,
     queryId: string,
-    options?: ManagedDatabaseQueriesGetOptionalParams
+    options?: ManagedDatabaseQueriesGetOptionalParams,
   ): Promise<ManagedDatabaseQueriesGetResponse>;
 }

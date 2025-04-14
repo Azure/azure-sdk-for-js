@@ -455,7 +455,17 @@ export enum KnownKeyPermissions {
 // @public
 export enum KnownManagedHsmSkuFamily {
     // (undocumented)
-    B = "B"
+    B = "B",
+    // (undocumented)
+    C = "C"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -736,6 +746,7 @@ export interface ManagedHsmProperties {
 // @public
 export interface ManagedHsmResource {
     readonly id?: string;
+    identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
     sku?: ManagedHsmSku;
@@ -832,7 +843,7 @@ export interface ManagedHsmSku {
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32";
+export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
 
 // @public
 export interface ManagedHsmsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -911,6 +922,19 @@ export interface ManagedHsmTrigger {
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MetricSpecification {
@@ -1452,6 +1476,12 @@ export interface SystemData {
 export interface Trigger {
     timeAfterCreate?: string;
     timeBeforeExpiry?: string;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

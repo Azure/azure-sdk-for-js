@@ -8,8 +8,8 @@
 
 import {
   NetworkSecurityPerimeterConfigurationListOptionalParams,
-  NetworkSecurityPerimeterConfigurationListResponse
-} from "../models";
+  NetworkSecurityPerimeterConfigurationListResponse,
+} from "../models/index.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurationOperations. */
 export interface NetworkSecurityPerimeterConfigurationOperations {
@@ -22,6 +22,6 @@ export interface NetworkSecurityPerimeterConfigurationOperations {
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NetworkSecurityPerimeterConfigurationListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationListOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationListResponse>;
 }

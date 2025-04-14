@@ -9,8 +9,8 @@
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
-  CheckNameAvailabilityWithoutLocationExecuteResponse
-} from "../models";
+  CheckNameAvailabilityWithoutLocationExecuteResponse,
+} from "../models/index.js";
 
 /** Interface representing a CheckNameAvailabilityWithoutLocation. */
 export interface CheckNameAvailabilityWithoutLocation {
@@ -21,6 +21,6 @@ export interface CheckNameAvailabilityWithoutLocation {
    */
   execute(
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams
+    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityWithoutLocationExecuteResponse>;
 }

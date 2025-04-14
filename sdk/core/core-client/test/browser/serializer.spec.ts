@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Mapper, createSerializer } from "../../src";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
+import type { Mapper } from "../../src/index.js";
+import { createSerializer } from "../../src/index.js";
 
 describe("Serializer (browser specific)", function () {
   describe("serialize", function () {
@@ -10,7 +11,7 @@ describe("Serializer (browser specific)", function () {
       const file = new File(
         ["In ancient times, cats were worshiped as gods. They have never forgotten this."],
         "cats.txt",
-        { type: "text/plain" }
+        { type: "text/plain" },
       );
 
       const serializer = createSerializer();
@@ -23,6 +24,21 @@ describe("Serializer (browser specific)", function () {
 
       const result = serializer.serialize(mapper, file);
       assert.strictEqual(result, file, "Expect file streams to be left intact");
+    });
+
+    it("Should accept ReadableStream", function () {
+      const stream = new ReadableStream();
+
+      const serializer = createSerializer();
+
+      const mapper: Mapper = {
+        type: { name: "Stream" },
+        required: true,
+        serializedName: "Stream",
+      };
+
+      const result = serializer.serialize(mapper, stream);
+      assert.strictEqual(result, stream, "Expect stream to be left intact");
     });
   });
 });

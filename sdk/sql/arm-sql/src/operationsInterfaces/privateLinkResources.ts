@@ -11,8 +11,8 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListByServerOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
@@ -27,7 +27,7 @@ export interface PrivateLinkResources {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: PrivateLinkResourcesListByServerOptionalParams
+    options?: PrivateLinkResourcesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets a private link resource for SQL server.
@@ -41,6 +41,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     serverName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

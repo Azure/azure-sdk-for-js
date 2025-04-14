@@ -10,11 +10,11 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { HealthApiImpl, WebPubSubImpl } from "./operations";
-import { HealthApi, WebPubSub } from "./operationsInterfaces";
-import { GeneratedClientOptionalParams } from "./models";
+import { HealthApiImpl, WebPubSubImpl } from "./operations/index.js";
+import { HealthApi, WebPubSub } from "./operationsInterfaces/index.js";
+import { GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends coreClient.ServiceClient {
@@ -36,10 +36,10 @@ export class GeneratedClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: GeneratedClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-web-pubsub/1.1.0`;
+    const packageDetails = `azsdk-js-web-pubsub/1.1.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -49,16 +49,16 @@ export class GeneratedClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-11-01";
+    this.apiVersion = options.apiVersion || "2024-01-01";
     this.healthApi = new HealthApiImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -73,7 +73,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -87,7 +87,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

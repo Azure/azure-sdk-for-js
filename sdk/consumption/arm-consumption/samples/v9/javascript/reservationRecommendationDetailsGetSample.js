@@ -33,7 +33,7 @@ async function reservationRecommendationsByBillingAccountLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function reservationRecommendationsByBillingProfileModern() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -85,7 +85,7 @@ async function reservationRecommendationsByResourceGroupLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -111,7 +111,7 @@ async function reservationRecommendationsBySubscriptionLegacy() {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }

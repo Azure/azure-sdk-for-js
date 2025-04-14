@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Gets the details of an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryGet.json
+ * @summary Gets the details of an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/SchemaRegistry/SchemaRegistryGet.json
  */
 async function schemaRegistryGet() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function schemaRegistryGet() {
 }
 
 async function main() {
-  schemaRegistryGet();
+  await schemaRegistryGet();
 }
 
 main().catch(console.error);

@@ -16,8 +16,8 @@ import {
   ScalingPlanPooledSchedulesCreateResponse,
   ScalingPlanPooledSchedulesDeleteOptionalParams,
   ScalingPlanPooledSchedulesUpdateOptionalParams,
-  ScalingPlanPooledSchedulesUpdateResponse
-} from "../models";
+  ScalingPlanPooledSchedulesUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScalingPlanPooledSchedules. */
@@ -31,7 +31,7 @@ export interface ScalingPlanPooledSchedules {
   list(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPooledSchedulesListOptionalParams
+    options?: ScalingPlanPooledSchedulesListOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlanPooledSchedule>;
   /**
    * Get a ScalingPlanPooledSchedule.
@@ -44,7 +44,7 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesGetOptionalParams
+    options?: ScalingPlanPooledSchedulesGetOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesGetResponse>;
   /**
    * Create or update a ScalingPlanPooledSchedule.
@@ -59,7 +59,7 @@ export interface ScalingPlanPooledSchedules {
     scalingPlanName: string,
     scalingPlanScheduleName: string,
     scalingPlanSchedule: ScalingPlanPooledSchedule,
-    options?: ScalingPlanPooledSchedulesCreateOptionalParams
+    options?: ScalingPlanPooledSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesCreateResponse>;
   /**
    * Remove a ScalingPlanPooledSchedule.
@@ -72,7 +72,7 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesDeleteOptionalParams
+    options?: ScalingPlanPooledSchedulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a ScalingPlanPooledSchedule.
@@ -85,6 +85,6 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesUpdateOptionalParams
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
 }

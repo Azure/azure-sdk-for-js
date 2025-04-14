@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LongRunningOperation, LroResponse } from "./models";
-import { OperationState, SimplePollerLike } from "../poller/models";
+import type { RunningOperation, OperationResponse } from "./models.js";
+import type { OperationState, PollerLike } from "../poller/models.js";
 import {
   getErrorFromResponse,
   getOperationLocation,
@@ -12,9 +12,10 @@ import {
   inferLroMode,
   isOperationError,
   parseRetryAfter,
-} from "./operation";
-import { CreateHttpPollerOptions } from "./models";
-import { buildCreatePoller } from "../poller/poller";
+} from "./operation.js";
+import type { CreateHttpPollerOptions } from "./models.js";
+import { buildCreatePoller } from "../poller/poller.js";
+import { rewriteUrl } from "./utils.js";
 
 /**
  * Creates a poller that can be used to poll a long-running operation.
@@ -22,10 +23,10 @@ import { buildCreatePoller } from "../poller/poller";
  * @param options - options to configure the poller
  * @returns an initialized poller
  */
-export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
-  lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>
-): Promise<SimplePollerLike<TState, TResult>> {
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+  lro: RunningOperation,
+  options?: CreateHttpPollerOptions<TResult, TState>,
+): PollerLike<TState, TResult> {
   const {
     resourceLocationConfig,
     intervalInMs,
@@ -34,8 +35,10 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     updateState,
     withOperationLocation,
     resolveOnUnsuccessful = false,
+    baseUrl,
+    skipFinalGet,
   } = options || {};
-  return buildCreatePoller<LroResponse, TResult, TState>({
+  return buildCreatePoller<OperationResponse, TResult, TState>({
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     isOperationError,
@@ -48,16 +51,13 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     {
       init: async () => {
         const response = await lro.sendInitialRequest();
-        const config = inferLroMode({
-          rawResponse: response.rawResponse,
-          requestPath: lro.requestPath,
-          requestMethod: lro.requestMethod,
-          resourceLocationConfig,
-        });
+        const config = inferLroMode(response.rawResponse, resourceLocationConfig, skipFinalGet);
         return {
           response,
-          operationLocation: config?.operationLocation,
-          resourceLocation: config?.resourceLocation,
+          operationLocation: rewriteUrl({ url: config?.operationLocation, baseUrl }),
+          resourceLocation: rewriteUrl({ url: config?.resourceLocation, baseUrl }),
+          initialRequestUrl: config?.initialRequestUrl,
+          requestMethod: config?.requestMethod,
           ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
         };
       },
@@ -70,7 +70,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
       updateState,
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
-        : ({ flatResponse }) => flatResponse as TResult,
-    }
+        : ({ flatResponse }) => flatResponse as Promise<TResult>,
+    },
   );
 }

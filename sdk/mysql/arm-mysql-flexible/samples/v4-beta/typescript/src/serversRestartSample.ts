@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   ServerRestartParameter,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restarts a server.
  *
  * @summary Restarts a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerRestart.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerRestart.json
  */
-async function restartAServer() {
+async function restartAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -31,22 +29,22 @@ async function restartAServer() {
   const serverName = "testserver";
   const parameters: ServerRestartParameter = {
     maxFailoverSeconds: 60,
-    restartWithFailover: "Enabled"
+    restartWithFailover: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.servers.beginRestartAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restartAServer();
 }
 

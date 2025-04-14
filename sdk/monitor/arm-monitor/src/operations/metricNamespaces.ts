@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { MetricNamespaces } from "../operationsInterfaces";
+import { MetricNamespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   MetricNamespace,
   MetricNamespacesListOptionalParams,
-  MetricNamespacesListResponse
-} from "../models";
+  MetricNamespacesListResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MetricNamespaces operations. */
@@ -38,7 +38,7 @@ export class MetricNamespacesImpl implements MetricNamespaces {
    */
   public list(
     resourceUri: string,
-    options?: MetricNamespacesListOptionalParams
+    options?: MetricNamespacesListOptionalParams,
   ): PagedAsyncIterableIterator<MetricNamespace> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -53,14 +53,14 @@ export class MetricNamespacesImpl implements MetricNamespaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: MetricNamespacesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MetricNamespace[]> {
     let result: MetricNamespacesListResponse;
     result = await this._list(resourceUri, options);
@@ -69,7 +69,7 @@ export class MetricNamespacesImpl implements MetricNamespaces {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: MetricNamespacesListOptionalParams
+    options?: MetricNamespacesListOptionalParams,
   ): AsyncIterableIterator<MetricNamespace> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -83,11 +83,11 @@ export class MetricNamespacesImpl implements MetricNamespaces {
    */
   private _list(
     resourceUri: string,
-    options?: MetricNamespacesListOptionalParams
+    options?: MetricNamespacesListOptionalParams,
   ): Promise<MetricNamespacesListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -99,14 +99,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricNamespaceCollection
+      bodyMapper: Mappers.MetricNamespaceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion9, Parameters.startTime],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

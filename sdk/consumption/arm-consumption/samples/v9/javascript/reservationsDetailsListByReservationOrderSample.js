@@ -28,7 +28,7 @@ async function reservationDetails() {
   const resArray = new Array();
   for await (let item of client.reservationsDetails.listByReservationOrder(
     reservationOrderId,
-    filter
+    filter,
   )) {
     resArray.push(item);
   }

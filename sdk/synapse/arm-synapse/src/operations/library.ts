@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Library } from "../operationsInterfaces";
+import { Library } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
-import { LibraryGetOptionalParams, LibraryGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
+import { LibraryGetOptionalParams, LibraryGetResponse } from "../models/index.js";
 
 /** Class containing Library operations. */
 export class LibraryImpl implements Library {

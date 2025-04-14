@@ -8,8 +8,8 @@
 
 import {
   BMSPrepareDataMoveOperationResultGetOptionalParams,
-  BMSPrepareDataMoveOperationResultGetResponse
-} from "../models";
+  BMSPrepareDataMoveOperationResultGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a BMSPrepareDataMoveOperationResult. */
 export interface BMSPrepareDataMoveOperationResult {
@@ -25,6 +25,6 @@ export interface BMSPrepareDataMoveOperationResult {
     vaultName: string,
     resourceGroupName: string,
     operationId: string,
-    options?: BMSPrepareDataMoveOperationResultGetOptionalParams
+    options?: BMSPrepareDataMoveOperationResultGetOptionalParams,
   ): Promise<BMSPrepareDataMoveOperationResultGetResponse>;
 }

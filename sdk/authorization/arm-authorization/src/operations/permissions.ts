@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Permissions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Permissions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClient } from "../authorizationManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
 import {
   Permission,
   PermissionsListForResourceGroupNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   PermissionsListForResourceResponse,
   PermissionsListForResourceGroupNextResponse,
   PermissionsListForResourceNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Permissions operations. */
@@ -328,7 +328,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -349,7 +349,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,7 +357,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName2
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -401,7 +401,7 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName2
   ],
   headerParameters: [Parameters.accept],
   serializer

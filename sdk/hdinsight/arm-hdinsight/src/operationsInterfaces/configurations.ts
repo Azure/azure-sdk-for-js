@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigurationsListOptionalParams,
   ConfigurationsListResponse,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
-  ConfigurationsGetResponse
-} from "../models";
+  ConfigurationsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a Configurations. */
 export interface Configurations {
@@ -26,7 +26,7 @@ export interface Configurations {
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): Promise<ConfigurationsListResponse>;
   /**
    * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
@@ -42,8 +42,8 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: { [propertyName: string]: string },
-    options?: ConfigurationsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ConfigurationsUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
    * UpdateGatewaySettings in cluster endpoint instead.
@@ -58,7 +58,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: { [propertyName: string]: string },
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * The configuration object for the specified cluster. This API is not recommended and might be removed
@@ -72,6 +72,6 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
 }

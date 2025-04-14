@@ -29,7 +29,7 @@ async function getTheAggregatedSecurityAnalyticsAlertOfYoursIoTSecuritySolutionT
   const result = await client.iotSecuritySolutionsAnalyticsAggregatedAlert.get(
     resourceGroupName,
     solutionName,
-    aggregatedAlertName
+    aggregatedAlertName,
   );
   console.log(result);
 }

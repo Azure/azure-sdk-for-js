@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -6,7 +6,7 @@
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
+ * See https://learn.microsoft.com/rest/api/notificationhubs/direct-send
  * to learn about Direct Send.
  *
  *
@@ -14,7 +14,7 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -29,9 +29,6 @@ import {
 import { delay } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
 
-// Load the .env file if it exists
-dotenv.config();
-
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
@@ -40,13 +37,22 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const deviceHandle = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
+  /* Can also send a stringified JSON object
+  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there!" } } }`;
+  */
 
   const notification = createAppleNotification({
-    body: messageBody,
+    body: {
+      aps: {
+        alert: {
+          title: "Hello",
+          body: "Hello there!",
+        },
+      },
+    },
     headers: {
       "apns-priority": "10",
       "apns-push-type": "alert",
@@ -71,7 +77,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

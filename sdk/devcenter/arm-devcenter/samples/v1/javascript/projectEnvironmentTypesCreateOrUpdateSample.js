@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a project environment type.
  *
  * @summary Creates or updates a project environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ProjectEnvironmentTypes_Put.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectEnvironmentTypes_Put.json
  */
 async function projectEnvironmentTypesCreateOrUpdate() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function projectEnvironmentTypesCreateOrUpdate() {
     resourceGroupName,
     projectName,
     environmentTypeName,
-    body
+    body,
   );
   console.log(result);
 }

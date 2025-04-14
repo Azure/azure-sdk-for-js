@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Segment } from "./Segment";
-import { SegmentFactory } from "./SegmentFactory";
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import type { Segment } from "./Segment.js";
+import type { SegmentFactory } from "./SegmentFactory.js";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import type { ChangeFeedCursor } from "./models/ChangeFeedCursor.js";
+import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
@@ -52,7 +52,7 @@ export class ChangeFeed {
     currentSegment: Segment,
     lastConsumable: Date,
     startTime?: Date,
-    endTime?: Date
+    endTime?: Date,
   );
 
   constructor(
@@ -63,7 +63,7 @@ export class ChangeFeed {
     currentSegment?: Segment,
     lastConsumable?: Date,
     startTime?: Date,
-    endTime?: Date
+    endTime?: Date,
   ) {
     this.containerClient = containerClient;
     this.segmentFactory = segmentFactory;
@@ -101,7 +101,7 @@ export class ChangeFeed {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
         }
         // If segments is empty, refill it
@@ -115,7 +115,7 @@ export class ChangeFeed {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
 
           if (this.segments.length > 0) {
@@ -126,13 +126,13 @@ export class ChangeFeed {
               {
                 abortSignal: options.abortSignal,
                 tracingOptions: updatedOptions.tracingOptions,
-              }
+              },
             );
           } else {
             this.currentSegment = undefined;
           }
         }
-      }
+      },
     );
   }
 
@@ -150,7 +150,7 @@ export class ChangeFeed {
   }
 
   public async getChange(
-    options: ChangeFeedGetChangeOptions = {}
+    options: ChangeFeedGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("ChangeFeed-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;

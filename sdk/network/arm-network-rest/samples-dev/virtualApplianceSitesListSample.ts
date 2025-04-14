@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualApplianceSitesListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { VirtualApplianceSitesListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSiteList.json
  */
-async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance() {
+async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +25,7 @@ async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualApplian
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RestorableTimeRanges } from "../operationsInterfaces";
+import { RestorableTimeRanges } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   AzureBackupFindRestorableTimeRangesRequest,
   RestorableTimeRangesFindOptionalParams,
-  RestorableTimeRangesFindResponse
-} from "../models";
+  RestorableTimeRangesFindResponse,
+} from "../models/index.js";
 
 /** Class containing RestorableTimeRanges operations. */
 export class RestorableTimeRangesImpl implements RestorableTimeRanges {
@@ -41,11 +41,11 @@ export class RestorableTimeRangesImpl implements RestorableTimeRanges {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupFindRestorableTimeRangesRequest,
-    options?: RestorableTimeRangesFindOptionalParams
+    options?: RestorableTimeRangesFindOptionalParams,
   ): Promise<RestorableTimeRangesFindResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      findOperationSpec
+      findOperationSpec,
     );
   }
 }
@@ -53,27 +53,26 @@ export class RestorableTimeRangesImpl implements RestorableTimeRanges {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const findOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupFindRestorableTimeRangesResponseResource
+      bodyMapper: Mappers.AzureBackupFindRestorableTimeRangesResponseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

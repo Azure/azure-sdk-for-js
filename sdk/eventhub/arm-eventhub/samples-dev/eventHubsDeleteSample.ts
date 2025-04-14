@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an Event Hub from the specified Namespace and resource group.
  *
  * @summary Deletes an Event Hub from the specified Namespace and resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubDelete.json
  */
-async function eventHubDelete() {
+async function eventHubDelete(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -33,13 +31,13 @@ async function eventHubDelete() {
   const result = await client.eventHubs.delete(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   );
   console.log(result);
 }
 
-async function main() {
-  eventHubDelete();
+async function main(): Promise<void> {
+  await eventHubDelete();
 }
 
 main().catch(console.error);

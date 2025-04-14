@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { newPipeline } from "../../src";
-import { recorderEnvSetup } from "../utils/index.browser";
-import { Context } from "mocha";
+import {
+  getQSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
+  configureStorageClient,
+} from "../utils/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { QueueClient } from "../../src/QueueClient.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { newPipeline } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods, Node.js only", () => {
   let queueName: string;
@@ -19,15 +22,16 @@ describe("QueueClient message methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -101,15 +105,15 @@ describe("QueueClient message methods, Node.js only", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const newClient = new QueueClient(queueClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -123,13 +127,13 @@ describe("QueueClient message methods, Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -143,10 +147,10 @@ describe("QueueClient message methods, Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -161,6 +165,7 @@ describe("QueueClient message methods, Node.js only", () => {
 
   it("can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -176,6 +181,7 @@ describe("QueueClient message methods, Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -195,8 +201,9 @@ describe("QueueClient message methods, Node.js only", () => {
     };
     const newClient = new QueueClient(
       `https://myaccount.queue.core.windows.net/` + queueName,
-      tokenCredential
+      tokenCredential,
     );
+    configureStorageClient(recorder, newClient);
     assertClientUsesTokenCredential(newClient);
   });
 });

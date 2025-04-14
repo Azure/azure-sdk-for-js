@@ -29,7 +29,7 @@ async function dismissAnAggregatedIoTSecuritySolutionAlert() {
   const result = await client.iotSecuritySolutionsAnalyticsAggregatedAlert.dismiss(
     resourceGroupName,
     solutionName,
-    aggregatedAlertName
+    aggregatedAlertName,
   );
   console.log(result);
 }

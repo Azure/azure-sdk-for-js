@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * isValidDtmi validates if a given dtmi matches the convention.
@@ -25,7 +25,7 @@ export function isValidDtmi(dtmi: string): boolean {
 export function getModelUri(
   dtmi: string,
   repositoryUri: string,
-  expanded: boolean = false
+  expanded: boolean = false,
 ): string {
   if (!repositoryUri.endsWith("/")) {
     repositoryUri = repositoryUri.concat("/");

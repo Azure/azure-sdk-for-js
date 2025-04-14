@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TokenCredential } from "@azure/core-auth";
-import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TokenCredential } from "@azure/core-auth";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
 
-import {
+import type {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration,
-} from "../Clients";
-import {
+} from "../Clients.js";
+import type {
   QuerySerialization,
   BlobTags,
   BlobName,
@@ -20,29 +21,29 @@ import {
   ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
   PathStylePorts,
   URLConstants,
-} from "./constants";
-import {
+} from "./constants.js";
+import type {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
   HttpAuthorization,
-} from "../models";
-import {
+} from "../models.js";
+import type {
   ListBlobsFlatSegmentResponseModel,
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
   BlobPrefix as BlobPrefixModel,
   PageBlobGetPageRangesDiffResponseModel,
   PageRangeInfo,
-} from "../generatedModels";
-import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+} from "../generatedModels.js";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -91,8 +92,8 @@ import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -119,7 +120,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
@@ -141,7 +142,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
@@ -196,7 +197,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -224,7 +225,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(blobEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(blobEndpoint);
+    }
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -457,7 +462,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -466,7 +471,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -502,7 +507,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
 export async function delay(
   timeInMs: number,
   aborter?: AbortSignalLike,
-  abortError?: Error
+  abortError?: Error,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     /* eslint-disable-next-line prefer-const */
@@ -540,7 +545,7 @@ export async function delay(
 export function padStart(
   currentString: string,
   targetLength: number,
-  padString: string = " "
+  padString: string = " ",
 ): string {
   // @ts-expect-error: TS doesn't know this code needs to run downlevel sometimes
   if (String.prototype.padStart) {
@@ -623,12 +628,12 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -708,7 +713,7 @@ export function toQuerySerialization(
     | BlobQueryJsonTextConfiguration
     | BlobQueryCsvTextConfiguration
     | BlobQueryArrowConfiguration
-    | BlobQueryParquetConfiguration
+    | BlobQueryParquetConfiguration,
 ): QuerySerialization | undefined {
   if (textConfiguration === undefined) {
     return undefined;
@@ -759,7 +764,7 @@ export function toQuerySerialization(
 }
 
 export function parseObjectReplicationRecord(
-  objectReplicationRecord?: Record<string, string>
+  objectReplicationRecord?: Record<string, string>,
 ): ObjectReplicationPolicy[] | undefined {
   if (!objectReplicationRecord) {
     return undefined;
@@ -807,7 +812,7 @@ export function attachCredential<T>(thing: T, credential: TokenCredential): T {
 }
 
 export function httpAuthorizationToString(
-  httpAuthorization?: HttpAuthorization
+  httpAuthorization?: HttpAuthorization,
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }
@@ -821,7 +826,7 @@ export function BlobNameToString(name: BlobName): string {
 }
 
 export function ConvertInternalResponseOfListBlobFlat(
-  internalResponse: ListBlobsFlatSegmentResponse
+  internalResponse: ListBlobsFlatSegmentResponse,
 ): ListBlobsFlatSegmentResponseModel {
   return {
     ...internalResponse,
@@ -838,13 +843,14 @@ export function ConvertInternalResponseOfListBlobFlat(
 }
 
 export function ConvertInternalResponseOfListBlobHierarchy(
-  internalResponse: ListBlobsHierarchySegmentResponse
+  internalResponse: ListBlobsHierarchySegmentResponse,
 ): ListBlobsHierarchySegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
       blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
+          ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
@@ -861,7 +867,7 @@ export function ConvertInternalResponseOfListBlobHierarchy(
 }
 
 export function* ExtractPageRangeInfoItems(
-  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
+  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel,
 ): IterableIterator<PageRangeInfo> {
   let pageRange: PageRange[] = [];
   let clearRange: ClearRange[] = [];
@@ -995,8 +1001,8 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
   (Body extends object
     ? ResponseWithBody<Headers, Body>
     : Headers extends object
-    ? ResponseWithHeaders<Headers>
-    : ResponseLike);
+      ? ResponseWithHeaders<Headers>
+      : ResponseLike);
 
 /**
  * A typesafe helper for ensuring that a given response object has
@@ -1005,7 +1011,7 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;

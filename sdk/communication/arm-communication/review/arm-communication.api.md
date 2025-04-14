@@ -69,6 +69,7 @@ export interface CommunicationServiceManagementClientOptionalParams extends core
 export interface CommunicationServiceResource extends TrackedResource {
     dataLocation?: string;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     readonly immutableResourceId?: string;
     linkedDomains?: string[];
     readonly notificationHubId?: string;
@@ -84,6 +85,7 @@ export interface CommunicationServiceResourceList {
 
 // @public
 export interface CommunicationServiceResourceUpdate extends TaggedResource {
+    identity?: ManagedServiceIdentity;
     linkedDomains?: string[];
 }
 
@@ -568,6 +570,14 @@ export enum KnownEmailServicesProvisioningState {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -622,6 +632,19 @@ export interface LinkNotificationHubParameters {
     connectionString: string;
     resourceId: string;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NameAvailabilityParameters extends CheckNameAvailabilityRequest {
@@ -774,6 +797,12 @@ export interface TrackedResource extends Resource {
 // @public
 export interface UpdateDomainRequestParameters extends TaggedResource {
     userEngagementTracking?: UserEngagementTracking;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

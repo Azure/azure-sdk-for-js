@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommonClientOptions } from "@azure/core-client";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
-import { GeneratedClient } from "./generated/generatedClient";
-import { logger } from "./logger";
-import {
+import type { CommonClientOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import { SDK_VERSION } from "./constants.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import { logger } from "./logger.js";
+import type {
   DetectLanguageInput,
   JobManifestTasks as GeneratedActions,
   SentimentOptionalParams as GeneratedAnalyzeSentimentOptions,
@@ -21,33 +20,22 @@ import {
   EntitiesRecognitionPiiOptionalParams as GeneratedRecognizePiiEntitiesOptions,
   PiiCategory,
   TextDocumentInput,
-} from "./generated/models";
-import {
-  DetectLanguageResultArray,
-  makeDetectLanguageResultArray,
-} from "./detectLanguageResultArray";
-import {
-  RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray,
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray,
-} from "./analyzeSentimentResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray,
-} from "./extractKeyPhrasesResultArray";
-import {
-  RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray,
-} from "./recognizePiiEntitiesResultArray";
-import {
-  RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray,
-} from "./recognizeLinkedEntitiesResultArray";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+} from "./generated/models/index.js";
+import type { DetectLanguageResultArray } from "./detectLanguageResultArray.js";
+import { makeDetectLanguageResultArray } from "./detectLanguageResultArray.js";
+import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
 import {
   StringIndexType,
   addParamsToTask,
@@ -57,25 +45,25 @@ import {
   setStrEncodingParam,
   setStrEncodingParamValue,
   throwError,
-} from "./util";
+} from "./util.js";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   BeginAnalyzeHealthcarePoller,
   PollerLikeWithCancellation,
-} from "./lro/health/poller";
+} from "./lro/health/poller.js";
 import {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
-} from "./lro/health/operation";
-import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
+} from "./lro/health/operation.js";
+import type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
+import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller.js";
 import {
   AnalyzeActionsOperationMetadata,
   AnalyzeActionsOperationState,
   BeginAnalyzeActionsOptions,
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+} from "./lro/analyze/operation.js";
+import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller.js";
+import type { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -135,7 +123,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
-   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
+   * More information about the feature can be found here: {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
   /**
@@ -293,7 +281,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `opinions` containing
    * the result of this analysis.
-   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
+   * More information about the feature can be found here: {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
 }
@@ -353,13 +341,10 @@ export class TextAnalyticsClient {
    * Creates an instance of TextAnalyticsClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
    * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
-   * const client = new TextAnalyticsClient(
-   *    "<service endpoint>",
-   *    new AzureKeyCredential("<api key>")
-   * );
+   * const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
    * ```
    * @param endpointUrl - The URL to the TextAnalytics endpoint
    * @param credential - Used to authenticate requests to the service.
@@ -368,7 +353,7 @@ export class TextAnalyticsClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
-    options: TextAnalyticsClientOptions = {}
+    options: TextAnalyticsClientOptions = {},
   ) {
     this.endpointUrl = endpointUrl;
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
@@ -428,7 +413,7 @@ export class TextAnalyticsClient {
   public async detectLanguage(
     documents: string[],
     countryHint?: string,
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray>;
   /**
    * Runs a predictive model to determine the language that the passed-in
@@ -441,12 +426,12 @@ export class TextAnalyticsClient {
    */
   public async detectLanguage(
     documents: DetectLanguageInput[],
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray>;
   public async detectLanguage(
     documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
@@ -477,9 +462,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeDetectLanguageResultArray(realInputs, result))
+          .then((result) => makeDetectLanguageResultArray(realInputs, result)),
     );
   }
 
@@ -488,9 +473,9 @@ export class TextAnalyticsClient {
    * in the passed-in input strings, and categorize those entities into types
    * such as person, location, or organization.  For more information on 
    * available categories, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -503,29 +488,29 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
    * such as person, location, or organization.  For more information on
    * available categories, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */
   public async recognizeEntities(
     documents: TextDocumentInput[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -552,9 +537,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
-          )
-        ).then((result) => makeRecognizeCategorizedEntitiesResultArray(realInputs, result))
+            finalOptions,
+          ),
+        ).then((result) => makeRecognizeCategorizedEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -564,7 +549,7 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments. Optionally it
    * can also identify targets in the text and assessments about it through
    * opinion mining. For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -576,7 +561,7 @@ export class TextAnalyticsClient {
   public async analyzeSentiment(
     documents: string[],
     language?: string,
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray>;
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
@@ -584,18 +569,18 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments.Optionally it
    * can also identify targets in the text and assessments about it through
    * opinion mining. For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Optional parameters that includes enabling opinion mining.
    */
   public async analyzeSentiment(
     documents: TextDocumentInput[],
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray>;
   public async analyzeSentiment(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray> {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
@@ -622,9 +607,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeAnalyzeSentimentResultArray(realInputs, result))
+          .then((result) => makeAnalyzeSentimentResultArray(realInputs, result)),
     );
   }
 
@@ -632,7 +617,7 @@ export class TextAnalyticsClient {
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input strings.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -644,24 +629,24 @@ export class TextAnalyticsClient {
   public async extractKeyPhrases(
     documents: string[],
     language?: string,
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray>;
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Options for the operation.
    */
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray>;
   public async extractKeyPhrases(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
@@ -688,9 +673,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeExtractKeyPhrasesResultArray(realInputs, result))
+          .then((result) => makeExtractKeyPhrasesResultArray(realInputs, result)),
     );
   }
 
@@ -700,7 +685,7 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -712,7 +697,7 @@ export class TextAnalyticsClient {
   public async recognizePiiEntities(
     inputs: string[],
     language?: string,
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities containing
@@ -720,18 +705,18 @@ export class TextAnalyticsClient {
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
    * @param inputs - The input documents to analyze.
    * @param options - Optional parameters for the operation.
    */
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray>;
   public async recognizePiiEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray> {
     let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -754,9 +739,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeRecognizePiiEntitiesResultArray(realInputs, result))
+          .then((result) => makeRecognizePiiEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -765,7 +750,7 @@ export class TextAnalyticsClient {
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
@@ -777,25 +762,25 @@ export class TextAnalyticsClient {
   public async recognizeLinkedEntities(
     documents: string[],
     language?: string,
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input documents, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, @see
-   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * {@link https://learn.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
    * @param documents - The input documents to analyze.
    * @param options - Options for the operation.
    */
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray>;
   public async recognizeLinkedEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -822,9 +807,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeRecognizeLinkedEntitiesResultArray(realInputs, result))
+          .then((result) => makeRecognizeLinkedEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -842,7 +827,7 @@ export class TextAnalyticsClient {
   async beginAnalyzeHealthcareEntities(
     documents: string[],
     language?: string,
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
   /**
    * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
@@ -852,13 +837,13 @@ export class TextAnalyticsClient {
    */
   async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
 
   async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike> {
     let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -900,7 +885,7 @@ export class TextAnalyticsClient {
     documents: string[],
     actions: TextAnalyticsActions,
     language?: string,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
@@ -911,13 +896,13 @@ export class TextAnalyticsClient {
   public async beginAnalyzeActions(
     documents: TextDocumentInput[],
     actions: TextAnalyticsActions,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike>;
   public async beginAnalyzeActions(
     documents: string[] | TextDocumentInput[],
     actions: TextAnalyticsActions,
     languageOrOptions?: string | BeginAnalyzeActionsOptions,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike> {
     let realOptions: BeginAnalyzeActionsOptions;
     let realInputs: TextDocumentInput[];
@@ -957,17 +942,17 @@ export class TextAnalyticsClient {
 function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
-      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask))
+      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask)),
     ),
     entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask),
     ),
     keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(addParamsToTask),
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask),
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
+      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask)),
     ),
   };
 }
@@ -981,7 +966,7 @@ function isStringArray(documents: any[]): documents is string[] {
  */
 function convertToDetectLanguageInput(
   inputs: string[],
-  countryHint: string
+  countryHint: string,
 ): DetectLanguageInput[] {
   if (countryHint === "none") {
     countryHint = "";
@@ -1014,7 +999,7 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * @internal
  */
 function makeGeneratedAnalyzeSentimentOptions(
-  params: AnalyzeSentimentOptions
+  params: AnalyzeSentimentOptions,
 ): GeneratedAnalyzeSentimentOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1036,7 +1021,7 @@ function makeGeneratedAnalyzeSentimentOptions(
  * @internal
  */
 function makeGeneratedRecognizePiiEntitiesOptions(
-  params: RecognizePiiEntitiesOptions
+  params: RecognizePiiEntitiesOptions,
 ): GeneratedRecognizePiiEntitiesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1059,7 +1044,7 @@ function makeGeneratedRecognizePiiEntitiesOptions(
  * @internal
  */
 function makeGeneratedRecognizeCategorizedEntitiesOptions(
-  params: RecognizeCategorizedEntitiesOptions
+  params: RecognizeCategorizedEntitiesOptions,
 ): GeneratedRecognizeCategorizedEntitiesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1080,7 +1065,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
  * @internal
  */
 function makeGeneratedDetectLanguageOptions(
-  params: DetectLanguageOptions
+  params: DetectLanguageOptions,
 ): GeneratedDetectLanguageOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1100,7 +1085,7 @@ function makeGeneratedDetectLanguageOptions(
  * @internal
  */
 function makeGeneratedExtractKeyPhrasesOptions(
-  params: ExtractKeyPhrasesOptions
+  params: ExtractKeyPhrasesOptions,
 ): GeneratedExtractKeyPhrasesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1120,7 +1105,7 @@ function makeGeneratedExtractKeyPhrasesOptions(
  * @internal
  */
 function makeGeneratedRecognizeLinkingEntitiesOptions(
-  params: RecognizeLinkedEntitiesOptions
+  params: RecognizeLinkedEntitiesOptions,
 ): GeneratedRecognizeLinkedEntitiesOptions {
   return {
     abortSignal: params.abortSignal,

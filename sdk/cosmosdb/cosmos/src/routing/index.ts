@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-export * from "./QueryRange";
-export * from "./inMemoryCollectionRoutingMap";
-export * from "./partitionKeyRangeCache";
-export * from "./smartRoutingMapProvider";
+// Licensed under the MIT License.
+export * from "./QueryRange.js";
+export * from "./inMemoryCollectionRoutingMap.js";
+export * from "./partitionKeyRangeCache.js";
+export * from "./smartRoutingMapProvider.js";

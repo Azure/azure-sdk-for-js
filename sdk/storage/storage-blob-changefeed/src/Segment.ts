@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { Shard } from "./Shard";
-import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
-import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import type { Shard } from "./Shard.js";
+import type { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor.js";
+import type { CommonOptions } from "@azure/storage-blob";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure {@link Segment.getChange} operation.
@@ -39,7 +39,7 @@ export class Segment {
     shards: Shard[],
     shardIndex: number,
     dateTime: Date,
-    private readonly manifestPath: string
+    private readonly manifestPath: string,
   ) {
     this.shards = shards;
     this.shardIndex = shardIndex;
@@ -54,7 +54,7 @@ export class Segment {
   }
 
   public async getChange(
-    options: SegmentGetChangeOptions = {}
+    options: SegmentGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("Segment-getChange", options, async (updatedOptions) => {
       if (this.shardIndex >= this.shards.length || this.shardIndex < 0) {

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { hmac } from "./hmac";
-import { HTTPMethod, ResourceType, Constants } from "../common";
+import { hmac } from "./hmac.js";
+import type { HTTPMethod } from "../common/index.js";
+import { ResourceType, Constants } from "../common/index.js";
 
 export async function generateHeaders(
   masterKey: string,
   method: HTTPMethod,
   resourceType: ResourceType = ResourceType.none,
   resourceId: string = "",
-  date = new Date()
+  date = new Date(),
 ): Promise<{
   [x: string]: string;
 }> {
@@ -32,7 +33,7 @@ async function signature(
   method: HTTPMethod,
   resourceType: ResourceType,
   resourceId: string = "",
-  date = new Date()
+  date = new Date(),
 ): Promise<string> {
   const type = "master";
   const version = "1.0";

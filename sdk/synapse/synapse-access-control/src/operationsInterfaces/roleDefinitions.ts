@@ -6,38 +6,38 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   RoleDefinitionsListRoleDefinitionsOptionalParams,
   RoleDefinitionsListRoleDefinitionsResponse,
   RoleDefinitionsGetRoleDefinitionByIdOptionalParams,
   RoleDefinitionsGetRoleDefinitionByIdResponse,
   RoleDefinitionsListScopesOptionalParams,
-  RoleDefinitionsListScopesResponse
-} from "../models";
+  RoleDefinitionsListScopesResponse,
+} from "../models/index.js";
 
 /** Interface representing a RoleDefinitions. */
 export interface RoleDefinitions {
   /**
    * List role definitions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listRoleDefinitions(
-    options?: RoleDefinitionsListRoleDefinitionsOptionalParams
+    options?: RoleDefinitionsListRoleDefinitionsOptionalParams,
   ): Promise<RoleDefinitionsListRoleDefinitionsResponse>;
   /**
    * Get role definition by role definition Id.
-   * @param roleDefinitionId Synapse Built-In Role Definition Id.
-   * @param options The options parameters.
+   * @param roleDefinitionId - Synapse Built-In Role Definition Id.
+   * @param options - The options parameters.
    */
   getRoleDefinitionById(
     roleDefinitionId: string,
-    options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams
+    options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams,
   ): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
   /**
    * List rbac scopes.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listScopes(
-    options?: RoleDefinitionsListScopesOptionalParams
+    options?: RoleDefinitionsListScopesOptionalParams,
   ): Promise<RoleDefinitionsListScopesResponse>;
 }

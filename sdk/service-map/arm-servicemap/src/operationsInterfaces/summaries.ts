@@ -9,7 +9,7 @@
 import {
   SummariesGetMachinesOptionalParams,
   SummariesGetMachinesResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Summaries. */
 export interface Summaries {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseKeyVaultIdentifier } from "@azure/keyvault-common";
 
@@ -37,7 +37,7 @@ export interface KeyVaultCertificateIdentifier {
  *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
  *
  * On parsing the above Id, this function returns:
- *```ts
+ *```ts snippet:ignore
  *   {
  *      sourceId: "https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>",
  *      vaultUrl: "https://<keyvault-name>.vault.azure.net",

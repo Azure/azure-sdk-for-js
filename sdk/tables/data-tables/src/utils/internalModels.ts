@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
@@ -15,12 +15,16 @@ import {
   TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-} from "../models";
-import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
-import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
-import { NamedKeyCredential } from "@azure/core-auth";
-import { OperationOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+} from "../models.js";
+import type {
+  DeleteTableEntityResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse,
+} from "../index.js";
+import type { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { NamedKeyCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
@@ -113,7 +117,7 @@ export interface TableClientLike {
    */
   createEntity<T extends object>(
     entity: TableEntity<T>,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<CreateTableEntityResponse>;
   /**
    * Permanently deletes the current table with all of its entities.
@@ -127,7 +131,7 @@ export interface TableClientLike {
   deleteEntity(
     partitionKey: string,
     rowKey: string,
-    options?: DeleteTableEntityOptions
+    options?: DeleteTableEntityOptions,
   ): Promise<DeleteTableEntityResponse>;
   /**
    * Returns a single entity in the table.
@@ -138,7 +142,7 @@ export interface TableClientLike {
   getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
-    options?: GetTableEntityOptions
+    options?: GetTableEntityOptions,
   ): Promise<GetTableEntityResponse<T>>;
   /**
    * Queries entities in a table.
@@ -146,7 +150,7 @@ export interface TableClientLike {
    * @param options - The options parameters.
    */
   listEntities<T extends object>(
-    options?: ListTableEntitiesOptions
+    options?: ListTableEntitiesOptions,
   ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
   /**
    * Update an entity in the table.
@@ -159,7 +163,7 @@ export interface TableClientLike {
   updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpdateTableEntityOptions
+    options?: UpdateTableEntityOptions,
   ): Promise<UpdateEntityResponse>;
   /**
    * Upsert an entity in the table.
@@ -173,6 +177,6 @@ export interface TableClientLike {
   upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<UpsertEntityResponse>;
 }

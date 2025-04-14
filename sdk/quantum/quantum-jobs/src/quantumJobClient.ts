@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
-import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations";
-import { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces";
-import { QuantumJobClientOptionalParams } from "./models";
+import type * as coreAuth from "@azure/core-auth";
+import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations/index.js";
+import type { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces/index.js";
+import type { QuantumJobClientOptionalParams } from "./models/index.js";
 
 export class QuantumJobClient extends coreClient.ServiceClient {
   $host: string;
@@ -33,7 +33,7 @@ export class QuantumJobClient extends coreClient.ServiceClient {
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
-    options?: QuantumJobClientOptionalParams
+    options?: QuantumJobClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -54,7 +54,7 @@ export class QuantumJobClient extends coreClient.ServiceClient {
     }
     const defaults: QuantumJobClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-quantum-jobs/1.0.0-beta.2`;
@@ -70,32 +70,30 @@ export class QuantumJobClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://quantum.azure.com"
+      baseUri: options.endpoint ?? options.baseUri ?? "https://quantum.azure.com",
     };
     super(optionsWithDefaults);
 
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
       if (!bearerTokenAuthenticationPolicyFound) {
         this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
         });
         this.pipeline.addPolicy(
           coreRestPipeline.bearerTokenAuthenticationPolicy({
             scopes: `${optionsWithDefaults.baseUri}/.default`,
             challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
+              authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            },
+          }),
         );
       }
     }

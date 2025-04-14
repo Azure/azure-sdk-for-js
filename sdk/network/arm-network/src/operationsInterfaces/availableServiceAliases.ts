@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableServiceAlias,
   AvailableServiceAliasesListOptionalParams,
-  AvailableServiceAliasesListByResourceGroupOptionalParams
-} from "../models";
+  AvailableServiceAliasesListByResourceGroupOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailableServiceAliases. */
@@ -23,7 +23,7 @@ export interface AvailableServiceAliases {
    */
   list(
     location: string,
-    options?: AvailableServiceAliasesListOptionalParams
+    options?: AvailableServiceAliasesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceAlias>;
   /**
    * Gets all available service aliases for this resource group in this region.
@@ -34,6 +34,6 @@ export interface AvailableServiceAliases {
   listByResourceGroup(
     resourceGroupName: string,
     location: string,
-    options?: AvailableServiceAliasesListByResourceGroupOptionalParams
+    options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceAlias>;
 }

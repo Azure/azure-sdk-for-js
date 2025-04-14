@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RegisteredIdentitiesDeleteOptionalParams } from "../models";
+import { RegisteredIdentitiesDeleteOptionalParams } from "../models/index.js";
 
 /** Interface representing a RegisteredIdentities. */
 export interface RegisteredIdentities {
@@ -21,6 +21,6 @@ export interface RegisteredIdentities {
     resourceGroupName: string,
     vaultName: string,
     identityName: string,
-    options?: RegisteredIdentitiesDeleteOptionalParams
+    options?: RegisteredIdentitiesDeleteOptionalParams,
   ): Promise<void>;
 }

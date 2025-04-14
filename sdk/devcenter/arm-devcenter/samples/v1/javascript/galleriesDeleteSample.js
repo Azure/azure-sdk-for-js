@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a gallery resource.
  *
  * @summary Deletes a gallery resource.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Galleries_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Galleries_Delete.json
  */
 async function galleriesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function galleriesDelete() {
   const result = await client.galleries.beginDeleteAndWait(
     resourceGroupName,
     devCenterName,
-    galleryName
+    galleryName,
   );
   console.log(result);
 }

@@ -12,7 +12,7 @@ import {
   MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsCreateOrUpdateOptionalParams,
   MarketplaceAgreementsCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MarketplaceAgreements. */

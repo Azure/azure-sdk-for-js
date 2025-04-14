@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConnectedKubernetesClient } from "../connectedKubernetesClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
+import type {
   Operation,
   OperationsGetNextOptionalParams,
   OperationsGetOptionalParams,
   OperationsGetResponse,
-  OperationsGetNextResponse
-} from "../models";
+  OperationsGetNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
@@ -38,9 +38,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available API operations for Connected Cluster resource.
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsGetOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+  public list(options?: OperationsGetOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.getPagingAll(options);
     return {
       next() {
@@ -54,13 +52,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getPagingPage(
     options?: OperationsGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: OperationsGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +79,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *getPagingAll(
-    options?: OperationsGetOptionalParams
+    options?: OperationsGetOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.getPagingPage(options)) {
       yield* page;
@@ -92,9 +90,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available API operations for Connected Cluster resource.
    * @param options The options parameters.
    */
-  private _get(
-    options?: OperationsGetOptionalParams
-  ): Promise<OperationsGetResponse> {
+  private _get(options?: OperationsGetOptionalParams): Promise<OperationsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 
@@ -105,12 +101,9 @@ export class OperationsImpl implements Operations {
    */
   private _getNext(
     nextLink: string,
-    options?: OperationsGetNextOptionalParams
+    options?: OperationsGetNextOptionalParams,
   ): Promise<OperationsGetNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      getNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, getNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -121,30 +114,29 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

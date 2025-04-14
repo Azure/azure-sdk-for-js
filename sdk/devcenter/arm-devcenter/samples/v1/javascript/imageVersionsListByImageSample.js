@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists versions for an image.
  *
  * @summary Lists versions for an image.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ImageVersions_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ImageVersions_List.json
  */
 async function imageVersionsListByImage() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function imageVersionsListByImage() {
     resourceGroupName,
     devCenterName,
     galleryName,
-    imageName
+    imageName,
   )) {
     resArray.push(item);
   }

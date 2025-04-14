@@ -12,8 +12,8 @@ import {
   DatabaseColumnsListByDatabaseOptionalParams,
   DatabaseColumnsListByTableOptionalParams,
   DatabaseColumnsGetOptionalParams,
-  DatabaseColumnsGetResponse
-} from "../models";
+  DatabaseColumnsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseColumns. */
@@ -30,7 +30,7 @@ export interface DatabaseColumns {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseColumnsListByDatabaseOptionalParams
+    options?: DatabaseColumnsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseColumn>;
   /**
    * List database columns
@@ -48,7 +48,7 @@ export interface DatabaseColumns {
     databaseName: string,
     schemaName: string,
     tableName: string,
-    options?: DatabaseColumnsListByTableOptionalParams
+    options?: DatabaseColumnsListByTableOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseColumn>;
   /**
    * Get database column
@@ -68,6 +68,6 @@ export interface DatabaseColumns {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: DatabaseColumnsGetOptionalParams
+    options?: DatabaseColumnsGetOptionalParams,
   ): Promise<DatabaseColumnsGetResponse>;
 }

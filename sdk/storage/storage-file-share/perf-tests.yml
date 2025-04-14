@@ -16,7 +16,6 @@ PackageVersions:
   '@azure/logger': 1.0.3
 - '@azure/storage-file-share': source
   '@azure/core-auth': source
-  '@azure/core-http': source
   '@azure/core-paging': source
   '@azure/core-rest-pipeline': source
   '@azure/core-tracing': source

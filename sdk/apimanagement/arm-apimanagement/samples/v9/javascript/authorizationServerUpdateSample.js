@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the details of the authorization server specified by its identifier.
  *
  * @summary Updates the details of the authorization server specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateAuthorizationServer.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateAuthorizationServer.json
  */
 async function apiManagementUpdateAuthorizationServer() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -27,6 +27,8 @@ async function apiManagementUpdateAuthorizationServer() {
   const parameters = {
     clientId: "update",
     clientSecret: "updated",
+    useInApiDocumentation: true,
+    useInTestConsole: false,
   };
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);

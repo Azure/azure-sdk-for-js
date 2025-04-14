@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PrivateDnsZoneGroupsGetParameters,
-} from "@azure-rest/arm-network";
+import type { PrivateDnsZoneGroupsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private dns zone group resource by specified private dns zone group name.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Gets the private dns zone group resource by specified private dns zone group name.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointDnsZoneGroupGet.json
  */
-async function getPrivateDnsZoneGroup() {
+async function getPrivateDnsZoneGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -33,7 +27,7 @@ async function getPrivateDnsZoneGroup() {
       subscriptionId,
       resourceGroupName,
       privateEndpointName,
-      privateDnsZoneGroupName
+      privateDnsZoneGroupName,
     )
     .get(options);
   console.log(result);

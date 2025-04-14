@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the preview features that are available through AFEC for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/listSubscriptionFeatures.json
  */
-async function listSubscriptionFeatures() {
+async function listSubscriptionFeatures(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
   const client = new FeatureClient(credential, subscriptionId);

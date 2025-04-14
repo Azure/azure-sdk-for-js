@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a project environment type.
  *
  * @summary Partially updates a project environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ProjectEnvironmentTypes_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectEnvironmentTypes_Patch.json
  */
 async function projectEnvironmentTypesUpdate() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function projectEnvironmentTypesUpdate() {
     resourceGroupName,
     projectName,
     environmentTypeName,
-    body
+    body,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   base64encode,
@@ -12,20 +12,23 @@ import {
   isSuperSet,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, assert } from "@azure/test-utils";
-import {
-  ContainerClient,
-  BlockBlobTier,
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
-} from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { Context } from "mocha";
-import { Tags } from "../src/models";
+} from "../src/index.js";
+import { ContainerClient, BlockBlobTier } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+import type { Tags } from "../src/models.js";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -34,8 +37,8 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -44,7 +47,7 @@ describe("ContainerClient", () => {
           headersForRemoval: ["x-ms-encryption-key"],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -52,12 +55,12 @@ describe("ContainerClient", () => {
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("setMetadata", async function () {
+  it("setMetadata", async () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
@@ -69,7 +72,7 @@ describe("ContainerClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("getProperties", async function () {
+  it("getProperties", async () => {
     const result = await containerClient.getProperties();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -83,7 +86,7 @@ describe("ContainerClient", () => {
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
   });
 
-  it("createIfNotExists", async function () {
+  it("createIfNotExists", async () => {
     const res = await containerClient.createIfNotExists();
     assert.equal(res.succeeded, false);
     assert.equal(res.errorCode, "ContainerAlreadyExists");
@@ -97,7 +100,7 @@ describe("ContainerClient", () => {
     await containerClient2.delete();
   });
 
-  it("deleteIfExists", async function () {
+  it("deleteIfExists", async () => {
     const containerName2 = recorder.variable("container2", getUniqueName("container2"));
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient2.create();
@@ -111,14 +114,13 @@ describe("ContainerClient", () => {
     assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
-  it("create with all parameters configured", async function () {
+  it("create with all parameters configured", async () => {
     const cClient = blobServiceClient.getContainerClient(
-      recorder.variable(containerName, getUniqueName(containerName))
+      recorder.variable(containerName, getUniqueName(containerName)),
     );
     const metadata = { key: "value" };
     const access = "container";
@@ -128,16 +130,15 @@ describe("ContainerClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
-  it("listBlobsFlat with default parameters", async function () {
+  it("listBlobsFlat with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob/${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
@@ -156,11 +157,11 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsFlat to list uncommitted blobs", async function () {
+  it("listBlobsFlat to list uncommitted blobs", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob/${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
@@ -187,7 +188,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsFlat with special chars", async function () {
+  it("listBlobsFlat with special chars", async () => {
     const blobName = "dir1/dir2/file\uFFFF.blob";
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
@@ -208,7 +209,7 @@ describe("ContainerClient", () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob/${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
@@ -227,7 +228,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsFlat with all parameters configured", async function () {
+  it("listBlobsFlat with all parameters configured", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -236,7 +237,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -293,7 +294,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsFlat with includeDeletedwithVersions", async function () {
+  it("listBlobsFlat with includeDeletedwithVersions", async () => {
     const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blobClient = containerClient.getBlobClient(blockBlobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
@@ -317,7 +318,7 @@ describe("ContainerClient", () => {
     assert.ok(result.segment.blobItems![0].hasVersionsOnly);
   });
 
-  it("listBlobFlat with blobs encrypted with CPK", async function () {
+  it("listBlobFlat with blobs encrypted with CPK", async () => {
     const blobURLs = [];
     const prefix = "blockblob";
     const metadata = {
@@ -326,7 +327,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -356,7 +357,7 @@ describe("ContainerClient", () => {
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
   });
 
-  it("Verify PagedAsyncIterableIterator for listBlobsFlat", async function () {
+  it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -365,7 +366,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -402,7 +403,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -442,7 +443,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -483,7 +484,7 @@ describe("ContainerClient", () => {
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}/${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -535,11 +536,11 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy with default parameters", async function () {
+  it("listBlobsByHierarchy with default parameters", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
@@ -565,11 +566,11 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy to list uncommitted blobs", async function () {
+  it("listBlobsByHierarchy to list uncommitted blobs", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
@@ -598,12 +599,12 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy with special chars", async function () {
+  it("listBlobsByHierarchy with special chars", async () => {
     const dirNames = ["first_dir\uFFFF/", "second_dir\uFFFF/", "normal_dir/"];
 
     for (let i = 0; i < dirNames.length; ++i) {
       const encodedCharBlockBlobClient = containerClient.getBlockBlobClient(
-        dirNames[i] + "file\uFFFF.blob"
+        dirNames[i] + "file\uFFFF.blob",
       );
       await encodedCharBlockBlobClient.upload("", 0);
     }
@@ -625,14 +626,14 @@ describe("ContainerClient", () => {
     for (let i = 0; i < result.segment.blobPrefixes.length; ++i) {
       assert.ok(
         dirNames.includes(result.segment.blobPrefixes[i].name),
-        "Directory name for the uploaded blob should be in the prefix list"
+        "Directory name for the uploaded blob should be in the prefix list",
       );
     }
 
     for (let i = 0; i < result.segment.blobItems.length; ++i) {
       assert.ok(
         blobNames.includes(result.segment.blobItems[i].name),
-        "Uploaded blob should be in the list"
+        "Uploaded blob should be in the list",
       );
     }
   });
@@ -641,7 +642,7 @@ describe("ContainerClient", () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`)
+        getRecorderUniqueVariable(recorder, `blockblob${i}/${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
@@ -669,7 +670,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy with all parameters configured", async function () {
+  it("listBlobsByHierarchy with all parameters configured", async () => {
     const blobClients = [];
     const prefix = "blockblob";
     const metadata = {
@@ -679,7 +680,7 @@ describe("ContainerClient", () => {
     const delimiter = "/";
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
-        getRecorderUniqueVariable(recorder, `${prefix}${i}${delimiter}${i}`)
+        getRecorderUniqueVariable(recorder, `${prefix}${i}${delimiter}${i}`),
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
@@ -756,7 +757,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Verify PagedAsyncIterableIterator for listBlobsByHierarchy", async function () {
+  it("Verify PagedAsyncIterableIterator for listBlobsByHierarchy", async () => {
     const blobClients = [];
     const prefix = recorder.variable("prefix", getUniqueName("prefix"));
     const metadata = {
@@ -791,7 +792,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("listBlobsByHierarchy with empty delimiter should throw error", async function () {
+  it("listBlobsByHierarchy with empty delimiter should throw error", async () => {
     try {
       await containerClient.listBlobsByHierarchy("", { prefix: "" }).byPage().next();
       assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
@@ -799,12 +800,12 @@ describe("ContainerClient", () => {
       assert.equal(
         "delimiter should contain one or more characters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
 
-  it("uploadBlockBlob and deleteBlob", async function () {
+  it("uploadBlockBlob and deleteBlob", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
@@ -830,14 +831,14 @@ describe("ContainerClient", () => {
     try {
       await blockBlobClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
+  it("uploadBlockBlob and deleteBlob with tracing", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const blobHeaders: BlobHTTPHeaders = {
       blobCacheControl: "blobCacheControl",
@@ -848,20 +849,17 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     let blockBlobClient: BlockBlobClient | undefined;
-    await assert.supportsTracing(
-      async function (options) {
-        const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-          blobHTTPHeaders: blobHeaders,
-          metadata: {
-            keya: "vala",
-            keyb: "valb",
-          },
-          tracingOptions: options.tracingOptions,
-        });
-        blockBlobClient = result.blockBlobClient;
-      },
-      ["ContainerClient-uploadBlockBlob"]
-    );
+    await expect(async function (options: OperationOptions) {
+      const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+        blobHTTPHeaders: blobHeaders,
+        metadata: {
+          keya: "vala",
+          keyb: "valb",
+        },
+        tracingOptions: options.tracingOptions,
+      });
+      blockBlobClient = result.blockBlobClient;
+    }).toSupportTracing(["ContainerClient-uploadBlockBlob"]);
 
     await containerClient.deleteBlob(blobName);
     try {
@@ -870,17 +868,17 @@ describe("ContainerClient", () => {
       }
       await blockBlobClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
 
-  it("can be created with a sas connection string", async function () {
+  it("can be created with a sas connection string", async () => {
     const newClient = new ContainerClient(
       getSASConnectionStringFromEnvironment(recorder),
-      containerName
+      containerName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -897,7 +895,7 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a sas connection string and a container name and an option bag", async function () {
+  it("can be created with a sas connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
@@ -905,7 +903,7 @@ describe("ContainerClient", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -922,7 +920,7 @@ describe("ContainerClient", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("throws error if constructor containerName parameter is empty", async function () {
+  it("throws error if constructor containerName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
       new ContainerClient(getSASConnectionStringFromEnvironment(recorder), "");
@@ -931,25 +929,25 @@ describe("ContainerClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
 
-  it("exists returns true on an existing container", async function () {
+  it("exists returns true on an existing container", async () => {
     const result = await containerClient.exists();
     assert.ok(result, "exists() should return true for an existing container");
   });
 
   it("exists returns false on non-existing container", async () => {
     const newContainerClient = blobServiceClient.getContainerClient(
-      recorder.variable("newcontainer", getUniqueName("newcontainer"))
+      recorder.variable("newcontainer", getUniqueName("newcontainer")),
     );
     const result = await newContainerClient.exists();
     assert.ok(result === false, "exists() should return true for an existing container");
   });
 
-  it("can list blobs with underscore metadata key name", async function () {
+  it("can list blobs with underscore metadata key name", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
@@ -963,7 +961,7 @@ describe("ContainerClient", () => {
       },
     };
     const newContainerClient = blobServiceClient.getContainerClient(
-      recorder.variable("listingcontainer", getUniqueName("listingcontainer"))
+      recorder.variable("listingcontainer", getUniqueName("listingcontainer")),
     );
     await newContainerClient.create();
     await newContainerClient.uploadBlockBlob(
@@ -973,7 +971,7 @@ describe("ContainerClient", () => {
       {
         blobHTTPHeaders: options,
         metadata: options.metadata,
-      }
+      },
     );
 
     const iterator = newContainerClient
@@ -988,7 +986,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("Find blob by tags should work", async function () {
+  it("Find blob by tags should work", async () => {
     const key1 = recorder.variable("key", getUniqueName("key"));
     const key2 = recorder.variable("key2", getUniqueName("key2"));
 
@@ -1047,12 +1045,19 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(blobsWithTag2.length, 3);
 
     for await (const blob of containerClient.findBlobsByTags(
-      `${key1}='${tags1[key1]}' AND ${key2}='default'`
+      `${key1}='${tags1[key1]}' AND ${key2}='default'`,
     )) {
       assert.deepStrictEqual(blob.name, blobName1);
       assert.deepStrictEqual(blob.tags, tags1);
       assert.deepStrictEqual(blob.tagValue, "");
     }
+  });
+
+  it("getAccountInfo", async () => {
+    const accountInfo = await containerClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 });
 
@@ -1065,40 +1070,40 @@ describe("ContainerClient - Verify Name Properties", () => {
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name is not the same as the one provided."
+      "Container name is not the same as the one provided.",
     );
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
   }
 
-  it("verify endpoint from the portal", async function () {
+  it("verify endpoint from the portal", async () => {
     verifyNameProperties(`https://${accountName}.blob.core.windows.net/` + containerName);
   });
 
-  it("verify IPv4 host address as Endpoint", async function () {
+  it("verify IPv4 host address as Endpoint", async () => {
     verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}`);
   });
 
-  it("verify IPv6 host address as Endpoint", async function () {
+  it("verify IPv6 host address as Endpoint", async () => {
     verifyNameProperties(
-      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}`
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}`,
     );
   });
 
-  it("verify endpoint without dots", async function () {
+  it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
   });
 
-  it("verify custom endpoint without valid accountName", async function () {
+  it("verify custom endpoint without valid accountName", async () => {
     const newClient = new ContainerClient(`https://customdomain.com/${containerName}`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name is not the same as the one provided."
+      "Container name is not the same as the one provided.",
     );
   });
 });

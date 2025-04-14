@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified rule from a route filter.
@@ -30,7 +30,7 @@ async function routeFilterRuleDelete() {
       subscriptionId,
       resourceGroupName,
       routeFilterName,
-      ruleName
+      ruleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

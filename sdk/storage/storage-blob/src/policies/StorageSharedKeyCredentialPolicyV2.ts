@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { createHmac } from "crypto";
-import {
+import { createHmac } from "node:crypto";
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { HeaderConstants } from "../utils/constants";
-import { getURLPath, getURLQueries } from "../utils/utils.common";
+import { HeaderConstants } from "../utils/constants.js";
+import { getURLPath, getURLQueries } from "../utils/utils.common.js";
+import { compareHeader } from "../utils/SharedKeyComparator.js";
 
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.
@@ -28,7 +29,7 @@ export interface StorageSharedKeyCredentialPolicyOptions {
  * storageSharedKeyCredentialPolicy handles signing requests using storage account keys.
  */
 export function storageSharedKeyCredentialPolicy(
-  options: StorageSharedKeyCredentialPolicyOptions
+  options: StorageSharedKeyCredentialPolicyOptions,
 ): PipelinePolicy {
   function signRequest(request: PipelineRequest): void {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -65,7 +66,7 @@ export function storageSharedKeyCredentialPolicy(
       .digest("base64");
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${options.accountName}:${signature}`
+      `SharedKey ${options.accountName}:${signature}`,
     );
 
     // console.log(`[URL]:${request.url}`);
@@ -76,7 +77,7 @@ export function storageSharedKeyCredentialPolicy(
 
   /**
    * Retrieve header value according to shared key sign rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
    */
   function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {
     const value = request.headers.get(headerName);
@@ -87,7 +88,7 @@ export function storageSharedKeyCredentialPolicy(
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
-    // https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+    // https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
     if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
       return "";
     }
@@ -116,7 +117,7 @@ export function storageSharedKeyCredentialPolicy(
     }
 
     headersArray.sort((a, b): number => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      return compareHeader(a.name.toLowerCase(), b.name.toLowerCase());
     });
 
     // Remove duplicate headers

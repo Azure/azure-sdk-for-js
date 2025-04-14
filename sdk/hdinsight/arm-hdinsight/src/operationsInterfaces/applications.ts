@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Application,
   ApplicationsListByClusterOptionalParams,
@@ -17,8 +17,8 @@ import {
   ApplicationsCreateResponse,
   ApplicationsDeleteOptionalParams,
   ApplicationsGetAzureAsyncOperationStatusOptionalParams,
-  ApplicationsGetAzureAsyncOperationStatusResponse
-} from "../models";
+  ApplicationsGetAzureAsyncOperationStatusResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Applications. */
@@ -32,7 +32,7 @@ export interface Applications {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
+    options?: ApplicationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
   /**
    * Gets properties of the specified application.
@@ -45,7 +45,7 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsGetOptionalParams
+    options?: ApplicationsGetOptionalParams,
   ): Promise<ApplicationsGetResponse>;
   /**
    * Creates applications for the HDInsight cluster.
@@ -60,10 +60,10 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationsCreateOptionalParams
+    options?: ApplicationsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateResponse>,
       ApplicationsCreateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationsCreateOptionalParams
+    options?: ApplicationsCreateOptionalParams,
   ): Promise<ApplicationsCreateResponse>;
   /**
    * Deletes the specified application on the HDInsight cluster.
@@ -93,8 +93,8 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ApplicationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -106,7 +106,7 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    options?: ApplicationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -121,6 +121,6 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     operationId: string,
-    options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams
+    options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ApplicationsGetAzureAsyncOperationStatusResponse>;
 }

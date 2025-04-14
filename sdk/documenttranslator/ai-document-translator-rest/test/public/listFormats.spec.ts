@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { DocumentTranslatorClient } from "../../src";
+import type { DocumentTranslatorClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("List Document Formats", () => {
   let recorder: Recorder;
   let client: DocumentTranslatorClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

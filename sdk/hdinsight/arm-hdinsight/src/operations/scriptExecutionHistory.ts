@@ -7,20 +7,20 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ScriptExecutionHistory } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ScriptExecutionHistory } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HDInsightManagementClient } from "../hDInsightManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HDInsightManagementClient } from "../hDInsightManagementClient.js";
 import {
   RuntimeScriptActionDetail,
   ScriptExecutionHistoryListByClusterNextOptionalParams,
   ScriptExecutionHistoryListByClusterOptionalParams,
   ScriptExecutionHistoryListByClusterResponse,
   ScriptExecutionHistoryPromoteOptionalParams,
-  ScriptExecutionHistoryListByClusterNextResponse
-} from "../models";
+  ScriptExecutionHistoryListByClusterNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScriptExecutionHistory operations. */
@@ -44,12 +44,12 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ScriptExecutionHistoryListByClusterOptionalParams
+    options?: ScriptExecutionHistoryListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +66,9 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
     resourceGroupName: string,
     clusterName: string,
     options?: ScriptExecutionHistoryListByClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RuntimeScriptActionDetail[]> {
     let result: ScriptExecutionHistoryListByClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
       result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +96,7 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ScriptExecutionHistoryListByClusterOptionalParams
+    options?: ScriptExecutionHistoryListByClusterOptionalParams,
   ): AsyncIterableIterator<RuntimeScriptActionDetail> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +128,11 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ScriptExecutionHistoryListByClusterOptionalParams
+    options?: ScriptExecutionHistoryListByClusterOptionalParams,
   ): Promise<ScriptExecutionHistoryListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
     resourceGroupName: string,
     clusterName: string,
     scriptExecutionId: string,
-    options?: ScriptExecutionHistoryPromoteOptionalParams
+    options?: ScriptExecutionHistoryPromoteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, scriptExecutionId, options },
-      promoteOperationSpec
+      promoteOperationSpec,
     );
   }
 
@@ -166,11 +166,11 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: ScriptExecutionHistoryListByClusterNextOptionalParams
+    options?: ScriptExecutionHistoryListByClusterNextOptionalParams,
   ): Promise<ScriptExecutionHistoryListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByClusterNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
@@ -178,36 +178,15 @@ export class ScriptExecutionHistoryImpl implements ScriptExecutionHistory {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptExecutionHistory",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptExecutionHistory",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptActionExecutionHistoryList
+      bodyMapper: Mappers.ScriptActionExecutionHistoryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const promoteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptExecutionHistory/{scriptExecutionId}/promote",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -215,29 +194,48 @@ const promoteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.scriptExecutionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const promoteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/scriptExecutionHistory/{scriptExecutionId}/promote",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.scriptExecutionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptActionExecutionHistoryList
+      bodyMapper: Mappers.ScriptActionExecutionHistoryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

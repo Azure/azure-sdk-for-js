@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
  *
  * @summary List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ListNamespacesInClusterGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ListNamespacesInClusterGet.json
  */
 async function listNamespacesInCluster() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function listNamespacesInCluster() {
 }
 
 async function main() {
-  listNamespacesInCluster();
+  await listNamespacesInCluster();
 }
 
 main().catch(console.error);

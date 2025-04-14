@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CommunityGalleries } from "../operationsInterfaces";
+import { CommunityGalleries } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   CommunityGalleriesGetOptionalParams,
-  CommunityGalleriesGetResponse
-} from "../models";
+  CommunityGalleriesGetResponse,
+} from "../models/index.js";
 
 /** Class containing CommunityGalleries operations. */
 export class CommunityGalleriesImpl implements CommunityGalleries {
@@ -37,11 +37,11 @@ export class CommunityGalleriesImpl implements CommunityGalleries {
   get(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleriesGetOptionalParams
+    options?: CommunityGalleriesGetOptionalParams,
   ): Promise<CommunityGalleriesGetResponse> {
     return this.client.sendOperationRequest(
       { location, publicGalleryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class CommunityGalleriesImpl implements CommunityGalleries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunityGallery
+      bodyMapper: Mappers.CommunityGallery,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.publicGalleryName
+    Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

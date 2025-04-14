@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { RecordSet, DnsManagementClient } from "@azure/arm-dns";
+import type { RecordSet } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchARecordset.json
  */
-async function patchARecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchARecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -31,22 +31,20 @@ async function patchARecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchARecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchAAAARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchAAAARecordset.json
  */
-async function patchAaaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchAaaaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "AAAA";
@@ -58,22 +56,20 @@ async function patchAaaaRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchAaaaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchCaaRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchCaaRecordset.json
  */
-async function patchCaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchCaaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CAA";
@@ -85,22 +81,20 @@ async function patchCaaRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchCaaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchCNAMERecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchCNAMERecordset.json
  */
-async function patchCnameRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchCnameRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CNAME";
@@ -112,22 +106,45 @@ async function patchCnameRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchCnameRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchMXRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchDSRecordset.json
  */
-async function patchMxRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchDsRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "DS";
+  const parameters: RecordSet = { metadata: { key2: "value2" } };
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.update(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates a record set within a DNS zone.
+ *
+ * @summary Updates a record set within a DNS zone.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchMXRecordset.json
+ */
+async function patchMxRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "MX";
@@ -139,22 +156,45 @@ async function patchMxRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchMxRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchNSRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchNAPTRRecordset.json
  */
-async function patchNsRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchNaptrRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "NAPTR";
+  const parameters: RecordSet = { metadata: { key2: "value2" } };
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.update(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates a record set within a DNS zone.
+ *
+ * @summary Updates a record set within a DNS zone.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchNSRecordset.json
+ */
+async function patchNsRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "NS";
@@ -166,22 +206,20 @@ async function patchNsRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchNsRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchPTRRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchPTRRecordset.json
  */
-async function patchPtrRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchPtrRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
   const relativeRecordSetName = "1";
   const recordType = "PTR";
@@ -193,22 +231,20 @@ async function patchPtrRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchPtrRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchSOARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchSOARecordset.json
  */
-async function patchSoaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchSoaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "@";
   const recordType = "SOA";
@@ -220,22 +256,20 @@ async function patchSoaRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchSoaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchSRVRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchSRVRecordset.json
  */
-async function patchSrvRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchSrvRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "SRV";
@@ -247,22 +281,45 @@ async function patchSrvRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-patchSrvRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates a record set within a DNS zone.
  *
  * @summary Updates a record set within a DNS zone.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/PatchTXTRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchTLSARecordset.json
  */
-async function patchTxtRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function patchTlsaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "TLSA";
+  const parameters: RecordSet = { metadata: { key2: "value2" } };
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.update(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates a record set within a DNS zone.
+ *
+ * @summary Updates a record set within a DNS zone.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchTXTRecordset.json
+ */
+async function patchTxtRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "TXT";
@@ -274,9 +331,25 @@ async function patchTxtRecordset() {
     zoneName,
     relativeRecordSetName,
     recordType,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-patchTxtRecordset().catch(console.error);
+async function main(): Promise<void> {
+  await patchARecordset();
+  await patchAaaaRecordset();
+  await patchCaaRecordset();
+  await patchCnameRecordset();
+  await patchDsRecordset();
+  await patchMxRecordset();
+  await patchNaptrRecordset();
+  await patchNsRecordset();
+  await patchPtrRecordset();
+  await patchSoaRecordset();
+  await patchSrvRecordset();
+  await patchTlsaRecordset();
+  await patchTxtRecordset();
+}
+
+main().catch(console.error);

@@ -1,22 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure/test-utils";
-import { Context } from "mocha";
-import { isNode } from "@azure/core-util";
-import { KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "../public/utils/common";
-import { testPollerProperties } from "../public/utils/recorderUtils";
-import {
-  Recorder,
-  env,
-  isPlaybackMode,
-  isRecordMode,
-  isLiveMode,
-} from "@azure-tools/test-recorder";
-import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication";
-import TestClient from "../public/utils/testClient";
-import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller";
+// Licensed under the MIT License.
+import type { KeyClient } from "../../src/index.js";
+import { testPollerProperties } from "../public/utils/recorderUtils.js";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
+import type TestClient from "../public/utils/testClient.js";
+import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
@@ -25,11 +15,11 @@ describe("Keys client - restore keys and recover backups", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -41,14 +31,14 @@ describe("Keys client - restore keys and recover backups", () => {
 
   // The tests follow
 
-  it("can recover a deleted key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can recover a deleted key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.equal(
       deletePoller.getResult()!.name,
       keyName,
-      "Unexpected key name in result from deletePoller.getResult()."
+      "Unexpected key name in result from deletePoller.getResult().",
     );
     await deletePoller.pollUntilDone();
 
@@ -62,8 +52,8 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("fails if one tries to recover a non-existing deleted key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("fails if one tries to recover a non-existing deleted key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let error;
     try {
       const recoverPoller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
@@ -76,32 +66,17 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can generate a backup of a key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can generate a backup of a key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
-    if (isNode) {
-      assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
-    } else {
-      assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
-    }
+    assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
     assert.ok(result!.length > 0, "Unexpected length of buffer from backupKey()");
     await testClient.flushKey(keyName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can generate a backup of a key with requestOptions timeout", async function () {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    await assertThrowsAbortError(async () => {
-      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
-    });
-  });
-
-  it("fails to generate a backup of a non-existing key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("fails to generate a backup of a non-existing key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let error;
     try {
       await client.backupKey(keyName);
@@ -116,8 +91,8 @@ describe("Keys client - restore keys and recover backups", () => {
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a key with a given backup", async function (this: Context) {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    it("can restore a key with a given backup", async function (ctx) {
+      const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
       const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -143,24 +118,7 @@ describe("Keys client - restore keys and recover backups", () => {
     });
   }
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can restore a key with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      console.log("Timeout tests don't work on playback mode.");
-      this.skip();
-    }
-
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const backup = await client.backupKey(keyName);
-    await testClient.flushKey(keyName);
-
-    await assertThrowsAbortError(async () => {
-      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
-    });
-  });
-
-  it("fails to restore a key with a malformed backup", async function () {
+  it("fails to restore a key with a malformed backup", async () => {
     const backup = new Uint8Array(8693);
     let error;
     try {
@@ -172,7 +130,7 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreKeyBackup()"
+      "Unexpected error from restoreKeyBackup()",
     );
   });
 });

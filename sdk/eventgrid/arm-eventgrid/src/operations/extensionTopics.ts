@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExtensionTopics } from "../operationsInterfaces";
+import { ExtensionTopics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EventGridManagementClient } from "../eventGridManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EventGridManagementClient } from "../eventGridManagementClient.js";
 import {
   ExtensionTopicsGetOptionalParams,
-  ExtensionTopicsGetResponse
-} from "../models";
+  ExtensionTopicsGetResponse,
+} from "../models/index.js";
 
 /** Class containing ExtensionTopics operations. */
 export class ExtensionTopicsImpl implements ExtensionTopics {
@@ -40,11 +40,11 @@ export class ExtensionTopicsImpl implements ExtensionTopics {
    */
   get(
     scope: string,
-    options?: ExtensionTopicsGetOptionalParams
+    options?: ExtensionTopicsGetOptionalParams,
   ): Promise<ExtensionTopicsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,12 +56,12 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionTopic
+      bodyMapper: Mappers.ExtensionTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -250,6 +250,13 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String"
+        }
+      },
       code: {
         serializedName: "Code",
         xmlName: "Code",
@@ -525,6 +532,62 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
         }
+      },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "EnableSnapshotVirtualDirectoryAccess",
+        xmlName: "EnableSnapshotVirtualDirectoryAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingEnabled: {
+        serializedName: "PaidBurstingEnabled",
+        xmlName: "PaidBurstingEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "PaidBurstingMaxIops",
+        xmlName: "PaidBurstingMaxIops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "PaidBurstingMaxBandwidthMibps",
+        xmlName: "PaidBurstingMaxBandwidthMibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "IncludedBurstIops",
+        xmlName: "IncludedBurstIops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "MaxBurstCreditsForIops",
+        xmlName: "MaxBurstCreditsForIops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName: "NextAllowedProvisionedIopsDowngradeTime",
+        xmlName: "NextAllowedProvisionedIopsDowngradeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName: "NextAllowedProvisionedBandwidthDowngradeTime",
+        xmlName: "NextAllowedProvisionedBandwidthDowngradeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
       }
     }
   }
@@ -542,6 +605,14 @@ export const SharePermission: coreClient.CompositeMapper = {
         xmlName: "permission",
         type: {
           name: "String"
+        }
+      },
+      format: {
+        serializedName: "format",
+        xmlName: "format",
+        type: {
+          name: "Enum",
+          allowedValues: ["Sddl", "Binary"]
         }
       }
     }
@@ -656,6 +727,14 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
           name: "String"
         }
       },
+      encoded: {
+        serializedName: "Encoded",
+        xmlName: "Encoded",
+        xmlIsAttribute: true,
+        type: {
+          name: "Boolean"
+        }
+      },
       directoryPath: {
         serializedName: "DirectoryPath",
         required: true,
@@ -667,10 +746,10 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
       },
       prefix: {
         serializedName: "Prefix",
-        required: true,
         xmlName: "Prefix",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       marker: {
@@ -706,6 +785,32 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
       directoryId: {
         serializedName: "DirectoryId",
         xmlName: "DirectoryId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StringEncoded: coreClient.CompositeMapper = {
+  serializedName: "StringEncoded",
+  type: {
+    name: "Composite",
+    className: "StringEncoded",
+    modelProperties: {
+      encoded: {
+        serializedName: "Encoded",
+        xmlName: "Encoded",
+        xmlIsAttribute: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        xmlIsMsText: true,
         type: {
           name: "String"
         }
@@ -764,10 +869,10 @@ export const DirectoryItem: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
@@ -872,10 +977,10 @@ export const FileItem: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
@@ -962,10 +1067,10 @@ export const HandleItem: coreClient.CompositeMapper = {
       },
       path: {
         serializedName: "Path",
-        required: true,
         xmlName: "Path",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
@@ -999,6 +1104,14 @@ export const HandleItem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      clientName: {
+        serializedName: "ClientName",
+        required: true,
+        xmlName: "ClientName",
+        type: {
+          name: "String"
+        }
+      },
       openTime: {
         serializedName: "OpenTime",
         required: true,
@@ -1012,6 +1125,21 @@ export const HandleItem: coreClient.CompositeMapper = {
         xmlName: "LastReconnectTime",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      accessRightList: {
+        serializedName: "AccessRightList",
+        xmlName: "AccessRightList",
+        xmlIsWrapped: true,
+        xmlElementName: "AccessRight",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: ["Read", "Write", "Delete"]
+            }
+          }
         }
       }
     }
@@ -1295,6 +1423,41 @@ export const ShareCreateHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      shareProvisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      shareProvisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      shareIncludedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -1481,6 +1644,64 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
         }
       },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "x-ms-enable-snapshot-virtual-directory-access",
+        xmlName: "x-ms-enable-snapshot-virtual-directory-access",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingEnabled: {
+        serializedName: "x-ms-share-paid-bursting-enabled",
+        xmlName: "x-ms-share-paid-bursting-enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "x-ms-share-paid-bursting-max-iops",
+        xmlName: "x-ms-share-paid-bursting-max-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        xmlName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -1534,6 +1755,20 @@ export const ShareDeleteHeaders: coreClient.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      usageBytes: {
+        serializedName: "x-ms-file-share-usage-bytes",
+        xmlName: "x-ms-file-share-usage-bytes",
+        type: {
+          name: "Number"
+        }
+      },
+      snapshotUsageBytes: {
+        serializedName: "x-ms-file-share-snapshot-usage-bytes",
+        xmlName: "x-ms-file-share-snapshot-usage-bytes",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -2178,6 +2413,64 @@ export const ShareSetPropertiesHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedQuotaDowngradeTime: {
+        serializedName: "x-ms-share-next-allowed-quota-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-quota-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -2529,6 +2822,41 @@ export const ShareRestoreHeaders: coreClient.CompositeMapper = {
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2644,6 +2972,34 @@ export const DirectoryCreateHeaders: coreClient.CompositeMapper = {
       fileParentId: {
         serializedName: "x-ms-file-parent-id",
         xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
         type: {
           name: "String"
         }
@@ -2778,6 +3134,34 @@ export const DirectoryGetPropertiesHeaders: coreClient.CompositeMapper = {
       fileParentId: {
         serializedName: "x-ms-file-parent-id",
         xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
         type: {
           name: "String"
         }
@@ -2958,6 +3342,27 @@ export const DirectorySetPropertiesHeaders: coreClient.CompositeMapper = {
       fileParentId: {
         serializedName: "x-ms-file-parent-id",
         xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
         type: {
           name: "String"
         }
@@ -3474,6 +3879,34 @@ export const FileCreateHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -3751,6 +4184,34 @@ export const FileDownloadHeaders: coreClient.CompositeMapper = {
           allowedValues: ["locked", "unlocked"]
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4014,6 +4475,41 @@ export const FileGetPropertiesHeaders: coreClient.CompositeMapper = {
           allowedValues: ["locked", "unlocked"]
         }
       },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4067,6 +4563,13 @@ export const FileDeleteHeaders: coreClient.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -4192,6 +4695,34 @@ export const FileSetHttpHeadersHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-file-parent-id",
         type: {
           name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -5227,6 +5758,353 @@ export const FileRenameExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileRenameExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateSymbolicLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createSymbolicLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateSymbolicLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateSymbolicLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createSymbolicLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateSymbolicLinkExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileGetSymbolicLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_getSymbolicLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileGetSymbolicLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      linkText: {
+        serializedName: "x-ms-link-text",
+        xmlName: "x-ms-link-text",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileGetSymbolicLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_getSymbolicLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileGetSymbolicLinkExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateHardLinkHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createHardLinkHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateHardLinkHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        xmlName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      linkCount: {
+        serializedName: "x-ms-link-count",
+        xmlName: "x-ms-link-count",
+        type: {
+          name: "Number"
+        }
+      },
+      fileMode: {
+        serializedName: "x-ms-mode",
+        xmlName: "x-ms-mode",
+        type: {
+          name: "String"
+        }
+      },
+      owner: {
+        serializedName: "x-ms-owner",
+        xmlName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      group: {
+        serializedName: "x-ms-group",
+        xmlName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      nfsFileType: {
+        serializedName: "x-ms-file-file-type",
+        xmlName: "x-ms-file-file-type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileCreateHardLinkExceptionHeaders: coreClient.CompositeMapper = {
+  serializedName: "File_createHardLinkExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileCreateHardLinkExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",

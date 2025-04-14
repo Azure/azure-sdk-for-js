@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes the access control record.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/AccessControlRecordsDelete.json
  */
-async function accessControlRecordsDelete() {
+async function accessControlRecordsDelete(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const accessControlRecordName = "AcrForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

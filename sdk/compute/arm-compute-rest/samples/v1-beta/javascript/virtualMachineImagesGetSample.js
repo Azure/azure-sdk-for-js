@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -33,7 +33,7 @@ async function virtualMachineImagesGetMaximumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);
@@ -66,7 +66,7 @@ async function virtualMachineImagesGetMinimumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);

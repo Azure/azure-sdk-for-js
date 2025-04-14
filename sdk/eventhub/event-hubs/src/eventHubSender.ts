@@ -1,55 +1,49 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
   Message as RheaMessage,
-  message,
-  types,
 } from "rhea-promise";
+import { message, types } from "rhea-promise";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
 import {
   ErrorNameConditionMapper,
-  RetryConfig,
   RetryOperationType,
-  RetryOptions,
   defaultCancellableLock,
   delay,
   retry,
   translate,
 } from "@azure/core-amqp";
-import {
-  EventData,
-  EventDataInternal,
-  populateIdempotentMessageAnnotations,
-  toRheaMessage,
-} from "./eventData";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
-import {
-  logErrorStackTrace,
-  createSimpleLogger,
-  logger,
-  SimpleLogger,
-  createSenderLogPrefix,
-} from "./logger";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ConnectionContext } from "./connectionContext";
-import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private";
-import { SendOptions } from "./models/public";
-import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
+import type { EventData, EventDataInternal } from "./eventData.js";
+import { populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData.js";
+import type { EventDataBatch, EventDataBatchImpl } from "./eventDataBatch.js";
+import { isEventDataBatch } from "./eventDataBatch.js";
+import type { SimpleLogger } from "./logger.js";
+import { logErrorStackTrace, createSimpleLogger, logger, createSenderLogPrefix } from "./logger.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private.js";
+import type { SendOptions } from "./models/public.js";
+import type {
+  PartitionPublishingOptions,
+  PartitionPublishingProperties,
+} from "./models/private.js";
+import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "./util/constants";
+  geoReplication,
+} from "./util/constants.js";
 import { isDefined } from "@azure/core-util";
-import { translateError } from "./util/error";
-import { TimerLoop } from "./util/timerLoop";
-import { withAuth } from "./withAuth";
-import { getRandomName } from "./util/utils";
+import { translateError } from "./util/error.js";
+import type { TimerLoop } from "./util/timerLoop.js";
+import { withAuth } from "./withAuth.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * @internal
@@ -173,7 +167,7 @@ export class EventHubSender {
   constructor(
     context: ConnectionContext,
     senderId: string,
-    { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions
+    { partitionId, enableIdempotentProducer, partitionPublishingOptions }: EventHubSenderOptions,
   ) {
     this.address = context.config.getSenderAddress(partitionId);
     this.name = this.address;
@@ -190,7 +184,7 @@ export class EventHubSender {
       const senderError = eventContext.sender && eventContext.sender.error;
       this.logger.verbose(
         "'sender_error' event occurred. The associated error is: %O",
-        senderError
+        senderError,
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
@@ -199,7 +193,7 @@ export class EventHubSender {
       const sessionError = eventContext.session && eventContext.session.error;
       this.logger.verbose(
         "'session_error' event occurred. The associated error is: %O",
-        sessionError
+        sessionError,
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
@@ -210,7 +204,7 @@ export class EventHubSender {
         "'sender_close' event occurred. Value for isItselfClosed on the receiver is: '%s' " +
           "Value for isConnecting on the session is: '%s'.",
         sender?.isItselfClosed().toString(),
-        this.isConnecting
+        this.isConnecting,
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
@@ -226,7 +220,7 @@ export class EventHubSender {
         "'session_close' event occurred. Value for isSessionItselfClosed on the session is: '%s' " +
           "Value for isConnecting on the session is: '%s'.",
         sender?.isSessionItselfClosed().toString(),
-        this.isConnecting
+        this.isConnecting,
       );
       if (sender && !this.isConnecting) {
         // Call close to clean up timers & other resources
@@ -278,7 +272,7 @@ export class EventHubSender {
     options: {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
-    } = {}
+    } = {},
   ): Promise<number> {
     const sender = await this._getLink(options);
 
@@ -294,7 +288,7 @@ export class EventHubSender {
     options: {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
-    } = {}
+    } = {},
   ): Promise<PartitionPublishingProperties> {
     if (this._localPublishingProperties) {
       // Send a copy of the properties so it can't be mutated downstream.
@@ -313,7 +307,7 @@ export class EventHubSender {
         // createLinkIfNotOpen should throw if `this._sender` can't be created, but just in case it gets
         // deleted while setting up token refreshing, make sure it exists.
         throw new Error(
-          `Failed to retrieve partition publishing properties for partition "${this.partitionId}".`
+          `Failed to retrieve partition publishing properties for partition "${this.partitionId}".`,
         );
       }
 
@@ -344,13 +338,13 @@ export class EventHubSender {
   async send(
     events: EventData[] | EventDataBatch,
     options?: SendOptions &
-      EventHubProducerOptions & { tracingProperties?: Array<EventData["properties"]> }
+      EventHubProducerOptions & { tracingProperties?: Array<EventData["properties"]> },
   ): Promise<void> {
     try {
       this.logger.info("trying to send EventData[].");
       if (this._isIdempotentProducer && this._hasPendingSend) {
         throw new Error(
-          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`
+          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`,
         );
       }
 
@@ -379,7 +373,7 @@ export class EventHubSender {
     } catch (err: any) {
       rollbackIdempotentSequenceNumbers(events);
       this.logger.warning(
-        `an error occurred while sending the batch message ${err?.name}: ${err?.message}`
+        `an error occurred while sending the batch message ${err?.name}: ${err?.message}`,
       );
       logErrorStackTrace(err);
       throw err;
@@ -428,11 +422,12 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
+    srOptions.desired_capabilities = [geoReplication];
     if (this._isIdempotentProducer) {
-      srOptions.desired_capabilities = idempotentProducerAmqpPropertyNames.capability;
+      srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(
         this._userProvidedPublishingOptions,
-        this._localPublishingProperties
+        this._localPublishingProperties,
       );
       srOptions.properties = idempotentProperties;
     }
@@ -457,7 +452,7 @@ export class EventHubSender {
          * Tracing properties that are associated with EventData.
          */
         tracingProperties?: Array<EventData["properties"]>;
-      } = {}
+      } = {},
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const retryOptions = options.retryOptions || {};
@@ -477,7 +472,7 @@ export class EventHubSender {
       this.logger.verbose(
         "credit: %d available: %d",
         sender.credit,
-        sender.session.outgoing.available()
+        sender.session.outgoing.available(),
       );
 
       let waitTimeForSendable = 1000;
@@ -489,7 +484,7 @@ export class EventHubSender {
         this.logger.verbose(
           "after waiting for a second, credit: %d available: %d",
           sender.credit,
-          sender.session?.outgoing?.available()
+          sender.session?.outgoing?.available(),
         );
       } else {
         waitTimeForSendable = 0;
@@ -546,7 +541,7 @@ export class EventHubSender {
       const translatedError = translate(err);
       this.logger.warning(
         "an error occurred while sending the message %s",
-        `${translatedError?.name}: ${translatedError?.message}`
+        `${translatedError?.name}: ${translatedError?.message}`,
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -557,7 +552,7 @@ export class EventHubSender {
     options: {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
-    } = {}
+    } = {},
   ): Promise<AwaitableSender> {
     if (this.isOpen() && this._sender) {
       return this._sender;
@@ -580,7 +575,7 @@ export class EventHubSender {
             timeoutInMs: taskTimeoutInMs,
           });
         },
-        { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs }
+        { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs },
       );
     };
 
@@ -598,7 +593,7 @@ export class EventHubSender {
       const translatedError = translate(err);
       this.logger.warning(
         "an error occurred while creating: %s",
-        `${translatedError?.name}: ${translatedError?.message}`
+        `${translatedError?.name}: ${translatedError?.message}`,
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -613,7 +608,7 @@ export class EventHubSender {
     options: AwaitableSenderOptions & {
       abortSignal: AbortSignalLike | undefined;
       timeoutInMs: number;
-    }
+    },
   ): Promise<AwaitableSender> {
     const createSender = async () => {
       this.logger.verbose("trying to be created...");
@@ -637,7 +632,7 @@ export class EventHubSender {
           this.audience,
           options.timeoutInMs,
           this.logger,
-          { abortSignal: options.abortSignal }
+          { abortSignal: options.abortSignal },
         );
         // it is guaranteed to be defined at this point, otherwise, an error would
         // have been thrown.
@@ -650,7 +645,7 @@ export class EventHubSender {
       const translatedError = translate(err);
       this.logger.warning(
         "an error occurred while being created: %s",
-        `${translatedError?.name}: ${translatedError?.message}`
+        `${translatedError?.name}: ${translatedError?.message}`,
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -666,7 +661,7 @@ export class EventHubSender {
   static create(
     context: ConnectionContext,
     senderId: string,
-    options: EventHubSenderOptions
+    options: EventHubSenderOptions,
   ): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, senderId, options);
     if (!context.senders[ehSender.name]) {
@@ -691,7 +686,7 @@ export class EventHubSender {
  */
 export function generateIdempotentLinkProperties(
   userProvidedPublishingOptions: PartitionPublishingOptions | undefined,
-  localPublishingOptions: PartitionPublishingProperties | undefined
+  localPublishingOptions: PartitionPublishingProperties | undefined,
 ): IdempotentLinkProperties | Record<string, never> {
   let ownerLevel: number | undefined;
   let producerGroupId: number | undefined;
@@ -752,7 +747,7 @@ export function transformEventsForSend(
      * The index of tracingProperties corresponds to the same index in `events` when `events` is EventData[].
      */
     tracingProperties?: Array<EventData["properties"]>;
-  } = {}
+  } = {},
 ): Buffer {
   if (isEventDataBatch(events)) {
     return (events as EventDataBatchImpl)._generateMessage(publishingProps);
@@ -811,7 +806,7 @@ export function transformEventsForSend(
  * EventData not in a batch exposes this as `publishedSequenceNumber`.
  */
 function commitIdempotentSequenceNumbers(
-  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch,
 ): void {
   if (isEventDataBatch(events)) {
     (events as EventDataBatchImpl)._commitPublish();
@@ -829,7 +824,7 @@ function commitIdempotentSequenceNumbers(
  * Rolls back any pending publish sequence number in the events.
  */
 function rollbackIdempotentSequenceNumbers(
-  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch,
 ): void {
   if (isEventDataBatch(events)) {
     /* No action required. */

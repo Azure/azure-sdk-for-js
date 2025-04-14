@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { describe, it, assert } from "vitest";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
-  HttpClient,
-  PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
@@ -13,9 +13,8 @@ import {
 import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
-} from "../src/authorizeRequestOnClaimChallenge";
-import { assert } from "chai";
-import { encodeString } from "../src/base64";
+} from "../src/authorizeRequestOnClaimChallenge.js";
+import { encodeString } from "../src/base64.js";
 
 describe("authorizeRequestOnClaimChallenge", function () {
   it(`should try to get the access token if the response has a valid claims parameter on the WWW-Authenticate header`, async function () {
@@ -268,7 +267,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
       public getToken(
         scope: string | string[],
-        options: GetTokenOptions & { claims?: string }
+        options: GetTokenOptions & { claims?: string },
       ): Promise<AccessToken | null> {
         this.authCount++;
         this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
@@ -289,7 +288,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         {
           headers: createHttpHeaders({
             "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
-              expected.challengeClaims
+              expected.challengeClaims,
             )}"`,
           }),
           request: pipelineRequest,
@@ -387,7 +386,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
     assert.equal(
       allParams.map((x) => x.join(" ")).join("\n"),
-      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`,
     );
   });
 
@@ -433,7 +432,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
     assert.equal(
       allParams.map((x) => x.join(" ")).join("\n"),
-      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`,
     );
   });
 });

@@ -17,19 +17,14 @@ import {
   StorageAppliancesCreateOrUpdateOptionalParams,
   StorageAppliancesCreateOrUpdateResponse,
   StorageAppliancesDeleteOptionalParams,
+  StorageAppliancesDeleteResponse,
   StorageAppliancesUpdateOptionalParams,
   StorageAppliancesUpdateResponse,
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
   StorageAppliancesDisableRemoteVendorManagementResponse,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   StorageAppliancesEnableRemoteVendorManagementResponse,
-  StorageApplianceRunReadCommandsParameters,
-  StorageAppliancesRunReadCommandsOptionalParams,
-  StorageAppliancesRunReadCommandsResponse,
-  StorageApplianceValidateHardwareParameters,
-  StorageAppliancesValidateHardwareOptionalParams,
-  StorageAppliancesValidateHardwareResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageAppliances. */
@@ -39,7 +34,7 @@ export interface StorageAppliances {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: StorageAppliancesListBySubscriptionOptionalParams
+    options?: StorageAppliancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<StorageAppliance>;
   /**
    * Get a list of storage appliances in the provided resource group.
@@ -48,7 +43,7 @@ export interface StorageAppliances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageAppliancesListByResourceGroupOptionalParams
+    options?: StorageAppliancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StorageAppliance>;
   /**
    * Get properties of the provided storage appliance.
@@ -59,7 +54,7 @@ export interface StorageAppliances {
   get(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesGetOptionalParams
+    options?: StorageAppliancesGetOptionalParams,
   ): Promise<StorageAppliancesGetResponse>;
   /**
    * Create a new storage appliance or update the properties of the existing one.
@@ -74,7 +69,7 @@ export interface StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     storageApplianceParameters: StorageAppliance,
-    options?: StorageAppliancesCreateOrUpdateOptionalParams
+    options?: StorageAppliancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAppliancesCreateOrUpdateResponse>,
@@ -94,7 +89,7 @@ export interface StorageAppliances {
     resourceGroupName: string,
     storageApplianceName: string,
     storageApplianceParameters: StorageAppliance,
-    options?: StorageAppliancesCreateOrUpdateOptionalParams
+    options?: StorageAppliancesCreateOrUpdateOptionalParams,
   ): Promise<StorageAppliancesCreateOrUpdateResponse>;
   /**
    * Delete the provided storage appliance.
@@ -107,8 +102,13 @@ export interface StorageAppliances {
   beginDelete(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: StorageAppliancesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageAppliancesDeleteResponse>,
+      StorageAppliancesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided storage appliance.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -120,11 +120,11 @@ export interface StorageAppliances {
   beginDeleteAndWait(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesDeleteOptionalParams
-  ): Promise<void>;
+    options?: StorageAppliancesDeleteOptionalParams,
+  ): Promise<StorageAppliancesDeleteResponse>;
   /**
-   * Patch properties of the provided bare metal machine, or update tags associated with the bare metal
-   * machine. Properties and tag updates can be done independently.
+   * Update properties of the provided storage appliance, or update tags associated with the storage
+   * appliance Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageApplianceName The name of the storage appliance.
    * @param options The options parameters.
@@ -132,7 +132,7 @@ export interface StorageAppliances {
   beginUpdate(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesUpdateOptionalParams
+    options?: StorageAppliancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAppliancesUpdateResponse>,
@@ -140,8 +140,8 @@ export interface StorageAppliances {
     >
   >;
   /**
-   * Patch properties of the provided bare metal machine, or update tags associated with the bare metal
-   * machine. Properties and tag updates can be done independently.
+   * Update properties of the provided storage appliance, or update tags associated with the storage
+   * appliance Properties and tag updates can be done independently.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageApplianceName The name of the storage appliance.
    * @param options The options parameters.
@@ -149,7 +149,7 @@ export interface StorageAppliances {
   beginUpdateAndWait(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesUpdateOptionalParams
+    options?: StorageAppliancesUpdateOptionalParams,
   ): Promise<StorageAppliancesUpdateResponse>;
   /**
    * Disable remote vendor management of the provided storage appliance.
@@ -160,7 +160,7 @@ export interface StorageAppliances {
   beginDisableRemoteVendorManagement(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams
+    options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAppliancesDisableRemoteVendorManagementResponse>,
@@ -176,7 +176,7 @@ export interface StorageAppliances {
   beginDisableRemoteVendorManagementAndWait(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams
+    options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams,
   ): Promise<StorageAppliancesDisableRemoteVendorManagementResponse>;
   /**
    * Enable remote vendor management of the provided storage appliance.
@@ -187,7 +187,7 @@ export interface StorageAppliances {
   beginEnableRemoteVendorManagement(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams
+    options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageAppliancesEnableRemoteVendorManagementResponse>,
@@ -203,68 +203,6 @@ export interface StorageAppliances {
   beginEnableRemoteVendorManagementAndWait(
     resourceGroupName: string,
     storageApplianceName: string,
-    options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams
+    options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   ): Promise<StorageAppliancesEnableRemoteVendorManagementResponse>;
-  /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  beginRunReadCommands(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageAppliancesRunReadCommandsResponse>,
-      StorageAppliancesRunReadCommandsResponse
-    >
-  >;
-  /**
-   * Run and retrieve output from read only commands on the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceRunReadCommandsParameters The request body.
-   * @param options The options parameters.
-   */
-  beginRunReadCommandsAndWait(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters,
-    options?: StorageAppliancesRunReadCommandsOptionalParams
-  ): Promise<StorageAppliancesRunReadCommandsResponse>;
-  /**
-   * Validate the hardware of the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  beginValidateHardware(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceValidateHardwareParameters: StorageApplianceValidateHardwareParameters,
-    options?: StorageAppliancesValidateHardwareOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageAppliancesValidateHardwareResponse>,
-      StorageAppliancesValidateHardwareResponse
-    >
-  >;
-  /**
-   * Validate the hardware of the provided storage appliance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageApplianceName The name of the storage appliance.
-   * @param storageApplianceValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  beginValidateHardwareAndWait(
-    resourceGroupName: string,
-    storageApplianceName: string,
-    storageApplianceValidateHardwareParameters: StorageApplianceValidateHardwareParameters,
-    options?: StorageAppliancesValidateHardwareOptionalParams
-  ): Promise<StorageAppliancesValidateHardwareResponse>;
 }

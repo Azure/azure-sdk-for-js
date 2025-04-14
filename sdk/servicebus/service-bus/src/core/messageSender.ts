@@ -1,38 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { senderLogger as logger } from "../log";
-import {
+import { senderLogger as logger } from "../log.js";
+import type {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message as RheaMessageUtil,
 } from "rhea-promise";
-import {
-  Constants,
-  ErrorNameConditionMapper,
+import { message as RheaMessageUtil } from "rhea-promise";
+import type {
   MessagingError,
   RetryConfig,
-  RetryOperationType,
   RetryOptions,
-  delay,
-  retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
-import { ConnectionContext } from "../connectionContext";
-import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { Constants, ErrorNameConditionMapper, RetryOperationType, retry } from "@azure/core-amqp";
+import type { ServiceBusMessage } from "../serviceBusMessage.js";
+import { toRheaMessage } from "../serviceBusMessage.js";
+import type { ConnectionContext } from "../connectionContext.js";
+import { LinkEntity } from "./linkEntity.js";
+import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import type { ServiceBusMessageBatch } from "../serviceBusMessageBatch.js";
+import { ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch.js";
+import type { CreateMessageBatchOptions } from "../models.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
-import { defaultDataTransformer } from "../dataTransformer";
+import { defaultDataTransformer } from "../dataTransformer.js";
 
 /**
  * @internal
@@ -67,7 +65,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     private identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
-    retryOptions: RetryOptions
+    retryOptions: RetryOptions,
   ) {
     super(entityPath, entityPath, connectionContext, "sender", logger, {
       address: entityPath,
@@ -82,7 +80,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           "The associated error",
         this.logPrefix,
         this.name,
-        this.address
+        this.address,
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
@@ -95,7 +93,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           "The associated error",
         this.logPrefix,
         this.name,
-        this.address
+        this.address,
       );
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
@@ -105,13 +103,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
       logger.logError(
         senderError,
-        `${this.logPrefix} 'sender_close' event occurred. The associated error is`
+        `${this.logPrefix} 'sender_close' event occurred. The associated error is`,
       );
 
       await this.onDetached().catch((err) => {
         logger.logError(
           err,
-          `${this.logPrefix} error when closing sender after 'sender_close' event`
+          `${this.logPrefix} error when closing sender after 'sender_close' event`,
         );
       });
     };
@@ -121,13 +119,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
       logger.logError(
         sessionError,
-        `${this.logPrefix} 'session_close' event occurred. The associated error is`
+        `${this.logPrefix} 'session_close' event occurred. The associated error is`,
       );
 
       await this.onDetached().catch((err) => {
         logger.logError(
           err,
-          `${this.logPrefix} error when closing sender after 'session_close' event`
+          `${this.logPrefix} error when closing sender after 'session_close' event`,
         );
       });
     };
@@ -163,7 +161,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _trySend(
     encodedMessage: Buffer,
     sendBatch: boolean,
-    options: OperationOptionsBase | undefined
+    options: OperationOptionsBase | undefined,
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs = !isDefined(this._retryOptions.timeoutInMs)
@@ -189,7 +187,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             translatedError,
             "%s An error occurred while creating the sender",
             this.logPrefix,
-            this.name
+            this.name,
           );
           throw translatedError;
         }
@@ -202,44 +200,19 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.logPrefix,
         this.name,
         this.link?.credit,
-        this.link?.session?.outgoing?.available()
+        this.link?.session?.outgoing?.available(),
       );
 
-      let waitTimeForSendable = 1000;
-      if (!this.link?.sendable() && timeoutInMs - timeTakenByInit > waitTimeForSendable) {
-        logger.verbose(
-          "%s Sender '%s', waiting for 1 second for sender to become sendable",
-          this.logPrefix,
-          this.name
-        );
+      const waitingTime = await waitForSendable(
+        logger,
+        this.logPrefix,
+        this.name,
+        timeoutInMs - timeTakenByInit,
+        this.link,
+        this.link?.session?.outgoing?.available(),
+      );
 
-        await delay(waitTimeForSendable);
-
-        logger.verbose(
-          "%s Sender '%s' after waiting for a second, credit: %d available: %d",
-          this.logPrefix,
-          this.name,
-          this.link?.credit,
-          this.link?.session?.outgoing?.available()
-        );
-      } else {
-        waitTimeForSendable = 0;
-      }
-
-      if (!this.link?.sendable()) {
-        // let us retry to send the message after some time.
-        const msg =
-          `[${this.logPrefix}] Sender "${this.name}", ` +
-          `cannot send the message right now. Please try later.`;
-        logger.warning(msg);
-        const amqpError: AmqpError = {
-          condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg,
-        };
-        throw translateServiceBusError(amqpError);
-      }
-
-      if (timeoutInMs <= timeTakenByInit + waitTimeForSendable) {
+      if (timeoutInMs <= timeTakenByInit + waitingTime) {
         const desc: string =
           `${this.logPrefix} Sender "${this.name}" ` +
           `with address "${this.address}", was not able to send the message right now, due ` +
@@ -252,23 +225,32 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         throw translateServiceBusError(e);
       }
 
+      if (!this.link) {
+        const msg = `[${this.logPrefix}] Cannot send the message. Link is not ready.`;
+        logger.warning(msg);
+        const amqpError: AmqpError = {
+          condition: ErrorNameConditionMapper.SenderNotReadyError,
+          description: msg,
+        };
+        throw translateServiceBusError(amqpError);
+      }
       try {
-        const delivery = await this.link!.send(encodedMessage, {
+        const delivery = await this.link.send(encodedMessage, {
           format: sendBatch ? 0x80013700 : 0,
-          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitingTime) / 1000,
           abortSignal,
         });
         logger.verbose(
           "%s Sender '%s', sent message with delivery id: %d",
           this.logPrefix,
           this.name,
-          delivery.id
+          delivery.id,
         );
       } catch (error: any) {
         const translatedError = translateServiceBusError(error.innerError || error);
         logger.logError(
           translatedError,
-          `${this.logPrefix} An error occurred while sending the message`
+          `${this.logPrefix} An error occurred while sending the message`,
         );
         throw translatedError;
       }
@@ -293,7 +275,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   public async open(
     options?: AwaitableSenderOptions,
-    abortSignal?: AbortSignalLike
+    abortSignal?: AbortSignalLike,
   ): Promise<void> {
     try {
       if (!options) {
@@ -304,7 +286,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const translatedError = translateServiceBusError(err);
       logger.logError(
         translatedError,
-        `${this.logPrefix} An error occurred while creating the sender`
+        `${this.logPrefix} An error occurred while creating the sender`,
       );
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((translatedError as MessagingError).code === "OperationTimeoutError") {
@@ -335,7 +317,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       this.logPrefix,
       this.name,
       this.address,
-      result
+      result,
     );
     return result;
   }
@@ -347,7 +329,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   async send(
     data: ServiceBusMessage | AmqpAnnotatedMessage,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
@@ -362,7 +344,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         err,
         "%s An error occurred while sending the message: %O\nError",
         this.logPrefix,
-        data
+        data,
       );
       throw err;
     }
@@ -375,7 +357,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * - `maxSizeInBytes`: The upper limit for the size of batch.
    *
    * Example usage:
-   * ```js
+   * ```ts snippet:ignore
    * {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }
@@ -384,7 +366,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async getMaxMessageSize(
     options: {
       retryOptions?: RetryOptions;
-    } & Pick<OperationOptionsBase, "abortSignal"> = {}
+    } & Pick<OperationOptionsBase, "abortSignal"> = {},
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
@@ -401,7 +383,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
         throw new ServiceBusError(
           "Link failed to initialize, cannot get max message size.",
-          "GeneralError"
+          "GeneralError",
         );
       },
       connectionId: this._context.connectionId,
@@ -422,7 +404,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`,
         );
         throw error;
       }
@@ -433,7 +415,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   async sendBatch(
     batchMessage: ServiceBusMessageBatch,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
@@ -441,7 +423,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         "%s Sender '%s', sending encoded batch message.",
         this.logPrefix,
         this.name,
-        batchMessage
+        batchMessage,
       );
       return await this._trySend(batchMessage._generateMessage(), true, options);
     } catch (err: any) {
@@ -450,7 +432,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         "%s Sender '%s': An error occurred while sending the messages: %O\nError",
         this.logPrefix,
         this.name,
-        batchMessage
+        batchMessage,
       );
       throw err;
     }
@@ -460,7 +442,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     identifier: string,
     context: ConnectionContext,
     entityPath: string,
-    retryOptions: RetryOptions
+    retryOptions: RetryOptions,
   ): MessageSender {
     throwErrorIfConnectionClosed(context);
 

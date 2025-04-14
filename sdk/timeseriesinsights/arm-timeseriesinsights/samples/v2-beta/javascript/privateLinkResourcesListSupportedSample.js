@@ -27,7 +27,7 @@ async function listSupportedPrivateLinkResources() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listSupported(
     resourceGroupName,
-    environmentName
+    environmentName,
   )) {
     resArray.push(item);
   }

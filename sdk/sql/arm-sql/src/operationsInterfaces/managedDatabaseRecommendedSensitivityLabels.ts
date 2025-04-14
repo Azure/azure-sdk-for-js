@@ -8,8 +8,8 @@
 
 import {
   RecommendedSensitivityLabelUpdateList,
-  ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
-} from "../models";
+  ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ManagedDatabaseRecommendedSensitivityLabels. */
 export interface ManagedDatabaseRecommendedSensitivityLabels {
@@ -27,6 +27,6 @@ export interface ManagedDatabaseRecommendedSensitivityLabels {
     managedInstanceName: string,
     databaseName: string,
     parameters: RecommendedSensitivityLabelUpdateList,
-    options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
+    options?: ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams,
   ): Promise<void>;
 }

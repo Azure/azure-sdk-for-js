@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
-import { Pipeline, createEmptyPipeline } from "./pipeline";
-import { PipelineRetryOptions, TlsSettings } from "./interfaces";
-import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
-
-import { ProxySettings } from ".";
-import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
-import { formDataPolicy } from "./policies/formDataPolicy";
-import { isNode } from "@azure/core-util";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { tlsPolicy } from "./policies/tlsPolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
+import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
+import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
+import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
+import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
+import { formDataPolicy } from "./policies/formDataPolicy.js";
+import { isNodeLike } from "@azure/core-util";
+import { proxyPolicy } from "./policies/proxyPolicy.js";
+import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+import { agentPolicy } from "./policies/agentPolicy.js";
+import { tlsPolicy } from "./policies/tlsPolicy.js";
+import { tracingPolicy } from "./policies/tracingPolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -32,6 +32,9 @@ export interface PipelineOptions {
    */
   proxyOptions?: ProxySettings;
 
+  /** Options for configuring Agent instance for outgoing requests */
+  agent?: Agent;
+
   /** Options for configuring TLS authentication */
   tlsOptions?: TlsSettings;
 
@@ -44,6 +47,21 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+
+  /**
+   * Options for setting common telemetry and tracing info to outgoing requests.
+   */
+  telemetryOptions?: TelemetryOptions;
+}
+
+/**
+ * Defines options that are used to configure common telemetry and tracing info
+ */
+export interface TelemetryOptions {
+  /**
+   * The name of the header to pass the request ID to.
+   */
+  clientRequestIdHeaderName?: string;
 }
 
 /**
@@ -64,7 +82,10 @@ export interface InternalPipelineOptions extends PipelineOptions {
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = createEmptyPipeline();
 
-  if (isNode) {
+  if (isNodeLike) {
+    if (options.agent) {
+      pipeline.addPolicy(agentPolicy(options.agent));
+    }
     if (options.tlsOptions) {
       pipeline.addPolicy(tlsPolicy(options.tlsOptions));
     }
@@ -72,12 +93,18 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
-  pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
+  pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
+  // The multipart policy is added after policies with no phase, so that
+  // policies can be added between it and formDataPolicy to modify
+  // properties (e.g., making the boundary constant in recorded tests).
+  pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
-  if (isNode) {
+  pipeline.addPolicy(tracingPolicy({ ...options.userAgentOptions, ...options.loggingOptions }), {
+    afterPhase: "Retry",
+  });
+  if (isNodeLike) {
     // Both XHR and Fetch expect to handle redirects automatically,
     // so only include this policy when we're in Node.
     pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });

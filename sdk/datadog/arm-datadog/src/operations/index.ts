@@ -6,8 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./marketplaceAgreements";
-export * from "./monitors";
-export * from "./operations";
-export * from "./tagRules";
-export * from "./singleSignOnConfigurations";
+export * from "./marketplaceAgreements.js";
+export * from "./creationSupported.js";
+export * from "./monitors.js";
+export * from "./operations.js";
+export * from "./tagRules.js";
+export * from "./singleSignOnConfigurations.js";
+export * from "./monitoredSubscriptions.js";

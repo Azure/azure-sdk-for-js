@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Extensions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Extensions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureStackHCIClient } from "../azureStackHCIClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Extension,
   ExtensionsListByArcSettingNextOptionalParams,
@@ -24,11 +28,14 @@ import {
   ExtensionsGetResponse,
   ExtensionsCreateOptionalParams,
   ExtensionsCreateResponse,
+  ExtensionPatch,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
   ExtensionsDeleteOptionalParams,
-  ExtensionsListByArcSettingNextResponse
-} from "../models";
+  ExtensionUpgradeParameters,
+  ExtensionsUpgradeOptionalParams,
+  ExtensionsListByArcSettingNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Extensions operations. */
@@ -54,13 +61,13 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     arcSettingName: string,
-    options?: ExtensionsListByArcSettingOptionalParams
+    options?: ExtensionsListByArcSettingOptionalParams,
   ): PagedAsyncIterableIterator<Extension> {
     const iter = this.listByArcSettingPagingAll(
       resourceGroupName,
       clusterName,
       arcSettingName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +85,9 @@ export class ExtensionsImpl implements Extensions {
           clusterName,
           arcSettingName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +96,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     options?: ExtensionsListByArcSettingOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Extension[]> {
     let result: ExtensionsListByArcSettingResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +105,7 @@ export class ExtensionsImpl implements Extensions {
         resourceGroupName,
         clusterName,
         arcSettingName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +118,7 @@ export class ExtensionsImpl implements Extensions {
         clusterName,
         arcSettingName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,13 +131,13 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     arcSettingName: string,
-    options?: ExtensionsListByArcSettingOptionalParams
+    options?: ExtensionsListByArcSettingOptionalParams,
   ): AsyncIterableIterator<Extension> {
     for await (const page of this.listByArcSettingPagingPage(
       resourceGroupName,
       clusterName,
       arcSettingName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,11 +154,11 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     arcSettingName: string,
-    options?: ExtensionsListByArcSettingOptionalParams
+    options?: ExtensionsListByArcSettingOptionalParams,
   ): Promise<ExtensionsListByArcSettingResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, arcSettingName, options },
-      listByArcSettingOperationSpec
+      listByArcSettingOperationSpec,
     );
   }
 
@@ -168,7 +175,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -176,9 +183,9 @@ export class ExtensionsImpl implements Extensions {
         clusterName,
         arcSettingName,
         extensionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -197,30 +204,29 @@ export class ExtensionsImpl implements Extensions {
     arcSettingName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsCreateResponse>,
       ExtensionsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExtensionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -229,8 +235,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -238,27 +244,30 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         arcSettingName,
         extensionName,
         extension,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ExtensionsCreateResponse,
+      OperationState<ExtensionsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -279,7 +288,7 @@ export class ExtensionsImpl implements Extensions {
     arcSettingName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<ExtensionsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -287,7 +296,7 @@ export class ExtensionsImpl implements Extensions {
       arcSettingName,
       extensionName,
       extension,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,31 +315,30 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     extensionName: string,
-    extension: Extension,
-    options?: ExtensionsUpdateOptionalParams
+    extension: ExtensionPatch,
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExtensionsUpdateResponse>,
       ExtensionsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -339,8 +347,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -348,27 +356,30 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         arcSettingName,
         extensionName,
         extension,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ExtensionsUpdateResponse,
+      OperationState<ExtensionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -388,8 +399,8 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     extensionName: string,
-    extension: Extension,
-    options?: ExtensionsUpdateOptionalParams
+    extension: ExtensionPatch,
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<ExtensionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -397,7 +408,7 @@ export class ExtensionsImpl implements Extensions {
       arcSettingName,
       extensionName,
       extension,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -415,25 +426,24 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ExtensionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -442,8 +452,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -451,26 +461,26 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         arcSettingName,
         extensionName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -489,14 +499,118 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       arcSettingName,
       extensionName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        arcSettingName,
+        extensionName,
+        extensionUpgradeParameters,
+        options,
+      },
+      spec: upgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrade a particular Arc Extension of HCI Cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param extensionName The name of the machine extension.
+   * @param extensionUpgradeParameters Parameters supplied to the Upgrade Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    extensionName: string,
+    extensionUpgradeParameters: ExtensionUpgradeParameters,
+    options?: ExtensionsUpgradeOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      clusterName,
+      arcSettingName,
+      extensionName,
+      extensionUpgradeParameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -514,11 +628,11 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     arcSettingName: string,
     nextLink: string,
-    options?: ExtensionsListByArcSettingNextOptionalParams
+    options?: ExtensionsListByArcSettingNextOptionalParams,
   ): Promise<ExtensionsListByArcSettingNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, arcSettingName, nextLink, options },
-      listByArcSettingNextOperationSpec
+      listByArcSettingNextOperationSpec,
     );
   }
 }
@@ -526,39 +640,15 @@ export class ExtensionsImpl implements Extensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByArcSettingOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionList
+      bodyMapper: Mappers.ExtensionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.arcSettingName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -567,31 +657,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.arcSettingName,
-    Parameters.extensionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Extension,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName,
+    Parameters.extensionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     201: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     202: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     204: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.extension,
   queryParameters: [Parameters.apiVersion],
@@ -601,34 +712,33 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.arcSettingName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     201: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     202: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     204: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.extension,
+  requestBody: Parameters.extension1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -636,15 +746,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.arcSettingName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -652,8 +761,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -662,31 +771,56 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.arcSettingName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.extensionUpgradeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName,
+    Parameters.extensionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByArcSettingNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionList
+      bodyMapper: Mappers.ExtensionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.arcSettingName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

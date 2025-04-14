@@ -1,6 +1,6 @@
 # Release History
 
-## 10.1.1 (Unreleased)
+## 13.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,118 @@
 
 ### Other Changes
 
+## 13.1.0 (2024-05-08)
+    
+### Features Added
+
+  - Added Type Alias IaasVMSnapshotConsistencyType
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
+  - Interface BackupResourceVaultConfigsPutOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupResourceVaultConfigsUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface ProtectedItemsCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface ProtectionPoliciesCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface RestoreRequest has a new optional parameter resourceGuardOperationRequests
+  - Interface RestoresTriggerOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface SecurityPINsGetOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Added Enum KnownIaasVMSnapshotConsistencyType
+    
+
+## 13.0.0 (2023-12-13)
+    
+### Features Added
+
+  - Added Interface UserAssignedIdentityProperties
+
+### Breaking Changes
+
+  - Type of parameter userAssignedIdentityProperties of interface UserAssignedManagedIdentityDetails is changed from UserAssignedIdentity to UserAssignedIdentityProperties
+    
+    
+## 12.0.0 (2023-11-09)
+    
+### Features Added
+
+  - Added operation group FetchTieringCost
+  - Added operation group GetTieringCostOperationResult
+  - Added operation group TieringCostOperationStatus
+  - Added operation ProtectionContainers.beginRegister
+  - Added operation ProtectionContainers.beginRegisterAndWait
+  - Added Interface FetchTieringCostInfoForRehydrationRequest
+  - Added Interface FetchTieringCostInfoRequest
+  - Added Interface FetchTieringCostPostHeaders
+  - Added Interface FetchTieringCostPostOptionalParams
+  - Added Interface FetchTieringCostSavingsInfoForPolicyRequest
+  - Added Interface FetchTieringCostSavingsInfoForProtectedItemRequest
+  - Added Interface FetchTieringCostSavingsInfoForVaultRequest
+  - Added Interface GetTieringCostOperationResultGetOptionalParams
+  - Added Interface SnapshotBackupAdditionalDetails
+  - Added Interface SnapshotRestoreParameters
+  - Added Interface TieringCostInfo
+  - Added Interface TieringCostOperationStatusGetOptionalParams
+  - Added Interface TieringCostRehydrationInfo
+  - Added Interface TieringCostSavingInfo
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserAssignedManagedIdentityDetails
+  - Added Interface ValidateOperationRequestResource
+  - Added Interface VaultRetentionPolicy
+  - Added Type Alias FetchTieringCostInfoRequestUnion
+  - Added Type Alias FetchTieringCostPostResponse
+  - Added Type Alias GetTieringCostOperationResultGetResponse
+  - Added Type Alias TieringCostInfoUnion
+  - Added Type Alias TieringCostOperationStatusGetResponse
+  - Interface AzureFileShareProtectionPolicy has a new optional parameter vaultRetentionPolicy
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter snapshotRestoreParameters
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter targetResourceGroupName
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter userAssignedManagedIdentityDetails
+  - Interface BackupStatusResponse has a new optional parameter acquireStorageAccountLock
+  - Interface BackupStatusResponse has a new optional parameter protectedItemsCount
+  - Interface IaasVMRecoveryPoint has a new optional parameter extendedLocation
+  - Interface ProtectedItem has a new optional parameter vaultId
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter resumeFrom
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface SubProtectionPolicy has a new optional parameter snapshotBackupAdditionalDetails
+  - Enum KnownRecoveryMode has a new value RecoveryUsingSnapshot
+  - Enum KnownRecoveryMode has a new value SnapshotAttach
+  - Enum KnownRecoveryMode has a new value SnapshotAttachAndRecover
+
+### Breaking Changes
+
+  - Removed operation ProtectionContainers.register
+  - Operation Operation.validate has a new signature
+  - Operation ValidateOperation.beginTrigger has a new signature
+  - Operation ValidateOperation.beginTriggerAndWait has a new signature
+  - Parameter resourceGuardResourceId of interface ResourceGuardProxyBase is now required
+    
+    
+## 11.0.0 (2023-09-01)
+    
+### Features Added
+
+  - Added Interface AzureVmWorkloadSAPHanaHSRProtectableItem
+  - Added Type Alias VaultSubResourceType
+  - Interface AzureVmWorkloadProtectableItem has a new optional parameter isProtectable
+  - Interface AzureVmWorkloadProtectedItem has a new optional parameter nodesList
+  - Interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem has a new optional parameter nodesList
+  - Interface BackupResourceVaultConfig has a new optional parameter softDeleteRetentionPeriodInDays
+  - Interface DistributedNodesInfo has a new optional parameter sourceResourceId
+  - Interface InquiryValidation has a new optional parameter protectableItemCount
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
+  - Interface ProtectedItem has a new optional parameter softDeleteRetentionPeriodInDays
+  - Added Enum KnownVaultSubResourceType
+  - Enum KnownSoftDeleteFeatureState has a new value AlwaysON
+
+### Breaking Changes
+
+  - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
+  - Interface ProtectedItem no longer has parameter softDeleteRetentionPeriod
+  - Type of parameter protectableItemType of interface AzureVmWorkloadProtectableItem is changed from "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+    
+    
 ## 10.1.0 (2023-03-10)
     
-**Features**
+### Features Added
 
   - Added Interface ExtendedLocation
   - Added Interface SecuredVMDetails
@@ -29,7 +138,7 @@
     
 ## 10.0.0 (2023-01-18)
     
-**Features**
+### Features Added
 
   - Added operation group DeletedProtectionContainers
   - Added Interface AzureBackupGoalFeatureSupportRequest
@@ -229,7 +338,7 @@
   - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem"
   - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ResourceGuardProxy.put has a new signature
   - Enum KnownContainerType no longer has value AzureWorkloadContainer
@@ -239,7 +348,7 @@
     
 ## 9.0.0 (2022-05-16)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
   - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
@@ -253,7 +362,7 @@
     
 ## 8.2.0 (2022-05-11)
     
-**Features**
+### Features Added
 
   - Added Interface TieringPolicy
   - Added Type Alias TieringMode
@@ -268,13 +377,13 @@
     
 ## 8.1.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
     
 ## 8.1.0 (2022-02-14)
     
-**Features**
+### Features Added
 
   - Added Interface DailySchedule
   - Added Interface WeeklySchedule
@@ -297,4 +406,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

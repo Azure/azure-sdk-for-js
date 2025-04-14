@@ -19,7 +19,7 @@ import {
   CopyAuthorization as CopyAuthorizationMapper,
   BuildDocumentClassifierRequest as BuildDocumentClassifierRequestMapper,
   ClassifyDocumentRequest as ClassifyDocumentRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: "contentType",
@@ -192,7 +192,7 @@ export const stringIndexType: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-02-28-preview",
+    defaultValue: "2023-07-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -208,25 +208,6 @@ export const features: OperationQueryParameter = {
     type: {
       name: "Sequence",
       element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
-export const queryFields: OperationQueryParameter = {
-  parameterPath: ["options", "queryFields"],
-  mapper: {
-    serializedName: "queryFields",
-    type: {
-      name: "Sequence",
-      element: {
-        constraints: {
-          Pattern: new RegExp("^[\\p{L}\\p{M}\\p{N}_]{1,64}$")
-        },
         type: {
           name: "String"
         }

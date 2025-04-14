@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionOptionalParams,
@@ -20,8 +21,13 @@ import {
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
   AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse
-} from "../models";
+  AvailabilitySetsGetResponse,
+  MigrateToVirtualMachineScaleSetInput,
+  AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailabilitySets. */
@@ -31,7 +37,7 @@ export interface AvailabilitySets {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all availability sets in a resource group.
@@ -40,7 +46,7 @@ export interface AvailabilitySets {
    */
   list(
     resourceGroupName: string,
-    options?: AvailabilitySetsListOptionalParams
+    options?: AvailabilitySetsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
@@ -52,7 +58,7 @@ export interface AvailabilitySets {
   listAvailableSizes(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams
+    options?: AvailabilitySetsListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize>;
   /**
    * Create or update an availability set.
@@ -65,7 +71,7 @@ export interface AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     parameters: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse>;
   /**
    * Update an availability set.
@@ -78,7 +84,7 @@ export interface AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     parameters: AvailabilitySetUpdate,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<AvailabilitySetsUpdateResponse>;
   /**
    * Delete an availability set.
@@ -89,7 +95,7 @@ export interface AvailabilitySets {
   delete(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
+    options?: AvailabilitySetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about an availability set.
@@ -100,6 +106,70 @@ export interface AvailabilitySets {
   get(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams
+    options?: AvailabilitySetsGetOptionalParams,
   ): Promise<AvailabilitySetsGetResponse>;
+  /**
+   * Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine
+   * Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a
+   * downtime on the Virtual Machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param parameters Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  startMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    parameters: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void>;
+  /**
+   * Cancel the migration operation on an Availability Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  cancelMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void>;
+  /**
+   * Validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual
+   * Machine Scale Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param parameters Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  validateMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    parameters: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void>;
+  /**
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  beginConvertToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  beginConvertToVirtualMachineScaleSetAndWait(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void>;
 }

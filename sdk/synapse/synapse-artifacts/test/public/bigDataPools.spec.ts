@@ -1,16 +1,18 @@
-import { ArtifactsClient } from "../../src/artifactsClient";
-import { Context } from "mocha";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { ArtifactsClient } from "../../src/artifactsClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BigDataPools", () => {
   let recorder: Recorder;
   let client: ArtifactsClient;
   let firstPool: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 

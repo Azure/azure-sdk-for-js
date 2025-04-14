@@ -13,12 +13,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Returns the specific Azure Monitor workspace
+ * This sample demonstrates how to Returns the specified Azure Monitor Workspace
  *
- * @summary Returns the specific Azure Monitor workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesGet.json
+ * @summary Returns the specified Azure Monitor Workspace
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesGet.json
  */
-async function getWorkspace() {
+async function getAzureMonitorWorkspace() {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
@@ -27,13 +27,13 @@ async function getWorkspace() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.azureMonitorWorkspaces.get(
     resourceGroupName,
-    azureMonitorWorkspaceName
+    azureMonitorWorkspaceName,
   );
   console.log(result);
 }
 
 async function main() {
-  getWorkspace();
+  getAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Container, ContainerDefinition } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
-import { Context } from "mocha";
+// Licensed under the MIT License.
 
-const options = {
-  maxItemCount: 100,
-};
+import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import groupBySnapshot from "./groupBy.snapshot.js";
+import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
 
 const items = [
   {
@@ -524,6 +520,7 @@ const items = [
     address: { city: "Atlanta", state: "GA", zip: 30301 },
   },
 ];
+let container: Container;
 
 describe("Cross partition GROUP BY", () => {
   const containerDefinition: ContainerDefinition = {
@@ -532,11 +529,32 @@ describe("Cross partition GROUP BY", () => {
       paths: ["/id"],
     },
   };
-
   const containerOptions = { offerThroughput: 25100 };
 
-  let container: Container;
+  beforeAll(async () => {
+    await removeAllDatabases();
+    container = await getTestContainer(
+      "GROUP BY Query",
+      undefined,
+      containerDefinition,
+      containerOptions,
+    );
+    await bulkInsertItems(container, items);
+  });
 
+  const options: FeedOptions = {
+    maxItemCount: 100,
+  };
+  runCrosspartitionGROUPBYTests(options);
+
+  const optionsWithEnableQueryControl: FeedOptions = {
+    maxItemCount: 100,
+    enableQueryControl: true,
+  };
+  runCrosspartitionGROUPBYTests(optionsWithEnableQueryControl);
+});
+
+function runCrosspartitionGROUPBYTests(options: FeedOptions): void {
   let currentTestTitle: string;
   let snapshotNumber: number;
 
@@ -544,20 +562,22 @@ describe("Cross partition GROUP BY", () => {
     assert.deepStrictEqual(actual, groupBySnapshot[`${currentTestTitle} ${snapshotNumber++}`]);
   };
 
-  beforeEach(function (this: Context) {
-    currentTestTitle = this.currentTest.fullTitle();
-    snapshotNumber = 1;
-  });
+  function getFullTitle(context: TestContext): string {
+    function buildTitle(suite: any): string {
+      if (!suite) {
+        return "";
+      }
+      const parentTitle = buildTitle(suite.suite);
+      return parentTitle ? `${parentTitle} > ${suite.name}` : suite.name;
+    }
 
-  before(async () => {
-    await removeAllDatabases();
-    container = await getTestContainer(
-      "GROUP BY Query",
-      undefined,
-      containerDefinition,
-      containerOptions
-    );
-    await bulkInsertItems(container, items);
+    const suiteTitle = buildTitle(context.task.suite);
+    return suiteTitle ? `${suiteTitle} > ${context.task.name}` : context.task.name;
+  }
+
+  beforeEach(async (ctx) => {
+    currentTestTitle = getFullTitle(ctx);
+    snapshotNumber = 1;
   });
 
   it("by number", async () => {
@@ -584,7 +604,7 @@ describe("Cross partition GROUP BY", () => {
   it("with multiple fields", async () => {
     const queryIterator = container.items.query(
       "SELECT c.age, c.name FROM c GROUP BY c.age, c.name",
-      options
+      options,
     );
 
     const result = await queryIterator.fetchAll();
@@ -594,7 +614,7 @@ describe("Cross partition GROUP BY", () => {
   it("with COUNT", async () => {
     const queryIterator = container.items.query(
       "SELECT c.age, COUNT(1) as count FROM c GROUP BY c.age",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.age - b.age));
@@ -603,7 +623,7 @@ describe("Cross partition GROUP BY", () => {
   it("with MIN", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, MIN(c.age) AS min_age FROM c GROUP BY c.name",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.name.localeCompare(b.name)));
@@ -612,7 +632,7 @@ describe("Cross partition GROUP BY", () => {
   it("with MAX", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, MAX(c.age) AS min_age FROM c GROUP BY c.name",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.name.localeCompare(b.name)));
@@ -621,7 +641,7 @@ describe("Cross partition GROUP BY", () => {
   it("with SUM", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, SUM(c.age) AS min_age FROM c GROUP BY c.name",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.name.localeCompare(b.name)));
@@ -630,33 +650,68 @@ describe("Cross partition GROUP BY", () => {
   it("with AVG", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, AVG(c.age) AS min_age FROM c GROUP BY c.name",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(
       result.resources.sort((a, b) => {
         return a.name.localeCompare(b.name);
-      })
+      }),
+    );
+  });
+
+  it("with MakeList", async () => {
+    const queryIterator = container.items.query(
+      "SELECT c.name, MakeList(c.age) AS ages FROM c GROUP BY c.name",
+      options,
+    );
+    const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
+    snapshot(
+      result.resources.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      }),
+    );
+  });
+
+  it("with MakeSet", async () => {
+    const queryIterator = container.items.query(
+      "SELECT c.name, MakeSet(c.age) AS ages FROM c GROUP BY c.name",
+      options,
+    );
+    const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
+    snapshot(
+      result.resources.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      }),
     );
   });
 
   it("with multiple aggregates", async () => {
     const queryIterator = container.items.query(
-      "SELECT c.name, Count(1) AS count, Min(c.age) AS min_age, Max(c.age) AS max_age FROM c GROUP BY c.name",
-      options
+      "SELECT c.name, Count(1) AS count, Min(c.age) AS min_age, Max(c.age) AS max_age, MakeList(c.age) as ages FROM c GROUP BY c.name",
+      options,
     );
     const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
     snapshot(
       result.resources.sort((a, b) => {
         return a.name.localeCompare(b.name);
-      })
+      }),
     );
   });
 
   it("with VALUE with string", async () => {
     const queryIterator = container.items.query(
       "SELECT VALUE c.team FROM c GROUP BY c.team",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort());
@@ -665,7 +720,7 @@ describe("Cross partition GROUP BY", () => {
   it("with VALUE with number", async () => {
     const queryIterator = container.items.query(
       "SELECT VALUE c.age FROM c GROUP BY c.age",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort());
@@ -674,7 +729,7 @@ describe("Cross partition GROUP BY", () => {
   it("with VALUE and aggregate", async () => {
     const queryIterator = container.items.query(
       "SELECT VALUE AVG(c.age) FROM c GROUP BY c.team",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort());
@@ -691,7 +746,7 @@ describe("Cross partition GROUP BY", () => {
         SUM(c.doesNotExist) as undefined_sum
       FROM c
       GROUP BY c.age`,
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.age - b.age));
@@ -700,7 +755,7 @@ describe("Cross partition GROUP BY", () => {
   it("with missing aggregate field", async () => {
     const queryIterator = container.items.query(
       'SELECT AVG("asdf") as avg_asdf FROM c GROUP BY c.age',
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.age - b.age));
@@ -709,7 +764,7 @@ describe("Cross partition GROUP BY", () => {
   it("with missing GROUP BY projection", async () => {
     const queryIterator = container.items.query(
       "SELECT c.age, c.doesNotExist FROM c GROUP BY c.age, c.doesNotExist",
-      options
+      options,
     );
     const result = await queryIterator.fetchAll();
     snapshot(result.resources.sort((a, b) => a.age - b.age));
@@ -732,10 +787,10 @@ describe("Cross partition GROUP BY", () => {
   it("works with TOP", async () => {
     const queryIterator = container.items.query(
       "SELECT TOP 1 c.age FROM c GROUP BY c.age",
-      options
+      options,
     );
     const result = await queryIterator.fetchNext();
     assert(result.resources.length === 1);
     assert(result.requestCharge > 0);
   });
-});
+}

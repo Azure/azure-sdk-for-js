@@ -31,6 +31,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -45,6 +47,8 @@ export interface ServiceCosmosDbConfigurationInfo {
   offerThroughput?: number;
   /** The URI of the customer-managed key for the backing database. */
   keyVaultKeyUri?: string;
+  /** The multi-tenant application id used to enable CMK access for services in a data sovereign region. */
+  crossTenantCmkApplicationId?: string;
 }
 
 /** Authentication configuration information */
@@ -131,6 +135,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +364,40 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
+/** Settings to encrypt a service */
+export interface Encryption {
+  /** The encryption settings for the customer-managed key */
+  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
+}
+
+/** The encryption settings for the customer-managed key */
+export interface EncryptionCustomerManagedKeyEncryption {
+  /** The URL of the key to use for encryption */
+  keyEncryptionKeyUrl?: string;
+}
+
+/** The configuration of connected storage */
+export interface StorageConfiguration {
+  /** The resource id of connected storage account. */
+  storageResourceId?: string;
+  /** The filesystem name of connected storage account. */
+  fileSystemName?: string;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -437,12 +485,6 @@ export interface FhirServiceCollection {
   value?: FhirService[];
 }
 
-/** An access policy entry. */
-export interface FhirServiceAccessPolicyEntry {
-  /** An Azure AD object ID (User or Apps) that is allowed access to the FHIR service. */
-  objectId: string;
-}
-
 /** Azure container registry configuration information */
 export interface FhirServiceAcrConfiguration {
   /** The list of the Azure container registry login servers. */
@@ -459,6 +501,26 @@ export interface FhirServiceAuthenticationConfiguration {
   audience?: string;
   /** If the SMART on FHIR proxy is enabled */
   smartProxyEnabled?: boolean;
+  /** The array of identity provider configurations for SMART on FHIR authentication. */
+  smartIdentityProviders?: SmartIdentityProviderConfiguration[];
+}
+
+/** An object to configure an identity provider for use with SMART on FHIR authentication. */
+export interface SmartIdentityProviderConfiguration {
+  /** The identity provider token authority also known as the token issuing authority. */
+  authority?: string;
+  /** The array of identity provider applications for SMART on FHIR authentication. */
+  applications?: SmartIdentityProviderApplication[];
+}
+
+/** An Application configured in the Identity Provider used to access FHIR resources. */
+export interface SmartIdentityProviderApplication {
+  /** The application client id defined in the identity provider. This value will be used to validate bearer tokens against the given authority. */
+  clientId?: string;
+  /** The audience that will be used to validate bearer tokens against the given authority. */
+  audience?: string;
+  /** The actions that are permitted to be performed on FHIR resources for the application. */
+  allowedDataActions?: SmartDataActions[];
 }
 
 /** The settings for the CORS configuration of the service instance. */
@@ -487,6 +549,22 @@ export interface ResourceVersionPolicyConfiguration {
   default?: FhirResourceVersionPolicy;
   /** A list of FHIR Resources and their version policy overrides. */
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
+}
+
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
+}
+
+/** The settings for Implementation Guides - defining capabilities for national standards, vendor consortiums, clinical societies, etc. */
+export interface ImplementationGuidesConfiguration {
+  /** If US Core Missing Data requirement is enabled. */
+  usCoreMissingData?: boolean;
 }
 
 /** Available operations of the service */
@@ -599,10 +677,20 @@ export interface MetricSpecification {
   supportedTimeGrainTypes?: string[];
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
   fillGapWithZero?: boolean;
+  /** Pattern for the filter of the metric. */
+  metricFilterPattern?: string;
   /** Dimensions of the metric */
   dimensions?: MetricDimension[];
-  /** Name of the MDM namespace. Optional. */
+  /** Whether the metric is internal. */
+  isInternal?: boolean;
+  /** The source MDM account. */
+  sourceMdmAccount?: string;
+  /** The source MDM namespace. */
   sourceMdmNamespace?: string;
+  /** Whether regional MDM account enabled. */
+  enableRegionalMdmAccount?: boolean;
+  /** The resource Id dimension name override. */
+  resourceIdDimensionNameOverride?: string;
 }
 
 /** Specifications of the Dimension of metrics */
@@ -733,6 +821,8 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly provisioningState?: ProvisioningState;
   /** Dicom Service authentication configuration. */
   authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /** Dicom Service Cors configuration. */
+  corsConfiguration?: CorsConfiguration;
   /**
    * The url of the Dicom Services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -745,6 +835,17 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * DICOM Service event support status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventState?: ServiceEventState;
+  /** The encryption settings of the DICOM service */
+  encryption?: Encryption;
+  /** The configuration of external storage account */
+  storageConfiguration?: StorageConfiguration;
+  /** If data partitions is enabled or not. */
+  enableDataPartitions?: boolean;
 }
 
 /** IoT Connector definition. */
@@ -779,8 +880,6 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Fhir Service access policies. */
-  accessPolicies?: FhirServiceAccessPolicyEntry[];
   /** Fhir Service Azure container registry configuration. */
   acrConfiguration?: FhirServiceAcrConfiguration;
   /** Fhir Service authentication configuration. */
@@ -803,6 +902,12 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
   readonly eventState?: ServiceEventState;
   /** Determines tracking of history for resources. */
   resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  /** Fhir Service import configuration. */
+  importConfiguration?: FhirServiceImportConfiguration;
+  /** Implementation Guides configuration. */
+  implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+  /** The encryption settings of the FHIR service */
+  encryption?: Encryption;
 }
 
 /** IoT Connector destination properties for an Azure FHIR service. */
@@ -892,7 +997,7 @@ export enum KnownProvisioningState {
   /** Warned */
   Warned = "Warned",
   /** SystemMaintenance */
-  SystemMaintenance = "SystemMaintenance"
+  SystemMaintenance = "SystemMaintenance",
 }
 
 /**
@@ -923,7 +1028,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -946,7 +1051,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -966,7 +1071,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -988,7 +1093,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1008,7 +1113,7 @@ export enum KnownManagedServiceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1021,6 +1126,27 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
+/** Known values of {@link ServiceEventState} that the service accepts. */
+export enum KnownServiceEventState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Updating */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for ServiceEventState. \
+ * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **Updating**
+ */
+export type ServiceEventState = string;
+
 /** Known values of {@link ServiceManagedIdentityType} that the service accepts. */
 export enum KnownServiceManagedIdentityType {
   /** None */
@@ -1030,7 +1156,7 @@ export enum KnownServiceManagedIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1050,7 +1176,7 @@ export enum KnownIotIdentityResolutionType {
   /** Create */
   Create = "Create",
   /** Lookup */
-  Lookup = "Lookup"
+  Lookup = "Lookup",
 }
 
 /**
@@ -1068,7 +1194,7 @@ export enum KnownFhirServiceKind {
   /** FhirStu3 */
   FhirStu3 = "fhir-Stu3",
   /** FhirR4 */
-  FhirR4 = "fhir-R4"
+  FhirR4 = "fhir-R4",
 }
 
 /**
@@ -1081,26 +1207,20 @@ export enum KnownFhirServiceKind {
  */
 export type FhirServiceKind = string;
 
-/** Known values of {@link ServiceEventState} that the service accepts. */
-export enum KnownServiceEventState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Updating */
-  Updating = "Updating"
+/** Known values of {@link SmartDataActions} that the service accepts. */
+export enum KnownSmartDataActions {
+  /** Read */
+  Read = "Read",
 }
 
 /**
- * Defines values for ServiceEventState. \
- * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
+ * Defines values for SmartDataActions. \
+ * {@link KnownSmartDataActions} can be used interchangeably with SmartDataActions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Disabled** \
- * **Enabled** \
- * **Updating**
+ * **Read**
  */
-export type ServiceEventState = string;
+export type SmartDataActions = string;
 
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {
@@ -1109,7 +1229,7 @@ export enum KnownFhirResourceVersionPolicy {
   /** Versioned */
   Versioned = "versioned",
   /** VersionedUpdate */
-  VersionedUpdate = "versioned-update"
+  VersionedUpdate = "versioned-update",
 }
 
 /**
@@ -1126,7 +1246,7 @@ export type FhirResourceVersionPolicy = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -1149,7 +1269,7 @@ export enum KnownOperationResultStatus {
   /** Requested */
   Requested = "Requested",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -1228,7 +1348,8 @@ export interface ServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ServicesCheckNameAvailabilityResponse = ServicesNameAvailabilityInfo;
+export type ServicesCheckNameAvailabilityResponse =
+  ServicesNameAvailabilityInfo;
 
 /** Optional parameters. */
 export interface ServicesListNextOptionalParams
@@ -1242,21 +1363,24 @@ export interface ServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ServicesListByResourceGroupNextResponse = ServicesDescriptionListResult;
+export type ServicesListByResourceGroupNextResponse =
+  ServicesDescriptionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServiceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
-export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointConnectionListResultDescription;
+export type PrivateEndpointConnectionsListByServiceResponse =
+  PrivateEndpointConnectionListResultDescription;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionDescription;
+export type PrivateEndpointConnectionsGetResponse =
+  PrivateEndpointConnectionDescription;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -1268,7 +1392,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionDescription;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnectionDescription;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1284,7 +1409,8 @@ export interface PrivateLinkResourcesListByServiceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
-export type PrivateLinkResourcesListByServiceResponse = PrivateLinkResourceListResultDescription;
+export type PrivateLinkResourcesListByServiceResponse =
+  PrivateLinkResourceListResultDescription;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -1474,14 +1600,16 @@ export interface FhirDestinationsListByIotConnectorOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByIotConnector operation. */
-export type FhirDestinationsListByIotConnectorResponse = IotFhirDestinationCollection;
+export type FhirDestinationsListByIotConnectorResponse =
+  IotFhirDestinationCollection;
 
 /** Optional parameters. */
 export interface FhirDestinationsListByIotConnectorNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByIotConnectorNext operation. */
-export type FhirDestinationsListByIotConnectorNextResponse = IotFhirDestinationCollection;
+export type FhirDestinationsListByIotConnectorNextResponse =
+  IotFhirDestinationCollection;
 
 /** Optional parameters. */
 export interface IotConnectorFhirDestinationGetOptionalParams
@@ -1500,7 +1628,8 @@ export interface IotConnectorFhirDestinationCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IotConnectorFhirDestinationCreateOrUpdateResponse = IotFhirDestination;
+export type IotConnectorFhirDestinationCreateOrUpdateResponse =
+  IotFhirDestination;
 
 /** Optional parameters. */
 export interface IotConnectorFhirDestinationDeleteOptionalParams
@@ -1570,14 +1699,16 @@ export interface WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type WorkspacePrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultDescription;
+export type WorkspacePrivateEndpointConnectionsListByWorkspaceResponse =
+  PrivateEndpointConnectionListResultDescription;
 
 /** Optional parameters. */
 export interface WorkspacePrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspacePrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionDescription;
+export type WorkspacePrivateEndpointConnectionsGetResponse =
+  PrivateEndpointConnectionDescription;
 
 /** Optional parameters. */
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -1589,7 +1720,8 @@ export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionDescription;
+export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnectionDescription;
 
 /** Optional parameters. */
 export interface WorkspacePrivateEndpointConnectionsDeleteOptionalParams
@@ -1605,14 +1737,16 @@ export interface WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type WorkspacePrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResultDescription;
+export type WorkspacePrivateLinkResourcesListByWorkspaceResponse =
+  PrivateLinkResourceListResultDescription;
 
 /** Optional parameters. */
 export interface WorkspacePrivateLinkResourcesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspacePrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
+export type WorkspacePrivateLinkResourcesGetResponse =
+  PrivateLinkResourceDescription;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ServerOperation,
-  ServerOperationsListByServerOptionalParams
-} from "../models";
+  ServerOperationsListByServerOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerOperations. */
@@ -25,6 +25,6 @@ export interface ServerOperations {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerOperationsListByServerOptionalParams
+    options?: ServerOperationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerOperation>;
 }

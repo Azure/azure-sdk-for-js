@@ -14,8 +14,8 @@ import {
   ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse,
   ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
-  ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-} from "../models";
+  ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseAdvancedThreatProtectionSettings. */
@@ -32,7 +32,7 @@ export interface ManagedDatabaseAdvancedThreatProtectionSettings {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseAdvancedThreatProtection>;
   /**
    * Gets a managed database's Advanced Threat Protection state.
@@ -48,7 +48,7 @@ export interface ManagedDatabaseAdvancedThreatProtectionSettings {
     managedInstanceName: string,
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse>;
   /**
    * Creates or updates a managed database's Advanced Threat Protection state.
@@ -66,8 +66,6 @@ export interface ManagedDatabaseAdvancedThreatProtectionSettings {
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ManagedDatabaseAdvancedThreatProtection,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
-  ): Promise<
-    ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-  >;
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
+  ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse>;
 }

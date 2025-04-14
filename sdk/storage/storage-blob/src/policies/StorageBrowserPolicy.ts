@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "./RequestPolicy";
-import { isNode } from "@azure/core-util";
-
-import { HeaderConstants, URLConstants } from "../utils/constants";
-import { setURLParameter } from "../utils/utils.common";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
+import { isNodeLike } from "@azure/core-util";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * StorageBrowserPolicy will handle differences between Node.js and browser runtime, including:
@@ -42,7 +41,7 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
    * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    if (isNode) {
+    if (isNodeLike) {
       return this._nextPolicy.sendRequest(request);
     }
 
@@ -50,7 +49,7 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
       request.url = setURLParameter(
         request.url,
         URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,
-        new Date().getTime().toString()
+        new Date().getTime().toString(),
       );
     }
 

@@ -1,6 +1,6 @@
 # Azure Notification Hubs SDK for JavaScript
 
-Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Xiaomi, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
+Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Firebase, Baidu, Xiaomi, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
 
 - Send breaking news notifications to millions with low latency.
 - Send location-based coupons to interested user segments.
@@ -13,7 +13,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/)
 - [Package (npm)](https://www.npmjs.com/package/@azure/notification-hubs)
-- [Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
+- [Product documentation](https://learn.microsoft.com/azure/notification-hubs/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev)
 
 **NOTE**: If you are coming from using the `azure-sb` package, see the [migration guide to move from azure-sb to @azure/notification-hubs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/migrationguide.md)
@@ -36,28 +36,25 @@ npm install @azure/notification-hubs
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
-- An [App Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/) resource.
+- An [App Notification Hubs](https://learn.microsoft.com/azure/notification-hubs/) resource.
 
 ### Create an Azure Notification Hubs resource
 
 An Azure Notification Hub can be created using the following methods:
 
-1. [Azure Portal](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-portal)
-2. [Azure CLI](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-azure-cli)
-3. [Bicep](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-bicep)
-4. [ARM Template](https://docs.microsoft.com/azure/notification-hubs/create-notification-hub-template)
+1. [Azure Portal](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-portal)
+2. [Azure CLI](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-azure-cli)
+3. [Bicep](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-bicep)
+4. [ARM Template](https://learn.microsoft.com/azure/notification-hubs/create-notification-hub-template)
 
-Once created, the Notification Hub can be configured using the [Azure Portal or Azure CLI](https://docs.microsoft.com/azure/notification-hubs/configure-notification-hub-portal-pns-settings?tabs=azure-portal).
+Once created, the Notification Hub can be configured using the [Azure Portal or Azure CLI](https://learn.microsoft.com/azure/notification-hubs/configure-notification-hub-portal-pns-settings?tabs=azure-portal).
 
 ### Importing the Client
 
-This SDK for JavaScript offers two ways of interacting with Azure Notification Hubs, either through the class-based approach, or with a modular design approach.  The class-based approach is consistent across all packages to create a client and then interact with the methods on the client.
+This SDK for JavaScript offers two ways of interacting with Azure Notification Hubs, either through the class-based approach, or with a modular design approach. The class-based approach is consistent across all packages to create a client and then interact with the methods on the client.
 
-```typescript
-import {
-  NotificationHubsClient,
-  createAppleInstallation
-} from "@azure/notification-hubs";
+```ts snippet:importing_classical
+import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
@@ -70,9 +67,9 @@ const installation = createAppleInstallation({
 const result = await client.createOrUpdateInstallation(installation);
 ```
 
-The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.
+The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually. This approach uses subpath-exports with ES-Modules to expose the methods via direct imports. With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.
 
-Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath.  Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.
+Note that creating a client is exposed through the `"@azure/notification-hubs/api"` subpath and all client methods are exposed through the `"@azure/notification-hubs/api"` subpath. Each function exported takes the `client` as the first parameter and the rest of the parameters remain unchanged.
 
 The following subpaths are exposed:
 
@@ -81,9 +78,9 @@ The following subpaths are exposed:
 
 The above code snippet then becomes the following:
 
-```typescript
+```ts snippet:importing_modular
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
-import { createAppleInstallation } from "@azure/notification-hubs/models";
+import { createAppleInstallation } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -98,13 +95,13 @@ const result = await createOrUpdateInstallation(context, installation);
 
 ### Authenticate the client
 
-Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security).  This includes the following permission levels: **Listen**, **Manage**, **Send**.
+Interaction with an Azure Notification Hub starts with the `NotificationHubsClient` which supports [Shared Access Signature connection strings](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-security). This includes the following permission levels: **Listen**, **Manage**, **Send**.
 
 Listen allows for a client to register itself via the Registration and Installations API. Send allows for the client to send notifications to devices using the send APIs. Finally, Manage allows the user to do Registration and Installation management, such as queries.
 
 A new `NotificationHubsClient` client can be created using the constructor with the connection string and Notification Hub name.
 
-```typescript
+```ts snippet:authenticating_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -112,7 +109,7 @@ const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
 
-```typescript
+```ts snippet:authenticating_modular
 import { createClientContext } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -127,11 +124,11 @@ Once the `NotificationHubClient` has been initialized, the following concepts ca
 
 ### Device Management
 
-Device management is a core concept to Notification Hubs to be able to store the unique identifier from the native Platform Notification Service (PNS) such as APNs or Firebase, and associated metadata such as tags used for sending push notifications to audiences.  This is done with two APIs, the Installation API which is the newer and preferred mechanism, and Registrations.
+Device management is a core concept to Notification Hubs to be able to store the unique identifier from the native Platform Notification Service (PNS) such as APNs or Firebase, and associated metadata such as tags used for sending push notifications to audiences. This is done with two APIs, the Installation API which is the newer and preferred mechanism, and Registrations.
 
 #### Installations API
 
-Installations are a newer and native JSON approach to device management that contains additional properties such as an installation ID and user ID which can be used for sending to audiences.  The installations API has a few advantages over the existing Registration APIs in the following ways:
+Installations are a newer and native JSON approach to device management that contains additional properties such as an installation ID and user ID which can be used for sending to audiences. The installations API has a few advantages over the existing Registration APIs in the following ways:
 
 - Fully idempotent API so calling create on the installation, so an operation can be retried without worries about duplications.
 - Support for `userId` and `installationId` properties which can be then used in tag expressions such as `$InstallationId:{myInstallId}` and `$UserId:{bob@contoso.com}`.
@@ -140,50 +137,47 @@ Installations are a newer and native JSON approach to device management that con
 
 Installations can be created through the `createOrUpdateInstallation` method such as the following:
 
-```typescript
+```ts snippet:createOrUpdateInstallation_classical
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
-import { v4 as uuid } from "uuid";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 // Create an installation for APNs
-let installation = createAppleInstallation({
-  installationId: uuid(), // Must be unique
+const installation = createAppleInstallation({
+  installationId: "0d8ab095-c449-493f-9195-17e4917806c4", // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });
 
-installation = await client.createOrUpdateInstallation(installation);
+const response = await client.createOrUpdateInstallation(installation);
 ```
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:createOrUpdateInstallation_modular
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
-import { createAppleInstallation } from "@azure/notification-hubs/models";
-import { v4 as uuid } from "uuid";
+import { createAppleInstallation } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
 // Create an installation for APNs
-let installation = createAppleInstallation({
-  installationId: uuid(), // Must be unique
+const installation = createAppleInstallation({
+  installationId: "0d8ab095-c449-493f-9195-17e4917806c4", // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });
 
-installation = await createOrUpdateInstallation(context, installation);
+const response = await createOrUpdateInstallation(context, installation);
 ```
 
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
 
-```typescript
+```ts snippet:updateInstallation_classical
 import { NotificationHubsClient, JsonPatch } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const installationId = "<unique installation ID>";
-
 const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
   { op: "add", path: "/userId", value: "bob@contoso.com" },
@@ -194,9 +188,9 @@ const installation = await client.updateInstallation(installationId, updates);
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:updateInstallation_modular
 import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
-import { JsonPatch } from "@azure/notification-hubs/models";
+import { JsonPatch } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -212,7 +206,7 @@ const installation = await updateInstallation(context, installationId, updates);
 
 To retrieve an existing installation, use the `getInstallation` method with your existing unique installation ID.
 
-```typescript
+```ts snippet:getInstallation_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -224,7 +218,7 @@ const installation = client.getInstallation(installationId);
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:getInstallation_modular
 import { createClientContext, getInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -236,11 +230,11 @@ const installation = getInstallation(context, installationId);
 
 #### Registrations API
 
-A registration is associated with a PNS just as the installation above, with the unique device identifier from the PNS, and associated tags.  Templates registrations are a way of creating pre-defined body templates which can then be customized at send time with properties to fill in for the message.  For more information about templates, see [Templates documentation](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-templates-cross-platform-push-messages).
+A registration is associated with a PNS just as the installation above, with the unique device identifier from the PNS, and associated tags. Templates registrations are a way of creating pre-defined body templates which can then be customized at send time with properties to fill in for the message. For more information about templates, see [Templates documentation](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-templates-cross-platform-push-messages).
 
 An installation may be created in one of two ways, first by getting a registration ID from the server using `getInstallationId` and then `createOrUpdateRegistration` or via the `createRegistration` method.
 
-```typescript
+```ts snippet:createRegistration_classical
 import {
   NotificationHubsClient,
   createAppleRegistrationDescription,
@@ -248,78 +242,81 @@ import {
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
-let registration = createAppleRegistrationDescription({
+const registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
   tags: ["likes_hockey", "likes_football"],
 });
-
-registration = await client.createRegistration(registration);
-
-console.log(`New Registration ID: ${registration.registrationId}`);
+const updatedRegistration = await client.createRegistration(registration);
 ```
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:createRegistration_modular
 import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
-import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
-let registration = createAppleRegistrationDescription({
+const registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
   tags: ["likes_hockey", "likes_football"],
 });
 
-registration = await createRegistration(context, registration);
-
-console.log(`New Registration ID: ${registration.registrationId}`);
+const updatedRegistration = await createRegistration(context, registration);
 ```
 
-Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
+Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates. Querying for an existing registration can be done with the `getRegistration` method.
 
-```typescript
+```ts snippet:updateRegistration_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
-let registration = await client.getRegistration(registrationId);
+const registration = await client.getRegistration(registrationId);
 
-registration.tags.push("likes_sports");
+if (registration.tags) {
+  registration.tags.push("likes_sports");
+} else {
+  registration.tags = ["likes_sports"];
+}
 
-registration = await client.updateRegistration(registration);
+const updatedRegistration = await client.updateRegistration(registration);
 ```
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:updateRegistration_modular
 import {
   createClientContext,
   getRegistration,
-  updateRegistration
+  updateRegistration,
 } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
 const registrationId = "<unique Registration ID>";
 
-let registration = await getRegistration(context, registrationId);
+const registration = await getRegistration(context, registrationId);
 
-registration.tags.push("likes_sports");
+if (registration.tags) {
+  registration.tags.push("likes_sports");
+} else {
+  registration.tags = ["likes_sports"];
+}
 
-registration = await updateRegistration(context, registration);
+const updatedRegistration = await updateRegistration(context, registration);
 ```
 
-Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method.  All methods support limiting via the `top` option and support asynchronous paging.
+Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags. Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method. All methods support limiting via the `top` option and support asynchronous paging.
 
-```typescript
-import { NotificationHubsClient } from "@azure/notification-hubs/api";
+```ts snippet:listRegistrationsByTag_classical
+import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
-const registrations = await client.listRegistrationsByTag("likes_hockey");
+const registrations = client.listRegistrationsByTag("likes_hockey");
 
 let page = 0;
 for await (const pages of registrations.byPage()) {
@@ -332,7 +329,7 @@ for await (const pages of registrations.byPage()) {
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:listRegistrationsByTag_modular
 import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -350,18 +347,14 @@ for await (const pages of registrations.byPage()) {
 
 ### Send Operations
 
-Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices.  Using the Standard SKU and above, [scheduled send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance.  All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases.  With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
+Notification Hubs supports sending notifications to devices either directly using the unique PNS provided identifier, using tags for audience send, or a general broadcast to all devices. Using the Standard SKU and above, [scheduled send](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled) allows the user to schedule notifications up to seven days in advance. All send operations return a Tracking ID and Correlation ID which can be used for Notification Hubs support cases. With the Standard SKU and above, a Notification ID is also returned which can be used to get notification telemetry via the `getNotificationOutcomeDetails` method.
 
-For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios.  This is not supported on the scheduled send methods.
+For debugging purposes, the `enableTestSend` options can be set to `true` which gets immediate feedback from the PNS on the `sendNotification` method, however, is not supported in production scenarios. This is not supported on the scheduled send methods.
 
-Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format so there is no guessing about which fields are available for each PNS.
+Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS. These builders will build the native message format so there is no guessing about which fields are available for each PNS.
 
-```typescript
-// Using the class-based approach
-import { createAppleNotificationBody } from "@azure/notification-hubs";
-
-// Using the modular approach
-import { createAppleNotification, createAppleNotificationBody } from "@azure/notification-hubs/models";
+```ts snippet:createAppleNotificationBody
+import { createAppleNotificationBody, createAppleNotification } from "@azure/notification-hubs";
 
 const apnsBody = createAppleNotificationBody({
   alert: {
@@ -375,23 +368,18 @@ const apnsBody = createAppleNotificationBody({
 
 // Send the message using the modular approach
 const notification = createAppleNotification({
-  body: apnsBody
-})
-
-const result = await sendNotification(context, notification);
+  body: apnsBody,
+});
 ```
 
 #### Broadcast Send
 
-Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendNotification` method.
+Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendBroadcastNotification` method.
 
-```typescript
-import {
-  NotificationHubsClient,
-  createAppleNotification,
-} from "@azure/notification-hubs/api";
+```ts snippet:sendBroadcastNotification_classical
+import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
-const context = createClientContext(connectionString, hubName);
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -403,7 +391,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.sendNotification(message);
+const result = await client.sendBroadcastNotification(message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -416,11 +404,11 @@ if (result.notificationId) {
 
 Using the modular approach, the code would be as follows:
 
-```typescript
-import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
-import { createAppleNotification } from "@azure/notification-hubs/models";
+```ts snippet:sendBroadcastNotification_modular
+import { createClientContext, sendBroadcastNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs";
 
-const context = createClientContext(connectionString, hubName);
+const context = createClientContext("<connection string>", "<hub name>");
 
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
@@ -432,7 +420,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await sendNotification(context, message);
+const result = await sendBroadcastNotification(context, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -447,13 +435,10 @@ if (result.notificationId) {
 
 To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.
 
-```typescript
-import {
-  NotificationHubsClient,
-  createAppleNotification,
-} from "@azure/notification-hubs";
+```ts snippet:directSend_classical
+import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
-const client = new NotificationHubsClient(connectionString, hubName);
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
 const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -479,11 +464,11 @@ if (result.notificationId) {
 
 Using the modular approach, the code would be as follows:
 
-```typescript
-import { createClientContext, sendDirectNotification } from "@azure/notification-hubs/api";
-import { createAppleNotification } from "@azure/notification-hubs/models";
+```ts snippet:directSend_modular
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs";
 
-const context = createClientContext(connectionString, hubName);
+const context = createClientContext("<connection string>", "<hub name>");
 
 const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -509,31 +494,23 @@ if (result.notificationId) {
 
 #### Audience Send
 
-In addition to targeting a single device, a user can target multiple devices using tags.  These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience.  For more information about tags and tags expressions, see [Routing and Tag Expressions](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
+In addition to targeting a single device, a user can target multiple devices using tags. These tags can be supplied as a list of tags, which then creates a tag expression to match registered devices, or via a tag expression which can then use Boolean logic to target the right audience. For more information about tags and tags expressions, see [Routing and Tag Expressions](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-tags-segment-push-message).
 
 If you wish to create a tag expression from an array of tags, there is a Tag Expression Builder available with the `createTagExpression` method which is exposed at the top level import or `@azure/notification-hubs/models/tagExpressionBuilder` modular import which creates an "or tag expression" from the tags.
 
-```typescript
-// Top level import
+```ts snippet:createTagExpression
 import { createTagExpression } from "@azure/notification-hubs";
-
-// Modular import
-import { createTagExpression } from "@azure/notification-hubs/models";
 
 const tags = ["likes_football", "likes_hockey"];
 const tagExpression = createTagExpression(tags);
 
 console.log(tagExpression);
-// likes_football||likes_hockey
 ```
 
 Tag expression messages can be sent using the following code:
 
-```typescript
-import {
-  NotificationHubsClient,
-  createAppleNotification,
-} from "@azure/notification-hubs";
+```ts snippet:sendNotification_classical
+import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
@@ -561,9 +538,9 @@ if (result.notificationId) {
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:sendNotification_modular
 import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
-import { createAppleNotification } from "@azure/notification-hubs/models";
+import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -591,13 +568,10 @@ if (result.notificationId) {
 
 #### Scheduled Send
 
-Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
+Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleNotification` method to send to devices with tags or a general broadcast with `scheduleBroadcastNotification`. This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
 
-```typescript
-import {
-  NotificationHubsClient,
-  createAppleNotification,
-} from "@azure/notification-hubs";
+```ts snippet:scheduledSendNotification_classical
+import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 
@@ -605,7 +579,7 @@ const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 // Schedule 8 hours from now
-const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
+const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
 const message = createAppleNotification({
   body: messageBody,
@@ -626,9 +600,9 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 Using the modular approach, the code would be as follows:
 
-```typescript
+```ts snippet:scheduledSendNotification_modular
 import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
-import { createAppleNotification } from "@azure/notification-hubs/models";
+import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 
@@ -636,7 +610,7 @@ const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
 
 // Schedule 8 hours from now
-const scheduledTime = new Date(Date.now() + (8 * 60 * 60 * 1000));
+const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
 const message = createAppleNotification({
   body: messageBody,
@@ -659,34 +633,67 @@ console.log(`Notification ID: ${result.notificationId}`);
 
 ## React Native Support
 
-React Native currently does not have support for [`URLSearchParams`] which is used by the Azure Notification Hubs SDK.  In order to use the SDK in React Native, you will need to install the [`url-search-params-polyfill`](https://www.npmjs.com/package/url-search-params-polyfill) package and import it before using the SDK.
-
-```typescript
-import 'url-search-params-polyfill';
-```
+React Native currently does not have support for [`URLSearchParams`] which is used by the Azure Notification Hubs SDK. In order to use the SDK in React Native, you will need to install the [`url-search-params-polyfill`](https://www.npmjs.com/package/url-search-params-polyfill) package and import it before using the SDK.
 
 We also need to provide polyfill for `TextEncoder` API and async iterator API. Please see our [React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native/appconfigBasic/README.md#add-polyfills) for more details.
 
 ### Diagnose Dropped Notifications
 
-Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
+Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
 
-[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
+[Test send](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` and `sendBroadcastNotification` methods with the `enableTestSend` option:
 
-```typescript
-// Using the client
-const result = await client.sendNotification(notification, { tags, enableTestSend: true });
+```ts snippet:testSend_classical
+import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
-// Using the modular approach
-const result = await sendNotification(context, notification, { tags, enableTestSend: true });
+const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
+const tagExpression = "likes_hockey && likes_football";
+const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
+const notification = createAppleNotification({
+  body: messageBody,
+  headers: {
+    "apns-priority": "10",
+    "apns-push-type": "alert",
+  },
+});
+
+const result = await client.sendNotification(notification, {
+  tagExpression,
+  enableTestSend: true,
+});
+```
+
+```ts snippet:testSend_modular
+import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createAppleNotification } from "@azure/notification-hubs";
+
+const context = createClientContext("<connection string>", "<hub name>");
+
+const tagExpression = "likes_hockey && likes_football";
+const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
+const notification = createAppleNotification({
+  body: messageBody,
+  headers: {
+    "apns-priority": "10",
+    "apns-push-type": "alert",
+  },
+});
+
+const result = await sendNotification(context, notification, {
+  tagExpression,
+  enableTestSend: true,
+});
 ```
 
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:logging
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -735,7 +742,7 @@ This module's tests are a mixture of live and unit tests, which require you to h
    `NOTIFICATIONHUBS_CONNECTION_STRING=connection string for your Notification Hubs instance`
    `NOTIFICATION_HUB_NAME=Notification Hub name`
 4. `cd sdk\notificationhubs\notification-hubs`
-5. `npm run test`.
+5. `rushx test`.
 
 View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/test)
 folder for more details.
@@ -743,6 +750,4 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%notificationhubs%2Fnotification-hubs%2FREADME.png)
+- [Azure Notification Hubs](https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)

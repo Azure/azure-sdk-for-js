@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   WorkflowMetadataListOutput,
   ErrorResponseOutput,
   WorkflowOutput,
@@ -11,7 +11,7 @@ import {
   WorkflowRunOutput,
   TasksListOutput,
   WorkflowTaskOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** List all workflows. */
 export interface ListWorkflows200Response extends HttpResponse {
@@ -99,7 +99,6 @@ export interface GetWorkflowRunDefaultResponse extends HttpResponse {
 /** Cancel a workflow run. */
 export interface CancelWorkflowRun200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Cancel a workflow run. */
@@ -135,7 +134,6 @@ export interface GetWorkflowTaskDefaultResponse extends HttpResponse {
 /** Approve an approval task. */
 export interface ApproveApprovalTask200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Approve an approval task. */
@@ -147,7 +145,6 @@ export interface ApproveApprovalTaskDefaultResponse extends HttpResponse {
 /** Reject an approval task. */
 export interface RejectApprovalTask200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reject an approval task. */
@@ -159,7 +156,6 @@ export interface RejectApprovalTaskDefaultResponse extends HttpResponse {
 /** Reassign a workflow task. */
 export interface ReassignWorkflowTask200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reassign a workflow task. */
@@ -171,7 +167,6 @@ export interface ReassignWorkflowTaskDefaultResponse extends HttpResponse {
 /** Update the status of a workflow task request. */
 export interface UpdateTaskStatus200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Update the status of a workflow task request. */

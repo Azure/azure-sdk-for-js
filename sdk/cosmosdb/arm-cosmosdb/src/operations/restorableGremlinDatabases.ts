@@ -7,21 +7,22 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { RestorableGremlinDatabases } from "../operationsInterfaces";
+import { RestorableGremlinDatabases } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   RestorableGremlinDatabaseGetResult,
   RestorableGremlinDatabasesListOptionalParams,
-  RestorableGremlinDatabasesListResponse
-} from "../models";
+  RestorableGremlinDatabasesListResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableGremlinDatabases operations. */
 export class RestorableGremlinDatabasesImpl
-  implements RestorableGremlinDatabases {
+  implements RestorableGremlinDatabases
+{
   private readonly client: CosmosDBManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class RestorableGremlinDatabasesImpl
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinDatabasesListOptionalParams
+    options?: RestorableGremlinDatabasesListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableGremlinDatabaseGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
@@ -59,7 +60,7 @@ export class RestorableGremlinDatabasesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, instanceId, options, settings);
-      }
+      },
     };
   }
 
@@ -67,7 +68,7 @@ export class RestorableGremlinDatabasesImpl
     location: string,
     instanceId: string,
     options?: RestorableGremlinDatabasesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RestorableGremlinDatabaseGetResult[]> {
     let result: RestorableGremlinDatabasesListResponse;
     result = await this._list(location, instanceId, options);
@@ -77,12 +78,12 @@ export class RestorableGremlinDatabasesImpl
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinDatabasesListOptionalParams
+    options?: RestorableGremlinDatabasesListOptionalParams,
   ): AsyncIterableIterator<RestorableGremlinDatabaseGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -100,11 +101,11 @@ export class RestorableGremlinDatabasesImpl
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinDatabasesListOptionalParams
+    options?: RestorableGremlinDatabasesListOptionalParams,
   ): Promise<RestorableGremlinDatabasesListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -112,24 +113,23 @@ export class RestorableGremlinDatabasesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinDatabases",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableGremlinDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableGremlinDatabasesListResult
+      bodyMapper: Mappers.RestorableGremlinDatabasesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.instanceId
+    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

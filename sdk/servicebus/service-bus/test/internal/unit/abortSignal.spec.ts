@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const assert = chai.assert;
-
-import { MessageSender } from "../../../src/core/messageSender";
-import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs";
-import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import type { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
+import type { AwaitableSender, ReceiverOptions } from "rhea-promise";
+import { delay } from "rhea-promise";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal,
-} from "../../public/utils/abortSignalTestUtils";
+} from "../../public/utils/abortSignalTestUtils.js";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
-} from "./unittestUtils";
+} from "./unittestUtils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
-import { MessageSession } from "../../../src/session/messageSession";
-import { ProcessErrorArgs } from "../../../src";
-import { ReceiveMode } from "../../../src/models";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import type { ProcessErrorArgs } from "../../../src/index.js";
+import type { ReceiveMode } from "../../../src/models.js";
+import { afterEach, beforeEach, describe, it } from "vitest";
+import { assert, assertAggregateError } from "../../public/utils/chai.js";
+
+const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 describe("AbortSignal", () => {
   const defaultOptions = {
@@ -62,7 +62,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         connectionContext,
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -108,7 +108,7 @@ describe("AbortSignal", () => {
         });
         assert.fail("AbortError should be thrown when the signal is already in an aborted state");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
 
         // we aborted in the sync part of the abort check so these event listeners are never set up
         assert.isFalse(abortSignal.addWasCalled);
@@ -156,12 +156,15 @@ describe("AbortSignal", () => {
         // in this case init() does get called - we abort through a timer.
         assert.isTrue(initWasCalled);
 
+        assertAggregateError(err);
+        const lastError = err.errors[err.errors.length - 1];
+
         assert.match(
-          err.message,
-          /.*was not able to send the message right now, due to operation timeout.*/
+          lastError.message,
+          /.*was not able to send the message right now, due to operation timeout.*/,
         );
 
-        assert.isTrue((err as any).retryable);
+        assert.isTrue(lastError.retryable);
       }
     });
 
@@ -204,7 +207,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -214,7 +217,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -224,7 +227,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -234,7 +237,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -251,7 +254,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -263,7 +266,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -280,7 +283,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -292,7 +295,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -304,7 +307,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -324,7 +327,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -357,7 +360,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         fakeContext,
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -393,7 +396,7 @@ describe("AbortSignal", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       const session = new ServiceBusSessionReceiverImpl(
@@ -402,7 +405,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         false,
-        false
+        false,
       );
 
       try {
@@ -420,7 +423,7 @@ describe("AbortSignal", () => {
           },
           {
             abortSignal,
-          }
+          },
         );
 
         assert.equal(receivedErrors[0].message, "The operation was aborted.");
@@ -436,7 +439,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       try {
@@ -456,11 +459,11 @@ describe("AbortSignal", () => {
             },
             {
               abortSignal,
-            }
+            },
           );
         });
 
-        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.match(receivedErrors[0].message, abortMsgRegex);
         assert.equal(receivedErrors[0].name, "AbortError");
       } finally {
         await receiver.close();

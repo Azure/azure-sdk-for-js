@@ -15,8 +15,8 @@ import {
   ManagedServerSecurityAlertPoliciesGetOptionalParams,
   ManagedServerSecurityAlertPoliciesGetResponse,
   ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
-  ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse
-} from "../models";
+  ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedServerSecurityAlertPolicies. */
@@ -31,7 +31,7 @@ export interface ManagedServerSecurityAlertPolicies {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams
+    options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedServerSecurityAlertPolicy>;
   /**
    * Get a managed server's threat detection policy.
@@ -45,7 +45,7 @@ export interface ManagedServerSecurityAlertPolicies {
     resourceGroupName: string,
     managedInstanceName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: ManagedServerSecurityAlertPoliciesGetOptionalParams
+    options?: ManagedServerSecurityAlertPoliciesGetOptionalParams,
   ): Promise<ManagedServerSecurityAlertPoliciesGetResponse>;
   /**
    * Creates or updates a threat detection policy.
@@ -61,7 +61,7 @@ export interface ManagedServerSecurityAlertPolicies {
     managedInstanceName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ManagedServerSecurityAlertPolicy,
-    options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>,
@@ -82,6 +82,6 @@ export interface ManagedServerSecurityAlertPolicies {
     managedInstanceName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: ManagedServerSecurityAlertPolicy,
-    options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>;
 }

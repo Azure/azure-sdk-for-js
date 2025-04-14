@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EventEmitter } from "events";
-import { Readable } from "stream";
+import { EventEmitter } from "node:events";
+import type { Readable } from "node:stream";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -136,7 +136,7 @@ export class BufferScheduler {
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
     concurrency: number,
-    encoding?: BufferEncoding
+    encoding?: BufferEncoding,
   ) {
     if (bufferSize <= 0) {
       throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);

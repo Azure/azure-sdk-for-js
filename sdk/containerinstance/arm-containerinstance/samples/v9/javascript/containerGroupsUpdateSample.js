@@ -30,7 +30,7 @@ async function containerGroupsUpdate() {
   const result = await client.containerGroups.update(
     resourceGroupName,
     containerGroupName,
-    resource
+    resource,
   );
   console.log(result);
 }

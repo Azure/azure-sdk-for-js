@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
+// Licensed under the MIT License.
 
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import type {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
@@ -11,10 +11,9 @@ import {
   ServiceRenameContainerOptions,
   ContainerRenameResponse,
   ContainerUndeleteResponse,
-  CommonOptions,
   WithResponse,
 } from "@azure/storage-blob";
-import { DataLakePathClient } from "./clients";
+import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 /**
@@ -37,7 +36,7 @@ export type FileSystemRenameResponse = ContainerRenameResponse;
  */
 export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
-import {
+import type {
   CpkInfo,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
@@ -52,12 +51,13 @@ import {
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
-} from "./generated/src/models";
-import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
-import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
-import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
-import { SasIPRange } from "./sas/SasIPRange";
-import { SASProtocol } from "./sas/SASQueryParameters";
+} from "./generated/src/models/index.js";
+import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions.js";
+import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions.js";
+import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { CommonOptions } from "./StorageClient.js";
 
 export {
   LeaseAccessConditions,
@@ -93,7 +93,7 @@ export {
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 export type PathCreateResponse = WithResponse<PathCreateHeaders, PathCreateHeaders>;
 export type PathDeleteResponse = WithResponse<PathDeleteHeaders, PathDeleteHeaders>;
@@ -144,7 +144,7 @@ export interface CommonGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 
@@ -502,6 +502,10 @@ export interface Path {
    * Expiry time of the path.
    */
   expiresOn?: Date;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathList {
@@ -705,6 +709,10 @@ export interface PathCreateOptions extends CommonOptions {
    * Does not apply to directories.
    */
   expiresOn?: number | Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
@@ -744,6 +752,10 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
    * Does not apply to directories.
    */
   expiresOn?: number | Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathDeleteOptions extends CommonOptions {
@@ -771,6 +783,9 @@ export interface PathAccessControl {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
   acl: PathAccessControlItem[];
 }
 
@@ -959,6 +974,17 @@ export interface PathGetPropertiesHeaders {
    * The time the file will expire.
    */
   expiresOn?: Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
+  acl: PathAccessControlItem[];
 }
 
 export type PathGetPropertiesResponse = WithResponse<
@@ -1141,6 +1167,10 @@ export interface FileReadOptions extends CommonOptions {
 
 export interface FileReadHeaders {
   lastModified?: Date;
+  /**
+   * Returns the date and time the file was created.
+   */
+  createdOn?: Date;
   metadata?: Metadata;
   contentLength?: number;
   contentType?: string;
@@ -1171,6 +1201,17 @@ export interface FileReadHeaders {
   encryptionKeySha256?: string;
   fileContentMD5?: Uint8Array; // Content MD5 for whole file
   contentCrc64?: Uint8Array;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
+  /**
+   * POSIX access control rights on files and directories.
+   */
+  acl: PathAccessControlItem[];
 }
 
 export type FileReadResponse = WithResponse<
@@ -1201,7 +1242,7 @@ export interface FileAppendOptions extends CommonOptions {
   /**
    * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
    * */
-  leaseDuration?: number;
+  leaseDurationInSeconds?: number;
   /**
    * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
    * */
@@ -1225,7 +1266,7 @@ export interface FileFlushOptions extends CommonOptions {
   /**
    * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
    */
-  leaseDuration?: number;
+  leaseDurationInSeconds?: number;
   /**
    * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
    */
@@ -1329,6 +1370,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 /**
@@ -1539,6 +1584,23 @@ export declare interface FileSystemEncryptionScope {
 
   /** Optional.  Version 2021-02-12 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container. */
   preventEncryptionScopeOverride?: boolean;
+}
+
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageDataLakeAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+}
+
+/**
+ * To get OAuth audience for a storage account for datalake service.
+ */
+export function getDataLakeServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.dfs.core.windows.net/.default`;
 }
 
 /** *********************************************************/

@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import {
+// Licensed under the MIT License.
+
+import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
   LedgerEntry,
-  isUnexpected,
-} from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
-describe("Post transaction", function () {
+describe("Post transaction", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
   let contentBody: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     contentBody = "typescript post test";
-    recorder = createRecorder(this);
-    client = await createClient();
+    recorder = await createRecorder(ctx);
+    client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should post to default ledger", async function () {
+  it("should post to default ledger", async () => {
     const entry: LedgerEntry = {
       contents: contentBody,
     };
@@ -45,7 +44,6 @@ describe("Post transaction", function () {
 
     const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
 
-    // red level client which gives users full control of transactions
     const status = await client
       .path("/app/transactions/{transactionId}/status", transactionId)
       .get();
@@ -56,7 +54,7 @@ describe("Post transaction", function () {
       throw result.body;
     }
 
-    assert(status.body.state === "Pending" || status.body.state === "Committed");
+    assert.oneOf(status.body.state, ["Pending", "Committed"]);
     assert.equal(status.body.transactionId, transactionId);
 
     const transactionResponse = await client
@@ -64,21 +62,21 @@ describe("Post transaction", function () {
       .get();
     assert(
       transactionResponse.status === "200" ||
-        (transactionResponse.status === "406" && status.body.state === "Pending")
+        (transactionResponse.status === "406" && status.body.state === "Pending"),
     );
   });
 
-  it("should post to collection", async function () {
+  it("should post to collection", async () => {
     const entry: LedgerEntry = {
       contents: "post ledger entry test",
     };
 
-    const collectionIdVar = "collectionPost:0";
+    const collectionId = getRecorderUniqueVariable(recorder, "collectionPost:0");
 
     const ledgerEntry: CreateLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
-      queryParameters: { collectionId: collectionIdVar },
+      queryParameters: { collectionId },
     };
 
     const result = await client.path("/app/transactions").post(ledgerEntry);
@@ -87,8 +85,8 @@ describe("Post transaction", function () {
       throw result.body;
     }
 
-    assert(result.status === "200");
-    assert.equal(result.body.collectionId, collectionIdVar);
+    assert.equal(result.status, "200");
+    assert.equal(result.body.collectionId, collectionId);
 
     const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
 
@@ -101,7 +99,7 @@ describe("Post transaction", function () {
       throw result.body;
     }
 
-    assert(status.body.state === "Pending" || status.body.state === "Committed");
+    assert.oneOf(status.body.state, ["Pending", "Committed"]);
     assert.equal(status.body.transactionId, transactionId);
 
     const transactionResponse = await client
@@ -109,7 +107,7 @@ describe("Post transaction", function () {
       .get();
     assert(
       transactionResponse.status === "200" ||
-        (transactionResponse.status === "406" && status.body.state === "Pending")
+        (transactionResponse.status === "406" && status.body.state === "Pending"),
     );
   });
 });

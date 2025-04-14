@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Dev Box definition
  *
  * @summary Deletes a Dev Box definition
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevBoxDefinitions_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Delete.json
  */
 async function devBoxDefinitionsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function devBoxDefinitionsDelete() {
   const result = await client.devBoxDefinitions.beginDeleteAndWait(
     resourceGroupName,
     devCenterName,
-    devBoxDefinitionName
+    devBoxDefinitionName,
   );
   console.log(result);
 }

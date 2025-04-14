@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   SqlScriptResource,
   SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
   SqlScriptCreateOrUpdateSqlScriptOptionalParams,
@@ -17,93 +17,92 @@ import {
   SqlScriptGetSqlScriptResponse,
   SqlScriptDeleteSqlScriptOptionalParams,
   ArtifactRenameRequest,
-  SqlScriptRenameSqlScriptOptionalParams
-} from "../models";
+  SqlScriptRenameSqlScriptOptionalParams,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlScriptOperations. */
 export interface SqlScriptOperations {
   /**
    * Lists sql scripts.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listSqlScriptsByWorkspace(
-    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SqlScriptResource>;
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param sqlScript - Sql Script resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
+    SimplePollerLike<
+      OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
       SqlScriptCreateOrUpdateSqlScriptResponse
     >
   >;
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param sqlScript - Sql Script resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSqlScriptAndWait(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams,
   ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
   /**
    * Gets a sql script.
-   * @param sqlScriptName The sql script name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param options - The options parameters.
    */
   getSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptGetSqlScriptOptionalParams
+    options?: SqlScriptGetSqlScriptOptionalParams,
   ): Promise<SqlScriptGetSqlScriptResponse>;
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param options - The options parameters.
    */
   beginDeleteSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SqlScriptDeleteSqlScriptOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param options - The options parameters.
    */
   beginDeleteSqlScriptAndWait(
     sqlScriptName: string,
-    options?: SqlScriptDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams,
   ): Promise<void>;
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSqlScript(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SqlScriptRenameSqlScriptOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sqlScriptName - The sql script name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSqlScriptAndWait(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams,
   ): Promise<void>;
 }

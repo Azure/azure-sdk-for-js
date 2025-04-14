@@ -13,8 +13,8 @@ import {
   ProtectionPolicyResource,
   ProtectionPoliciesCreateOrUpdateOptionalParams,
   ProtectionPoliciesCreateOrUpdateResponse,
-  ProtectionPoliciesDeleteOptionalParams
-} from "../models";
+  ProtectionPoliciesDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ProtectionPolicies. */
 export interface ProtectionPolicies {
@@ -32,7 +32,7 @@ export interface ProtectionPolicies {
     vaultName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ProtectionPoliciesGetOptionalParams
+    options?: ProtectionPoliciesGetOptionalParams,
   ): Promise<ProtectionPoliciesGetResponse>;
   /**
    * Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can
@@ -50,7 +50,7 @@ export interface ProtectionPolicies {
     resourceGroupName: string,
     policyName: string,
     parameters: ProtectionPolicyResource,
-    options?: ProtectionPoliciesCreateOrUpdateOptionalParams
+    options?: ProtectionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ProtectionPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous
@@ -66,7 +66,7 @@ export interface ProtectionPolicies {
     vaultName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ProtectionPoliciesDeleteOptionalParams
+    options?: ProtectionPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous
@@ -82,6 +82,6 @@ export interface ProtectionPolicies {
     vaultName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ProtectionPoliciesDeleteOptionalParams
+    options?: ProtectionPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

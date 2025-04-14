@@ -20,15 +20,15 @@ import {
   CommitmentAssociationsImpl,
   CommitmentPlansImpl,
   UsageHistoryImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Skus,
   CommitmentAssociations,
   CommitmentPlans,
   UsageHistory
-} from "./operationsInterfaces";
-import { AzureMLCommitmentPlansManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureMLCommitmentPlansManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureMLCommitmentPlansManagementClient extends coreClient.ServiceClient {
   $host: string;

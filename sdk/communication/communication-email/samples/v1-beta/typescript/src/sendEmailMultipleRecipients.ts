@@ -5,20 +5,21 @@
  * @summary Sends an email with multiple recipients
  */
 
-import { EmailClient, EmailMessage } from "@azure/communication-email";
+import type { EmailMessage } from "@azure/communication-email";
+import { EmailClient } from "@azure/communication-email";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";
 const recipientAddress = process.env["RECIPIENT_ADDRESS"] || "";
 const secondRecipientAddress = process.env["SECOND_RECIPIENT_ADDRESS"] || "";
 
 const sendEmailMultipleRecipients = async (): Promise<void> => {
   // Create the Email Client
-  const emailClient: EmailClient = new EmailClient(connectionString);
+  const emailClient: EmailClient = new EmailClient(endpoint, new DefaultAzureCredential());
 
   // Create the Email Message to be sent
   const message: EmailMessage = {

@@ -10,11 +10,11 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { SmsImpl } from "./operations";
-import { Sms } from "./operationsInterfaces";
-import { SmsApiClientOptionalParams } from "./models";
+import { SmsImpl, OptOutsImpl } from "./operations/index.js";
+import { Sms, OptOuts } from "./operationsInterfaces/index.js";
+import { SmsApiClientOptionalParams } from "./models/index.js";
 
 export class SmsApiClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -35,10 +35,10 @@ export class SmsApiClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: SmsApiClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.2`;
+    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -48,17 +48,18 @@ export class SmsApiClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-03-07";
+    this.apiVersion = options.apiVersion || "2024-12-10-preview";
     this.sms = new SmsImpl(this);
+    this.optOuts = new OptOutsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -71,7 +72,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -85,10 +86,11 @@ export class SmsApiClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   sms: Sms;
+  optOuts: OptOuts;
 }

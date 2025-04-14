@@ -1,59 +1,53 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable sort-imports */
 
-import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { createPersistence } from "./setup.spec";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+import { DeviceCodeCredential, type TokenCachePersistenceOptions } from "@azure/identity";
+import { msalNodeTestSetup, type MsalTestCleanup } from "./msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import assert from "assert";
+import { createPersistence } from "./setup.spec.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type { MockInstance } from "vitest";
 
-describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
+describe("DeviceCodeCredential (internal)", () => {
   let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let getTokenSilentSpy: MockInstance;
+  let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async (ctx) => {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    getTokenSilentSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClientSecret calls to this method underneath.
-    doGetTokenSpy = setup.sandbox.spy(
-      PublicClientApplication.prototype,
-      "acquireTokenByDeviceCode"
-    );
+    doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode");
   });
-  afterEach(async function () {
+
+  afterEach(async () => {
     await cleanup();
   });
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -64,7 +58,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     await credential.getToken(scope);
@@ -73,19 +67,19 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -96,12 +90,12 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
     // The cache should have a token a this point
     const result = await persistence?.load();
@@ -109,22 +103,22 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("allows passing an authenticationRecord to avoid further manual authentications", async function (this: Mocha.Context) {
+  it("allows passing an authenticationRecord to avoid further manual authentications", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
-      this.skip();
+      ctx.skip();
     }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      name: ctx.task.name.replace(/[^a-zA-Z]/g, "_"),
       unsafeAllowUnencryptedStorage: true,
     };
 
@@ -137,13 +131,13 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     const account = await credential.authenticate(scope);
     assert.ok(account);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(1);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
 
     const credential2 = new DeviceCodeCredential(
       recorder.configureClientOptions({
@@ -151,7 +145,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     // The cache should have a token a this point
@@ -162,9 +156,9 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const token = await credential2.getToken(scope);
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
-    assert.equal(getTokenSilentSpy.callCount, 2);
+    expect(getTokenSilentSpy).toHaveBeenCalledTimes(2);
 
     // Resolved with issue - https://github.com/Azure/azure-sdk-for-js/issues/24349
-    assert.equal(doGetTokenSpy.callCount, 1);
+    expect(doGetTokenSpy).toHaveBeenCalledTimes(1);
   });
 });

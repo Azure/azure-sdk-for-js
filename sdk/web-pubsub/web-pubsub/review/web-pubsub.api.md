@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure/core-client';
+import type { RequestBodyType } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
 
@@ -21,6 +21,7 @@ export interface ClientTokenResponse {
 
 // @public
 export interface GenerateClientTokenOptions extends OperationOptions {
+    clientProtocol?: WebPubSubClientProtocol;
     expirationTimeInMinutes?: number;
     groups?: string[];
     roles?: string[];
@@ -65,6 +66,7 @@ export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
 export interface GroupSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
@@ -133,15 +135,18 @@ export interface HubSendTextToUserOptions extends HubSendToUserOptions {
 export interface HubSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
 export interface HubSendToConnectionOptions extends OperationOptions {
+    messageTtlSeconds?: number;
 }
 
 // @public
 export interface HubSendToUserOptions extends OperationOptions {
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
@@ -152,6 +157,9 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 
 // @public (undocumented)
 export type Permission = "joinLeaveGroup" | "sendToGroup";
+
+// @public
+export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";
 
 // @public (undocumented)
 export interface WebPubSubGroup {
@@ -173,6 +181,7 @@ export interface WebPubSubGroup {
 export class WebPubSubServiceClient {
     constructor(connectionString: string, hubName: string, options?: WebPubSubServiceClientOptions);
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: WebPubSubServiceClientOptions);
+    addConnectionsToGroups(groups: string[], filter: string, options?: GroupAddConnectionOptions): Promise<void>;
     readonly apiVersion: string;
     closeAllConnections(options?: HubCloseAllConnectionsOptions): Promise<void>;
     closeConnection(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
@@ -186,6 +195,7 @@ export class WebPubSubServiceClient {
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
     readonly hubName: string;
     removeConnectionFromAllGroups(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
+    removeConnectionsFromGroups(groups: string[], filter: string, options?: GroupRemoveConnectionOptions): Promise<void>;
     removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;

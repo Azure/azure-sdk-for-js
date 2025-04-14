@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { EventData, TenantActivityLogsListOptionalParams } from "../models";
+import { EventData, TenantActivityLogsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TenantActivityLogs. */
@@ -20,6 +20,6 @@ export interface TenantActivityLogs {
    * @param options The options parameters.
    */
   list(
-    options?: TenantActivityLogsListOptionalParams
+    options?: TenantActivityLogsListOptionalParams,
   ): PagedAsyncIterableIterator<EventData>;
 }

@@ -10,8 +10,8 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EncryptionProtectorName,
   DatabaseEncryptionProtectorsRevalidateOptionalParams,
-  DatabaseEncryptionProtectorsRevertOptionalParams
-} from "../models";
+  DatabaseEncryptionProtectorsRevertOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a DatabaseEncryptionProtectors. */
 export interface DatabaseEncryptionProtectors {
@@ -29,7 +29,7 @@ export interface DatabaseEncryptionProtectors {
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams
+    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates an existing encryption protector for a particular database.
@@ -45,7 +45,7 @@ export interface DatabaseEncryptionProtectors {
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams
+    options?: DatabaseEncryptionProtectorsRevalidateOptionalParams,
   ): Promise<void>;
   /**
    * Reverts an existing encryption protector for a particular database.
@@ -61,7 +61,7 @@ export interface DatabaseEncryptionProtectors {
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevertOptionalParams
+    options?: DatabaseEncryptionProtectorsRevertOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reverts an existing encryption protector for a particular database.
@@ -77,6 +77,6 @@ export interface DatabaseEncryptionProtectors {
     serverName: string,
     databaseName: string,
     encryptionProtectorName: EncryptionProtectorName,
-    options?: DatabaseEncryptionProtectorsRevertOptionalParams
+    options?: DatabaseEncryptionProtectorsRevertOptionalParams,
   ): Promise<void>;
 }

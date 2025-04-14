@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PlanDataResource, PlansListOptionalParams } from "../models";
+import { PlanDataResource, PlansListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Plans. */
@@ -17,6 +17,6 @@ export interface Plans {
    * @param options The options parameters.
    */
   list(
-    options?: PlansListOptionalParams
+    options?: PlansListOptionalParams,
   ): PagedAsyncIterableIterator<PlanDataResource>;
 }

@@ -16,8 +16,8 @@ import {
   PipelinesGetResponse,
   PipelinesDeleteOptionalParams,
   PipelinesCreateRunOptionalParams,
-  PipelinesCreateRunResponse
-} from "../models";
+  PipelinesCreateRunResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Pipelines. */
@@ -31,7 +31,7 @@ export interface Pipelines {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: PipelinesListByFactoryOptionalParams
+    options?: PipelinesListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<PipelineResource>;
   /**
    * Creates or updates a pipeline.
@@ -46,7 +46,7 @@ export interface Pipelines {
     factoryName: string,
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelinesCreateOrUpdateOptionalParams
+    options?: PipelinesCreateOrUpdateOptionalParams,
   ): Promise<PipelinesCreateOrUpdateResponse>;
   /**
    * Gets a pipeline.
@@ -59,7 +59,7 @@ export interface Pipelines {
     resourceGroupName: string,
     factoryName: string,
     pipelineName: string,
-    options?: PipelinesGetOptionalParams
+    options?: PipelinesGetOptionalParams,
   ): Promise<PipelinesGetResponse>;
   /**
    * Deletes a pipeline.
@@ -72,7 +72,7 @@ export interface Pipelines {
     resourceGroupName: string,
     factoryName: string,
     pipelineName: string,
-    options?: PipelinesDeleteOptionalParams
+    options?: PipelinesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates a run of a pipeline.
@@ -85,6 +85,6 @@ export interface Pipelines {
     resourceGroupName: string,
     factoryName: string,
     pipelineName: string,
-    options?: PipelinesCreateRunOptionalParams
+    options?: PipelinesCreateRunOptionalParams,
   ): Promise<PipelinesCreateRunResponse>;
 }

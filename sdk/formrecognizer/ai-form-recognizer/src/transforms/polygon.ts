@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   BoundingRegion as GeneratedBoundingRegion,
   DocumentKeyValuePair as GeneratedDocumentKeyValuePair,
   DocumentTable as GeneratedDocumentTable,
-} from "../generated";
-import { BoundingRegion, DocumentKeyValuePair, DocumentTable } from "../models/documentElements";
+} from "../generated/index.js";
+import type {
+  BoundingRegion,
+  DocumentKeyValuePair,
+  DocumentTable,
+} from "../models/documentElements.js";
 
 /**
  * Represents a point used to define bounding polygons. The unit is either 'pixel' or 'inch' (See {@link LengthUnit}).
@@ -28,7 +32,7 @@ export function toBoundingPolygon(original: number[] | undefined): Point2D[] | u
 
   if (original.length % 2 !== 0) {
     throw new Error(
-      "Unexpected number of points in the response, unable to translate as 2D points"
+      "Unexpected number of points in the response, unable to translate as 2D points",
     );
   }
 
@@ -40,7 +44,7 @@ export function toBoundingPolygon(original: number[] | undefined): Point2D[] | u
 }
 
 export function toBoundingRegions(
-  original: GeneratedBoundingRegion[] | undefined
+  original: GeneratedBoundingRegion[] | undefined,
 ): BoundingRegion[] | undefined {
   return original?.map((region) => ({ ...region, polygon: toBoundingPolygon(region.polygon) }));
 }
@@ -57,7 +61,7 @@ export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): Doc
 }
 
 export function toKeyValuePairFromGenerated(
-  pair: GeneratedDocumentKeyValuePair
+  pair: GeneratedDocumentKeyValuePair,
 ): DocumentKeyValuePair {
   return {
     ...pair,

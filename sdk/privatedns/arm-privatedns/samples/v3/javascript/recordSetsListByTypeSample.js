@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAList.json
  */
 async function getPrivateDnsZoneARecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -29,7 +29,7 @@ async function getPrivateDnsZoneARecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function getPrivateDnsZoneARecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAAAAList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAList.json
  */
 async function getPrivateDnsZoneAaaaRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -53,7 +53,7 @@ async function getPrivateDnsZoneAaaaRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -64,7 +64,7 @@ async function getPrivateDnsZoneAaaaRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetCNAMEList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEList.json
  */
 async function getPrivateDnsZoneCnameRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -77,7 +77,7 @@ async function getPrivateDnsZoneCnameRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -88,7 +88,7 @@ async function getPrivateDnsZoneCnameRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetMXList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXList.json
  */
 async function getPrivateDnsZoneMxRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -101,7 +101,7 @@ async function getPrivateDnsZoneMxRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -112,7 +112,7 @@ async function getPrivateDnsZoneMxRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetPTRList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRList.json
  */
 async function getPrivateDnsZonePtrRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -125,7 +125,7 @@ async function getPrivateDnsZonePtrRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -136,7 +136,7 @@ async function getPrivateDnsZonePtrRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSOAList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAList.json
  */
 async function getPrivateDnsZoneSoaRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -149,7 +149,7 @@ async function getPrivateDnsZoneSoaRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -160,7 +160,7 @@ async function getPrivateDnsZoneSoaRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSRVList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVList.json
  */
 async function getPrivateDnsZoneSrvRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -173,7 +173,7 @@ async function getPrivateDnsZoneSrvRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }
@@ -184,7 +184,7 @@ async function getPrivateDnsZoneSrvRecordSets() {
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary Lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetTXTList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTList.json
  */
 async function getPrivateDnsZoneTxtRecordSets() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -197,7 +197,7 @@ async function getPrivateDnsZoneTxtRecordSets() {
   for await (let item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
-    recordType
+    recordType,
   )) {
     resArray.push(item);
   }

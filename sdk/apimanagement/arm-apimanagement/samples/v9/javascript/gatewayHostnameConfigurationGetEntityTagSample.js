@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks that hostname configuration entity specified by identifier exists for specified Gateway entity.
  *
  * @summary Checks that hostname configuration entity specified by identifier exists for specified Gateway entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadGatewayHostnameConfiguration.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGatewayHostnameConfiguration.json
  */
 async function apiManagementHeadGatewayHostnameConfiguration() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

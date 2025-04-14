@@ -2,9 +2,6 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,7 +22,7 @@ async function deleteAppServicePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .delete();
   console.log(result);

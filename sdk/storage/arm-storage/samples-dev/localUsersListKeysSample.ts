@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List SSH authorized keys and shared key of the local user.
  *
  * @summary List SSH authorized keys and shared key of the local user.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserListKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUserListKeys.json
  */
-async function listLocalUserKeys() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+async function listLocalUserKeys(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const credential = new DefaultAzureCredential();
@@ -27,9 +27,13 @@ async function listLocalUserKeys() {
   const result = await client.localUsersOperations.listKeys(
     resourceGroupName,
     accountName,
-    username
+    username,
   );
   console.log(result);
 }
 
-listLocalUserKeys().catch(console.error);
+async function main(): Promise<void> {
+  await listLocalUserKeys();
+}
+
+main().catch(console.error);

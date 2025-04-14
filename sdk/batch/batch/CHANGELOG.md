@@ -1,5 +1,77 @@
 # Release History
 
+## 12.0.0 (2024-09-07)
+
+### Breaking Changes
+
+- Removed `client.computeNode.getRemoteDesktop()` method, use `client.computeNode.getRemoteLoginSettings()` instead.
+
+- Removed `cloudServiceConfiguration` from type `PoolAddParameter` and related types.
+
+- Removed `applicationLicenses` from type `PoolAddParameter` and related types.
+
+### Features
+
+- Force delete/terminate job/jobSchedule.
+  - add `force` of type Boolean to type `JobScheduleDeleteMethodOptions`, `JobScheduleTerminateOptions`, `JobDeleteMethodOptions`, and `JobTerminateOptions`.
+
+- Compute node start/deallocate support.
+  - Added `client.computedNode.start()` and `client.computedNode.deallocate()` method as well as `ComputeNodeStartOptionalParams` and `ComputeNodeDeallocateOptionalParams` types.
+
+- Container task data mount isolation.
+  - Added `containerHostBatchBindMounts` of type `ContainerHostBatchBindMountEntry[]` to `TaskContainerSettings`.
+
+- Added `displayName`, `vmSize`, `taskSlotsPerNode`, `taskSchedulingPolicy`, `enableInterNodeCommunication`, `virtualMachineConfiguration`, `networkConfiguration`, `userAccounts`, `mountConfiguration`, `upgradePolicy`, and `resourceTags` to type `PoolPatchParameter`.
+
+- Confidential VM support.
+  - Added 'confidentialVM' value to type `SecurityTypes`.
+  - Added `securityProfile` of type `VMDiskSecurityProfile` to type `ManagedDisk`.
+
+- Added `sharedGalleryImageId` and `communityGalleryImageId` of type string to type `ImageReference`.
+
+## 11.1.0 (2024-04-03)
+
+### Features
+
+- Added `upgradePolicy` property of type `UpgradePolicy` to `PoolSpecification` and `CloudPool` to supported Automatic OS Upgrade for pools.
+  - `UpgradePolicy` has three properties, `mode` of type `UpgradeMode`, `automaticOSUpgradePolicy` of type `AutomaticOSUpgradePolicy`, and `rollingUpgradePolicy` of type `RollingUpgradePolicy`
+
+- Added `resourceTags` property to `PoolSpecification` and `CloudPool`
+  - Users are able to specify resource tags for a pool. This feature is currently only supported for pool creation but will be updatable in the future.
+
+- Added `securityProfile` property of type `SecurityProfile` to `VirtualMachineConfiguration` for pool creation.
+  - It supportS Trusted Launch which provides advanced security to Guest OS preventing boot-kits/rootkits (like un-signed driver or kernel modification) to be introduced into boot-chain.
+
+- Added `caching`, `managedDisk`, `diskSizeGB`, and `writeAcceleratorEnabled` properties to `OSDisk` for pool creation.
+
+- Added `serviceArtifactReference` property to `VirtualMachineConfiguration`.
+
+- Added `standardssd_lrs` value to `StorageAccountType` enum.
+
+- Added `scaleSetVmResourceID` property to `VirtualMachineInfo`.
+
+## 11.0.0 (2023-05-01)
+
+### Breaking Changes
+
+- Job/Pool lifetime statistics removal.
+  - `client.pool.getAllLifetimeStatistics()` and `client.job.getAllLifetimeStatistics()` methods are removed.
+
+### Features
+
+- Added new boolean property `enableAcceleratedNetworking` to type `NetworkConfiguration`.
+  - This property determines whether to create a pool with VMSS [accelerated networking enabled](https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview).
+  - Default to be `false`.
+- Added new boolean property `enableAutomaticUpgrade` to type `VMExtension`.
+  - Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.
+- Added a new property `type` to type `ContainerConfiguration`.
+  - The container technology to be used. Possible values include: `dockerCompatible` and `criCompatible`.
+
+### Other Changes
+
+- Deprecating `CertificateOperations` related methods.
+  - This operation is deprecating and will be removed after February 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
+
 ## 10.2.0 (2022-10-01)
 
 ### Features
@@ -14,7 +86,6 @@
 
 - Modified descriptions of the `applicationPackageReferences`, `uploadHeaders`, and `name` (UserAccount) properties.
 
-
 ## 10.1.0 (2022-02-09)
 
 ### Features
@@ -25,6 +96,6 @@
 - Added boolean property `allowTaskPreemption` to `JobSpecification`, `CloudJob`, `JobAddParameter`, `JobPatchParameter`, `JobUpdateParameter`
   - Mark Tasks as preemptible for higher priority Tasks (requires Comms-Enabled or Single Tenant Pool).
 
-
 ### Bugs Fixed
+
 - Fixed missing SharedKeyCredentials class export.

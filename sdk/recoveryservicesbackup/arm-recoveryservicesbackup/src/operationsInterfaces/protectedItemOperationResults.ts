@@ -8,8 +8,8 @@
 
 import {
   ProtectedItemOperationResultsGetOptionalParams,
-  ProtectedItemOperationResultsGetResponse
-} from "../models";
+  ProtectedItemOperationResultsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ProtectedItemOperationResults. */
 export interface ProtectedItemOperationResults {
@@ -31,6 +31,6 @@ export interface ProtectedItemOperationResults {
     containerName: string,
     protectedItemName: string,
     operationId: string,
-    options?: ProtectedItemOperationResultsGetOptionalParams
+    options?: ProtectedItemOperationResultsGetOptionalParams,
   ): Promise<ProtectedItemOperationResultsGetResponse>;
 }

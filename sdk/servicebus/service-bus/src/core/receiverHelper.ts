@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import { Receiver, ReceiverEvents } from "rhea-promise";
-import { receiverLogger as logger } from "../log";
-import { ServiceBusError } from "../serviceBusError";
-import { receiveDrainTimeoutInMs } from "../util/constants";
+import type { Receiver } from "rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
+import { receiverLogger as logger } from "../log.js";
+import { ServiceBusError } from "../serviceBusError.js";
+import { receiveDrainTimeoutInMs } from "../util/constants.js";
 
 /**
  * Wraps the receiver with some higher level operations for managing state
@@ -17,7 +18,7 @@ export class ReceiverHelper {
   private _isSuspended: boolean = true;
 
   constructor(
-    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string }
+    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
   ) {}
 
   private _getCurrentReceiverOrError():
@@ -85,7 +86,7 @@ export class ReceiverHelper {
     }
 
     logger.verbose(
-      `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`
+      `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`,
     );
 
     return this.drain();
@@ -123,7 +124,7 @@ export class ReceiverHelper {
     }
 
     logger.verbose(
-      `${logPrefix} Receiver is starting drain. Remaining credits; ${receiver.credit}`
+      `${logPrefix} Receiver is starting drain. Remaining credits; ${receiver.credit}`,
     );
 
     const drainPromise = new Promise<void>((resolve) => {

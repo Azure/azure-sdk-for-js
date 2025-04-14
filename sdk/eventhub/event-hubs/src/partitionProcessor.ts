@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   BasicPartitionProperties,
   PartitionContext,
   SubscriptionEventHandlers,
-} from "./eventHubConsumerClientModels";
-import { CheckpointStore } from "./eventProcessor";
-import { CloseReason } from "./models/public";
-import { LastEnqueuedEventProperties } from "./partitionReceiver";
-import { ReceivedEventData } from "./eventData";
-import { logger } from "./logger";
+} from "./eventHubConsumerClientModels.js";
+import type { CheckpointStore } from "./eventProcessor.js";
+import type { CloseReason } from "./models/public.js";
+import type { LastEnqueuedEventProperties } from "./partitionReceiver.js";
+import type { ReceivedEventData } from "./eventData.js";
+import { logger } from "./logger.js";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -48,7 +48,7 @@ export interface Checkpoint {
   /**
    * The offset of the event.
    */
-  offset: number;
+  offset: string;
 }
 
 /**
@@ -69,7 +69,7 @@ export class PartitionProcessor implements PartitionContext {
     private _checkpointStore: CheckpointStore,
     private _context: BasicPartitionProperties & {
       eventProcessorId: string;
-    }
+    },
   ) {}
 
   /**

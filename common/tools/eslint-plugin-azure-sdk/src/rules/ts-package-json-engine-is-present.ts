@@ -1,30 +1,45 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force Node support for all LTS versions.
- * @author Arpan Laha
+ *
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import {
+  VerifierMessageIds,
+  VerifierMessages,
+  createRule,
+  getVerifiers,
+  stripPath,
+} from "../utils/index.js";
 
 /**
  * definition of LTS Node versions
  * * needs updating as definitions change
  */
-const LTS = ">=14.0.0";
+export const LTS = ">=18.0.0";
+export type Options = [
+  {
+    nodeVersionOverride?: string;
+  },
+];
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-engine-is-present",
-    "force Node support for all LTS versions",
-    "code",
-    [
+export default createRule<Options, VerifierMessageIds>({
+  name: "ts-package-json-engine-is-present",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "Check engines field is set to current Node LTS",
+    },
+    messages: {
+      ...VerifierMessages,
+    },
+    schema: [
       {
         type: "object",
         properties: {
@@ -35,31 +50,32 @@ export = {
           },
         },
       },
-    ]
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const options = context.options[0] || {};
+    ],
+    fixable: "code",
+  },
+  defaultOptions: [{}],
+  create(context) {
+    const version = context.options[0]?.nodeVersionOverride ?? LTS;
 
     const verifiers = getVerifiers(context, {
       outer: "engines",
       inner: "node",
-      expected: options.nodeVersionOverride || LTS,
+      expected: version,
     });
-    return stripPath(context.getFilename()) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    return {
+      // check to see if engines exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if engines exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      // check that node is a member of engines
+      "ExpressionStatement > ObjectExpression > Property[key.value='engines']":
+        verifiers.isMemberOf,
 
-          // check that node is a member of engines
-          "ExpressionStatement > ObjectExpression > Property[key.value='engines']":
-            verifiers.isMemberOf,
-
-          // check the node corresponding to engines.node to see if it is set to '>=8.0.0'
-          "ExpressionStatement > ObjectExpression > Property[key.value='engines'] > ObjectExpression > Property[key.value='node']":
-            verifiers.innerMatchesExpected,
-        } as Rule.RuleListener)
-      : {};
+      // check the node corresponding to engines.node to see if it is set to '>=8.0.0'
+      "ExpressionStatement > ObjectExpression > Property[key.value='engines'] > ObjectExpression > Property[key.value='node']":
+        verifiers.innerMatchesExpected,
+    };
   },
-};
+});

@@ -4,16 +4,14 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
-import { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
@@ -71,6 +69,36 @@ export interface ListSipTrunksOptions extends OperationOptions {
 // @public
 export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "administrativeDivision"> {
 }
+
+// @public
+export interface OperatorDetails {
+    mobileCountryCode?: string;
+    mobileNetworkCode?: string;
+    name?: string;
+}
+
+// @public
+export interface OperatorInformation {
+    internationalFormat?: string;
+    isoCountryCode?: string;
+    nationalFormat?: string;
+    numberType?: OperatorNumberType;
+    operatorDetails?: OperatorDetails;
+    phoneNumber: string;
+}
+
+// @public
+export interface OperatorInformationOptions {
+    includeAdditionalOperatorDetails?: boolean;
+}
+
+// @public
+export interface OperatorInformationResult {
+    values?: OperatorInformation[];
+}
+
+// @public
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -144,6 +172,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
+    searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
 // @public
@@ -207,6 +236,12 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export interface SearchOperatorInformationOptions extends OperationOptions {
+    // (undocumented)
+    includeAdditionalOperatorDetails?: boolean;
 }
 
 // @public

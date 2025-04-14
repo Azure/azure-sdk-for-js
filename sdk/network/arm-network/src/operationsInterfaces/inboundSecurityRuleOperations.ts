@@ -10,8 +10,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InboundSecurityRule,
   InboundSecurityRuleCreateOrUpdateOptionalParams,
-  InboundSecurityRuleCreateOrUpdateResponse
-} from "../models";
+  InboundSecurityRuleCreateOrUpdateResponse,
+  InboundSecurityRuleGetOptionalParams,
+  InboundSecurityRuleGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a InboundSecurityRuleOperations. */
 export interface InboundSecurityRuleOperations {
@@ -29,7 +31,7 @@ export interface InboundSecurityRuleOperations {
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InboundSecurityRuleCreateOrUpdateResponse>,
@@ -50,6 +52,19 @@ export interface InboundSecurityRuleOperations {
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams,
   ): Promise<InboundSecurityRuleCreateOrUpdateResponse>;
+  /**
+   * Retrieves the available specified Network Virtual Appliance Inbound Security Rules Collection.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
+   * @param ruleCollectionName The name of security rule collection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    ruleCollectionName: string,
+    options?: InboundSecurityRuleGetOptionalParams,
+  ): Promise<InboundSecurityRuleGetResponse>;
 }

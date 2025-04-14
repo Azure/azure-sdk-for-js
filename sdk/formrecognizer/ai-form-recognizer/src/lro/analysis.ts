@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { FormRecognizerError } from "../error";
-import {
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import { FormRecognizerError } from "../error.js";
+import type {
   AnalyzeResult as GeneratedAnalyzeResult,
   AnalyzeResultOperation,
   AnalyzeResultOperationStatus as AnalyzeOperationStatus,
   DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
-} from "../generated";
-import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
-import { FormRecognizerApiVersion, PollerOptions } from "../options";
-import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
+} from "../generated/index.js";
+import type { DocumentField } from "../models/fields.js";
+import { toAnalyzedDocumentFieldsFromGenerated } from "../models/fields.js";
+import type { PollerOptions } from "../options/index.js";
+import type { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions.js";
 import {
   toBoundingPolygon,
   toBoundingRegions,
   toDocumentTableFromGenerated,
   toKeyValuePairFromGenerated,
-} from "../transforms/polygon";
-import {
+} from "../transforms/polygon.js";
+import type {
   BoundingRegion,
   DocumentTable,
   DocumentKeyValuePair,
@@ -28,13 +29,12 @@ import {
   DocumentLine,
   DocumentParagraph,
   DocumentFormula,
-  DocumentImage,
-} from "../models/documentElements";
-import {
+} from "../models/documentElements.js";
+import type {
   Document as GeneratedDocument,
   DocumentPage as GeneratedDocumentPage,
   DocumentLine as GeneratedDocumentLine,
-} from "../generated";
+} from "../generated/index.js";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
@@ -103,7 +103,7 @@ export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
    */
-  apiVersion: FormRecognizerApiVersion;
+  apiVersion: string;
 
   /**
    * The unique ID of the model that was used to produce this result.
@@ -195,14 +195,14 @@ export function* iterFrom<T>(items: T[], idx: number): Generator<T> {
 
 export function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
-  page: GeneratedDocumentPage
+  page: GeneratedDocumentPage,
 ): DocumentLine {
   (generated as DocumentLine).words = () =>
     fastGetChildren(
       iterFrom(generated.spans, 0),
       page.words?.map((word) => {
         return { ...word, polygon: toBoundingPolygon(word.polygon) };
-      }) ?? []
+      }) ?? [],
     );
 
   (generated as DocumentLine).polygon = toBoundingPolygon(generated.polygon);
@@ -217,7 +217,6 @@ export function toDocumentLineFromGenerated(
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
-    kind: generated.kind ?? "document",
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
       ...mark,
@@ -227,10 +226,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
-    annotations: generated.annotations?.map((annotation) => ({
-      ...annotation,
-      polygon: toBoundingPolygon(annotation.polygon),
-    })),
     barcodes: generated.barcodes?.map((barcode) => ({
       ...barcode,
       polygon: toBoundingPolygon(barcode.polygon),
@@ -239,13 +234,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       (formula): DocumentFormula => ({
         ...formula,
         polygon: toBoundingPolygon(formula.polygon),
-      })
-    ),
-    images: generated.images?.map(
-      (image): DocumentImage => ({
-        ...image,
-        polygon: toBoundingPolygon(image.polygon),
-      })
+      }),
     ),
   };
 }
@@ -264,7 +253,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
  */
 export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
   span: DocumentSpan,
-  items: Spanned[]
+  items: Spanned[],
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
   let prevIdx = idx;
@@ -306,7 +295,7 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
  */
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   spans: Iterator<DocumentSpan>,
-  childrenArray: Spanned[]
+  childrenArray: Spanned[],
 ): Generator<Spanned> {
   let curSpan = spans.next();
 
@@ -384,7 +373,7 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
  */
 export function toAnalyzeResultFromGenerated(result: GeneratedAnalyzeResult): AnalyzeResult {
   return {
-    apiVersion: result.apiVersion as FormRecognizerApiVersion,
+    apiVersion: result.apiVersion,
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
@@ -421,7 +410,7 @@ export function toDocumentAnalysisPollOperationState<Result>(
   definition: AnalysisOperationDefinition<Result>,
   modelId: string,
   operationLocation: string,
-  response: AnalyzeResultOperation
+  response: AnalyzeResultOperation,
 ): DocumentAnalysisPollOperationState<Result> {
   return {
     status: response.status,

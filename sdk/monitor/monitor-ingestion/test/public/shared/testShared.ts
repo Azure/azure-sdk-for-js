@@ -1,22 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  env,
-} from "@azure-tools/test-recorder";
+// Licensed under the MIT License.
 
+import { createTestCredential } from "@azure-tools/test-credential";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
-import { LogsIngestionClient } from "../../../src";
-import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
-import { AdditionalPolicyConfig } from "@azure/core-client";
+import { LogsIngestionClient } from "../../../src/index.js";
+import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig } from "@azure/core-client";
 export const loggerForTest = createClientLogger("test");
+
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
   LOGS_INGESTION_ENDPOINT:
     "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com",
   DATA_COLLECTION_RULE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop",
@@ -36,7 +30,7 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 export async function createClientAndStartRecorder(
   recorder: Recorder,
   additionalPolicies?: AdditionalPolicyConfig[],
-  retryOptions?: ExponentialRetryPolicyOptions
+  retryOptions?: ExponentialRetryPolicyOptions,
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
   const client = new LogsIngestionClient(
@@ -45,7 +39,7 @@ export async function createClientAndStartRecorder(
     recorder.configureClientOptions({
       retryOptions,
       additionalPolicies,
-    })
+    }),
   );
   return {
     client,

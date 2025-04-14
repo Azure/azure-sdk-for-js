@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable @typescript-eslint/no-invalid-this */
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { ChatClient, ChatMessage, ChatThreadClient } from "../../src";
-import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
-import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
-import { Context } from "mocha";
-import { CommunicationUserToken } from "@azure/communication-identity";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ChatClient, ChatMessage, ChatThreadClient } from "../../src/index.js";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import { getIdentifierKind } from "@azure/communication-common";
+import type { CommunicationUserToken } from "@azure/communication-identity";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { isNodeLike } from "@azure/core-util";
 
-describe("ChatThreadClient", function () {
+// TODO: Re-record the tests with the new recorder
+describe("ChatThreadClient", { skip: !isNodeLike }, () => {
   let messageId: string;
   let recorder: Recorder;
   let chatClient: ChatClient;
@@ -21,8 +22,8 @@ describe("ChatThreadClient", function () {
   let testUser2: CommunicationIdentifier;
   let testUser3: CommunicationIdentifier;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     if (!communicationUserToken) {
       communicationUserToken = await createTestUser(recorder);
       await recorder.setMatcher("HeaderlessMatcher");
@@ -32,14 +33,14 @@ describe("ChatThreadClient", function () {
     chatThreadClient = chatClient.getChatThreadClient(threadId);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   /**
    * This test intialized chatThreadClient for other tests with recorder enabled
    */
-  it("successfully initializes chatThreadClient", async function () {
+  it("successfully initializes chatThreadClient", { timeout: 8000 }, async () => {
     // Create ChatClient
     testUser = communicationUserToken.user;
     testUser2 = (await createTestUser(recorder)).user;
@@ -52,15 +53,15 @@ describe("ChatThreadClient", function () {
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
     threadId = chatThreadResult.chatThread?.id as string;
-  }).timeout(8000);
+  });
 
-  it("successfully gets the thread properties", async function () {
+  it("successfully gets the thread properties", async () => {
     const thread = await chatThreadClient.getProperties();
 
     assert.equal(threadId, thread.id);
   });
 
-  it("successfully updates the thread topic", async function () {
+  it("successfully updates the thread topic", async () => {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
@@ -68,7 +69,7 @@ describe("ChatThreadClient", function () {
     assert.equal(topic, thread.topic);
   });
 
-  it("successfully sends a message", async function () {
+  it("successfully sends a message", async () => {
     const request = { content: `content` };
     const options = { metadata: { tags: "sometag" } };
     const result = await chatThreadClient.sendMessage(request, options);
@@ -77,17 +78,17 @@ describe("ChatThreadClient", function () {
     messageId = result.id!;
   });
 
-  it("successfully sends typing notification", async function () {
+  it("successfully sends typing notification", async () => {
     const result = await chatThreadClient.sendTypingNotification();
 
     assert.isTrue(result);
   });
 
-  it("successfully sends read receipt", async function () {
+  it("successfully sends read receipt", async () => {
     await chatThreadClient.sendReadReceipt({ chatMessageId: messageId });
   });
 
-  it("successfully retrieves a message", async function () {
+  it("successfully retrieves a message", async () => {
     const message = await chatThreadClient.getMessage(messageId);
 
     assert.isNotNull(message);
@@ -95,7 +96,7 @@ describe("ChatThreadClient", function () {
     assert.isDefined(message.metadata?.tags);
   });
 
-  it("successfully lists messages one by one and by page", async function () {
+  it("successfully lists messages one by one and by page", async () => {
     const receivedItems: ChatMessage[] = [];
     for await (const message of chatThreadClient.listMessages()) {
       receivedItems.push(message);
@@ -118,18 +119,18 @@ describe("ChatThreadClient", function () {
     assert.deepEqual(receivedPagedItems, receivedItems);
   });
 
-  it("successfully deletes a message", async function () {
+  it("successfully deletes a message", async () => {
     await chatThreadClient.deleteMessage(messageId);
   });
 
-  it("successfully adds participants", async function () {
+  it("successfully adds participants", async () => {
     testUser3 = (await createTestUser(recorder)).user;
 
     const request = { participants: [{ id: testUser3 }] };
     await chatThreadClient.addParticipants(request);
   });
 
-  it("successfully lists participants", async function () {
+  it("successfully lists participants", async () => {
     const list: string[] = [];
     for await (const participant of chatThreadClient.listParticipants()) {
       const id = getIdentifierKind(participant.id);
@@ -150,11 +151,11 @@ describe("ChatThreadClient", function () {
     }
   });
 
-  it("successfully remove a participant", async function () {
+  it("successfully remove a participant", async () => {
     await chatThreadClient.removeParticipant(testUser2);
   });
 
-  it("successfully lists read receipts", async function () {
+  it("successfully lists read receipts", async () => {
     const list: string[] = [];
     for await (const receipt of chatThreadClient.listReadReceipts()) {
       list.push(receipt.chatMessageId!);

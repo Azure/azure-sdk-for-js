@@ -1,37 +1,42 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { MsalFlow } from "../msal/flows";
-import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
-import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+  resolveAdditionallyAllowedTenantIds,
+} from "../util/tenantIdUtils.js";
+
+import { CredentialUnavailableError } from "../errors.js";
+import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
 /**
- * Enables authentication to Azure Active Directory with a user's
+ * Enables authentication to Microsoft Entra ID with a user's
  * username and password. This credential requires a high degree of
  * trust so you should only use it when other, more secure credential
  * types can't be used.
+ * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
  */
 export class UsernamePasswordCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
+  private username: string;
+  private password: string;
 
   /**
    * Creates an instance of the UsernamePasswordCredential with the details
-   * needed to authenticate against Azure Active Directory with a username
+   * needed to authenticate against Microsoft Entra ID with a username
    * and password.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory).
+   * @param tenantId - The Microsoft Entra tenant (directory).
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param username - The user account's e-mail address (user name).
    * @param password - The user account's account password
@@ -42,32 +47,48 @@ export class UsernamePasswordCredential implements TokenCredential {
     clientId: string,
     username: string,
     password: string,
-    options: UsernamePasswordCredentialOptions = {}
+    options: UsernamePasswordCredentialOptions = {},
   ) {
-    if (!tenantId || !clientId || !username || !password) {
-      throw new Error(
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: tenantId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: clientId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!username) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: username is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!password) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: password is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
       );
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
 
-    this.msalFlow = new MsalUsernamePassword({
+    this.username = username;
+    this.password = password;
+
+    this.msalClient = createMsalClient(clientId, this.tenantId, {
       ...options,
-      logger,
-      clientId,
-      tenantId,
-      username,
-      password,
-      tokenCredentialOptions: options || {},
+      tokenCredentialOptions: options ?? {},
     });
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
@@ -87,12 +108,17 @@ export class UsernamePasswordCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, newOptions);
-      }
+        return this.msalClient.getTokenByUsernamePassword(
+          arrayScopes,
+          this.username,
+          this.password,
+          newOptions,
+        );
+      },
     );
   }
 }

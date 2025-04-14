@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Un-attach a NetworkConnection.
  *
  * @summary Un-attach a NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/AttachedNetworks_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_Delete.json
  */
 async function attachedNetworksDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function attachedNetworksDelete() {
   const result = await client.attachedNetworks.beginDeleteAndWait(
     resourceGroupName,
     devCenterName,
-    attachedNetworkConnectionName
+    attachedNetworkConnectionName,
   );
   console.log(result);
 }

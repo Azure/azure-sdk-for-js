@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the storage account.
  *
  * @summary Gets the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountGetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPrivateEndpointConnection.json
  */
-async function storageAccountGetPrivateEndpointConnection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+async function storageAccountGetPrivateEndpointConnection(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const privateEndpointConnectionName = "{privateEndpointConnectionName}";
   const credential = new DefaultAzureCredential();
@@ -27,9 +27,13 @@ async function storageAccountGetPrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     accountName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
-storageAccountGetPrivateEndpointConnection().catch(console.error);
+async function main(): Promise<void> {
+  await storageAccountGetPrivateEndpointConnection();
+}
+
+main().catch(console.error);

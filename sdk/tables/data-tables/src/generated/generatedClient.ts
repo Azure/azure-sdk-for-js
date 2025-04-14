@@ -7,9 +7,9 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { TableImpl, ServiceImpl } from "./operations";
-import { Table, Service } from "./operationsInterfaces";
-import { GeneratedClientOptionalParams } from "./models";
+import { TableImpl, ServiceImpl } from "./operations/index.js";
+import { Table, Service } from "./operationsInterfaces/index.js";
+import { GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends coreClient.ServiceClient {

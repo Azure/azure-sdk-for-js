@@ -9,11 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Cluster as ClusterMapper,
   EHNamespace as EHNamespaceMapper,
+  FailOver as FailOverMapper,
   NetworkRuleSet as NetworkRuleSetMapper,
   AuthorizationRule as AuthorizationRuleMapper,
   RegenerateAccessKeyParameters as RegenerateAccessKeyParametersMapper,
@@ -24,8 +25,8 @@ import {
   Eventhub as EventhubMapper,
   ConsumerGroup as ConsumerGroupMapper,
   SchemaGroup as SchemaGroupMapper,
-  ApplicationGroup as ApplicationGroupMapper
-} from "../models/mappers";
+  ApplicationGroup as ApplicationGroupMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -34,9 +35,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -45,10 +46,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -57,21 +58,21 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -79,14 +80,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterName: OperationURLParameter = {
@@ -94,14 +95,14 @@ export const clusterName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 6
+      MinLength: 6,
     },
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -111,14 +112,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterMapper
+  mapper: ClusterMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -127,69 +128,75 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: EHNamespaceMapper
+  mapper: EHNamespaceMapper,
 };
 
 export const namespaceName: OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]{6,50}[a-zA-Z0-9]$"),
       MaxLength: 50,
-      MinLength: 6
+      MinLength: 6,
     },
     serializedName: "namespaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkRuleSetMapper
+  mapper: FailOverMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AuthorizationRuleMapper
+  mapper: NetworkRuleSetMapper,
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AuthorizationRuleMapper,
 };
 
 export const authorizationRuleName: OperationURLParameter = {
   parameterPath: "authorizationRuleName",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "authorizationRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RegenerateAccessKeyParametersMapper
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckNameAvailabilityParameterMapper
+  mapper: RegenerateAccessKeyParametersMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: CheckNameAvailabilityParameterMapper,
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -198,9 +205,9 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceAssociationName: OperationURLParameter = {
@@ -209,14 +216,14 @@ export const resourceAssociationName: OperationURLParameter = {
     serializedName: "resourceAssociationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ClusterQuotaConfigurationPropertiesMapper
+  mapper: ClusterQuotaConfigurationPropertiesMapper,
 };
 
 export const alias: OperationURLParameter = {
@@ -224,19 +231,19 @@ export const alias: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "alias",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArmDisasterRecoveryMapper
+  mapper: ArmDisasterRecoveryMapper,
 };
 
 export const eventHubName: OperationURLParameter = {
@@ -244,14 +251,14 @@ export const eventHubName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 256,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "eventHubName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -259,13 +266,13 @@ export const skip: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -273,23 +280,23 @@ export const top: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EventhubMapper
+      name: "Number",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConsumerGroupMapper
+  mapper: EventhubMapper,
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ConsumerGroupMapper,
 };
 
 export const consumerGroupName: OperationURLParameter = {
@@ -297,19 +304,19 @@ export const consumerGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "consumerGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SchemaGroupMapper
+  mapper: SchemaGroupMapper,
 };
 
 export const schemaGroupName: OperationURLParameter = {
@@ -317,19 +324,19 @@ export const schemaGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 256,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "schemaGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ApplicationGroupMapper
+  mapper: ApplicationGroupMapper,
 };
 
 export const applicationGroupName: OperationURLParameter = {
@@ -337,12 +344,12 @@ export const applicationGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 256,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "applicationGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

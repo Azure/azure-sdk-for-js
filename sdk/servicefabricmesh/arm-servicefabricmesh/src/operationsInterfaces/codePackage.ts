@@ -9,7 +9,7 @@
 import {
   CodePackageGetContainerLogsOptionalParams,
   CodePackageGetContainerLogsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CodePackage. */
 export interface CodePackage {

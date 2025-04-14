@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Changes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Changes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureChangeAnalysisManagementClient } from "../azureChangeAnalysisManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureChangeAnalysisManagementClient } from "../azureChangeAnalysisManagementClient.js";
 import {
   Change,
   ChangesListChangesByResourceGroupNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   ChangesListChangesBySubscriptionResponse,
   ChangesListChangesByResourceGroupNextResponse,
   ChangesListChangesBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Changes operations. */

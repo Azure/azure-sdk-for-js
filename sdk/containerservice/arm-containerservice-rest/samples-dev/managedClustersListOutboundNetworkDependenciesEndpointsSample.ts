@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/OutboundNetworkDependenciesEndpointsList.json
  */
-async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
+async function listOutboundNetworkDependenciesEndpointsByManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -28,12 +26,12 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .get();
   const result = paginate(client, initialResponse);
   const resArray = new Array();
-  for await (let item of result) {
+  for await (const item of result) {
     resArray.push(item);
   }
   console.log(resArray);

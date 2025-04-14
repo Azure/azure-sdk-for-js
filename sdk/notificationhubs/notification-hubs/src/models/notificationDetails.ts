@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Represents the notification outcome states.
@@ -97,6 +97,11 @@ export interface NotificationDetails {
    * FCM outcome counts per state.
    */
   fcmOutcomeCounts?: NotificationOutcome[];
+
+  /**
+   * FCM V1 outcome counts per state.
+   */
+  fcmV1OutcomeCounts?: NotificationOutcome[];
 
   /**
    * ADM outcome counts per state.

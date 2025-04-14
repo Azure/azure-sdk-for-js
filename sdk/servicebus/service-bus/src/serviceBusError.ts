@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
-import { AmqpError } from "rhea-promise";
+import type { AmqpError } from "rhea-promise";
 import { isObjectWithProperties } from "@azure/core-util";
 
 /**
@@ -83,6 +83,7 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["ServerBusyError", "ServiceBusy"],
 
   ["OperationTimeoutError", "ServiceTimeout"],
+  ["ServiceUnavailableError", "ServiceTimeout"],
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
   ["SessionLockLostError", "SessionLockLost"],

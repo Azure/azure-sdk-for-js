@@ -1,89 +1,95 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  CommunicationUserIdentifier,
-  isCommunicationUserIdentifier,
-} from "@azure/communication-common";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import { isCommunicationUserIdentifier } from "@azure/communication-common";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
-} from "./utils/recordedClient";
-import { CommunicationIdentityClient, TokenScope } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
-import { given } from "mocha-testdata";
+} from "./utils/recordedClient.js";
+import type { CommunicationIdentityClient, TokenScope } from "../../src/index.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad: boolean) {
-  describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async (useAad: boolean) => {
+  describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
-    const chatScope: TokenScope[] = ["chat"];
-    const voipScope: TokenScope[] = ["voip"];
-    const multipleScopes: TokenScope[] = ["chat", "voip"];
 
-    beforeEach(async function (this: Context) {
+    const scopes: TokenScope[] = ["chat", "voip"];
+
+    const tokenScopeScenarios = [
+      { scopes: ["chat"], description: "ChatScope" },
+      { scopes: ["voip"], description: "VoipScope" },
+      { scopes: ["chat.join"], description: "ChatJoinScope" },
+      { scopes: ["chat.join.limited"], description: "ChatJoinLimitedScope" },
+      { scopes: ["voip.join"], description: "VoipJoinScope" },
+      { scopes: ["chat", "voip"], description: "ChatVoipScopes" },
+      { scopes: ["chat", "chat.join", "chat.join.limited"], description: "AllChatScopes" },
+      { scopes: ["voip", "voip.join"], description: "AllVoipScopes" },
+      { scopes: ["chat.join", "voip.join"], description: "ChatJoinVoipJoinScopes" },
+    ];
+
+    beforeEach(async (ctx) => {
       if (useAad) {
-        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(ctx));
       } else {
-        ({ client, recorder } = await createRecordedCommunicationIdentityClient(this));
+        ({ client, recorder } = await createRecordedCommunicationIdentityClient(ctx));
       }
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
-    it("successfully creates a user", async function () {
+    it("successfully creates a user", async () => {
       const user: CommunicationUserIdentifier = await client.createUser();
       assert.isString(user.communicationUserId);
     });
 
-    given([
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully creates a user and token", async function (input) {
-      const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
-      assert.isTrue(isCommunicationUserIdentifier(newUser));
-      assert.isString(newUser.communicationUserId);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-    });
+    tokenScopeScenarios.forEach((scenario) =>
+      it(`successfully creates a user and token <${scenario.description}>`, async () => {
+        const {
+          user: newUser,
+          token,
+          expiresOn,
+        } = await client.createUserAndToken(scenario.scopes as TokenScope[]);
+        assert.isTrue(isCommunicationUserIdentifier(newUser));
+        assert.isString(newUser.communicationUserId);
+        assert.isString(token);
+        assert.instanceOf(expiresOn, Date);
+      }),
+    );
 
-    given([
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully gets a token for a user", async function (input) {
-      const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, input.scopes);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-    });
+    tokenScopeScenarios.forEach((scenario) =>
+      it(`successfully gets a token for a user <${scenario.description}>`, async () => {
+        const user: CommunicationUserIdentifier = await client.createUser();
+        const { token, expiresOn } = await client.getToken(user, scenario.scopes as TokenScope[]);
+        assert.isString(token);
+        assert.instanceOf(expiresOn, Date);
+      }),
+    );
 
-    it("successfully revokes tokens issued for a user", async function () {
-      const { user } = await client.createUserAndToken(multipleScopes);
+    it("successfully revokes tokens issued for a user", async () => {
+      const { user } = await client.createUserAndToken(scopes);
       await client.revokeTokens(user);
     });
 
-    it("successfully deletes a user", async function () {
+    it("successfully deletes a user", async () => {
       const user: CommunicationUserIdentifier = await client.createUser();
       await client.deleteUser(user);
     });
 
-    describe("Error Cases: ", async function () {
+    describe("Error Cases: ", async () => {
       const fakeUser: CommunicationUserIdentifier = {
         communicationUserId: isPlaybackMode()
           ? "sanitized"
           : "8:acs:00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000",
       };
 
-      it("throws an error when attempting to issue a token without any scopes", async function () {
+      it("throws an error when attempting to issue a token without any scopes", async () => {
         try {
           const user: CommunicationUserIdentifier = await client.createUser();
           await client.getToken(user, []);
@@ -94,16 +100,16 @@ matrix([[true, false]], async function (useAad: boolean) {
         }
       });
 
-      it("throws an error when attempting to issue a token for an invalid user", async function () {
+      it("throws an error when attempting to issue a token for an invalid user", async () => {
         try {
-          await client.getToken(fakeUser, multipleScopes);
+          await client.getToken(fakeUser, scopes);
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 401);
         }
       });
 
-      it("throws an error when attempting to revoke a token from an invalid user", async function () {
+      it("throws an error when attempting to revoke a token from an invalid user", async () => {
         try {
           await client.revokeTokens(fakeUser);
           assert.fail("Should have thrown an error");
@@ -112,7 +118,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         }
       });
 
-      it("throws an error when attempting to delete an invalid user", async function () {
+      it("throws an error when attempting to delete an invalid user", async () => {
         try {
           await client.deleteUser(fakeUser);
           assert.fail("Should have thrown an error");

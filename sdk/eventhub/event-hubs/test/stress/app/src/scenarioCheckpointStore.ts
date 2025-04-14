@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
@@ -16,7 +16,7 @@ interface scenarioCheckpointStoreOptions {
 function sanitizeOptions(args: string[]): Required<scenarioCheckpointStoreOptions> {
   const options = parsedArgs<scenarioCheckpointStoreOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 20 days
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
   };
 }
 
@@ -38,7 +38,7 @@ async function scenarioCheckpointStore() {
 
   const blobContainerClient = new ContainerClient(
     storageAccountConnectionString || "",
-    containerName
+    containerName,
   );
   if (!(await blobContainerClient.exists())) {
     await blobContainerClient.create();
@@ -49,7 +49,7 @@ async function scenarioCheckpointStore() {
     EventHubConsumerClient.defaultConsumerGroupName,
     connectionString || "",
     eventHubName || "",
-    checkpointStore
+    checkpointStore,
   );
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {

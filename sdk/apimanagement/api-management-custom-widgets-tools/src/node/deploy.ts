@@ -1,24 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService";
-import { APIM_CONFIG_FILE_NAME } from "../paths";
-import fs from "fs";
-import getStorageSasUrl from "./getStorageSasUrl";
-import readdir from "./readdir";
-
-/**
- * resourceId - resource ID of API Management service "subscriptions/[subscription-id]/resourceGroups/[resource-group-name]/providers/Microsoft.ApiManagement/service/[service-name]"
- * managementApiEndpoint - URL with protocol (e.g. https://management.azure.com)
- * apiVersion - optional to override default (e.g. "2019-01-01")
- * tokenOverride - optional, provides token to use for auth, instead of 'az login' approach
- */
-export type ServiceInformation = {
-  resourceId: string;
-  managementApiEndpoint: string;
-  apiVersion?: string;
-  tokenOverride?: string;
-};
+import type { Config } from "./CustomWidgetBlobService.js";
+import CustomWidgetBlobService from "./CustomWidgetBlobService.js";
+import { APIM_CONFIG_FILE_NAME } from "../paths.js";
+import fs from "node:fs";
+import getStorageSasUrl from "./getStorageSasUrl.js";
+import readdir from "./readdir.js";
+import type { DeployConfig, ServiceInformation } from "./types.js";
 
 /**
  * Deploys everything from /dist folder to the API Management DevPortals' blob storage.
@@ -26,19 +15,25 @@ export type ServiceInformation = {
  * @param serviceInformation - service information for deployment
  * @param name - name of the widget to be deployed
  * @param fallbackConfigPath - local path to the config file (by default "./static/config.msapim.json")
- * @param rootLocal - optional, root of the local folder with compiled project to be exported (by default "./dist")
+ * @param config - optional config object
  */
 async function deploy(
   serviceInformation: ServiceInformation,
   name: string,
   fallbackConfigPath = "./static/" + APIM_CONFIG_FILE_NAME,
-  rootLocal: string = "./dist/"
+  {
+    rootLocal = "./dist/",
+    interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" },
+  }: DeployConfig = {},
 ): Promise<void> {
   console.log("\n\n");
   console.log("Starting deploy process of custom widget: " + name);
   console.log("Please, sign in to your Azure account when prompted\n");
 
-  const blobStorageUrl = await getStorageSasUrl(serviceInformation);
+  const blobStorageUrl = await getStorageSasUrl(
+    serviceInformation,
+    interactiveBrowserCredentialOptions,
+  );
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 
   let config: Config | undefined;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a hub setting.
  *
  * @summary Create or update a hub setting.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubHubs_CreateOrUpdate.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubHubs_CreateOrUpdate.json
  */
 async function webPubSubHubsCreateOrUpdate() {
   const subscriptionId =
@@ -52,6 +52,7 @@ async function webPubSubHubsCreateOrUpdate() {
           },
         },
       ],
+      webSocketKeepAliveIntervalInSeconds: 50,
     },
   };
   const credential = new DefaultAzureCredential();
@@ -60,7 +61,7 @@ async function webPubSubHubsCreateOrUpdate() {
     hubName,
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

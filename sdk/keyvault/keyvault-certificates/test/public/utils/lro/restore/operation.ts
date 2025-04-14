@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-client";
-import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollOperationState, PollOperation } from "@azure/core-lro";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/index.js";
 
 /**
  * Options sent to the beginRestoreCertificateBackup method.
@@ -22,7 +22,7 @@ export interface TestCertificateClientInterface {
    */
   restoreCertificateBackup(
     backup: Uint8Array,
-    options?: BeginRestoreCertificateBackupOptions
+    options?: BeginRestoreCertificateBackupOptions,
   ): Promise<KeyVaultCertificate>;
 }
 
@@ -60,7 +60,7 @@ async function update(
   options: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RestoreCertificateBackupPollOperationState) => void;
-  } = {}
+  } = {},
 ): Promise<RestoreCertificateBackupPollOperation> {
   const state = this.state;
   const { backup, client, operationOptions = {} } = state;
@@ -104,7 +104,7 @@ function toString(this: RestoreCertificateBackupPollOperation): string {
  * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreCertificateBackupPollOperation(
-  state: RestoreCertificateBackupPollOperationState
+  state: RestoreCertificateBackupPollOperationState,
 ): RestoreCertificateBackupPollOperation {
   return {
     state: {

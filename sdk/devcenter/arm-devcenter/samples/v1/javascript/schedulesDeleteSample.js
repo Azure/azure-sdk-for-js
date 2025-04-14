@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Scheduled.
  *
  * @summary Deletes a Scheduled.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Schedules_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Schedules_Delete.json
  */
 async function schedulesDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function schedulesDelete() {
     resourceGroupName,
     projectName,
     poolName,
-    scheduleName
+    scheduleName,
   );
   console.log(result);
 }

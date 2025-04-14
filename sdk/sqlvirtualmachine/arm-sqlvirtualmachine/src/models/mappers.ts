@@ -232,6 +232,102 @@ export const Resource: coreClient.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const AvailabilityGroupListenerListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -779,6 +875,13 @@ export const ServerConfigurationsManagementSettings: coreClient.CompositeMapper 
           name: "Composite",
           className: "SQLInstanceSettings"
         }
+      },
+      azureAdAuthenticationSettings: {
+        serializedName: "azureAdAuthenticationSettings",
+        type: {
+          name: "Composite",
+          className: "AADAuthenticationSettings"
+        }
       }
     }
   }
@@ -919,6 +1022,21 @@ export const SQLInstanceSettings: coreClient.CompositeMapper = {
         serializedName: "isIfiEnabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AADAuthenticationSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AADAuthenticationSettings",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1067,6 +1185,88 @@ export const SQLTempDbSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const TroubleshootingStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshootingStatus",
+    modelProperties: {
+      rootCause: {
+        serializedName: "rootCause",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastTriggerTimeUtc: {
+        serializedName: "lastTriggerTimeUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      startTimeUtc: {
+        serializedName: "startTimeUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTimeUtc: {
+        serializedName: "endTimeUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      troubleshootingScenario: {
+        serializedName: "troubleshootingScenario",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TroubleshootingAdditionalProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TroubleshootingAdditionalProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TroubleshootingAdditionalProperties",
+    modelProperties: {
+      unhealthyReplicaInfo: {
+        serializedName: "unhealthyReplicaInfo",
+        type: {
+          name: "Composite",
+          className: "UnhealthyReplicaInfo"
+        }
+      }
+    }
+  }
+};
+
+export const UnhealthyReplicaInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnhealthyReplicaInfo",
+    modelProperties: {
+      availabilityGroupName: {
+        serializedName: "availabilityGroupName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AssessmentSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1153,6 +1353,47 @@ export const SqlVirtualMachineUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const SqlVmTroubleshooting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVmTroubleshooting",
+    modelProperties: {
+      startTimeUtc: {
+        serializedName: "startTimeUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTimeUtc: {
+        serializedName: "endTimeUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
+      troubleshootingScenario: {
+        serializedName: "troubleshootingScenario",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TroubleshootingAdditionalProperties"
+        }
+      },
+      virtualMachineResourceId: {
+        serializedName: "virtualMachineResourceId",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1382,6 +1623,7 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         }
       },
       leastPrivilegeMode: {
+        defaultValue: "NotSet",
         serializedName: "properties.leastPrivilegeMode",
         type: {
           name: "String"
@@ -1447,6 +1689,13 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
           className: "StorageConfigurationSettings"
         }
       },
+      troubleshootingStatus: {
+        serializedName: "properties.troubleshootingStatus",
+        type: {
+          name: "Composite",
+          className: "TroubleshootingStatus"
+        }
+      },
       assessmentSettings: {
         serializedName: "properties.assessmentSettings",
         type: {
@@ -1455,9 +1704,100 @@ export const SqlVirtualMachine: coreClient.CompositeMapper = {
         }
       },
       enableAutomaticUpgrade: {
+        defaultValue: false,
         serializedName: "properties.enableAutomaticUpgrade",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AvailabilityGroupListenersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailabilityGroupListenersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlVirtualMachineGroupsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVirtualMachineGroupsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlVirtualMachinesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVirtualMachinesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlVirtualMachinesStartAssessmentHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVirtualMachinesStartAssessmentHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlVirtualMachinesRedeployHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVirtualMachinesRedeployHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SqlVirtualMachineTroubleshootTroubleshootHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlVirtualMachineTroubleshootTroubleshootHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

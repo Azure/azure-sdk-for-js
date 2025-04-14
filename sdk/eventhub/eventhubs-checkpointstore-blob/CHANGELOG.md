@@ -1,6 +1,28 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0 (2025-04-08)
+
+### Features Added
+
+Stable release of the Geographic replication support added in v6.0.0-beta.1.
+
+## 2.0.0-beta.1 (2025-02-11)
+
+### Other Changes
+
+- The `offset` property of a checkpoint is no longer re-interpreted as a number.
+
+## 1.1.0-beta.1 (2024-06-06)
 
 ### Features Added
 
@@ -10,11 +32,13 @@
   `abortSignal` and `tracingOptions`.
   Resolves issue [#9492](https://github.com/Azure/azure-sdk-for-js/issues/9492).
 
-### Breaking Changes
-
 ### Key Bugs Fixed
 
 - Fixed a bug where `ContainerClient` could not passed to `BlobCheckpointStore` if the `ContainerClient` was created by another version of `@azure/storage-blob`.
+
+### Other Changes
+
+- The `offset` property of a checkpoint is no longer re-interpreted as a number.
 
 ## 1.0.1 (2020-08-03)
 

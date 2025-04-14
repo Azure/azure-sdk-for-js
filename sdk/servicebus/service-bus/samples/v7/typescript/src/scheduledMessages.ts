@@ -1,30 +1,28 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
  * appear on a Service Bus Queue/Subscription at a later time.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
  */
 
-import {
-  delay,
+import type {
   ProcessErrorArgs,
-  ServiceBusClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
 } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -40,8 +38,9 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
-export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
   try {
     await sendScheduledMessages(sbClient);
 
@@ -52,7 +51,7 @@ export async function main() {
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(sbClient: ServiceBusClient) {
+async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> {
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
@@ -60,31 +59,31 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
     (scientist): ServiceBusMessage => ({
       body: `${scientist.firstName} ${scientist.lastName}`,
       subject: "Scientist",
-    })
+    }),
   );
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`,
   );
 
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
 }
 
-async function receiveMessages(sbClient: ServiceBusClient) {
+async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
-  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
+  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage): Promise<void> => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.subject}`);
     await queueReceiver.completeMessage(brokeredMessage);
   };
-  const processError = async (args: ProcessErrorArgs) => {
+  const processError = async (args: ProcessErrorArgs): Promise<void> => {
     console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 
@@ -103,7 +102,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });

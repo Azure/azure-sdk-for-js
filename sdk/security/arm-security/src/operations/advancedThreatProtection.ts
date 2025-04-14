@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AdvancedThreatProtection } from "../operationsInterfaces";
+import { AdvancedThreatProtection } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   AdvancedThreatProtectionGetOptionalParams,
   AdvancedThreatProtectionGetResponse,
   AdvancedThreatProtectionSetting,
   AdvancedThreatProtectionCreateOptionalParams,
-  AdvancedThreatProtectionCreateResponse
-} from "../models";
+  AdvancedThreatProtectionCreateResponse,
+} from "../models/index.js";
 
 /** Class containing AdvancedThreatProtection operations. */
 export class AdvancedThreatProtectionImpl implements AdvancedThreatProtection {
@@ -38,11 +38,11 @@ export class AdvancedThreatProtectionImpl implements AdvancedThreatProtection {
    */
   get(
     resourceId: string,
-    options?: AdvancedThreatProtectionGetOptionalParams
+    options?: AdvancedThreatProtectionGetOptionalParams,
   ): Promise<AdvancedThreatProtectionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -55,11 +55,11 @@ export class AdvancedThreatProtectionImpl implements AdvancedThreatProtection {
   create(
     resourceId: string,
     advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
-    options?: AdvancedThreatProtectionCreateOptionalParams
+    options?: AdvancedThreatProtectionCreateOptionalParams,
   ): Promise<AdvancedThreatProtectionCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceId, advancedThreatProtectionSetting, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 }
@@ -67,46 +67,44 @@ export class AdvancedThreatProtectionImpl implements AdvancedThreatProtection {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
+  path: "/{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdvancedThreatProtectionSetting
+      bodyMapper: Mappers.AdvancedThreatProtectionSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName
+    Parameters.settingName2,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
+  path: "/{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdvancedThreatProtectionSetting
+      bodyMapper: Mappers.AdvancedThreatProtectionSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.advancedThreatProtectionSetting,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName
+    Parameters.settingName2,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

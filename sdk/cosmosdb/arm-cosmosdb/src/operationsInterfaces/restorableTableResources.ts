@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RestorableTableResourcesGetResult,
-  RestorableTableResourcesListOptionalParams
-} from "../models";
+  RestorableTableResourcesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableTableResources. */
@@ -26,6 +26,6 @@ export interface RestorableTableResources {
   list(
     location: string,
     instanceId: string,
-    options?: RestorableTableResourcesListOptionalParams
+    options?: RestorableTableResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableTableResourcesGetResult>;
 }

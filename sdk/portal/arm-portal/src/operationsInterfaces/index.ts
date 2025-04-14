@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./dashboards";
-export * from "./tenantConfigurations";
-export * from "./listTenantConfigurationViolations";
+export * from "./operations.js";
+export * from "./dashboards.js";
+export * from "./tenantConfigurations.js";
+export * from "./listTenantConfigurationViolations.js";

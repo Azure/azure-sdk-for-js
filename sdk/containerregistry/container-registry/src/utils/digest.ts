@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import crypto from "crypto";
+import crypto from "node:crypto";
+import { Buffer } from "node:buffer";
 
 export function calculateDigest(buffer: Buffer): Promise<string>;
 

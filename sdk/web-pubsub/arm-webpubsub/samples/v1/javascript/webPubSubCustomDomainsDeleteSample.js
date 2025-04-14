@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a custom domain.
  *
  * @summary Delete a custom domain.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubCustomDomains_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomDomains_Delete.json
  */
 async function webPubSubCustomDomainsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubCustomDomainsDelete() {
   const result = await client.webPubSubCustomDomains.beginDeleteAndWait(
     resourceGroupName,
     resourceName,
-    name
+    name,
   );
   console.log(result);
 }

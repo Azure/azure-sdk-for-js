@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { GeneratedClientOptionalParams } from "./models";
+import { GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
@@ -33,7 +33,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-template/1.0.11-beta.1`;
+    const packageDetails = `azsdk-js-template/1.0.13-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -52,6 +52,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "1.0";
+    this.apiVersion = options.apiVersion || "2023-10-01";
   }
 }

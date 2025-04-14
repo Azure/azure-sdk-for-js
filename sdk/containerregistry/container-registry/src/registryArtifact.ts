@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure/core-client";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import {
+import type {
   ArtifactTagProperties,
   ArtifactManifestProperties,
   ArtifactTagOrder,
   TagPageResponse,
-} from "./models";
-import { tracingClient } from "./tracing";
-import { GeneratedClient } from "./generated";
-import { extractNextLink, isDigest } from "./utils/helpers";
-import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
+} from "./models.js";
+import { tracingClient } from "./tracing.js";
+import type { GeneratedClient } from "./generated/index.js";
+import { extractNextLink, isDigest } from "./utils/helpers.js";
+import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations.js";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -108,32 +107,39 @@ export interface RegistryArtifact {
    * @param options -
    */
   getManifestProperties(
-    options?: GetManifestPropertiesOptions
+    options?: GetManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties>;
   /**
    * Updates the properties of the artifact's manifest.
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * ```ts snippet:RegistryArtifactUpdateManifestProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * const updated = await artifact.updateManifestProperties({
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
    * @param options -
    */
   updateManifestProperties(
-    options: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves the properties of the specified tag.
    * @param tag - the tag to retrieve properties.
-   * @param options -
+   * @param options - options to get tag properties
    */
   getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
   /**
@@ -141,14 +147,22 @@ export interface RegistryArtifact {
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * ```ts snippet:RegistryArtifactUpdateTagProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const tag = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * const updated = await artifact.updateTagProperties(tag, {
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
    * @param tag - name of the tag to update properties on
@@ -156,53 +170,32 @@ export interface RegistryArtifact {
    */
   updateTagProperties(
     tag: string,
-    options: UpdateTagPropertiesOptions
+    options: UpdateTagPropertiesOptions,
   ): Promise<ArtifactTagProperties>;
   /**
    * Returns an async iterable iterator to list the tags that uniquely identify this artifact and the properties of each.
    *
    * Example using `for-await-of` syntax:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credentials);
-   * const repository = client.getRepository(repositoryName);
-   * const artifact = repository.getArtifact(digest)
+   * ```ts snippet:RegistryArtifactListTagProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```javascript
-   * const iter = artifact.listTagProperties();
-   * let item = await iter.next();
-   * while (!item.done) {
-   *   console.log("tag properties: ", item.value);
-   *   item = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```javascript
-   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const tagProperties of page.value) {
-   *      console.log(`  repository name: ${tagProperties}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param options -
+   * @param options - options to list tags
    */
   listTagProperties(
-    options?: ListTagPropertiesOptions
+    options?: ListTagPropertiesOptions,
   ): PagedAsyncIterableIterator<ArtifactTagProperties>;
 }
 
@@ -239,7 +232,7 @@ export class RegistryArtifactImpl {
     registryEndpoint: string,
     repositoryName: string,
     private tagOrDigest: string,
-    client: GeneratedClient
+    client: GeneratedClient,
   ) {
     this.registryEndpoint = registryEndpoint;
     this.repositoryName = repositoryName;
@@ -284,9 +277,9 @@ export class RegistryArtifactImpl {
         await this.client.containerRegistry.deleteManifest(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -305,7 +298,7 @@ export class RegistryArtifactImpl {
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteTag(this.repositoryName, tag, updatedOptions);
-      }
+      },
     );
   }
 
@@ -314,7 +307,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async getManifestProperties(
-    options: GetManifestPropertiesOptions = {}
+    options: GetManifestPropertiesOptions = {},
   ): Promise<ArtifactManifestProperties> {
     return tracingClient.withSpan(
       "RegistryArtifactImpl.getManifestProperties",
@@ -323,14 +316,14 @@ export class RegistryArtifactImpl {
         const result = await this.client.containerRegistry.getManifestProperties(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
         return toArtifactManifestProperties(
           result,
           this.repositoryName,
-          result.registryLoginServer!
+          result.registryLoginServer!,
         );
-      }
+      },
     );
   }
 
@@ -339,20 +332,27 @@ export class RegistryArtifactImpl {
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * ```ts snippet:RegistryArtifactUpdateManifestProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * const updated = await artifact.updateManifestProperties({
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
-   * @param options -
+   * @param options - options to update manifest properties
    */
   public async updateManifestProperties(
-    options: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties> {
     return tracingClient.withSpan(
       "RegistryArtifactImpl.updateManifestProperties",
@@ -369,25 +369,25 @@ export class RegistryArtifactImpl {
         const result = await this.client.containerRegistry.updateManifestProperties(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
         return toArtifactManifestProperties(
           result,
           this.repositoryName,
-          result.registryLoginServer!
+          result.registryLoginServer!,
         );
-      }
+      },
     );
   }
 
   /**
    * Retrieves the properties of the specified tag.
    * @param tag - the tag to retrieve properties.
-   * @param options -
+   * @param options - options to get tag properties
    */
   public async getTagProperties(
     tag: string,
-    options: GetTagPropertiesOptions = {}
+    options: GetTagPropertiesOptions = {},
   ): Promise<ArtifactTagProperties> {
     if (!tag) {
       throw new Error("invalid tag");
@@ -400,9 +400,9 @@ export class RegistryArtifactImpl {
         return this.client.containerRegistry.getTagProperties(
           this.repositoryName,
           tag,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -411,22 +411,30 @@ export class RegistryArtifactImpl {
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+   * ```ts snippet:RegistryArtifactUpdateTagProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const tag = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * const updated = await artifact.updateTagProperties(tag, {
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
    * @param tag - name of the tag to update properties on
-   * @param options -
+   * @param options - options to update tag properties
    */
   public async updateTagProperties(
     tag: string,
-    options: UpdateTagPropertiesOptions
+    options: UpdateTagPropertiesOptions,
   ): Promise<ArtifactTagProperties> {
     if (!tag) {
       throw new Error("invalid tag");
@@ -447,9 +455,9 @@ export class RegistryArtifactImpl {
         return this.client.containerRegistry.updateTagAttributes(
           this.repositoryName,
           tag,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -458,46 +466,25 @@ export class RegistryArtifactImpl {
    *
    * Example using `for-await-of` syntax:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credentials);
-   * const repository = client.getRepository(repositoryName);
-   * const artifact = repository.getArtifact(digest)
+   * ```ts snippet:RegistryArtifactListTagProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const artifactTagOrDigest = "latest";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   *
+   * const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
    * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```javascript
-   * const iter = artifact.listTagProperties();
-   * let item = await iter.next();
-   * while (!item.done) {
-   *   console.log("tag properties: ", item.value);
-   *   item = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```javascript
-   * const pages = artifact.listTagProperties().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const tagProperties of page.value) {
-   *      console.log(`  repository name: ${tagProperties}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param options -
+   * @param options - options to list tags
    */
   public listTagProperties(
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): PagedAsyncIterableIterator<ArtifactTagProperties, TagPageResponse> {
     const iter = this.listTagsItems(options);
 
@@ -513,7 +500,7 @@ export class RegistryArtifactImpl {
   }
 
   private async *listTagsItems(
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): AsyncIterableIterator<ArtifactTagProperties> {
     for await (const page of this.listTagsPage({}, options)) {
       yield* page;
@@ -522,7 +509,7 @@ export class RegistryArtifactImpl {
 
   private async *listTagsPage(
     continuationState: PageSettings,
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): AsyncIterableIterator<TagPageResponse> {
     const orderby = toServiceTagOrderBy(options.order);
     if (!continuationState.continuationToken) {
@@ -533,7 +520,7 @@ export class RegistryArtifactImpl {
       };
       const currentPage = await this.client.containerRegistry.getTags(
         this.repositoryName,
-        optionsComplete
+        optionsComplete,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
@@ -554,7 +541,7 @@ export class RegistryArtifactImpl {
       const currentPage = await this.client.containerRegistry.getTagsNext(
         this.repositoryName,
         continuationState.continuationToken,
-        options
+        options,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {

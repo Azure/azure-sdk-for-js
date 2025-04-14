@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyCredential } from "@azure/core-auth";
+import type { KeyCredential } from "@azure/core-auth";
 
 /**
  * Stringifies a Date object in the format expected by the Event Grid service, for use in a Shared Access Signiture.
@@ -113,7 +113,7 @@ function validateRequiredStringProperties(o: any, propertyNames: string[]): void
 
     if (typeof o[propertyName] !== "string") {
       throw new TypeError(
-        `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`
+        `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`,
       );
     }
   }
@@ -133,7 +133,7 @@ function validateOptionalStringProperties(o: any, propertyNames: string[]): void
       throw new TypeError(
         `event property '${propertyName}' should be a 'string' but it is a '${typeof o[
           propertyName
-        ]}'`
+        ]}'`,
       );
     }
   }

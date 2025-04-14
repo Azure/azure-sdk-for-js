@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-oackage-json-engine-is-present rule.
- * @author Arpan Laha
+ *
  */
 
 "use strict";
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-engine-is-present";
+import { createRuleTester } from "../ruleTester.js";
+import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present.js";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -42,7 +42,7 @@ const examplePackageGood = `{
   },
   "types": "./typings/service-bus.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
@@ -59,14 +59,13 @@ const examplePackageGood = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -170,14 +169,13 @@ const examplePackageBad = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -241,19 +239,13 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-engine-is-present", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"engines": { "node": ">=14.0.0" }}',
+      code: '{"engines": { "node": ">=18.0.0" }}',
       filename: "package.json",
     },
     {
@@ -268,11 +260,11 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
     },
     {
       // different than the default but with an override
-      code: '{"engines": { "node": ">=14.0.0" }}',
+      code: '{"engines": { "node": ">=20.5.0" }}',
       filename: "package.json",
       options: [
         {
-          nodeVersionOverride: ">=14.0.0",
+          nodeVersionOverride: ">=20.5.0",
         },
       ],
     },
@@ -289,7 +281,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
     },
     {
       // engines is in a nested object
-      code: '{"outer": {"engines": { "node": ">=14.0.0" }}}',
+      code: '{"outer": {"engines": { "node": ">=18.0.0" }}}',
       filename: "package.json",
       errors: [
         {
@@ -313,10 +305,10 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=14.0.0",
+          message: `engines.node is set to >=8.0.0 when it should be set to ${LTS}`,
         },
       ],
-      output: '{"engines": { "node": ">=14.0.0" }}',
+      output: '{"engines": { "node": ">=18.0.0" }}',
     },
     {
       // example file with engines.node set to >=8.0.0
@@ -324,7 +316,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=14.0.0",
+          message: `engines.node is set to >=8.0.0 when it should be set to ${LTS}`,
         },
       ],
       output: examplePackageGood,
@@ -335,15 +327,15 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=15.0.0 when it should be set to >=14.0.0",
+          message: `engines.node is set to >=15.0.0 when it should be set to >=17.0.0`,
         },
       ],
       options: [
         {
-          nodeVersionOverride: ">=14.0.0",
+          nodeVersionOverride: ">=17.0.0",
         },
       ],
-      output: '{"engines": { "node": ">=14.0.0" }}',
+      output: '{"engines": { "node": ">=17.0.0" }}',
     },
   ],
 });

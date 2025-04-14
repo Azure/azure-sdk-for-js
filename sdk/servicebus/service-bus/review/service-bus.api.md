@@ -4,30 +4,29 @@
 
 ```ts
 
-/// <reference types="node" />
-
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
-import { CommonClientOptions } from '@azure/core-client';
+import { Buffer as Buffer_2 } from 'buffer';
+import type { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpMethods } from '@azure/core-rest-pipeline';
-import Long from 'long';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
+import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { NamedKeyCredential } from '@azure/core-auth';
+import type { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-rest-pipeline';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PageSettings } from '@azure/core-paging';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { SASCredential } from '@azure/core-auth';
+import type { SASCredential } from '@azure/core-auth';
 import { ServiceClient } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
-import { TracingContext } from '@azure/core-tracing';
-import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import type { TracingContext } from '@azure/core-tracing';
+import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -131,6 +130,12 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+    maxMessageCount: number;
+}
+
 export { Delivery }
 
 // @public
@@ -205,9 +210,7 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
-    fromSequenceNumber?: Long;
-    // @beta
-    omitMessageBody?: boolean;
+    fromSequenceNumber?: Long_2;
 }
 
 // @public
@@ -217,6 +220,11 @@ export interface ProcessErrorArgs {
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
     identifier: string;
+}
+
+// @public
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
 }
 
 // @public
@@ -356,6 +364,7 @@ export interface ServiceBusConnectionStringProperties {
     sharedAccessKey?: string;
     sharedAccessKeyName?: string;
     sharedAccessSignature?: string;
+    useDevelopmentEmulator?: boolean;
 }
 
 // @public
@@ -431,8 +440,8 @@ export interface ServiceBusMessage {
     };
     body: any;
     contentType?: string;
-    correlationId?: string | number | Buffer;
-    messageId?: string | number | Buffer;
+    correlationId?: string | number | Buffer_2;
+    messageId?: string | number | Buffer_2;
     partitionKey?: string;
     replyTo?: string;
     replyToSessionId?: string;
@@ -467,7 +476,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
-    readonly sequenceNumber?: Long;
+    readonly sequenceNumber?: Long_2;
     readonly state: "active" | "deferred" | "scheduled";
 }
 
@@ -484,12 +493,14 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
+    deleteMessages(options: DeleteMessagesOptions): Promise<number>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
+    purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
+    receiveDeferredMessages(sequenceNumbers: Long_2 | Long_2[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
@@ -518,13 +529,13 @@ export interface ServiceBusRuleManager {
 
 // @public
 export interface ServiceBusSender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long_2 | Long_2[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     identifier: string;
     isClosed: boolean;
-    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long_2[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 

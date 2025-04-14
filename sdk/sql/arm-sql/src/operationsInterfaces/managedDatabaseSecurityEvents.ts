@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecurityEvent,
-  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams
-} from "../models";
+  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseSecurityEvents. */
@@ -27,6 +27,6 @@ export interface ManagedDatabaseSecurityEvents {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams
+    options?: ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SecurityEvent>;
 }

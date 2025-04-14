@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { config } from "dotenv";
@@ -10,7 +10,7 @@ config();
 export const commandInfo = makeCommandInfo(
   "test-proxy",
   "waits for the proxy tool to be active or fails in 2 minutes",
-  {}
+  {},
 );
 
 export default leafCommand(commandInfo, async () => {

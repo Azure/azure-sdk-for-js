@@ -9,8 +9,8 @@
 import {
   VirtualNetworkSubnetUsageParameter,
   CheckVirtualNetworkSubnetUsageExecuteOptionalParams,
-  CheckVirtualNetworkSubnetUsageExecuteResponse
-} from "../models";
+  CheckVirtualNetworkSubnetUsageExecuteResponse,
+} from "../models/index.js";
 
 /** Interface representing a CheckVirtualNetworkSubnetUsage. */
 export interface CheckVirtualNetworkSubnetUsage {
@@ -23,6 +23,6 @@ export interface CheckVirtualNetworkSubnetUsage {
   execute(
     locationName: string,
     parameters: VirtualNetworkSubnetUsageParameter,
-    options?: CheckVirtualNetworkSubnetUsageExecuteOptionalParams
+    options?: CheckVirtualNetworkSubnetUsageExecuteOptionalParams,
   ): Promise<CheckVirtualNetworkSubnetUsageExecuteResponse>;
 }

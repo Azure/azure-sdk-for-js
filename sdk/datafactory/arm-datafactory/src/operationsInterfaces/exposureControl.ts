@@ -14,8 +14,8 @@ import {
   ExposureControlGetFeatureValueByFactoryResponse,
   ExposureControlBatchRequest,
   ExposureControlQueryFeatureValuesByFactoryOptionalParams,
-  ExposureControlQueryFeatureValuesByFactoryResponse
-} from "../models";
+  ExposureControlQueryFeatureValuesByFactoryResponse,
+} from "../models/index.js";
 
 /** Interface representing a ExposureControl. */
 export interface ExposureControl {
@@ -28,7 +28,7 @@ export interface ExposureControl {
   getFeatureValue(
     locationId: string,
     exposureControlRequest: ExposureControlRequest,
-    options?: ExposureControlGetFeatureValueOptionalParams
+    options?: ExposureControlGetFeatureValueOptionalParams,
   ): Promise<ExposureControlGetFeatureValueResponse>;
   /**
    * Get exposure control feature for specific factory.
@@ -41,7 +41,7 @@ export interface ExposureControl {
     resourceGroupName: string,
     factoryName: string,
     exposureControlRequest: ExposureControlRequest,
-    options?: ExposureControlGetFeatureValueByFactoryOptionalParams
+    options?: ExposureControlGetFeatureValueByFactoryOptionalParams,
   ): Promise<ExposureControlGetFeatureValueByFactoryResponse>;
   /**
    * Get list of exposure control features for specific factory.
@@ -54,6 +54,6 @@ export interface ExposureControl {
     resourceGroupName: string,
     factoryName: string,
     exposureControlBatchRequest: ExposureControlBatchRequest,
-    options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams
+    options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams,
   ): Promise<ExposureControlQueryFeatureValuesByFactoryResponse>;
 }

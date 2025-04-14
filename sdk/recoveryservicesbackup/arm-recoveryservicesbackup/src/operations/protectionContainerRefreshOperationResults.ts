@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectionContainerRefreshOperationResults } from "../operationsInterfaces";
+import { ProtectionContainerRefreshOperationResults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
-import { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../models/index.js";
 
 /** Class containing ProtectionContainerRefreshOperationResults operations. */
 export class ProtectionContainerRefreshOperationResultsImpl
-  implements ProtectionContainerRefreshOperationResults {
+  implements ProtectionContainerRefreshOperationResults
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -40,11 +41,11 @@ export class ProtectionContainerRefreshOperationResultsImpl
     resourceGroupName: string,
     fabricName: string,
     operationId: string,
-    options?: ProtectionContainerRefreshOperationResultsGetOptionalParams
+    options?: ProtectionContainerRefreshOperationResultsGetOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, fabricName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -52,15 +53,14 @@ export class ProtectionContainerRefreshOperationResultsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -69,8 +69,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

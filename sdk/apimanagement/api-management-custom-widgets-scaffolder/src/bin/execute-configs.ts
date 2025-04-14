@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Configs, DeploymentConfig, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
-
-import inquirer from "inquirer";
+import type { Configs, ServiceInformation, Options, WidgetConfig } from "../scaffolding.js";
+import { TECHNOLOGIES } from "../scaffolding.js";
 
 export const fieldIdToName: Record<
-  keyof (WidgetConfig & DeploymentConfig & Options) | string,
+  keyof (WidgetConfig & ServiceInformation & Options) | string,
   string
 > = {
   displayName: "Widget display name",
@@ -19,6 +18,8 @@ export const fieldIdToName: Record<
   apiVersion: "Management API version",
 
   openUrl: "Developer portal URL",
+  configAdvancedTenantId: "Tenant ID",
+  configAdvancedRedirectUri: "Redirect URI",
 };
 
 export const prefixUrlProtocol = (value: string): string =>
@@ -34,8 +35,8 @@ const validateUrl =
     name: string,
     msg = (input: string) =>
       `Provided “${name}” parameter value (“${prefixUrlProtocol(
-        input
-      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`
+        input,
+      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`,
   ) =>
   (input: string) => {
     try {
@@ -70,7 +71,7 @@ export const validateWidgetConfig: Validate<WidgetConfig> = {
   },
 };
 
-export const validateDeployConfig: Validate<DeploymentConfig> = {
+export const validateDeployConfig: Validate<ServiceInformation> = {
   resourceId: (input) => {
     const required = validateRequired(fieldIdToName.resourceId)(input);
     if (required !== true) return required;
@@ -89,10 +90,19 @@ export const validateMiscConfig: Validate<Options> = {
     if (!input) return true;
     return validateUrl(fieldIdToName.openUrl)(input);
   },
+  configAdvancedTenantId: () => {
+    return true;
+  },
+  configAdvancedRedirectUri: (input) => {
+    if (!input) return true;
+    return validateUrl(fieldIdToName.openUrl)(input);
+  },
 };
 
-export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<WidgetConfig> =>
-  inquirer.prompt(
+export const promptWidgetConfig = async (partial: Partial<WidgetConfig>): Promise<WidgetConfig> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "displayName",
@@ -111,11 +121,16 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
         ],
       },
     ],
-    partial
+    partial,
   );
+};
 
-export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<DeploymentConfig> =>
-  inquirer.prompt(
+export const promptServiceInformation = async (
+  partial: Partial<ServiceInformation>,
+): Promise<ServiceInformation> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "resourceId",
@@ -144,11 +159,14 @@ export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
     ],
-    partial
+    partial,
   );
+};
 
-export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
-  inquirer.prompt(
+export const promptMiscConfig = async (partial: Partial<Options>): Promise<Options> => {
+  const inquirerImport = await import("inquirer");
+  const inquirer = inquirerImport.default;
+  return inquirer.prompt(
     [
       {
         name: "openUrl",
@@ -159,6 +177,23 @@ export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
       },
+      {
+        name: "configAdvancedTenantId",
+        type: "input",
+        message:
+          fieldIdToName.configAdvancedTenantId +
+          " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
+        validate: validateMiscConfig.openUrl,
+      },
+      {
+        name: "configAdvancedRedirectUri",
+        type: "input",
+        message:
+          fieldIdToName.configAdvancedRedirectUri +
+          " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
+        validate: validateMiscConfig.openUrl,
+      },
     ],
-    partial
+    partial,
   );
+};

@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { TriggerOperation, TriggerType } from "../../../src";
-import { TriggerDefinition, Container } from "../../../src";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+// Licensed under the MIT License.
+
+import { TriggerOperation, TriggerType } from "../../../src/index.js";
+import type { TriggerDefinition, Container } from "../../../src/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
 declare let getContext: any;
+const normalizeStringBody = (body: any): string => body.replace(/\s+/g, " ").trim();
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   let container: Container;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
     container = await getTestContainer("trigger container");
   });
 
-  describe("Validate Trigger CRUD", function () {
-    it("nativeApi Should do trigger CRUD operations successfully name based", async function () {
+  describe("Validate Trigger CRUD", () => {
+    it("nativeApi Should do trigger CRUD operations successfully name based", async () => {
       // read triggers
       const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(Array.isArray(triggers), true);
@@ -47,7 +47,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
-        "create should increase the number of triggers"
+        "create should increase the number of triggers",
       );
 
       // query triggers
@@ -71,7 +71,10 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(
+        normalizeStringBody(replacedTrigger.body),
+        normalizeStringBody("function() { const x = 20; console.log(x); }"),
+      );
 
       // read trigger
       const { resource: triggerAfterReplace } = await container.scripts
@@ -92,7 +95,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     });
   });
 
-  describe("validate trigger functionality", function () {
+  describe("validate trigger functionality", () => {
     const triggers: TriggerDefinition[] = [
       {
         id: "t1",
@@ -139,34 +142,34 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       },
     ];
 
-    it("should do trigger operations successfully with create", async function () {
+    it("should do trigger operations successfully with create", async () => {
       for (const trigger of triggers) {
         await container.scripts.triggers.create(trigger);
       }
       // create document
       const { resource: document } = await container.items.create(
         { id: "doc1", key: "value" },
-        { preTriggerInclude: "t1" }
+        { preTriggerInclude: "t1" },
       );
       assert.equal(document.id, "DOC1t1", "name should be capitalized");
       const { resource: document2 } = await container.items.create(
         { id: "doc2", key2: "value2" },
-        { preTriggerInclude: "t2" }
+        { preTriggerInclude: "t2" },
       );
       assert.equal(document2.id, "doc2", "name shouldn't change");
       const { resource: document3 } = await container.items.create(
         { id: "Doc3", prop: "empty" },
-        { preTriggerInclude: "t3" }
+        { preTriggerInclude: "t3" },
       );
       assert.equal(document3.id, "doc3t3");
       const { resource: document4 } = await container.items.create(
         { id: "testing post trigger" },
-        { postTriggerInclude: "response1", preTriggerInclude: "t1" }
+        { postTriggerInclude: "response1", preTriggerInclude: "t1" },
       );
       assert.equal(document4.id, "TESTING POST TRIGGERt1");
       const { resource: document5 } = await container.items.create(
         { id: "responseheaders" },
-        { preTriggerInclude: "t1" }
+        { preTriggerInclude: "t1" },
       );
       assert.equal(document5.id, "RESPONSEHEADERSt1");
       try {

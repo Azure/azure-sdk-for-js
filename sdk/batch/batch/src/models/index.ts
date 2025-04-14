@@ -31,7 +31,7 @@ export interface PoolUsageMetrics {
   /**
    * The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information
    * about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in
-   * an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
+   * an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize: string;
   /**
@@ -42,7 +42,7 @@ export interface PoolUsageMetrics {
 
 /**
  * An interface representing ImageReference.
- * @summary A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery
+ * @summary A reference to an Azure Virtual Machines Marketplace Image or a Azure Compute Gallery
  * Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see
  * the 'List Supported Images' operation.
  */
@@ -68,17 +68,18 @@ export interface ImageReference {
    */
   version?: string;
   /**
-   * The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will
+   * The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will
    * be created using this Image Id. This is of the form
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
    * or
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
    * for always defaulting to the latest image version. This property is mutually exclusive with
-   * other ImageReference properties. The Shared Image Gallery Image must have replicas in the same
-   * region and must be in the same subscription as the Azure Batch account. If the image version
-   * is not specified in the imageId, the latest version will be used. For information about the
-   * firewall settings for the Batch Compute Node agent to communicate with the Batch service see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+   * other ImageReference properties. The Azure Compute Gallery Image must have replicas in the
+   * same region and must be in the same subscription as the Azure Batch account. If the image
+   * version is not specified in the imageId, the latest version will be used. For information
+   * about the firewall settings for the Batch Compute Node agent to communicate with the Batch
+   * service see
+   * https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   virtualMachineImageId?: string;
   /**
@@ -88,6 +89,16 @@ export interface ImageReference {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly exactVersion?: string;
+  /**
+   * The shared gallery image unique identifier. This property is mutually exclusive with other
+   * properties and can be fetched from shared gallery image GET call.
+   */
+  sharedGalleryImageId?: string;
+  /**
+   * The community gallery image unique identifier. This property is mutually exclusive with other
+   * properties and can be fetched from community gallery image GET call.
+   */
+  communityGalleryImageId?: string;
 }
 
 /**
@@ -598,8 +609,8 @@ export interface JobConstraints {
    * Batch service will try each Task once, and may then retry up to this limit. For example, if
    * the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3
    * retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the
-   * maximum retry count is -1, the Batch service retries the Task without limit, however this is
-   * not recommended for a start task or any task. The default value is 0 (no retries)
+   * maximum retry count is -1, the Batch service retries Tasks without limit. The default value is
+   * 0 (no retries).
    */
   maxTaskRetryCount?: number;
 }
@@ -611,25 +622,31 @@ export interface JobConstraints {
 export interface JobNetworkConfiguration {
   /**
    * The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks
-   * from the Job will join for the duration of the Task. This will only work with a
-   * VirtualMachineConfiguration Pool. The virtual network must be in the same region and
-   * subscription as the Azure Batch Account. The specified subnet should have enough free IP
-   * addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This
-   * can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service
-   * principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC)
-   * role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This
-   * can be verified by checking if the specified VNet has any associated Network Security Groups
-   * (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the
-   * Batch service will set the state of the Compute Nodes to unusable. This is of the form
+   * from the Job will join for the duration of the Task. The virtual network must be in the same
+   * region and subscription as the Azure Batch Account. The specified subnet should have enough
+   * free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the
+   * Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch'
+   * service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access
+   * Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on
+   * the Nodes. This can be verified by checking if the specified VNet has any associated Network
+   * Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an
+   * NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of
+   * the form
    * /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
    * If the specified VNet has any associated Network Security Groups (NSG), then a few reserved
    * system ports must be enabled for inbound communication from the Azure Batch service. For Pools
    * created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22
    * for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound
    * connections for communications to Azure Storage. For more details see:
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
+   * https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId: string;
+  /**
+   * Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated
+   * or deleted. If true, nodes will remain joined to the virtual network to DNC. If false, nodes
+   * will automatically withdraw when the job ends. Defaults to false.
+   */
+  skipWithdrawFromVNet?: boolean;
 }
 
 /**
@@ -668,6 +685,26 @@ export interface ContainerRegistry {
 }
 
 /**
+ * An interface representing ContainerHostBatchBindMountEntry.
+ * @summary The entry of path and mount mode you want to mount into task container.
+ */
+export interface ContainerHostBatchBindMountEntry {
+  /**
+   * The path which be mounted to container customer can select. Possible values include: 'Shared',
+   * 'Startup', 'VfsMounts', 'Task', 'JobPrep', 'Applications'
+   */
+  source?: ContainerHostDataPath;
+  /**
+   * Mount this source path as read-only mode or not. Default value is false (read/write mode). For
+   * Linux, if you mount this path as a read/write mode, this does not mean that all users in
+   * container have the read/write access for the path, it depends on the access in host VM. If
+   * this path is mounted read-only, all users within the container will not be able to modify the
+   * path.
+   */
+  isReadOnly?: boolean;
+}
+
+/**
  * An interface representing TaskContainerSettings.
  * @summary The container settings for a Task.
  */
@@ -694,6 +731,12 @@ export interface TaskContainerSettings {
    * Possible values include: 'taskWorkingDirectory', 'containerImageDefault'
    */
   workingDirectory?: ContainerWorkingDirectory;
+  /**
+   * The paths you want to mounted to container task. If this array is null or be not present,
+   * container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in
+   * Linux). It won't' mount any data paths into container if this array is set as empty.
+   */
+  containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
 }
 
 /**
@@ -950,9 +993,8 @@ export interface LinuxUserConfiguration {
  */
 export interface WindowsUserConfiguration {
   /**
-   * The login mode for the user. The default value for VirtualMachineConfiguration Pools is
-   * 'batch' and for CloudServiceConfiguration Pools is 'interactive'. Possible values include:
-   * 'batch', 'interactive'
+   * The login mode for the user. The default is 'batch'. Possible values include: 'batch',
+   * 'interactive'
    */
   loginMode?: LoginMode;
 }
@@ -1015,7 +1057,7 @@ export interface TaskConstraints {
    * Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch
    * service does not retry the Task after the first attempt. If the maximum retry count is -1, the
    * Batch service retries the Task without limit, however this is not recommended for a start task
-   * or any task. The default value is 0 (no retries)
+   * or any task. The default value is 0 (no retries).
    */
   maxTaskRetryCount?: number;
 }
@@ -1049,7 +1091,7 @@ export interface OutputFileBlobContainerDestination {
    * A list of name-value pairs for headers to be used in uploading output files. These headers
    * will be specified when uploading files to Azure Storage. Official document on allowed headers
    * when uploading blobs:
-   * https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob#request-headers-all-blob-types
+   * https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types
    */
   uploadHeaders?: HttpHeader[];
 }
@@ -1154,7 +1196,7 @@ export interface JobManagerTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1290,7 +1332,7 @@ export interface JobPreparationTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1382,7 +1424,7 @@ export interface JobReleaseTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1464,7 +1506,7 @@ export interface StartTask {
    * using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line
    * refers to file paths, it should use a relative path (relative to the Task working directory),
    * or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1501,7 +1543,7 @@ export interface StartTask {
    * maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries).
    * If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum
    * retry count is -1, the Batch service retries the Task without limit, however this is not
-   * recommended for a start task or any task. The default value is 0 (no retries)
+   * recommended for a start task or any task. The default value is 0 (no retries).
    */
   maxTaskRetryCount?: number;
   /**
@@ -1519,7 +1561,9 @@ export interface StartTask {
 }
 
 /**
- * An interface representing CertificateReference.
+ * Warning: This object is deprecated and will be removed after February, 2024. Please use the
+ * [Azure KeyVault
+ * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  * @summary A reference to a Certificate to be installed on Compute Nodes in a Pool.
  */
 export interface CertificateReference {
@@ -1534,22 +1578,19 @@ export interface CertificateReference {
   /**
    * The location of the Certificate store on the Compute Node into which to install the
    * Certificate. The default value is currentuser. This property is applicable only for Pools
-   * configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or
-   * with virtualMachineConfiguration using a Windows Image reference). For Linux Compute Nodes,
-   * the Certificates are stored in a directory inside the Task working directory and an
-   * environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this
-   * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
-   * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
-   * directory. Possible values include: 'currentUser', 'localMachine'
+   * configured with Windows Compute Nodes. For Linux Compute Nodes, the Certificates are stored in
+   * a directory inside the Task working directory and an environment variable
+   * AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates
+   * with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory
+   * (e.g., /home/{user-name}/certs) and Certificates are placed in that directory. Possible values
+   * include: 'currentUser', 'localMachine'
    */
   storeLocation?: CertificateStoreLocation;
   /**
    * The name of the Certificate store on the Compute Node into which to install the Certificate.
-   * This property is applicable only for Pools configured with Windows Compute Nodes (that is,
-   * created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows
-   * Image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople,
-   * TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The
-   * default value is My.
+   * This property is applicable only for Pools configured with Windows Compute Nodes. Common store
+   * names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot,
+   * AddressBook, but any custom store name can also be used. The default value is My.
    */
   storeName?: string;
   /**
@@ -1574,31 +1615,6 @@ export interface MetadataItem {
    * The value of the metadata item.
    */
   value: string;
-}
-
-/**
- * An interface representing CloudServiceConfiguration.
- * @summary The configuration for Compute Nodes in a Pool based on the Azure Cloud Services
- * platform.
- */
-export interface CloudServiceConfiguration {
-  /**
-   * The Azure Guest OS family to be installed on the virtual machines in the Pool. Possible values
-   * are:
-   * 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.
-   * 3 - OS Family 3, equivalent to Windows Server 2012.
-   * 4 - OS Family 4, equivalent to Windows Server 2012 R2.
-   * 5 - OS Family 5, equivalent to Windows Server 2016.
-   * 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS
-   * Releases
-   * (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
-   */
-  osFamily: string;
-  /**
-   * The Azure Guest OS version to be installed on the virtual machines in the Pool. The default
-   * value is * which specifies the latest operating system version for the specified OS family.
-   */
-  osVersion?: string;
 }
 
 /**
@@ -1639,7 +1655,7 @@ export interface DataDisk {
   diskSizeGB: number;
   /**
    * The storage Account type to be used for the data disk. If omitted, the default is
-   * "standard_lrs". Possible values include: 'StandardLRS', 'PremiumLRS'
+   * "standard_lrs". Possible values include: 'StandardLRS', 'PremiumLRS', 'StandardSSDLRS'
    */
   storageAccountType?: StorageAccountType;
 }
@@ -1649,6 +1665,11 @@ export interface DataDisk {
  * @summary The configuration for container-enabled Pools.
  */
 export interface ContainerConfiguration {
+  /**
+   * The container technology to be used. Possible values include: 'dockerCompatible',
+   * 'criCompatible'
+   */
+  type: ContainerType;
   /**
    * The collection of container Image names. This is the full Image reference, as would be
    * specified to "docker pull". An Image will be sourced from the default Docker registry unless
@@ -1665,13 +1686,12 @@ export interface ContainerConfiguration {
 
 /**
  * The disk encryption configuration applied on compute nodes in the pool. Disk encryption
- * configuration is not supported on Linux pool created with Shared Image Gallery Image.
+ * configuration is not supported on Linux pool created with Azure Compute Gallery Image.
  */
 export interface DiskEncryptionConfiguration {
   /**
-   * The list of disk targets Batch Service will encrypt on the compute node. If omitted, no disks
-   * on the compute nodes in the pool will be encrypted. On Linux pool, only "TemporaryDisk" is
-   * supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified.
+   * The list of disk targets Batch Service will encrypt on the compute node. The list of disk
+   * targets Batch Service will encrypt on the compute node.
    */
   targets?: DiskEncryptionTarget[];
 }
@@ -1718,6 +1738,11 @@ export interface VMExtension {
    */
   autoUpgradeMinorVersion?: boolean;
   /**
+   * Indicates whether the extension should be automatically upgraded by the platform if there is a
+   * newer version of the extension available.
+   */
+  enableAutomaticUpgrade?: boolean;
+  /**
    * JSON formatted public settings for the extension.
    */
   settings?: any;
@@ -1744,12 +1769,41 @@ export interface DiffDiskSettings {
    * property can be used by user in the request to choose the location e.g., cache disk space for
    * Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements,
    * please refer to Ephemeral OS disk size requirements for Windows VMs at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+   * https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
    * and Linux VMs at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+   * https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    * Possible values include: 'CacheDisk'
    */
   placement?: DiffDiskPlacement;
+}
+
+/**
+ * Specifies the security profile settings for the managed disk. **Note**: It can only be set for
+ * Confidential VMs and required when using Confidential VMs.
+ */
+export interface VMDiskSecurityProfile {
+  /**
+   * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption
+   * of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the
+   * VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when
+   * using Confidential VMs. Possible values include: 'NonPersistedTPM', 'VMGuestStateOnly'
+   */
+  securityEncryptionType?: SecurityEncryptionTypes;
+}
+
+/**
+ * An interface representing ManagedDisk.
+ */
+export interface ManagedDisk {
+  /**
+   * The storage account type for managed disk. Possible values include: 'StandardLRS',
+   * 'PremiumLRS', 'StandardSSDLRS'
+   */
+  storageAccountType?: StorageAccountType;
+  /**
+   * Specifies the security profile settings for the managed disk.
+   */
+  securityProfile?: VMDiskSecurityProfile;
 }
 
 /**
@@ -1762,6 +1816,77 @@ export interface OSDisk {
    * (VM).
    */
   ephemeralOSDiskSettings?: DiffDiskSettings;
+  /**
+   * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The
+   * default values are: None for Standard storage. ReadOnly for Premium storage. Possible values
+   * include: 'none', 'readOnly', 'readWrite'
+   */
+  caching?: CachingType;
+  /**
+   * The managed disk parameters.
+   */
+  managedDisk?: ManagedDisk;
+  /**
+   * The initial disk size in GB when creating new OS disk.
+   */
+  diskSizeGB?: number;
+  /**
+   * Specifies whether writeAccelerator should be enabled or disabled on the disk.
+   */
+  writeAcceleratorEnabled?: boolean;
+}
+
+/**
+ * Specifies the security settings like secure boot and vTPM used while creating the virtual
+ * machine.
+ */
+export interface UefiSettings {
+  /**
+   * Specifies whether secure boot should be enabled on the virtual machine.
+   */
+  secureBootEnabled?: boolean;
+  /**
+   * Specifies whether vTPM should be enabled on the virtual machine.
+   */
+  vTpmEnabled?: boolean;
+}
+
+/**
+ * Specifies the security profile settings for the virtual machine or virtual machine scale set.
+ */
+export interface SecurityProfile {
+  /**
+   * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to
+   * enable UefiSettings. Possible values include: 'trustedLaunch', 'confidentialVM'
+   */
+  securityType?: SecurityTypes;
+  /**
+   * This property can be used by user in the request to enable or disable the Host Encryption for
+   * the virtual machine or virtual machine scale set. This will enable the encryption for all the
+   * disks including Resource/Temp disk at host itself. For more information on encryption at host
+   * requirements, please refer to
+   * https://learn.microsoft.com/azure/virtual-machines/disk-encryption#supported-vm-sizes.
+   */
+  encryptionAtHost?: boolean;
+  /**
+   * Specifies the security settings like secure boot and vTPM used while creating the virtual
+   * machine. Specifies the security settings like secure boot and vTPM used while creating the
+   * virtual machine.
+   */
+  uefiSettings?: UefiSettings;
+}
+
+/**
+ * Specifies the service artifact reference id used to set same image version for all virtual
+ * machines in the scale set when using 'latest' image version.
+ */
+export interface ServiceArtifactReference {
+  /**
+   * The service artifact reference id of ServiceArtifactReference. The service artifact reference
+   * id in the form of
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}
+   */
+  id: string;
 }
 
 /**
@@ -1797,9 +1922,9 @@ export interface VirtualMachineConfiguration {
    * Existing disks cannot be attached, each attached disk is empty. When the Compute Node is
    * removed from the Pool, the disk and all data associated with it is also deleted. The disk is
    * not formatted after being attached, it must be formatted before use - for more information see
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux
+   * https://learn.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux
    * and
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine.
+   * https://learn.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine.
    */
   dataDisks?: DataDisk[];
   /**
@@ -1838,6 +1963,17 @@ export interface VirtualMachineConfiguration {
    * Settings for the operating system disk of the Virtual Machine.
    */
   osDisk?: OSDisk;
+  /**
+   * Specifies the security profile settings for the virtual machine or virtual machine scale set.
+   */
+  securityProfile?: SecurityProfile;
+  /**
+   * Specifies the service artifact reference id used to set same image version for all virtual
+   * machines in the scale set when using 'latest' image version. The service artifact reference id
+   * in the form of
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}
+   */
+  serviceArtifactReference?: ServiceArtifactReference;
 }
 
 /**
@@ -1975,15 +2111,12 @@ export interface NetworkConfiguration {
    * Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if
    * the specified VNet has any associated Network Security Groups (NSG). If communication to the
    * Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state
-   * of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM
-   * virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created
-   * with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the
-   * specified VNet has any associated Network Security Groups (NSG), then a few reserved system
-   * ports must be enabled for inbound communication. For Pools created with a virtual machine
-   * configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for
-   * Windows. For Pools created with a cloud service configuration, enable ports 10100, 20100, and
-   * 30100. Also enable outbound connections to Azure Storage on port 443. For more details see:
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
+   * of the Compute Nodes to unusable. Only ARM virtual networks
+   * ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated
+   * Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound
+   * communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for
+   * Windows. Also enable outbound connections to Azure Storage on port 443. For more details see:
+   * https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId?: string;
   /**
@@ -1991,16 +2124,20 @@ export interface NetworkConfiguration {
    */
   dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
   /**
-   * The configuration for endpoints on Compute Nodes in the Batch Pool. Pool endpoint
-   * configuration is only supported on Pools with the virtualMachineConfiguration property.
+   * The configuration for endpoints on Compute Nodes in the Batch Pool.
    */
   endpointConfiguration?: PoolEndpointConfiguration;
   /**
-   * The Public IPAddress configuration for Compute Nodes in the Batch Pool. Public IP
-   * configuration property is only supported on Pools with the virtualMachineConfiguration
-   * property.
+   * The Public IPAddress configuration for Compute Nodes in the Batch Pool.
    */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  /**
+   * Whether this pool should enable accelerated networking. Accelerated networking enables single
+   * root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance.
+   * For more details, see:
+   * https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview.
+   */
+  enableAcceleratedNetworking?: boolean;
 }
 
 /**
@@ -2154,6 +2291,108 @@ export interface MountConfiguration {
 }
 
 /**
+ * The configuration parameters used for performing automatic OS upgrade.
+ */
+export interface AutomaticOSUpgradePolicy {
+  /**
+   * Whether OS image rollback feature should be disabled.
+   */
+  disableAutomaticRollback?: boolean;
+  /**
+   * Indicates whether OS upgrades should automatically be applied to scale set instances in a
+   * rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this
+   * is set to true for Windows based pools,
+   * [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/rest/api/batchservice/pool/add?tabs=HTTP#windowsconfiguration)
+   * cannot be set to true.
+   */
+  enableAutomaticOSUpgrade?: boolean;
+  /**
+   * Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS
+   * Upgrade will fallback to the default policy if no policy is defined on the VMSS.
+   */
+  useRollingUpgradePolicy?: boolean;
+  /**
+   * Defer OS upgrades on the TVMs if they are running tasks.
+   */
+  osRollingUpgradeDeferral?: boolean;
+}
+
+/**
+ * The configuration parameters used while performing a rolling upgrade.
+ */
+export interface RollingUpgradePolicy {
+  /**
+   * Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
+   * the Update Domain and maxBatchInstancePercent to determine the batch size. This field is able
+   * to be set to true or false only when using NodePlacementConfiguration as Zonal.
+   */
+  enableCrossZoneUpgrade?: boolean;
+  /**
+   * The maximum percent of total virtual machine instances that will be upgraded simultaneously by
+   * the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or
+   * future batches can cause the percentage of instances in a batch to decrease to ensure higher
+   * reliability. The value of this field should be between 5 and 100, inclusive. If both
+   * maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of
+   * maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent.
+   */
+  maxBatchInstancePercent?: number;
+  /**
+   * The maximum percentage of the total virtual machine instances in the scale set that can be
+   * simultaneously unhealthy, either as a result of being upgraded, or by being found in an
+   * unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This
+   * constraint will be checked prior to starting any batch. The value of this field should be
+   * between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent
+   * are assigned with value, the value of maxBatchInstancePercent should not be more than
+   * maxUnhealthyInstancePercent.
+   */
+  maxUnhealthyInstancePercent?: number;
+  /**
+   * The maximum percentage of upgraded virtual machine instances that can be found to be in an
+   * unhealthy state. This check will happen after each batch is upgraded. If this percentage is
+   * ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100,
+   * inclusive.
+   */
+  maxUnhealthyUpgradedInstancePercent?: number;
+  /**
+   * The wait time between completing the update for all virtual machines in one batch and starting
+   * the next batch. The time duration should be specified in ISO 8601 format.
+   */
+  pauseTimeBetweenBatches?: string;
+  /**
+   * Upgrade all unhealthy instances in a scale set before any healthy instances.
+   */
+  prioritizeUnhealthyInstances?: boolean;
+  /**
+   * Rollback failed instances to previous model if the Rolling Upgrade policy is violated.
+   */
+  rollbackFailedInstancesOnPolicyBreach?: boolean;
+}
+
+/**
+ * Describes an upgrade policy - automatic, manual, or rolling.
+ */
+export interface UpgradePolicy {
+  /**
+   * Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible
+   * values are:<br /><br /> **Manual** - You  control the application of updates to virtual
+   * machines in the scale set. You do this by using the manualUpgrade action.<br /><br />
+   * **Automatic** - All virtual machines in the scale set are automatically updated at the same
+   * time.<br /><br /> **Rolling** - Scale set performs updates in batches with an optional pause
+   * time in between. Possible values include: 'automatic', 'manual', 'rolling'
+   */
+  mode: UpgradeMode;
+  /**
+   * Configuration parameters used for performing automatic OS Upgrade. The configuration
+   * parameters used for performing automatic OS upgrade.
+   */
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+  /**
+   * The configuration parameters used while performing a rolling upgrade.
+   */
+  rollingUpgradePolicy?: RollingUpgradePolicy;
+}
+
+/**
  * An interface representing PoolSpecification.
  * @summary Specification for creating a new Pool.
  */
@@ -2167,24 +2406,11 @@ export interface PoolSpecification {
    * The size of the virtual machines in the Pool. All virtual machines in a Pool are the same
    * size. For information about available sizes of virtual machines in Pools, see Choose a VM size
    * for Compute Nodes in an Azure Batch Pool
-   * (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
+   * (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize: string;
   /**
-   * The cloud service configuration for the Pool. This property must be specified if the Pool
-   * needs to be created with Azure PaaS VMs. This property and virtualMachineConfiguration are
-   * mutually exclusive and one of the properties must be specified. If neither is specified then
-   * the Batch service returns an error; if you are calling the REST API directly, the HTTP status
-   * code is 400 (Bad Request). This property cannot be specified if the Batch Account was created
-   * with its poolAllocationMode property set to 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property must be specified if the Pool
-   * needs to be created with Azure IaaS VMs. This property and cloudServiceConfiguration are
-   * mutually exclusive and one of the properties must be specified. If neither is specified then
-   * the Batch service returns an error; if you are calling the REST API directly, the HTTP status
-   * code is 400 (Bad Request).
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -2264,6 +2490,10 @@ export interface PoolSpecification {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -2275,14 +2505,6 @@ export interface PoolSpecification {
    * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
-  /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail. The permitted licenses available on the Pool are 'maya', 'vray', '3dsmax', 'arnold'. An
-   * additional charge applies for each application license added to the Pool.
-   */
-  applicationLicenses?: string[];
   /**
    * The list of user Accounts to be created on each Compute Node in the Pool.
    */
@@ -2302,6 +2524,17 @@ export interface PoolSpecification {
    * Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the pool.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3519,19 +3752,11 @@ export interface CloudPool {
    * The size of virtual machines in the Pool. All virtual machines in a Pool are the same size.
    * For information about available sizes of virtual machines in Pools, see Choose a VM size for
    * Compute Nodes in an Azure Batch Pool
-   * (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
+   * (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize?: string;
   /**
-   * The cloud service configuration for the Pool. This property and virtualMachineConfiguration
-   * are mutually exclusive and one of the properties must be specified. This property cannot be
-   * specified if the Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property and cloudServiceConfiguration
-   * are mutually exclusive and one of the properties must be specified.
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -3608,6 +3833,10 @@ export interface CloudPool {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -3617,13 +3846,6 @@ export interface CloudPool {
    * references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
-  /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail.
-   */
-  applicationLicenses?: string[];
   /**
    * The number of task slots that can be used to run concurrent tasks on a single compute node in
    * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
@@ -3672,6 +3894,17 @@ export interface CloudPool {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly currentNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3693,12 +3926,7 @@ export interface PoolAddParameter {
   displayName?: string;
   /**
    * The size of virtual machines in the Pool. All virtual machines in a Pool are the same size.
-   * For information about available sizes of virtual machines for Cloud Services Pools (pools
-   * created with cloudServiceConfiguration), see Sizes for Cloud Services
-   * (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch
-   * supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about
-   * available VM sizes for Pools using Images from the Virtual Machines Marketplace (pools created
-   * with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux)
+   * For information about available VM sizes, see Sizes for Virtual Machines (Linux)
    * (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes
    * for Virtual Machines (Windows)
    * (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
@@ -3707,15 +3935,7 @@ export interface PoolAddParameter {
    */
   vmSize: string;
   /**
-   * The cloud service configuration for the Pool. This property and virtualMachineConfiguration
-   * are mutually exclusive and one of the properties must be specified. This property cannot be
-   * specified if the Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property and cloudServiceConfiguration
-   * are mutually exclusive and one of the properties must be specified.
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -3786,6 +4006,10 @@ export interface PoolAddParameter {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -3797,13 +4021,6 @@ export interface PoolAddParameter {
    * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
-  /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail.
-   */
-  applicationLicenses?: string[];
   /**
    * The number of task slots that can be used to run concurrent tasks on a single compute node in
    * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
@@ -3834,6 +4051,17 @@ export interface PoolAddParameter {
    * Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -4176,7 +4404,7 @@ export interface CloudTask {
    * MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file
    * paths, it should use a relative path (relative to the Task working directory), or use the
    * Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine?: string;
   /**
@@ -4306,7 +4534,7 @@ export interface TaskAddParameter {
    * MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file
    * paths, it should use a relative path (relative to the Task working directory), or use the
    * Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://learn.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -4756,6 +4984,11 @@ export interface VirtualMachineInfo {
    * The reference to the Azure Virtual Machine's Marketplace Image.
    */
   imageReference?: ImageReference;
+  /**
+   * The resource ID of the Compute Node's current Virtual Machine Scale Set VM. Only defined if
+   * the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'.
+   */
+  scaleSetVmResourceId?: string;
 }
 
 /**
@@ -4778,7 +5011,8 @@ export interface ComputeNode {
    * Tasks which were running on the Compute Node when it was preempted will be rescheduled when
    * another Compute Node becomes available. Possible values include: 'idle', 'rebooting',
    * 'reimaging', 'running', 'unusable', 'creating', 'starting', 'waitingForStartTask',
-   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted'
+   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted', 'upgradingOS',
+   * 'deallocated', 'deallocating'
    */
   state?: ComputeNodeState;
   /**
@@ -4817,7 +5051,7 @@ export interface ComputeNode {
   /**
    * The size of the virtual machine hosting the Compute Node. For information about available
    * sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch
-   * Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).
+   * Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes).
    */
   vmSize?: string;
   /**
@@ -4863,6 +5097,10 @@ export interface ComputeNode {
    * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
    * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
    * directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -4909,10 +5147,8 @@ export interface ComputeNodeUser {
    */
   expiryTime?: Date;
   /**
-   * The password of the Account. The password is required for Windows Compute Nodes (those created
-   * with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a
-   * Windows Image reference). For Linux Compute Nodes, the password can optionally be specified
-   * along with the sshPublicKey property.
+   * The password of the Account. The password is required for Windows Compute Nodes. For Linux
+   * Compute Nodes, the password can optionally be specified along with the sshPublicKey property.
    */
   password?: string;
   /**
@@ -5062,6 +5298,10 @@ export interface JobPatchParameter {
    */
   poolInfo?: PoolInformation;
   /**
+   * The network configuration for the Job.
+   */
+  networkConfiguration?: JobNetworkConfiguration;
+  /**
    * A list of name-value pairs associated with the Job as metadata. If omitted, the existing Job
    * metadata is left unchanged.
    */
@@ -5136,7 +5376,7 @@ export interface PoolEnableAutoScaleParameter {
    * validity before it is applied to the Pool. If the formula is not valid, the Batch service
    * rejects the request with detailed error information. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    */
   autoScaleFormula?: string;
   /**
@@ -5161,7 +5401,7 @@ export interface PoolEvaluateAutoScaleParameter {
    * its results calculated, but it is not applied to the Pool. To apply the formula to the Pool,
    * 'Enable automatic scaling on a Pool'. For more information about specifying this formula, see
    * Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    */
   autoScaleFormula: string;
 }
@@ -5216,6 +5456,10 @@ export interface PoolUpdatePropertiesParameter {
    * query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory
    * is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are
    * placed in that directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences: CertificateReference[];
   /**
@@ -5263,6 +5507,10 @@ export interface PoolPatchParameter {
    * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
    * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
    * directory.
+   *
+   * Warning: This property is deprecated and will be removed after February, 2024. Please use the
+   * [Azure KeyVault
+   * Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
    */
   certificateReferences?: CertificateReference[];
   /**
@@ -5286,6 +5534,71 @@ export interface PoolPatchParameter {
    * is left unchanged. Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The display name for the Pool. The display name need not be unique and can contain any Unicode
+   * characters up to a maximum length of 1024.<br /><br />This field can be updated only when the
+   * pool is empty.
+   */
+  displayName?: string;
+  /**
+   * The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information
+   * about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in
+   * an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-pool-vm-sizes).<br /><br
+   * />This field can be updated only when the pool is empty.
+   */
+  vmSize?: string;
+  /**
+   * The number of task slots that can be used to run concurrent tasks on a single compute node in
+   * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
+   * cores of the vmSize of the pool or 256.<br /><br />This field can be updated only when the
+   * pool is empty.
+   */
+  taskSlotsPerNode?: number;
+  /**
+   * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is
+   * spread.<br /><br />This field can be updated only when the pool is empty.
+   */
+  taskSchedulingPolicy?: TaskSchedulingPolicy;
+  /**
+   * Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node
+   * communication limits the maximum size of the Pool due to deployment restrictions on the
+   * Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The
+   * default value is false.<br /><br />This field can be updated only when the pool is empty.
+   */
+  enableInterNodeCommunication?: boolean;
+  /**
+   * The virtual machine configuration for the Pool. This property must be specified.<br /><br
+   * />This field can be updated only when the pool is empty.
+   */
+  virtualMachineConfiguration?: VirtualMachineConfiguration;
+  /**
+   * The network configuration for the Pool. This field can be updated only when the pool is empty.
+   */
+  networkConfiguration?: NetworkConfiguration;
+  /**
+   * The list of user Accounts to be created on each Compute Node in the Pool. This field can be
+   * updated only when the pool is empty.
+   */
+  userAccounts?: UserAccount[];
+  /**
+   * Mount storage using specified file system for the entire lifetime of the pool. Mount the
+   * storage using Azure fileshare, NFS, CIFS or Blobfuse based file system.<br /><br />This field
+   * can be updated only when the pool is empty.
+   */
+  mountConfiguration?: MountConfiguration[];
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or
+   * rolling.<br /><br />This field can be updated only when the pool is empty.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.<br /><br />This field
+   * can be updated only when the pool is empty.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -5307,10 +5620,9 @@ export interface TaskUpdateParameter {
  */
 export interface NodeUpdateUserParameter {
   /**
-   * The password of the Account. The password is required for Windows Compute Nodes (those created
-   * with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a
-   * Windows Image reference). For Linux Compute Nodes, the password can optionally be specified
-   * along with the sshPublicKey property. If omitted, any existing password is removed.
+   * The password of the Account. The password is required for Windows Compute Nodes. For Linux
+   * Compute Nodes, the password can optionally be specified along with the sshPublicKey property.
+   * If omitted, any existing password is removed.
    */
   password?: string;
   /**
@@ -5364,6 +5676,19 @@ export interface NodeDisableSchedulingParameter {
    * 'taskCompletion'
    */
   nodeDisableSchedulingOption?: DisableComputeNodeSchedulingOption;
+}
+
+/**
+ * An interface representing NodeDeallocateParameter.
+ * @summary Options for deallocating a Compute Node.
+ */
+export interface NodeDeallocateParameter {
+  /**
+   * When to deallocate the Compute Node and what to do with currently running Tasks. The default
+   * value is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion',
+   * 'retainedData'
+   */
+  nodeDeallocateOption?: ComputeNodeDeallocateOption;
 }
 
 /**
@@ -5501,6 +5826,18 @@ export interface NodeCounts {
    */
   waitingForStartTask: number;
   /**
+   * The number of Compute Nodes in the upgradingOS state.
+   */
+  upgradingOS: number;
+  /**
+   * The number of Compute Nodes in the deallocated state.
+   */
+  deallocated: number;
+  /**
+   * The number of Compute Nodes in the deallocating state.
+   */
+  deallocating: number;
+  /**
    * The total number of Compute Nodes.
    */
   total: number;
@@ -5536,7 +5873,8 @@ export interface ApplicationListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5561,7 +5899,8 @@ export interface ApplicationListOptions {
 export interface ApplicationGetOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5598,7 +5937,7 @@ export interface PoolListUsageMetricsOptions {
   endTime?: Date;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
    */
   filter?: string;
   /**
@@ -5608,32 +5947,8 @@ export interface PoolListUsageMetricsOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getAllLifetimeStatistics operation.
- */
-export interface PoolGetAllLifetimeStatisticsOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5658,7 +5973,8 @@ export interface PoolGetAllLifetimeStatisticsOptions {
 export interface PoolAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5683,7 +5999,7 @@ export interface PoolAddOptions {
 export interface PoolListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-pools.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-pools.
    */
   filter?: string;
   /**
@@ -5701,7 +6017,8 @@ export interface PoolListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5726,7 +6043,8 @@ export interface PoolListOptions {
 export interface PoolDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5775,7 +6093,8 @@ export interface PoolDeleteMethodOptions {
 export interface PoolExistsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5832,7 +6151,8 @@ export interface PoolGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5881,7 +6201,8 @@ export interface PoolGetOptions {
 export interface PoolPatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5930,7 +6251,8 @@ export interface PoolPatchOptions {
 export interface PoolDisableAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5955,7 +6277,8 @@ export interface PoolDisableAutoScaleOptions {
 export interface PoolEnableAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6004,7 +6327,8 @@ export interface PoolEnableAutoScaleOptions {
 export interface PoolEvaluateAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6029,7 +6353,8 @@ export interface PoolEvaluateAutoScaleOptions {
 export interface PoolResizeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6078,7 +6403,8 @@ export interface PoolResizeOptions {
 export interface PoolStopResizeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6127,7 +6453,8 @@ export interface PoolStopResizeOptions {
 export interface PoolUpdatePropertiesOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6152,7 +6479,8 @@ export interface PoolUpdatePropertiesOptions {
 export interface PoolRemoveNodesOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6201,7 +6529,7 @@ export interface PoolRemoveNodesOptions {
 export interface AccountListSupportedImagesOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   filter?: string;
   /**
@@ -6211,7 +6539,8 @@ export interface AccountListSupportedImagesOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6236,7 +6565,7 @@ export interface AccountListSupportedImagesOptions {
 export interface AccountListPoolNodeCountsOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch.
    */
   filter?: string;
   /**
@@ -6245,558 +6574,8 @@ export interface AccountListPoolNodeCountsOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getAllLifetimeStatistics operation.
- */
-export interface JobGetAllLifetimeStatisticsOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for deleteMethod operation.
- */
-export interface JobDeleteMethodOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for get operation.
- */
-export interface JobGetOptions {
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for patch operation.
- */
-export interface JobPatchOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for update operation.
- */
-export interface JobUpdateOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for disable operation.
- */
-export interface JobDisableOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for enable operation.
- */
-export interface JobEnableOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for terminate operation.
- */
-export interface JobTerminateOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service exactly matches the value
-   * specified by the client.
-   */
-  ifMatch?: string;
-  /**
-   * An ETag value associated with the version of the resource known to the client. The operation
-   * will be performed only if the resource's current ETag on the service does not match the value
-   * specified by the client.
-   */
-  ifNoneMatch?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has been modified since the
-   * specified time.
-   */
-  ifModifiedSince?: Date;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the client. The
-   * operation will be performed only if the resource on the service has not been modified since
-   * the specified time.
-   */
-  ifUnmodifiedSince?: Date;
-}
-
-/**
- * Additional parameters for add operation.
- */
-export interface JobAddOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for list operation.
- */
-export interface JobListOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
-   * Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listFromJobSchedule operation.
- */
-export interface JobListFromJobScheduleOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * An OData $expand clause.
-   */
-  expand?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
-   * Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listPreparationAndReleaseTaskStatus operation.
- */
-export interface JobListPreparationAndReleaseTaskStatusOptions {
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
-   */
-  filter?: string;
-  /**
-   * An OData $select clause.
-   */
-  select?: string;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000 Tasks can be
-   * returned. Default value: 1000.
-   */
-  maxResults?: number;
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getTaskCounts operation.
- */
-export interface JobGetTaskCountsOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6821,7 +6600,8 @@ export interface JobGetTaskCountsOptions {
 export interface CertificateAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6846,7 +6626,7 @@ export interface CertificateAddOptions {
 export interface CertificateListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-certificates.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-certificates.
    */
   filter?: string;
   /**
@@ -6860,7 +6640,8 @@ export interface CertificateListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6885,7 +6666,8 @@ export interface CertificateListOptions {
 export interface CertificateCancelDeletionOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6910,7 +6692,8 @@ export interface CertificateCancelDeletionOptions {
 export interface CertificateDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6939,7 +6722,8 @@ export interface CertificateGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6964,7 +6748,8 @@ export interface CertificateGetOptions {
 export interface FileDeleteFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6989,7 +6774,8 @@ export interface FileDeleteFromTaskOptions {
 export interface FileGetFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7031,7 +6817,8 @@ export interface FileGetFromTaskOptions {
 export interface FileGetPropertiesFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7068,7 +6855,8 @@ export interface FileGetPropertiesFromTaskOptions {
 export interface FileDeleteFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7093,7 +6881,8 @@ export interface FileDeleteFromComputeNodeOptions {
 export interface FileGetFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7135,7 +6924,8 @@ export interface FileGetFromComputeNodeOptions {
 export interface FileGetPropertiesFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7172,7 +6962,7 @@ export interface FileGetPropertiesFromComputeNodeOptions {
 export interface FileListFromTaskOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-task-files.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-task-files.
    */
   filter?: string;
   /**
@@ -7182,7 +6972,8 @@ export interface FileListFromTaskOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7207,7 +6998,7 @@ export interface FileListFromTaskOptions {
 export interface FileListFromComputeNodeOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
    */
   filter?: string;
   /**
@@ -7217,7 +7008,8 @@ export interface FileListFromComputeNodeOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7242,7 +7034,8 @@ export interface FileListFromComputeNodeOptions {
 export interface JobScheduleExistsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7291,7 +7084,8 @@ export interface JobScheduleExistsOptions {
 export interface JobScheduleDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7332,6 +7126,11 @@ export interface JobScheduleDeleteMethodOptions {
    * the specified time.
    */
   ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will delete the JobSchedule even if the corresponding nodes have not fully
+   * processed the deletion. The default value is false. Default value: false.
+   */
+  force?: boolean;
 }
 
 /**
@@ -7348,7 +7147,8 @@ export interface JobScheduleGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7397,7 +7197,8 @@ export interface JobScheduleGetOptions {
 export interface JobSchedulePatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7446,7 +7247,8 @@ export interface JobSchedulePatchOptions {
 export interface JobScheduleUpdateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7495,7 +7297,8 @@ export interface JobScheduleUpdateOptions {
 export interface JobScheduleDisableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7544,7 +7347,8 @@ export interface JobScheduleDisableOptions {
 export interface JobScheduleEnableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7593,7 +7397,196 @@ export interface JobScheduleEnableOptions {
 export interface JobScheduleTerminateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will terminate the JobSchedule even if the corresponding nodes have not
+   * fully processed the termination. The default value is false. Default value: false.
+   */
+  force?: boolean;
+}
+
+/**
+ * Additional parameters for add operation.
+ */
+export interface JobScheduleAddOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for list operation.
+ */
+export interface JobScheduleListOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Job Schedules can be
+   * returned. Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for deleteMethod operation.
+ */
+export interface JobDeleteMethodOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will delete the Job even if the corresponding nodes have not fully
+   * processed the deletion. The default value is false. Default value: false.
+   */
+  force?: boolean;
+}
+
+/**
+ * Additional parameters for get operation.
+ */
+export interface JobGetOptions {
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7637,12 +7630,268 @@ export interface JobScheduleTerminateOptions {
 }
 
 /**
- * Additional parameters for add operation.
+ * Additional parameters for patch operation.
  */
-export interface JobScheduleAddOptions {
+export interface JobPatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for update operation.
+ */
+export interface JobUpdateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for disable operation.
+ */
+export interface JobDisableOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for enable operation.
+ */
+export interface JobEnableOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Additional parameters for terminate operation.
+ */
+export interface JobTerminateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service exactly matches the value
+   * specified by the client.
+   */
+  ifMatch?: string;
+  /**
+   * An ETag value associated with the version of the resource known to the client. The operation
+   * will be performed only if the resource's current ETag on the service does not match the value
+   * specified by the client.
+   */
+  ifNoneMatch?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has been modified since the
+   * specified time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the client. The
+   * operation will be performed only if the resource on the service has not been modified since
+   * the specified time.
+   */
+  ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will terminate the Job even if the corresponding nodes have not fully
+   * processed the termination. The default value is false. Default value: false.
+   */
+  force?: boolean;
+}
+
+/**
+ * Additional parameters for add operation.
+ */
+export interface JobAddOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7664,10 +7913,10 @@ export interface JobScheduleAddOptions {
 /**
  * Additional parameters for list operation.
  */
-export interface JobScheduleListOptions {
+export interface JobListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs.
    */
   filter?: string;
   /**
@@ -7679,13 +7928,124 @@ export interface JobScheduleListOptions {
    */
   expand?: string;
   /**
-   * The maximum number of items to return in the response. A maximum of 1000 Job Schedules can be
+   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
+   * Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listFromJobSchedule operation.
+ */
+export interface JobListFromJobScheduleOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * An OData $expand clause.
+   */
+  expand?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Jobs can be returned.
+   * Default value: 1000.
+   */
+  maxResults?: number;
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listPreparationAndReleaseTaskStatus operation.
+ */
+export interface JobListPreparationAndReleaseTaskStatusOptions {
+  /**
+   * An OData $filter clause. For more information on constructing this filter, see
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
+   */
+  filter?: string;
+  /**
+   * An OData $select clause.
+   */
+  select?: string;
+  /**
+   * The maximum number of items to return in the response. A maximum of 1000 Tasks can be
    * returned. Default value: 1000.
    */
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for getTaskCounts operation.
+ */
+export interface JobGetTaskCountsOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7710,7 +8070,8 @@ export interface JobScheduleListOptions {
 export interface TaskAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7735,7 +8096,7 @@ export interface TaskAddOptions {
 export interface TaskListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-tasks.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-tasks.
    */
   filter?: string;
   /**
@@ -7753,7 +8114,8 @@ export interface TaskListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7778,7 +8140,8 @@ export interface TaskListOptions {
 export interface TaskAddCollectionOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 2 minutes. If the value is larger than 120, the default will be used instead. Default value:
+   * 120.
    */
   timeout?: number;
   /**
@@ -7803,7 +8166,8 @@ export interface TaskAddCollectionOptions {
 export interface TaskDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7860,7 +8224,8 @@ export interface TaskGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7909,7 +8274,8 @@ export interface TaskGetOptions {
 export interface TaskUpdateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7962,7 +8328,8 @@ export interface TaskListSubtasksOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7987,7 +8354,8 @@ export interface TaskListSubtasksOptions {
 export interface TaskTerminateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8036,7 +8404,8 @@ export interface TaskTerminateOptions {
 export interface TaskReactivateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8085,7 +8454,8 @@ export interface TaskReactivateOptions {
 export interface ComputeNodeAddUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8110,7 +8480,8 @@ export interface ComputeNodeAddUserOptions {
 export interface ComputeNodeDeleteUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8135,7 +8506,8 @@ export interface ComputeNodeDeleteUserOptions {
 export interface ComputeNodeUpdateUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8164,7 +8536,8 @@ export interface ComputeNodeGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8189,7 +8562,8 @@ export interface ComputeNodeGetOptions {
 export interface ComputeNodeRebootOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8214,7 +8588,8 @@ export interface ComputeNodeRebootOptions {
 export interface ComputeNodeReimageOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8239,7 +8614,8 @@ export interface ComputeNodeReimageOptions {
 export interface ComputeNodeDisableSchedulingOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8264,7 +8640,60 @@ export interface ComputeNodeDisableSchedulingOptions {
 export interface ComputeNodeEnableSchedulingOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for start operation.
+ */
+export interface ComputeNodeStartOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for deallocate operation.
+ */
+export interface ComputeNodeDeallocateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8289,32 +8718,8 @@ export interface ComputeNodeEnableSchedulingOptions {
 export interface ComputeNodeGetRemoteLoginSettingsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
-   */
-  timeout?: number;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for getRemoteDesktop operation.
- */
-export interface ComputeNodeGetRemoteDesktopOptions {
-  /**
-   * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8339,7 +8744,8 @@ export interface ComputeNodeGetRemoteDesktopOptions {
 export interface ComputeNodeUploadBatchServiceLogsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8364,7 +8770,7 @@ export interface ComputeNodeUploadBatchServiceLogsOptions {
 export interface ComputeNodeListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
+   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
    */
   filter?: string;
   /**
@@ -8378,7 +8784,8 @@ export interface ComputeNodeListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8407,7 +8814,8 @@ export interface ComputeNodeExtensionGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8441,7 +8849,8 @@ export interface ComputeNodeExtensionListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8563,66 +8972,6 @@ export interface AccountListPoolNodeCountsNextOptions {
 /**
  * Additional parameters for listNext operation.
  */
-export interface JobListNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listFromJobScheduleNext operation.
- */
-export interface JobListFromJobScheduleNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listPreparationAndReleaseTaskStatusNext operation.
- */
-export interface JobListPreparationAndReleaseTaskStatusNextOptions {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
-   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  clientRequestId?: string;
-  /**
-   * Whether the server should return the client-request-id in the response. Default value: false.
-   */
-  returnClientRequestId?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the current system
-   * clock time; set it explicitly if you are calling the REST API directly.
-   */
-  ocpDate?: Date;
-}
-
-/**
- * Additional parameters for listNext operation.
- */
 export interface CertificateListNextOptions {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration such as curly
@@ -8684,6 +9033,66 @@ export interface FileListFromComputeNodeNextOptions {
  * Additional parameters for listNext operation.
  */
 export interface JobScheduleListNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listNext operation.
+ */
+export interface JobListNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listFromJobScheduleNext operation.
+ */
+export interface JobListFromJobScheduleNextOptions {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for listPreparationAndReleaseTaskStatusNext operation.
+ */
+export interface JobListPreparationAndReleaseTaskStatusNextOptions {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration such as curly
    * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
@@ -8798,16 +9207,6 @@ export interface PoolListUsageMetricsOptionalParams extends msRest.RequestOption
    * Additional parameters for the operation
    */
   poolListUsageMetricsOptions?: PoolListUsageMetricsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PoolGetAllLifetimeStatisticsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  poolGetAllLifetimeStatisticsOptions?: PoolGetAllLifetimeStatisticsOptions;
 }
 
 /**
@@ -8998,170 +9397,6 @@ export interface AccountListPoolNodeCountsNextOptionalParams extends msRest.Requ
    * Additional parameters for the operation
    */
   accountListPoolNodeCountsNextOptions?: AccountListPoolNodeCountsNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetAllLifetimeStatisticsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetAllLifetimeStatisticsOptions?: JobGetAllLifetimeStatisticsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobDeleteMethodOptions?: JobDeleteMethodOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetOptions?: JobGetOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobPatchOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobPatchOptions?: JobPatchOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobUpdateOptions?: JobUpdateOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobDisableOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobDisableOptions?: JobDisableOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobEnableOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobEnableOptions?: JobEnableOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobTerminateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The text you want to appear as the Job's TerminateReason. The default is 'UserTerminate'.
-   */
-  terminateReason?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  jobTerminateOptions?: JobTerminateOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobAddOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobAddOptions?: JobAddOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListOptions?: JobListOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListFromJobScheduleOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListFromJobScheduleOptions?: JobListFromJobScheduleOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListPreparationAndReleaseTaskStatusOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListPreparationAndReleaseTaskStatusOptions?: JobListPreparationAndReleaseTaskStatusOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobGetTaskCountsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobGetTaskCountsOptions?: JobGetTaskCountsOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListNextOptions?: JobListNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListFromJobScheduleNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListFromJobScheduleNextOptions?: JobListFromJobScheduleNextOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface JobListPreparationAndReleaseTaskStatusNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  jobListPreparationAndReleaseTaskStatusNextOptions?: JobListPreparationAndReleaseTaskStatusNextOptions;
 }
 
 /**
@@ -9469,6 +9704,160 @@ export interface JobScheduleListNextOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
+export interface JobDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobDeleteMethodOptions?: JobDeleteMethodOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobGetOptions?: JobGetOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobPatchOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobPatchOptions?: JobPatchOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobUpdateOptions?: JobUpdateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobDisableOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobDisableOptions?: JobDisableOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobEnableOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobEnableOptions?: JobEnableOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobTerminateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The text you want to appear as the Job's TerminateReason. The default is 'UserTerminate'.
+   */
+  terminateReason?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  jobTerminateOptions?: JobTerminateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobAddOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobAddOptions?: JobAddOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListOptions?: JobListOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListFromJobScheduleOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListFromJobScheduleOptions?: JobListFromJobScheduleOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListPreparationAndReleaseTaskStatusOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListPreparationAndReleaseTaskStatusOptions?: JobListPreparationAndReleaseTaskStatusOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobGetTaskCountsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobGetTaskCountsOptions?: JobGetTaskCountsOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListNextOptions?: JobListNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListFromJobScheduleNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListFromJobScheduleNextOptions?: JobListFromJobScheduleNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface JobListPreparationAndReleaseTaskStatusNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  jobListPreparationAndReleaseTaskStatusNextOptions?: JobListPreparationAndReleaseTaskStatusNextOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface TaskAddOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
@@ -9672,21 +10061,37 @@ export interface ComputeNodeEnableSchedulingOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface ComputeNodeGetRemoteLoginSettingsOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputeNodeStartOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  computeNodeGetRemoteLoginSettingsOptions?: ComputeNodeGetRemoteLoginSettingsOptions;
+  computeNodeStartOptions?: ComputeNodeStartOptions;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ComputeNodeGetRemoteDesktopOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputeNodeDeallocateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * When to deallocate the Compute Node and what to do with currently running Tasks. The default
+   * value is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion',
+   * 'retainedData'
+   */
+  nodeDeallocateOption?: ComputeNodeDeallocateOption;
   /**
    * Additional parameters for the operation
    */
-  computeNodeGetRemoteDesktopOptions?: ComputeNodeGetRemoteDesktopOptions;
+  computeNodeDeallocateOptions?: ComputeNodeDeallocateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputeNodeGetRemoteLoginSettingsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  computeNodeGetRemoteLoginSettingsOptions?: ComputeNodeGetRemoteLoginSettingsOptions;
 }
 
 /**
@@ -9882,64 +10287,6 @@ export interface AccountListPoolNodeCountsHeaders {
    * the request was made, and the region that Account resides in.
    */
   requestId: string;
-}
-
-/**
- * Defines headers for GetAllLifetimeStatistics operation.
- */
-export interface PoolGetAllLifetimeStatisticsHeaders {
-  /**
-   * The client-request-id provided by the client during the request. This will be returned only if
-   * the return-client-request-id parameter was set to true.
-   */
-  clientRequestId: string;
-  /**
-   * A unique identifier for the request that was made to the Batch service. If a request is
-   * consistently failing and you have verified that the request is properly formulated, you may
-   * use this value to report the error to Microsoft. In your report, include the value of this
-   * request ID, the approximate time that the request was made, the Batch Account against which
-   * the request was made, and the region that Account resides in.
-   */
-  requestId: string;
-  /**
-   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
-   * resource has changed between requests. In particular, you can pass the ETag to one of the
-   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
-   */
-  eTag: string;
-  /**
-   * The time at which the resource was last modified.
-   */
-  lastModified: Date;
-}
-
-/**
- * Defines headers for GetAllLifetimeStatistics operation.
- */
-export interface JobGetAllLifetimeStatisticsHeaders {
-  /**
-   * The client-request-id provided by the client during the request. This will be returned only if
-   * the return-client-request-id parameter was set to true.
-   */
-  clientRequestId: string;
-  /**
-   * A unique identifier for the request that was made to the Batch service. If a request is
-   * consistently failing and you have verified that the request is properly formulated, you may
-   * use this value to report the error to Microsoft. In your report, include the value of this
-   * request ID, the approximate time that the request was made, the Batch Account against which
-   * the request was made, and the region that Account resides in.
-   */
-  requestId: string;
-  /**
-   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
-   * resource has changed between requests. In particular, you can pass the ETag to one of the
-   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
-   */
-  eTag: string;
-  /**
-   * The time at which the resource was last modified.
-   */
-  lastModified: Date;
 }
 
 /**
@@ -11970,9 +12317,9 @@ export interface ComputeNodeEnableSchedulingHeaders {
 }
 
 /**
- * Defines headers for GetRemoteLoginSettings operation.
+ * Defines headers for Start operation.
  */
-export interface ComputeNodeGetRemoteLoginSettingsHeaders {
+export interface ComputeNodeStartHeaders {
   /**
    * The client-request-id provided by the client during the request. This will be returned only if
    * the return-client-request-id parameter was set to true.
@@ -11996,12 +12343,49 @@ export interface ComputeNodeGetRemoteLoginSettingsHeaders {
    * The time at which the resource was last modified.
    */
   lastModified: Date;
+  /**
+   * The OData ID of the resource to which the request applied.
+   */
+  dataServiceId: string;
 }
 
 /**
- * Defines headers for GetRemoteDesktop operation.
+ * Defines headers for Deallocate operation.
  */
-export interface ComputeNodeGetRemoteDesktopHeaders {
+export interface ComputeNodeDeallocateHeaders {
+  /**
+   * The client-request-id provided by the client during the request. This will be returned only if
+   * the return-client-request-id parameter was set to true.
+   */
+  clientRequestId: string;
+  /**
+   * A unique identifier for the request that was made to the Batch service. If a request is
+   * consistently failing and you have verified that the request is properly formulated, you may
+   * use this value to report the error to Microsoft. In your report, include the value of this
+   * request ID, the approximate time that the request was made, the Batch Account against which
+   * the request was made, and the region that Account resides in.
+   */
+  requestId: string;
+  /**
+   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
+   * resource has changed between requests. In particular, you can pass the ETag to one of the
+   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
+   */
+  eTag: string;
+  /**
+   * The time at which the resource was last modified.
+   */
+  lastModified: Date;
+  /**
+   * The OData ID of the resource to which the request applied.
+   */
+  dataServiceId: string;
+}
+
+/**
+ * Defines headers for GetRemoteLoginSettings operation.
+ */
+export interface ComputeNodeGetRemoteLoginSettingsHeaders {
   /**
    * The client-request-id provided by the client during the request. This will be returned only if
    * the return-client-request-id parameter was set to true.
@@ -12185,27 +12569,6 @@ export interface PoolNodeCountsListResult extends Array<PoolNodeCounts> {
 
 /**
  * @interface
- * An interface representing the CloudJobListResult.
- * @summary The result of listing the Jobs in an Account.
- * @extends Array<CloudJob>
- */
-export interface CloudJobListResult extends Array<CloudJob> {
-  odatanextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the CloudJobListPreparationAndReleaseTaskStatusResult.
- * @summary The result of listing the status of the Job Preparation and Job Release Tasks for a
- * Job.
- * @extends Array<JobPreparationAndReleaseTaskExecutionInformation>
- */
-export interface CloudJobListPreparationAndReleaseTaskStatusResult extends Array<JobPreparationAndReleaseTaskExecutionInformation> {
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the CertificateListResult.
  * @summary The result of listing the Certificates in the Account.
  * @extends Array<Certificate>
@@ -12232,6 +12595,27 @@ export interface NodeFileListResult extends Array<NodeFile> {
  * @extends Array<CloudJobSchedule>
  */
 export interface CloudJobScheduleListResult extends Array<CloudJobSchedule> {
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudJobListResult.
+ * @summary The result of listing the Jobs in an Account.
+ * @extends Array<CloudJob>
+ */
+export interface CloudJobListResult extends Array<CloudJob> {
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudJobListPreparationAndReleaseTaskStatusResult.
+ * @summary The result of listing the status of the Job Preparation and Job Release Tasks for a
+ * Job.
+ * @extends Array<JobPreparationAndReleaseTaskExecutionInformation>
+ */
+export interface CloudJobListPreparationAndReleaseTaskStatusResult extends Array<JobPreparationAndReleaseTaskExecutionInformation> {
   odatanextLink?: string;
 }
 
@@ -12312,6 +12696,14 @@ export type CertificateFormat = 'pfx' | 'cer';
  * @enum {string}
  */
 export type ContainerWorkingDirectory = 'taskWorkingDirectory' | 'containerImageDefault';
+
+/**
+ * Defines values for ContainerHostDataPath.
+ * Possible values include: 'Shared', 'Startup', 'VfsMounts', 'Task', 'JobPrep', 'Applications'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerHostDataPath = 'Shared' | 'Startup' | 'VfsMounts' | 'Task' | 'JobPrep' | 'Applications';
 
 /**
  * Defines values for JobAction.
@@ -12395,11 +12787,19 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
 
 /**
  * Defines values for StorageAccountType.
- * Possible values include: 'StandardLRS', 'PremiumLRS'
+ * Possible values include: 'StandardLRS', 'PremiumLRS', 'StandardSSDLRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
+export type StorageAccountType = 'standard_lrs' | 'premium_lrs' | 'standardssd_lrs';
+
+/**
+ * Defines values for ContainerType.
+ * Possible values include: 'dockerCompatible', 'criCompatible'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerType = 'dockerCompatible' | 'criCompatible';
 
 /**
  * Defines values for DiskEncryptionTarget.
@@ -12424,6 +12824,22 @@ export type NodePlacementPolicyType = 'regional' | 'zonal';
  * @enum {string}
  */
 export type DiffDiskPlacement = 'CacheDisk';
+
+/**
+ * Defines values for SecurityEncryptionTypes.
+ * Possible values include: 'NonPersistedTPM', 'VMGuestStateOnly'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityEncryptionTypes = 'NonPersistedTPM' | 'VMGuestStateOnly';
+
+/**
+ * Defines values for SecurityTypes.
+ * Possible values include: 'trustedLaunch', 'confidentialVM'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityTypes = 'trustedLaunch' | 'confidentialVM';
 
 /**
  * Defines values for DynamicVNetAssignmentScope.
@@ -12464,6 +12880,14 @@ export type IPAddressProvisioningType = 'batchmanaged' | 'usermanaged' | 'nopubl
  * @enum {string}
  */
 export type NodeCommunicationMode = 'default' | 'classic' | 'simplified';
+
+/**
+ * Defines values for UpgradeMode.
+ * Possible values include: 'automatic', 'manual', 'rolling'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeMode = 'automatic' | 'manual' | 'rolling';
 
 /**
  * Defines values for PoolLifetimeOption.
@@ -12606,11 +13030,11 @@ export type StartTaskState = 'running' | 'completed';
  * Defines values for ComputeNodeState.
  * Possible values include: 'idle', 'rebooting', 'reimaging', 'running', 'unusable', 'creating',
  * 'starting', 'waitingForStartTask', 'startTaskFailed', 'unknown', 'leavingPool', 'offline',
- * 'preempted'
+ * 'preempted', 'upgradingOS', 'deallocated', 'deallocating'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted';
+export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted' | 'upgradingos' | 'deallocated' | 'deallocating';
 
 /**
  * Defines values for SchedulingState.
@@ -12659,6 +13083,14 @@ export type ComputeNodeReimageOption = 'requeue' | 'terminate' | 'taskcompletion
  * @enum {string}
  */
 export type DisableComputeNodeSchedulingOption = 'requeue' | 'terminate' | 'taskcompletion';
+
+/**
+ * Defines values for ComputeNodeDeallocateOption.
+ * Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputeNodeDeallocateOption = 'requeue' | 'terminate' | 'taskcompletion' | 'retaineddata';
 
 /**
  * Contains response data for the list operation.
@@ -12732,31 +13164,6 @@ export type PoolListUsageMetricsResponse = PoolListUsageMetricsResult & PoolList
        * The response body as parsed JSON or XML
        */
       parsedBody: PoolListUsageMetricsResult;
-    };
-};
-
-/**
- * Contains response data for the getAllLifetimeStatistics operation.
- */
-export type PoolGetAllLifetimeStatisticsResponse = PoolStatistics & PoolGetAllLifetimeStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PoolGetAllLifetimeStatisticsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PoolStatistics;
     };
 };
 
@@ -13047,261 +13454,6 @@ export type AccountListPoolNodeCountsResponse = PoolNodeCountsListResult & Accou
        * The response body as parsed JSON or XML
        */
       parsedBody: PoolNodeCountsListResult;
-    };
-};
-
-/**
- * Contains response data for the getAllLifetimeStatistics operation.
- */
-export type JobGetAllLifetimeStatisticsResponse = JobStatistics & JobGetAllLifetimeStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetAllLifetimeStatisticsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStatistics;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type JobDeleteResponse = JobDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type JobGetResponse = CloudJob & JobGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJob;
-    };
-};
-
-/**
- * Contains response data for the patch operation.
- */
-export type JobPatchResponse = JobPatchHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobPatchHeaders;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type JobUpdateResponse = JobUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobUpdateHeaders;
-    };
-};
-
-/**
- * Contains response data for the disable operation.
- */
-export type JobDisableResponse = JobDisableHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobDisableHeaders;
-    };
-};
-
-/**
- * Contains response data for the enable operation.
- */
-export type JobEnableResponse = JobEnableHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobEnableHeaders;
-    };
-};
-
-/**
- * Contains response data for the terminate operation.
- */
-export type JobTerminateResponse = JobTerminateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobTerminateHeaders;
-    };
-};
-
-/**
- * Contains response data for the add operation.
- */
-export type JobAddResponse = JobAddHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobAddHeaders;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type JobListResponse = CloudJobListResult & JobListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListResult;
-    };
-};
-
-/**
- * Contains response data for the listFromJobSchedule operation.
- */
-export type JobListFromJobScheduleResponse = CloudJobListResult & JobListFromJobScheduleHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListFromJobScheduleHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListResult;
-    };
-};
-
-/**
- * Contains response data for the listPreparationAndReleaseTaskStatus operation.
- */
-export type JobListPreparationAndReleaseTaskStatusResponse = CloudJobListPreparationAndReleaseTaskStatusResult & JobListPreparationAndReleaseTaskStatusHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobListPreparationAndReleaseTaskStatusHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudJobListPreparationAndReleaseTaskStatusResult;
-    };
-};
-
-/**
- * Contains response data for the getTaskCounts operation.
- */
-export type JobGetTaskCountsResponse = TaskCountsResult & JobGetTaskCountsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: JobGetTaskCountsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskCountsResult;
     };
 };
 
@@ -13758,6 +13910,236 @@ export type JobScheduleListResponse = CloudJobScheduleListResult & JobScheduleLi
 };
 
 /**
+ * Contains response data for the deleteMethod operation.
+ */
+export type JobDeleteResponse = JobDeleteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobDeleteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type JobGetResponse = CloudJob & JobGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobGetHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJob;
+    };
+};
+
+/**
+ * Contains response data for the patch operation.
+ */
+export type JobPatchResponse = JobPatchHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobPatchHeaders;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type JobUpdateResponse = JobUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobUpdateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the disable operation.
+ */
+export type JobDisableResponse = JobDisableHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobDisableHeaders;
+    };
+};
+
+/**
+ * Contains response data for the enable operation.
+ */
+export type JobEnableResponse = JobEnableHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobEnableHeaders;
+    };
+};
+
+/**
+ * Contains response data for the terminate operation.
+ */
+export type JobTerminateResponse = JobTerminateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobTerminateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the add operation.
+ */
+export type JobAddResponse = JobAddHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobAddHeaders;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type JobListResponse = CloudJobListResult & JobListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListResult;
+    };
+};
+
+/**
+ * Contains response data for the listFromJobSchedule operation.
+ */
+export type JobListFromJobScheduleResponse = CloudJobListResult & JobListFromJobScheduleHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListFromJobScheduleHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListResult;
+    };
+};
+
+/**
+ * Contains response data for the listPreparationAndReleaseTaskStatus operation.
+ */
+export type JobListPreparationAndReleaseTaskStatusResponse = CloudJobListPreparationAndReleaseTaskStatusResult & JobListPreparationAndReleaseTaskStatusHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobListPreparationAndReleaseTaskStatusHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudJobListPreparationAndReleaseTaskStatusResult;
+    };
+};
+
+/**
+ * Contains response data for the getTaskCounts operation.
+ */
+export type JobGetTaskCountsResponse = TaskCountsResult & JobGetTaskCountsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: JobGetTaskCountsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskCountsResult;
+    };
+};
+
+/**
  * Contains response data for the add operation.
  */
 export type TaskAddResponse = TaskAddHeaders & {
@@ -14063,6 +14445,36 @@ export type ComputeNodeEnableSchedulingResponse = ComputeNodeEnableSchedulingHea
 };
 
 /**
+ * Contains response data for the start operation.
+ */
+export type ComputeNodeStartResponse = ComputeNodeStartHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ComputeNodeStartHeaders;
+    };
+};
+
+/**
+ * Contains response data for the deallocate operation.
+ */
+export type ComputeNodeDeallocateResponse = ComputeNodeDeallocateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ComputeNodeDeallocateHeaders;
+    };
+};
+
+/**
  * Contains response data for the getRemoteLoginSettings operation.
  */
 export type ComputeNodeGetRemoteLoginSettingsResponse = ComputeNodeGetRemoteLoginSettingsResult & ComputeNodeGetRemoteLoginSettingsHeaders & {
@@ -14084,37 +14496,6 @@ export type ComputeNodeGetRemoteLoginSettingsResponse = ComputeNodeGetRemoteLogi
        * The response body as parsed JSON or XML
        */
       parsedBody: ComputeNodeGetRemoteLoginSettingsResult;
-    };
-};
-
-/**
- * Contains response data for the getRemoteDesktop operation.
- */
-export type ComputeNodeGetRemoteDesktopResponse = ComputeNodeGetRemoteDesktopHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ComputeNodeGetRemoteDesktopHeaders;
     };
 };
 

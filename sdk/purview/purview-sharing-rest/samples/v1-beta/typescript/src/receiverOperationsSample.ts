@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import createPurviewSharingClient, {
   ReceivedSharesCreateOrReplaceParameters,
@@ -12,9 +12,7 @@ import createPurviewSharingClient, {
   isUnexpected,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list detached received shares
@@ -28,12 +26,15 @@ async function getAllDetachedReceivedShares(): Promise<InPlaceReceivedShareOutpu
   const client = createPurviewSharingClient(endpoint, credential);
 
   const initialResponse = await client.path("/receivedShares/detached").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
 
   const result: InPlaceReceivedShareOutput[] = [];
   for await (const item of pageData) {
-    const receivedShare = item as InPlaceReceivedShareOutput;
-    receivedShare && result.push(receivedShare);
+    result.push(item);
   }
   console.log(result);
 
@@ -125,7 +126,7 @@ async function activateTenantEmailRegistrationSample(
   console.log(tenantEmailRegistrationDetails);
 }
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["ENDPOINT"] || "";
   const blobStorageAccountResourceId = process.env["BLOB_STORAGE_ACCOUNT_RESOURCE_ID"] || "";
   const adlsgen2StorageAccountResourceId =

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MachineExtension,
   MachineExtensionsListOptionalParams,
@@ -18,8 +18,8 @@ import {
   MachineExtensionsUpdateResponse,
   MachineExtensionsDeleteOptionalParams,
   MachineExtensionsGetOptionalParams,
-  MachineExtensionsGetResponse
-} from "../models";
+  MachineExtensionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MachineExtensions. */
@@ -33,7 +33,7 @@ export interface MachineExtensions {
   list(
     resourceGroupName: string,
     machineName: string,
-    options?: MachineExtensionsListOptionalParams
+    options?: MachineExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<MachineExtension>;
   /**
    * The operation to create or update the extension.
@@ -48,10 +48,10 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsCreateOrUpdateResponse>,
       MachineExtensionsCreateOrUpdateResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<MachineExtensionsCreateOrUpdateResponse>;
   /**
    * The operation to create or update the extension.
@@ -83,10 +83,10 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsUpdateResponse>,
       MachineExtensionsUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<MachineExtensionsUpdateResponse>;
   /**
    * The operation to delete the extension.
@@ -116,8 +116,8 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: MachineExtensionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -129,7 +129,7 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
+    options?: MachineExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the extension.
@@ -142,6 +142,6 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsGetOptionalParams
+    options?: MachineExtensionsGetOptionalParams,
   ): Promise<MachineExtensionsGetResponse>;
 }

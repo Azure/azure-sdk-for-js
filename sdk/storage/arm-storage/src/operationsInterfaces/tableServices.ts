@@ -13,8 +13,8 @@ import {
   TableServicesSetServicePropertiesOptionalParams,
   TableServicesSetServicePropertiesResponse,
   TableServicesGetServicePropertiesOptionalParams,
-  TableServicesGetServicePropertiesResponse
-} from "../models";
+  TableServicesGetServicePropertiesResponse,
+} from "../models/index.js";
 
 /** Interface representing a TableServices. */
 export interface TableServices {
@@ -30,7 +30,7 @@ export interface TableServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableServicesListOptionalParams
+    options?: TableServicesListOptionalParams,
   ): Promise<TableServicesListResponse>;
   /**
    * Sets the properties of a storage account’s Table service, including properties for Storage Analytics
@@ -48,7 +48,7 @@ export interface TableServices {
     resourceGroupName: string,
     accountName: string,
     parameters: TableServiceProperties,
-    options?: TableServicesSetServicePropertiesOptionalParams
+    options?: TableServicesSetServicePropertiesOptionalParams,
   ): Promise<TableServicesSetServicePropertiesResponse>;
   /**
    * Gets the properties of a storage account’s Table service, including properties for Storage Analytics
@@ -63,6 +63,6 @@ export interface TableServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: TableServicesGetServicePropertiesOptionalParams
+    options?: TableServicesGetServicePropertiesOptionalParams,
   ): Promise<TableServicesGetServicePropertiesResponse>;
 }

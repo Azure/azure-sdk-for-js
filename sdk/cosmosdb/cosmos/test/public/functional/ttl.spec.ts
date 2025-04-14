@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { Container, ContainerDefinition, Database } from "../../../src";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import { StatusCodes } from "../../../src";
+// Licensed under the MIT License.
+
+import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { StatusCodes } from "../../../src/index.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
@@ -12,16 +12,16 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 600000);
-  beforeEach(async function () {
+describe("Container TTL", { timeout: 600000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
+
   async function createcontainerWithInvalidDefaultTtl(
     db: Database,
     containerDefinition: ContainerDefinition,
     collId: any,
-    defaultTtl: number
+    defaultTtl: number,
   ): Promise<void> {
     containerDefinition.id = collId;
     containerDefinition.defaultTtl = defaultTtl;
@@ -32,7 +32,7 @@ describe("Container TTL", function (this: Suite) {
       assert.equal(
         err.code,
         badRequestErrorCode,
-        "response should return error code " + badRequestErrorCode
+        "response should return error code " + badRequestErrorCode,
       );
     }
   }
@@ -41,7 +41,7 @@ describe("Container TTL", function (this: Suite) {
     container: Container,
     itemDefinition: any,
     itemId: any,
-    ttl: number
+    ttl: number,
   ): Promise<void> {
     itemDefinition.id = itemId;
     itemDefinition.ttl = ttl;
@@ -54,12 +54,12 @@ describe("Container TTL", function (this: Suite) {
       assert.equal(
         err.code,
         badRequestErrorCode,
-        "response should return error code " + badRequestErrorCode
+        "response should return error code " + badRequestErrorCode,
       );
     }
   }
 
-  it("Validate container and Item TTL values.", async function () {
+  it("Validate container and Item TTL values.", async () => {
     const database = await getTestDatabase("ttl test1 database");
 
     const containerDefinition = {
@@ -76,19 +76,19 @@ describe("Container TTL", function (this: Suite) {
       database,
       containerDefinition,
       "sample container2",
-      null
+      null,
     );
     await createcontainerWithInvalidDefaultTtl(
       database,
       containerDefinition,
       "sample container3",
-      0
+      0,
     );
     await createcontainerWithInvalidDefaultTtl(
       database,
       containerDefinition,
       "sample container4",
-      -10
+      -10,
     );
 
     const itemDefinition = {
@@ -124,7 +124,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep3(
     container: Container,
     createdItem: any,
-    itemDefinition: any
+    itemDefinition: any,
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(5)
     await checkItemGone(container, createdItem);
@@ -139,7 +139,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep2(
     container: Container,
     createdItem: any,
-    itemDefinition: any
+    itemDefinition: any,
   ): Promise<void> {
     // the created Item should NOT be gone as it 's ttl value is set to -1(never expire) which overrides the containers' s defaultTtl value
     await checkItemExists(container, createdItem);
@@ -154,7 +154,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep1(
     container: Container,
     createdItem: any,
-    itemDefinition: any
+    itemDefinition: any,
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value would be same as defaultTtl value of the container
     await checkItemGone(container, createdItem);
@@ -166,7 +166,7 @@ describe("Container TTL", function (this: Suite) {
     await positiveDefaultTtlStep2(container, doc, itemDefinition);
   }
 
-  it("Validate Item TTL with positive defaultTtl.", async function () {
+  it("Validate Item TTL with positive defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test2 database");
 
     const containerDefinition = {
@@ -193,7 +193,7 @@ describe("Container TTL", function (this: Suite) {
     container: Container,
     createdItem1: any,
     createdItem2: any,
-    createdItem3: any
+    createdItem3: any,
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(-1)
     await checkItemGone(container, createdItem3);
@@ -206,7 +206,7 @@ describe("Container TTL", function (this: Suite) {
     assert.equal(readItem2.id, createdItem2.id);
   }
 
-  it("Validate Item TTL with -1 defaultTtl.", async function () {
+  it("Validate Item TTL with -1 defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test2 database");
 
     const containerDefinition = {
@@ -241,7 +241,7 @@ describe("Container TTL", function (this: Suite) {
     await minusOneDefaultTtlStep1(container, createdItem1, createdItem2, createdItem3);
   });
 
-  it("Validate Item TTL with no defaultTtl.", async function () {
+  it("Validate Item TTL with no defaultTtl.", async () => {
     const database = await getTestDatabase("ttl test3 database");
 
     const containerDefinition = { id: "sample container" };
@@ -264,7 +264,7 @@ describe("Container TTL", function (this: Suite) {
     await checkItemExists(container, createdItem);
   });
 
-  it("Validate Item TTL Misc cases.", async function () {
+  it("Validate Item TTL Misc cases.", async () => {
     const database = await getTestDatabase("ttl test4 database");
 
     const containerDefinition = {

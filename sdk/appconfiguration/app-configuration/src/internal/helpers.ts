@@ -1,26 +1,57 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
-  ConfigurationSetting,
-  ConfigurationSettingId,
-  ConfigurationSettingParam,
-  HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField,
-  HttpResponseField,
-  HttpResponseFields,
-  ListConfigurationSettingsOptions,
-  ListRevisionsOptions,
-} from "../models";
-import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import {
-  SecretReferenceHelper,
-  SecretReferenceValue,
-  secretReferenceContentType,
-} from "../secretReference";
+  type ConfigurationSetting,
+  type ConfigurationSettingParam,
+  type HttpOnlyIfChangedField,
+  type HttpOnlyIfUnchangedField,
+  type HttpResponseField,
+  type HttpResponseFields,
+  type ListRevisionsOptions,
+  type ListSettingsOptions,
+  type ListSnapshotsOptions,
+  type ConfigurationSnapshot,
+  type SnapshotResponse,
+  type EtagEntity,
+  type ListLabelsOptions,
+  KnownAppConfigAudience,
+} from "../models.js";
+import type { FeatureFlagValue } from "../featureFlag.js";
+import { FeatureFlagHelper, featureFlagContentType } from "../featureFlag.js";
+import type {
+  GetKeyValuesOptionalParams,
+  GetLabelsOptionalParams,
+  GetSnapshotsOptionalParams,
+  KeyValue,
+} from "../generated/src/models/index.js";
+import type { SecretReferenceValue } from "../secretReference.js";
+import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
 import { isDefined } from "@azure/core-util";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
+import type { OperationOptions } from "@azure/core-client";
+
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendConfigurationSettingsOptions
+  extends OperationOptions,
+    ListSettingsOptions,
+    EtagEntity {
+  /**
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+   */
+  snapshotName?: string;
+}
+
+/**
+ * Options for listLabels that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendLabelsRequestOptions extends ListLabelsOptions {}
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -50,14 +81,14 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  */
 export function checkAndFormatIfAndIfNoneMatch(
-  configurationSetting: ConfigurationSettingId,
-  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
+  objectWithEtag: EtagEntity,
+  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField,
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     logger.error(
       "onlyIfChanged and onlyIfUnchanged are both specified",
       options.onlyIfChanged,
-      options.onlyIfUnchanged
+      options.onlyIfUnchanged,
     );
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
@@ -66,11 +97,11 @@ export function checkAndFormatIfAndIfNoneMatch(
   let ifNoneMatch;
 
   if (options.onlyIfUnchanged) {
-    ifMatch = quoteETag(configurationSetting.etag);
+    ifMatch = quoteETag(objectWithEtag.etag);
   }
 
   if (options.onlyIfChanged) {
-    ifNoneMatch = quoteETag(configurationSetting.etag);
+    ifNoneMatch = quoteETag(objectWithEtag.etag);
   }
 
   return {
@@ -80,7 +111,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
+ * Transforms some of the key fields in SendConfigurationSettingsOptions and ListRevisionsOptions
  * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
  * - `options.acceptDateTime` is converted into an ISO string
  * - `select` is populated with the proper field names from `options.fields`
@@ -89,22 +120,77 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+  listConfigOptions: ListRevisionsOptions,
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "tags"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
-
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
+    tags: listConfigOptions.tagsFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
 }
 
+/**
+ * Transforms some of the key fields in SendConfigurationSettingsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter, labelFilter, snapshotName are moved to key, label, and snapshot respectively.
+ *
+ * @internal
+ */
+export function formatConfigurationSettingsFiltersAndSelect(
+  listConfigOptions: SendConfigurationSettingsOptions,
+): Pick<
+  GetKeyValuesOptionalParams,
+  "key" | "label" | "select" | "acceptDatetime" | "snapshot" | "tags"
+> {
+  const { snapshotName: snapshot, ...options } = listConfigOptions;
+  return {
+    ...formatFiltersAndSelect(options),
+    snapshot,
+  };
+}
+/**
+ * Transforms some of the key fields in ListSnapshotsOptions
+ * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter and labelFilter are moved to key and label, respectively.
+ *
+ * @internal
+ */
+export function formatSnapshotFiltersAndSelect(
+  listSnapshotOptions: ListSnapshotsOptions,
+): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
+  return {
+    name: listSnapshotOptions.nameFilter,
+    status: listSnapshotOptions.statusFilter,
+    select: listSnapshotOptions.fields,
+  };
+}
+
+/**
+ * Transforms some of the key fields in ListLabelsOptions
+ * so they can be added to a request using AppConfigurationGetLabelsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - `nameFilter` are moved to name
+ *
+ * @internal
+ */
+export function formatLabelsFiltersAndSelect(
+  listLabelsOptions: ListLabelsOptions,
+): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  return {
+    name: listLabelsOptions.nameFilter,
+    select: listLabelsOptions.fields,
+  };
+}
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
@@ -136,6 +222,27 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
 }
 
 /**
+ * Take the header link that gets returned from 304 response and extract the 'after' token needed
+ * to get the next page of results.
+ *
+ * @internal
+ */
+export function extractAfterTokenFromLinkHeader(link: string): string {
+  // Example transformation of the link header
+  // link:
+  // '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+  //
+  // linkValue:
+  // </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+  //
+  // nextLink:
+  // /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+  const linkValue = link.split(";")[0];
+  const nextLink = linkValue.substring(1, linkValue.length - 1);
+  return extractAfterTokenFromNextLink(nextLink);
+}
+
+/**
  * Makes a ConfigurationSetting-based response throw for all of the data members. Used primarily
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
@@ -143,7 +250,7 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
  * @param configurationSetting - The configuration setting to alter
  */
 export function makeConfigurationSettingEmpty(
-  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
+  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>,
 ): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
@@ -169,9 +276,13 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
     ...kvp,
     isReadOnly: !!kvp.locked,
   };
-
   delete setting.locked;
-
+  if (!setting.label) {
+    delete setting.label;
+  }
+  if (!setting.contentType) {
+    delete setting.contentType;
+  }
   return setting;
 }
 
@@ -179,7 +290,7 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
  * @internal
  */
 function isConfigSettingWithSecretReferenceValue(
-  setting: any
+  setting: any,
 ): setting is ConfigurationSetting<SecretReferenceValue> {
   return (
     setting.contentType === secretReferenceContentType &&
@@ -192,7 +303,7 @@ function isConfigSettingWithSecretReferenceValue(
  * @internal
  */
 function isConfigSettingWithFeatureFlagValue(
-  setting: any
+  setting: any,
 ): setting is ConfigurationSetting<FeatureFlagValue> {
   return (
     setting.contentType === featureFlagContentType &&
@@ -215,7 +326,7 @@ export function serializeAsConfigurationSettingParam(
   setting:
     | ConfigurationSettingParam
     | ConfigurationSettingParam<FeatureFlagValue>
-    | ConfigurationSettingParam<SecretReferenceValue>
+    | ConfigurationSettingParam<SecretReferenceValue>,
 ): ConfigurationSettingParam {
   if (isSimpleConfigSetting(setting)) {
     return setting as ConfigurationSettingParam;
@@ -232,7 +343,7 @@ export function serializeAsConfigurationSettingParam(
   }
   logger.error("Unable to serialize to a configuration setting", setting);
   throw new TypeError(
-    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
+    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`,
   );
 }
 
@@ -241,7 +352,7 @@ export function serializeAsConfigurationSettingParam(
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
-  status: number | undefined
+  status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   const response = {
     ...transformKeyValue(kvp),
@@ -261,7 +372,7 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
  * @internal
  */
 export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
-  kvp: T
+  kvp: T,
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
   if (hasUnderscoreResponse(kvp)) {
@@ -276,6 +387,21 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 }
 
 /**
+ * @internal
+ */
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T,
+): SnapshotResponse {
+  if (hasUnderscoreResponse(snapshot)) {
+    Object.defineProperty(snapshot, "_response", {
+      enumerable: false,
+      value: snapshot._response,
+    });
+  }
+  return snapshot as any;
+}
+
+/**
  * Translates user-facing field names into their `select` equivalents (these can be
  * seen in the `KnownEnum5`)
  *
@@ -285,7 +411,7 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
  * @internal
  */
 export function formatFieldsForSelect(
-  fieldNames: (keyof ConfigurationSetting)[] | undefined
+  fieldNames: (keyof ConfigurationSetting)[] | undefined,
 ): string[] | undefined {
   if (fieldNames == null) {
     return undefined;
@@ -312,14 +438,13 @@ export function formatFieldsForSelect(
  */
 export function errorMessageForUnexpectedSetting(
   key: string,
-  expectedType: "FeatureFlag" | "SecretReference"
+  expectedType: "FeatureFlag" | "SecretReference",
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function assertResponse<T extends object>(
-  result: T
+  result: T,
 ): asserts result is T & HttpResponseField<any> {
   if (!hasUnderscoreResponse(result)) {
     Object.defineProperty(result, "_response", {
@@ -330,9 +455,33 @@ export function assertResponse<T extends object>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function hasUnderscoreResponse<T extends object>(
-  result: T
+  result: T,
 ): result is T & HttpResponseField<any> {
   return Object.prototype.hasOwnProperty.call(result, "_response");
+}
+
+/**
+ * Get the scope for the App Configuration service based on the endpoint and audience.
+ * If the audience is provided, it will be used as the scope.
+ * If not, the scope is defaulted to Azure Public Cloud when not specified.
+ *
+ * @internal
+ */
+export function getScope(appConfigEndpoint: string, appConfigAudience?: string): string {
+  if (appConfigAudience) {
+    return `${appConfigAudience}/.default`;
+  } else if (
+    appConfigEndpoint.endsWith("azconfig.azure.us") ||
+    appConfigEndpoint.endsWith("appconfig.azure.us")
+  ) {
+    return `${KnownAppConfigAudience.AzureGovernment}/.default`;
+  } else if (
+    appConfigEndpoint.endsWith("azconfig.azure.cn") ||
+    appConfigEndpoint.endsWith("appconfig.azure.cn")
+  ) {
+    return `${KnownAppConfigAudience.AzureChina}/.default`;
+  } else {
+    return `${KnownAppConfigAudience.AzurePublicCloud}/.default`;
+  }
 }

@@ -16,8 +16,8 @@ import {
   ApplicationGetOptionalParams,
   ApplicationGetResponse,
   ApplicationUpdateOptionalParams,
-  ApplicationUpdateResponse
-} from "../models";
+  ApplicationUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationOperations. */
@@ -31,7 +31,7 @@ export interface ApplicationOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: ApplicationListOptionalParams
+    options?: ApplicationListOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
   /**
    * Adds an application to the specified Batch account.
@@ -44,7 +44,7 @@ export interface ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationCreateOptionalParams
+    options?: ApplicationCreateOptionalParams,
   ): Promise<ApplicationCreateResponse>;
   /**
    * Deletes an application.
@@ -57,7 +57,7 @@ export interface ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified application.
@@ -70,7 +70,7 @@ export interface ApplicationOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse>;
   /**
    * Updates settings for the specified application.
@@ -85,6 +85,6 @@ export interface ApplicationOperations {
     accountName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationUpdateOptionalParams
+    options?: ApplicationUpdateOptionalParams,
   ): Promise<ApplicationUpdateResponse>;
 }

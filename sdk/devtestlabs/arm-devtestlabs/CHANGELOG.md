@@ -12,7 +12,7 @@
 
 ## 4.1.0 (2022-11-22)
     
-**Features**
+### Features Added
 
   - Added Interface ApplicableSchedule
   - Added Interface ApplicableScheduleFragment
@@ -52,7 +52,7 @@
     
 ## 4.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - bug fix
 
@@ -64,4 +64,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

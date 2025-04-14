@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { connectionLogger as logger } from "./log";
-import { packageJsonInfo } from "./util/constants";
-import {
+import { connectionLogger as logger } from "./log.js";
+import { packageJsonInfo } from "./util/constants.js";
+import type {
   ConnectionConfig,
-  ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   SasTokenProvider,
 } from "@azure/core-amqp";
-import { TokenCredential } from "@azure/core-auth";
-import { ServiceBusClientOptions } from "./constructorHelpers";
-import {
+import { ConnectionContextBase } from "@azure/core-amqp";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ServiceBusClientOptions } from "./constructorHelpers.js";
+import type {
   AmqpError,
   Connection,
   ConnectionError,
-  ConnectionEvents,
   EventContext,
   OnAmqpEvent,
 } from "rhea-promise";
-import { MessageSender } from "./core/messageSender";
-import { MessageSession } from "./session/messageSession";
-import { MessageReceiver } from "./core/messageReceiver";
-import { ManagementClient } from "./core/managementClient";
-import { formatUserAgentPrefix } from "./util/utils";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
-import { ServiceBusError } from "./serviceBusError";
+import { ConnectionEvents } from "rhea-promise";
+import type { MessageSender } from "./core/messageSender.js";
+import type { MessageSession } from "./session/messageSession.js";
+import type { MessageReceiver } from "./core/messageReceiver.js";
+import { ManagementClient } from "./core/managementClient.js";
+import { formatUserAgentPrefix } from "./util/utils.js";
+import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import type { NonSessionReceiverType, ReceiverType } from "./core/linkEntity.js";
+import { ServiceBusError } from "./serviceBusError.js";
 
 /**
  * @internal
@@ -77,7 +77,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    */
   getReceiverFromCache(
     receiverName: string,
-    sessionId?: string
+    sessionId?: string,
   ): MessageReceiver | MessageSession | undefined;
   /**
    * Gets the management client for given entity path from the cache
@@ -114,7 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
@@ -141,7 +141,7 @@ type ConnectionContextMethods = Omit<
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: NonSessionReceiverType
+  receiverType: NonSessionReceiverType,
 ): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
@@ -153,7 +153,7 @@ async function callOnDetachedOnReceivers(
         "[%s] calling detached on %s receiver '%s'.",
         connectionContext.connection.id,
         receiver.receiverType,
-        receiver.name
+        receiver.name,
       );
       detachCalls.push(
         receiver.onDetached(contextOrConnectionError).catch((err) => {
@@ -162,9 +162,9 @@ async function callOnDetachedOnReceivers(
             "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
             connectionContext.connection.id,
             receiver.receiverType,
-            receiver.name
+            receiver.name,
           );
-        })
+        }),
       );
     }
   }
@@ -177,7 +177,7 @@ async function callOnDetachedOnReceivers(
  */
 async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
-  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
+  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
 ): Promise<void[]> {
   const getSessionError = (sessionId: string, entityPath: string): ServiceBusError => {
     const sessionInfo =
@@ -203,7 +203,7 @@ async function callOnDetachedOnSessionReceivers(
     logger.verbose(
       "[%s] calling detached on %s receiver(sessions).",
       connectionContext.connection.id,
-      receiver.name
+      receiver.name,
     );
     detachCalls.push(
       receiver.onDetached(getSessionError(receiver.sessionId, receiver.entityPath)).catch((err) => {
@@ -211,9 +211,9 @@ async function callOnDetachedOnSessionReceivers(
           err,
           "[%s] An error occurred while calling onDetached() on the session receiver(sessions) '%s'",
           connectionContext.connection.id,
-          receiver.name
+          receiver.name,
         );
-      })
+      }),
     );
   }
 
@@ -226,7 +226,7 @@ async function callOnDetachedOnSessionReceivers(
  */
 function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
-  receiverType: ReceiverType
+  receiverType: ReceiverType,
 ): number {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
@@ -236,7 +236,7 @@ function getNumberOfReceivers(
   const receiverNames = Object.keys(receivers);
   const count = receiverNames.reduce(
     (acc, name) => (receivers[name].receiverType === receiverType ? ++acc : acc),
-    0
+    0,
   );
   return count;
 }
@@ -249,11 +249,11 @@ export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
     tokenCredential: SasTokenProvider | TokenCredential,
-    options?: ServiceBusClientOptions
+    options?: ServiceBusClientOptions,
   ): ConnectionContext {
     if (!options) options = {};
     const userAgent = `${formatUserAgentPrefix(
-      options.userAgentOptions?.userAgentPrefix
+      options.userAgentOptions?.userAgentPrefix,
     )} ${getRuntimeInfo()}`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
@@ -284,14 +284,14 @@ export namespace ConnectionContext {
       },
       async readyToOpenLink() {
         logger.verbose(
-          `[${this.connectionId}] Waiting until the connection is ready to open link.`
+          `[${this.connectionId}] Waiting until the connection is ready to open link.`,
         );
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
           logger.verbose(
-            `[${this.connectionId}] Connection is closing, waiting for disconnected event`
+            `[${this.connectionId}] Connection is closing, waiting for disconnected event`,
           );
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
@@ -306,7 +306,7 @@ export namespace ConnectionContext {
           logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
               ` but the connection is in the process of closing.` +
-              ` Waiting for the disconnect event before continuing.`
+              ` Waiting for the disconnect event before continuing.`,
           );
           this.connection.once(ConnectionEvents.disconnected, resolve);
         });
@@ -319,13 +319,13 @@ export namespace ConnectionContext {
         }
 
         logger.verbose(
-          `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`
+          `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`,
         );
         return Promise.resolve();
       },
       getReceiverFromCache(
         receiverName: string,
-        sessionId?: string
+        sessionId?: string,
       ): MessageReceiver | MessageSession | undefined {
         if (sessionId != null && this.messageSessions[receiverName]) {
           return this.messageSessions[receiverName];
@@ -352,7 +352,7 @@ export namespace ConnectionContext {
           "[%s] Failed to find receiver '%s' among existing receivers: %s",
           this.connectionId,
           receiverName,
-          existingReceivers
+          existingReceivers,
         );
         return;
       },
@@ -373,7 +373,7 @@ export namespace ConnectionContext {
       logger.verbose(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id,
-        connectionContext.wasConnectionCloseCalled
+        connectionContext.wasConnectionCloseCalled,
       );
     };
 
@@ -392,7 +392,7 @@ export namespace ConnectionContext {
         logger.logError(
           connectionError,
           "[%s] Error (context.connection.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
       const contextError = context.error;
@@ -400,7 +400,7 @@ export namespace ConnectionContext {
         logger.logError(
           contextError,
           "[%s] Error (context.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
       const state: Readonly<{
@@ -441,7 +441,7 @@ export namespace ConnectionContext {
           //   because any new send calls that potentially initialize links would also get affected if called later.
           logger.verbose(
             `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
-              `senders. We should not reconnect.`
+              `senders. We should not reconnect.`,
           );
           const detachCalls: Promise<void>[] = [];
           for (const senderName of Object.keys(connectionContext.senders)) {
@@ -450,7 +450,7 @@ export namespace ConnectionContext {
               logger.verbose(
                 "[%s] calling detached on sender '%s'.",
                 connectionContext.connection.id,
-                sender.name
+                sender.name,
               );
               detachCalls.push(
                 sender.onDetached().catch((err) => {
@@ -458,9 +458,9 @@ export namespace ConnectionContext {
                     err,
                     "[%s] An error occurred while calling onDetached() the sender '%s'",
                     connectionContext.connection.id,
-                    sender.name
+                    sender.name,
                   );
-                })
+                }),
               );
             }
           }
@@ -472,14 +472,14 @@ export namespace ConnectionContext {
         if (numBatchingReceivers) {
           logger.verbose(
             `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
-              `batching receivers. We should not reconnect.`
+              `batching receivers. We should not reconnect.`,
           );
 
           // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
           await callOnDetachedOnReceivers(
             connectionContext,
             connectionError || contextError,
-            "batching"
+            "batching",
           );
         }
 
@@ -488,12 +488,12 @@ export namespace ConnectionContext {
         if (numSessionReceivers) {
           logger.verbose(
             `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numSessionReceivers} ` +
-              `session receivers. We should close them.`
+              `session receivers. We should close them.`,
           );
 
           await callOnDetachedOnSessionReceivers(
             connectionContext,
-            connectionError || contextError
+            connectionError || contextError,
           );
         }
       }
@@ -509,7 +509,7 @@ export namespace ConnectionContext {
       if (!state.wasConnectionCloseCalled && numStreamingReceivers) {
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numStreamingReceivers} ` +
-            `streaming receivers. We should reconnect.`
+            `streaming receivers. We should reconnect.`,
         );
 
         // Calling `onDetached()` on streaming receivers after the refreshConnection() since `onDetached()` would
@@ -520,7 +520,7 @@ export namespace ConnectionContext {
         await callOnDetachedOnReceivers(
           connectionContext,
           connectionError || contextError,
-          "streaming"
+          "streaming",
         );
       }
     };
@@ -530,14 +530,14 @@ export namespace ConnectionContext {
         logger.logError(
           context.connection.error,
           "[%s] Error (context.connection.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
       if (context.error) {
         logger.logError(
           context.error,
           "[%s] Error (context.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
     };
@@ -547,14 +547,14 @@ export namespace ConnectionContext {
         logger.logError(
           context.connection.error,
           "[%s] Error (context.connection.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
       if (context.error) {
         logger.logError(
           context.error,
           "[%s] Error (context.error) occurred on the amqp connection",
-          connectionContext.connection.id
+          connectionContext.connection.id,
         );
       }
     };
@@ -566,14 +566,14 @@ export namespace ConnectionContext {
       } catch (err: any) {
         logger.logError(
           err,
-          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting`
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting`,
         );
       }
       // Create a new connection, id, locks, and cbs client.
       connectionContext.refreshConnection();
       addConnectionListeners(connectionContext.connection);
       logger.verbose(
-        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
+        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`,
       );
     }
 
@@ -589,7 +589,7 @@ export namespace ConnectionContext {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,
-        onConnectionOpen
+        onConnectionOpen,
       );
       connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
       connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
@@ -624,7 +624,7 @@ export namespace ConnectionContext {
       const messageSessionNames = Object.keys(context.messageSessions);
       const managementClientsEntityPaths = Object.keys(context.managementClients);
       logger.verbose(
-        `${logPrefix} Permanently closing all the senders(${senderNames.length}), MessageReceivers(${messageReceiverNames.length}), MessageSessions(${messageSessionNames.length}), and ManagementClients(${managementClientsEntityPaths.length}).`
+        `${logPrefix} Permanently closing all the senders(${senderNames.length}), MessageReceivers(${messageReceiverNames.length}), MessageSessions(${messageSessionNames.length}), and ManagementClients(${managementClientsEntityPaths.length}).`,
       );
       await Promise.all([
         ...senderNames.map((n) => context.senders[n].close()),

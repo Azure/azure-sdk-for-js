@@ -11,8 +11,8 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
@@ -26,7 +26,7 @@ export interface PrivateLinkResources {
   listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
+    options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
@@ -39,6 +39,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     scopeName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

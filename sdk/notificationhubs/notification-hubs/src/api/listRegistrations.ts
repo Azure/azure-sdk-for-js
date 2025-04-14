@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { NotificationHubsClientContext } from "./index.js";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationDescription } from "../models/registration.js";
-import { RegistrationQueryLimitOptions } from "../models/options.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RegistrationDescription } from "../models/registration.js";
+import type { RegistrationQueryLimitOptions } from "../models/options.js";
 import { tracingClient } from "../utils/tracing.js";
 import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_listRegistrations.js";
 
@@ -16,11 +16,11 @@ import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_li
  */
 export function listRegistrations(
   context: NotificationHubsClientContext,
-  options: RegistrationQueryLimitOptions = {}
+  options: RegistrationQueryLimitOptions = {},
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
     "NotificationHubsClientContext.listRegistrations",
-    options
+    options,
   );
   try {
     const iter = listRegistrationsAll(context, updatedOptions);

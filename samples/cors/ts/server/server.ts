@@ -1,12 +1,11 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import { DefaultAzureCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 
 // Pull in azure credentials from a .env file
 // For more information on dotenv please refer to https://www.npmjs.com/package/dotenv
-dotenv.config();
+import "dotenv/config";
 
 const PORT = process.env.PORT || 4000;
 

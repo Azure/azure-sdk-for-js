@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the attached NetworkConnections for a DevCenter.
  *
  * @summary Lists the attached NetworkConnections for a DevCenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/AttachedNetworks_ListByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_ListByDevCenter.json
  */
 async function attachedNetworksListByDevCenter() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function attachedNetworksListByDevCenter() {
   const resArray = new Array();
   for await (let item of client.attachedNetworks.listByDevCenter(
     resourceGroupName,
-    devCenterName
+    devCenterName,
   )) {
     resArray.push(item);
   }

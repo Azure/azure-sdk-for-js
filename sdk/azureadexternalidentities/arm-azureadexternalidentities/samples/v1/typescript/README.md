@@ -62,7 +62,7 @@ node dist/b2CTenantsCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/b2CTenantsCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env  node dist/b2CTenantsCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -83,7 +83,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [guestusageslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/typescript/src/guestUsagesListBySubscriptionSample.ts
 [guestusagesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/typescript/src/guestUsagesUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/samples/v1/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

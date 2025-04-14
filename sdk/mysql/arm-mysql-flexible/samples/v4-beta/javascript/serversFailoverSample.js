@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Manual failover a server.
  *
  * @summary Manual failover a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerFailover.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerFailover.json
  */
 async function restartAServer() {
   const subscriptionId =

@@ -16,7 +16,7 @@ import {
   MigrationOperationInput,
   DatabaseMigrationsSqlVmCancelOptionalParams,
   DatabaseMigrationsSqlVmCutoverOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DatabaseMigrationsSqlVm. */
 export interface DatabaseMigrationsSqlVm {

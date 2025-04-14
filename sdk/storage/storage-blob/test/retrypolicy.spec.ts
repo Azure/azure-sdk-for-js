@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { Pipeline } from "@azure/core-rest-pipeline";
-
-import { AbortController } from "@azure/abort-controller";
-import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
-import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
+import type { ContainerClient, BlobServiceClient } from "../src/index.js";
+import { RestError } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;
@@ -18,8 +16,8 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
@@ -28,14 +26,14 @@ describe("RetryPolicy", () => {
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.removePolicy({ name: injectorPolicyName });
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("Retry Policy should work when first request fails with 500", async function () {
+  it("Retry Policy should work when first request fails with 500", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
@@ -63,7 +61,7 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should abort when abort event trigger during retry interval", async function () {
+  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
@@ -90,7 +88,7 @@ describe("RetryPolicy", () => {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
       await containerClient.setMetadata(metadata, {
-        abortSignal: AbortController.timeout(2 * 1000),
+        abortSignal: AbortSignal.timeout(2 * 1000),
       });
     } catch (err: any) {
       hasError = true;
@@ -98,7 +96,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async function () {
+  it("Retry Policy should failed when requests always fail with 500", async () => {
     const injector = injectorPolicy(() => {
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
@@ -125,7 +123,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should work for secondary endpoint", async function () {
+  it("Retry Policy should work for secondary endpoint", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter++ < 1) {
@@ -152,6 +150,27 @@ describe("RetryPolicy", () => {
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
 
+    if (isPlaybackMode()) {
+      // Recorder looks into the recording for the request hitting secondary host and throws a request mismatch error.
+      // This policy is a workaround instead to mimic the live test behavior, to throw a 404 ENOTFOUND error when the request hits secondary host that does not exist
+      pipeline.addPolicy(
+        {
+          name: "secondaryHost-policy",
+          sendRequest: (req: PipelineRequest, next: SendRequest) => {
+            if (req.url.includes(secondaryHost)) {
+              throw new RestError(`getaddrinfo ENOTFOUND`, {
+                code: "ENOTFOUND",
+                statusCode: 404,
+                request: req,
+              });
+            }
+            return next(req);
+          },
+        },
+        { afterPhase: "Retry" },
+      );
+    }
+
     let finalRequestURL = "";
     try {
       const response = await containerClient.getProperties();
@@ -163,7 +182,7 @@ describe("RetryPolicy", () => {
     assert.deepStrictEqual(new URL(finalRequestURL).hostname, secondaryHost);
   });
 
-  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async function () {
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {

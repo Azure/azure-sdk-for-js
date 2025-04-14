@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FrontDoorNameAvailabilityWithSubscription } from "../operationsInterfaces";
+import { FrontDoorNameAvailabilityWithSubscription } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
-  FrontDoorNameAvailabilityWithSubscriptionCheckResponse
-} from "../models";
+  FrontDoorNameAvailabilityWithSubscriptionCheckResponse,
+} from "../models/index.js";
 
 /** Class containing FrontDoorNameAvailabilityWithSubscription operations. */
 export class FrontDoorNameAvailabilityWithSubscriptionImpl
-  implements FrontDoorNameAvailabilityWithSubscription {
+  implements FrontDoorNameAvailabilityWithSubscription
+{
   private readonly client: FrontDoorManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class FrontDoorNameAvailabilityWithSubscriptionImpl
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams
+    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityWithSubscriptionCheckResponse> {
     return this.client.sendOperationRequest(
       { checkFrontDoorNameAvailabilityInput, options },
-      checkOperationSpec
+      checkOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class FrontDoorNameAvailabilityWithSubscriptionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkFrontDoorNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

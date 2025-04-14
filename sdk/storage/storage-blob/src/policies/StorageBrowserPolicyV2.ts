@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import { HeaderConstants, URLConstants } from "../utils/constants";
-import { setURLParameter } from "../utils/utils.common";
+import { isNodeLike } from "@azure/core-util";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * The programmatic identifier of the StorageBrowserPolicy.
@@ -24,7 +24,7 @@ export function storageBrowserPolicy(): PipelinePolicy {
   return {
     name: storageBrowserPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (isNode) {
+      if (isNodeLike) {
         return next(request);
       }
 
@@ -32,7 +32,7 @@ export function storageBrowserPolicy(): PipelinePolicy {
         request.url = setURLParameter(
           request.url,
           URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,
-          new Date().getTime().toString()
+          new Date().getTime().toString(),
         );
       }
 

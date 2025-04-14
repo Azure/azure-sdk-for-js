@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
-import { ConnectionContext } from "./connectionContext";
-import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { EventData } from "./eventData.js";
+import {
+  assertIsEventData,
+  isAmqpAnnotatedMessage,
+  populateIdempotentMessageAnnotations,
+  toRheaMessage,
+} from "./eventData.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { MessageAnnotations, Message as RheaMessage } from "rhea-promise";
+import { message } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { PartitionPublishingProperties } from "./models/private";
+import type { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
+import { throwTypeErrorIfParameterMissing } from "./util/error.js";
+import type { PartitionPublishingProperties } from "./models/private.js";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -118,13 +125,13 @@ export class EventDataBatchImpl implements EventDataBatch {
   private _context: ConnectionContext;
   /**
    * The Id of the partition to which the batch is expected to be sent to.
-   * Specifying this will throw an error if the batch was created using a `paritionKey`.
+   * Specifying this will throw an error if the batch was created using a `partitionKey`.
    */
   private _partitionId?: string;
   /**
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the batch was created using a `paritionId`.
+   * Specifying this will throw an error if the batch was created using a `partitionId`.
    */
   private _partitionKey?: string;
   /**
@@ -181,7 +188,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     maxSizeInBytes: number,
     isIdempotent: boolean,
     partitionKey?: string,
-    partitionId?: string
+    partitionId?: string,
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
@@ -262,7 +269,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   private _generateBatch(
     encodedEvents: Buffer[],
     annotations: MessageAnnotations | undefined,
-    publishingProps?: PartitionPublishingProperties
+    publishingProps?: PartitionPublishingProperties,
   ): Buffer {
     if (this._isIdempotent && publishingProps) {
       // We need to decode the encoded events, add the idempotent annotations, and re-encode them.
@@ -273,7 +280,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       const decodedEvents = encodedEvents.map(message.decode) as unknown as RheaMessage[];
       const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
         decodedEvents,
-        publishingProps
+        publishingProps,
       );
       encodedEvents = decoratedEvents.map(message.encode);
     }
@@ -292,7 +299,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _decorateRheaMessagesWithPublishingProps(
     events: RheaMessage[],
-    publishingProps: PartitionPublishingProperties
+    publishingProps: PartitionPublishingProperties,
   ): RheaMessage[] {
     if (!this._isIdempotent) {
       return events;
@@ -370,13 +377,16 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
+    if (!isAmqpAnnotatedMessage(eventData)) {
+      assertIsEventData(eventData);
+    }
 
     const { entityPath, host } = this._context.config;
     const { event: instrumentedEvent, spanContext } = instrumentEventData(
       eventData,
       options,
       entityPath,
-      host
+      host,
     );
 
     // Convert EventData to RheaMessage.

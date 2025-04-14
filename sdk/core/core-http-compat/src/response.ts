@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { FullOperationResponse } from "@azure/core-client";
-import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
-import {
-  HttpHeadersLike,
-  WebResourceLike,
-  toHttpHeadersLike,
-  toPipelineRequest,
-  toWebResourceLike,
-} from "./util";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpHeadersLike, WebResourceLike } from "./util.js";
+import { toHttpHeadersLike, toPipelineRequest, toWebResourceLike } from "./util.js";
 /**
  * Http Response that is compatible with the core-v1(core-http).
  */
@@ -34,7 +30,7 @@ type ExtendedCompatResponse = CompatResponse & { [originalResponse]?: FullOperat
  */
 export function toCompatResponse(
   response: FullOperationResponse,
-  options?: { createProxy?: boolean }
+  options?: { createProxy?: boolean },
 ): CompatResponse {
   let request = toWebResourceLike(response.request);
   let headers = toHttpHeadersLike(response.headers);

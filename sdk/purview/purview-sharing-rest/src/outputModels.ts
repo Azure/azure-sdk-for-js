@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** A received share data transfer object. */
 export interface ReceivedShareOutputParent extends ProxyResourceOutput {
@@ -48,17 +48,25 @@ export interface OperationResponseOutput {
 
 /** List of received shares. */
 export interface ReceivedShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
-  /** Collection of items of type DataTransferObjects. */
+  /** Collection of items of type ReceivedShare */
   value: Array<ReceivedShareOutput>;
 }
 
 /** List of sent shares. */
 export interface SentShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
-  /** Collection of items of type DataTransferObjects. */
+  /** Collection of items of type SentShare */
   value: Array<SentShareOutput>;
 }
 
@@ -69,15 +77,51 @@ export interface SentShareOutputParent extends ProxyResourceOutput {
 
 /** List of the sent share invitations */
 export interface SentShareInvitationListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
-  /** Collection of items of type DataTransferObjects. */
+  /** Collection of items of type SentShareInvitation */
   value: Array<SentShareInvitationOutput>;
 }
 
 /** A sent share invitation data transfer object. */
 export interface SentShareInvitationOutputParent extends ProxyResourceOutput {
   invitationKind: "SentShareInvitation" | "Service" | "User";
+}
+
+/** A page of ShareResource results. */
+export interface ShareResourceListOutput {
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
+  nextLink?: string;
+  /** Collection of items of type ShareResource */
+  value: Array<ShareResourceOutput>;
+}
+
+/** A share resource. */
+export interface ShareResourceOutput extends ProxyResourceOutput {
+  /** A count of Received Shares associated with the Microsoft.Azure.Purview.Share.ApiService.V3.DataTransferObjects.ShareResource. */
+  receivedSharesCount?: number;
+  /** A count of Sent Shares associated with the Microsoft.Azure.Purview.Share.ApiService.V3.DataTransferObjects.ShareResource. */
+  sentSharesCount?: number;
+  /** The types of asset. */
+  storeKind?: "AdlsGen2Account" | "BlobAccount";
+  /** A Store Reference for an artifact or sink. */
+  storeReference?: StoreReferenceOutput;
+}
+
+/** A Store Reference for an artifact or sink. */
+export interface StoreReferenceOutput {
+  /** Reference name for resource associated with the sink or artifact. */
+  referenceName?: string;
+  /** Defines the type of resource being shared */
+  type?: "ArmResourceReference";
 }
 
 /** A tenant email registration data transfer object. */
@@ -126,14 +170,6 @@ export interface SinkOutputParent {
   /** A Store Reference for an artifact or sink. */
   storeReference: StoreReferenceOutput;
   storeKind: "Sink" | "AdlsGen2Account" | "BlobAccount";
-}
-
-/** A Store Reference for an artifact or sink. */
-export interface StoreReferenceOutput {
-  /** Reference name for resource associated with the sink or artifact. */
-  referenceName?: string;
-  /** Defines the type of resource being shared */
-  type?: "ArmResourceReference";
 }
 
 /** An Adls Gen2 storage account artifact. */

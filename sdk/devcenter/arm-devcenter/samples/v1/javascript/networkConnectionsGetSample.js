@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a network connection resource
  *
  * @summary Gets a network connection resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_Get.json
  */
 async function networkConnectionsGet() {
   const subscriptionId =

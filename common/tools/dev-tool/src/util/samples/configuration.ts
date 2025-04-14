@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { FileInfo } from "../findMatchingFiles";
 import { METADATA_KEY } from "../resolveProject";
@@ -8,7 +8,7 @@ import { METADATA_KEY } from "../resolveProject";
  * The oldest Node version that we guarantee sample programs will support.
  * Samples may support older versions, but must support at least this version.
  */
-export const MIN_SUPPORTED_NODE_VERSION = "14.0.0";
+export const MIN_SUPPORTED_NODE_VERSION = "18.0.0";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
@@ -29,17 +29,17 @@ export interface SampleConfiguration {
    */
   productName?: string;
   /**
-   * Product slugs to use on docs.microsoft.com in addition to "azure".
+   * Product slugs to use on learn.microsoft.com in addition to "azure".
    */
   productSlugs?: string[];
   /**
-   * Disable generation of docs.microsoft.com publication metadata.
+   * Disable generation of learn.microsoft.com publication metadata.
    */
   disableDocsMs?: boolean;
   /**
    * Link to the API reference documentation. If this is not provided, we
    * assume the API reference is located at
-   * `docs.microsoft.com/javascript/api/<packageName>`.
+   * `learn.microsoft.com/javascript/api/<packageName>`.
    */
   apiRefLink?: string;
   /**

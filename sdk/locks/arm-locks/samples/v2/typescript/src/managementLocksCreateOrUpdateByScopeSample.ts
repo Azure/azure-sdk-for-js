@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update a management lock by scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_CreateOrUpdateAtScope.json
  */
-async function createManagementLockAtScope() {
+async function createManagementLockAtScope(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/subscriptionId";
   const lockName = "testlock";

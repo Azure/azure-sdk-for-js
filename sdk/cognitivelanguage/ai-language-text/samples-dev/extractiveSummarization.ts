@@ -9,19 +9,15 @@
  * @azsdk-weight 50
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   `
@@ -37,10 +33,10 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Extractive Summarization Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "ExtractiveSummarization",
@@ -51,7 +47,7 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );
   });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Pipeline, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 
 /**
@@ -13,7 +14,7 @@ import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 export function setTokenChallengeAuthenticationPolicy(
   pipeline: Pipeline,
   credential: TokenCredential,
-  scopes: string | string[]
+  scopes: string | string[],
 ): void {
   // Make sure no bearerTokenPolicy is set.
   pipeline.removePolicy({ name: "bearerTokenPolicy" });
@@ -25,6 +26,6 @@ export function setTokenChallengeAuthenticationPolicy(
     }),
     {
       phase: "Sign",
-    }
+    },
   );
 }

@@ -11,8 +11,8 @@ import {
   RecoverableDatabase,
   RecoverableDatabasesListByServerOptionalParams,
   RecoverableDatabasesGetOptionalParams,
-  RecoverableDatabasesGetResponse
-} from "../models";
+  RecoverableDatabasesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoverableDatabases. */
@@ -27,7 +27,7 @@ export interface RecoverableDatabases {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: RecoverableDatabasesListByServerOptionalParams
+    options?: RecoverableDatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RecoverableDatabase>;
   /**
    * Gets a recoverable database.
@@ -41,6 +41,6 @@ export interface RecoverableDatabases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: RecoverableDatabasesGetOptionalParams
+    options?: RecoverableDatabasesGetOptionalParams,
   ): Promise<RecoverableDatabasesGetResponse>;
 }

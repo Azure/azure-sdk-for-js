@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets health check status details.
  *
  * @summary Gets health check status details.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_GetHealthDetails.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_GetHealthDetails.json
  */
 async function networkConnectionsGetHealthDetails() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function networkConnectionsGetHealthDetails() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.networkConnections.getHealthDetails(
     resourceGroupName,
-    networkConnectionName
+    networkConnectionName,
   );
   console.log(result);
 }

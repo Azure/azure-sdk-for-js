@@ -24,7 +24,7 @@ import {
   CertificateVerificationDescription as CertificateVerificationDescriptionMapper,
   FailoverInput as FailoverInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-15-preview",
+    defaultValue: "2023-06-30",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Uses `@azure/core-tracing` APIs to instrument method calls for a fake Azure client library.
@@ -27,7 +27,7 @@ class BasicClient {
       packageName: "@azure/some-example-package",
       packageVersion: "1.0.0",
       // The Resource Provider, which should normally be one of the values defined here:
-      // https://docs.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
+      // https://learn.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
       namespace: "Microsoft.Sample",
     });
   }
@@ -53,7 +53,7 @@ class BasicClient {
         // You do not need to close the span.
         const result = await Promise.resolve({ value: 42 });
         return result.value;
-      }
+      },
     );
   }
 
@@ -87,15 +87,15 @@ class BasicClient {
    */
   async withUserCallback<Callback extends (...args: unknown[]) => ReturnType<Callback>>(
     callback: Callback,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<ReturnType<Callback>> {
     const { span, updatedOptions } = this.tracingClient.startSpan(
       "BasicClient.withUserCallback",
-      options
+      options,
     );
     const result = this.tracingClient.withContext(
       updatedOptions.tracingOptions!.tracingContext!,
-      callback
+      callback,
     );
     span.setStatus({ status: "success" });
     span.end();

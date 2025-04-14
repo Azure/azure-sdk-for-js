@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
-import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import {
-  AnonymousCredential,
-  BlobClient,
-  BlockBlobClient,
-  newPipeline,
-  Pipeline,
-  StoragePipelineOptions,
-} from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { Readable } from "stream";
+// Licensed under the MIT License.
 
-import { BufferScheduler } from "../../storage-common/src";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { PathOperationsImpl as Path } from "./generated/src/operations";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
+import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { Readable } from "node:stream";
+import { BufferScheduler } from "@azure/storage-common";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
+import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
+import type {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
   DirectoryCreateIfNotExistsResponse,
@@ -72,10 +69,14 @@ import {
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
-} from "./models";
-import { PathSetAccessControlRecursiveMode } from "./models.internal";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
-import { StorageClient } from "./StorageClient";
+  UserDelegationKey,
+} from "./models.js";
+import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   toAccessControlChangeFailureArray,
   toAcl,
@@ -84,8 +85,8 @@ import {
   toPermissions,
   toPermissionsString,
   toProperties,
-} from "./transforms";
-import { Batch } from "./utils/Batch";
+} from "./transforms.js";
+import { Batch } from "./utils/Batch.js";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -94,20 +95,21 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "./utils/constants";
-import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
   ensureCpkIfSpecified,
   getURLPathAndQuery,
+  ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
-} from "./utils/utils.common";
-import { fsCreateReadStream, fsStat } from "./utils/utils.node";
-import {
+} from "./utils/utils.common.js";
+import { fsCreateReadStream, fsStat } from "./utils/utils.js";
+import type {
   PathAppendDataHeaders,
   PathCreateHeaders,
   PathDeleteHeaders,
@@ -115,7 +117,7 @@ import {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -131,6 +133,8 @@ export class DataLakePathClient extends StorageClient {
    */
   private blobClient: BlobClient;
 
+  private isTokenCredential?: boolean;
+
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
    *
@@ -143,7 +147,7 @@ export class DataLakePathClient extends StorageClient {
   private async setAccessControlRecursiveInternal(
     mode: PathSetAccessControlRecursiveMode,
     acl: PathAccessControlItem[] | RemovePathAccessControlItem[],
-    options: PathChangeAccessControlRecursiveOptions = {}
+    options: PathChangeAccessControlRecursiveOptions = {},
   ): Promise<PathChangeAccessControlRecursiveResponse> {
     if (options.maxBatches !== undefined && options.maxBatches < 1) {
       throw RangeError(`Options maxBatches must be larger than 0.`);
@@ -212,7 +216,7 @@ export class DataLakePathClient extends StorageClient {
         } while (continuationToken && !reachMaxBatches);
 
         return result;
-      }
+      },
     );
   }
 
@@ -230,7 +234,7 @@ export class DataLakePathClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
 
   /**
@@ -253,9 +257,9 @@ export class DataLakePathClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;
@@ -323,14 +327,14 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Create a directory or path.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options - Optional. Options when creating path.
    */
   public async create(
     resourceType: PathResourceTypeModel,
-    options: PathCreateOptions = {}
+    options: PathCreateOptions = {},
   ): Promise<PathCreateResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakePathClient-create", options, async (updatedOptions) => {
@@ -358,7 +362,7 @@ export class DataLakePathClient extends StorageClient {
           acl: options.acl ? toAclString(options.acl) : undefined,
           expiryOptions,
           expiresOn,
-        })
+        }),
       );
     });
   }
@@ -366,14 +370,14 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Create a directory or file. If the resource already exists, it is not changed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
-    options: PathCreateIfNotExistsOptions = {}
+    options: PathCreateIfNotExistsOptions = {},
   ): Promise<PathCreateIfNotExistsResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-createIfNotExists",
@@ -400,7 +404,7 @@ export class DataLakePathClient extends StorageClient {
           }
           throw e;
         }
-      }
+      },
     );
   }
 
@@ -425,17 +429,30 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Delete current path (directory or file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options - Optional. Options when deleting path.
    */
   public async delete(
     recursive?: boolean,
-    options: PathDeleteOptions = {}
+    options: PathDeleteOptions = {},
   ): Promise<PathDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakePathClient-delete", options, async (updatedOptions) => {
+      if (this.isTokenCredential === undefined) {
+        this.isTokenCredential = false;
+        this.pipeline.factories.forEach((factory) => {
+          if (isTokenCredential((factory as any).credential)) {
+            this.isTokenCredential = true;
+          }
+        });
+
+        if (isTokenCredential((this.pipeline as any)._credential)) {
+          this.isTokenCredential = true;
+        }
+      }
+      const paginated = recursive === true && this.isTokenCredential === true;
       let continuation: string | undefined;
       let response: PathDeleteResponse;
 
@@ -449,7 +466,8 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
-          })
+            paginated,
+          }),
         );
         continuation = response.continuation;
       } while (continuation);
@@ -461,14 +479,14 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Delete current path (directory or file) if it exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options -
    */
   public async deleteIfExists(
     recursive?: boolean,
-    options: PathDeleteOptions = {}
+    options: PathDeleteOptions = {},
   ): Promise<PathDeleteIfExistsResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -491,19 +509,19 @@ export class DataLakePathClient extends StorageClient {
           }
           throw e;
         }
-      }
+      },
     );
   }
 
   /**
    * Returns the access control data for a path (directory of file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
    *
    * @param options - Optional. Options when getting file access control.
    */
   public async getAccessControl(
-    options: PathGetAccessControlOptions = {}
+    options: PathGetAccessControlOptions = {},
   ): Promise<PathGetAccessControlResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -518,7 +536,7 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
-          })
+          }),
         );
         return {
           ...response,
@@ -526,21 +544,21 @@ export class DataLakePathClient extends StorageClient {
           permissions: toPermissions(response.permissions),
           acl: toAcl(response.acl),
         };
-      }
+      },
     );
   }
 
   /**
    * Set the access control data for a path (directory of file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options when setting path access control.
    */
   public async setAccessControl(
     acl: PathAccessControlItem[],
-    options: PathSetAccessControlOptions = {}
+    options: PathSetAccessControlOptions = {},
   ): Promise<PathSetAccessControlResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -553,86 +571,86 @@ export class DataLakePathClient extends StorageClient {
             acl: toAclString(acl),
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
   /**
    * Sets the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
    */
   public async setAccessControlRecursive(
     acl: PathAccessControlItem[],
-    options: PathChangeAccessControlRecursiveOptions = {}
+    options: PathChangeAccessControlRecursiveOptions = {},
   ): Promise<PathChangeAccessControlRecursiveResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-setAccessControlRecursive",
       options,
       async (updatedOptions) => {
         return this.setAccessControlRecursiveInternal("set", acl, updatedOptions);
-      }
+      },
     );
   }
 
   /**
    * Modifies the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
    */
   public async updateAccessControlRecursive(
     acl: PathAccessControlItem[],
-    options: PathChangeAccessControlRecursiveOptions = {}
+    options: PathChangeAccessControlRecursiveOptions = {},
   ): Promise<PathChangeAccessControlRecursiveResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-updateAccessControlRecursive",
       options,
       async (updatedOptions) => {
         return this.setAccessControlRecursiveInternal("modify", acl, updatedOptions);
-      }
+      },
     );
   }
 
   /**
    * Removes the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
    */
   public async removeAccessControlRecursive(
     acl: RemovePathAccessControlItem[],
-    options: PathChangeAccessControlRecursiveOptions = {}
+    options: PathChangeAccessControlRecursiveOptions = {},
   ): Promise<PathChangeAccessControlRecursiveResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-removeAccessControlRecursive",
       options,
       async (updatedOptions) => {
         return this.setAccessControlRecursiveInternal("remove", acl, updatedOptions);
-      }
+      },
     );
   }
 
   /**
    * Sets the file permissions on a path.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param permissions - The POSIX access permissions for the file owner, the file owning group, and others.
    * @param options - Optional. Options when setting path permissions.
    */
   public async setPermissions(
     permissions: PathPermissions,
-    options: PathSetPermissionsOptions = {}
+    options: PathSetPermissionsOptions = {},
   ): Promise<PathSetPermissionsResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -645,9 +663,9 @@ export class DataLakePathClient extends StorageClient {
             permissions: toPermissionsString(permissions),
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -660,23 +678,24 @@ export class DataLakePathClient extends StorageClient {
    * the methods of {@link DataLakeFileSystemClient} that list paths using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * @param options - Optional. Options when getting path properties.
    */
   public async getProperties(
-    options: PathGetPropertiesOptions = {}
+    options: PathGetPropertiesOptions = {},
   ): Promise<PathGetPropertiesResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-getProperties",
       options,
       async (updatedOptions) => {
-        return this.blobClient.getProperties({
+        const response = await this.blobClient.getProperties({
           ...options,
           customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+        return ParsePathGetPropertiesExtraHeaderValues(response as PathGetPropertiesResponse);
+      },
     );
   }
 
@@ -685,14 +704,14 @@ export class DataLakePathClient extends StorageClient {
    *
    * If no value provided, or no value provided for the specified blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param httpHeaders -
    * @param options -
    */
   public async setHttpHeaders(
     httpHeaders: PathHttpHeaders,
-    options: PathSetHttpHeadersOptions = {}
+    options: PathSetHttpHeadersOptions = {},
   ): Promise<PathSetHttpHeadersResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-setHttpHeaders",
@@ -707,9 +726,9 @@ export class DataLakePathClient extends StorageClient {
             blobContentLanguage: httpHeaders.contentLanguage,
             blobContentDisposition: httpHeaders.contentDisposition,
           },
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -719,7 +738,7 @@ export class DataLakePathClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the path
    * metadata will be removed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
    * @param metadata - Optional. Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
@@ -727,7 +746,7 @@ export class DataLakePathClient extends StorageClient {
    */
   public async setMetadata(
     metadata?: Metadata,
-    options: PathSetMetadataOptions = {}
+    options: PathSetMetadataOptions = {},
   ): Promise<PathSetMetadataResponse> {
     return tracingClient.withSpan(
       "DataLakePathClient-setMetadata",
@@ -738,14 +757,14 @@ export class DataLakePathClient extends StorageClient {
           customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
   /**
    * Move directory or file within same file system.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file".
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
@@ -756,7 +775,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Move directory or file to another file system.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param destinationFileSystem - Destination file system like "filesystem".
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file"
@@ -766,13 +785,13 @@ export class DataLakePathClient extends StorageClient {
   public async move(
     destinationFileSystem: string,
     destinationPath: string,
-    options?: PathMoveOptions
+    options?: PathMoveOptions,
   ): Promise<PathMoveResponse>;
 
   public async move(
     destinationPathOrFileSystem: string,
     destinationPathOrOptions?: string | PathMoveOptions,
-    options?: PathMoveOptions
+    options?: PathMoveOptions,
   ): Promise<PathMoveResponse> {
     let destinationFileSystem = this.fileSystemName;
     let destinationPath = destinationPathOrFileSystem;
@@ -822,9 +841,9 @@ export class DataLakePathClient extends StorageClient {
             },
             modifiedAccessConditions: pathMoveOptions.destinationConditions,
             abortSignal: pathMoveOptions.abortSignal,
-          })
+          }),
         );
-      }
+      },
     );
   }
 }
@@ -837,20 +856,20 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Create a directory.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options - Optional. Options when creating directory.
    */
   public async create(
     resourceType: PathResourceTypeModel,
-    options?: PathCreateOptions
+    options?: PathCreateOptions,
   ): Promise<PathCreateResponse>;
 
   /**
    * Create a directory.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating directory.
    */
@@ -858,11 +877,11 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
   public async create(
     resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
-    options: PathCreateOptions = {}
+    options: PathCreateOptions = {},
   ): Promise<PathCreateResponse> {
     if (resourceTypeOrOptions === "file") {
       throw TypeError(
-        `DataLakeDirectoryClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
+        `DataLakeDirectoryClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`,
       );
     }
 
@@ -878,41 +897,41 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       pathCreateOptions,
       async (updatedOptions) => {
         return super.create("directory", updatedOptions);
-      }
+      },
     );
   }
 
   /**
    * Create a directory if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
-    options?: PathCreateIfNotExistsOptions
+    options?: PathCreateIfNotExistsOptions,
   ): Promise<PathCreateIfNotExistsResponse>;
 
   /**
    * Create a directory if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options -
    */
   public async createIfNotExists(
-    options?: DirectoryCreateIfNotExistsOptions
+    options?: DirectoryCreateIfNotExistsOptions,
   ): Promise<DirectoryCreateIfNotExistsResponse>;
 
   public async createIfNotExists(
     resourceTypeOrOptions?: PathResourceTypeModel | PathCreateIfNotExistsOptions,
-    options: PathCreateIfNotExistsOptions = {}
+    options: PathCreateIfNotExistsOptions = {},
   ): Promise<PathCreateIfNotExistsResponse> {
     if (resourceTypeOrOptions === "file") {
       throw TypeError(
-        `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
+        `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`,
       );
     }
 
@@ -927,7 +946,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
         return super.createIfNotExists("directory", {
           ...updatedOptions,
         });
-      }
+      },
     );
   }
 
@@ -939,7 +958,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   public getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(subdirectoryName)),
-      this.pipeline
+      this.pipeline,
     );
   }
 
@@ -953,7 +972,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
       appendToURLPath(this.url, encodeURIComponent(fileName)),
-      this.pipeline
+      this.pipeline,
     );
   }
 
@@ -963,7 +982,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -972,7 +991,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     return new Promise((resolve) => {
       if (!(this.credential instanceof StorageSharedKeyCredential)) {
         throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
+          "Can only generate the SAS when the client is initialized with a shared key credential",
         );
       }
 
@@ -983,11 +1002,95 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
           isDirectory: true,
           ...options,
         },
-        this.credential
+        this.credential,
       ).toString();
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: DirectoryGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        isDirectory: true,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: DirectoryGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          isDirectory: true,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in The SAS is signed by the input user delegation key.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+
+  public generateUserDelegationSasStringToSign(
+    options: DirectoryGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        isDirectory: true,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
   }
 }
 
@@ -1024,7 +1127,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
 
   /**
@@ -1047,9 +1150,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;
@@ -1071,20 +1174,20 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Create a file.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options - Optional. Options when creating file.
    */
   public async create(
     resourceType: PathResourceTypeModel,
-    options?: PathCreateOptions
+    options?: PathCreateOptions,
   ): Promise<PathCreateResponse>;
 
   /**
    * Create a file.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
    */
@@ -1092,11 +1195,11 @@ export class DataLakeFileClient extends DataLakePathClient {
 
   public async create(
     resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
-    options: PathCreateOptions = {}
+    options: PathCreateOptions = {},
   ): Promise<PathCreateResponse> {
     if (resourceTypeOrOptions === "directory") {
       throw TypeError(
-        `DataLakeFileClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
+        `DataLakeFileClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`,
       );
     }
 
@@ -1112,41 +1215,41 @@ export class DataLakeFileClient extends DataLakePathClient {
       pathCreateOptions,
       async (updatedOptions) => {
         return super.create("file", updatedOptions);
-      }
+      },
     );
   }
 
   /**
    * Create a file if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options -
    */
   public async createIfNotExists(
     resourceType: PathResourceTypeModel,
-    options?: PathCreateIfNotExistsOptions
+    options?: PathCreateIfNotExistsOptions,
   ): Promise<PathCreateIfNotExistsResponse>;
 
   /**
    * Create a file if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
    */
   public async createIfNotExists(
-    options?: FileCreateIfNotExistsOptions
+    options?: FileCreateIfNotExistsOptions,
   ): Promise<FileCreateIfNotExistsResponse>;
 
   public async createIfNotExists(
     resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
-    options: PathCreateIfNotExistsOptions = {}
+    options: PathCreateIfNotExistsOptions = {},
   ): Promise<PathCreateIfNotExistsResponse> {
     if (resourceTypeOrOptions === "directory") {
       throw TypeError(
-        `DataLakeFileClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
+        `DataLakeFileClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`,
       );
     }
 
@@ -1159,7 +1262,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       options,
       async (updatedOptions) => {
         return super.createIfNotExists("file", updatedOptions);
-      }
+      },
     );
   }
 
@@ -1169,21 +1272,39 @@ export class DataLakeFileClient extends DataLakePathClient {
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise contentAsBlob
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
    * * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
-   * console.log("Downloaded file content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.readableStreamBody) {
+   *   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   *   console.log("Downloaded file content:", downloaded.toString());
+   * }
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -1195,21 +1316,27 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-   * console.log("Downloaded file content", downloaded);
+   * ```ts snippet:ReadmeSampleDownloadFile_Browser
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
    *
-   * async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.contentAsBlob) {
+   *   const blob = await downloadResponse.contentAsBlob;
+   *   const downloaded = await blob.text();
+   *   console.log(`Downloaded file content ${downloaded}`);
    * }
    * ```
    *
@@ -1220,7 +1347,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   public async read(
     offset: number = 0,
     count?: number,
-    options: FileReadOptions = {}
+    options: FileReadOptions = {},
   ): Promise<FileReadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-read", options, async (updatedOptions) => {
       const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
@@ -1228,8 +1355,10 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
       });
 
-      const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      const response = ParsePathGetPropertiesExtraHeaderValues(
+        rawResponse as FileReadResponse,
+      ) as FileReadResponse;
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1246,7 +1375,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Uploads data to be appended to a file. Data can only be appended to a file.
    * To apply perviously uploaded data to a file, call flush.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param body - Content to be uploaded.
    * @param offset - Append offset in bytes.
@@ -1257,7 +1386,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     body: HttpRequestBody,
     offset: number,
     length: number,
-    options: FileAppendOptions = {}
+    options: FileAppendOptions = {},
   ): Promise<FileAppendResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakeFileClient-append", options, async (updatedOptions) => {
@@ -1278,9 +1407,9 @@ export class DataLakeFileClient extends DataLakePathClient {
           cpkInfo: options.customerProvidedKey,
           flush: options.flush,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
-        })
+        }),
       );
     });
   }
@@ -1310,9 +1439,9 @@ export class DataLakeFileClient extends DataLakePathClient {
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
-        })
+        }),
       );
     });
   }
@@ -1331,7 +1460,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     filePath: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options: FileParallelUploadOptions = {}
+    options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan(
       "DataLakeFileClient-uploadFile",
@@ -1348,9 +1477,9 @@ export class DataLakeFileClient extends DataLakePathClient {
               });
           },
           size,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -1362,10 +1491,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async upload(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
-    options: FileParallelUploadOptions = {}
+    options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -1379,14 +1508,14 @@ export class DataLakeFileClient extends DataLakePathClient {
         return this.uploadSeekableInternal(
           (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
           buffer.length,
-          updatedOptions
+          updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as ArrayBuffer]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
-          updatedOptions
+          updatedOptions,
         );
       }
     });
@@ -1395,7 +1524,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   private async uploadSeekableInternal(
     bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
-    options: FileParallelUploadOptions = {}
+    options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan(
       "DataLakeFileClient-uploadData",
@@ -1415,6 +1544,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           pathHttpHeaders: options.pathHttpHeaders,
           customerProvidedKey: updatedOptions.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
+          encryptionContext: updatedOptions.encryptionContext,
         });
         // append() with empty data would return error, so do not continue
         if (size === 0) {
@@ -1434,7 +1564,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
         if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
           throw new RangeError(
-            `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
+            `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`,
           );
         }
 
@@ -1453,7 +1583,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD
         ) {
           throw new RangeError(
-            `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
+            `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`,
           );
         }
 
@@ -1481,7 +1611,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
           throw new RangeError(
             `The data's size is too big or the chunkSize is too small;` +
-              `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+              `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`,
           );
         }
 
@@ -1516,7 +1646,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           customerProvidedKey: updatedOptions.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
@@ -1537,7 +1667,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async uploadStream(
     stream: Readable,
-    options: FileParallelUploadOptions = {}
+    options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan(
       "DataLakeFileClient-uploadStream",
@@ -1553,6 +1683,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           pathHttpHeaders: options.pathHttpHeaders,
           customerProvidedKey: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
+          encryptionContext: updatedOptions.encryptionContext,
         });
 
         // After the File is Create, Lease ID is the only valid request parameter.
@@ -1563,7 +1694,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
         if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
           throw new RangeError(
-            `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
+            `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`,
           );
         }
         if (!options.maxConcurrency) {
@@ -1596,7 +1727,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           // reduce the possibility when a outgoing handler waits for stream data, in
           // this situation, outgoing handlers are blocked.
           // Outgoing queue shouldn't be empty.
-          Math.ceil((options.maxConcurrency / 4) * 3)
+          Math.ceil((options.maxConcurrency / 4) * 3),
         );
         await scheduler.do();
 
@@ -1608,7 +1739,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           customerProvidedKey: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
@@ -1631,7 +1762,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     buffer: Buffer,
     offset?: number,
     count?: number,
-    options?: FileReadToBufferOptions
+    options?: FileReadToBufferOptions,
   ): Promise<Buffer>;
 
   /**
@@ -1651,14 +1782,14 @@ export class DataLakeFileClient extends DataLakePathClient {
   public async readToBuffer(
     offset?: number,
     count?: number,
-    options?: FileReadToBufferOptions
+    options?: FileReadToBufferOptions,
   ): Promise<Buffer>;
 
   public async readToBuffer(
     bufferOrOffset?: Buffer | number,
     offsetOrCount?: number,
     countOrOptions?: FileReadToBufferOptions | number,
-    optOptions: FileReadToBufferOptions = {}
+    optOptions: FileReadToBufferOptions = {},
   ): Promise<Buffer> {
     let buffer: Buffer | undefined = undefined;
     let offset = 0;
@@ -1694,7 +1825,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             tracingOptions: updatedOptions.tracingOptions,
           });
         }
-      }
+      },
     );
   }
 
@@ -1718,17 +1849,27 @@ export class DataLakeFileClient extends DataLakePathClient {
     filePath: string,
     offset: number = 0,
     count?: number,
-    options: FileReadOptions = {}
+    options: FileReadOptions = {},
   ): Promise<FileReadResponse> {
     return tracingClient.withSpan(
       "DataLakeFileClient-readToFile",
       options,
       async (updatedOptions) => {
-        return this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
-          ...updatedOptions,
-          customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
-        });
-      }
+        const rawResposne = await this.blockBlobClientInternal.downloadToFile(
+          filePath,
+          offset,
+          count,
+          {
+            ...updatedOptions,
+            customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
+          },
+        );
+
+        const response = ParsePathGetPropertiesExtraHeaderValues(
+          rawResposne as FileReadResponse,
+        ) as FileReadResponse;
+        return response;
+      },
     );
   }
 
@@ -1737,17 +1878,33 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleQueryFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
    * // Query and convert a file to a string
    * const queryResponse = await fileClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryResponse.readableStreamBody)).toString();
-   * console.log("Query file content:", downloaded);
+   * if (queryResponse.readableStreamBody) {
+   *   const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
+   *   const downloaded = responseBuffer.toString();
+   *   console.log(`Query file content: ${downloaded}`);
+   * }
    *
-   * async function streamToBuffer(readableStream) {
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -1767,7 +1924,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1787,7 +1944,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async setExpiry(
     mode: FileExpiryMode,
-    options: FileSetExpiryOptions = {}
+    options: FileSetExpiryOptions = {},
   ): Promise<FileSetExpiryResponse> {
     return tracingClient.withSpan(
       "DataLakeFileClient-setExpiry",
@@ -1809,7 +1966,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           const now = new Date();
           if (!(options.expiresOn!.getTime() > now.getTime())) {
             throw new Error(
-              `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`
+              `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`,
             );
           }
           expiresOn = options.expiresOn!.toUTCString();
@@ -1820,9 +1977,9 @@ export class DataLakeFileClient extends DataLakePathClient {
           await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
             ...adaptedOptions,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -1832,7 +1989,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1841,7 +1998,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     return new Promise((resolve) => {
       if (!(this.credential instanceof StorageSharedKeyCredential)) {
         throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
+          "Can only generate the SAS when the client is initialized with a shared key credential",
         );
       }
 
@@ -1851,10 +2008,94 @@ export class DataLakeFileClient extends DataLakePathClient {
           pathName: this.name,
           ...options,
         },
-        this.credential
+        this.credential,
       ).toString();
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: FileGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+
+  public generateUserDelegationSasStringToSign(
+    options: FileGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
   }
 }

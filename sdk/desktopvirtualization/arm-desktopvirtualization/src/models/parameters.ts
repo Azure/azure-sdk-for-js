@@ -9,15 +9,18 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Workspace as WorkspaceMapper,
   WorkspacePatch as WorkspacePatchMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ScalingPlan as ScalingPlanMapper,
   ScalingPlanPatch as ScalingPlanPatchMapper,
   ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
   ScalingPlanPooledSchedulePatch as ScalingPlanPooledSchedulePatchMapper,
+  ScalingPlanPersonalSchedule as ScalingPlanPersonalScheduleMapper,
+  ScalingPlanPersonalSchedulePatch as ScalingPlanPersonalSchedulePatchMapper,
   ApplicationGroup as ApplicationGroupMapper,
   ApplicationGroupPatch as ApplicationGroupPatchMapper,
   Application as ApplicationMapper,
@@ -29,8 +32,11 @@ import {
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  MsixImageURI as MsixImageURIMapper
-} from "../models/mappers";
+  ImportPackageInfoRequest as ImportPackageInfoRequestMapper,
+  MsixImageURI as MsixImageURIMapper,
+  AppAttachPackage as AppAttachPackageMapper,
+  AppAttachPackagePatch as AppAttachPackagePatchMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -39,9 +45,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -50,22 +56,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-09",
+    defaultValue: "2024-04-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -74,24 +80,21 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -99,29 +102,30 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -131,19 +135,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspace: OperationParameter = {
   parameterPath: "workspace",
-  mapper: WorkspaceMapper
+  mapper: WorkspaceMapper,
 };
 
 export const workspace1: OperationParameter = {
   parameterPath: ["options", "workspace"],
-  mapper: WorkspacePatchMapper
+  mapper: WorkspacePatchMapper,
 };
 
 export const pageSize: OperationQueryParameter = {
@@ -151,9 +155,9 @@ export const pageSize: OperationQueryParameter = {
   mapper: {
     serializedName: "pageSize",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const isDescending: OperationQueryParameter = {
@@ -161,9 +165,9 @@ export const isDescending: OperationQueryParameter = {
   mapper: {
     serializedName: "isDescending",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const initialSkip: OperationQueryParameter = {
@@ -171,99 +175,129 @@ export const initialSkip: OperationQueryParameter = {
   mapper: {
     serializedName: "initialSkip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
-export const scalingPlanName: OperationURLParameter = {
-  parameterPath: "scalingPlanName",
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
   mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
-    },
-    serializedName: "scalingPlanName",
+    serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const scalingPlan: OperationParameter = {
-  parameterPath: "scalingPlan",
-  mapper: ScalingPlanMapper
-};
-
-export const scalingPlan1: OperationParameter = {
-  parameterPath: ["options", "scalingPlan"],
-  mapper: ScalingPlanPatchMapper
+export const connection: OperationParameter = {
+  parameterPath: "connection",
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const hostPoolName: OperationURLParameter = {
   parameterPath: "hostPoolName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "hostPoolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const scalingPlanName: OperationURLParameter = {
+  parameterPath: "scalingPlanName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
+      MaxLength: 64,
+      MinLength: 3,
+    },
+    serializedName: "scalingPlanName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const scalingPlan: OperationParameter = {
+  parameterPath: "scalingPlan",
+  mapper: ScalingPlanMapper,
+};
+
+export const scalingPlan1: OperationParameter = {
+  parameterPath: ["options", "scalingPlan"],
+  mapper: ScalingPlanPatchMapper,
 };
 
 export const scalingPlanScheduleName: OperationURLParameter = {
   parameterPath: "scalingPlanScheduleName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 64,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "scalingPlanScheduleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const scalingPlanSchedule: OperationParameter = {
   parameterPath: "scalingPlanSchedule",
-  mapper: ScalingPlanPooledScheduleMapper
+  mapper: ScalingPlanPooledScheduleMapper,
 };
 
 export const scalingPlanSchedule1: OperationParameter = {
   parameterPath: ["options", "scalingPlanSchedule"],
-  mapper: ScalingPlanPooledSchedulePatchMapper
+  mapper: ScalingPlanPooledSchedulePatchMapper,
+};
+
+export const scalingPlanSchedule2: OperationParameter = {
+  parameterPath: "scalingPlanSchedule",
+  mapper: ScalingPlanPersonalScheduleMapper,
+};
+
+export const scalingPlanSchedule3: OperationParameter = {
+  parameterPath: ["options", "scalingPlanSchedule"],
+  mapper: ScalingPlanPersonalSchedulePatchMapper,
 };
 
 export const applicationGroupName: OperationURLParameter = {
   parameterPath: "applicationGroupName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "applicationGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const applicationGroup: OperationParameter = {
   parameterPath: "applicationGroup",
-  mapper: ApplicationGroupMapper
+  mapper: ApplicationGroupMapper,
 };
 
 export const applicationGroup1: OperationParameter = {
   parameterPath: ["options", "applicationGroup"],
-  mapper: ApplicationGroupPatchMapper
+  mapper: ApplicationGroupPatchMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -271,59 +305,61 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const applicationName: OperationURLParameter = {
   parameterPath: "applicationName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "applicationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const application: OperationParameter = {
   parameterPath: "application",
-  mapper: ApplicationMapper
+  mapper: ApplicationMapper,
 };
 
 export const application1: OperationParameter = {
   parameterPath: ["options", "application"],
-  mapper: ApplicationPatchMapper
+  mapper: ApplicationPatchMapper,
 };
 
 export const desktopName: OperationURLParameter = {
   parameterPath: "desktopName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 24,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "desktopName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const desktop: OperationParameter = {
   parameterPath: ["options", "desktop"],
-  mapper: DesktopPatchMapper
+  mapper: DesktopPatchMapper,
 };
 
 export const hostPool: OperationParameter = {
   parameterPath: "hostPool",
-  mapper: HostPoolMapper
+  mapper: HostPoolMapper,
 };
 
 export const force: OperationQueryParameter = {
@@ -331,29 +367,30 @@ export const force: OperationQueryParameter = {
   mapper: {
     serializedName: "force",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const hostPool1: OperationParameter = {
   parameterPath: ["options", "hostPool"],
-  mapper: HostPoolPatchMapper
+  mapper: HostPoolPatchMapper,
 };
 
 export const sessionHostName: OperationURLParameter = {
   parameterPath: "sessionHostName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 48,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "sessionHostName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const userSessionId: OperationURLParameter = {
@@ -361,52 +398,84 @@ export const userSessionId: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 24,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "userSessionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sendMessage: OperationParameter = {
   parameterPath: ["options", "sendMessage"],
-  mapper: SendMessageMapper
+  mapper: SendMessageMapper,
 };
 
 export const sessionHost: OperationParameter = {
   parameterPath: ["options", "sessionHost"],
-  mapper: SessionHostPatchMapper
+  mapper: SessionHostPatchMapper,
 };
 
 export const msixPackageFullName: OperationURLParameter = {
   parameterPath: "msixPackageFullName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 100,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "msixPackageFullName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const msixPackage: OperationParameter = {
   parameterPath: "msixPackage",
-  mapper: MsixPackageMapper
+  mapper: MsixPackageMapper,
 };
 
 export const msixPackage1: OperationParameter = {
   parameterPath: ["options", "msixPackage"],
-  mapper: MsixPackagePatchMapper
+  mapper: MsixPackagePatchMapper,
+};
+
+export const importPackageInfoRequest: OperationParameter = {
+  parameterPath: "importPackageInfoRequest",
+  mapper: ImportPackageInfoRequestMapper,
 };
 
 export const msixImageURI: OperationParameter = {
   parameterPath: "msixImageURI",
-  mapper: MsixImageURIMapper
+  mapper: MsixImageURIMapper,
+};
+
+export const appAttachPackageName: OperationURLParameter = {
+  parameterPath: "appAttachPackageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+      MaxLength: 100,
+      MinLength: 3,
+    },
+    serializedName: "appAttachPackageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const appAttachPackage: OperationParameter = {
+  parameterPath: "appAttachPackage",
+  mapper: AppAttachPackageMapper,
+};
+
+export const appAttachPackagePatch: OperationParameter = {
+  parameterPath: ["options", "appAttachPackagePatch"],
+  mapper: AppAttachPackagePatchMapper,
 };

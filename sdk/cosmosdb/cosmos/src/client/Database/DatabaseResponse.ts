@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
-import { Database } from "./Database";
-import { DatabaseDefinition } from "./DatabaseDefinition";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/ResourceResponse.js";
+import type { Resource } from "../Resource.js";
+import type { Database } from "./Database.js";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
 
 /** Response object for Database operations */
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {
@@ -14,7 +14,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
     headers: CosmosHeaders,
     statusCode: number,
     database: Database,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.database = database;

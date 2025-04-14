@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
-  TracingClient,
-  TracingContext,
-  TracingSpan,
+  type TracingClient,
+  type TracingContext,
+  type TracingSpan,
   createTracingClient,
 } from "@azure/core-tracing";
-import { SDK_VERSION } from "../constants";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { getUserAgentValue } from "../util/userAgent";
-import { logger } from "../log";
+import { SDK_VERSION } from "../constants.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { getUserAgentValue } from "../util/userAgent.js";
+import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";
-import { isRestError } from "../restError";
+import { isRestError } from "../restError.js";
+import { Sanitizer } from "../util/sanitizer.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -30,6 +31,11 @@ export interface TracingPolicyOptions {
    * Defaults to an empty string.
    */
   userAgentPrefix?: string;
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
+  additionalAllowedQueryParameters?: string[];
 }
 
 /**
@@ -39,17 +45,32 @@ export interface TracingPolicyOptions {
  * @param options - Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
-  const userAgent = getUserAgentValue(options.userAgentPrefix);
+  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
+  const sanitizer = new Sanitizer({
+    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
+  });
   const tracingClient = tryCreateTracingClient();
 
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!tracingClient || !request.tracingOptions?.tracingContext) {
+      if (!tracingClient) {
         return next(request);
       }
 
-      const { span, tracingContext } = tryCreateSpan(tracingClient, request, userAgent) ?? {};
+      const userAgent = await userAgentPromise;
+
+      const spanAttributes = {
+        "http.url": sanitizer.sanitizeUrl(request.url),
+        "http.method": request.method,
+        "http.user_agent": userAgent,
+        requestId: request.requestId,
+      };
+      if (userAgent) {
+        spanAttributes["http.user_agent"] = userAgent;
+      }
+
+      const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
 
       if (!span || !tracingContext) {
         return next(request);
@@ -83,7 +104,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
 function tryCreateSpan(
   tracingClient: TracingClient,
   request: PipelineRequest,
-  userAgent?: string
+  spanAttributes: Record<string, unknown>,
 ): { span: TracingSpan; tracingContext: TracingContext } | undefined {
   try {
     // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
@@ -92,12 +113,8 @@ function tryCreateSpan(
       { tracingOptions: request.tracingOptions },
       {
         spanKind: "client",
-        spanAttributes: {
-          "http.method": request.method,
-          "http.url": request.url,
-          requestId: request.requestId,
-        },
-      }
+        spanAttributes,
+      },
     );
 
     // If the span is not recording, don't do any more work.
@@ -106,13 +123,9 @@ function tryCreateSpan(
       return undefined;
     }
 
-    if (userAgent) {
-      span.setAttribute("http.user_agent", userAgent);
-    }
-
     // set headers
     const headers = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions.tracingContext
+      updatedOptions.tracingOptions.tracingContext,
     );
     for (const [key, value] of Object.entries(headers)) {
       request.headers.set(key, value);
@@ -146,9 +159,14 @@ function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void
     if (serviceRequestId) {
       span.setAttribute("serviceRequestId", serviceRequestId);
     }
-    span.setStatus({
-      status: "success",
-    });
+    // Per semantic conventions, only set the status to error if the status code is 4xx or 5xx.
+    // Otherwise, the status MUST remain unset.
+    // https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+    if (response.status >= 400) {
+      span.setStatus({
+        status: "error",
+      });
+    }
     span.end();
   } catch (e: any) {
     logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);

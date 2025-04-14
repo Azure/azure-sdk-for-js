@@ -16,7 +16,7 @@ import {
   DiagnosticSettingsCategoryImpl,
   EventCategoriesImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   MetricDefinitions,
   Metrics,
@@ -24,8 +24,8 @@ import {
   DiagnosticSettingsCategory,
   EventCategories,
   Operations
-} from "./operationsInterfaces";
-import { MonitorClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MonitorClientOptionalParams } from "./models/index.js";
 
 export class MonitorClient extends coreClient.ServiceClient {
   $host: string;

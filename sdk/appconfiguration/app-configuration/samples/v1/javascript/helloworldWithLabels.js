@@ -5,19 +5,21 @@
  * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
-  // More info - https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
+  // More info - https://learn.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const urlKey = "Samples:Endpoint:Url";
 
@@ -29,12 +31,12 @@ async function main() {
   await client.addConfigurationSetting({
     key: urlKey,
     label: "beta",
-    value: "https://beta.example.com"
+    value: "https://beta.example.com",
   });
   await client.addConfigurationSetting({
     key: urlKey,
     label: "production",
-    value: "https://example.com"
+    value: "https://example.com",
   });
 
   const betaEndpoint = await client.getConfigurationSetting({ key: urlKey, label: "beta" });
@@ -42,7 +44,7 @@ async function main() {
 
   const productionEndpoint = await client.getConfigurationSetting({
     key: urlKey,
-    label: "production"
+    label: "production",
   });
   console.log(`Endpoint with production label: ${productionEndpoint.value}`);
 
@@ -51,7 +53,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -62,3 +64,5 @@ async function cleanupSampleValues(keys, client) {
 main().catch((error) => {
   console.error("Failed to run sample:", error);
 });
+
+module.exports = { main };

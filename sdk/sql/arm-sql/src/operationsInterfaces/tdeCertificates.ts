@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { TdeCertificate, TdeCertificatesCreateOptionalParams } from "../models";
+import { TdeCertificate, TdeCertificatesCreateOptionalParams } from "../models/index.js";
 
 /** Interface representing a TdeCertificates. */
 export interface TdeCertificates {
@@ -23,7 +23,7 @@ export interface TdeCertificates {
     resourceGroupName: string,
     serverName: string,
     parameters: TdeCertificate,
-    options?: TdeCertificatesCreateOptionalParams
+    options?: TdeCertificatesCreateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates a TDE certificate for a given server.
@@ -37,6 +37,6 @@ export interface TdeCertificates {
     resourceGroupName: string,
     serverName: string,
     parameters: TdeCertificate,
-    options?: TdeCertificatesCreateOptionalParams
+    options?: TdeCertificatesCreateOptionalParams,
   ): Promise<void>;
 }

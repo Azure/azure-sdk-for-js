@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "./RequestPolicy";
-import { RestError } from "@azure/core-rest-pipeline";
-
-import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
-import { logger } from "../log";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { URLConstants } from "../utils/constants.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { logger } from "../log.js";
+import { StorageRetryPolicyType } from "./StorageRetryPolicyType.js";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -29,20 +29,6 @@ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): Reque
       return new StorageRetryPolicy(nextPolicy, options, retryOptions);
     },
   };
-}
-
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
 }
 
 // Default values of StorageRetryOptions
@@ -76,7 +62,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: StorageRetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: StorageRetryOptions = DEFAULT_RETRY_OPTIONS,
   ) {
     super(nextPolicy, options);
 
@@ -102,7 +88,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
               retryOptions.retryDelayInMs,
               retryOptions.maxRetryDelayInMs
                 ? retryOptions.maxRetryDelayInMs
-                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
+                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!,
             )
           : DEFAULT_RETRY_OPTIONS.retryDelayInMs,
 
@@ -139,7 +125,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   protected async attemptSendRequest(
     request: WebResource,
     secondaryHas404: boolean,
-    attempt: number
+    attempt: number,
   ): Promise<HttpOperationResponse> {
     const newRequest: WebResource = request.clone();
 
@@ -158,7 +144,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       newRequest.url = setURLParameter(
         newRequest.url,
         URLConstants.Parameters.TIMEOUT,
-        Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString()
+        Math.floor(this.retryOptions.tryTimeoutInMs! / 1000).toString(),
       );
     }
 
@@ -194,12 +180,12 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     isPrimaryRetry: boolean,
     attempt: number,
     response?: HttpOperationResponse,
-    err?: RestError
+    err?: RestError,
   ): boolean {
     if (attempt >= this.retryOptions.maxTries!) {
       logger.info(
         `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${this.retryOptions
-          .maxTries!}, no further try.`
+          .maxTries!}, no further try.`,
       );
       return false;
     }
@@ -247,9 +233,25 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       }
     }
 
+    // [Copy source error code] Feature is pending on service side, skip retry on copy source error for now.
+    // if (response) {
+    //   // Retry select Copy Source Error Codes.
+    //   if (response?.status >= 400) {
+    //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+    //     if (copySourceError !== undefined) {
+    //       switch (copySourceError) {
+    //         case "InternalError":
+    //         case "OperationTimedOut":
+    //         case "ServerBusy":
+    //           return true;
+    //       }
+    //     }
+    //   }
+    // }
+
     if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
       logger.info(
-        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry.",
       );
       return true;
     }
@@ -264,7 +266,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param attempt -
    * @param abortSignal -
    */
-  private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {
+  private async delay(
+    isPrimaryRetry: boolean,
+    attempt: number,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
     let delayTimeInMs: number = 0;
 
     if (isPrimaryRetry) {
@@ -272,7 +278,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         case StorageRetryPolicyType.EXPONENTIAL:
           delayTimeInMs = Math.min(
             (Math.pow(2, attempt - 1) - 1) * this.retryOptions.retryDelayInMs!,
-            this.retryOptions.maxRetryDelayInMs!
+            this.retryOptions.maxRetryDelayInMs!,
           );
           break;
         case StorageRetryPolicyType.FIXED:

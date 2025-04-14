@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an Event Hubs description for the specified Event Hub.
  *
  * @summary Gets an Event Hubs description for the specified Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubGet.json
  */
-async function eventHubGet() {
+async function eventHubGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e2f361f0-3b27-4503-a9cc-21cfba380093";
@@ -34,13 +30,13 @@ async function eventHubGet() {
   const result = await client.eventHubs.get(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   );
   console.log(result);
 }
 
-async function main() {
-  eventHubGet();
+async function main(): Promise<void> {
+  await eventHubGet();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a consumer group from the specified Event Hub and resource group.
  *
  * @summary Deletes a consumer group from the specified Event Hub and resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ConsumerGroup/EHConsumerGroupDelete.json
  */
-async function consumerGroupDelete() {
+async function consumerGroupDelete(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -35,13 +33,13 @@ async function consumerGroupDelete() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    consumerGroupName
+    consumerGroupName,
   );
   console.log(result);
 }
 
-async function main() {
-  consumerGroupDelete();
+async function main(): Promise<void> {
+  await consumerGroupDelete();
 }
 
 main().catch(console.error);

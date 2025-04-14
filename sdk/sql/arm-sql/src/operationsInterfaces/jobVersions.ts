@@ -11,8 +11,8 @@ import {
   JobVersion,
   JobVersionsListByJobOptionalParams,
   JobVersionsGetOptionalParams,
-  JobVersionsGetResponse
-} from "../models";
+  JobVersionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobVersions. */
@@ -31,7 +31,7 @@ export interface JobVersions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobVersionsListByJobOptionalParams
+    options?: JobVersionsListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobVersion>;
   /**
    * Gets a job version.
@@ -49,6 +49,6 @@ export interface JobVersions {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobVersionsGetOptionalParams
+    options?: JobVersionsGetOptionalParams,
   ): Promise<JobVersionsGetResponse>;
 }

@@ -14,8 +14,8 @@ import {
   DatabaseSecurityAlertPoliciesGetOptionalParams,
   DatabaseSecurityAlertPoliciesGetResponse,
   DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
-  DatabaseSecurityAlertPoliciesCreateOrUpdateResponse
-} from "../models";
+  DatabaseSecurityAlertPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseSecurityAlertPolicies. */
@@ -32,7 +32,7 @@ export interface DatabaseSecurityAlertPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams
+    options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSecurityAlertPolicy>;
   /**
    * Gets a database's security alert policy.
@@ -48,7 +48,7 @@ export interface DatabaseSecurityAlertPolicies {
     serverName: string,
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: DatabaseSecurityAlertPoliciesGetOptionalParams
+    options?: DatabaseSecurityAlertPoliciesGetOptionalParams,
   ): Promise<DatabaseSecurityAlertPoliciesGetResponse>;
   /**
    * Creates or updates a database's security alert policy.
@@ -66,6 +66,6 @@ export interface DatabaseSecurityAlertPolicies {
     databaseName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: DatabaseSecurityAlertPolicy,
-    options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
 }

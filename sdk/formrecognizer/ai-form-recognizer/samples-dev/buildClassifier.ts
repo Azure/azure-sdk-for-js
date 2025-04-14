@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample shows how to programmatically build a custom classifier.
  *
- * The Form Recognizer service expects the training data to be organized and labeled according to a particular
+ * The Document Intelligence service expects the training data to be organized and labeled according to a particular
  * convention and stored in an Azure Storage container. For more information about creating a training data set, please
  * see the information at the following link to the service's documentation:
  *
@@ -13,15 +13,13 @@
  * @summary build a classifier from a training data set
  */
 
-import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-import { FormRecognizerError } from "../src/error";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const random = Date.now().toString();
   const modelId =
@@ -57,7 +55,7 @@ async function main() {
       onProgress(state) {
         console.log(`Training status: ${state.status}`);
       },
-    }
+    },
   );
 
   let classifier;
@@ -65,7 +63,7 @@ async function main() {
   try {
     classifier = await poller.pollUntilDone();
   } catch (error) {
-    console.log("Training failed:", JSON.stringify(error as FormRecognizerError));
+    console.log("Training failed:", error);
     process.exit(1);
   }
 

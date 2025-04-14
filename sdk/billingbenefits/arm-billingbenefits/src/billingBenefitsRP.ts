@@ -20,22 +20,22 @@ import {
   SavingsPlanOrderImpl,
   SavingsPlanImpl,
   ReservationOrderAliasImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   SavingsPlanOrderAlias,
   SavingsPlanOrder,
   SavingsPlan,
   ReservationOrderAlias
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   BillingBenefitsRPOptionalParams,
   SavingsPlanPurchaseValidateRequest,
   ValidatePurchaseOptionalParams,
   ValidatePurchaseResponse
-} from "./models";
+} from "./models/index.js";
 
 export class BillingBenefitsRP extends coreClient.ServiceClient {
   $host: string;

@@ -4,21 +4,19 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
 import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
 import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
 import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
-import { CommonClientOptions } from '@azure/core-client';
-import { CommunicationIdentifier } from '@azure/communication-common';
-import { CommunicationIdentifierKind } from '@azure/communication-common';
-import { CommunicationTokenCredential } from '@azure/communication-common';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { CommunicationIdentifier } from '@azure/communication-common';
+import type { CommunicationIdentifierKind } from '@azure/communication-common';
+import type { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
@@ -36,6 +34,18 @@ export type AddParticipantsOptions = OperationOptions;
 export interface AddParticipantsRequest {
     participants: ChatParticipant[];
 }
+
+// @public
+export interface ChatAttachment {
+    attachmentType: ChatAttachmentType;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url?: string;
+}
+
+// @public
+export type ChatAttachmentType = "image" | "file" | "unknown";
 
 // @public
 export class ChatClient {
@@ -103,6 +113,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
+    attachments?: ChatAttachment[];
     initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];

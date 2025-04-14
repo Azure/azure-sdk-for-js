@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates properties of Managed CCF
  *
  * @summary Updates properties of Managed CCF
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Update.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Update.json
  */
 async function managedCcfUpdate() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function managedCcfUpdate() {
   const result = await client.managedCCFOperations.beginUpdateAndWait(
     resourceGroupName,
     appName,
-    managedCCF
+    managedCCF,
   );
   console.log(result);
 }

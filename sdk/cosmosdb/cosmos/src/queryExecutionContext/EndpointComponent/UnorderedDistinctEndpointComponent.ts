@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
-import { hashObject } from "../../utils/hashObject";
+// Licensed under the MIT License.
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import { hashObject } from "../../utils/hashObject.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -11,19 +12,25 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     this.hashedResults = new Set();
   }
 
-  public async nextItem(): Promise<Response<any>> {
-    const { headers, result, diagnostics } = await this.executionContext.nextItem();
-    if (result) {
-      const hashedResult = await hashObject(result);
-      if (this.hashedResults.has(hashedResult)) {
-        return { result: undefined, headers, diagnostics };
-      }
-      this.hashedResults.add(hashedResult);
-    }
-    return { result, headers, diagnostics };
-  }
-
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    const buffer: any[] = [];
+    const response = await this.executionContext.fetchMore(diagnosticNode);
+    if (response === undefined || response.result === undefined) {
+      return { result: undefined, headers: response.headers };
+    }
+    for (const item of response.result) {
+      if (item) {
+        const hashedResult = await hashObject(item);
+        if (!this.hashedResults.has(hashedResult)) {
+          buffer.push(item);
+          this.hashedResults.add(hashedResult);
+        }
+      }
+    }
+    return { result: buffer, headers: response.headers };
   }
 }

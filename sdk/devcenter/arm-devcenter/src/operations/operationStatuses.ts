@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatuses } from "../operationsInterfaces";
+import { OperationStatuses } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevCenterClient } from "../devCenterClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevCenterClient } from "../devCenterClient.js";
 import {
   OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse
-} from "../models";
+  OperationStatusesGetResponse,
+} from "../models/index.js";
 
 /** Class containing OperationStatuses operations. */
 export class OperationStatusesImpl implements OperationStatuses {
@@ -37,11 +37,11 @@ export class OperationStatusesImpl implements OperationStatuses {
   get(
     location: string,
     operationId: string,
-    options?: OperationStatusesGetOptionalParams
+    options?: OperationStatusesGetOptionalParams,
   ): Promise<OperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,27 +49,27 @@ export class OperationStatusesImpl implements OperationStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/operationStatuses/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/operationStatuses/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     202: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
+      headersMapper: Mappers.OperationStatusesGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

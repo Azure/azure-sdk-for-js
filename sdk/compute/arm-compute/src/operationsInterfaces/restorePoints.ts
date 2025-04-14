@@ -13,8 +13,8 @@ import {
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
   RestorePointsGetOptionalParams,
-  RestorePointsGetResponse
-} from "../models";
+  RestorePointsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a RestorePoints. */
 export interface RestorePoints {
@@ -32,7 +32,7 @@ export interface RestorePoints {
     restorePointCollectionName: string,
     restorePointName: string,
     parameters: RestorePoint,
-    options?: RestorePointsCreateOptionalParams
+    options?: RestorePointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RestorePointsCreateResponse>,
@@ -53,7 +53,7 @@ export interface RestorePoints {
     restorePointCollectionName: string,
     restorePointName: string,
     parameters: RestorePoint,
-    options?: RestorePointsCreateOptionalParams
+    options?: RestorePointsCreateOptionalParams,
   ): Promise<RestorePointsCreateResponse>;
   /**
    * The operation to delete the restore point.
@@ -66,7 +66,7 @@ export interface RestorePoints {
     resourceGroupName: string,
     restorePointCollectionName: string,
     restorePointName: string,
-    options?: RestorePointsDeleteOptionalParams
+    options?: RestorePointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the restore point.
@@ -79,7 +79,7 @@ export interface RestorePoints {
     resourceGroupName: string,
     restorePointCollectionName: string,
     restorePointName: string,
-    options?: RestorePointsDeleteOptionalParams
+    options?: RestorePointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the restore point.
@@ -92,6 +92,6 @@ export interface RestorePoints {
     resourceGroupName: string,
     restorePointCollectionName: string,
     restorePointName: string,
-    options?: RestorePointsGetOptionalParams
+    options?: RestorePointsGetOptionalParams,
   ): Promise<RestorePointsGetResponse>;
 }

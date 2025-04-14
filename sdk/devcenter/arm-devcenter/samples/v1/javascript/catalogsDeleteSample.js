@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a catalog resource.
  *
  * @summary Deletes a catalog resource.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_Delete.json
  */
 async function catalogsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function catalogsDelete() {
   const result = await client.catalogs.beginDeleteAndWait(
     resourceGroupName,
     devCenterName,
-    catalogName
+    catalogName,
   );
   console.log(result);
 }

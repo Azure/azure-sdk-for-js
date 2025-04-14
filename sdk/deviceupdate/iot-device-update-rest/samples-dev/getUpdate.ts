@@ -10,14 +10,12 @@
 
 import DeviceUpdate, { isUnexpected } from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Get update ==");
   const provider = process.env["DEVICEUPDATE_UPDATE_PROVIDER"] || "";
   const name = process.env["DEVICEUPDATE_UPDATE_NAME"] || "";
@@ -34,7 +32,7 @@ async function main() {
       name +
       "' and version '" +
       version +
-      "'..."
+      "'...",
   );
   const updateResult = await client
     .path(
@@ -42,7 +40,7 @@ async function main() {
       instanceId,
       provider,
       name,
-      version
+      version,
     )
     .get();
 
@@ -69,19 +67,19 @@ async function main() {
       instanceId,
       provider,
       name,
-      version
+      version,
     )
     .get();
 
   if (isUnexpected(filesResult)) {
     throw filesResult.body;
   }
-  filesResult.body.value.forEach((file: string) => {
+  await filesResult.body.value.forEach((file: string) => {
     console.log(file);
   });
 
   console.log("\nGet file data:");
-  filesResult.body.value.forEach(async (fileId: string) => {
+  await filesResult.body.value.forEach(async (fileId: string) => {
     const fileResult = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
@@ -89,7 +87,7 @@ async function main() {
         provider,
         name,
         version,
-        fileId
+        fileId,
       )
       .get();
 

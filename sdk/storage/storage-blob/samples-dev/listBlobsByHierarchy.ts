@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary list blobs by hierarchy, using separators in the blob names, using options for paging, resuming paging, etc.
@@ -9,10 +9,9 @@
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -25,7 +24,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -57,7 +56,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -70,7 +69,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -87,7 +86,7 @@ async function main() {
     }
     for (const blob of page.segment.blobItems) {
       console.log(
-        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`
+        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`,
       );
     }
   }

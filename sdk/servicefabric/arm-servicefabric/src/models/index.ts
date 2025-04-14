@@ -401,7 +401,7 @@ export interface ClusterUpdateParameters {
   clientCertificateCommonNames?: ClientCertificateCommonName[];
   /** The list of client certificates referenced by thumbprint that are allowed to manage the cluster. This will overwrite the existing list. */
   clientCertificateThumbprints?: ClientCertificateThumbprint[];
-  /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
+  /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](https://learn.microsoft.com/rest/api/servicefabric/cluster-versions/list). To get the list of available version for existing clusters use **availableClusterVersions**. */
   clusterCodeVersion?: string;
   /** Indicates if the event store service is enabled. */
   eventStoreServiceEnabled?: boolean;
@@ -842,7 +842,7 @@ export interface Cluster extends Resource {
   clientCertificateCommonNames?: ClientCertificateCommonName[];
   /** The list of client certificates referenced by thumbprint that are allowed to manage the cluster. */
   clientCertificateThumbprints?: ClientCertificateThumbprint[];
-  /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
+  /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](https://learn.microsoft.com/rest/api/servicefabric/cluster-versions/list). To get the list of available version for existing clusters use **availableClusterVersions**. */
   clusterCodeVersion?: string;
   /**
    * The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.
@@ -1428,7 +1428,7 @@ export type VmssZonalUpgradeMode = string;
 
 /** Known values of {@link ClusterUpgradeCadence} that the service accepts. */
 export enum KnownClusterUpgradeCadence {
-  /** Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test/Dev clusters. */
+  /** Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test\/Dev clusters. */
   Wave0 = "Wave0",
   /** Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters. */
   Wave1 = "Wave1",
@@ -1498,8 +1498,8 @@ export enum KnownNotificationChannel {
  */
 export type NotificationChannel = string;
 
-/** Known values of {@link Enum14} that the service accepts. */
-export enum KnownEnum14 {
+/** Known values of {@link ClusterVersionsEnvironment} that the service accepts. */
+export enum KnownClusterVersionsEnvironment {
   /** Windows */
   Windows = "Windows",
   /** Linux */
@@ -1507,14 +1507,14 @@ export enum KnownEnum14 {
 }
 
 /**
- * Defines values for Enum14. \
- * {@link KnownEnum14} can be used interchangeably with Enum14,
+ * Defines values for ClusterVersionsEnvironment. \
+ * {@link KnownClusterVersionsEnvironment} can be used interchangeably with ClusterVersionsEnvironment,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows** \
  * **Linux**
  */
-export type Enum14 = string;
+export type ClusterVersionsEnvironment = string;
 
 /** Known values of {@link ArmUpgradeFailureAction} that the service accepts. */
 export enum KnownArmUpgradeFailureAction {
@@ -1789,6 +1789,20 @@ export interface ClustersListUpgradableVersionsOptionalParams
 export type ClustersListUpgradableVersionsResponse = UpgradableVersionPathResult;
 
 /** Optional parameters. */
+export interface ClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ClustersListByResourceGroupNextResponse = ClusterListResult;
+
+/** Optional parameters. */
+export interface ClustersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClustersListNextResponse = ClusterListResult;
+
+/** Optional parameters. */
 export interface ClusterVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1861,6 +1875,13 @@ export interface ApplicationTypesListOptionalParams
 export type ApplicationTypesListResponse = ApplicationTypeResourceList;
 
 /** Optional parameters. */
+export interface ApplicationTypesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationTypesListNextResponse = ApplicationTypeResourceList;
+
+/** Optional parameters. */
 export interface ApplicationTypeVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1894,6 +1915,13 @@ export interface ApplicationTypeVersionsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type ApplicationTypeVersionsListResponse = ApplicationTypeVersionResourceList;
+
+/** Optional parameters. */
+export interface ApplicationTypeVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationTypeVersionsListNextResponse = ApplicationTypeVersionResourceList;
 
 /** Optional parameters. */
 export interface ApplicationsGetOptionalParams
@@ -1943,6 +1971,13 @@ export interface ApplicationsListOptionalParams
 export type ApplicationsListResponse = ApplicationResourceList;
 
 /** Optional parameters. */
+export interface ApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationsListNextResponse = ApplicationResourceList;
+
+/** Optional parameters. */
 export interface ServicesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1988,6 +2023,13 @@ export interface ServicesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type ServicesListResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServicesListNextResponse = ServiceResourceList;
 
 /** Optional parameters. */
 export interface ServiceFabricManagementClientOptionalParams

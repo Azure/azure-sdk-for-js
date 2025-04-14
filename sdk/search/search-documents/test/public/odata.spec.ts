@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { odata } from "../../src";
+// Licensed under the MIT License.
+import { odata } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("odata", function () {
   it("simple string isn't changed", function () {
@@ -41,7 +39,7 @@ describe("odata", function () {
   it("many arguments", function () {
     assert.strictEqual(
       odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5} and Quux eq ${6}`,
-      "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6"
+      "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6",
     );
   });
 
@@ -80,9 +78,5 @@ describe("odata", function () {
     assert.strictEqual(odata`Foo eq ${"bar"}`, "Foo eq 'bar'");
     assert.strictEqual(odata`Foo eq ${"bar's"}`, "Foo eq 'bar''s'");
     assert.strictEqual(odata`Foo eq ${'"bar"'}`, "Foo eq '\"bar\"'");
-  });
-
-  afterEach(function () {
-    sinon.restore();
   });
 });

@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DiscoverySolution } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DiscoverySolution } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HelpRP } from "../helpRP";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HelpRP } from "../helpRP.js";
 import {
   SolutionMetadataResource,
   DiscoverySolutionListNextOptionalParams,
   DiscoverySolutionListOptionalParams,
   DiscoverySolutionListResponse,
-  DiscoverySolutionListNextResponse
-} from "../models";
+  DiscoverySolutionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DiscoverySolution operations. */
@@ -35,22 +35,21 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
   }
 
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
    * @param options The options parameters.
    */
   public list(
-    scope: string,
-    options?: DiscoverySolutionListOptionalParams
+    options?: DiscoverySolutionListOptionalParams,
   ): PagedAsyncIterableIterator<SolutionMetadataResource> {
-    const iter = this.listPagingAll(scope, options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -62,27 +61,26 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(scope, options, settings);
-      }
+        return this.listPagingPage(options, settings);
+      },
     };
   }
 
   private async *listPagingPage(
-    scope: string,
     options?: DiscoverySolutionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SolutionMetadataResource[]> {
     let result: DiscoverySolutionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(scope, options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(scope, continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -91,51 +89,43 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
   }
 
   private async *listPagingAll(
-    scope: string,
-    options?: DiscoverySolutionListOptionalParams
+    options?: DiscoverySolutionListOptionalParams,
   ): AsyncIterableIterator<SolutionMetadataResource> {
-    for await (const page of this.listPagingPage(scope, options)) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
    * @param options The options parameters.
    */
   private _list(
-    scope: string,
-    options?: DiscoverySolutionListOptionalParams
+    options?: DiscoverySolutionListOptionalParams,
   ): Promise<DiscoverySolutionListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    scope: string,
     nextLink: string,
-    options?: DiscoverySolutionListNextOptionalParams
+    options?: DiscoverySolutionListNextOptionalParams,
   ): Promise<DiscoverySolutionListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec
+      { nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -143,37 +133,37 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/discoverySolutions",
+  path: "/providers/Microsoft.Help/discoverySolutions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiscoveryResponse
+      bodyMapper: Mappers.DiscoveryResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skiptoken
+    Parameters.skiptoken,
   ],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiscoveryResponse
+      bodyMapper: Mappers.DiscoveryResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

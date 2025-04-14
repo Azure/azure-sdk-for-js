@@ -4,13 +4,13 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { CommunicationIdentifier } from '@azure/communication-common';
-import { CommunicationIdentifierKind } from '@azure/communication-common';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { CommunicationIdentifier } from '@azure/communication-common';
+import type { CommunicationIdentifierKind } from '@azure/communication-common';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AddOrUpdateParticipantsOptions = OperationOptions;
@@ -19,6 +19,7 @@ export type AddOrUpdateParticipantsOptions = OperationOptions;
 export interface CommunicationRoom {
     createdOn: Date;
     id: string;
+    pstnDialOutEnabled: boolean;
     validFrom: Date;
     validUntil: Date;
 }
@@ -26,6 +27,7 @@ export interface CommunicationRoom {
 // @public
 export interface CreateRoomOptions extends OperationOptions {
     participants?: RoomParticipantPatch[];
+    pstnDialOutEnabled?: boolean;
     validFrom?: Date;
     validUntil?: Date;
 }
@@ -43,7 +45,7 @@ export type ListParticipantsOptions = OperationOptions;
 export type ListRoomOptions = OperationOptions;
 
 // @public
-export type ParticipantRole = "Presenter" | "Attendee" | "Consumer";
+export type ParticipantRole = "Presenter" | "Attendee" | "Consumer" | "Collaborator";
 
 // @public
 export type RemoveParticipantsOptions = OperationOptions;
@@ -80,6 +82,7 @@ export interface RoomsClientOptions extends CommonClientOptions {
 
 // @public
 export interface UpdateRoomOptions extends OperationOptions {
+    pstnDialOutEnabled?: boolean;
     validFrom?: Date;
     validUntil?: Date;
 }

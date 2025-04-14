@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PredictiveMetric } from "../operationsInterfaces";
+import { PredictiveMetric } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   PredictiveMetricGetOptionalParams,
-  PredictiveMetricGetResponse
-} from "../models";
+  PredictiveMetricGetResponse,
+} from "../models/index.js";
 
 /** Class containing PredictiveMetric operations. */
 export class PredictiveMetricImpl implements PredictiveMetric {
@@ -50,7 +50,7 @@ export class PredictiveMetricImpl implements PredictiveMetric {
     metricNamespace: string,
     metricName: string,
     aggregation: string,
-    options?: PredictiveMetricGetOptionalParams
+    options?: PredictiveMetricGetOptionalParams,
   ): Promise<PredictiveMetricGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -61,9 +61,9 @@ export class PredictiveMetricImpl implements PredictiveMetric {
         metricNamespace,
         metricName,
         aggregation,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -71,31 +71,30 @@ export class PredictiveMetricImpl implements PredictiveMetric {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}/predictiveMetrics",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}/predictiveMetrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PredictiveResponse
+      bodyMapper: Mappers.PredictiveResponse,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion,
-    Parameters.timespan,
-    Parameters.interval,
+    Parameters.apiVersion2,
+    Parameters.timespan1,
+    Parameters.interval1,
     Parameters.metricNamespace,
     Parameters.metricName,
-    Parameters.aggregation
+    Parameters.aggregation1,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.autoscaleSettingName
+    Parameters.resourceGroupName,
+    Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

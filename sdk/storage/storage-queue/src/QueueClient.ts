@@ -1,17 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-  URLBuilder,
-  RequestOptionsBase,
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
+import type {
   EnqueuedMessage,
   DequeuedMessageItem,
   MessagesDequeueHeaders,
@@ -21,34 +14,49 @@ import {
   MessageIdDeleteResponse,
   MessagesClearResponse,
   PeekedMessageItem,
-  QueueCreateResponse,
+  QueueCreateHeaders,
   QueueDeleteResponse,
   QueueGetAccessPolicyHeaders,
   QueueGetPropertiesResponse,
   QueueSetAccessPolicyResponse,
   QueueSetMetadataResponse,
   SignedIdentifierModel,
-} from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
+  QueueCreateResponse,
+  QueueDeleteHeaders,
+  QueueSetMetadataHeaders,
+  QueueGetPropertiesHeaders,
+  QueueSetAccessPolicyHeaders,
+  MessagesClearHeaders,
+  MessageIdDeleteHeaders,
+  MessageIdUpdateHeaders,
+} from "./generatedModels.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient, getStorageClientContext } from "./StorageClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClientContext,
   appendToURLQuery,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
-import { Metadata } from "./models";
-import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
-import { SasIPRange } from "./SasIPRange";
-import { QueueSASPermissions } from "./QueueSASPermissions";
-import { SASProtocol } from "./SASQueryParameters";
+  assertResponse,
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { Metadata } from "./models.js";
+import {
+  generateQueueSASQueryParameters,
+  generateQueueSASQueryParametersInternal,
+} from "./QueueSASSignatureValues.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -154,7 +162,7 @@ export interface SignedIdentifier {
     expiresOn?: Date;
     /**
      * the permissions for the acl policy
-     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
     permissions?: string;
   };
@@ -163,27 +171,13 @@ export interface SignedIdentifier {
 /**
  * Contains response data for the {@link QueueClient.getAccessPolicy} operation.
  */
-export declare type QueueGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifier[];
-} & QueueGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
-  };
+export declare type QueueGetAccessPolicyResponse = WithResponse<
+  {
+    signedIdentifiers: SignedIdentifier[];
+  } & QueueGetAccessPolicyHeaders,
+  QueueGetAccessPolicyHeaders,
+  SignedIdentifierModel[]
+>;
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -197,8 +191,8 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 }
 
 /** Optional parameters. */
-export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+export interface MessagesEnqueueOptionalParams extends CommonOptions {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -211,11 +205,17 @@ export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.sendMessage} operation
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /** Optional parameters. */
-export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+export interface MessagesDequeueOptionalParams extends CommonOptions {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -228,11 +228,17 @@ export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /** Optional parameters. */
-export interface MessagesPeekOptionalParams extends RequestOptionsBase {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+export interface MessagesPeekOptionalParams extends CommonOptions {
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -243,56 +249,48 @@ export interface MessagesPeekOptionalParams extends RequestOptionsBase {
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
  */
-export declare type QueueSendMessageResponse = {
-  /**
-   * The ID of the sent Message.
-   */
-  messageId: string;
-  /**
-   * This value is required to delete the Message.
-   * If deletion fails using this popreceipt then the message has been received
-   * by another client.
-   */
-  popReceipt: string;
-  /**
-   * The time that the message was inserted into the
-   * Queue.
-   */
-  insertedOn: Date;
-  /**
-   * The time that the message will expire and be
-   * automatically deleted.
-   */
-  expiresOn: Date;
-  /**
-   * The time that the message will again become
-   * visible in the Queue.
-   */
-  nextVisibleOn: Date;
-} & MessagesEnqueueHeaders & {
+export declare type QueueSendMessageResponse = WithResponse<
+  {
     /**
-     * The underlying HTTP response.
+     * The ID of the sent Message.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
-  };
+    messageId: string;
+    /**
+     * This value is required to delete the Message.
+     * If deletion fails using this popreceipt then the message has been received
+     * by another client.
+     */
+    popReceipt: string;
+    /**
+     * The time that the message was inserted into the
+     * Queue.
+     */
+    insertedOn: Date;
+    /**
+     * The time that the message will expire and be
+     * automatically deleted.
+     */
+    expiresOn: Date;
+    /**
+     * The time that the message will again become
+     * visible in the Queue.
+     */
+    nextVisibleOn: Date;
+  } & MessagesEnqueueHeaders,
+  MessagesEnqueueHeaders,
+  EnqueuedMessage[]
+>;
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -304,52 +302,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 /**
  * Contains the response data for the {@link QueueClient.receiveMessages} operation.
  */
-export declare type QueueReceiveMessageResponse = {
-  receivedMessageItems: ReceivedMessageItem[];
-} & MessagesDequeueHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
-  };
+export declare type QueueReceiveMessageResponse = WithResponse<
+  {
+    receivedMessageItems: ReceivedMessageItem[];
+  } & MessagesDequeueHeaders,
+  MessagesDequeueHeaders,
+  ReceivedMessageItem[]
+>;
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
  */
-export declare type QueuePeekMessagesResponse = {
-  peekedMessageItems: PeekedMessageItem[];
-} & MessagesPeekHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
-  };
+export declare type QueuePeekMessagesResponse = WithResponse<
+  {
+    peekedMessageItems: PeekedMessageItem[];
+  } & MessagesPeekHeaders,
+  MessagesPeekHeaders,
+  PeekedMessageItem[]
+>;
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -447,7 +417,7 @@ export interface QueueGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 }
@@ -504,7 +474,7 @@ export class QueueClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of QueueClient.
@@ -527,12 +497,12 @@ export class QueueClient extends StorageClient {
       | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     options = options || {};
     let pipeline: Pipeline;
     let url: string;
-    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrQueueName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
@@ -549,7 +519,7 @@ export class QueueClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-      // The second paramter is undefined. Use anonymous credential.
+      // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -563,7 +533,7 @@ export class QueueClient extends StorageClient {
           const queueName = credentialOrPipelineOrQueueName;
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName,
-            extractedCreds.accountKey
+            extractedCreds.accountKey,
           );
           url = appendToURLPath(extractedCreds.url, queueName);
 
@@ -581,7 +551,7 @@ export class QueueClient extends StorageClient {
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
-          "Connection string must be either an Account connection string or a SAS connection string"
+          "Connection string must be either an Account connection string or a SAS connection string",
         );
       }
     } else {
@@ -589,7 +559,7 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = new Queue(this.storageClientContext);
+    this.queueContext = this.storageClientContext.queue;
 
     // MessagesContext
     // Build the url with "messages"
@@ -598,7 +568,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
 
-    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
+    this.messagesContext = getStorageClientContext(this._messagesUrl, this.pipeline).messages;
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -608,161 +578,154 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
+    return getStorageClientContext(urlWithMessageId, this.pipeline).messageId;
   }
 
   /**
    * Creates a new queue under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param options - Options to Queue create operation.
    * @returns Response data for the Queue create operation.
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-create", options);
-    try {
-      return await this.queueContext.create({
-        ...updatedOptions,
-        abortSignal: options.abortSignal,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-create", options, async (updatedOptions) => {
+      return assertResponse<QueueCreateHeaders, QueueCreateHeaders>(
+        await this.queueContext.create(updatedOptions),
+      );
+    });
   }
 
   /**
    * Creates a new queue under the specified account if it doesn't already exist.
    * If the queue already exists, it is not changed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param options -
    */
   public async createIfNotExists(
-    options: QueueCreateOptions = {}
+    options: QueueCreateOptions = {},
   ): Promise<QueueCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-createIfNotExists", options);
-    try {
-      const response = await this.create(updatedOptions);
+    return tracingClient.withSpan(
+      "QueueClient-createIfNotExists",
+      options,
+      async (updatedOptions) => {
+        try {
+          const response = await this.create(updatedOptions);
 
-      // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
-      // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
-      // If the existing metadata does not match, the operation fails and status code 409 (Conflict) is returned.
-      if (response._response.status === 204) {
-        return {
-          succeeded: false,
-          ...response,
-        };
-      }
-      return {
-        succeeded: true,
-        ...response,
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "QueueAlreadyExists") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a queue only if it does not already exist.",
-        });
-        return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
-        };
-      }
+          // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
+          // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
+          // If the existing metadata does not match, the operation fails and status code 409 (Conflict) is returned.
+          if (response._response.status === 204) {
+            return {
+              succeeded: false,
+              ...response,
+            };
+          }
+          return {
+            succeeded: true,
+            ...response,
+          };
+        } catch (e: any) {
+          if (e.details?.errorCode === "QueueAlreadyExists") {
+            return {
+              succeeded: false,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          }
 
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+          throw e;
+        }
+      },
+    );
   }
 
   /**
    * Deletes the specified queue permanently if it exists.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param options -
    */
   public async deleteIfExists(
-    options: QueueDeleteOptions = {}
+    options: QueueDeleteOptions = {},
   ): Promise<QueueDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-deleteIfExists", options);
-    try {
-      const res = await this.delete(updatedOptions);
-      return {
-        succeeded: true,
-        ...res,
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "QueueNotFound") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a queue only if it exists.",
-        });
+    return tracingClient.withSpan("QueueClient-deleteIfExists", options, async (updatedOptions) => {
+      try {
+        const res = await this.delete(updatedOptions);
         return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
+          succeeded: true,
+          ...res,
         };
+      } catch (e: any) {
+        if (e.details?.errorCode === "QueueNotFound") {
+          return {
+            succeeded: false,
+            ...e.response?.parsedHeaders,
+            _response: e.response,
+          };
+        }
+        throw e;
       }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * Deletes the specified queue permanently.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param options - Options to Queue delete operation.
    * @returns Response data for the Queue delete operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleDeleteQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const deleteQueueResponse = await queueClient.delete();
    * console.log(
-   *   "Delete queue successfully, service assigned request Id:", deleteQueueResponse.requestId
+   *   `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
    * );
    * ```
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-delete", options);
-    try {
-      return await this.queueContext.delete({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-delete", options, async (updatedOptions) => {
+      return assertResponse<QueueDeleteHeaders, QueueDeleteHeaders>(
+        await this.queueContext.delete({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
+    });
   }
 
   /**
@@ -775,35 +738,23 @@ export class QueueClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("QueueClient-exists", options);
-    try {
-      await this.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      return true;
-    } catch (e: any) {
-      if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking queue existence",
-        });
-        return false;
+    return tracingClient.withSpan("QueueClient-exists", options, async (updatedOptions) => {
+      try {
+        await this.getProperties(updatedOptions);
+        return true;
+      } catch (e: any) {
+        if (e.statusCode === 404) {
+          return false;
+        }
+        throw e;
       }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * Gets all user-defined metadata and system properties for the specified
    * queue. Metadata is associated with the queue as name-values pairs.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -814,23 +765,13 @@ export class QueueClient extends StorageClient {
    * @returns Response data for the Queue get properties operation.
    */
   public async getProperties(
-    options: QueueGetPropertiesOptions = {}
+    options: QueueGetPropertiesOptions = {},
   ): Promise<QueueGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-getProperties", options);
-    try {
-      return await this.queueContext.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-getProperties", options, async (updatedOptions) => {
+      return assertResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>(
+        await this.queueContext.getProperties(updatedOptions),
+      );
+    });
   }
 
   /**
@@ -838,7 +779,7 @@ export class QueueClient extends StorageClient {
    *
    * If no option provided, or no metadata defined in the option parameter, the queue
    * metadata will be removed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
    * @param metadata - If no metadata provided, all existing metadata will be removed.
    * @param options - Options to Queue set metadata operation.
@@ -846,24 +787,16 @@ export class QueueClient extends StorageClient {
    */
   public async setMetadata(
     metadata?: Metadata,
-    options: QueueSetMetadataOptions = {}
+    options: QueueSetMetadataOptions = {},
   ): Promise<QueueSetMetadataResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-setMetadata", options);
-    try {
-      return await this.queueContext.setMetadata({
-        abortSignal: options.abortSignal,
-        metadata,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-setMetadata", options, async (updatedOptions) => {
+      return assertResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>(
+        await this.queueContext.setMetadata({
+          ...updatedOptions,
+          metadata,
+        }),
+      );
+    });
   }
 
   /**
@@ -872,68 +805,69 @@ export class QueueClient extends StorageClient {
    * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
    * @param options - Options to Queue get access policy operation.
    * @returns Response data for the Queue get access policy operation.
    */
   public async getAccessPolicy(
-    options: QueueGetAccessPolicyOptions = {}
+    options: QueueGetAccessPolicyOptions = {},
   ): Promise<QueueGetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-getAccessPolicy", options);
-    try {
-      const response = await this.queueContext.getAccessPolicy({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+    return tracingClient.withSpan(
+      "QueueClient-getAccessPolicy",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          QueueGetAccessPolicyHeaders & SignedIdentifierModel[],
+          QueueGetAccessPolicyHeaders,
+          SignedIdentifierModel[]
+        >(
+          await this.queueContext.getAccessPolicy({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        );
 
-      const res: QueueGetAccessPolicyResponse = {
-        _response: response._response,
-        date: response.date,
-        requestId: response.requestId,
-        clientRequestId: response.clientRequestId,
-        signedIdentifiers: [],
-        version: response.version,
-        errorCode: response.errorCode,
-      };
+        const res: QueueGetAccessPolicyResponse = {
+          _response: response._response,
+          date: response.date,
+          requestId: response.requestId,
+          clientRequestId: response.clientRequestId,
+          signedIdentifiers: [],
+          version: response.version,
+          errorCode: response.errorCode,
+        };
 
-      for (const identifier of response) {
-        let accessPolicy: any = undefined;
-        if (identifier.accessPolicy) {
-          accessPolicy = {
-            permissions: identifier.accessPolicy.permissions,
-          };
+        for (const identifier of response) {
+          let accessPolicy: any = undefined;
+          if (identifier.accessPolicy) {
+            accessPolicy = {
+              permissions: identifier.accessPolicy.permissions,
+            };
 
-          if (identifier.accessPolicy.expiresOn) {
-            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+            if (identifier.accessPolicy.expiresOn) {
+              accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+            }
+
+            if (identifier.accessPolicy.startsOn) {
+              accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+            }
           }
 
-          if (identifier.accessPolicy.startsOn) {
-            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
-          }
+          res.signedIdentifiers.push({
+            accessPolicy,
+            id: identifier.id,
+          });
         }
 
-        res.signedIdentifiers.push({
-          accessPolicy,
-          id: identifier.id,
-        });
-      }
-
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return res;
+      },
+    );
   }
 
   /**
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
    * @param queueAcl -
    * @param options - Options to Queue set access policy operation.
@@ -941,67 +875,53 @@ export class QueueClient extends StorageClient {
    */
   public async setAccessPolicy(
     queueAcl?: SignedIdentifier[],
-    options: QueueSetAccessPolicyOptions = {}
+    options: QueueSetAccessPolicyOptions = {},
   ): Promise<QueueSetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-setAccessPolicy", options);
-    try {
-      const acl: SignedIdentifierModel[] = [];
-      for (const identifier of queueAcl || []) {
-        acl.push({
-          accessPolicy: {
-            expiresOn: identifier.accessPolicy.expiresOn
-              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
-              : undefined,
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: identifier.accessPolicy.startsOn
-              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : undefined,
-          },
-          id: identifier.id,
-        });
-      }
+    return tracingClient.withSpan(
+      "QueueClient-setAccessPolicy",
+      options,
+      async (updatedOptions) => {
+        const acl: SignedIdentifierModel[] = [];
+        for (const identifier of queueAcl || []) {
+          acl.push({
+            accessPolicy: {
+              expiresOn: identifier.accessPolicy.expiresOn
+                ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+                : undefined,
+              permissions: identifier.accessPolicy.permissions,
+              startsOn: identifier.accessPolicy.startsOn
+                ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+                : undefined,
+            },
+            id: identifier.id,
+          });
+        }
 
-      return await this.queueContext.setAccessPolicy({
-        abortSignal: options.abortSignal,
-        queueAcl: acl,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return assertResponse<QueueSetAccessPolicyHeaders, QueueSetAccessPolicyHeaders>(
+          await this.queueContext.setAccessPolicy({
+            ...updatedOptions,
+            queueAcl: acl,
+          }),
+        );
+      },
+    );
   }
 
   /**
    * Clear deletes all messages from a queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
    * @param options - Options to clear messages operation.
    * @returns Response data for the clear messages operation.
    */
   public async clearMessages(
-    options: QueueClearMessagesOptions = {}
+    options: QueueClearMessagesOptions = {},
   ): Promise<QueueClearMessagesResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-clearMessages", options);
-    try {
-      return await this.messagesContext.clear({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-clearMessages", options, async (updatedOptions) => {
+      return assertResponse<MessagesClearHeaders, MessagesClearHeaders>(
+        await this.messagesContext.clear(updatedOptions),
+      );
+    });
   }
 
   /**
@@ -1009,7 +929,7 @@ export class QueueClient extends StorageClient {
    * the message should be invisible to Dequeue and Peek operations.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/put-message
    *
    * @param messageText - Text of the message to send
    * @param options - Options to send messages operation.
@@ -1017,25 +937,41 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleSendMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
+   * // Send a message into the queue using the sendMessage method.
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
-   *   "Sent message successfully, service assigned message Id:", sendMessageResponse.messageId,
-   *   "service assigned request Id:", sendMessageResponse.requestId
+   *   `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
    * );
    * ```
    */
   public async sendMessage(
     messageText: string,
-    options: QueueSendMessageOptions = {}
+    options: QueueSendMessageOptions = {},
   ): Promise<QueueSendMessageResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-sendMessage", options);
-    try {
-      const response = await this.messagesContext.enqueue(
-        {
-          messageText: messageText,
-        },
-        updatedOptions
+    return tracingClient.withSpan("QueueClient-sendMessage", options, async (updatedOptions) => {
+      const response = assertResponse<
+        MessagesEnqueueHeaders & EnqueuedMessage[],
+        MessagesEnqueueHeaders,
+        EnqueuedMessage[]
+      >(
+        await this.messagesContext.enqueue(
+          {
+            messageText: messageText,
+          },
+          updatedOptions,
+        ),
       );
       const item = response[0];
       return {
@@ -1051,95 +987,110 @@ export class QueueClient extends StorageClient {
         insertedOn: item.insertedOn,
         expiresOn: item.expiresOn,
       };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * receiveMessages retrieves one or more messages from the front of the queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
    * @param options - Options to receive messages operation.
    * @returns Response data for the receive messages operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleReceiveMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const response = await queueClient.receiveMessages();
-   * if (response.receivedMessageItems.length == 1) {
+   * if (response.receivedMessageItems.length === 1) {
    *   const receivedMessageItem = response.receivedMessageItems[0];
-   *   console.log("Processing & deleting message with content:", receivedMessageItem.messageText);
+   *   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
    *   const deleteMessageResponse = await queueClient.deleteMessage(
    *     receivedMessageItem.messageId,
-   *     receivedMessageItem.popReceipt
+   *     receivedMessageItem.popReceipt,
    *   );
    *   console.log(
-   *     "Delete message successfully, service assigned request Id:",
-   *     deleteMessageResponse.requestId
+   *     `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
    *   );
    * }
    * ```
    */
   public async receiveMessages(
-    options: QueueReceiveMessageOptions = {}
+    options: QueueReceiveMessageOptions = {},
   ): Promise<QueueReceiveMessageResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-receiveMessages", options);
-    try {
-      const response = await this.messagesContext.dequeue(updatedOptions);
+    return tracingClient.withSpan(
+      "QueueClient-receiveMessages",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          MessagesDequeueHeaders & DequeuedMessageItem[],
+          MessagesDequeueHeaders,
+          DequeuedMessageItem[]
+        >(await this.messagesContext.dequeue(updatedOptions));
 
-      const res: QueueReceiveMessageResponse = {
-        _response: response._response,
-        date: response.date,
-        requestId: response.requestId,
-        clientRequestId: response.clientRequestId,
-        receivedMessageItems: [],
-        version: response.version,
-        errorCode: response.errorCode,
-      };
+        const res: QueueReceiveMessageResponse = {
+          _response: response._response,
+          date: response.date,
+          requestId: response.requestId,
+          clientRequestId: response.clientRequestId,
+          receivedMessageItems: [],
+          version: response.version,
+          errorCode: response.errorCode,
+        };
 
-      for (const item of response) {
-        res.receivedMessageItems.push(item);
-      }
+        for (const item of response) {
+          res.receivedMessageItems.push(item);
+        }
 
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return res;
+      },
+    );
   }
 
   /**
    * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
    * @param options - Options to peek messages operation.
    * @returns Response data for the peek messages operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSamplePeekMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const peekMessagesResponse = await queueClient.peekMessages();
-   * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);
+   * console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
    * ```
    */
   public async peekMessages(
-    options: QueuePeekMessagesOptions = {}
+    options: QueuePeekMessagesOptions = {},
   ): Promise<QueuePeekMessagesResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-peekMessages", options);
-    try {
-      const response = await this.messagesContext.peek(updatedOptions);
+    return tracingClient.withSpan("QueueClient-peekMessages", options, async (updatedOptions) => {
+      const response = assertResponse<
+        MessagesPeekHeaders & PeekedMessageItem[],
+        MessagesPeekHeaders,
+        PeekedMessageItem[]
+      >(await this.messagesContext.peek(updatedOptions));
 
       const res: QueuePeekMessagesResponse = {
         _response: response._response,
@@ -1156,20 +1107,12 @@ export class QueueClient extends StorageClient {
       }
 
       return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * deleteMessage permanently removes the specified message from its queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param messageId - Id of the message.
    * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
@@ -1179,30 +1122,20 @@ export class QueueClient extends StorageClient {
   public async deleteMessage(
     messageId: string,
     popReceipt: string,
-    options: QueueDeleteMessageOptions = {}
+    options: QueueDeleteMessageOptions = {},
   ): Promise<QueueDeleteMessageResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-deleteMessage", options);
-    try {
-      return await this.getMessageIdContext(messageId).delete(popReceipt, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-deleteMessage", options, async (updatedOptions) => {
+      return assertResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>(
+        await this.getMessageIdContext(messageId).delete(popReceipt, updatedOptions),
+      );
+    });
   }
 
   /**
    * Update changes a message's visibility timeout and contents.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/update-message
    *
    * @param messageId - Id of the message
    * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
@@ -1220,29 +1153,21 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     message?: string,
     visibilityTimeout?: number,
-    options: QueueUpdateMessageOptions = {}
+    options: QueueUpdateMessageOptions = {},
   ): Promise<QueueUpdateMessageResponse> {
-    const { span, updatedOptions } = createSpan("QueueClient-updateMessage", options);
-    let queueMessage = undefined;
-    if (message !== undefined) {
-      queueMessage = { messageText: message };
-    }
-
-    try {
-      return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-        queueMessage,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("QueueClient-updateMessage", options, async (updatedOptions) => {
+      let queueMessage = undefined;
+      if (message !== undefined) {
+        queueMessage = { messageText: message };
+      }
+      return assertResponse<MessageIdUpdateHeaders, MessageIdUpdateHeaders>(
+        await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+          queueMessage,
+        }),
+      );
+    });
   }
 
   private getQueueNameFromUrl(): string {
@@ -1254,21 +1179,21 @@ export class QueueClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
       // http://localhost:10001/devstoreaccount1/queuename
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+      if (parsedUrl.hostname.split(".")[1] === "queue") {
         // "https://myaccount.queue.core.windows.net/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
         // .getPath() -> /devstoreaccount1/queuename
-        queueName = parsedUrl.getPath()!.split("/")[2];
+        queueName = parsedUrl.pathname.split("/")[2];
       } else {
         // "https://customdomain.com/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       }
 
       if (!queueName) {
@@ -1287,7 +1212,7 @@ export class QueueClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1295,7 +1220,7 @@ export class QueueClient extends StorageClient {
   public generateSasUrl(options: QueueGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
+        "Can only generate the SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -1304,9 +1229,37 @@ export class QueueClient extends StorageClient {
         queueName: this.name,
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for QueueClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: QueueGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateQueueSASQueryParametersInternal(
+      {
+        queueName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

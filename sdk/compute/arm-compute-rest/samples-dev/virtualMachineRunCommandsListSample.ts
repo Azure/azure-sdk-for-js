@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineRunCommandsListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import type { VirtualMachineRunCommandsListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available run commands for a subscription in a location.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Lists all available run commands for a subscription in a location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/RunCommand_List.json
  */
-async function virtualMachineRunCommandList() {
+async function virtualMachineRunCommandList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -30,7 +24,7 @@ async function virtualMachineRunCommandList() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

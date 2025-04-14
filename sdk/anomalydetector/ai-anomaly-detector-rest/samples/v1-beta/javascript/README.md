@@ -40,7 +40,7 @@ node sample_detect_change_point.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETECTOR_ENDPOINT="<anomaly detector endpoint>" node sample_detect_change_point.js
+npx dev-tool run vendored cross-env ANOMALY_DETECTOR_API_KEY="<anomaly detector api key>" ANOMALY_DETECTOR_ENDPOINT="<anomaly detector endpoint>" node sample_detect_change_point.js
 ```
 
 ## Next Steps
@@ -51,6 +51,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_detect_entire_series_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_detect_entire_series_anomaly.js
 [sample_detect_last_point_anomaly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_detect_last_point_anomaly.js
 [sample_multivariate_detection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/anomalydetector/ai-anomaly-detector-rest/samples/v1-beta/javascript/sample_multivariate_detection.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md

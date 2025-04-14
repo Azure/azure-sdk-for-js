@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Tags } from ".";
+import type { Tags } from "./index.js";
+import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models/index.js";
 import {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -14,7 +15,6 @@ import {
   BlobDownloadResponse as BlobDownloadResponseInternal,
   BlobDownloadHeaders,
   BlobGetPropertiesHeaders,
-  BlobPropertiesInternal as BlobProperties,
   BlobGetTagsHeaders,
   BlobTags,
   BlobQueryResponse as BlobQueryResponseInternal,
@@ -70,14 +70,16 @@ import {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   PageRange,
-} from "./generated/src/models";
+  BlobGetAccountInfoHeaders,
+  ContainerGetAccountInfoHeaders,
+} from "./generated/src/models/index.js";
 import {
   WithResponse,
   ResponseWithBody,
   ResponseLike,
   ResponseWithHeaders,
   HttpResponse,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 
 /** Contains response data for the appendBlockFromUrl operation. */
 export type AppendBlobAppendBlockFromUrlResponse = WithResponse<
@@ -122,6 +124,11 @@ export type BlobDownloadResponseModel = WithResponse<
 export type BlobGetPropertiesResponseModel = WithResponse<
   BlobGetPropertiesHeaders,
   BlobGetPropertiesHeaders
+>;
+/** Contains response data for the getAccountInfo operation. */
+export type BlobGetAccountInfoResponse = WithResponse<
+  BlobGetAccountInfoHeaders,
+  BlobGetAccountInfoHeaders
 >;
 /** Contains response data for the query operation. */
 export type BlobQueryResponseModel = WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
@@ -184,6 +191,11 @@ export type BlockBlobUploadResponse = WithResponse<BlockBlobUploadHeaders, Block
 export type ContainerCreateResponse = WithResponse<ContainerCreateHeaders, ContainerCreateHeaders>;
 /** Contains response data for the delete operation. */
 export type ContainerDeleteResponse = WithResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>;
+/** Contains response data for the getAccountInfo operation. */
+export type ContainerGetAccountInfoResponse = WithResponse<
+  ContainerGetAccountInfoHeaders,
+  ContainerGetAccountInfoHeaders
+>;
 /** Contains response data for the getProperties operation. */
 export type ContainerGetPropertiesResponse = WithResponse<
   ContainerGetPropertiesHeaders,
@@ -288,6 +300,7 @@ export {
   BlobDeleteImmutabilityPolicyHeaders,
   BlobDownloadHeaders,
   BlobDownloadResponseInternal,
+  BlobGetAccountInfoHeaders,
   BlobGetPropertiesHeaders,
   BlobGetTagsHeaders,
   BlobTags,
@@ -311,6 +324,7 @@ export {
   ContainerCreateHeaders,
   ContainerDeleteHeaders,
   ContainerGetAccessPolicyHeaders,
+  ContainerGetAccountInfoHeaders,
   ContainerGetPropertiesHeaders,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
@@ -403,7 +417,8 @@ export {
   ContainerItem,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   ContainerEncryptionScope,
-} from "./generated/src/models";
+  SyncCopyStatusType,
+} from "./generated/src/models/index.js";
 
 // Following definitions are to avoid breaking change.
 export interface BlobPrefix {
@@ -502,4 +517,9 @@ export interface PageRangeInfo {
   start: number;
   end: number;
   isClear: boolean;
+}
+
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export enum KnownEncryptionAlgorithmType {
+  AES256 = "AES256",
 }

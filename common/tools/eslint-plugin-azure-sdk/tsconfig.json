@@ -4,20 +4,29 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": ["es2017"],
-    "module": "commonjs",
+    "lib": ["es2020"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
     "pretty": true,
     "removeComments": true,
     "strict": true,
-    "target": "es2017",
+    "target": "es2020",
     "types": ["node"],
     "sourceMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "rootDir": "."
   },
-  "include": ["src", "tests"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "tests/**/*.ts",
+    "tests/**/*.mts",
+    "tests/**/*.cts"
+  ]
 }

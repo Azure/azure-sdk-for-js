@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ClusterMonitoringRequest,
   ExtensionsEnableMonitoringOptionalParams,
@@ -18,14 +18,18 @@ import {
   ExtensionsGetAzureMonitorStatusOptionalParams,
   ExtensionsGetAzureMonitorStatusResponse,
   ExtensionsDisableAzureMonitorOptionalParams,
+  ExtensionsEnableAzureMonitorAgentOptionalParams,
+  ExtensionsGetAzureMonitorAgentStatusOptionalParams,
+  ExtensionsGetAzureMonitorAgentStatusResponse,
+  ExtensionsDisableAzureMonitorAgentOptionalParams,
   Extension,
   ExtensionsCreateOptionalParams,
   ExtensionsGetOptionalParams,
   ExtensionsGetResponse,
   ExtensionsDeleteOptionalParams,
   ExtensionsGetAzureAsyncOperationStatusOptionalParams,
-  ExtensionsGetAzureAsyncOperationStatusResponse
-} from "../models";
+  ExtensionsGetAzureAsyncOperationStatusResponse,
+} from "../models/index.js";
 
 /** Interface representing a Extensions. */
 export interface Extensions {
@@ -40,8 +44,8 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsEnableMonitoringOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Operations Management Suite (OMS) on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -53,7 +57,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
+    options?: ExtensionsEnableMonitoringOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of Operations Management Suite (OMS) on the HDInsight cluster.
@@ -64,7 +68,7 @@ export interface Extensions {
   getMonitoringStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetMonitoringStatusOptionalParams
+    options?: ExtensionsGetMonitoringStatusOptionalParams,
   ): Promise<ExtensionsGetMonitoringStatusResponse>;
   /**
    * Disables the Operations Management Suite (OMS) on the HDInsight cluster.
@@ -75,8 +79,8 @@ export interface Extensions {
   beginDisableMonitoring(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsDisableMonitoringOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Operations Management Suite (OMS) on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -86,7 +90,7 @@ export interface Extensions {
   beginDisableMonitoringAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
+    options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<void>;
   /**
    * Enables the Azure Monitor on the HDInsight cluster.
@@ -99,8 +103,8 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Azure Monitor on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -112,7 +116,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of Azure Monitor on the HDInsight cluster.
@@ -123,7 +127,7 @@ export interface Extensions {
   getAzureMonitorStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetAzureMonitorStatusOptionalParams
+    options?: ExtensionsGetAzureMonitorStatusOptionalParams,
   ): Promise<ExtensionsGetAzureMonitorStatusResponse>;
   /**
    * Disables the Azure Monitor on the HDInsight cluster.
@@ -134,8 +138,8 @@ export interface Extensions {
   beginDisableAzureMonitor(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Azure Monitor on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -145,7 +149,66 @@ export interface Extensions {
   beginDisableAzureMonitorAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
+  ): Promise<void>;
+  /**
+   * Enables the Azure Monitor Agent on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The Log Analytics workspace parameters.
+   * @param options The options parameters.
+   */
+  beginEnableAzureMonitorAgent(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: AzureMonitorRequest,
+    options?: ExtensionsEnableAzureMonitorAgentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Enables the Azure Monitor Agent on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The Log Analytics workspace parameters.
+   * @param options The options parameters.
+   */
+  beginEnableAzureMonitorAgentAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: AzureMonitorRequest,
+    options?: ExtensionsEnableAzureMonitorAgentOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets the status of Azure Monitor Agent on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  getAzureMonitorAgentStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ExtensionsGetAzureMonitorAgentStatusOptionalParams,
+  ): Promise<ExtensionsGetAzureMonitorAgentStatusResponse>;
+  /**
+   * Disables the Azure Monitor Agent on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginDisableAzureMonitorAgent(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ExtensionsDisableAzureMonitorAgentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Disables the Azure Monitor Agent on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginDisableAzureMonitorAgentAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ExtensionsDisableAzureMonitorAgentOptionalParams,
   ): Promise<void>;
   /**
    * Creates an HDInsight cluster extension.
@@ -160,8 +223,8 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates an HDInsight cluster extension.
    * @param resourceGroupName The name of the resource group.
@@ -175,7 +238,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<void>;
   /**
    * Gets the extension properties for the specified HDInsight cluster extension.
@@ -188,7 +251,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse>;
   /**
    * Deletes the specified extension for HDInsight cluster.
@@ -201,8 +264,8 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ExtensionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified extension for HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -214,7 +277,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -229,6 +292,6 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     operationId: string,
-    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams
+    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ExtensionsGetAzureAsyncOperationStatusResponse>;
 }

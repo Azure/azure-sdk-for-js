@@ -20,7 +20,7 @@ import {
   TagsObject,
   WorkflowUpdateTagsOptionalParams,
   WorkflowUpdateTagsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowOperations. */

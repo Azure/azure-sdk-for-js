@@ -9,6 +9,9 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 
+/**
+ * Details about any of several different types of Form Recognizer management operations.
+ */
 export type OperationDetailsUnion =
   | OperationDetails
   | DocumentModelBuildOperationDetails
@@ -18,9 +21,9 @@ export type OperationDetailsUnion =
 
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
-  /** Document URL to analyze */
+  /** Document URL to analyze.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to analyze */
+  /** Base64 encoding of the document to analyze.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -96,8 +99,6 @@ export interface AnalyzeResult {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
-  /** Kind of document page. */
-  kind?: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
@@ -116,14 +117,10 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
-  /** Extracted annotations from the page. */
-  annotations?: DocumentAnnotation[];
   /** Extracted barcodes from the page. */
   barcodes?: DocumentBarcode[];
   /** Extracted formulas from the page. */
   formulas?: DocumentFormula[];
-  /** Extracted images from the page. */
-  images?: DocumentImage[];
 }
 
 /** Contiguous region of the concatenated content property, specified as an offset and length. */
@@ -168,16 +165,6 @@ export interface DocumentLine {
   spans: DocumentSpan[];
 }
 
-/** An annotation object that represents a visual annotation in the document, such as checks ✓ and crosses X. */
-export interface DocumentAnnotation {
-  /** Annotation kind. */
-  kind: DocumentAnnotationKind;
-  /** Bounding polygon of the annotation. */
-  polygon: number[];
-  /** Confidence of correctly extracting the annotation. */
-  confidence: number;
-}
-
 /** A barcode object. */
 export interface DocumentBarcode {
   /** Barcode kind. */
@@ -203,18 +190,6 @@ export interface DocumentFormula {
   /** Location of the formula in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the formula. */
-  confidence: number;
-}
-
-/** An image object detected in the page. */
-export interface DocumentImage {
-  /** Bounding polygon of the image. */
-  polygon?: number[];
-  /** Location of the image in the reading order concatenated content. */
-  span: DocumentSpan;
-  /** 1-based page number of the page that contains the image. */
-  pageNumber: number;
-  /** Confidence of correctly identifying the image. */
   confidence: number;
 }
 
@@ -278,8 +253,6 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
-  /** Common name of the key-value pair. */
-  commonName?: string;
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
 }
@@ -433,10 +406,10 @@ export interface BuildDocumentModelRequest {
   description?: string;
   /** Custom document model build mode. */
   buildMode: DocumentBuildMode;
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
@@ -450,7 +423,7 @@ export interface AzureBlobContentSource {
 }
 
 /** File list in Azure Blob Storage. */
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListContentSource {
   /** Azure Blob Storage container URL. */
   containerUrl: string;
   /** Path to a JSONL file within the container specifying a subset of documents for training. */
@@ -637,12 +610,12 @@ export interface BuildDocumentClassifierRequest {
   docTypes: { [propertyName: string]: ClassifierDocumentTypeDetails };
 }
 
-/** Training data source. */
+/** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
 }
 
 /** List document classifiers response object. */
@@ -671,9 +644,9 @@ export interface DocumentClassifierDetails {
 
 /** Document classification parameters. */
 export interface ClassifyDocumentRequest {
-  /** Document URL to classify */
+  /** Document URL to classify.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to classify */
+  /** Base64 encoding of the document to classify.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -728,8 +701,7 @@ export interface DocumentModelCopyToOperationDetails extends OperationDetails {
 }
 
 /** Get Operation response object. */
-export interface DocumentClassifierBuildOperationDetails
-  extends OperationDetails {
+export interface DocumentClassifierBuildOperationDetails extends OperationDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "documentClassifierBuild";
   /** Operation result upon success. */
@@ -779,7 +751,7 @@ export enum KnownStringIndexType {
   /** Character unit represented by a single unicode code point.  Used by Python 3. */
   UnicodeCodePoint = "unicodeCodePoint",
   /** Character unit represented by a 16-bit Unicode code unit.  Used by JavaScript, Java, and .NET. */
-  Utf16CodeUnit = "utf16CodeUnit"
+  Utf16CodeUnit = "utf16CodeUnit",
 }
 
 /**
@@ -796,13 +768,17 @@ export type StringIndexType = string;
 /** Known values of {@link DocumentAnalysisFeature} that the service accepts. */
 export enum KnownDocumentAnalysisFeature {
   /** Perform OCR at a higher resolution to handle documents with fine print. */
-  OcrHighResolution = "ocr.highResolution",
-  /** Enable the detection of mathematical expressions the document. */
-  OcrFormula = "ocr.formula",
+  OcrHighResolution = "ocrHighResolution",
+  /** Enable the detection of the text content language. */
+  Languages = "languages",
+  /** Enable the detection of barcodes in the document. */
+  Barcodes = "barcodes",
+  /** Enable the detection of mathematical expressions in the document. */
+  Formulas = "formulas",
+  /** Enable the detection of general key value pairs (form fields) in the document. */
+  KeyValuePairs = "keyValuePairs",
   /** Enable the recognition of various font styles. */
-  OcrFont = "ocr.font",
-  /** Enable extraction of additional fields via the queryFields query parameter. */
-  QueryFieldsPremium = "queryFields.premium"
+  StyleFont = "styleFont",
 }
 
 /**
@@ -810,43 +786,21 @@ export enum KnownDocumentAnalysisFeature {
  * {@link KnownDocumentAnalysisFeature} can be used interchangeably with DocumentAnalysisFeature,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ocr.highResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
- * **ocr.formula**: Enable the detection of mathematical expressions the document. \
- * **ocr.font**: Enable the recognition of various font styles. \
- * **queryFields.premium**: Enable extraction of additional fields via the queryFields query parameter.
+ * **ocrHighResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
+ * **languages**: Enable the detection of the text content language. \
+ * **barcodes**: Enable the detection of barcodes in the document. \
+ * **formulas**: Enable the detection of mathematical expressions in the document. \
+ * **keyValuePairs**: Enable the detection of general key value pairs (form fields) in the document. \
+ * **styleFont**: Enable the recognition of various font styles.
  */
 export type DocumentAnalysisFeature = string;
-
-/** Known values of {@link DocumentPageKind} that the service accepts. */
-export enum KnownDocumentPageKind {
-  /** A page from a PDF or image file.  All content from Office/HTML files is represented as a single page. */
-  Document = "document",
-  /** A sheet from a spreadsheet. */
-  Sheet = "sheet",
-  /** A slide from a presentation. */
-  Slide = "slide",
-  /** An embedded image from an Office/HTML file. */
-  Image = "image"
-}
-
-/**
- * Defines values for DocumentPageKind. \
- * {@link KnownDocumentPageKind} can be used interchangeably with DocumentPageKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **document**: A page from a PDF or image file.  All content from Office\/HTML files is represented as a single page. \
- * **sheet**: A sheet from a spreadsheet. \
- * **slide**: A slide from a presentation. \
- * **image**: An embedded image from an Office\/HTML file.
- */
-export type DocumentPageKind = string;
 
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
   /** Length unit for image files. */
   Pixel = "pixel",
   /** Length unit for PDF files. */
-  Inch = "inch"
+  Inch = "inch",
 }
 
 /**
@@ -864,7 +818,7 @@ export enum KnownSelectionMarkState {
   /** The selection mark is selected, often indicated by a check ✓ or cross X inside the selection mark. */
   Selected = "selected",
   /** The selection mark is not selected. */
-  Unselected = "unselected"
+  Unselected = "unselected",
 }
 
 /**
@@ -876,24 +830,6 @@ export enum KnownSelectionMarkState {
  * **unselected**: The selection mark is not selected.
  */
 export type SelectionMarkState = string;
-
-/** Known values of {@link DocumentAnnotationKind} that the service accepts. */
-export enum KnownDocumentAnnotationKind {
-  /** A visual check ✓. */
-  Check = "check",
-  /** A visual cross X. */
-  Cross = "cross"
-}
-
-/**
- * Defines values for DocumentAnnotationKind. \
- * {@link KnownDocumentAnnotationKind} can be used interchangeably with DocumentAnnotationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **check**: A visual check ✓. \
- * **cross**: A visual cross X.
- */
-export type DocumentAnnotationKind = string;
 
 /** Known values of {@link DocumentBarcodeKind} that the service accepts. */
 export enum KnownDocumentBarcodeKind {
@@ -930,7 +866,7 @@ export enum KnownDocumentBarcodeKind {
   /** Data matrix code, as defined in ISO/IEC 16022:2006. */
   DataMatrix = "DataMatrix",
   /** MaxiCode, as defined in ISO/IEC 16023:2000. */
-  MaxiCode = "MaxiCode"
+  MaxiCode = "MaxiCode",
 }
 
 /**
@@ -963,7 +899,7 @@ export enum KnownDocumentFormulaKind {
   /** A formula embedded within the content of a paragraph. */
   Inline = "inline",
   /** A formula in display mode that takes up an entire line. */
-  Display = "display"
+  Display = "display",
 }
 
 /**
@@ -991,7 +927,7 @@ export enum KnownParagraphRole {
   /** A note usually placed after the main content on a page. */
   Footnote = "footnote",
   /** A block of formulas, often with shared alignment. */
-  FormulaBlock = "formulaBlock"
+  FormulaBlock = "formulaBlock",
 }
 
 /**
@@ -1020,7 +956,7 @@ export enum KnownDocumentTableCellKind {
   /** Describes the row headers, usually located at the top left corner of a table. */
   StubHead = "stubHead",
   /** Describes the content in (parts of) the table. */
-  Description = "description"
+  Description = "description",
 }
 
 /**
@@ -1041,7 +977,7 @@ export enum KnownFontStyle {
   /** Characters are represented normally. */
   Normal = "normal",
   /** Characters are visually slanted to the right. */
-  Italic = "italic"
+  Italic = "italic",
 }
 
 /**
@@ -1059,7 +995,7 @@ export enum KnownFontWeight {
   /** Characters are represented normally. */
   Normal = "normal",
   /** Characters are represented with thicker strokes. */
-  Bold = "bold"
+  Bold = "bold",
 }
 
 /**
@@ -1101,7 +1037,7 @@ export enum KnownDocumentFieldType {
   /** Parsed address. */
   Address = "address",
   /** Boolean value, normalized to true or false. */
-  Boolean = "boolean"
+  Boolean = "boolean",
 }
 
 /**
@@ -1131,7 +1067,7 @@ export enum KnownDocumentSignatureType {
   /** A signature is detected. */
   Signed = "signed",
   /** No signatures are detected. */
-  Unsigned = "unsigned"
+  Unsigned = "unsigned",
 }
 
 /**
@@ -1149,7 +1085,7 @@ export enum KnownDocumentBuildMode {
   /** Target documents with similar visual templates. */
   Template = "template",
   /** Support documents with diverse visual templates. */
-  Neural = "neural"
+  Neural = "neural",
 }
 
 /**
@@ -1171,7 +1107,7 @@ export enum KnownOperationKind {
   /** Copy an existing document model to potentially a different resource, region, or subscription. */
   DocumentModelCopyTo = "documentModelCopyTo",
   /** Build a new custom classifier model. */
-  DocumentClassifierBuild = "documentClassifierBuild"
+  DocumentClassifierBuild = "documentClassifierBuild",
 }
 
 /**
@@ -1198,18 +1134,9 @@ export type ContentType =
   | "image/png"
   | "image/tiff";
 /** Defines values for AnalyzeResultOperationStatus. */
-export type AnalyzeResultOperationStatus =
-  | "notStarted"
-  | "running"
-  | "failed"
-  | "succeeded";
+export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
 /** Defines values for OperationStatus. */
-export type OperationStatus =
-  | "notStarted"
-  | "running"
-  | "failed"
-  | "succeeded"
-  | "canceled";
+export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
 
 /** Optional parameters. */
 export interface DocumentModelsAnalyzeDocument$binaryOptionalParams
@@ -1222,8 +1149,6 @@ export interface DocumentModelsAnalyzeDocument$binaryOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1237,8 +1162,6 @@ export interface DocumentModelsAnalyzeDocument$textOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1252,30 +1175,25 @@ export interface DocumentModelsAnalyzeDocument$jsonOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Contains response data for the analyzeDocument operation. */
 export type DocumentModelsAnalyzeDocumentResponse = DocumentModelsAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsGetAnalyzeResultOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsGetAnalyzeResultOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAnalyzeResult operation. */
 export type DocumentModelsGetAnalyzeResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
-export interface DocumentModelsBuildModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsBuildModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the buildModel operation. */
 export type DocumentModelsBuildModelResponse = DocumentModelsBuildModelHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsComposeModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsComposeModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the composeModel operation. */
 export type DocumentModelsComposeModelResponse = DocumentModelsComposeModelHeaders;
@@ -1288,54 +1206,46 @@ export interface DocumentModelsAuthorizeModelCopyOptionalParams
 export type DocumentModelsAuthorizeModelCopyResponse = CopyAuthorization;
 
 /** Optional parameters. */
-export interface DocumentModelsCopyModelToOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsCopyModelToOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the copyModelTo operation. */
 export type DocumentModelsCopyModelToResponse = DocumentModelsCopyModelToHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsListModelsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsListModelsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModels operation. */
 export type DocumentModelsListModelsResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
-export interface DocumentModelsGetModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsGetModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModel operation. */
 export type DocumentModelsGetModelResponse = DocumentModelDetails;
 
 /** Optional parameters. */
-export interface DocumentModelsDeleteModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsDeleteModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DocumentModelsListModelsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsListModelsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModelsNext operation. */
 export type DocumentModelsListModelsNextResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
-export interface MiscellaneousListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousListOperationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
 export type MiscellaneousListOperationsResponse = GetOperationsResponse;
 
 /** Optional parameters. */
-export interface MiscellaneousGetOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousGetOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
 export type MiscellaneousGetOperationResponse = OperationDetailsUnion;
 
 /** Optional parameters. */
-export interface MiscellaneousGetResourceInfoOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousGetResourceInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourceInfo operation. */
 export type MiscellaneousGetResourceInfoResponse = ResourceDetails;
@@ -1394,7 +1304,8 @@ export interface DocumentClassifiersClassifyDocument$jsonOptionalParams
 }
 
 /** Contains response data for the classifyDocument operation. */
-export type DocumentClassifiersClassifyDocumentResponse = DocumentClassifiersClassifyDocumentHeaders;
+export type DocumentClassifiersClassifyDocumentResponse =
+  DocumentClassifiersClassifyDocumentHeaders;
 
 /** Optional parameters. */
 export interface DocumentClassifiersGetClassifyResultOptionalParams
@@ -1411,8 +1322,7 @@ export interface DocumentClassifiersListClassifiersNextOptionalParams
 export type DocumentClassifiersListClassifiersNextResponse = GetDocumentClassifiersResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Method used to compute string offset and length. */
   stringIndexType?: StringIndexType;
   /** Api Version */

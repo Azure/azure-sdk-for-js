@@ -1,11 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the updateRegistration() method can be used to update a device registration using
  * Notification Hubs. This sample shows using the getRegistrationById() method to retrieve an existing registration.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *
@@ -13,16 +13,12 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   createClientContext,
   getRegistration,
   updateRegistration,
 } from "@azure/notification-hubs/api";
-
-// Load the .env file if it exists
-
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -31,7 +27,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 // Define an existing Registration ID.
 const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const registration = await getRegistration(context, registrationId);
@@ -41,7 +37,7 @@ async function main() {
     registration.tags = [];
   }
 
-  registration.tags.push("likes_sports");
+  await registration.tags.push("likes_sports");
 
   const registrationResponse = await updateRegistration(context, registration);
 

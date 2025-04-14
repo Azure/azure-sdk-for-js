@@ -8,8 +8,8 @@
 
 import {
   OperationResultGetOptionalParams,
-  OperationResultGetResponse
-} from "../models";
+  OperationResultGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a OperationResult. */
 export interface OperationResult {
@@ -22,6 +22,6 @@ export interface OperationResult {
   get(
     operationId: string,
     location: string,
-    options?: OperationResultGetOptionalParams
+    options?: OperationResultGetOptionalParams,
   ): Promise<OperationResultGetResponse>;
 }

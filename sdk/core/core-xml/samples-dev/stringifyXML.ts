@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -26,7 +26,7 @@ async function main() {
 
 function serializeToAtomXmlRequest(
   resourceName: string,
-  resource: unknown
+  resource: unknown,
 ): Record<string, unknown> {
   const XML_METADATA_MARKER = "$";
   const content: any = {};

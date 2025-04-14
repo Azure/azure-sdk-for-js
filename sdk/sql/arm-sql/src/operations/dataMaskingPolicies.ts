@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataMaskingPolicies } from "../operationsInterfaces";
+import { DataMaskingPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   DataMaskingPolicy,
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesCreateOrUpdateResponse,
   DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
-} from "../models";
+  DataMaskingPoliciesGetResponse,
+} from "../models/index.js";
 
 /** Class containing DataMaskingPolicies operations. */
 export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
@@ -45,11 +45,11 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
     serverName: string,
     databaseName: string,
     parameters: DataMaskingPolicy,
-    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
+    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -65,11 +65,11 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
+    options?: DataMaskingPoliciesGetOptionalParams,
   ): Promise<DataMaskingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -77,13 +77,12 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingPolicy
-    }
+      bodyMapper: Mappers.DataMaskingPolicy,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -93,20 +92,19 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.dataMaskingPolicyName
+    Parameters.dataMaskingPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMaskingPolicy
-    }
+      bodyMapper: Mappers.DataMaskingPolicy,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -115,8 +113,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.dataMaskingPolicyName
+    Parameters.dataMaskingPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

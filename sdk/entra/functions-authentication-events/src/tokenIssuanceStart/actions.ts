@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenIssuanceStartAction } from "./context";
+import type { TokenIssuanceStartAction } from "./context.js";
 
 /**
  * An Interface for the Provide Claims for token action.

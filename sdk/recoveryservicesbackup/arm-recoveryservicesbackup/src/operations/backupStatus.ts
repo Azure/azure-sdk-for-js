@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BackupStatus } from "../operationsInterfaces";
+import { BackupStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   BackupStatusRequest,
   BackupStatusGetOptionalParams,
-  BackupStatusGetResponse
-} from "../models";
+  BackupStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing BackupStatus operations. */
 export class BackupStatusImpl implements BackupStatus {
@@ -38,11 +38,11 @@ export class BackupStatusImpl implements BackupStatus {
   get(
     azureRegion: string,
     parameters: BackupStatusRequest,
-    options?: BackupStatusGetOptionalParams
+    options?: BackupStatusGetOptionalParams,
   ): Promise<BackupStatusGetResponse> {
     return this.client.sendOperationRequest(
       { azureRegion, parameters, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,22 +50,21 @@ export class BackupStatusImpl implements BackupStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupStatus",
+  path: "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupStatusResponse
-    }
+      bodyMapper: Mappers.BackupStatusResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.azureRegion
+    Parameters.azureRegion,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

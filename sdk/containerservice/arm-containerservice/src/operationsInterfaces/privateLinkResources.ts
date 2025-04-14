@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesListResponse
-} from "../models";
+  PrivateLinkResourcesListResponse,
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
@@ -22,6 +22,6 @@ export interface PrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): Promise<PrivateLinkResourcesListResponse>;
 }

@@ -1,14 +1,62 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 7.9.1 (Unreleased)
+## 7.10.0 (Unreleased)
 
 ### Features Added
+
+- Adds `deleteMessages` which deletes messages from the queue.
+- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Remove port number from fully qualified namespace.
+
+## 7.9.5 (2024-06-11)
+
+### Bugs Fixed
+
+- Fix an issue where `rhea-promise` receivers are not properly closed in `MessageSession.createRheaLink()` [PR #29954](https://github.com/Azure/azure-sdk-for-js/pull/29954)
+
+### Other Changes
+
+- Wait up to max wait time for draining credit when receiving messages [PR #28604](https://github.com/Azure/azure-sdk-for-js/pull/28604)
+
+## 7.9.4 (2024-02-06)
+
+### Bugs Fixed
+
+- Wait for user error handler to finish when possible in session receivers. [PR #27716](https://github.com/Azure/azure-sdk-for-js/pull/27716)
+- Complete message before requesting the next one in session receivers [PR #27634](https://github.com/Azure/azure-sdk-for-js/pull/27634)
+- Correct timeToLive calculation to use absolute expiry time.
+
+## 7.9.3 (2023-11-07)
+
+### Bugs Fixed
+
+- Throw a retryable error when sending message and link is detached [PR #27557](https://github.com/Azure/azure-sdk-for-js/pull/27557)
+
+### Other Changes
+
+- Add check to ensure argument to `scheduledEnqueueTimeUtc` of `scheduleMessages()` method is an instance of `Date` [PR #27396](https://github.com/Azure/azure-sdk-for-js/pull/27396)
+
+## 7.9.2 (2023-10-10)
+
+### Bugs Fixed
+
+- Fix an INTERNAL ERROR due to timing [PR #27308](https://github.com/Azure/azure-sdk-for-js/pull/27308)
+
+## 7.9.1 (2023-09-12)
+
+### Other Changes
+
+- Check whether we can send messages before making management requests. [PR #26927](https://github.com/Azure/azure-sdk-for-js/pull/26927)
 
 ## 7.9.0 (2023-04-11)
 
@@ -323,7 +371,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   [PR 12013](https://github.com/Azure/azure-sdk-for-js/pull/12013)
 - The raw responses(`_response`) in the returned objects from any of the methods under the `ServiceBusAdministrationClient` have been updated to return only the `{request, status, headers}`, properties such as `parsedHeaders`, `parsedBody` have been removed.
   [PR 12015](https://github.com/Azure/azure-sdk-for-js/pull/12015)
-- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
+- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
 - Removed `AmqpAnnotatedMessage`, `AmqpMessageHeaders`, `AmqpMessageProperties` interfaces in favour of the ones from `@azure/core-amqp`. This is part of the move from `@azure/core-amqp` version update from 1.1.x to 2.0.0-beta.y. As part of this, `userId` will not be made available as part of `AmqpMessageProperties` until its type is fixed in the upstream `rhea` library.
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
 
@@ -380,8 +428,8 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
   ```typescript
   // this same method will work with subscriptions as well.
-  serviceBusClient.createReceiver(<queue>, {
-    subQueue: "deadLetter"
+  serviceBusClient.createReceiver("<queue name>", {
+    subQueue: "deadLetter",
   });
   ```
 
@@ -498,7 +546,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://learn.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://learn.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

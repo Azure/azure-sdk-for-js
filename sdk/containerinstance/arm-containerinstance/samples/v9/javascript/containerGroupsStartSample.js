@@ -26,7 +26,7 @@ async function containerStart() {
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginStartAndWait(
     resourceGroupName,
-    containerGroupName
+    containerGroupName,
   );
   console.log(result);
 }

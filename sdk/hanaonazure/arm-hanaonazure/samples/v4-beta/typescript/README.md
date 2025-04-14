@@ -58,7 +58,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/operationsListSample.js
+npx dev-tool run vendored cross-env  node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -75,7 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sapmonitorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/typescript/src/sapMonitorsGetSample.ts
 [sapmonitorslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/typescript/src/sapMonitorsListSample.ts
 [sapmonitorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/typescript/src/sapMonitorsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hanaonazure/arm-hanaonazure/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

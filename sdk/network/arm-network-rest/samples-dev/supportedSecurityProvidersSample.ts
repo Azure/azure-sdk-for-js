@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  SupportedSecurityProvidersParameters,
-} from "@azure-rest/arm-network";
+import type { SupportedSecurityProvidersParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gives the supported security providers for the virtual wan.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Gives the supported security providers for the virtual wan.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualWanSupportedSecurityProviders.json
  */
-async function supportedSecurityProviders() {
+async function supportedSecurityProviders(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -31,7 +25,7 @@ async function supportedSecurityProviders() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
       subscriptionId,
       resourceGroupName,
-      virtualWANName
+      virtualWANName,
     )
     .get(options);
   console.log(result);

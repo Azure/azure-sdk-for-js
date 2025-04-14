@@ -7,21 +7,27 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { TableResources } from "../operationsInterfaces";
+import { TableResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   TableGetResults,
   TableResourcesListTablesOptionalParams,
   TableResourcesListTablesResponse,
+  TableRoleDefinitionResource,
+  TableResourcesListTableRoleDefinitionsOptionalParams,
+  TableResourcesListTableRoleDefinitionsResponse,
+  TableRoleAssignmentResource,
+  TableResourcesListTableRoleAssignmentsOptionalParams,
+  TableResourcesListTableRoleAssignmentsResponse,
   TableResourcesGetTableOptionalParams,
   TableResourcesGetTableResponse,
   TableCreateUpdateParameters,
@@ -40,8 +46,18 @@ import {
   TableResourcesMigrateTableToManualThroughputResponse,
   ContinuousBackupRestoreLocation,
   TableResourcesRetrieveContinuousBackupInformationOptionalParams,
-  TableResourcesRetrieveContinuousBackupInformationResponse
-} from "../models";
+  TableResourcesRetrieveContinuousBackupInformationResponse,
+  TableResourcesGetTableRoleDefinitionOptionalParams,
+  TableResourcesGetTableRoleDefinitionResponse,
+  TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  TableResourcesCreateUpdateTableRoleDefinitionResponse,
+  TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  TableResourcesGetTableRoleAssignmentOptionalParams,
+  TableResourcesGetTableRoleAssignmentResponse,
+  TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  TableResourcesCreateUpdateTableRoleAssignmentResponse,
+  TableResourcesDeleteTableRoleAssignmentOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TableResources operations. */
@@ -65,12 +81,12 @@ export class TableResourcesImpl implements TableResources {
   public listTables(
     resourceGroupName: string,
     accountName: string,
-    options?: TableResourcesListTablesOptionalParams
+    options?: TableResourcesListTablesOptionalParams,
   ): PagedAsyncIterableIterator<TableGetResults> {
     const iter = this.listTablesPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +103,9 @@ export class TableResourcesImpl implements TableResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -97,7 +113,7 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     options?: TableResourcesListTablesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<TableGetResults[]> {
     let result: TableResourcesListTablesResponse;
     result = await this._listTables(resourceGroupName, accountName, options);
@@ -107,12 +123,144 @@ export class TableResourcesImpl implements TableResources {
   private async *listTablesPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: TableResourcesListTablesOptionalParams
+    options?: TableResourcesListTablesOptionalParams,
   ): AsyncIterableIterator<TableGetResults> {
     for await (const page of this.listTablesPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  public listTableRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleDefinitionsOptionalParams,
+  ): PagedAsyncIterableIterator<TableRoleDefinitionResource> {
+    const iter = this.listTableRoleDefinitionsPagingAll(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listTableRoleDefinitionsPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listTableRoleDefinitionsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleDefinitionsOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<TableRoleDefinitionResource[]> {
+    let result: TableResourcesListTableRoleDefinitionsResponse;
+    result = await this._listTableRoleDefinitions(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    yield result.value || [];
+  }
+
+  private async *listTableRoleDefinitionsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleDefinitionsOptionalParams,
+  ): AsyncIterableIterator<TableRoleDefinitionResource> {
+    for await (const page of this.listTableRoleDefinitionsPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Assignments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  public listTableRoleAssignments(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleAssignmentsOptionalParams,
+  ): PagedAsyncIterableIterator<TableRoleAssignmentResource> {
+    const iter = this.listTableRoleAssignmentsPagingAll(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listTableRoleAssignmentsPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listTableRoleAssignmentsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleAssignmentsOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<TableRoleAssignmentResource[]> {
+    let result: TableResourcesListTableRoleAssignmentsResponse;
+    result = await this._listTableRoleAssignments(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    yield result.value || [];
+  }
+
+  private async *listTableRoleAssignmentsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleAssignmentsOptionalParams,
+  ): AsyncIterableIterator<TableRoleAssignmentResource> {
+    for await (const page of this.listTableRoleAssignmentsPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +275,11 @@ export class TableResourcesImpl implements TableResources {
   private _listTables(
     resourceGroupName: string,
     accountName: string,
-    options?: TableResourcesListTablesOptionalParams
+    options?: TableResourcesListTablesOptionalParams,
   ): Promise<TableResourcesListTablesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listTablesOperationSpec
+      listTablesOperationSpec,
     );
   }
 
@@ -146,11 +294,11 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesGetTableOptionalParams
+    options?: TableResourcesGetTableOptionalParams,
   ): Promise<TableResourcesGetTableResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
-      getTableOperationSpec
+      getTableOperationSpec,
     );
   }
 
@@ -167,7 +315,7 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     createUpdateTableParameters: TableCreateUpdateParameters,
-    options?: TableResourcesCreateUpdateTableOptionalParams
+    options?: TableResourcesCreateUpdateTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesCreateUpdateTableResponse>,
@@ -176,21 +324,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesCreateUpdateTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -199,8 +346,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -208,8 +355,8 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -220,16 +367,16 @@ export class TableResourcesImpl implements TableResources {
         accountName,
         tableName,
         createUpdateTableParameters,
-        options
+        options,
       },
-      spec: createUpdateTableOperationSpec
+      spec: createUpdateTableOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesCreateUpdateTableResponse,
       OperationState<TableResourcesCreateUpdateTableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -248,14 +395,14 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     createUpdateTableParameters: TableCreateUpdateParameters,
-    options?: TableResourcesCreateUpdateTableOptionalParams
+    options?: TableResourcesCreateUpdateTableOptionalParams,
   ): Promise<TableResourcesCreateUpdateTableResponse> {
     const poller = await this.beginCreateUpdateTable(
       resourceGroupName,
       accountName,
       tableName,
       createUpdateTableParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -271,7 +418,7 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesDeleteTableOptionalParams
+    options?: TableResourcesDeleteTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesDeleteTableResponse>,
@@ -280,21 +427,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesDeleteTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -303,8 +449,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -312,22 +458,22 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, tableName, options },
-      spec: deleteTableOperationSpec
+      spec: deleteTableOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesDeleteTableResponse,
       OperationState<TableResourcesDeleteTableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -344,13 +490,13 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesDeleteTableOptionalParams
+    options?: TableResourcesDeleteTableOptionalParams,
   ): Promise<TableResourcesDeleteTableResponse> {
     const poller = await this.beginDeleteTable(
       resourceGroupName,
       accountName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -367,11 +513,11 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesGetTableThroughputOptionalParams
+    options?: TableResourcesGetTableThroughputOptionalParams,
   ): Promise<TableResourcesGetTableThroughputResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
-      getTableThroughputOperationSpec
+      getTableThroughputOperationSpec,
     );
   }
 
@@ -389,7 +535,7 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: TableResourcesUpdateTableThroughputOptionalParams
+    options?: TableResourcesUpdateTableThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesUpdateTableThroughputResponse>,
@@ -398,21 +544,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesUpdateTableThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -421,8 +566,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -430,8 +575,8 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -442,16 +587,16 @@ export class TableResourcesImpl implements TableResources {
         accountName,
         tableName,
         updateThroughputParameters,
-        options
+        options,
       },
-      spec: updateTableThroughputOperationSpec
+      spec: updateTableThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesUpdateTableThroughputResponse,
       OperationState<TableResourcesUpdateTableThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -471,14 +616,14 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: TableResourcesUpdateTableThroughputOptionalParams
+    options?: TableResourcesUpdateTableThroughputOptionalParams,
   ): Promise<TableResourcesUpdateTableThroughputResponse> {
     const poller = await this.beginUpdateTableThroughput(
       resourceGroupName,
       accountName,
       tableName,
       updateThroughputParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -494,7 +639,7 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToAutoscaleOptionalParams
+    options?: TableResourcesMigrateTableToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesMigrateTableToAutoscaleResponse>,
@@ -503,21 +648,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesMigrateTableToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -526,8 +670,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -535,22 +679,22 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, tableName, options },
-      spec: migrateTableToAutoscaleOperationSpec
+      spec: migrateTableToAutoscaleOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesMigrateTableToAutoscaleResponse,
       OperationState<TableResourcesMigrateTableToAutoscaleResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -567,13 +711,13 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToAutoscaleOptionalParams
+    options?: TableResourcesMigrateTableToAutoscaleOptionalParams,
   ): Promise<TableResourcesMigrateTableToAutoscaleResponse> {
     const poller = await this.beginMigrateTableToAutoscale(
       resourceGroupName,
       accountName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -589,7 +733,7 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToManualThroughputOptionalParams
+    options?: TableResourcesMigrateTableToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesMigrateTableToManualThroughputResponse>,
@@ -598,21 +742,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesMigrateTableToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -621,8 +764,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -630,22 +773,22 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, tableName, options },
-      spec: migrateTableToManualThroughputOperationSpec
+      spec: migrateTableToManualThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesMigrateTableToManualThroughputResponse,
       OperationState<TableResourcesMigrateTableToManualThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -662,13 +805,13 @@ export class TableResourcesImpl implements TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToManualThroughputOptionalParams
+    options?: TableResourcesMigrateTableToManualThroughputOptionalParams,
   ): Promise<TableResourcesMigrateTableToManualThroughputResponse> {
     const poller = await this.beginMigrateTableToManualThroughput(
       resourceGroupName,
       accountName,
       tableName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -686,7 +829,7 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesRetrieveContinuousBackupInformationResponse>,
@@ -695,21 +838,20 @@ export class TableResourcesImpl implements TableResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -718,8 +860,8 @@ export class TableResourcesImpl implements TableResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -727,15 +869,15 @@ export class TableResourcesImpl implements TableResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, tableName, location, options },
-      spec: retrieveContinuousBackupInformationOperationSpec
+      spec: retrieveContinuousBackupInformationOperationSpec,
     });
     const poller = await createHttpPoller<
       TableResourcesRetrieveContinuousBackupInformationResponse,
@@ -743,7 +885,7 @@ export class TableResourcesImpl implements TableResources {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -762,48 +904,486 @@ export class TableResourcesImpl implements TableResources {
     accountName: string,
     tableName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse> {
     const poller = await this.beginRetrieveContinuousBackupInformation(
       resourceGroupName,
       accountName,
       tableName,
       location,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Table Role Definition with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  getTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesGetTableRoleDefinitionOptionalParams,
+  ): Promise<TableResourcesGetTableRoleDefinitionResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, roleDefinitionId, options },
+      getTableRoleDefinitionOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateTableRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateTableRoleDefinitionParameters: TableRoleDefinitionResource,
+    options?: TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesCreateUpdateTableRoleDefinitionResponse>,
+      TableResourcesCreateUpdateTableRoleDefinitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<TableResourcesCreateUpdateTableRoleDefinitionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        roleDefinitionId,
+        createUpdateTableRoleDefinitionParameters,
+        options,
+      },
+      spec: createUpdateTableRoleDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      TableResourcesCreateUpdateTableRoleDefinitionResponse,
+      OperationState<TableResourcesCreateUpdateTableRoleDefinitionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateTableRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateTableRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateTableRoleDefinitionParameters: TableRoleDefinitionResource,
+    options?: TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  ): Promise<TableResourcesCreateUpdateTableRoleDefinitionResponse> {
+    const poller = await this.beginCreateUpdateTableRoleDefinition(
+      resourceGroupName,
+      accountName,
+      roleDefinitionId,
+      createUpdateTableRoleDefinitionParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  async beginDeleteTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, roleDefinitionId, options },
+      spec: deleteTableRoleDefinitionOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  async beginDeleteTableRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteTableRoleDefinition(
+      resourceGroupName,
+      accountName,
+      roleDefinitionId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  private _listTableRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleDefinitionsOptionalParams,
+  ): Promise<TableResourcesListTableRoleDefinitionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listTableRoleDefinitionsOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Table Role Assignment with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  getTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesGetTableRoleAssignmentOptionalParams,
+  ): Promise<TableResourcesGetTableRoleAssignmentResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, roleAssignmentId, options },
+      getTableRoleAssignmentOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateTableRoleAssignmentParameters The properties required to create or update a Role
+   *                                                  Assignment.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateTableRoleAssignmentParameters: TableRoleAssignmentResource,
+    options?: TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesCreateUpdateTableRoleAssignmentResponse>,
+      TableResourcesCreateUpdateTableRoleAssignmentResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<TableResourcesCreateUpdateTableRoleAssignmentResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        roleAssignmentId,
+        createUpdateTableRoleAssignmentParameters,
+        options,
+      },
+      spec: createUpdateTableRoleAssignmentOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      TableResourcesCreateUpdateTableRoleAssignmentResponse,
+      OperationState<TableResourcesCreateUpdateTableRoleAssignmentResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateTableRoleAssignmentParameters The properties required to create or update a Role
+   *                                                  Assignment.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateTableRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateTableRoleAssignmentParameters: TableRoleAssignmentResource,
+    options?: TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  ): Promise<TableResourcesCreateUpdateTableRoleAssignmentResponse> {
+    const poller = await this.beginCreateUpdateTableRoleAssignment(
+      resourceGroupName,
+      accountName,
+      roleAssignmentId,
+      createUpdateTableRoleAssignmentParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  async beginDeleteTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesDeleteTableRoleAssignmentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, roleAssignmentId, options },
+      spec: deleteTableRoleAssignmentOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  async beginDeleteTableRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesDeleteTableRoleAssignmentOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteTableRoleAssignment(
+      resourceGroupName,
+      accountName,
+      roleAssignmentId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Assignments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  private _listTableRoleAssignments(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleAssignmentsOptionalParams,
+  ): Promise<TableResourcesListTableRoleAssignmentsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listTableRoleAssignmentsOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listTablesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TableListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TableGetResults
-    }
+      bodyMapper: Mappers.TableListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -811,28 +1391,45 @@ const getTableOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getTableOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableGetResults,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.tableName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createUpdateTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TableGetResults
+      bodyMapper: Mappers.TableGetResults,
     },
     201: {
-      bodyMapper: Mappers.TableGetResults
+      bodyMapper: Mappers.TableGetResults,
     },
     202: {
-      bodyMapper: Mappers.TableGetResults
+      bodyMapper: Mappers.TableGetResults,
     },
     204: {
-      bodyMapper: Mappers.TableGetResults
-    }
+      bodyMapper: Mappers.TableGetResults,
+    },
   },
   requestBody: Parameters.createUpdateTableParameters,
   queryParameters: [Parameters.apiVersion],
@@ -841,29 +1438,28 @@ const createUpdateTableOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders,
     },
     201: {
-      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders,
     },
     202: {
-      headersMapper: Mappers.TableResourcesDeleteTableHeaders
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders,
     },
     204: {
-      headersMapper: Mappers.TableResourcesDeleteTableHeaders
-    }
+      headersMapper: Mappers.TableResourcesDeleteTableHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -871,18 +1467,17 @@ const deleteTableOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
-  serializer
+  serializer,
 };
 const getTableThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -890,28 +1485,27 @@ const getTableThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateTableThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
   },
   requestBody: Parameters.updateThroughputParameters,
   queryParameters: [Parameters.apiVersion],
@@ -920,32 +1514,31 @@ const updateTableThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const migrateTableToAutoscaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -953,31 +1546,30 @@ const migrateTableToAutoscaleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const migrateTableToManualThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -985,42 +1577,240 @@ const migrateTableToManualThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.tableName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation",
-  httpMethod: "POST",
+const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      201: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      202: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      204: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.location,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.tableName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const getTableRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    201: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    202: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    204: {
-      bodyMapper: Mappers.BackupInformation
+      bodyMapper: Mappers.TableRoleDefinitionResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.location,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.tableName
+    Parameters.roleDefinitionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createUpdateTableRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableRoleDefinitionResource,
+    },
+    201: {
+      bodyMapper: Mappers.TableRoleDefinitionResource,
+    },
+    202: {
+      bodyMapper: Mappers.TableRoleDefinitionResource,
+    },
+    204: {
+      bodyMapper: Mappers.TableRoleDefinitionResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.createUpdateTableRoleDefinitionParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.roleDefinitionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const deleteTableRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions/{roleDefinitionId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.roleDefinitionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listTableRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableRoleDefinitionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getTableRoleAssignmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableRoleAssignmentResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.roleAssignmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createUpdateTableRoleAssignmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableRoleAssignmentResource,
+    },
+    201: {
+      bodyMapper: Mappers.TableRoleAssignmentResource,
+    },
+    202: {
+      bodyMapper: Mappers.TableRoleAssignmentResource,
+    },
+    204: {
+      bodyMapper: Mappers.TableRoleAssignmentResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.createUpdateTableRoleAssignmentParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.roleAssignmentId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteTableRoleAssignmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments/{roleAssignmentId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.roleAssignmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listTableRoleAssignmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tableRoleAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TableRoleAssignmentListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

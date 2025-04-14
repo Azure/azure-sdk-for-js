@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a security automation.
  *
  * @summary Deletes a security automation.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/DeleteAutomation_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/DeleteAutomation_example.json
  */
-async function deleteASecurityAutomation() {
+async function deleteASecurityAutomation(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -30,12 +28,12 @@ async function deleteASecurityAutomation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.automations.delete(
     resourceGroupName,
-    automationName
+    automationName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteASecurityAutomation();
 }
 

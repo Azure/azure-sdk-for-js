@@ -6,12 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./streamingJobs";
-export * from "./inputs";
-export * from "./outputs";
-export * from "./transformations";
-export * from "./functions";
-export * from "./subscriptions";
-export * from "./clusters";
-export * from "./privateEndpoints";
+export * from "./functions.js";
+export * from "./inputs.js";
+export * from "./outputs.js";
+export * from "./operations.js";
+export * from "./streamingJobs.js";
+export * from "./skuOperations.js";
+export * from "./subscriptions.js";
+export * from "./transformations.js";
+export * from "./clusters.js";
+export * from "./privateEndpoints.js";

@@ -1,17 +1,40 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ChildProcess, spawn, SpawnOptions } from "child_process";
+import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
 import { createPrinter } from "./printer";
-import { ProjectInfo, resolveRoot } from "./resolveProject";
+import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
-import path from "path";
-import axios from "axios";
-import decompress from "decompress";
-import envPaths from "env-paths";
+import path from "node:path";
+import { extract } from "tar";
+import * as unzipper from "unzipper";
+import { promisify } from "node:util";
+import { PassThrough } from "node:stream";
+import { pipeline } from "node:stream/promises";
+import { delay } from "./checkWithTimeout";
+import process from "node:process";
+import os from "node:os";
 
 const log = createPrinter("test-proxy");
-const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
+const downloadLocation = getTestProxyDownloadLocation();
+
+export function getTestProxyDownloadLocation(): string {
+  const homedir = os.homedir();
+  const downloadPath = "azsdk-dev-tool";
+  switch (process.platform) {
+    case "win32":
+      return path.join(
+        process.env["LOCALAPPDATA"] || path.join(homedir, "AppData", "Local"),
+        downloadPath,
+        "Cache",
+      );
+    case "darwin":
+      return path.join(path.join(homedir, "Library"), "Caches", downloadPath);
+    default:
+      // Assume Linux
+      return path.join(process.env["XDG_CACHE_HOME"] || path.join(homedir, ".cache"), downloadPath);
+  }
+}
 
 /**
  * Represents a test proxy binary artifact archive that is built against a specific platform and architecture.
@@ -79,12 +102,12 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
  */
 function getTestProxyBinary(): TestProxyBinary {
   const result = AVAILABLE_TEST_PROXY_BINARIES.find(
-    ({ platform, architecture }) => platform === process.platform && architecture === process.arch
+    ({ platform, architecture }) => platform === process.platform && architecture === process.arch,
   );
 
   if (!result) {
     throw new Error(
-      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`
+      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`,
     );
   }
 
@@ -100,17 +123,32 @@ function getDownloadUrl(binary: TestProxyBinary, version: string): string {
 
 async function downloadTestProxy(downloadLocation: string, downloadUrl: string): Promise<void> {
   log(`Downloading test proxy binary from ${downloadUrl}`);
-  const { data } = await axios.get<ArrayBuffer>(downloadUrl, { responseType: "arraybuffer" });
+  const response = await fetch(downloadUrl);
+  const data = await response.arrayBuffer();
   log(`Extracting test proxy binary to ${downloadLocation}`);
-  await decompress(Buffer.from(data), downloadLocation);
+  if (downloadUrl.endsWith(".tar.gz")) {
+    const stream = new PassThrough();
+    stream.write(Buffer.from(data));
+    stream.end();
+    await pipeline(stream, extract({ cwd: downloadLocation }));
+  } else {
+    const stream = await unzipper.Open.buffer(Buffer.from(data));
+    await stream.extract({ path: downloadLocation });
+  }
 }
+
+let cachedTestProxyExecutableLocation: string | undefined;
 
 /**
  * Gets the path to the test-proxy executable. If the test-proxy executable has not been downloaded already, it will first be downloaded.
  */
 export async function getTestProxyExecutable(): Promise<string> {
+  if (cachedTestProxyExecutableLocation) {
+    return cachedTestProxyExecutableLocation;
+  }
+
   const targetVersion = await getTargetVersion();
-  const binary = await getTestProxyBinary();
+  const binary = getTestProxyBinary();
 
   // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
   const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
@@ -132,6 +170,7 @@ export async function getTestProxyExecutable(): Promise<string> {
     await fs.chmod(executableLocation, 0o755);
   }
 
+  cachedTestProxyExecutableLocation = executableLocation;
   return executableLocation;
 }
 
@@ -164,20 +203,77 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
+  const executable = await getTestProxyExecutable();
+  await delay(1000);
+  await runCommand(executable, argv, {
+    stdio: "inherit",
+    env: { ...process.env },
+  }).result;
+  if (await fs.pathExists("assets.json")) {
+    await linkRecordingsDirectory();
+  }
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {
   return runMigrationScript(project, false);
 }
 
+const execPromise = promisify(exec);
+
+async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
+  const { stdout } = await execPromise(
+    `${await getTestProxyExecutable()} config locate -a assets.json`,
+    { cwd: project.path },
+  );
+  const lines = stdout.split("\n");
+
+  // the directory is the second-to-last line of output (there's some other log output that comes out from the test proxy first, and the last line is empty)
+  return lines[lines.length - 2].trim();
+}
+
+export async function linkRecordingsDirectory() {
+  const project = await resolveProject();
+  const root = await resolveRoot();
+  const recordingsDirectory = await getRecordingsDirectory(project);
+  const projectRelativeToRoot = path.relative(root, project.path);
+
+  const trueRecordingsDirectory = path.join(
+    recordingsDirectory,
+    projectRelativeToRoot,
+    "recordings/",
+  );
+  const relativeRecordingsDirectory = path.relative(project.path, trueRecordingsDirectory);
+
+  const symlinkLocation = path.join(project.path, "_recordings");
+
+  if (await fs.pathExists(symlinkLocation)) {
+    const stat = await fs.lstat(symlinkLocation);
+    if (stat.isSymbolicLink()) {
+      await fs.unlink(symlinkLocation);
+    } else {
+      log.warn(
+        "Could not create symbolic link to recordings directory: a file exists at _recordings already.",
+      );
+      return;
+    }
+  }
+
+  // Try and create a symlink but fail gracefully if it doesn't work
+  try {
+    await fs.symlink(relativeRecordingsDirectory, symlinkLocation);
+  } catch (e) {
+    log.warn("Could not create symbolic link to recordings directory");
+    log.warn(e);
+  }
+}
+
 export async function runMigrationScript(
   project: ProjectInfo,
-  initialPush: boolean
+  initialPush: boolean,
 ): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
-    "eng/common/testproxy/transition-scripts/generate-assets-json.ps1"
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
   );
 
   const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
@@ -193,7 +289,7 @@ export interface TestProxy {
 }
 
 export async function startTestProxy(): Promise<TestProxy> {
-  const testProxy = await runCommand(await getTestProxyExecutable(), [
+  const testProxy = runCommand(await getTestProxyExecutable(), [
     "start",
     "--storage-location",
     await resolveRoot(),
@@ -216,41 +312,57 @@ export async function startTestProxy(): Promise<TestProxy> {
 
 export async function isProxyToolActive(): Promise<boolean> {
   try {
-    await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
+    const response = await fetch(
+      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
+    );
+
+    await response.text();
+
+    if (!response.ok) {
+      return false;
+    }
 
     log.info(
       `Proxy tool seems to be active at http://localhost:${
         process.env.TEST_PROXY_HTTP_PORT ?? 5000
-      }\n`
+      }\n`,
     );
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return false;
   }
 }
 
 async function getTargetVersion() {
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+  //
+  // In times of longer lived version override, the file eng/target_proxy_version.txt can be used to override this version
+  // in both CI and local development.
   // Example content:
   //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInVersionFile = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8"
-    );
+    let contentInVersionFile: string;
+    const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
+    const overrideExists = await fs.exists(overrideFile);
+
+    if (overrideExists) {
+      contentInVersionFile = await fs.readFile(overrideFile, "utf-8");
+    } else {
+      contentInVersionFile = await fs.readFile(
+        `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+        "utf-8",
+      );
+    }
 
     const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_: any) {
+  } catch (_: unknown) {
     log.warn(
-      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );
     return "latest";
   }

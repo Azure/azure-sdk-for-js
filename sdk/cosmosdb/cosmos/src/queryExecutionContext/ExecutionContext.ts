@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Response } from "../request";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
 
 /** @hidden */
 export interface ExecutionContext {
-  nextItem: () => Promise<Response<any>>;
+  nextItem?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
-  fetchMore?: () => Promise<Response<any>>; // TODO: code smell
+  fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
 }

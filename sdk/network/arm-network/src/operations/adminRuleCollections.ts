@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AdminRuleCollections } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AdminRuleCollections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AdminRuleCollection,
   AdminRuleCollectionsListNextOptionalParams,
@@ -29,8 +29,8 @@ import {
   AdminRuleCollectionsCreateOrUpdateOptionalParams,
   AdminRuleCollectionsCreateOrUpdateResponse,
   AdminRuleCollectionsDeleteOptionalParams,
-  AdminRuleCollectionsListNextResponse
-} from "../models";
+  AdminRuleCollectionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AdminRuleCollections operations. */
@@ -56,13 +56,13 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams
+    options?: AdminRuleCollectionsListOptionalParams,
   ): PagedAsyncIterableIterator<AdminRuleCollection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
       configurationName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
           networkManagerName,
           configurationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     options?: AdminRuleCollectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AdminRuleCollection[]> {
     let result: AdminRuleCollectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         resourceGroupName,
         networkManagerName,
         configurationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         networkManagerName,
         configurationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,13 +126,13 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams
+    options?: AdminRuleCollectionsListOptionalParams,
   ): AsyncIterableIterator<AdminRuleCollection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
       configurationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,11 +149,11 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams
+    options?: AdminRuleCollectionsListOptionalParams,
   ): Promise<AdminRuleCollectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, configurationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -170,7 +170,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsGetOptionalParams
+    options?: AdminRuleCollectionsGetOptionalParams,
   ): Promise<AdminRuleCollectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -178,9 +178,9 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         networkManagerName,
         configurationName,
         ruleCollectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -199,7 +199,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     configurationName: string,
     ruleCollectionName: string,
     ruleCollection: AdminRuleCollection,
-    options?: AdminRuleCollectionsCreateOrUpdateOptionalParams
+    options?: AdminRuleCollectionsCreateOrUpdateOptionalParams,
   ): Promise<AdminRuleCollectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -208,9 +208,9 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         configurationName,
         ruleCollectionName,
         ruleCollection,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -227,25 +227,24 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams
+    options?: AdminRuleCollectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -254,8 +253,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -263,8 +262,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -275,14 +274,14 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         networkManagerName,
         configurationName,
         ruleCollectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -301,14 +300,14 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams
+    options?: AdminRuleCollectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -326,7 +325,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     nextLink: string,
-    options?: AdminRuleCollectionsListNextOptionalParams
+    options?: AdminRuleCollectionsListNextOptionalParams,
   ): Promise<AdminRuleCollectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -334,9 +333,9 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         networkManagerName,
         configurationName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -344,88 +343,84 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult
+      bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.configurationName
+    Parameters.networkManagerName1,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection
+      bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection
+      bodyMapper: Mappers.AdminRuleCollection,
     },
     201: {
-      bodyMapper: Mappers.AdminRuleCollection
+      bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
   },
-  requestBody: Parameters.ruleCollection,
+  requestBody: Parameters.ruleCollection1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -433,40 +428,40 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult
+      bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName,
-    Parameters.configurationName
+    Parameters.networkManagerName1,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

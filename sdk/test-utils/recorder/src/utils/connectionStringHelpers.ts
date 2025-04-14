@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Returns the connection string parsed as JSON object.
@@ -49,7 +49,7 @@ function getKeyValuePair(kvp: string): string[] {
  */
 export function getRealAndFakePairs(
   connectionString: string,
-  fakeConnString: string
+  fakeConnString: string,
 ): Record<string, string> {
   const realAndFakePairs: Record<string, string> = {};
   const fakeValues = getConnStringAsJSON(fakeConnString);

@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  AccessToken,
-  NamedKeyCredential,
-  SASCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-} from "@azure/core-auth";
-import jssha from "jssha";
+import type { AccessToken, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential } from "@azure/core-auth";
+import { signString } from "../util/hmacSha256.js";
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
@@ -26,7 +21,7 @@ export interface SasTokenProvider {
    *
    * @param audience - The audience for which the token is desired.
    */
-  getToken(audience: string): AccessToken;
+  getToken(audience: string): Promise<AccessToken>;
 }
 
 /**
@@ -39,7 +34,7 @@ export function createSasTokenProvider(
     | { sharedAccessKeyName: string; sharedAccessKey: string }
     | { sharedAccessSignature: string }
     | NamedKeyCredential
-    | SASCredential
+    | SASCredential,
 ): SasTokenProvider {
   if (isNamedKeyCredential(data) || isSASCredential(data)) {
     return new SasTokenProviderImpl(data);
@@ -81,13 +76,13 @@ export class SasTokenProviderImpl implements SasTokenProvider {
    * Gets the sas token for the specified audience
    * @param audience - The audience for which the token is desired.
    */
-  getToken(audience: string): AccessToken {
+  async getToken(audience: string): Promise<AccessToken> {
     if (isNamedKeyCredential(this._credential)) {
       return createToken(
         this._credential.name,
         this._credential.key,
         Math.floor(Date.now() / 1000) + 3600,
-        audience
+        audience,
       );
     } else {
       return {
@@ -106,15 +101,17 @@ export class SasTokenProviderImpl implements SasTokenProvider {
  * @param audience - The audience for which the token is desired.
  * @internal
  */
-function createToken(keyName: string, key: string, expiry: number, audience: string): AccessToken {
+async function createToken(
+  keyName: string,
+  key: string,
+  expiry: number,
+  audience: string,
+): Promise<AccessToken> {
   audience = encodeURIComponent(audience);
   keyName = encodeURIComponent(keyName);
   const stringToSign = audience + "\n" + expiry;
 
-  const shaObj = new jssha("SHA-256", "TEXT");
-  shaObj.setHMACKey(key, "TEXT");
-  shaObj.update(stringToSign);
-  const sig = encodeURIComponent(shaObj.getHMAC("B64"));
+  const sig = await signString(key, stringToSign);
   return {
     token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
     expiresOnTimestamp: expiry,

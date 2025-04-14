@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CheckVirtualNetworkSubnetUsage } from "../operationsInterfaces";
+import { CheckVirtualNetworkSubnetUsage } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient.js";
 import {
   VirtualNetworkSubnetUsageParameter,
   CheckVirtualNetworkSubnetUsageExecuteOptionalParams,
-  CheckVirtualNetworkSubnetUsageExecuteResponse
-} from "../models";
+  CheckVirtualNetworkSubnetUsageExecuteResponse,
+} from "../models/index.js";
 
 /** Class containing CheckVirtualNetworkSubnetUsage operations. */
 export class CheckVirtualNetworkSubnetUsageImpl
-  implements CheckVirtualNetworkSubnetUsage {
+  implements CheckVirtualNetworkSubnetUsage
+{
   private readonly client: MySQLManagementFlexibleServerClient;
 
   /**
@@ -39,11 +40,11 @@ export class CheckVirtualNetworkSubnetUsageImpl
   execute(
     locationName: string,
     parameters: VirtualNetworkSubnetUsageParameter,
-    options?: CheckVirtualNetworkSubnetUsageExecuteOptionalParams
+    options?: CheckVirtualNetworkSubnetUsageExecuteOptionalParams,
   ): Promise<CheckVirtualNetworkSubnetUsageExecuteResponse> {
     return this.client.sendOperationRequest(
       { locationName, parameters, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -51,25 +52,24 @@ export class CheckVirtualNetworkSubnetUsageImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/checkVirtualNetworkSubnetUsage",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/checkVirtualNetworkSubnetUsage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualNetworkSubnetUsageResult
+      bodyMapper: Mappers.VirtualNetworkSubnetUsageResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

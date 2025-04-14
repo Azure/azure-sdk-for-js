@@ -37,7 +37,7 @@ async function createACustomAssessmentAutomation() {
   const result = await client.customAssessmentAutomations.create(
     resourceGroupName,
     customAssessmentAutomationName,
-    customAssessmentAutomationBody
+    customAssessmentAutomationBody,
   );
   console.log(result);
 }

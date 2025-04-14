@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CsmOperationDescription,
-  CertificateRegistrationProviderListOperationsOptionalParams
-} from "../models";
+  CertificateRegistrationProviderListOperationsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CertificateRegistrationProvider. */
@@ -21,6 +21,6 @@ export interface CertificateRegistrationProvider {
    * @param options The options parameters.
    */
   listOperations(
-    options?: CertificateRegistrationProviderListOperationsOptionalParams
+    options?: CertificateRegistrationProviderListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CsmOperationDescription>;
 }

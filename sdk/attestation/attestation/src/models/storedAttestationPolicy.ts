@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+import { stringToBytes } from "../utils/utf8.js";
+import { TypeDeserializer } from "../utils/typeDeserializer.js";
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
-
-import { stringToBytes } from "../utils/utf8";
-import { TypeDeserializer } from "../utils/typeDeserializer";
-
-import * as Mappers from "../generated/models/mappers";
+import * as Mappers from "../generated/models/mappers.js";
 
 /**
  * Represents a stored attestation policy sent to the attestation service.
@@ -29,7 +22,7 @@ export class StoredAttestationPolicy {
     return TypeDeserializer.serialize(
       this,
       { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
-      Mappers.StoredAttestationPolicy
+      Mappers.StoredAttestationPolicy,
     );
   }
 
@@ -43,7 +36,7 @@ export class StoredAttestationPolicy {
     return TypeDeserializer.deserialize(
       value,
       { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
-      "StoredAttestationPolicy"
+      "StoredAttestationPolicy",
     ) as StoredAttestationPolicy;
   }
 

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "@azure/test-utils";
-import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { assertEnvironmentVariable, env, type Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 import {
-  KeyVaultAccessControlClient,
-  KeyVaultPermission,
-  KeyVaultRoleDefinition,
+  type KeyVaultAccessControlClient,
+  type KeyVaultPermission,
+  type KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
-} from "../../src";
-import { authenticate } from "./utils/authentication";
-import { getServiceVersion } from "./utils/common";
-import { KnownRoleScope } from "../../src/generated";
+} from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { KnownRoleScope } from "../../src/generated/index.js";
+expect.extend({ toSupportTracing });
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -21,8 +21,8 @@ describe("KeyVaultAccessControlClient", () => {
   let generateFakeUUID: () => string;
   const globalScope = "/";
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;
@@ -45,9 +45,9 @@ describe("KeyVaultAccessControlClient", () => {
       },
     ];
 
-    it("can list role definitions", async function () {
+    it("can list role definitions", async () => {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleDefinition of client.listRoleDefinitions(globalScope)) {
         // Each role definition will have the shape of:
@@ -60,31 +60,31 @@ describe("KeyVaultAccessControlClient", () => {
         //     // ...
         //   }
         //
-        assert.equal(roleDefinition.kind, expectedType);
+        expect(roleDefinition.kind).toEqual(expectedType);
         receivedRoles.push(roleDefinition.roleName!);
       }
 
       // Roles might change
-      assert.ok(receivedRoles.length);
+      expect(receivedRoles.length).toBeGreaterThan(0);
     });
 
     describe("getRoleDefinition", function () {
-      it("returns a role definition by name", async function () {
+      it("returns a role definition by name", async () => {
         const anyRoleDefinition = getYieldedValue(
-          await client.listRoleDefinitions(globalScope).next()
+          await client.listRoleDefinitions(globalScope).next(),
         );
 
         const roleDefinition = await client.getRoleDefinition(globalScope, anyRoleDefinition.name);
 
-        assert.deepEqual(roleDefinition, anyRoleDefinition);
+        expect(roleDefinition).to.deep.equal(anyRoleDefinition);
       });
 
-      it("errors when the role definition cannot be found", async function () {
-        await assert.isRejected(client.getRoleDefinition(globalScope, "does_not_exist"));
+      it("errors when the role definition cannot be found", async () => {
+        await expect(client.getRoleDefinition(globalScope, "does_not_exist")).rejects.toThrow();
       });
     });
 
-    it("can create, update, and delete a role definition", async function () {
+    it("can create, update, and delete a role definition", async () => {
       const name = generateFakeUUID();
       const roleName = "custom role definition name";
       const description = "custom role description";
@@ -95,12 +95,12 @@ describe("KeyVaultAccessControlClient", () => {
         description,
       });
 
-      assert.equal(roleDefinition.name, name);
-      assert.equal(roleDefinition.description, description);
-      assert.deepEqual(roleDefinition.permissions, permissions);
-      assert.equal(roleDefinition.assignableScopes[0], globalScope);
-      assert.equal("Microsoft.Authorization/roleDefinitions", roleDefinition.kind);
-      assert.equal(roleDefinition.roleType, "CustomRole");
+      expect(roleDefinition.name).to.equal(name);
+      expect(roleDefinition.description).to.equal(description);
+      expect(roleDefinition.permissions).to.deep.equal(permissions);
+      expect(roleDefinition.assignableScopes[0]).to.equal(globalScope);
+      expect(roleDefinition.kind).to.equal("Microsoft.Authorization/roleDefinitions");
+      expect(roleDefinition.roleType).to.equal("CustomRole");
 
       const id = roleDefinition.id;
 
@@ -118,32 +118,32 @@ describe("KeyVaultAccessControlClient", () => {
         description,
       });
 
-      assert.equal(roleDefinition.id, id);
-      assert.deepEqual(roleDefinition.permissions, permissions);
+      expect(roleDefinition.id).to.equal(id);
+      expect(roleDefinition.permissions).to.deep.equal(permissions);
 
       await client.deleteRoleDefinition(globalScope, roleDefinition.name);
 
       for await (const definition of client.listRoleDefinitions(globalScope)) {
         if (definition.id === roleDefinition.id) {
-          assert.fail(
-            "expected to successfully delete custom role definition, but it still exists."
+          expect.fail(
+            "expected to successfully delete custom role definition, but it still exists.",
           );
         }
       }
     });
 
     describe("setRoleDefinition", function () {
-      it("errors when name is not a valid guid", async function () {
-        await assert.isRejected(
+      it("errors when name is not a valid guid", async () => {
+        await expect(
           client.setRoleDefinition(globalScope, {
             roleDefinitionName: "foo unique value",
             roleName: "foo role definition name",
             permissions: [],
-          })
-        );
+          }),
+        ).rejects.toThrow();
       });
 
-      it("errors when updating a built-in role definition", async function () {
+      it("errors when updating a built-in role definition", async () => {
         let builtInDefinition: KeyVaultRoleDefinition | undefined = undefined;
 
         for await (const definition of client.listRoleDefinitions(globalScope)) {
@@ -153,21 +153,21 @@ describe("KeyVaultAccessControlClient", () => {
         }
 
         if (!builtInDefinition) {
-          assert.fail("Could not find a built in role definition to test against.");
+          expect.fail("Could not find a built in role definition to test against.");
         }
 
-        await assert.isRejected(
+        await expect(
           client.setRoleDefinition(globalScope, {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
             permissions,
-          })
-        );
+          }),
+        ).rejects.toThrow();
       });
     });
 
     describe("deleteRoleDefinition", function () {
-      it("errors when deleting a built-in role definition", async function () {
+      it("errors when deleting a built-in role definition", async () => {
         let builtInDefinition: KeyVaultRoleDefinition | undefined = undefined;
 
         for await (const definition of client.listRoleDefinitions(globalScope)) {
@@ -177,22 +177,24 @@ describe("KeyVaultAccessControlClient", () => {
         }
 
         if (!builtInDefinition) {
-          assert.fail("Could not find a built in role definition to test against.");
+          expect.fail("Could not find a built in role definition to test against.");
         }
 
-        await assert.isRejected(client.deleteRoleDefinition(globalScope, builtInDefinition.name));
+        await expect(
+          client.deleteRoleDefinition(globalScope, builtInDefinition.name),
+        ).rejects.toThrow();
       });
 
-      it("succeeds when deleting a non-existent role definition", async function () {
-        await assert.isFulfilled(client.deleteRoleDefinition(globalScope, "foobar"));
+      it("succeeds when deleting a non-existent role definition", async () => {
+        await expect(client.deleteRoleDefinition(globalScope, "foobar")).resolves.not.toThrow();
       });
     });
   });
 
   describe("role assignments", async function () {
-    it("can list role assignments", async function () {
+    it("can list role assignments", async () => {
       const expectedType = "Microsoft.Authorization/roleAssignments";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleAssignment of client.listRoleAssignments(globalScope)) {
         // Each role assignment will have the shape of:
@@ -204,15 +206,15 @@ describe("KeyVaultAccessControlClient", () => {
         //     // ...
         //   }
         //
-        assert.equal(roleAssignment.kind, expectedType);
+        expect(roleAssignment.kind).toEqual(expectedType);
         receivedRoles.push(roleAssignment.name);
       }
 
       // Roles might change
-      assert.ok(receivedRoles.length);
+      expect(receivedRoles.length).toBeGreaterThan(0);
     });
 
-    it("can create, read, and delete role assignments", async function () {
+    it("can create, read, and delete role assignments", async () => {
       const assignmentName = generateFakeUUID();
       const roleName = "Managed HSM Crypto Auditor";
 
@@ -226,42 +228,43 @@ describe("KeyVaultAccessControlClient", () => {
       }
 
       if (!roleDefinition) {
-        assert.fail(`Unable to find role definition with name ${roleName}`);
+        expect.fail(`Unable to find role definition with name ${roleName}`);
       }
 
-      let assignment = await client.createRoleAssignment(
+      const assignment = await client.createRoleAssignment(
         globalScope,
         assignmentName,
         roleDefinition.id,
-        assertEnvironmentVariable("CLIENT_OBJECT_ID")
+        assertEnvironmentVariable("CLIENT_OBJECT_ID"),
       );
-      assert.equal(assignment.name, assignmentName);
-      assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-      assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
-      assert.equal(assignment.properties.scope, globalScope);
+      expect(assignment.name).toEqual(assignmentName);
+      expect(assignment.properties?.roleDefinitionId).toEqual(roleDefinition.id);
+      expect(assignment.properties?.principalId).toEqual(env.CLIENT_OBJECT_ID);
+      expect(assignment.properties.scope).toEqual(globalScope);
 
       await client.getRoleAssignment(globalScope, assignmentName);
-      assert.equal(assignment.name, assignmentName);
-      assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-      assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
-      assert.equal(assignment.properties.scope, globalScope);
+      expect(assignment.name).toEqual(assignmentName);
+      expect(assignment.properties?.roleDefinitionId).toEqual(roleDefinition.id);
+      expect(assignment.properties?.principalId).toEqual(env.CLIENT_OBJECT_ID);
+      expect(assignment.properties.scope).toEqual(globalScope);
 
       await client.deleteRoleAssignment(globalScope, assignmentName);
-      assert.equal(assignment.name, assignmentName);
-      assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-      assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
+      expect(assignment.name).toEqual(assignmentName);
+      expect(assignment.properties?.roleDefinitionId).toEqual(roleDefinition.id);
+      expect(assignment.properties?.principalId).toEqual(env.CLIENT_OBJECT_ID);
 
-      let error: Error;
       try {
         await client.getRoleAssignment(globalScope, generateFakeUUID());
+        expect.fail("Expected an error to be thrown.");
       } catch (e: any) {
-        error = e;
+        expect(e.message).toMatch(/Requested role assignment not found/);
       }
-      assert.ok(error!.message.match(/Requested role assignment not found/));
     });
 
     it("succeeds when deleting a role assignment that doesn't exist", async () => {
-      await assert.isFulfilled(client.deleteRoleAssignment(globalScope, generateFakeUUID()));
+      await expect(
+        client.deleteRoleAssignment(globalScope, generateFakeUUID()),
+      ).resolves.not.toThrow();
     });
   });
 
@@ -269,38 +272,31 @@ describe("KeyVaultAccessControlClient", () => {
     it("traces through the various operations", async () => {
       const roleDefinitionName = generateFakeUUID();
       const roleAssignmentName = generateFakeUUID();
-      await assert.supportsTracing(
-        async (options) => {
-          const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
-            roleDefinitionName,
-            roleName: roleDefinitionName,
-            ...options,
-          });
-          await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
-          await client.createRoleAssignment(
-            globalScope,
-            roleAssignmentName,
-            roleDefinition.id,
-            assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-            options
-          );
-          await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-          await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-          await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
-          await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
-          await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
-        },
-        [
-          "KeyVaultAccessControlClient.setRoleDefinition",
-          "KeyVaultAccessControlClient.getRoleDefinition",
-          "KeyVaultAccessControlClient.createRoleAssignment",
-          "KeyVaultAccessControlClient.getRoleAssignment",
-          "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-          "KeyVaultAccessControlClient.listRoleDefinitionsPage",
-          "KeyVaultAccessControlClient.deleteRoleAssignment",
-          "KeyVaultAccessControlClient.deleteRoleDefinition",
-        ]
-      );
+      await expect(async (options: any) => {
+        const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
+          roleDefinitionName,
+          roleName: roleDefinitionName,
+          ...options,
+        });
+        await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.createRoleAssignment(
+          globalScope,
+          roleAssignmentName,
+          roleDefinition.id,
+          assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+          options,
+        );
+        await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
+        await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+      }).toSupportTracing([
+        "KeyVaultAccessControlClient.setRoleDefinition",
+        "KeyVaultAccessControlClient.getRoleDefinition",
+        "KeyVaultAccessControlClient.createRoleAssignment",
+        "KeyVaultAccessControlClient.getRoleAssignment",
+        "KeyVaultAccessControlClient.deleteRoleAssignment",
+        "KeyVaultAccessControlClient.deleteRoleDefinition",
+      ]);
     });
   });
 });

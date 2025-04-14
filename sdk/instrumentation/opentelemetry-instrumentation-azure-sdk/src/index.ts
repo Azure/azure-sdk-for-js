@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export * from "./logger";
-export * from "./instrumentation";
+export * from "./logger.js";
+export * from "./instrumentation.js";

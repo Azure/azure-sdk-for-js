@@ -1,6 +1,6 @@
 # Release History
 
-## 1.11.1 (Unreleased)
+## 1.19.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,160 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.19.1 (2025-03-06)
+
+### Other Changes
+
+- clear the request timeout timer in `NodeHttpClient` after the response is returned [PR #32891](https://github.com/Azure/azure-sdk-for-js/pull/32891)
+
+## 1.19.0 (2025-02-06)
+
+### Features Added
+
+- Add `agent` and `tlsSettings` to `PipelineRequestOptions` [PR #32590](https://github.com/Azure/azure-sdk-for-js/pull/32590)
+- Add `agent` option to `PipelineOptions` [PR #32809](https://github.com/Azure/azure-sdk-for-js/pull/32809)
+
+## 1.18.2 (2025-01-10)
+
+### Bugs Fixed
+
+- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
+
+## 1.18.1 (2024-11-26)
+
+### Bugs Fixed
+
+- Fix `this` not being bound correctly for `ChallengeCallbacks` implementations in `bearerTokenAuthenticationPolicy`. [PR #31961](https://github.com/Azure/azure-sdk-for-js/pull/31961)
+
+## 1.18.0 (2024-11-12)
+
+### Features Added
+
+- `BearerTokenAuthenticationPolicy` will handle CAE claims challenge by default. [PR #31501](https://github.com/Azure/azure-sdk-for-js/pull/31501/)
+
+### Bugs Fixed
+
+- Fix an issue in `isStreamComplete` where the method never resolves if the stream is not readable.
+
+## 1.17.0 (2024-09-12)
+
+### Features Added
+
+- The token cycler of `BearerTokenCredentialPolicy` now checks the `refreshAfterTimestamp` attribute in the `AccessToken` when determining if a token request should be made in the `shouldRefresh` method. #30402
+- Added support for automatic span propagation and HTTP tracing for consumers using Rest Level Clients. [#31019](https://github.com/Azure/azure-sdk-for-js/pull/31019)
+
+## 1.16.3 (2024-08-01)
+
+### Other Changes
+
+- The `request` and `response` properties on `RestError` are now non-enumerable.
+- Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
+
+## 1.16.2 (2024-07-10)
+
+### Bugs Fixed
+
+- Fix TypeError on some platforms when retrieving browser user agent data. [PR #30194](https://github.com/Azure/azure-sdk-for-js/pull/30194)
+- Fix `ERR_INVALID_URL` error thrown from sanitizer [PR #30151](https://github.com/Azure/azure-sdk-for-js/pull/30151)
+
+### Features Added
+
+- Add EdgeRuntime telemetry information [PR #30239](https://github.com/Azure/azure-sdk-for-js/pull/30239)
+
+## 1.16.1 (2024-06-24)
+
+### Bugs Fixed
+
+- Tracing spans will now correctly sanitize query parameters in the http.url span attribute. [#29606](https://github.com/Azure/azure-sdk-for-js/pull/29606)
+- Improve robustness of tokenCycler [PR #29638](https://github.com/Azure/azure-sdk-for-js/pull/29638)
+- Fix platform specific data [PR #30011](https://github.com/Azure/azure-sdk-for-js/pull/30011)
+- Fix react-native issue [#30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
+- Improve browser telemetry [PR# 30096](https://github.com/Azure/azure-sdk-for-js/pull/30096), [PR #30128](https://github.com/Azure/azure-sdk-for-js/pull/30128)
+
+## 1.16.0 (2024-05-02)
+
+### Features Added
+
+- The FormData global is now a supported request body type in Node in addition to the browser.
+
+## 1.15.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.15.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.15.0 (2024-03-12)
+
+### Bugs Fixed
+
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
+
+### Other Changes
+
+- In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 1.14.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
+- Guard against unrecognized value types in the form data policy.
+- Form file uploads now have content type `application/octet-stream` if no other content type was specified.
+- Fix `multipart/form-data` requests failing in versions of Node 18 below 18.13 and versions of Node 20 below 20.6.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
+## 1.13.0 (2023-12-07)
+
+### Features Added
+
+- Add `multipartPolicy` and `MultipartRequestBody` to allow for making multipart requests.
+- Add `createFile` and `createFileFromStream` to allow creation of `File` objects for `multipart/form-data` requests.
+
+### Other Changes
+
+- `formDataPolicy` now uses `multipartPolicy` when content type is `multipart/form-data`.
+- Trim leading and trailing whitespace from header values.
+
+## 1.12.2 (2023-10-23)
+
+### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API. [PR #27423](https://github.com/Azure/azure-sdk-for-js/pull/27423)
+- Add `ENOTFOUND` code to exponential retry policy. [PR #27437](https://github.com/Azure/azure-sdk-for-js/pull/27437)
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses [PR #27205](https://github.com/Azure/azure-sdk-for-js/pull/27205)
+
+## 1.12.1 (2023-09-07)
+
+### Other Changes
+
+- Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
+- Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897)
+
+## 1.12.0 (2023-08-08)
+
+### Features Added
+
+- Add CommonTelemetryOptions in PipelineOptions to allow customizing the client request id header name [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
+
+### Bugs Fixed
+
+- Fix a TypeError in React Native when `Platform.constants` is undefined [Issue #26609](https://github.com/Azure/azure-sdk-for-js/issues/26609)
 
 ## 1.11.0 (2023-06-01)
 
@@ -129,7 +283,7 @@
 
 ### Bugs Fixed
 
-- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/semantic-conventions/blob/4040095eda0159e38edfe7084ed32d3077a6ffb0/docs/http/http-spans.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
 - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
 - Addressed an issue where policy order might change in cases where there are no policies inside a phase specified by an "afterPhase" constraint. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
 

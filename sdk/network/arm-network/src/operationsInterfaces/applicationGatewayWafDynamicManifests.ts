@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationGatewayWafDynamicManifestResult,
-  ApplicationGatewayWafDynamicManifestsGetOptionalParams
-} from "../models";
+  ApplicationGatewayWafDynamicManifestsGetOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationGatewayWafDynamicManifests. */
@@ -22,6 +22,6 @@ export interface ApplicationGatewayWafDynamicManifests {
    */
   list(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayWafDynamicManifestResult>;
 }

@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConversationAnalysisClient, ConversationAnalysisOptions } from "../../../src/";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import type { ConversationAnalysisClientOptionalParams } from "../../../src/index.js";
+import { ConversationAnalysisClient } from "../../../src/index.js";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
-
-const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "sanitized",
-  // Second API key
-  LANGUAGE_API_KEY_ALT: "sanitized",
-  ENDPOINT: "https://endpoint",
-  LANGUAGE_CLU_PROJECT_NAME: "<project-name>",
-  LANGUAGE_CLU_DEPLOYMENT_NAME: "<deployment-name>",
-  LANGUAGE_ORCHESTRATION_PROJECT_NAME: "<project-name>",
-  LANGUAGE_ORCHESTRATION_DEPLOYMENT_NAME: "<deployment-name>",
-};
+import { getEndpoint, getKey1, isDisableLocalAuth } from "../../utils/injectables.js";
 
 const recorderStartOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
+  removeCentralSanitizers: ["AZSDK2015", "AZSDK2030", "AZSDK3430", "AZSDK3493", "AZSDK4001"],
+  sanitizerOptions: {
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.parameters.deploymentName",
+      },
+      {
+        jsonPath: "$.parameters.projectName",
+      },
+    ],
+  },
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
@@ -31,18 +29,21 @@ export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";
 export function createClient(options: {
   authMethod: AuthMethod;
   recorder?: Recorder;
-  clientOptions?: ConversationAnalysisOptions;
-}): ConversationAnalysisClient {
+  clientOptions?: ConversationAnalysisClientOptionalParams;
+}): ConversationAnalysisClient | undefined {
   const { authMethod, recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable("ENDPOINT");
+  const endpoint = getEndpoint();
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
+      if (isDisableLocalAuth() && isLiveMode()) {
+        return undefined;
+      }
       return new ConversationAnalysisClient(
         endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions
+        new AzureKeyCredential(getKey1()),
+        updatedOptions,
       );
     }
     case "AAD": {
@@ -52,7 +53,7 @@ export function createClient(options: {
       return new ConversationAnalysisClient(
         endpoint,
         new AzureKeyCredential("whatever"),
-        updatedOptions
+        updatedOptions,
       );
     }
     default: {
@@ -66,7 +67,7 @@ export function createClient(options: {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function startRecorder(currentTest?: Test): Promise<Recorder> {
+export async function startRecorder(currentTest?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderStartOptions);
   await recorder.setMatcher("CustomDefaultMatcher", { excludedHeaders: ["Accept-Language"] });

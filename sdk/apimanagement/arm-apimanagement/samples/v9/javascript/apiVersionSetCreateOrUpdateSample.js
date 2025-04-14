@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or Updates a Api Version Set.
  *
  * @summary Creates or Updates a Api Version Set.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiVersionSet.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiVersionSet.json
  */
 async function apiManagementCreateApiVersionSet() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

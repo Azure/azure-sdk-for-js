@@ -1,28 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { StorageClient as StorageClientContext } from "./generated/src/";
-import { StorageContextClient } from "./StorageContextClient";
-import {
-  Pipeline,
-  getCoreClientOptions,
-  getCredentialFromPipeline,
-} from "../../storage-blob/src/Pipeline";
-import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common";
-import { isTokenCredential } from "@azure/core-auth";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { HttpClient } from "@azure/core-rest-pipeline";
+import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
+import { StorageContextClient } from "./StorageContextClient.js";
+import type { Pipeline } from "./Pipeline.js";
+import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
+import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common.js";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { AnonymousCredential } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { TokenCredential } from "@azure/core-auth";
 
-let testOnlyHttpClient: HttpClient | undefined;
-/**
- * @internal
- * Set a custom default http client for testing purposes
- */
-export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
-  testOnlyHttpClient = httpClient;
-}
 /**
  * An interface for options common to every remote operation.
  */
@@ -53,7 +41,7 @@ export abstract class StorageClient {
    *
    * @internal
    */
-  protected readonly credential: StorageSharedKeyCredential | AnonymousCredential;
+  protected readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 
   /**
    * StorageClient is a reference to protocol layer operations entry, which is
@@ -72,11 +60,7 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
 
     this.pipeline = pipeline;
-    const coreOptions = getCoreClientOptions(pipeline);
-    if (testOnlyHttpClient) {
-      coreOptions.httpClient = testOnlyHttpClient;
-    }
-    this.storageClientContext = new StorageContextClient(this.url, coreOptions);
+    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
     // Remove the default content-type in generated code of StorageClientContext
     const storageClientContext = this.storageClientContext as any;
     if (storageClientContext.requestContentType) {
@@ -84,9 +68,6 @@ export abstract class StorageClient {
     }
 
     const credential = getCredentialFromPipeline(pipeline);
-    if (isTokenCredential(credential)) {
-      throw new Error("Unsupported TokenCredential type found in pipeline.");
-    }
     this.credential = credential;
   }
 }

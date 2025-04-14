@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a helper class to construct a string representing the NTFS attributes to a file or directory.
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file#file-system-attributes
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-file#file-system-attributes
  */
 export class FileSystemAttributes {
   /**

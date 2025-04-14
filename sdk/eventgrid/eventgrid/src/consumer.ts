@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
+import type { CloudEvent as WireCloudEvent } from "./generated/models/index.js";
+import type { CloudEvent, EventGridEvent } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper,
-} from "./generated/models/mappers";
-import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
+} from "./generated/models/mappers.js";
+import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util.js";
 
 const serializer = createSerializer();
 
@@ -31,7 +32,7 @@ export class EventGridDeserializer {
    * events, encoded in the Event Grid Schema.
    */
   public async deserializeEventGridEvents(
-    encodedEvents: string
+    encodedEvents: string,
   ): Promise<EventGridEvent<unknown>[]>;
 
   /**
@@ -40,10 +41,10 @@ export class EventGridDeserializer {
    * @param encodedEvents - an object representing a single event, encoded in the Event Grid schema.
    */
   public async deserializeEventGridEvents(
-    encodedEvents: Record<string, unknown>
+    encodedEvents: Record<string, unknown>,
   ): Promise<EventGridEvent<unknown>[]>;
   public async deserializeEventGridEvents(
-    encodedEvents: string | Record<string, unknown>
+    encodedEvents: string | Record<string, unknown>,
   ): Promise<EventGridEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
 
@@ -74,10 +75,10 @@ export class EventGridDeserializer {
    * @param encodedEvents - an object representing a single event, encoded in the Cloud Events 1.0 schema.
    */
   public async deserializeCloudEvents(
-    encodedEvents: Record<string, unknown>
+    encodedEvents: Record<string, unknown>,
   ): Promise<CloudEvent<unknown>[]>;
   public async deserializeCloudEvents(
-    encodedEvents: string | Record<string, unknown>
+    encodedEvents: string | Record<string, unknown>,
   ): Promise<CloudEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
 

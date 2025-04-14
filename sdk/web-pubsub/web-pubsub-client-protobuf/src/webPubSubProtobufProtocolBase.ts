@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AckMessage,
   AckMessageError,
   ConnectedMessage,
@@ -12,16 +12,14 @@ import {
   WebPubSubMessage,
   JSONTypes,
 } from "@azure/web-pubsub-client";
+import type { IMessageData, IUpstreamMessage } from "./generated/clientProto.js";
 import {
   DownstreamMessage,
-  IMessageData,
-  IUpstreamMessage,
   MessageData,
   UpstreamMessage,
   google,
-} from "./generated/clientProto";
-
-import Long from "long";
+} from "./generated/clientProto.js";
+import type Long from "long";
 
 /**
  * The "protobuf.reliable.webpubsub.azure.v1" protocol
@@ -76,7 +74,7 @@ export class WebPubSubProtobufProtocolBase {
         dataType = "binary";
         data = messageData.binaryData.buffer.slice(
           messageData.binaryData.byteOffset,
-          messageData.binaryData.byteLength + messageData.binaryData.byteOffset
+          messageData.binaryData.byteLength + messageData.binaryData.byteOffset,
         );
       } else if (messageData.protobufData) {
         dataType = "protobuf";
@@ -166,7 +164,7 @@ export class WebPubSubProtobufProtocolBase {
 
   private static _getIMessageData(
     data: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType
+    dataType: WebPubSubDataType,
   ): IMessageData {
     switch (dataType) {
       case "binary":

@@ -1,15 +1,21 @@
-## Release History
+# Release History
 
-### 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.3 (Unreleased)
 
-#### Features Added
+### Features Added
 
-#### Breaking Changes
+### Breaking Changes
 
-#### Bugs Fixed
+### Bugs Fixed
 
-#### Other Changes
+### Other Changes
 
-### 1.0.0-beta.1 (2022-09-29)
+## 1.0.0-beta.2 (2025-02-10)
+
+### Features Added
+
+- Refresh sdk with latest codegen
+
+## 1.0.0-beta.1 (2022-09-29)
 
 - First release of package, see README.md for details.

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get private endpoint connection
  *
  * @summary Get private endpoint connection
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_List.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateEndpointConnections_List.json
  */
 async function privateEndpointConnectionsList() {
   const subscriptionId =

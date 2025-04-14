@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createUserUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import { RequestOptions } from "../../request";
-import { Database } from "../Database";
-import { Permission, Permissions } from "../Permission";
-import { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import { Permission, Permissions } from "../Permission/index.js";
+import type { UserDefinition } from "./UserDefinition.js";
+import { UserResponse } from "./UserResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to read, replace, and delete Users.
@@ -41,7 +43,7 @@ export class User {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {
     this.permissions = new Permissions(this, this.clientContext);
   }
@@ -57,73 +59,117 @@ export class User {
 
   /**
    * Read the {@link UserDefinition} for the given {@link User}.
+   * @example
+   * ```ts snippet:UserRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resource: user } = await database.user("<user-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<UserDefinition>({
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      const response = await this.clientContext.read<UserDefinition>({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
    * Replace the given {@link User}'s definition with the specified {@link UserDefinition}.
    * @param body - The specified {@link UserDefinition} to replace the definition.
+   * @example
+   * ```ts snippet:UserReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { resource: user } = await database.user("<user-id>").read();
+   * user.id = "<new user id>";
+   *
+   * await database.user("<user-id>").replace(user);
+   * ```
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<UserDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link User}.
+   * @example
+   * ```ts snippet:UserDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * await database.user("<user-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<UserDefinition>({
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<UserDefinition>({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 }

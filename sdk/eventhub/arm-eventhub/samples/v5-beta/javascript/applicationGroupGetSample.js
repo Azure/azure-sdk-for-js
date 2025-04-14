@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets an ApplicationGroup for a Namespace.
  *
  * @summary Gets an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ApplicationGroup/ApplicationGroupGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ApplicationGroup/ApplicationGroupGet.json
  */
 async function applicationGroupGet() {
   const subscriptionId =
@@ -29,13 +27,13 @@ async function applicationGroupGet() {
   const result = await client.applicationGroupOperations.get(
     resourceGroupName,
     namespaceName,
-    applicationGroupName
+    applicationGroupName,
   );
   console.log(result);
 }
 
 async function main() {
-  applicationGroupGet();
+  await applicationGroupGet();
 }
 
 main().catch(console.error);

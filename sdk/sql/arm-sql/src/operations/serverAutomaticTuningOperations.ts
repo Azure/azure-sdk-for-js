@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServerAutomaticTuningOperations } from "../operationsInterfaces";
+import { ServerAutomaticTuningOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   ServerAutomaticTuningGetOptionalParams,
   ServerAutomaticTuningGetResponse,
   ServerAutomaticTuning,
   ServerAutomaticTuningUpdateOptionalParams,
-  ServerAutomaticTuningUpdateResponse
-} from "../models";
+  ServerAutomaticTuningUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing ServerAutomaticTuningOperations operations. */
 export class ServerAutomaticTuningOperationsImpl
-  implements ServerAutomaticTuningOperations {
+  implements ServerAutomaticTuningOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -42,11 +43,11 @@ export class ServerAutomaticTuningOperationsImpl
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAutomaticTuningGetOptionalParams
+    options?: ServerAutomaticTuningGetOptionalParams,
   ): Promise<ServerAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -62,11 +63,11 @@ export class ServerAutomaticTuningOperationsImpl
     resourceGroupName: string,
     serverName: string,
     parameters: ServerAutomaticTuning,
-    options?: ServerAutomaticTuningUpdateOptionalParams
+    options?: ServerAutomaticTuningUpdateOptionalParams,
   ): Promise<ServerAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -74,44 +75,42 @@ export class ServerAutomaticTuningOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAutomaticTuning
+      bodyMapper: Mappers.ServerAutomaticTuning,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerAutomaticTuning
+      bodyMapper: Mappers.ServerAutomaticTuning,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters42,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GetPrivateDnsZoneSuffix } from "../operationsInterfaces";
+import { GetPrivateDnsZoneSuffix } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
-  GetPrivateDnsZoneSuffixExecuteResponse
-} from "../models";
+  GetPrivateDnsZoneSuffixExecuteResponse,
+} from "../models/index.js";
 
 /** Class containing GetPrivateDnsZoneSuffix operations. */
 export class GetPrivateDnsZoneSuffixImpl implements GetPrivateDnsZoneSuffix {
@@ -33,7 +33,7 @@ export class GetPrivateDnsZoneSuffixImpl implements GetPrivateDnsZoneSuffix {
    * @param options The options parameters.
    */
   execute(
-    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams
+    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams,
   ): Promise<GetPrivateDnsZoneSuffixExecuteResponse> {
     return this.client.sendOperationRequest({ options }, executeOperationSpec);
   }
@@ -46,14 +46,14 @@ const executeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: { type: { name: "String" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

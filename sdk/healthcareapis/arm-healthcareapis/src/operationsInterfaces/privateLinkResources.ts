@@ -10,8 +10,8 @@ import {
   PrivateLinkResourcesListByServiceOptionalParams,
   PrivateLinkResourcesListByServiceResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
@@ -24,7 +24,7 @@ export interface PrivateLinkResources {
   listByService(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListByServiceOptionalParams
+    options?: PrivateLinkResourcesListByServiceOptionalParams,
   ): Promise<PrivateLinkResourcesListByServiceResponse>;
   /**
    * Gets a private link resource that need to be created for a service.
@@ -37,6 +37,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

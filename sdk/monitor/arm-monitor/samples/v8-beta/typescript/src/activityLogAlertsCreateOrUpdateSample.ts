@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ActivityLogAlertResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Activity Log Alert rule or update an existing one.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdate.json
  */
-async function createOrUpdateAnActivityLogAlertRule() {
+async function createOrUpdateAnActivityLogAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -34,27 +32,27 @@ async function createOrUpdateAnActivityLogAlertRule() {
         {
           actionGroupId:
             "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
-          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" }
-        }
-      ]
+          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" },
+        },
+      ],
     },
     condition: {
       allOf: [
         { equals: "Administrative", field: "category" },
-        { equals: "Error", field: "level" }
-      ]
+        { equals: "Error", field: "level" },
+      ],
     },
     enabled: true,
     location: "Global",
     scopes: ["/subscriptions/187f412d-1758-44d9-b052-169e2564721d"],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }
@@ -65,7 +63,7 @@ async function createOrUpdateAnActivityLogAlertRule() {
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithAnyOfCondition.json
  */
-async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
+async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -80,9 +78,9 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
         {
           actionGroupId:
             "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
-          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" }
-        }
-      ]
+          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" },
+        },
+      ],
     },
     condition: {
       allOf: [
@@ -90,22 +88,22 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
         {
           anyOf: [
             { equals: "Incident", field: "properties.incidentType" },
-            { equals: "Maintenance", field: "properties.incidentType" }
-          ]
-        }
-      ]
+            { equals: "Maintenance", field: "properties.incidentType" },
+          ],
+        },
+      ],
     },
     enabled: true,
     location: "Global",
     scopes: ["subscriptions/187f412d-1758-44d9-b052-169e2564721d"],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }
@@ -116,7 +114,7 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
  * @summary Create a new Activity Log Alert rule or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithContainsAny.json
  */
-async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
+async function createOrUpdateAnActivityLogAlertRuleWithContainsAny(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -131,35 +129,35 @@ async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
         {
           actionGroupId:
             "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
-          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" }
-        }
-      ]
+          webhookProperties: { sampleWebhookProperty: "SamplePropertyValue" },
+        },
+      ],
     },
     condition: {
       allOf: [
         { equals: "ServiceHealth", field: "category" },
         {
           containsAny: ["North Europe", "West Europe"],
-          field: "properties.impactedServices[*].ImpactedRegions[*].RegionName"
-        }
-      ]
+          field: "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+        },
+      ],
     },
     enabled: true,
     location: "Global",
     scopes: ["subscriptions/187f412d-1758-44d9-b052-169e2564721d"],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.createOrUpdate(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRule
+    activityLogAlertRule,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnActivityLogAlertRule();
   createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition();
   createOrUpdateAnActivityLogAlertRuleWithContainsAny();

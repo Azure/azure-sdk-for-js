@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   LinkedServiceResource,
   LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
   LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
@@ -17,93 +17,93 @@ import {
   LinkedServiceGetLinkedServiceResponse,
   LinkedServiceDeleteLinkedServiceOptionalParams,
   ArtifactRenameRequest,
-  LinkedServiceRenameLinkedServiceOptionalParams
-} from "../models";
+  LinkedServiceRenameLinkedServiceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LinkedServiceOperations. */
 export interface LinkedServiceOperations {
   /**
    * Lists linked services.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listLinkedServicesByWorkspace(
-    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedServiceResource>;
   /**
    * Creates or updates a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param linkedService Linked service resource definition.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param linkedService - Linked service resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateLinkedService(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
-    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
+    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>,
       LinkedServiceCreateOrUpdateLinkedServiceResponse
     >
   >;
   /**
    * Creates or updates a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param linkedService Linked service resource definition.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param linkedService - Linked service resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateLinkedServiceAndWait(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
-    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
+    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
   ): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse>;
   /**
    * Gets a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param options - The options parameters.
    */
   getLinkedService(
     linkedServiceName: string,
-    options?: LinkedServiceGetLinkedServiceOptionalParams
+    options?: LinkedServiceGetLinkedServiceOptionalParams,
   ): Promise<LinkedServiceGetLinkedServiceResponse>;
   /**
    * Deletes a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param options - The options parameters.
    */
   beginDeleteLinkedService(
     linkedServiceName: string,
-    options?: LinkedServiceDeleteLinkedServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: LinkedServiceDeleteLinkedServiceOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param options - The options parameters.
    */
   beginDeleteLinkedServiceAndWait(
     linkedServiceName: string,
-    options?: LinkedServiceDeleteLinkedServiceOptionalParams
+    options?: LinkedServiceDeleteLinkedServiceOptionalParams,
   ): Promise<void>;
   /**
    * Renames a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameLinkedService(
     linkedServiceName: string,
     request: ArtifactRenameRequest,
-    options?: LinkedServiceRenameLinkedServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: LinkedServiceRenameLinkedServiceOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param linkedServiceName - The linked service name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameLinkedServiceAndWait(
     linkedServiceName: string,
     request: ArtifactRenameRequest,
-    options?: LinkedServiceRenameLinkedServiceOptionalParams
+    options?: LinkedServiceRenameLinkedServiceOptionalParams,
   ): Promise<void>;
 }

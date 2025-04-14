@@ -73,7 +73,7 @@ process {
 
                 Write-Error "File '$($file.FullName)' contains invalid product slug: $product" -TargetObject $file `
                     -Category InvalidData -CategoryTargetName $product -CategoryTargetType string `
-                    -RecommendedAction 'Use only product slugs listed at https://review.docs.microsoft.com/help/contribute/metadata-taxonomies?branch=main#product'
+                    -RecommendedAction 'Use only product slugs listed at https://review.learn.microsoft.com/help/platform/metadata-taxonomies?branch=main#product'
             }
         }
 
@@ -95,7 +95,7 @@ end {
 }
 
 begin {
-    # https://review.docs.microsoft.com/help/contribute/metadata-taxonomies?branch=main#product
+    # https://review.learn.microsoft.com/help/platform/metadata-taxonomies?branch=main#product
     $productSlugs = @(
         "ai-builder",
         "aspnet",
@@ -104,6 +104,7 @@ begin {
         "azure-active-directory-b2c",
         "azure-active-directory-domain",
         "azure-advisor",
+        "azure-ai-content-safety",
         "azure-analysis-services",
         "azure-anomaly-detector",
         "azure-api-apps",
@@ -202,6 +203,7 @@ begin {
         "azure-genomics",
         "azure-hdinsight",
         "azure-hdinsight-rserver",
+        "azure-health-data-services",
         "azure-health-insights",
         "azure-hpc-cache",
         "azure-immersive-reader",
@@ -329,8 +331,10 @@ begin {
         "blazor-webassembly",
         "common-data-service",
         "customer-voice",
+        "dotnet-api",
         "dotnet-core",
         "dotnet-standard",
+        "document-intelligence",
         "dynamics-business-central",
         "dynamics-commerce",
         "dynamics-cust-insights",
@@ -418,6 +422,8 @@ begin {
         "office-word",
         "office-yammer",
         "passport-azure-ad",
+        "playwright",
+        "playwright-testing",
         "power-apps",
         "power-automate",
         "power-bi",
@@ -503,7 +509,7 @@ Checks sample markdown files' frontmatter for invalid information.
 .DESCRIPTION
 Given a collection of markdown files, their frontmatter - if present - is checked for invalid information, including:
 
-Invalid product slugs, i.e. those not listed in https://review.docs.microsoft.com/help/contribute/metadata-taxonomies?branch=main#product.
+Invalid product slugs, i.e. those not listed in https://review.learn.microsoft.com/help/platform/metadata-taxonomies?branch=main#product.
 
 .PARAMETER Path
 Specifies the path to an item to search. Wildcards are permitted.

@@ -7,15 +7,14 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { PhoneNumbersImpl } from "./operations";
-import { PhoneNumbers } from "./operationsInterfaces";
-import { PhoneNumbersClientOptionalParams } from "./models";
+import { PhoneNumbersImpl } from "./operations/index.js";
+import { PhoneNumbers } from "./operationsInterfaces/index.js";
+import { PhoneNumbersClientOptionalParams } from "./models/index.js";
 
 export class PhoneNumbersClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -23,8 +22,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumbersClient class.
-   * @param endpoint The communication resource, for example
-   *                 https://resourcename.communication.azure.com.
+   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
@@ -37,10 +35,10 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: PhoneNumbersClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.0`;
+    const packageDetails = `azsdk-js-communication-phone-numbers/1.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -50,39 +48,16 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.apiVersion = options.apiVersion || "2025-02-11";
     this.phoneNumbers = new PhoneNumbersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -96,7 +71,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -110,7 +85,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-import { Context } from "mocha";
-import {
+// Licensed under the MIT License.
+import type {
   AzureBlobDataFeedSource,
   AzureDataLakeStorageGen2DataFeedSource,
   AzureEventHubsDataFeedSource,
@@ -21,10 +18,17 @@ import {
   MetricsAdvisorAdministrationClient,
   MongoDbDataFeedSource,
   UnknownDataFeedSource,
-} from "../../src";
-import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
-import { Recorder } from "@azure-tools/test-recorder";
-import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure/test-utils";
+} from "../../src/index.js";
+import {
+  createRecordedAdminClient,
+  getRecorderUniqueVariable,
+  makeCredential,
+} from "./util/recordedClients.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure-tools/test-utils-vitest";
+import type { TaskContext } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -45,50 +49,50 @@ matrix([[true, false]] as const, async (useAad) => {
       let datalakeGenFeedName: string;
       let logAnalyticsFeedName: string;
 
-      beforeEach(function (this: Context) {
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+      beforeEach(async (ctx) => {
+        ({ recorder, client } = await createRecordedAdminClient(ctx, makeCredential(useAad)));
         if (recorder && !feedName) {
-          feedName = recorder.getUniqueName("js-test-datafeed-");
+          feedName = getRecorderUniqueVariable(recorder, "js-test-datafeed-");
         }
         if (recorder && !appInsightsFeedName) {
-          appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
+          appInsightsFeedName = getRecorderUniqueVariable(recorder, "js-test-appInsightsFeed-");
         }
         if (recorder && !sqlServerFeedName) {
-          sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
+          sqlServerFeedName = getRecorderUniqueVariable(recorder, "js-test-sqlServerFeed-");
         }
         if (recorder && !cosmosFeedName) {
-          cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
+          cosmosFeedName = getRecorderUniqueVariable(recorder, "js-test-cosmosFeed-");
         }
         if (recorder && !dataExplorerFeedName) {
-          dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
+          dataExplorerFeedName = getRecorderUniqueVariable(recorder, "js-test-dataExplorerFeed-");
         }
         if (recorder && !azureTableFeedName) {
-          azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
+          azureTableFeedName = getRecorderUniqueVariable(recorder, "js-test-tableFeed-");
         }
         if (recorder && !eventHubsFeedName) {
-          eventHubsFeedName = recorder.getUniqueName("js-test-eventhubRequestFeed-");
+          eventHubsFeedName = getRecorderUniqueVariable(recorder, "js-test-eventhubRequestFeed-");
         }
         if (recorder && !logAnalyticsFeedName) {
-          logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
+          logAnalyticsFeedName = getRecorderUniqueVariable(recorder, "js-test-logAnalyticsFeed-");
         }
         if (recorder && !influxDbFeedName) {
-          influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
+          influxDbFeedName = getRecorderUniqueVariable(recorder, "js-test-influxdbFeed-");
         }
         if (recorder && !mongoDbFeedName) {
-          mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
+          mongoDbFeedName = getRecorderUniqueVariable(recorder, "js-test-mongoDbFeed-");
         }
         if (recorder && !mySqlFeedName) {
-          mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
+          mySqlFeedName = getRecorderUniqueVariable(recorder, "js-test-mySqlFeed-");
         }
         if (recorder && !postgreSqlFeedName) {
-          postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
+          postgreSqlFeedName = getRecorderUniqueVariable(recorder, "js-test-postgreSqlFeed-");
         }
         if (recorder && !datalakeGenFeedName) {
-          datalakeGenFeedName = recorder.getUniqueName("js-test-dataLakeGenFeed-");
+          datalakeGenFeedName = getRecorderUniqueVariable(recorder, "js-test-dataLakeGenFeed-");
         }
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         if (recorder) {
           await recorder.stop();
         }
@@ -158,16 +162,18 @@ matrix([[true, false]] as const, async (useAad) => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
-            connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
+            connectionString: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING",
+            ),
             container: "adsample",
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           };
           const expectedSourceByService = {
             dataSourceType: "AzureBlob",
             connectionString: undefined,
             container: "adsample",
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           } as unknown as DataFeedSource;
           const feed = {
@@ -192,88 +198,88 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(
             actual.schema.metrics[0].name,
             dataFeedSchema.metrics[0].name,
-            "Schema metric 1 name mismatch!"
+            "Schema metric 1 name mismatch!",
           );
           assert.equal(
             actual.schema.metrics[1].name,
             dataFeedSchema.metrics[1].name,
-            "Schema metric 2 name mismatch!"
+            "Schema metric 2 name mismatch!",
           );
           assert.strictEqual(actual.schema.timestampColumn, "", "Schema timestampColumn mismatch!");
           assert.equal(
             actual.schema.dimensions![0].displayName,
             dataFeedSchema.dimensions![0].displayName,
-            "Schema dimension 1 display name mismatch!"
+            "Schema dimension 1 display name mismatch!",
           );
           assert.deepStrictEqual(
             actual.ingestionSettings,
             dataFeedIngestion,
-            "Ingesting settings mismatch!"
+            "Ingesting settings mismatch!",
           );
           assert.equal(
             actual.metricIds[dataFeedSchema.metrics[0].name],
-            actual.schema.metrics[0].id
+            actual.schema.metrics[0].id,
           );
 
           assert.equal(actual.description, options.description, "options.description mismatch");
           assert.equal(
             actual.accessMode,
             options.accessMode as DataFeedAccessMode,
-            "options.accessMode mismatch"
+            "options.accessMode mismatch",
           );
           assert.ok(
             actual.missingDataPointFillSettings,
-            "Expecting valid options.missingDataPointFillSettings"
+            "Expecting valid options.missingDataPointFillSettings",
           );
           assert.equal(
             actual.missingDataPointFillSettings!.fillType,
             options.missingDataPointFillSettings!.fillType,
-            "options.missingDataPointFillSettings.fillType mismatch"
+            "options.missingDataPointFillSettings.fillType mismatch",
           );
           assert.ok(
             actual.missingDataPointFillSettings!.fillType,
-            "Expecting valid options.missingDataPointFillSettings.fillType"
+            "Expecting valid options.missingDataPointFillSettings.fillType",
           );
           if (actual.missingDataPointFillSettings!.fillType! === "CustomValue") {
             // not sure why TS didn't narrow down the union type for us...so casting to any
             assert.equal(
               (actual.missingDataPointFillSettings! as any).customFillValue,
               (options.missingDataPointFillSettings! as any).customFillValue,
-              "options.missingDataPointFillSettings.customFillValue mismatch"
+              "options.missingDataPointFillSettings.customFillValue mismatch",
             );
           }
           assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
           assert.equal(
             actual.rollupSettings!.rollupType,
             options.rollupSettings!.rollupType,
-            "options.missingDataPointFillSettings.rollupType mismatch"
+            "options.missingDataPointFillSettings.rollupType mismatch",
           );
           assert.ok(
             actual.rollupSettings!.rollupType,
-            "Expecting valid options.missingDataPointFillSettings.fillType"
+            "Expecting valid options.missingDataPointFillSettings.fillType",
           );
           if (actual.rollupSettings!.rollupType! === "AutoRollup") {
             // not sure why TS didn't narrow down the union type for us...so casting to any
             assert.equal(
               (actual.rollupSettings! as any).rollupIdentificationValue,
               (options.rollupSettings! as any).rollupIdentificationValue,
-              "options.missingDataPointFillSettings.fillType mismatch"
+              "options.missingDataPointFillSettings.fillType mismatch",
             );
           }
         });
 
-        it("retrieves an Azure Blob datafeed", async function (this: Context) {
+        it("retrieves an Azure Blob datafeed", async (ctx) => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource = {
             dataSourceType: "AzureBlob",
             container: "adsample",
             connectionString: undefined,
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           } as unknown as AzureBlobDataFeedSource;
 
           if (!createdAzureBlobDataFeedId) {
-            this.skip();
+            ctx.skip();
           }
 
           const actual = await client.getDataFeed(createdAzureBlobDataFeedId);
@@ -285,24 +291,24 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(
             actual.schema.metrics[0].name,
             dataFeedSchema.metrics[0].name,
-            "Schema metric 1 name mismatch!"
+            "Schema metric 1 name mismatch!",
           );
           assert.equal(
             actual.schema.metrics[1].name,
             dataFeedSchema.metrics[1].name,
-            "Schema metric 2 name mismatch!"
+            "Schema metric 2 name mismatch!",
           );
           assert.strictEqual(actual.schema.timestampColumn, "", "Schema timestampColumn mismatch!");
           assert.equal(
             actual.schema.dimensions![0].displayName,
             dataFeedSchema.dimensions![0].displayName,
-            "Schema dimension 1 display name mismatch!"
+            "Schema dimension 1 display name mismatch!",
           );
         });
 
-        it("updates an Azure Blob datafeed", async function (this: Context) {
+        it("updates an Azure Blob datafeed", async (ctx) => {
           if (!createdAzureBlobDataFeedId) {
-            this.skip();
+            ctx.skip();
           }
           const expectedSourceParameter: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -329,7 +335,7 @@ matrix([[true, false]] as const, async (useAad) => {
             source: {
               ...expectedSourceParameter,
             },
-            name: recorder.getUniqueName("Updated-Azure-Blob-data-feed-"),
+            name: getRecorderUniqueVariable(recorder, "Updated-Azure-Blob-data-feed-"),
             schema: {
               timestampColumn: "UpdatedTimestampeColumn",
             },
@@ -351,11 +357,11 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(
             updated.source,
-            expectedServerParameter as unknown as AzureBlobDataFeedSource
+            expectedServerParameter as unknown as AzureBlobDataFeedSource,
           );
           assert.equal(
             updated.source.authenticationType,
-            expectedSourceParameter.authenticationType
+            expectedSourceParameter.authenticationType,
           );
           assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
           assert.equal(updated.description, "Updated Azure Blob description");
@@ -374,8 +380,10 @@ matrix([[true, false]] as const, async (useAad) => {
             dataSourceType: "AzureApplicationInsights",
             azureCloud: "Azure",
             authenticationType: "Basic",
-            applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
-            apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
+            applicationId: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID",
+            ),
+            apiKey: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY"),
             query:
               "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode",
           };
@@ -395,12 +403,12 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.azureCloud, "Azure");
             assert.equal(
               actual.source.applicationId,
-              testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID"),
             );
             assert.equal(actual.source.apiKey, undefined);
             assert.equal(
               actual.source.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode",
             );
           }
         });
@@ -408,7 +416,9 @@ matrix([[true, false]] as const, async (useAad) => {
         it("creates an Azure SQL Server Feed", async () => {
           const expectedSource: DataFeedSource = {
             dataSourceType: "SqlServer",
-            connectionString: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING,
+            connectionString: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING",
+            ),
             query: "select * from adsample2 where Timestamp = @StartTime",
             authenticationType: "Basic",
           };
@@ -429,12 +439,12 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal((actual.source as any).connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "select * from adsample2 where Timestamp = @StartTime"
+              "select * from adsample2 where Timestamp = @StartTime",
             );
           }
         });
 
-        it("lists datafeed", async function () {
+        it("lists datafeed", async () => {
           const iterator = client.listDataFeeds({
             filter: {
               dataFeedName: "js-test-",
@@ -446,7 +456,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.status, "Expecting second data feed");
         });
 
-        it("lists datafeed by pages", async function () {
+        it("lists datafeed by pages", async () => {
           const iterator = client
             .listDataFeeds({
               filter: {
@@ -460,16 +470,16 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 1, "Expecting one entry in second page");
         });
 
-        it("deletes an Azure Blob datafeed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdAzureBlobDataFeedId);
+        it("deletes an Azure Blob datafeed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdAzureBlobDataFeedId);
         });
 
-        it("deletes an Azure Application Insights feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdAppFeedId);
+        it("deletes an Azure Application Insights feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdAppFeedId);
         });
 
-        it("deletes an Azure SQL Server feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdSqlServerFeedId);
+        it("deletes an Azure SQL Server feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdSqlServerFeedId);
         });
 
         it("creates an Azure Cosmos DB Feed", async () => {
@@ -497,7 +507,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.sqlQuery,
-              "let starttime=datetime(@StartTime); let endtime=starttime"
+              "let starttime=datetime(@StartTime); let endtime=starttime",
             );
             assert.equal(actual.source.database, "sample");
             assert.equal(actual.source.collectionId, "sample");
@@ -505,8 +515,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Cosmos DB", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdCosmosFeedId);
+        it("deletes an Azure Cosmos DB", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdCosmosFeedId);
         });
 
         it("creates an Azure Data Explorer feed", async () => {
@@ -532,14 +542,14 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "let starttime=datetime(@StartTime); let endtime=starttime"
+              "let starttime=datetime(@StartTime); let endtime=starttime",
             );
             assert.equal(actual.source.authenticationType, "ManagedIdentity");
           }
         });
 
-        it("deletes an Azure Data Explorer feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdAzureDataExplorerFeedId);
+        it("deletes an Azure Data Explorer feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdAzureDataExplorerFeedId);
         });
 
         it("creates an Azure Table feed", async () => {
@@ -570,8 +580,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Table feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdAzureTableFeedId);
+        it("deletes an Azure Table feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdAzureTableFeedId);
         });
 
         it("creates InfluxDB data feed", async () => {
@@ -605,8 +615,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes InfluxDB data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdInfluxFeedId);
+        it("deletes InfluxDB data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdInfluxFeedId);
         });
 
         it("creates MongoDB data feed", async () => {
@@ -634,14 +644,14 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.database, "data-feed-mongodb");
             assert.equal(
               actual.source.command,
-              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
         });
 
-        it("deletes MongoDB data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdMongoDbFeedId);
+        it("deletes MongoDB data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdMongoDbFeedId);
         });
 
         it("creates MySQL data feed", async () => {
@@ -667,14 +677,14 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
         });
 
-        it("deletes MySQL data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdMySqlFeedId);
+        it("deletes MySQL data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdMySqlFeedId);
         });
 
         it("creates Datalake Gen 2 data feed", async () => {
@@ -708,16 +718,16 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Datalake Gen 2 data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
+        it("deletes Datalake Gen 2 data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdDataLakeGenId);
         });
 
         it.skip("creates Eventhubs data feed", async () => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
-            connectionString: testEnv.METRICS_EVENTHUB_CONNECTION_STRING,
-            consumerGroup: testEnv.METRICS_EVENTHUB_CONSUMER_GROUP,
+            connectionString: assertEnvironmentVariable("METRICS_EVENTHUB_CONNECTION_STRING"),
+            consumerGroup: assertEnvironmentVariable("METRICS_EVENTHUB_CONSUMER_GROUP"),
           };
           const actual = await client.createDataFeed({
             name: eventHubsFeedName,
@@ -738,8 +748,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Eventhubs data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdEventhubsId);
+        it.skip("deletes Eventhubs data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdEventhubsId);
         });
 
         it("creates Log Analytics data feed", async () => {
@@ -776,8 +786,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Log Analytics data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdLogAnalyticsId);
+        it("deletes Log Analytics data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdLogAnalyticsId);
         });
 
         it("creates PostgreSQL data feed", async () => {
@@ -803,13 +813,13 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
         });
 
-        it("updates data feed to have a different data source type", async function () {
+        it("updates data feed to have a different data source type", async () => {
           const patch: DataFeedPatch = {
             source: {
               dataSourceType: "MongoDB",
@@ -834,12 +844,12 @@ matrix([[true, false]] as const, async (useAad) => {
 
           assert.deepStrictEqual(
             updated.source,
-            patchServer.source as unknown as MongoDbDataFeedSource
+            patchServer.source as unknown as MongoDbDataFeedSource,
           );
         });
 
-        it("deletes PostgreSQL data feed", async function (this: Context) {
-          await verifyDataFeedDeletion(this, client, createdPostGreSqlId);
+        it("deletes PostgreSQL data feed", async (ctx) => {
+          await verifyDataFeedDeletion(ctx, client, createdPostGreSqlId);
         });
 
         it("creates Unknown data feed", async () => {
@@ -861,12 +871,12 @@ matrix([[true, false]] as const, async (useAad) => {
           } catch (error: any) {
             assert.equal(
               (error as any).message,
-              "Cannot create a data feed with the Unknown source type."
+              "Cannot create a data feed with the Unknown source type.",
             );
           }
         });
 
-        it("updates data feed to have an unknown data source type", async function () {
+        it("updates data feed to have an unknown data source type", async () => {
           const patch: DataFeedPatch = {
             source: {
               dataSourceType: "Unknown",
@@ -878,19 +888,19 @@ matrix([[true, false]] as const, async (useAad) => {
           } catch (error: any) {
             assert.equal(
               (error as any).message,
-              "Cannot update a data feed to have the Unknown source type."
+              "Cannot update a data feed to have the Unknown source type.",
             );
           }
         });
       });
-    }).timeout(60000);
+    });
   });
 });
 
 export async function verifyDataFeedDeletion(
-  context: Context,
+  context: TaskContext,
   client: MetricsAdvisorAdministrationClient,
-  createdDataFeedId: string
+  createdDataFeedId: string,
 ): Promise<void> {
   if (!createdDataFeedId) {
     context.skip();

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to delete a resource.
  *
  * @summary Operation to delete a resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_Delete.json
  */
 async function webPubSubDelete() {
   const subscriptionId =

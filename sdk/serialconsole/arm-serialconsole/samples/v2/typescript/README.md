@@ -58,7 +58,7 @@ node dist/disableConsoleSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/disableConsoleSample.js
+npx dev-tool run vendored cross-env  node dist/disableConsoleSample.js
 ```
 
 ## Next Steps
@@ -75,7 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [serialportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v2/typescript/src/serialPortsGetSample.ts
 [serialportslistbysubscriptionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v2/typescript/src/serialPortsListBySubscriptionsSample.ts
 [serialportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v2/typescript/src/serialPortsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-serialconsole?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-serialconsole?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/serialconsole/arm-serialconsole/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

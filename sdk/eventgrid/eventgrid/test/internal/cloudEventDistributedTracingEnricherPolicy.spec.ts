@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { cloudEventDistributedTracingEnricherPolicy } from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  createPipelineRequest,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { cloudEventDistributedTracingEnricherPolicy } from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 
 const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
 
-describe("CloudEventDistributedTracingEnricherPolicy", function () {
+describe("CloudEventDistributedTracingEnricherPolicy", () => {
   const emptyResponse: SendRequest = (request: PipelineRequest): Promise<PipelineResponse> => {
     return Promise.resolve({ request: request, status: 200, headers: request.headers });
   };

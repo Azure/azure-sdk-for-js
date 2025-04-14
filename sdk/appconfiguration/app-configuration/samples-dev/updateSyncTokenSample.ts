@@ -12,17 +12,18 @@
 
 import { AppConfigurationClient } from "@azure/app-configuration";
 import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
-import { appConfigTestEvent } from "./testData";
+import { appConfigTestEvent } from "./testData.js";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { DefaultAzureCredential } from "@azure/identity";
 dotenv.config();
 
 // Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
 const consumer = new EventGridDeserializer();
 
 /**
- * For a full implementation, another service would act as a receiver for events {@link https://docs.microsoft.com/en-us/azure/event-grid/event-handlers}.
+ * For a full implementation, another service would act as a receiver for events {@link https://learn.microsoft.com/en-us/azure/event-grid/event-handlers}.
  * However, to avoid additional complexity for this sample, a hardcoded test event is being used. For full EventGrid samples, see
  * {@link https://github.com/Azure/azure-sdk-for-js/tree/ebbfcff02ca15b1792dc6c45d8ba10913891c530/sdk/eventgrid/eventgrid/samples-dev}.
  */
@@ -32,8 +33,10 @@ async function processEvent(): Promise<EventGridEvent<unknown>[]> {
 
 export async function main() {
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const greetingKey = "Samples:Greeting";
 
@@ -47,7 +50,7 @@ export async function main() {
   const events = await processEvent();
 
   // Iterate through events and log updated key-value pairs.
-  events.forEach(async (eventData) => {
+  await events.forEach(async (eventData) => {
     if (isSystemEvent("Microsoft.AppConfiguration.KeyValueModified", eventData)) {
       client.updateSyncToken(eventData.data.syncToken);
       const newSetting = await client.getConfigurationSetting({

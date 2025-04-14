@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a catalog.
  *
  * @summary Partially updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_Patch.json
  */
 async function catalogsUpdate() {
   const subscriptionId =
@@ -24,14 +24,17 @@ async function catalogsUpdate() {
   const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
   const devCenterName = "Contoso";
   const catalogName = "CentralCatalog";
-  const body = { gitHub: { path: "/environments" } };
+  const body = {
+    gitHub: { path: "/environments" },
+    syncType: "Scheduled",
+  };
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.catalogs.beginUpdateAndWait(
     resourceGroupName,
     devCenterName,
     catalogName,
-    body
+    body,
   );
   console.log(result);
 }

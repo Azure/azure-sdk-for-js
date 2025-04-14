@@ -8,8 +8,8 @@
 
 import {
   ManagedEnvironmentsDiagnosticsGetRootOptionalParams,
-  ManagedEnvironmentsDiagnosticsGetRootResponse
-} from "../models";
+  ManagedEnvironmentsDiagnosticsGetRootResponse,
+} from "../models/index.js";
 
 /** Interface representing a ManagedEnvironmentsDiagnostics. */
 export interface ManagedEnvironmentsDiagnostics {
@@ -22,6 +22,6 @@ export interface ManagedEnvironmentsDiagnostics {
   getRoot(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams
+    options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams,
   ): Promise<ManagedEnvironmentsDiagnosticsGetRootResponse>;
 }

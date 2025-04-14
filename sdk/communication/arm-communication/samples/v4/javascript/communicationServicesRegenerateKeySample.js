@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  *
  * @summary Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/regenerateKey.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/regenerateKey.json
  */
 async function regenerateKey() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function regenerateKey() {
   const result = await client.communicationServices.regenerateKey(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

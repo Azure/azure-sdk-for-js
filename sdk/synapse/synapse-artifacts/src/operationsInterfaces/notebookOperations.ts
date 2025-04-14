@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   NotebookResource,
   NotebookGetNotebooksByWorkspaceOptionalParams,
   NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
@@ -18,100 +18,100 @@ import {
   NotebookGetNotebookResponse,
   NotebookDeleteNotebookOptionalParams,
   ArtifactRenameRequest,
-  NotebookRenameNotebookOptionalParams
-} from "../models";
+  NotebookRenameNotebookOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NotebookOperations. */
 export interface NotebookOperations {
   /**
    * Lists Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listNotebooksByWorkspace(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Lists a summary of Notebooks.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listNotebookSummaryByWorkSpace(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Creates or updates a Note Book.
-   * @param notebookName The notebook name.
-   * @param notebook Note book resource definition.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param notebook - Note book resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateNotebook(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookCreateOrUpdateNotebookOptionalParams
+    options?: NotebookCreateOrUpdateNotebookOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<NotebookCreateOrUpdateNotebookResponse>,
+    SimplePollerLike<
+      OperationState<NotebookCreateOrUpdateNotebookResponse>,
       NotebookCreateOrUpdateNotebookResponse
     >
   >;
   /**
    * Creates or updates a Note Book.
-   * @param notebookName The notebook name.
-   * @param notebook Note book resource definition.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param notebook - Note book resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateNotebookAndWait(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookCreateOrUpdateNotebookOptionalParams
+    options?: NotebookCreateOrUpdateNotebookOptionalParams,
   ): Promise<NotebookCreateOrUpdateNotebookResponse>;
   /**
    * Gets a Note Book.
-   * @param notebookName The notebook name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param options - The options parameters.
    */
   getNotebook(
     notebookName: string,
-    options?: NotebookGetNotebookOptionalParams
+    options?: NotebookGetNotebookOptionalParams,
   ): Promise<NotebookGetNotebookResponse>;
   /**
    * Deletes a Note book.
-   * @param notebookName The notebook name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param options - The options parameters.
    */
   beginDeleteNotebook(
     notebookName: string,
-    options?: NotebookDeleteNotebookOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: NotebookDeleteNotebookOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Note book.
-   * @param notebookName The notebook name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param options - The options parameters.
    */
   beginDeleteNotebookAndWait(
     notebookName: string,
-    options?: NotebookDeleteNotebookOptionalParams
+    options?: NotebookDeleteNotebookOptionalParams,
   ): Promise<void>;
   /**
    * Renames a notebook.
-   * @param notebookName The notebook name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameNotebook(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookRenameNotebookOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: NotebookRenameNotebookOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a notebook.
-   * @param notebookName The notebook name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param notebookName - The notebook name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameNotebookAndWait(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookRenameNotebookOptionalParams
+    options?: NotebookRenameNotebookOptionalParams,
   ): Promise<void>;
 }

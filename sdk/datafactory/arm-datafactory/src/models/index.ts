@@ -53,6 +53,7 @@ export type LinkedServiceUnion =
   | AzureMySqlLinkedService
   | MySqlLinkedService
   | PostgreSqlLinkedService
+  | PostgreSqlV2LinkedService
   | SybaseLinkedService
   | Db2LinkedService
   | TeradataLinkedService
@@ -104,6 +105,7 @@ export type LinkedServiceUnion =
   | DrillLinkedService
   | EloquaLinkedService
   | GoogleBigQueryLinkedService
+  | GoogleBigQueryV2LinkedService
   | GreenplumLinkedService
   | HBaseLinkedService
   | HiveLinkedService
@@ -139,8 +141,14 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
+  | SnowflakeV2LinkedService
   | SharePointOnlineListLinkedService
-  | AzureSynapseArtifactsLinkedService;
+  | AzureSynapseArtifactsLinkedService
+  | LakeHouseLinkedService
+  | SalesforceV2LinkedService
+  | SalesforceServiceCloudV2LinkedService
+  | WarehouseLinkedService
+  | ServiceNowV2LinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -152,6 +160,7 @@ export type DatasetUnion =
   | XmlDataset
   | OrcDataset
   | BinaryDataset
+  | IcebergDataset
   | AzureBlobDataset
   | AzureTableDataset
   | AzureSqlTableDataset
@@ -184,6 +193,7 @@ export type DatasetUnion =
   | OdbcTableDataset
   | MySqlTableDataset
   | PostgreSqlTableDataset
+  | PostgreSqlV2TableDataset
   | MicrosoftAccessTableDataset
   | SalesforceObjectDataset
   | SalesforceServiceCloudObjectDataset
@@ -208,6 +218,7 @@ export type DatasetUnion =
   | DrillTableDataset
   | EloquaObjectDataset
   | GoogleBigQueryObjectDataset
+  | GoogleBigQueryV2ObjectDataset
   | GreenplumTableDataset
   | HBaseObjectDataset
   | HiveObjectDataset
@@ -237,8 +248,14 @@ export type DatasetUnion =
   | AzureDataExplorerTableDataset
   | GoogleAdWordsObjectDataset
   | SnowflakeDataset
+  | SnowflakeV2Dataset
   | SharePointOnlineListResourceDataset
-  | AzureDatabricksDeltaLakeDataset;
+  | AzureDatabricksDeltaLakeDataset
+  | LakeHouseTableDataset
+  | SalesforceV2ObjectDataset
+  | SalesforceServiceCloudV2ObjectDataset
+  | WarehouseTableDataset
+  | ServiceNowV2ObjectDataset;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -257,8 +274,8 @@ export type DataFlowUnion =
   | WranglingDataFlow;
 export type CredentialUnion =
   | Credential
-  | ManagedIdentityCredential
-  | ServicePrincipalCredential;
+  | ServicePrincipalCredential
+  | ManagedIdentityCredential;
 export type SecretBaseUnion =
   | SecretBase
   | SecureString
@@ -277,7 +294,8 @@ export type DatasetLocationUnion =
   | FtpServerLocation
   | SftpLocation
   | HttpServerLocation
-  | HdfsLocation;
+  | HdfsLocation
+  | LakeHouseLocation;
 export type DatasetStorageFormatUnion =
   | DatasetStorageFormat
   | TextFormat
@@ -314,7 +332,8 @@ export type StoreReadSettingsUnion =
   | FtpReadSettings
   | SftpReadSettings
   | HttpReadSettings
-  | HdfsReadSettings;
+  | HdfsReadSettings
+  | LakeHouseReadSettings;
 export type StoreWriteSettingsUnion =
   | StoreWriteSettings
   | SftpWriteSettings
@@ -322,9 +341,11 @@ export type StoreWriteSettingsUnion =
   | AzureBlobFSWriteSettings
   | AzureDataLakeStoreWriteSettings
   | FileServerWriteSettings
-  | AzureFileStorageWriteSettings;
+  | AzureFileStorageWriteSettings
+  | LakeHouseWriteSettings;
 export type FormatReadSettingsUnion =
   | FormatReadSettings
+  | ParquetReadSettings
   | DelimitedTextReadSettings
   | JsonReadSettings
   | XmlReadSettings
@@ -340,7 +361,8 @@ export type FormatWriteSettingsUnion =
   | OrcWriteSettings
   | ParquetWriteSettings
   | DelimitedTextWriteSettings
-  | JsonWriteSettings;
+  | JsonWriteSettings
+  | IcebergWriteSettings;
 export type CopySourceUnion =
   | CopySource
   | AvroSource
@@ -377,9 +399,12 @@ export type CopySourceUnion =
   | AzureDataLakeStoreSource
   | AzureBlobFSSource
   | HttpSource
+  | LakeHouseTableSource
   | SnowflakeSource
+  | SnowflakeV2Source
   | AzureDatabricksDeltaLakeSource
-  | SharePointOnlineListSource;
+  | SharePointOnlineListSource
+  | SalesforceServiceCloudV2Source;
 export type CopySinkUnion =
   | CopySink
   | DelimitedTextSink
@@ -389,12 +414,14 @@ export type CopySinkUnion =
   | AzurePostgreSqlSink
   | AzureMySqlSink
   | AzureDatabricksDeltaLakeSink
+  | WarehouseSink
   | SapCloudForCustomerSink
   | AzureQueueSink
   | AzureTableSink
   | AvroSink
   | ParquetSink
   | BinarySink
+  | IcebergSink
   | BlobSink
   | FileSystemSink
   | DocumentDbCollectionSink
@@ -405,6 +432,7 @@ export type CopySinkUnion =
   | SqlMISink
   | SqlDWSink
   | SnowflakeSink
+  | SnowflakeV2Sink
   | OracleSink
   | AzureDataLakeStoreSink
   | AzureBlobFSSink
@@ -420,7 +448,10 @@ export type CopySinkUnion =
   | SalesforceServiceCloudSink
   | MongoDbAtlasSink
   | MongoDbV2Sink
-  | CosmosDbMongoDbApiSink;
+  | CosmosDbMongoDbApiSink
+  | LakeHouseTableSink
+  | SalesforceV2Sink
+  | SalesforceServiceCloudV2Sink;
 export type ExportSettingsUnion =
   | ExportSettings
   | SnowflakeExportCopyCommand
@@ -490,6 +521,7 @@ export type TabularSourceUnion =
   | OdbcSource
   | MySqlSource
   | PostgreSqlSource
+  | PostgreSqlV2Source
   | SybaseSource
   | SapBwSource
   | SalesforceSource
@@ -515,6 +547,7 @@ export type TabularSourceUnion =
   | DrillSource
   | EloquaSource
   | GoogleBigQuerySource
+  | GoogleBigQueryV2Source
   | GreenplumSource
   | HBaseSource
   | HiveSource
@@ -542,7 +575,10 @@ export type TabularSourceUnion =
   | DynamicsAXSource
   | OracleServiceCloudSource
   | GoogleAdWordsSource
-  | AmazonRedshiftSource;
+  | AmazonRedshiftSource
+  | WarehouseSource
+  | SalesforceV2Source
+  | ServiceNowV2Source;
 export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
@@ -1272,6 +1308,7 @@ export interface LinkedService {
     | "AzureMySql"
     | "MySql"
     | "PostgreSql"
+    | "PostgreSqlV2"
     | "Sybase"
     | "Db2"
     | "Teradata"
@@ -1323,6 +1360,7 @@ export interface LinkedService {
     | "Drill"
     | "Eloqua"
     | "GoogleBigQuery"
+    | "GoogleBigQueryV2"
     | "Greenplum"
     | "HBase"
     | "Hive"
@@ -1358,10 +1396,18 @@ export interface LinkedService {
     | "AzureDataExplorer"
     | "AzureFunction"
     | "Snowflake"
+    | "SnowflakeV2"
     | "SharePointOnlineList"
-    | "AzureSynapseArtifacts";
+    | "AzureSynapseArtifacts"
+    | "LakeHouse"
+    | "SalesforceV2"
+    | "SalesforceServiceCloudV2"
+    | "Warehouse"
+    | "ServiceNowV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** Version of the linked service. */
+  version?: string;
   /** The integration runtime reference. */
   connectVia?: IntegrationRuntimeReference;
   /** Linked service description. */
@@ -1411,6 +1457,7 @@ export interface Dataset {
     | "Xml"
     | "Orc"
     | "Binary"
+    | "Iceberg"
     | "AzureBlob"
     | "AzureTable"
     | "AzureSqlTable"
@@ -1443,6 +1490,7 @@ export interface Dataset {
     | "OdbcTable"
     | "MySqlTable"
     | "PostgreSqlTable"
+    | "PostgreSqlV2Table"
     | "MicrosoftAccessTable"
     | "SalesforceObject"
     | "SalesforceServiceCloudObject"
@@ -1467,6 +1515,7 @@ export interface Dataset {
     | "DrillTable"
     | "EloquaObject"
     | "GoogleBigQueryObject"
+    | "GoogleBigQueryV2Object"
     | "GreenplumTable"
     | "HBaseObject"
     | "HiveObject"
@@ -1496,8 +1545,14 @@ export interface Dataset {
     | "AzureDataExplorerTable"
     | "GoogleAdWordsObject"
     | "SnowflakeTable"
+    | "SnowflakeV2Table"
     | "SharePointOnlineListResource"
-    | "AzureDatabricksDeltaLakeDataset";
+    | "AzureDatabricksDeltaLakeDataset"
+    | "LakeHouseTable"
+    | "SalesforceV2Object"
+    | "SalesforceServiceCloudV2Object"
+    | "WarehouseTable"
+    | "ServiceNowV2Object";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Dataset description. */
@@ -1591,6 +1646,10 @@ export interface Activity {
   name: string;
   /** Activity description. */
   description?: string;
+  /** Activity state. This is an optional property and if not provided, the state will be Active by default. */
+  state?: ActivityState;
+  /** Status result of the activity when the state is set to Inactive. This is an optional property and if not provided when the activity is inactive, the status will be Succeeded by default. */
+  onInactiveMarkAs?: ActivityOnInactiveMarkAs;
   /** Activity depends on condition. */
   dependsOn?: ActivityDependency[];
   /** Activity user properties. */
@@ -2245,7 +2304,7 @@ export interface ConnectionStateProperties {
 /** A list of credential resources. */
 export interface CredentialListResponse {
   /** List of credentials. */
-  value: ManagedIdentityCredentialResource[];
+  value: CredentialResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
 }
@@ -2253,7 +2312,7 @@ export interface CredentialListResponse {
 /** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
 export interface Credential {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ManagedIdentity" | "ServicePrincipal";
+  type: "ServicePrincipal" | "ManagedIdentity";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Credential description. */
@@ -2340,6 +2399,150 @@ export interface GlobalParameterListResponse {
   value: GlobalParameterResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
+}
+
+/** A list of change data capture resources. */
+export interface ChangeDataCaptureListResponse {
+  /** Lists all resources of type change data capture. */
+  value: ChangeDataCaptureResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** The folder that this CDC is in. If not specified, CDC will appear at the root level. */
+export interface ChangeDataCaptureFolder {
+  /** The name of the folder that this CDC is in. */
+  name?: string;
+}
+
+/** A object which contains list of tables and connection details for a source connection. */
+export interface MapperSourceConnectionsInfo {
+  /** List of source tables for a source connection. */
+  sourceEntities?: MapperTable[];
+  /** Source connection details. */
+  connection?: MapperConnection;
+}
+
+/** CDC table details. */
+export interface MapperTable {
+  /** Name of the table. */
+  name?: string;
+  /** List of columns for the source table. */
+  schema?: MapperTableSchema[];
+  /** List of name/value pairs for connection properties. */
+  dslConnectorProperties?: MapperDslConnectorProperties[];
+}
+
+/** Schema of a CDC table in terms of column names and their corresponding data types. */
+export interface MapperTableSchema {
+  /** Name of the column. */
+  name?: string;
+  /** Data type of the column. */
+  dataType?: string;
+}
+
+/** Connector properties of a CDC table in terms of name / value pairs. */
+export interface MapperDslConnectorProperties {
+  /** Name of the property. */
+  name?: string;
+  /** Value of the property. */
+  value?: any;
+}
+
+/** Source connection details. */
+export interface MapperConnection {
+  /** Linked service reference. */
+  linkedService?: LinkedServiceReference;
+  /** Type of the linked service e.g.: AzureBlobFS. */
+  linkedServiceType?: string;
+  /** Type of connection via linked service or dataset. */
+  type: ConnectionType;
+  /** A boolean indicating whether linked service is of type inline dataset. Currently only inline datasets are supported. */
+  isInlineDataset?: boolean;
+  /** List of name/value pairs for connection properties. */
+  commonDslConnectorProperties?: MapperDslConnectorProperties[];
+}
+
+/** A object which contains list of tables and connection details for a target connection. */
+export interface MapperTargetConnectionsInfo {
+  /** List of source tables for a target connection. */
+  targetEntities?: MapperTable[];
+  /** Source connection details. */
+  connection?: MapperConnection;
+  /** List of table mappings. */
+  dataMapperMappings?: DataMapperMapping[];
+  /** List of relationship info among the tables. */
+  relationships?: any[];
+}
+
+/** Source and target table mapping details. */
+export interface DataMapperMapping {
+  /** Name of the target table */
+  targetEntityName?: string;
+  /** Name of the source table */
+  sourceEntityName?: string;
+  /** The connection reference for the source connection. */
+  sourceConnectionReference?: MapperConnectionReference;
+  /** This holds the user provided attribute mapping information. */
+  attributeMappingInfo?: MapperAttributeMappings;
+  /** This holds the source denormalization information used while joining multiple sources. */
+  sourceDenormalizeInfo?: any;
+}
+
+/** Source or target connection reference details. */
+export interface MapperConnectionReference {
+  /** Name of the connection */
+  connectionName?: string;
+  /** Type of connection via linked service or dataset. */
+  type?: ConnectionType;
+}
+
+/** Attribute mapping details. */
+export interface MapperAttributeMappings {
+  /** List of attribute mappings. */
+  attributeMappings?: MapperAttributeMapping[];
+}
+
+/** Source and target column mapping details. */
+export interface MapperAttributeMapping {
+  /** Name of the target column. */
+  name?: string;
+  /** Type of the CDC attribute mapping. Note: 'Advanced' mapping type is also saved as 'Derived'. */
+  type?: MappingType;
+  /** Name of the function used for 'Aggregate' and 'Derived' (except 'Advanced') type mapping. */
+  functionName?: string;
+  /** Expression used for 'Aggregate' and 'Derived' type mapping. */
+  expression?: string;
+  /** Reference of the source column used in the mapping. It is used for 'Direct' mapping type only. */
+  attributeReference?: MapperAttributeReference;
+  /** List of references for source columns. It is used for 'Derived' and 'Aggregate' type mappings only. */
+  attributeReferences?: MapperAttributeReference[];
+}
+
+/** Attribute reference details for the referred column. */
+export interface MapperAttributeReference {
+  /** Name of the column. */
+  name?: string;
+  /** Name of the table. */
+  entity?: string;
+  /** The connection reference for the connection. */
+  entityConnectionReference?: MapperConnectionReference;
+}
+
+/** CDC Policy. */
+export interface MapperPolicy {
+  /** Mode of running the CDC: batch vs continuous. */
+  mode?: string;
+  /** Defines the frequency and interval for running the CDC for batch mode. */
+  recurrence?: MapperPolicyRecurrence;
+}
+
+/** CDC policy recurrence details. */
+export interface MapperPolicyRecurrence {
+  /** Frequency of period in terms of 'Hour', 'Minute' or 'Second'. */
+  frequency?: FrequencyType;
+  /** Actual interval value as per chosen frequency. */
+  interval?: number;
 }
 
 /** Azure Data Factory expression definition. */
@@ -2462,7 +2665,8 @@ export interface DatasetLocation {
     | "FtpServerLocation"
     | "SftpLocation"
     | "HttpServerLocation"
-    | "HdfsLocation";
+    | "HdfsLocation"
+    | "LakeHouseLocation";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specify the folder path of dataset. Type: string (or Expression with resultType string) */
@@ -2550,6 +2754,15 @@ export interface IntegrationRuntimeDataFlowProperties {
   timeToLive?: number;
   /** Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true. */
   cleanup?: boolean;
+  /** Custom properties are used to tune the data flow runtime performance. */
+  customProperties?: IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem[];
+}
+
+export interface IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem {
+  /** Name of custom property. */
+  name?: string;
+  /** Value of custom property. */
+  value?: string;
 }
 
 /** VNet properties for managed integration runtime. */
@@ -2582,6 +2795,10 @@ export interface PipelineExternalComputeScaleProperties {
   [property: string]: any;
   /** Time to live (in minutes) setting of integration runtime which will execute pipeline and external activity. */
   timeToLive?: number;
+  /** Number of the pipeline nodes, which should be greater than 0 and less than 11. */
+  numberOfPipelineNodes?: number;
+  /** Number of the the external nodes, which should be greater than 0 and less than 11. */
+  numberOfExternalNodes?: number;
 }
 
 /** SSIS properties for managed integration runtime. */
@@ -2845,9 +3062,65 @@ export interface SsisVariable {
   sensitiveValue?: string;
 }
 
+/** Azure Storage linked service properties. */
+export interface AzureStorageLinkedServiceTypeProperties {
+  /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The Azure key vault secret reference of accountKey in connection string. */
+  accountKey?: AzureKeyVaultSecretReference;
+  /** SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  sasUri?: any;
+  /** The Azure key vault secret reference of sasToken in sas uri. */
+  sasToken?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Sql Server family connector common linked service properties. */
+export interface SqlServerBaseLinkedServiceTypeProperties {
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
+}
+
 /** Sql always encrypted properties. */
 export interface SqlAlwaysEncryptedProperties {
-  /** Sql always encrypted AKV authentication type. Type: string (or Expression with resultType string). */
+  /** Sql always encrypted AKV authentication type. Type: string. */
   alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
   /** The client ID of the application in Azure Active Directory used for Azure Key Vault authentication. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
@@ -2909,7 +3182,8 @@ export interface StoreReadSettings {
     | "FtpReadSettings"
     | "SftpReadSettings"
     | "HttpReadSettings"
-    | "HdfsReadSettings";
+    | "HdfsReadSettings"
+    | "LakeHouseReadSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
@@ -2927,7 +3201,8 @@ export interface StoreWriteSettings {
     | "AzureBlobFSWriteSettings"
     | "AzureDataLakeStoreWriteSettings"
     | "FileServerWriteSettings"
-    | "AzureFileStorageWriteSettings";
+    | "AzureFileStorageWriteSettings"
+    | "LakeHouseWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
@@ -2936,6 +3211,16 @@ export interface StoreWriteSettings {
   disableMetricsCollection?: any;
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
+  /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
+  metadata?: MetadataItem[];
+}
+
+/** Specify the name and value of custom metadata item. */
+export interface MetadataItem {
+  /** Metadata item key name. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** Metadata item value. Type: string (or Expression with resultType string). */
+  value?: any;
 }
 
 /** Distcp settings. */
@@ -2952,6 +3237,7 @@ export interface DistcpSettings {
 export interface FormatReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
+    | "ParquetReadSettings"
     | "DelimitedTextReadSettings"
     | "JsonReadSettings"
     | "XmlReadSettings"
@@ -2976,7 +3262,8 @@ export interface FormatWriteSettings {
     | "OrcWriteSettings"
     | "ParquetWriteSettings"
     | "DelimitedTextWriteSettings"
-    | "JsonWriteSettings";
+    | "JsonWriteSettings"
+    | "IcebergWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -3008,6 +3295,7 @@ export interface CopySource {
     | "OdbcSource"
     | "MySqlSource"
     | "PostgreSqlSource"
+    | "PostgreSqlV2Source"
     | "SybaseSource"
     | "SapBwSource"
     | "ODataSource"
@@ -3050,6 +3338,7 @@ export interface CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -3078,9 +3367,15 @@ export interface CopySource {
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource"
+    | "LakeHouseTableSource"
     | "SnowflakeSource"
+    | "SnowflakeV2Source"
     | "AzureDatabricksDeltaLakeSource"
-    | "SharePointOnlineListSource";
+    | "WarehouseSource"
+    | "SharePointOnlineListSource"
+    | "SalesforceV2Source"
+    | "SalesforceServiceCloudV2Source"
+    | "ServiceNowV2Source";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
@@ -3104,12 +3399,14 @@ export interface CopySink {
     | "AzurePostgreSqlSink"
     | "AzureMySqlSink"
     | "AzureDatabricksDeltaLakeSink"
+    | "WarehouseSink"
     | "SapCloudForCustomerSink"
     | "AzureQueueSink"
     | "AzureTableSink"
     | "AvroSink"
     | "ParquetSink"
     | "BinarySink"
+    | "IcebergSink"
     | "BlobSink"
     | "FileSystemSink"
     | "DocumentDbCollectionSink"
@@ -3120,6 +3417,7 @@ export interface CopySink {
     | "SqlMISink"
     | "SqlDWSink"
     | "SnowflakeSink"
+    | "SnowflakeV2Sink"
     | "OracleSink"
     | "AzureDataLakeStoreSink"
     | "AzureBlobFSSink"
@@ -3135,7 +3433,10 @@ export interface CopySink {
     | "SalesforceServiceCloudSink"
     | "MongoDbAtlasSink"
     | "MongoDbV2Sink"
-    | "CosmosDbMongoDbApiSink";
+    | "CosmosDbMongoDbApiSink"
+    | "LakeHouseTableSink"
+    | "SalesforceV2Sink"
+    | "SalesforceServiceCloudV2Sink";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Write batch size. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3298,6 +3599,12 @@ export interface MongoDbCursorMethodsProperties {
   limit?: any;
 }
 
+/** The columns to be read out from the Office 365 table. */
+export interface OutputColumn {
+  /** Name of the table column. Type: string. */
+  name?: string;
+}
+
 /** The settings that will be leveraged for Netezza source partitioning. */
 export interface NetezzaPartitionSettings {
   /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
@@ -3332,20 +3639,28 @@ export interface ImportSettings {
   [property: string]: any;
 }
 
+/** DW Copy Command settings. */
+export interface DWCopyCommandSettings {
+  /** Specifies the default values for each target column in SQL DW. The default values in the property overwrite the DEFAULT constraint set in the DB, and identity column cannot have a default value. Type: array of objects (or Expression with resultType array of objects). */
+  defaultValues?: DWCopyCommandDefaultValue[];
+  /** Additional options directly passed to SQL DW in Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalOptions": { "MAXERRORS": "1000", "DATEFORMAT": "'ymd'" } */
+  additionalOptions?: { [propertyName: string]: string };
+}
+
+/** Default value. */
+export interface DWCopyCommandDefaultValue {
+  /** Column name. Type: object (or Expression with resultType string). */
+  columnName?: any;
+  /** The default value of the column. Type: object (or Expression with resultType string). */
+  defaultValue?: any;
+}
+
 /** SQL stored procedure parameter. */
 export interface StoredProcedureParameter {
   /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
   value?: any;
   /** Stored procedure parameter type. */
   type?: StoredProcedureParameterType;
-}
-
-/** Specify the name and value of custom metadata item. */
-export interface MetadataItem {
-  /** Metadata item key name. Type: string (or Expression with resultType string). */
-  name?: any;
-  /** Metadata item value. Type: string (or Expression with resultType string). */
-  value?: any;
 }
 
 /** Sql upsert option settings */
@@ -3370,22 +3685,6 @@ export interface PolybaseSettings {
   rejectSampleValue?: any;
   /** Specifies how to handle missing values in delimited text files when PolyBase retrieves data from the text file. Type: boolean (or Expression with resultType boolean). */
   useTypeDefault?: any;
-}
-
-/** DW Copy Command settings. */
-export interface DWCopyCommandSettings {
-  /** Specifies the default values for each target column in SQL DW. The default values in the property overwrite the DEFAULT constraint set in the DB, and identity column cannot have a default value. Type: array of objects (or Expression with resultType array of objects). */
-  defaultValues?: DWCopyCommandDefaultValue[];
-  /** Additional options directly passed to SQL DW in Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalOptions": { "MAXERRORS": "1000", "DATEFORMAT": "'ymd'" } */
-  additionalOptions?: { [propertyName: string]: string };
-}
-
-/** Default value. */
-export interface DWCopyCommandDefaultValue {
-  /** Column name. Type: object (or Expression with resultType string). */
-  columnName?: any;
-  /** The default value of the column. Type: object (or Expression with resultType string). */
-  defaultValue?: any;
 }
 
 /** Sql DW upsert option settings */
@@ -3454,9 +3753,9 @@ export interface SsisPackageLocation {
 
 /** SSIS access credential. */
 export interface SsisAccessCredential {
-  /** Domain for windows authentication. */
+  /** Domain for windows authentication. Type: string (or Expression with resultType string). */
   domain: any;
-  /** UseName for windows authentication. */
+  /** UseName for windows authentication. Type: string (or Expression with resultType string). */
   userName: any;
   /** Password for windows authentication. */
   password: SecretBaseUnion;
@@ -3476,9 +3775,9 @@ export interface SsisChildPackage {
 
 /** SSIS package execution credential. */
 export interface SsisExecutionCredential {
-  /** Domain for windows authentication. */
+  /** Domain for windows authentication. Type: string (or Expression with resultType string). */
   domain: any;
-  /** UseName for windows authentication. */
+  /** UseName for windows authentication. Type: string (or Expression with resultType string). */
   userName: any;
   /** Password for windows authentication. */
   password: SecureString;
@@ -3560,6 +3859,14 @@ export interface AzureMLWebServiceFile {
   linkedServiceName: LinkedServiceReference;
 }
 
+/** Execution policy for an activity that supports secure input and output. */
+export interface SecureInputOutputPolicy {
+  /** When set to true, Input from activity is considered as secure and will not be logged to monitoring. */
+  secureInput?: boolean;
+  /** When set to true, Output from activity is considered as secure and will not be logged to monitoring. */
+  secureOutput?: boolean;
+}
+
 /** Execute data flow activity properties. */
 export interface ExecuteDataFlowActivityTypeProperties {
   /** Data flow reference. */
@@ -3568,6 +3875,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -3578,6 +3887,16 @@ export interface ExecuteDataFlowActivityTypeProperties {
   runConcurrently?: any;
   /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
   sourceStagingConcurrency?: any;
+}
+
+/** Continuation settings for execute data flow activity. */
+export interface ContinuationSettingsReference {
+  /** Continuation TTL in minutes. */
+  continuationTtlInMinutes?: any;
+  /** Idle condition. */
+  idleCondition?: any;
+  /** Customized checkpoint key. */
+  customizedCheckpointKey?: any;
 }
 
 /** Compute properties for data flow activity. */
@@ -3600,8 +3919,8 @@ export interface PowerQuerySinkMapping {
 export interface ScriptActivityScriptBlock {
   /** The query text. Type: string (or Expression with resultType string). */
   text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
+  /** The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with resultType string). */
+  type: any;
   /** Array of script parameters. Type: array. */
   parameters?: ScriptActivityParameter[];
 }
@@ -3612,7 +3931,7 @@ export interface ScriptActivityParameter {
   name?: any;
   /** The type of the parameter. */
   type?: ScriptActivityParameterType;
-  /** The value of the parameter. */
+  /** The value of the parameter. Type: string (or Expression with resultType string). */
   value?: any;
   /** The direction of the parameter. */
   direction?: ScriptActivityParameterDirection;
@@ -3652,6 +3971,14 @@ export interface NotebookParameter {
   type?: NotebookParameterType;
 }
 
+/** Spark configuration reference. */
+export interface SparkConfigurationParametrizationReference {
+  /** Spark configuration reference type. */
+  type: SparkConfigurationReferenceType;
+  /** Reference spark configuration name. Type: string (or Expression with resultType string). */
+  referenceName: any;
+}
+
 /** Synapse spark job reference type. */
 export interface SynapseSparkJobReference {
   /** Synapse spark job reference type. */
@@ -3660,12 +3987,16 @@ export interface SynapseSparkJobReference {
   referenceName: any;
 }
 
-/** Spark configuration reference. */
-export interface SparkConfigurationParametrizationReference {
-  /** Spark configuration reference type. */
-  type: SparkConfigurationReferenceType;
-  /** Reference spark configuration name. Type: string (or Expression with resultType string). */
-  referenceName: any;
+/** Nested representation of a complex expression. */
+export interface ExpressionV2 {
+  /** Type of expressions supported by the system. Type: string. */
+  type?: ExpressionV2Type;
+  /** Value for Constant/Field Type: string. */
+  value?: string;
+  /** Expression operator value Type: list of strings. */
+  operators?: string[];
+  /** List of nested expressions. */
+  operands?: ExpressionV2[];
 }
 
 /** The workflow trigger recurrence. */
@@ -3817,6 +4148,8 @@ export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
   type: "SelfHosted";
   /** The base definition of a linked integration runtime. */
   linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+  /** An alternative option to ensure interactive authoring function when your self-hosted integration runtime is unable to establish a connection with Azure Relay. */
+  selfContainedInteractiveAuthoringEnabled?: boolean;
 }
 
 /** Integration runtime resource type. */
@@ -3886,9 +4219,9 @@ export interface ManagedPrivateEndpointResource extends SubResource {
 }
 
 /** Credential resource type. */
-export interface ManagedIdentityCredentialResource extends SubResource {
-  /** Managed Identity Credential properties. */
-  properties: ManagedIdentityCredential;
+export interface CredentialResource extends SubResource {
+  /** Properties of credentials. */
+  properties: CredentialUnion;
 }
 
 /** Private Endpoint Connection ARM resource. */
@@ -3916,10 +4249,24 @@ export interface GlobalParameterResource extends SubResource {
   properties: { [propertyName: string]: GlobalParameterSpecification };
 }
 
-/** Credential resource type. */
-export interface CredentialResource extends SubResource {
-  /** Properties of credentials. */
-  properties: CredentialUnion;
+/** Change data capture resource type. */
+export interface ChangeDataCaptureResource extends SubResource {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The folder that this CDC is in. If not specified, CDC will appear at the root level. */
+  folder?: ChangeDataCaptureFolder;
+  /** The description of the change data capture. */
+  description?: string;
+  /** List of sources connections that can be used as sources in the CDC. */
+  sourceConnectionsInfo: MapperSourceConnectionsInfo[];
+  /** List of target connections that can be used as sources in the CDC. */
+  targetConnectionsInfo: MapperTargetConnectionsInfo[];
+  /** CDC policy */
+  policy: MapperPolicy;
+  /** A boolean to determine if the vnet configuration needs to be overwritten. */
+  allowVNetOverride?: boolean;
+  /** Status of the CDC as to if it is running or stopped. */
+  status?: string;
 }
 
 /** Managed integration runtime status. */
@@ -4028,6 +4375,11 @@ export interface SelfHostedIntegrationRuntimeStatus
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly autoUpdateETA?: Date;
+  /**
+   * An alternative option to ensure interactive authoring function when your self-hosted integration runtime is unable to establish a connection with Azure Relay.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly selfContainedInteractiveAuthoringEnabled?: boolean;
 }
 
 /** Ssis folder. */
@@ -4086,7 +4438,7 @@ export interface AzureStorageLinkedService extends LinkedService {
   sasUri?: any;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
 
@@ -4103,7 +4455,7 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
   /** Blob service endpoint of the Azure Blob Storage resource. It is mutually exclusive with connectionString, sasUri property. */
-  serviceEndpoint?: string;
+  serviceEndpoint?: any;
   /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
@@ -4113,8 +4465,8 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
   /** Specify the kind of your storage account. Allowed values are: Storage (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression with resultType string). */
-  accountKind?: string;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  accountKind?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
@@ -4136,28 +4488,78 @@ export interface AzureTableStorageLinkedService extends LinkedService {
   sasUri?: any;
   /** The Azure key vault secret reference of sasToken in sas uri. */
   sasToken?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
+  /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Azure SQL Data Warehouse linked service. */
 export interface AzureSqlDWLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDW";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDWAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4166,30 +4568,112 @@ export interface AzureSqlDWLinkedService extends LinkedService {
 export interface SqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServer";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SqlServerAuthenticationType;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
   userName?: any;
   /** The on-premises Windows authentication password. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon RDS for SQL Server linked service. */
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServer";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AmazonRdsForSqlAuthenticationType;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
   userName?: any;
   /** The on-premises Windows authentication password. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
@@ -4198,20 +4682,66 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDatabase";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDatabaseAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Database. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
@@ -4222,20 +4752,66 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
 export interface AzureSqlMILinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMI";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlMIAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Managed Instance. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
@@ -4256,8 +4832,8 @@ export interface AzureBatchLinkedService extends LinkedService {
   poolName: any;
   /** The Azure Storage linked service reference. */
   linkedServiceName: LinkedServiceReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4286,18 +4862,18 @@ export interface CosmosDbLinkedService extends LinkedService {
   accountKey?: SecretBaseUnion;
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
-  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string. */
+  servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The connection mode used to access CosmosDB account. Type: string (or Expression with resultType string). */
+  /** The connection mode used to access CosmosDB account. Type: string. */
   connectionMode?: CosmosDbConnectionMode;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4316,8 +4892,10 @@ export interface DynamicsLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Dynamics instance. The property is required for on-prem and required for online when there are more than one Dynamics instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Dynamics instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics instance. */
@@ -4328,8 +4906,8 @@ export interface DynamicsLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4348,8 +4926,10 @@ export interface DynamicsCrmLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Dynamics CRM instance. The property is required for on-prem and required for online when there are more than one Dynamics CRM instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Dynamics CRM instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics CRM instance. */
@@ -4360,8 +4940,10 @@ export interface DynamicsCrmLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Common Data Service for Apps linked service. */
@@ -4378,8 +4960,10 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Common Data Service for Apps instance. The property is required for on-prem and required for online when there are more than one Common Data Service for Apps instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Common Data Service for Apps instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Common Data Service for Apps instance. */
@@ -4390,8 +4974,8 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** HDInsight linked service. */
@@ -4408,8 +4992,8 @@ export interface HDInsightLinkedService extends LinkedService {
   linkedServiceName?: LinkedServiceReference;
   /** A reference to the Azure SQL linked service that points to the HCatalog database. */
   hcatalogLinkedServiceName?: LinkedServiceReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Specify if the HDInsight is created with ESP (Enterprise Security Package). Type: Boolean. */
   isEspEnabled?: any;
   /** Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type: string (or Expression with resultType string). */
@@ -4426,8 +5010,8 @@ export interface FileServerLinkedService extends LinkedService {
   userId?: any;
   /** Password to logon the server. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure File Storage linked service. */
@@ -4452,8 +5036,12 @@ export interface AzureFileStorageLinkedService extends LinkedService {
   fileShare?: any;
   /** The azure file share snapshot version. Type: string (or Expression with resultType string). */
   snapshot?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** File service endpoint of the Azure File Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Linked service for Amazon S3 Compatible. */
@@ -4468,8 +5056,8 @@ export interface AmazonS3CompatibleLinkedService extends LinkedService {
   serviceUrl?: any;
   /** If true, use S3 path-style access instead of virtual hosted-style access. Default value is false. Type: boolean (or Expression with resultType boolean). */
   forcePathStyle?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Oracle Cloud Storage. */
@@ -4482,8 +5070,8 @@ export interface OracleCloudStorageLinkedService extends LinkedService {
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the Oracle Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
   serviceUrl?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Google Cloud Storage. */
@@ -4496,8 +5084,8 @@ export interface GoogleCloudStorageLinkedService extends LinkedService {
   secretAccessKey?: SecretBaseUnion;
   /** This value specifies the endpoint to access with the Google Cloud Storage Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
   serviceUrl?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Oracle database. */
@@ -4508,8 +5096,8 @@ export interface OracleLinkedService extends LinkedService {
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** AmazonRdsForOracle database. */
@@ -4520,8 +5108,8 @@ export interface AmazonRdsForOracleLinkedService extends LinkedService {
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure MySQL database linked service. */
@@ -4532,32 +5120,106 @@ export interface AzureMySqlLinkedService extends LinkedService {
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for MySQL data source. */
 export interface MySqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySql";
-  /** The connection string. */
-  connectionString: any;
+  /** The version of the MySQL driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  driverVersion?: any;
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1: prefer, 2: require, 3: verify-ca, 4: verify-full. */
+  sslMode?: any;
+  /** Use system trust store for connection. Type: integer. 0: enable, 1: disable. */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** This allows the special “zero” date value 0000-00-00 to be retrieved from the database. Type: boolean. */
+  allowZeroDateTime?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error. Type: integer. */
+  connectionTimeout?: any;
+  /** True to return DateTime.MinValue for date or datetime columns that have disallowed values. Type: boolean. */
+  convertZeroDateTime?: any;
+  /** Determines which column type (if any) should be read as a GUID. Type: string. None: No column types are automatically read as a Guid; Char36: All CHAR(36) columns are read/written as a Guid using lowercase hex with hyphens, which matches UUID. */
+  guidFormat?: any;
+  /** The path to the client’s SSL certificate file in PEM format. SslKey must also be specified. Type: string. */
+  sslCert?: any;
+  /** The path to the client’s SSL private key in PEM format. SslCert must also be specified. Type: string. */
+  sslKey?: any;
+  /** When set to true, TINYINT(1) values are returned as booleans. Type: bool. */
+  treatTinyAsBoolean?: any;
 }
 
 /** Linked service for PostgreSQL data source. */
 export interface PostgreSqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSql";
-  /** The connection string. */
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Linked service for PostgreSQLV2 data source. */
+export interface PostgreSqlV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2";
+  /** Server name for connection. Type: string. */
+  server: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username: any;
+  /** Database name for connection. Type: string. */
+  database: any;
+  /** The authentication type to use. Type: string. */
+  authenticationType: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
+  sslMode: any;
+  /** Sets the schema search path. Type: string. */
+  schema?: any;
+  /** Whether connection pooling should be used. Type: boolean. */
+  pooling?: any;
+  /** The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error. Type: integer. */
+  connectionTimeout?: any;
+  /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. */
+  commandTimeout?: any;
+  /** Whether to trust the server certificate without validating it. Type: boolean. */
+  trustServerCertificate?: any;
+  /** Location of a client certificate to be sent to the server. Type: string. */
+  sslCertificate?: any;
+  /** Location of a client key for a client certificate to be sent to the server. Type: string. */
+  sslKey?: any;
+  /** Password for a key for a client certificate. Type: string. */
+  sslPassword?: any;
+  /** Determines the size of the internal buffer uses when reading. Increasing may improve performance if transferring large values from the database. Type: integer. */
+  readBufferSize?: any;
+  /** When enabled, parameter values are logged when commands are executed. Type: boolean. */
+  logParameters?: any;
+  /** Gets or sets the session timezone. Type: string. */
+  timezone?: any;
+  /** Gets or sets the .NET encoding that will be used to encode/decode PostgreSQL string data. Type: string */
+  encoding?: any;
+  /** The Azure key vault secret reference of password in connection string. Type: string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Sybase data source. */
@@ -4576,8 +5238,8 @@ export interface SybaseLinkedService extends LinkedService {
   username?: any;
   /** Password for authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for DB2 data source. */
@@ -4600,8 +5262,8 @@ export interface Db2LinkedService extends LinkedService {
   packageCollection?: any;
   /** Certificate Common Name when TLS is enabled. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
   certificateCommonName?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. It is mutually exclusive with connectionString property. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Teradata data source. */
@@ -4618,8 +5280,8 @@ export interface TeradataLinkedService extends LinkedService {
   username?: any;
   /** Password for authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure ML Studio Web Service linked service. */
@@ -4638,8 +5300,8 @@ export interface AzureMLLinkedService extends LinkedService {
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Type of authentication (Required to specify MSI) used to connect to AzureML. Type: string (or Expression with resultType string). */
   authentication?: any;
 }
@@ -4654,21 +5316,23 @@ export interface AzureMLServiceLinkedService extends LinkedService {
   resourceGroupName: any;
   /** Azure ML Service workspace name. Type: string (or Expression with resultType string). */
   mlWorkspaceName: any;
+  /** Type of authentication (Required to specify MSI) used to connect to AzureML. Type: string (or Expression with resultType string). */
+  authentication?: any;
   /** The ID of the service principal used to authenticate against the endpoint of a published Azure ML Service pipeline. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against the endpoint of a published Azure ML Service pipeline. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Open Database Connectivity (ODBC) linked service. */
 export interface OdbcLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Odbc";
-  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, or SecureString, or AzureKeyVaultSecretReference, or Expression with resultType string. */
   connectionString: any;
   /** Type of authentication used to connect to the ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
   authenticationType?: any;
@@ -4678,15 +5342,15 @@ export interface OdbcLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Informix linked service. */
 export interface InformixLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Informix";
-  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, or SecureString, or AzureKeyVaultSecretReference, or Expression with resultType string. */
   connectionString: any;
   /** Type of authentication used to connect to the Informix as ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
   authenticationType?: any;
@@ -4696,15 +5360,15 @@ export interface InformixLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Microsoft Access linked service. */
 export interface MicrosoftAccessLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccess";
-  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, or SecureString, or AzureKeyVaultSecretReference, or Expression with resultType string. */
   connectionString: any;
   /** Type of authentication used to connect to the Microsoft Access as ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string). */
   authenticationType?: any;
@@ -4714,8 +5378,8 @@ export interface MicrosoftAccessLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Hadoop Distributed File System (HDFS) linked service. */
@@ -4726,8 +5390,8 @@ export interface HdfsLinkedService extends LinkedService {
   url: any;
   /** Type of authentication used to connect to the HDFS. Possible values are: Anonymous and Windows. Type: string (or Expression with resultType string). */
   authenticationType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** User name for Windows authentication. Type: string (or Expression with resultType string). */
   userName?: any;
   /** Password for Windows authentication. */
@@ -4746,7 +5410,7 @@ export interface ODataLinkedService extends LinkedService {
   userName?: any;
   /** Password of the OData service. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Specify the tenant information (domain name or tenant ID) under which your application resides. Type: string (or Expression with resultType string). */
   tenant?: any;
@@ -4764,8 +5428,8 @@ export interface ODataLinkedService extends LinkedService {
   servicePrincipalEmbeddedCert?: SecretBaseUnion;
   /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
   servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Web linked service. */
@@ -4790,8 +5454,8 @@ export interface CassandraLinkedService extends LinkedService {
   username?: any;
   /** Password for authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for MongoDb data source. */
@@ -4816,8 +5480,8 @@ export interface MongoDbLinkedService extends LinkedService {
   enableSsl?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. Type: boolean (or Expression with resultType boolean). */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for MongoDB Atlas data source. */
@@ -4828,6 +5492,8 @@ export interface MongoDbAtlasLinkedService extends LinkedService {
   connectionString: any;
   /** The name of the MongoDB Atlas database that you want to access. Type: string (or Expression with resultType string). */
   database: any;
+  /** The driver version that you want to choose. Allowed value are v1 and v2. Type: string (or Expression with resultType string). */
+  driverVersion?: any;
 }
 
 /** Linked service for MongoDB data source. */
@@ -4872,8 +5538,8 @@ export interface AzureDataLakeStoreLinkedService extends LinkedService {
   subscriptionId?: any;
   /** Data Lake Store account resource group name (if different from Data Factory account). Type: string (or Expression with resultType string). */
   resourceGroupName?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -4894,8 +5560,8 @@ export interface AzureBlobFSLinkedService extends LinkedService {
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
@@ -4920,8 +5586,8 @@ export interface Office365LinkedService extends LinkedService {
   servicePrincipalId: any;
   /** Specify the application's key. */
   servicePrincipalKey: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Salesforce. */
@@ -4938,8 +5604,8 @@ export interface SalesforceLinkedService extends LinkedService {
   securityToken?: SecretBaseUnion;
   /** The Salesforce API version used in ADF. Type: string (or Expression with resultType string). */
   apiVersion?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Salesforce Service Cloud. */
@@ -4958,8 +5624,8 @@ export interface SalesforceServiceCloudLinkedService extends LinkedService {
   apiVersion?: any;
   /** Extended properties appended to the connection string. Type: string (or Expression with resultType string). */
   extendedProperties?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for SAP Cloud for Customer. */
@@ -4972,8 +5638,8 @@ export interface SapCloudForCustomerLinkedService extends LinkedService {
   username?: any;
   /** The password for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for SAP ERP Central Component(SAP ECC). */
@@ -4981,12 +5647,12 @@ export interface SapEccLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEcc";
   /** The URL of SAP ECC OData API. For example, '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with resultType string). */
-  url: string;
+  url: any;
   /** The username for Basic authentication. Type: string (or Expression with resultType string). */
-  username?: string;
+  username?: any;
   /** The password for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string). */
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string. */
   encryptedCredential?: string;
 }
 
@@ -5014,8 +5680,8 @@ export interface SapOpenHubLinkedService extends LinkedService {
   messageServerService?: any;
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
   logonGroup?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** SAP ODP Linked Service. */
@@ -5056,38 +5722,38 @@ export interface SapOdpLinkedService extends LinkedService {
   logonGroup?: any;
   /** The subscriber name. Type: string (or Expression with resultType string). */
   subscriberName?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Rest Service linked service. */
 export interface RestServiceLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestService";
-  /** The base URL of the REST service. */
+  /** The base URL of the REST service. Type: string (or Expression with resultType string). */
   url: any;
   /** Whether to validate server side SSL certificate when connecting to the endpoint.The default value is true. Type: boolean (or Expression with resultType boolean). */
   enableServerCertificateValidation?: any;
   /** Type of authentication used to connect to the REST service. */
   authenticationType: RestServiceAuthenticationType;
-  /** The user name used in Basic authentication type. */
+  /** The user name used in Basic authentication type. Type: string (or Expression with resultType string). */
   userName?: any;
   /** The password used in Basic authentication type. */
   password?: SecretBaseUnion;
   /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
   authHeaders?: any;
-  /** The application's client ID used in AadServicePrincipal authentication type. */
+  /** The application's client ID used in AadServicePrincipal authentication type. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The application's key used in AadServicePrincipal authentication type. */
   servicePrincipalKey?: SecretBaseUnion;
-  /** The tenant information (domain name or tenant ID) used in AadServicePrincipal authentication type under which your application resides. */
+  /** The tenant information (domain name or tenant ID) used in AadServicePrincipal authentication type under which your application resides. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
-  /** The resource you are requesting authorization to use. */
+  /** The resource you are requesting authorization to use. Type: string (or Expression with resultType string). */
   aadResourceId?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
   /** The client ID associated with your application. Type: string (or Expression with resultType string). */
@@ -5100,6 +5766,12 @@ export interface RestServiceLinkedService extends LinkedService {
   resource?: any;
   /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
   scope?: any;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** Specify the base64 encoded certificate of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
 }
 
 /** Linked service for TeamDesk. */
@@ -5116,8 +5788,8 @@ export interface TeamDeskLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The api token for the TeamDesk source. */
   apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Quickbase. */
@@ -5128,8 +5800,8 @@ export interface QuickbaseLinkedService extends LinkedService {
   url: any;
   /** The user token for the Quickbase source. */
   userToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Smartsheet. */
@@ -5138,8 +5810,8 @@ export interface SmartsheetLinkedService extends LinkedService {
   type: "Smartsheet";
   /** The api token for the Smartsheet source. */
   apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Zendesk. */
@@ -5156,8 +5828,8 @@ export interface ZendeskLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The api token for the Zendesk source. */
   apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Dataworld. */
@@ -5166,15 +5838,15 @@ export interface DataworldLinkedService extends LinkedService {
   type: "Dataworld";
   /** The api token for the Dataworld source. */
   apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for AppFigures. */
 export interface AppFiguresLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AppFigures";
-  /** The username of the Appfigures source. */
+  /** The username of the Appfigures source. Type: string (or Expression with resultType string). */
   userName: any;
   /** The password of the AppFigures source. */
   password: SecretBaseUnion;
@@ -5188,15 +5860,15 @@ export interface AsanaLinkedService extends LinkedService {
   type: "Asana";
   /** The api token for the Asana source. */
   apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Twilio. */
 export interface TwilioLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Twilio";
-  /** The Account SID of Twilio service. */
+  /** The Account SID of Twilio service. Type: string (or Expression with resultType string). */
   userName: any;
   /** The auth token of Twilio service. */
   password: SecretBaseUnion;
@@ -5208,8 +5880,8 @@ export interface GoogleSheetsLinkedService extends LinkedService {
   type: "GoogleSheets";
   /** The api token for the GoogleSheets source. */
   apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Amazon S3. */
@@ -5226,8 +5898,8 @@ export interface AmazonS3LinkedService extends LinkedService {
   serviceUrl?: any;
   /** The session token for the S3 temporary security credential. */
   sessionToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for Amazon Redshift. */
@@ -5244,8 +5916,8 @@ export interface AmazonRedshiftLinkedService extends LinkedService {
   database: any;
   /** The TCP port number that the Amazon Redshift server uses to listen for client connections. The default value is 5439. Type: integer (or Expression with resultType integer). */
   port?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Custom linked service. */
@@ -5264,8 +5936,8 @@ export interface AzureSearchLinkedService extends LinkedService {
   url: any;
   /** Admin Key for Azure Search service */
   key?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Linked service for an HTTP source. */
@@ -5280,14 +5952,14 @@ export interface HttpLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic, Digest, Windows, or ClientCertificate with EmbeddedCertData authentication. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
   embeddedCertData?: any;
   /** Thumbprint of certificate for ClientCertificate authentication. Only valid for on-premises copy. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
   certThumbprint?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** If true, validate the HTTPS server SSL certificate. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableServerCertificateValidation?: any;
 }
@@ -5306,8 +5978,8 @@ export interface FtpServerLinkedService extends LinkedService {
   userName?: any;
   /** Password to logon the FTP server. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** If true, connect to the FTP server over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableSsl?: any;
   /** If true, validate the FTP server SSL certificate when connect over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
@@ -5328,8 +6000,8 @@ export interface SftpServerLinkedService extends LinkedService {
   userName?: any;
   /** Password to logon the SFTP server for Basic authentication. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The SSH private key file path for SshPublicKey authentication. Only valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. Type: string (or Expression with resultType string). */
   privateKeyPath?: any;
   /** Base64 encoded SSH private key content for SshPublicKey authentication. For on-premises copy with SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH format. */
@@ -5356,8 +6028,8 @@ export interface SapBWLinkedService extends LinkedService {
   userName?: any;
   /** Password to access the SAP BW server. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** SAP HANA Linked Service. */
@@ -5374,8 +6046,8 @@ export interface SapHanaLinkedService extends LinkedService {
   userName?: any;
   /** Password to access the SAP HANA server. */
   password?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Amazon Marketplace Web Service linked service. */
@@ -5400,8 +6072,8 @@ export interface AmazonMWSLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure PostgreSQL linked service. */
@@ -5410,10 +6082,32 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
   type: "AzurePostgreSql";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
+  sslMode?: any;
+  /** The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error. Type: integer. */
+  timeout?: any;
+  /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. */
+  commandTimeout?: any;
+  /** Whether to trust the server certificate without validating it. Type: boolean. */
+  trustServerCertificate?: any;
+  /** Determines the size of the internal buffer uses when reading. Increasing may improve performance if transferring large values from the database. Type: integer. */
+  readBufferSize?: any;
+  /** Gets or sets the session timezone. Type: string. */
+  timezone?: any;
+  /** Gets or sets the .NET encoding that will be used to encode/decode PostgreSQL string data. Type: string */
+  encoding?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Concur Service linked service. */
@@ -5434,8 +6128,8 @@ export interface ConcurLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Couchbase server linked service. */
@@ -5446,8 +6140,8 @@ export interface CouchbaseLinkedService extends LinkedService {
   connectionString?: any;
   /** The Azure key vault secret reference of credString in connection string. */
   credString?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Drill server linked service. */
@@ -5458,8 +6152,8 @@ export interface DrillLinkedService extends LinkedService {
   connectionString?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Eloqua server linked service. */
@@ -5478,19 +6172,19 @@ export interface EloquaLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Google BigQuery service linked service. */
 export interface GoogleBigQueryLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuery";
-  /** The default BigQuery project to query against. */
+  /** The default BigQuery project to query against. Type: string (or Expression with resultType string). */
   project: any;
-  /** A comma-separated list of public BigQuery projects to access. */
+  /** A comma-separated list of public BigQuery projects to access. Type: string (or Expression with resultType string). */
   additionalProjects?: any;
-  /** Whether to request access to Google Drive. Allowing Google Drive access enables support for federated tables that combine BigQuery data with data from Google Drive. The default value is false. */
+  /** Whether to request access to Google Drive. Allowing Google Drive access enables support for federated tables that combine BigQuery data with data from Google Drive. The default value is false. Type: string (or Expression with resultType string). */
   requestGoogleDriveScope?: any;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
   authenticationType: GoogleBigQueryAuthenticationType;
@@ -5500,16 +6194,36 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   clientId?: any;
   /** The client secret of the google application used to acquire the refresh token. */
   clientSecret?: SecretBaseUnion;
-  /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. */
+  /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. Type: string (or Expression with resultType string). */
   email?: any;
-  /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
+  /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. Type: string (or Expression with resultType string). */
   keyFilePath?: any;
-  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
+  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type: string (or Expression with resultType string). */
   trustedCertPath?: any;
-  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
+  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false.Type: boolean (or Expression with resultType boolean). */
   useSystemTrustStore?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Google BigQuery service linked service. */
+export interface GoogleBigQueryV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2";
+  /** The default BigQuery project id to query against. Type: string (or Expression with resultType string). */
+  projectId: any;
+  /** The OAuth 2.0 authentication mechanism used for authentication. */
+  authenticationType: GoogleBigQueryV2AuthenticationType;
+  /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret of the google application used to acquire the refresh token. */
+  clientSecret?: SecretBaseUnion;
+  /** The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication. */
+  refreshToken?: SecretBaseUnion;
+  /** The content of the .json key file that is used to authenticate the service account. Type: string (or Expression with resultType string). */
+  keyFileContent?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Greenplum Database linked service. */
@@ -5520,8 +6234,8 @@ export interface GreenplumLinkedService extends LinkedService {
   connectionString?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** HBase server linked service. */
@@ -5548,8 +6262,8 @@ export interface HBaseLinkedService extends LinkedService {
   allowHostNameCNMismatch?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Hive Server linked service. */
@@ -5588,8 +6302,8 @@ export interface HiveLinkedService extends LinkedService {
   allowHostNameCNMismatch?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Hubspot Service linked service. */
@@ -5610,8 +6324,8 @@ export interface HubspotLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Impala server linked service. */
@@ -5638,8 +6352,8 @@ export interface ImpalaLinkedService extends LinkedService {
   allowHostNameCNMismatch?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Jira Service linked service. */
@@ -5660,8 +6374,8 @@ export interface JiraLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Magento server linked service. */
@@ -5678,20 +6392,34 @@ export interface MagentoLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** MariaDB server linked service. */
 export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
+  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. The legacy driver is scheduled for deprecation by October 2024. */
+  driverVersion?: any;
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** This option specifies whether the driver uses TLS encryption and verification when connecting to MariaDB. E.g., SSLMode=<0/1/2/3/4>. Options: DISABLED (0) / PREFERRED (1) (Default) / REQUIRED (2) / VERIFY_CA (3) / VERIFY_IDENTITY (4), REQUIRED (2) is recommended to only allow connections encrypted with SSL/TLS. */
+  sslMode?: any;
+  /** This option specifies whether to use a CA certificate from the system trust store, or from a specified PEM file. E.g. UseSystemTrustStore=<0/1>; Options: Enabled (1) / Disabled (0) (Default) */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
-  pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  password?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure Database for MariaDB linked service. */
@@ -5702,8 +6430,8 @@ export interface AzureMariaDBLinkedService extends LinkedService {
   connectionString?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Marketo server linked service. */
@@ -5722,15 +6450,15 @@ export interface MarketoLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Paypal Service linked service. */
 export interface PaypalLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Paypal";
-  /** The URL of the PayPal instance. (i.e. api.sandbox.paypal.com) */
+  /** The URL of the PayPal instance. (i.e. api.sandbox.paypal.com) */
   host: any;
   /** The client ID associated with your PayPal application. */
   clientId: any;
@@ -5742,8 +6470,8 @@ export interface PaypalLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Phoenix server linked service. */
@@ -5772,8 +6500,8 @@ export interface PhoenixLinkedService extends LinkedService {
   allowHostNameCNMismatch?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Presto server linked service. */
@@ -5806,8 +6534,8 @@ export interface PrestoLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The local time zone used by the connection. Valid values for this option are specified in the IANA Time Zone Database. The default value is the system time zone. */
   timeZoneID?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** QuickBooks server linked service. */
@@ -5830,8 +6558,8 @@ export interface QuickBooksLinkedService extends LinkedService {
   accessTokenSecret?: SecretBaseUnion;
   /** Specifies whether the data source endpoints are encrypted using HTTPS. The default value is true. */
   useEncryptedEndpoints?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** ServiceNow server linked service. */
@@ -5856,8 +6584,8 @@ export interface ServiceNowLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Shopify Service linked service. */
@@ -5874,8 +6602,8 @@ export interface ShopifyLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Spark Server linked service. */
@@ -5908,8 +6636,8 @@ export interface SparkLinkedService extends LinkedService {
   allowHostNameCNMismatch?: any;
   /** Specifies whether to allow self-signed certificates from the server. The default value is false. */
   allowSelfSignedServerCert?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Square Service linked service. */
@@ -5918,7 +6646,7 @@ export interface SquareLinkedService extends LinkedService {
   type: "Square";
   /** Properties used to connect to Square. It is mutually exclusive with any other properties in the linked service. Type: object. */
   connectionProperties?: any;
-  /** The URL of the Square instance. (i.e. mystore.mysquare.com) */
+  /** The URL of the Square instance. (i.e. mystore.mysquare.com) */
   host?: any;
   /** The client ID associated with your Square application. */
   clientId?: any;
@@ -5932,8 +6660,8 @@ export interface SquareLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Xero Service linked service. */
@@ -5957,8 +6685,8 @@ export interface XeroLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Zoho server linked service. */
@@ -5977,8 +6705,8 @@ export interface ZohoLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Vertica linked service. */
@@ -5987,10 +6715,18 @@ export interface VerticaLinkedService extends LinkedService {
   type: "Vertica";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  uid?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Netezza linked service. */
@@ -6001,8 +6737,8 @@ export interface NetezzaLinkedService extends LinkedService {
   connectionString?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Salesforce Marketing Cloud linked service. */
@@ -6021,20 +6757,20 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** HDInsight ondemand linked service. */
 export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightOnDemand";
-  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string). */
+  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or Expression with resultType int). */
   clusterSize: any;
   /** The allowed idle time for the on-demand HDInsight cluster. Specifies how long the on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string). */
   timeToLive: any;
   /** Version of the HDInsight cluster.  Type: string (or Expression with resultType string). */
-  version: any;
+  versionTypePropertiesVersion: any;
   /** Azure Storage linked service to be used by the on-demand cluster for storing and processing data. */
   linkedServiceName: LinkedServiceReference;
   /** The customer’s subscription to host the cluster. Type: string (or Expression with resultType string). */
@@ -6081,8 +6817,8 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   stormConfiguration?: any;
   /** Specifies the Yarn configuration parameters (yarn-site.xml) for the HDInsight cluster. */
   yarnConfiguration?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** Specifies the size of the head node for the HDInsight cluster. */
   headNodeSize?: any;
   /** Specifies the size of the data node for the HDInsight cluster. */
@@ -6117,8 +6853,8 @@ export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
   resourceGroupName?: any;
   /** Azure Data Lake Analytics URI Type: string (or Expression with resultType string). */
   dataLakeAnalyticsUri?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure Databricks linked service. */
@@ -6157,8 +6893,8 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   newClusterInitScripts?: any;
   /** Enable the elastic disk on the new cluster. This property is now ignored, and takes the default elastic disk behavior in Databricks (elastic disks are always enabled). Type: boolean (or Expression with resultType boolean). */
   newClusterEnableElasticDisk?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The policy id for limiting the ability to configure clusters based on a user defined set of rules. Type: string (or Expression with resultType string). */
   policyId?: any;
   /** The credential reference containing authentication information. */
@@ -6175,8 +6911,8 @@ export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
   accessToken?: SecretBaseUnion;
   /** The id of an existing interactive cluster that will be used for all runs of this job. Type: string (or Expression with resultType string). */
   clusterId?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
   /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
@@ -6199,8 +6935,8 @@ export interface ResponsysLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Dynamics AX linked service. */
@@ -6217,8 +6953,8 @@ export interface DynamicsAXLinkedService extends LinkedService {
   tenant: any;
   /** Specify the resource you are requesting authorization. Type: string (or Expression with resultType string). */
   aadResourceId: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Oracle Service Cloud linked service. */
@@ -6237,17 +6973,17 @@ export interface OracleServiceCloudLinkedService extends LinkedService {
   useHostVerification?: any;
   /** Specifies whether to verify the identity of the server when connecting over SSL. The default value is true. Type: boolean (or Expression with resultType boolean). */
   usePeerVerification?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Google AdWords service linked service. */
 export interface GoogleAdWordsLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
-  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  /** (Deprecated) Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
   connectionProperties?: any;
-  /** The Client customer ID of the AdWords account that you want to fetch report data for. */
+  /** The Client customer ID of the AdWords account that you want to fetch report data for. Type: string (or Expression with resultType string). */
   clientCustomerID?: any;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
   developerToken?: SecretBaseUnion;
@@ -6259,16 +6995,24 @@ export interface GoogleAdWordsLinkedService extends LinkedService {
   clientId?: any;
   /** The client secret of the google application used to acquire the refresh token. */
   clientSecret?: SecretBaseUnion;
-  /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. */
+  /** The service account email ID that is used for ServiceAuthentication and can only be used on self-hosted IR. Type: string (or Expression with resultType string). */
   email?: any;
-  /** The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. */
+  /** (Deprecated) The full path to the .p12 key file that is used to authenticate the service account email address and can only be used on self-hosted IR. Type: string (or Expression with resultType string). */
   keyFilePath?: any;
-  /** The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. */
+  /** (Deprecated) The full path of the .pem file containing trusted CA certificates for verifying the server when connecting over SSL. This property can only be set when using SSL on self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type: string (or Expression with resultType string). */
   trustedCertPath?: any;
-  /** Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. */
+  /** (Deprecated) Specifies whether to use a CA certificate from the system trust store or from a specified PEM file. The default value is false. Type: boolean (or Expression with resultType boolean). */
   useSystemTrustStore?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The private key that is used to authenticate the service account email address and can only be used on self-hosted IR. */
+  privateKey?: SecretBaseUnion;
+  /** The customer ID of the Google Ads Manager account through which you want to fetch report data of specific Customer. Type: string (or Expression with resultType string). */
+  loginCustomerID?: any;
+  /** The Google Ads API major version such as v14. The supported major versions could be found on https://developers.google.com/google-ads/api/docs/release-notes. Type: string (or Expression with resultType string). */
+  googleAdsApiVersion?: any;
+  /** Specifies whether to use the legacy data type mappings, which maps float, int32 and int64 from Google to string. Do not set this to true unless you want to keep backward compatibility with legacy driver's data type mappings. Type: boolean (or Expression with resultType boolean). */
+  supportLegacyDataTypes?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** SAP Table Linked Service. */
@@ -6305,8 +7049,8 @@ export interface SapTableLinkedService extends LinkedService {
   sncQop?: any;
   /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
   logonGroup?: any;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure Data Explorer (Kusto) linked service. */
@@ -6331,15 +7075,15 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
 export interface AzureFunctionLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunction";
-  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. */
+  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. Type: string (or Expression with resultType string). */
   functionAppUrl: any;
   /** Function or Host key for Azure Function App. */
   functionKey?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-  /** Allowed token audiences for azure function. */
+  /** Allowed token audiences for azure function. Type: string (or Expression with resultType string). */
   resourceId?: any;
   /** Type of authentication (Required to specify MSI) used to connect to AzureFunction. Type: string (or Expression with resultType string). */
   authentication?: any;
@@ -6353,8 +7097,42 @@ export interface SnowflakeLinkedService extends LinkedService {
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Snowflake linked service. */
+export interface SnowflakeV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2";
+  /** The account identifier of your Snowflake account, e.g. xy12345.east-us-2.azure */
+  accountIdentifier: any;
+  /** The name of the Snowflake user. */
+  user?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: SecretBaseUnion;
+  /** The name of the Snowflake database. */
+  database: any;
+  /** The name of the Snowflake warehouse. */
+  warehouse: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SnowflakeAuthenticationType;
+  /** The client ID of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  clientId?: any;
+  /** The Azure key vault secret reference of client secret for AADServicePrincipal authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** The tenant ID of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  tenantId?: any;
+  /** The scope of the application registered in Azure Active Directory for AADServicePrincipal authentication. */
+  scope?: any;
+  /** The Azure key vault secret reference of privateKey for KeyPair auth. */
+  privateKey?: SecretBaseUnion;
+  /** The Azure key vault secret reference of private key password for KeyPair auth with encrypted private key. */
+  privateKeyPassphrase?: SecretBaseUnion;
+  /** The host name of the Snowflake account. */
+  host?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** SharePoint Online List linked service. */
@@ -6368,9 +7146,15 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   /** The application (client) ID of your application registered in Azure Active Directory. Make sure to grant SharePoint site permission to this application. Type: string (or Expression with resultType string). */
   servicePrincipalId: any;
   /** The client secret of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
-  servicePrincipalKey: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** Specify the base64 encoded certificate of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** Azure Synapse Analytics (Artifacts) linked service. */
@@ -6383,6 +7167,110 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   authentication?: any;
   /** The resource ID of the Synapse workspace. The format should be: /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}. Type: string (or Expression with resultType string). */
   workspaceResourceId?: any;
+}
+
+/** Microsoft Fabric LakeHouse linked service. */
+export interface LakeHouseLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouse";
+  /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
+  workspaceId?: any;
+  /** The ID of Microsoft Fabric LakeHouse artifact. Type: string (or Expression with resultType string). */
+  artifactId?: any;
+  /** The ID of the application used to authenticate against Microsoft Fabric LakeHouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The Key of the application used to authenticate against Microsoft Fabric LakeHouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+}
+
+/** Linked service for Salesforce V2. */
+export interface SalesforceV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2";
+  /** The URL of Salesforce instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The authentication type to be used to connect to the Salesforce. Currently, we only support OAuth2ClientCredentials, it is also the default value */
+  authenticationType?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Linked service for Salesforce Service Cloud V2. */
+export interface SalesforceServiceCloudV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2";
+  /** The URL of Salesforce Service Cloud instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The authentication type to be used to connect to the Salesforce. Currently, we only support OAuth2ClientCredentials, it is also the default value */
+  authenticationType?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Microsoft Fabric Warehouse linked service. */
+export interface WarehouseLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Warehouse";
+  /** The ID of Microsoft Fabric Warehouse artifact. Type: string (or Expression with resultType string). */
+  artifactId: any;
+  /** The endpoint of Microsoft Fabric Warehouse server. Type: string (or Expression with resultType string). */
+  endpoint: any;
+  /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
+  workspaceId?: any;
+  /** The ID of the application used to authenticate against Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The Key of the application used to authenticate against Microsoft Fabric Warehouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+}
+
+/** ServiceNowV2 server linked service. */
+export interface ServiceNowV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2";
+  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
+  endpoint: any;
+  /** The authentication type to use. */
+  authenticationType: ServiceNowV2AuthenticationType;
+  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
+  username?: any;
+  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
+  password?: SecretBaseUnion;
+  /** The client id for OAuth2 authentication. */
+  clientId?: any;
+  /** The client secret for OAuth2 authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** GrantType for OAuth2 authentication. Default value is password. */
+  grantType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -6518,6 +7406,14 @@ export interface BinaryDataset extends Dataset {
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
   compression?: DatasetCompression;
+}
+
+/** Iceberg dataset. */
+export interface IcebergDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Iceberg";
+  /** The location of the iceberg storage. Setting a file name is not allowed for iceberg format. */
+  location?: DatasetLocationUnion;
 }
 
 /** The Azure Blob storage. */
@@ -6850,6 +7746,16 @@ export interface PostgreSqlTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
 }
 
+/** The PostgreSQLV2 table dataset. */
+export interface PostgreSqlV2TableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2Table";
+  /** The PostgreSQL table name. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+}
+
 /** The Microsoft Access table dataset. */
 export interface MicrosoftAccessTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6958,10 +7864,10 @@ export interface RestResourceDataset extends Dataset {
   requestMethod?: any;
   /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
   requestBody?: any;
-  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
-  /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
-  paginationRules?: any;
+  /** The additional HTTP headers in the request to the RESTful API. */
+  additionalHeaders?: { [propertyName: string]: any };
+  /** The pagination rules to compose next page requests. */
+  paginationRules?: { [propertyName: string]: any };
 }
 
 /** SAP Table Resource properties. */
@@ -7084,6 +7990,16 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   type: "GoogleBigQueryObject";
   /** This property will be retired. Please consider using database + table properties instead. */
   tableName?: any;
+  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  dataset?: any;
+}
+
+/** Google BigQuery service dataset. */
+export interface GoogleBigQueryV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Object";
   /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
   table?: any;
   /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
@@ -7356,6 +8272,16 @@ export interface SnowflakeDataset extends Dataset {
   table?: any;
 }
 
+/** The snowflake dataset. */
+export interface SnowflakeV2Dataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Table";
+  /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
 /** The sharepoint online list resource dataset. */
 export interface SharePointOnlineListResourceDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7372,6 +8298,54 @@ export interface AzureDatabricksDeltaLakeDataset extends Dataset {
   table?: any;
   /** The database name of delta table. Type: string (or Expression with resultType string). */
   database?: any;
+}
+
+/** Microsoft Fabric LakeHouse Table. */
+export interface LakeHouseTableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTable";
+  /** The schema name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
+/** The Salesforce V2 object dataset. */
+export interface SalesforceV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Object";
+  /** The Salesforce V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce V2 report Id. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
+/** The Salesforce Service Cloud V2 object dataset. */
+export interface SalesforceServiceCloudV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Object";
+  /** The Salesforce Service Cloud V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce Service Cloud V2 reportId. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
+/** Microsoft Fabric Warehouse dataset. */
+export interface WarehouseTableDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseTable";
+  /** The schema name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
+  table?: any;
+}
+
+/** ServiceNowV2 server dataset. */
+export interface ServiceNowV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Object";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -7442,6 +8416,8 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -7590,14 +8566,6 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
   properties: LinkedServiceUnion;
 }
 
-/** Managed identity credential. */
-export interface ManagedIdentityCredential extends Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ManagedIdentity";
-  /** The resource id of user assigned managed identity */
-  resourceId?: string;
-}
-
 /** Service principal credential. */
 export interface ServicePrincipalCredential extends Credential {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7608,6 +8576,14 @@ export interface ServicePrincipalCredential extends Credential {
   servicePrincipalKey?: AzureKeyVaultSecretReference;
   /** The ID of the tenant to which the service principal belongs */
   tenant?: any;
+}
+
+/** Managed identity credential. */
+export interface ManagedIdentityCredential extends Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ManagedIdentity";
+  /** The resource id of user assigned managed identity */
+  resourceId?: string;
 }
 
 /** Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
@@ -7744,6 +8720,12 @@ export interface HdfsLocation extends DatasetLocation {
   type: "HdfsLocation";
 }
 
+/** The location of Microsoft Fabric LakeHouse Files dataset. */
+export interface LakeHouseLocation extends DatasetLocation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseLocation";
+}
+
 /** The data stored in text format. */
 export interface TextFormat extends DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7806,9 +8788,9 @@ export interface ParquetFormat extends DatasetStorageFormat {
 export interface CmdkeySetup extends CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup";
-  /** The server name of data source access. */
+  /** The server name of data source access. Type: string. */
   targetName: any;
-  /** The user name of data source access. */
+  /** The user name of data source access. Type: string. */
   userName: any;
   /** The password of data source access. */
   password: SecretBaseUnion;
@@ -7862,6 +8844,142 @@ export interface LinkedIntegrationRuntimeRbacAuthorization
   credential?: CredentialReference;
 }
 
+/** Azure Table Storage linked service properties. */
+export interface AzureTableStorageLinkedServiceTypeProperties
+  extends AzureStorageLinkedServiceTypeProperties {
+  /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** Azure SQL Data Warehouse linked service properties. */
+export interface AzureSqlDWLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDWAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** SQL Server linked service properties. */
+export interface SqlServerLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SqlServerAuthenticationType;
+  /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The on-premises Windows authentication password. */
+  password?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** Amazon Rds for SQL Server linked service properties. */
+export interface AmazonRdsForSqlServerLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AmazonRdsForSqlAuthenticationType;
+  /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The on-premises Windows authentication password. */
+  password?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+}
+
+/** Azure SQL Database linked service properties. */
+export interface AzureSqlDatabaseLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDatabaseAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Database. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** Azure SQL Managed Instance linked service properties. */
+export interface AzureSqlMILinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlMIAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Managed Instance. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
 export interface WebAnonymousAuthentication
   extends WebLinkedServiceTypeProperties {
@@ -7904,8 +9022,8 @@ export interface AzureBlobStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7928,8 +9046,8 @@ export interface AzureBlobFSReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7956,8 +9074,8 @@ export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
   listAfter?: any;
   /** Lists files before the value (inclusive) based on file/folder names’ lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders under the folderPath. Type: string (or Expression with resultType string). */
   listBefore?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7982,8 +9100,8 @@ export interface AmazonS3ReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8006,8 +9124,8 @@ export interface FileServerReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8034,8 +9152,8 @@ export interface AzureFileStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8060,8 +9178,8 @@ export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8086,8 +9204,8 @@ export interface OracleCloudStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8112,8 +9230,8 @@ export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -8134,16 +9252,16 @@ export interface FtpReadSettings extends StoreReadSettings {
   wildcardFolderPath?: any;
   /** Ftp wildcardFileName. Type: string (or Expression with resultType string). */
   wildcardFileName?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
   deleteFilesAfterCompletion?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Specify whether to use binary transfer mode for FTP stores. */
-  useBinaryTransfer?: boolean;
+  /** Specify whether to use binary transfer mode for FTP stores. Type: boolean (or Expression with resultType boolean). */
+  useBinaryTransfer?: any;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
   disableChunking?: any;
 }
@@ -8158,8 +9276,8 @@ export interface SftpReadSettings extends StoreReadSettings {
   wildcardFolderPath?: any;
   /** Sftp wildcardFileName. Type: string (or Expression with resultType string). */
   wildcardFileName?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
@@ -8174,7 +9292,7 @@ export interface SftpReadSettings extends StoreReadSettings {
   disableChunking?: any;
 }
 
-/** Sftp read settings. */
+/** Http read settings. */
 export interface HttpReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpReadSettings";
@@ -8184,12 +9302,10 @@ export interface HttpReadSettings extends StoreReadSettings {
   requestBody?: any;
   /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
   additionalHeaders?: any;
-  /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. */
+  /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. Type: string (or Expression with resultType string). */
   requestTimeout?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
-  /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
-  partitionRootPath?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 }
 
 /** HDFS read settings. */
@@ -8204,8 +9320,8 @@ export interface HdfsReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. */
-  enablePartitionDiscovery?: boolean;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
@@ -8216,6 +9332,30 @@ export interface HdfsReadSettings extends StoreReadSettings {
   distcpSettings?: DistcpSettings;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
   deleteFilesAfterCompletion?: any;
+}
+
+/** Microsoft Fabric LakeHouse Files read settings. */
+export interface LakeHouseReadSettings extends StoreReadSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseReadSettings";
+  /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
+  recursive?: any;
+  /** Microsoft Fabric LakeHouse Files wildcardFolderPath. Type: string (or Expression with resultType string). */
+  wildcardFolderPath?: any;
+  /** Microsoft Fabric LakeHouse Files wildcardFileName. Type: string (or Expression with resultType string). */
+  wildcardFileName?: any;
+  /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
+  fileListPath?: any;
+  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
+  enablePartitionDiscovery?: any;
+  /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
+  partitionRootPath?: any;
+  /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
+  deleteFilesAfterCompletion?: any;
+  /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeStart?: any;
+  /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeEnd?: any;
 }
 
 /** Sftp write settings. */
@@ -8248,7 +9388,7 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreWriteSettings";
-  /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer (or Expression with resultType integer). */
+  /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: string (or Expression with resultType string). */
   expiryDateTime?: any;
 }
 
@@ -8262,6 +9402,20 @@ export interface FileServerWriteSettings extends StoreWriteSettings {
 export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageWriteSettings";
+}
+
+/** Microsoft Fabric LakeHouse Files write settings. */
+export interface LakeHouseWriteSettings extends StoreWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseWriteSettings";
+}
+
+/** Parquet read settings. */
+export interface ParquetReadSettings extends FormatReadSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ParquetReadSettings";
+  /** Compression settings. */
+  compressionProperties?: CompressionReadSettingsUnion;
 }
 
 /** Delimited text read settings. */
@@ -8386,6 +9540,12 @@ export interface JsonWriteSettings extends FormatWriteSettings {
   filePattern?: any;
 }
 
+/** Iceberg write settings. */
+export interface IcebergWriteSettings extends FormatWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergWriteSettings";
+}
+
 /** A copy activity Avro source. */
 export interface AvroSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -8412,6 +9572,8 @@ export interface ParquetSource extends CopySource {
   type: "ParquetSource";
   /** Parquet store settings. */
   storeSettings?: StoreReadSettingsUnion;
+  /** Parquet format settings. */
+  formatSettings?: ParquetReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
 }
@@ -8483,6 +9645,7 @@ export interface TabularSource extends CopySource {
     | "OdbcSource"
     | "MySqlSource"
     | "PostgreSqlSource"
+    | "PostgreSqlV2Source"
     | "SybaseSource"
     | "SapBwSource"
     | "SalesforceSource"
@@ -8508,6 +9671,7 @@ export interface TabularSource extends CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -8535,7 +9699,10 @@ export interface TabularSource extends CopySource {
     | "DynamicsAXSource"
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
-    | "AmazonRedshiftSource";
+    | "AmazonRedshiftSource"
+    | "WarehouseSource"
+    | "SalesforceV2Source"
+    | "ServiceNowV2Source";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
@@ -8652,8 +9819,8 @@ export interface SalesforceServiceCloudSource extends CopySource {
   type: "SalesforceServiceCloudSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-  /** The read behavior for the operation. Default is Query. */
-  readBehavior?: SalesforceSourceReadBehavior;
+  /** The read behavior for the operation. Default is Query. Allowed values: Query/QueryAll. Type: string (or Expression with resultType string). */
+  readBehavior?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
 }
@@ -8674,7 +9841,7 @@ export interface RestSource extends CopySource {
   httpRequestTimeout?: any;
   /** The time to await before sending next page request. */
   requestInterval?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  /** Specifies the additional columns to be added to source data. Type: key value pairs (value should be string type). */
   additionalColumns?: any;
 }
 
@@ -8824,7 +9991,7 @@ export interface Office365Source extends CopySource {
   startTime?: any;
   /** End time of the requested range for this dataset. Type: string (or Expression with resultType string). */
   endTime?: any;
-  /** The columns to be read out from the Office 365 table. Type: array of objects (or Expression with resultType array of objects). Example: [ { "name": "Id" }, { "name": "CreatedDateTime" } ] */
+  /** The columns to be read out from the Office 365 table. Type: array of objects (or Expression with resultType array of objects). itemType: OutputColumn. Example: [ { "name": "Id" }, { "name": "CreatedDateTime" } ] */
   outputColumns?: any;
 }
 
@@ -8856,10 +10023,32 @@ export interface HttpSource extends CopySource {
   httpRequestTimeout?: any;
 }
 
+/** A copy activity source for Microsoft Fabric LakeHouse Table. */
+export interface LakeHouseTableSource extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTableSource";
+  /** Query an older snapshot by timestamp. Type: string (or Expression with resultType string). */
+  timestampAsOf?: any;
+  /** Query an older snapshot by version. Type: integer (or Expression with resultType integer). */
+  versionAsOf?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
+}
+
 /** A copy activity snowflake source. */
 export interface SnowflakeSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSource";
+  /** Snowflake Sql query. Type: string (or Expression with resultType string). */
+  query?: any;
+  /** Snowflake export settings. */
+  exportSettings: SnowflakeExportCopyCommand;
+}
+
+/** A copy activity snowflake source. */
+export interface SnowflakeV2Source extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Source";
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
@@ -8884,6 +10073,20 @@ export interface SharePointOnlineListSource extends CopySource {
   query?: any;
   /** The wait time to get a response from SharePoint Online. Default value is 5 minutes (00:05:00). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
+}
+
+/** A copy activity Salesforce Service Cloud V2 source. */
+export interface SalesforceServiceCloudV2Source extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Source";
+  /** Deprecating, please use 'query' property instead. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** You can only use Salesforce Object Query Language (SOQL) query with limitations. For SOQL limitations, see this article: https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations. If query is not specified, all the data of the Salesforce object specified in ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with resultType string). */
+  query?: any;
+  /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
+  includeDeletedObjects?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 }
 
 /** A copy activity DelimitedText sink. */
@@ -8922,13 +10125,13 @@ export interface RestSink extends CopySink {
   type: "RestSink";
   /** The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression with resultType string). */
   requestMethod?: any;
-  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
+  /** The additional HTTP headers in the request to the RESTful API. Type: key value pairs (value should be string type). */
   additionalHeaders?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:01:40. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
   /** The time to await before sending next request, in milliseconds */
   requestInterval?: any;
-  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. */
+  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. Type: string (or Expression with resultType string). */
   httpCompressionType?: any;
 }
 
@@ -8956,6 +10159,22 @@ export interface AzureDatabricksDeltaLakeSink extends CopySink {
   preCopyScript?: any;
   /** Azure Databricks Delta Lake import settings. */
   importSettings?: AzureDatabricksDeltaLakeImportCommand;
+}
+
+/** A copy activity Microsoft Fabric Warehouse sink. */
+export interface WarehouseSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseSink";
+  /** SQL pre-copy script. Type: string (or Expression with resultType string). */
+  preCopyScript?: any;
+  /** Indicates to use Copy Command to copy data into SQL Data Warehouse. Type: boolean (or Expression with resultType boolean). */
+  allowCopyCommand?: any;
+  /** Specifies Copy Command related settings when allowCopyCommand is true. */
+  copyCommandSettings?: DWCopyCommandSettings;
+  /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
+  tableOption?: any;
+  /** Write behavior when copying data into azure Microsoft Fabric Data Warehouse. Type: DWWriteBehaviorEnum (or Expression with resultType DWWriteBehaviorEnum) */
+  writeBehavior?: any;
 }
 
 /** A copy activity SAP Cloud for Customer sink. */
@@ -9014,6 +10233,16 @@ export interface BinarySink extends CopySink {
   type: "BinarySink";
   /** Binary store settings. */
   storeSettings?: StoreWriteSettingsUnion;
+}
+
+/** A copy activity Iceberg sink. */
+export interface IcebergSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergSink";
+  /** Iceberg store settings. */
+  storeSettings?: StoreWriteSettingsUnion;
+  /** Iceberg format settings. */
+  formatSettings?: IcebergWriteSettings;
 }
 
 /** A copy activity Azure Blob sink. */
@@ -9076,7 +10305,7 @@ export interface SqlSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9100,7 +10329,7 @@ export interface SqlServerSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql server. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql server. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9148,7 +10377,7 @@ export interface SqlMISink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** White behavior when copying data into azure SQL MI. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** White behavior when copying data into azure SQL MI. Type: string (or Expression with resultType string) */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9188,6 +10417,16 @@ export interface SnowflakeSink extends CopySink {
   importSettings?: SnowflakeImportCopyCommand;
 }
 
+/** A copy activity snowflake sink. */
+export interface SnowflakeV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeV2Sink";
+  /** SQL pre-copy script. Type: string (or Expression with resultType string). */
+  preCopyScript?: any;
+  /** Snowflake import settings. */
+  importSettings?: SnowflakeImportCopyCommand;
+}
+
 /** A copy activity Oracle sink. */
 export interface OracleSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9200,7 +10439,7 @@ export interface OracleSink extends CopySink {
 export interface AzureDataLakeStoreSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSink";
-  /** The type of copy behavior for copy sink. */
+  /** The type of copy behavior for copy sink. Type: string (or Expression with resultType string). */
   copyBehavior?: any;
   /** Single File Parallel. */
   enableAdlsSingleFileParallel?: any;
@@ -9210,7 +10449,7 @@ export interface AzureDataLakeStoreSink extends CopySink {
 export interface AzureBlobFSSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSink";
-  /** The type of copy behavior for copy sink. */
+  /** The type of copy behavior for copy sink. Type: string (or Expression with resultType string). */
   copyBehavior?: any;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
@@ -9344,6 +10583,42 @@ export interface CosmosDbMongoDbApiSink extends CopySink {
   writeBehavior?: any;
 }
 
+/** A copy activity for Microsoft Fabric LakeHouse Table sink. */
+export interface LakeHouseTableSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LakeHouseTableSink";
+  /** The type of table action for LakeHouse Table sink. Possible values include: "None", "Append", "Overwrite". */
+  tableActionOption?: any;
+  /** Create partitions in folder structure based on one or multiple columns. Each distinct column value (pair) will be a new partition. Possible values include: "None", "PartitionByKey". */
+  partitionOption?: any;
+  /** Specify the partition column names from sink columns. Type: array of objects (or Expression with resultType array of objects). */
+  partitionNameList?: any;
+}
+
+/** A copy activity Salesforce V2 sink. */
+export interface SalesforceV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
+}
+
+/** A copy activity Salesforce Service Cloud V2 sink. */
+export interface SalesforceServiceCloudV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
+}
+
 /** Snowflake export command settings. */
 export interface SnowflakeExportCopyCommand extends ExportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9352,6 +10627,8 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** Azure Databricks Delta Lake export command settings. */
@@ -9382,6 +10659,8 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** A copy activity tabular translator. */
@@ -9490,7 +10769,7 @@ export interface ForEachActivity extends ControlActivity {
 export interface WaitActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Wait";
-  /** Duration in seconds. */
+  /** Duration in seconds. Type: integer (or Expression with resultType integer). */
   waitTimeInSeconds: any;
 }
 
@@ -9510,7 +10789,7 @@ export interface UntilActivity extends ControlActivity {
   type: "Until";
   /** An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true */
   expression: Expression;
-  /** Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
+  /** Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: any;
   /** List of activities to execute. */
   activities: ActivityUnion[];
@@ -9546,10 +10825,14 @@ export interface FilterActivity extends ControlActivity {
 export interface SetVariableActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SetVariable";
+  /** Activity policy. */
+  policy?: SecureInputOutputPolicy;
   /** Name of the variable whose value needs to be set. */
   variableName?: string;
-  /** Value to be set. Could be a static value or Expression */
+  /** Value to be set. Could be a static value or Expression. */
   value?: any;
+  /** If set to true, it sets the pipeline run return value. */
+  setSystemVariable?: boolean;
 }
 
 /** Append value for a Variable of type Array. */
@@ -9558,7 +10841,7 @@ export interface AppendVariableActivity extends ControlActivity {
   type: "AppendVariable";
   /** Name of the variable whose value needs to be appended to. */
   variableName?: string;
-  /** Value to be appended. Could be a static value or Expression */
+  /** Value to be appended. Type: could be a static value matching type of the variable item or Expression with resultType matching type of the variable item */
   value?: any;
 }
 
@@ -9566,6 +10849,8 @@ export interface AppendVariableActivity extends ControlActivity {
 export interface WebHookActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebHook";
+  /** Activity policy. */
+  policy?: SecureInputOutputPolicy;
   /** Rest API method for target endpoint. */
   method: WebHookActivityMethod;
   /** WebHook activity target endpoint and path. Type: string (or Expression with resultType string). */
@@ -9573,7 +10858,7 @@ export interface WebHookActivity extends ControlActivity {
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -9639,7 +10924,7 @@ export interface HDInsightHiveActivity extends ExecutionActivity {
   /** Allows user to specify defines for Hive job request. */
   defines?: { [propertyName: string]: any };
   /** User specified arguments under hivevar namespace. */
-  variables?: any[];
+  variables?: { [propertyName: string]: any };
   /** Query timeout value (in minutes).  Effective when the HDInsight cluster is with ESP (Enterprise Security Package) */
   queryTimeout?: number;
 }
@@ -9849,13 +11134,17 @@ export interface WebActivity extends ExecutionActivity {
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
   url: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
   /** When set to true, Certificate validation will be disabled. */
   disableCertValidation?: boolean;
+  /** Timeout for the HTTP request to get a response. Format is in TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes */
+  httpRequestTimeout?: any;
+  /** Option to disable invoking HTTP GET on location given in response header of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given in response header. If set false then continues to invoke HTTP GET call on location given in http response headers. */
+  turnOffAsync?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -9916,7 +11205,7 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
   experimentName?: any;
   /** Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
   mlPipelineParameters?: any;
-  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
+  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object (or Expression with resultType object). */
   dataPathAssignments?: any;
   /** The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string). */
   mlParentRunId?: any;
@@ -9989,7 +11278,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
   functionName: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: any;
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
 }
@@ -10004,6 +11293,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -10044,8 +11335,14 @@ export interface SynapseNotebookActivity extends ExecutionActivity {
   conf?: any;
   /** Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string). */
   driverSize?: any;
-  /** Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide. */
-  numExecutors?: number;
+  /** Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide. Type: integer (or Expression with resultType integer). */
+  numExecutors?: any;
+  /** The type of the spark config. */
+  configurationType?: ConfigurationType;
+  /** The spark configuration of the spark job. */
+  targetSparkConfiguration?: SparkConfigurationParametrizationReference;
+  /** Spark configuration property. */
+  sparkConfig?: { [propertyName: string]: any };
 }
 
 /** Execute spark job activity. */
@@ -10198,6 +11495,14 @@ export interface PostgreSqlSource extends TabularSource {
   query?: any;
 }
 
+/** A copy activity source for PostgreSQL databases. */
+export interface PostgreSqlV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
 /** A copy activity source for Sybase databases. */
 export interface SybaseSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10220,8 +11525,8 @@ export interface SalesforceSource extends TabularSource {
   type: "SalesforceSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-  /** The read behavior for the operation. Default is Query. */
-  readBehavior?: SalesforceSourceReadBehavior;
+  /** The read behavior for the operation. Default is Query. Allowed values: Query/QueryAll. Type: string (or Expression with resultType string). */
+  readBehavior?: any;
 }
 
 /** A copy activity source for SAP Cloud for Customer source. */
@@ -10322,7 +11627,7 @@ export interface SqlSource extends TabularSource {
   storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10338,9 +11643,11 @@ export interface SqlServerSource extends TabularSource {
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
   storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10356,6 +11663,8 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
   storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10374,9 +11683,11 @@ export interface AzureSqlSource extends TabularSource {
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
   storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10392,9 +11703,11 @@ export interface SqlMISource extends TabularSource {
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
   storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10410,7 +11723,9 @@ export interface SqlDWSource extends TabularSource {
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". Type: object (or Expression with resultType object), itemType: StoredProcedureParameter. */
   storedProcedureParameters?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10498,6 +11813,14 @@ export interface EloquaSource extends TabularSource {
 export interface GoogleBigQuerySource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuerySource";
+  /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
+/** A copy activity Google BigQuery service source. */
+export interface GoogleBigQueryV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Source";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
 }
@@ -10734,6 +12057,48 @@ export interface AmazonRedshiftSource extends TabularSource {
   redshiftUnloadSettings?: RedshiftUnloadSettings;
 }
 
+/** A copy activity Microsoft Fabric Warehouse source. */
+export interface WarehouseSource extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WarehouseSource";
+  /** Microsoft Fabric Warehouse reader query. Type: string (or Expression with resultType string). */
+  sqlReaderQuery?: any;
+  /** Name of the stored procedure for a Microsoft Fabric Warehouse source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
+  sqlReaderStoredProcedureName?: any;
+  /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". Type: object (or Expression with resultType object), itemType: StoredProcedureParameter. */
+  storedProcedureParameters?: any;
+  /** Specifies the transaction locking behavior for the Microsoft Fabric Warehouse source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
+  isolationLevel?: any;
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  partitionOption?: any;
+  /** The settings that will be leveraged for Sql source partitioning. */
+  partitionSettings?: SqlPartitionSettings;
+}
+
+/** A copy activity Salesforce V2 source. */
+export interface SalesforceV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Source";
+  /** Deprecating, please use 'query' property instead. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** You can only use Salesforce Object Query Language (SOQL) query with limitations. For SOQL limitations, see this article: https://developer.salesforce.com/docs/atlas.en-us.api_asynch.meta/api_asynch/queries.htm#SOQL%20Considerations. If query is not specified, all the data of the Salesforce object specified in ObjectApiName/reportId in dataset will be retrieved. Type: string (or Expression with resultType string). */
+  query?: any;
+  /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
+  includeDeletedObjects?: any;
+  /** Page size for each http request, too large pageSize will caused timeout, default 300,000. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
+}
+
+/** A copy activity ServiceNowV2 server source. */
+export interface ServiceNowV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Source";
+  /** Expression to filter data from source. */
+  expression?: ExpressionV2;
+  /** Page size of the result. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
+}
+
 /** Referenced tumbling window trigger dependency. */
 export interface TumblingWindowTriggerDependencyReference
   extends TriggerDependencyReference {
@@ -10764,7 +12129,7 @@ export enum KnownFactoryIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -10791,7 +12156,7 @@ export enum KnownGlobalParameterType {
   /** Bool */
   Bool = "Bool",
   /** Array */
-  Array = "Array"
+  Array = "Array",
 }
 
 /**
@@ -10813,7 +12178,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -10831,7 +12196,7 @@ export enum KnownIntegrationRuntimeType {
   /** Managed */
   Managed = "Managed",
   /** SelfHosted */
-  SelfHosted = "SelfHosted"
+  SelfHosted = "SelfHosted",
 }
 
 /**
@@ -10849,7 +12214,7 @@ export enum KnownIntegrationRuntimeAutoUpdate {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -10883,7 +12248,7 @@ export enum KnownIntegrationRuntimeState {
   /** Offline */
   Offline = "Offline",
   /** AccessDenied */
-  AccessDenied = "AccessDenied"
+  AccessDenied = "AccessDenied",
 }
 
 /**
@@ -10909,7 +12274,7 @@ export enum KnownIntegrationRuntimeAuthKeyName {
   /** AuthKey1 */
   AuthKey1 = "authKey1",
   /** AuthKey2 */
-  AuthKey2 = "authKey2"
+  AuthKey2 = "authKey2",
 }
 
 /**
@@ -10931,7 +12296,7 @@ export enum KnownSsisObjectMetadataType {
   /** Package */
   Package = "Package",
   /** Environment */
-  Environment = "Environment"
+  Environment = "Environment",
 }
 
 /**
@@ -10961,7 +12326,7 @@ export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
   /** Initializing */
   Initializing = "Initializing",
   /** InitializeFailed */
-  InitializeFailed = "InitializeFailed"
+  InitializeFailed = "InitializeFailed",
 }
 
 /**
@@ -10986,7 +12351,7 @@ export enum KnownIntegrationRuntimeUpdateResult {
   /** Succeed */
   Succeed = "Succeed",
   /** Fail */
-  Fail = "Fail"
+  Fail = "Fail",
 }
 
 /**
@@ -11015,7 +12380,7 @@ export enum KnownParameterType {
   /** Array */
   Array = "Array",
   /** SecureString */
-  SecureString = "SecureString"
+  SecureString = "SecureString",
 }
 
 /**
@@ -11036,7 +12401,7 @@ export type ParameterType = string;
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
   /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
+  LinkedServiceReference = "LinkedServiceReference",
 }
 
 /**
@@ -11048,6 +12413,45 @@ export enum KnownType {
  */
 export type Type = string;
 
+/** Known values of {@link ActivityState} that the service accepts. */
+export enum KnownActivityState {
+  /** Active */
+  Active = "Active",
+  /** Inactive */
+  Inactive = "Inactive",
+}
+
+/**
+ * Defines values for ActivityState. \
+ * {@link KnownActivityState} can be used interchangeably with ActivityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Inactive**
+ */
+export type ActivityState = string;
+
+/** Known values of {@link ActivityOnInactiveMarkAs} that the service accepts. */
+export enum KnownActivityOnInactiveMarkAs {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Skipped */
+  Skipped = "Skipped",
+}
+
+/**
+ * Defines values for ActivityOnInactiveMarkAs. \
+ * {@link KnownActivityOnInactiveMarkAs} can be used interchangeably with ActivityOnInactiveMarkAs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Skipped**
+ */
+export type ActivityOnInactiveMarkAs = string;
+
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {
   /** Succeeded */
@@ -11057,7 +12461,7 @@ export enum KnownDependencyCondition {
   /** Skipped */
   Skipped = "Skipped",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -11079,7 +12483,7 @@ export enum KnownVariableType {
   /** Bool */
   Bool = "Bool",
   /** Array */
-  Array = "Array"
+  Array = "Array",
 }
 
 /**
@@ -11118,7 +12522,7 @@ export enum KnownRunQueryFilterOperand {
   /** RunGroupId */
   RunGroupId = "RunGroupId",
   /** LatestOnly */
-  LatestOnly = "LatestOnly"
+  LatestOnly = "LatestOnly",
 }
 
 /**
@@ -11150,7 +12554,7 @@ export enum KnownRunQueryFilterOperator {
   /** In */
   In = "In",
   /** NotIn */
-  NotIn = "NotIn"
+  NotIn = "NotIn",
 }
 
 /**
@@ -11184,7 +12588,7 @@ export enum KnownRunQueryOrderByField {
   /** TriggerName */
   TriggerName = "TriggerName",
   /** TriggerRunTimestamp */
-  TriggerRunTimestamp = "TriggerRunTimestamp"
+  TriggerRunTimestamp = "TriggerRunTimestamp",
 }
 
 /**
@@ -11209,7 +12613,7 @@ export enum KnownRunQueryOrder {
   /** ASC */
   ASC = "ASC",
   /** Desc */
-  Desc = "DESC"
+  Desc = "DESC",
 }
 
 /**
@@ -11229,7 +12633,7 @@ export enum KnownTriggerRuntimeState {
   /** Stopped */
   Stopped = "Stopped",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -11254,7 +12658,7 @@ export enum KnownEventSubscriptionStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -11277,7 +12681,7 @@ export enum KnownTriggerRunStatus {
   /** Failed */
   Failed = "Failed",
   /** Inprogress */
-  Inprogress = "Inprogress"
+  Inprogress = "Inprogress",
 }
 
 /**
@@ -11298,7 +12702,7 @@ export enum KnownDataFlowDebugCommandType {
   /** ExecuteStatisticsQuery */
   ExecuteStatisticsQuery = "executeStatisticsQuery",
   /** ExecuteExpressionQuery */
-  ExecuteExpressionQuery = "executeExpressionQuery"
+  ExecuteExpressionQuery = "executeExpressionQuery",
 }
 
 /**
@@ -11312,10 +12716,67 @@ export enum KnownDataFlowDebugCommandType {
  */
 export type DataFlowDebugCommandType = string;
 
+/** Known values of {@link ConnectionType} that the service accepts. */
+export enum KnownConnectionType {
+  /** Linkedservicetype */
+  Linkedservicetype = "linkedservicetype",
+}
+
+/**
+ * Defines values for ConnectionType. \
+ * {@link KnownConnectionType} can be used interchangeably with ConnectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **linkedservicetype**
+ */
+export type ConnectionType = string;
+
+/** Known values of {@link MappingType} that the service accepts. */
+export enum KnownMappingType {
+  /** Direct */
+  Direct = "Direct",
+  /** Derived */
+  Derived = "Derived",
+  /** Aggregate */
+  Aggregate = "Aggregate",
+}
+
+/**
+ * Defines values for MappingType. \
+ * {@link KnownMappingType} can be used interchangeably with MappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Direct** \
+ * **Derived** \
+ * **Aggregate**
+ */
+export type MappingType = string;
+
+/** Known values of {@link FrequencyType} that the service accepts. */
+export enum KnownFrequencyType {
+  /** Hour */
+  Hour = "Hour",
+  /** Minute */
+  Minute = "Minute",
+  /** Second */
+  Second = "Second",
+}
+
+/**
+ * Defines values for FrequencyType. \
+ * {@link KnownFrequencyType} can be used interchangeably with FrequencyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hour** \
+ * **Minute** \
+ * **Second**
+ */
+export type FrequencyType = string;
+
 /** Known values of {@link DataFlowReferenceType} that the service accepts. */
 export enum KnownDataFlowReferenceType {
   /** DataFlowReference */
-  DataFlowReference = "DataFlowReference"
+  DataFlowReference = "DataFlowReference",
 }
 
 /**
@@ -11330,7 +12791,7 @@ export type DataFlowReferenceType = string;
 /** Known values of {@link ManagedVirtualNetworkReferenceType} that the service accepts. */
 export enum KnownManagedVirtualNetworkReferenceType {
   /** ManagedVirtualNetworkReference */
-  ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
+  ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference",
 }
 
 /**
@@ -11345,7 +12806,7 @@ export type ManagedVirtualNetworkReferenceType = string;
 /** Known values of {@link CredentialReferenceType} that the service accepts. */
 export enum KnownCredentialReferenceType {
   /** CredentialReference */
-  CredentialReference = "CredentialReference"
+  CredentialReference = "CredentialReference",
 }
 
 /**
@@ -11364,7 +12825,7 @@ export enum KnownDataFlowComputeType {
   /** MemoryOptimized */
   MemoryOptimized = "MemoryOptimized",
   /** ComputeOptimized */
-  ComputeOptimized = "ComputeOptimized"
+  ComputeOptimized = "ComputeOptimized",
 }
 
 /**
@@ -11387,7 +12848,7 @@ export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
   /** Premium */
   Premium = "Premium",
   /** PremiumRS */
-  PremiumRS = "PremiumRS"
+  PremiumRS = "PremiumRS",
 }
 
 /**
@@ -11407,7 +12868,7 @@ export enum KnownIntegrationRuntimeLicenseType {
   /** BasePrice */
   BasePrice = "BasePrice",
   /** LicenseIncluded */
-  LicenseIncluded = "LicenseIncluded"
+  LicenseIncluded = "LicenseIncluded",
 }
 
 /**
@@ -11425,7 +12886,7 @@ export enum KnownIntegrationRuntimeEntityReferenceType {
   /** IntegrationRuntimeReference */
   IntegrationRuntimeReference = "IntegrationRuntimeReference",
   /** LinkedServiceReference */
-  LinkedServiceReference = "LinkedServiceReference"
+  LinkedServiceReference = "LinkedServiceReference",
 }
 
 /**
@@ -11443,7 +12904,7 @@ export enum KnownIntegrationRuntimeEdition {
   /** Standard */
   Standard = "Standard",
   /** Enterprise */
-  Enterprise = "Enterprise"
+  Enterprise = "Enterprise",
 }
 
 /**
@@ -11465,7 +12926,7 @@ export enum KnownManagedIntegrationRuntimeNodeStatus {
   /** Recycling */
   Recycling = "Recycling",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
 }
 
 /**
@@ -11487,7 +12948,7 @@ export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
   /** SslEncrypted */
   SslEncrypted = "SslEncrypted",
   /** NotEncrypted */
-  NotEncrypted = "NotEncrypted"
+  NotEncrypted = "NotEncrypted",
 }
 
 /**
@@ -11512,7 +12973,7 @@ export enum KnownAzureStorageAuthenticationType {
   /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal",
   /** Msi */
-  Msi = "Msi"
+  Msi = "Msi",
 }
 
 /**
@@ -11528,6 +12989,51 @@ export enum KnownAzureStorageAuthenticationType {
  */
 export type AzureStorageAuthenticationType = string;
 
+/** Known values of {@link AzureSqlDWAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlDWAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlDWAuthenticationType. \
+ * {@link KnownAzureSqlDWAuthenticationType} can be used interchangeably with AzureSqlDWAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlDWAuthenticationType = string;
+
+/** Known values of {@link SqlServerAuthenticationType} that the service accepts. */
+export enum KnownSqlServerAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** Windows */
+  Windows = "Windows",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for SqlServerAuthenticationType. \
+ * {@link KnownSqlServerAuthenticationType} can be used interchangeably with SqlServerAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **Windows** \
+ * **UserAssignedManagedIdentity**
+ */
+export type SqlServerAuthenticationType = string;
+
 /** Known values of {@link SqlAlwaysEncryptedAkvAuthType} that the service accepts. */
 export enum KnownSqlAlwaysEncryptedAkvAuthType {
   /** ServicePrincipal */
@@ -11535,7 +13041,7 @@ export enum KnownSqlAlwaysEncryptedAkvAuthType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** UserAssignedManagedIdentity */
-  UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
 /**
@@ -11549,30 +13055,78 @@ export enum KnownSqlAlwaysEncryptedAkvAuthType {
  */
 export type SqlAlwaysEncryptedAkvAuthType = string;
 
-/** Known values of {@link CosmosDbServicePrincipalCredentialType} that the service accepts. */
-export enum KnownCosmosDbServicePrincipalCredentialType {
-  /** ServicePrincipalKey */
-  ServicePrincipalKey = "ServicePrincipalKey",
-  /** ServicePrincipalCert */
-  ServicePrincipalCert = "ServicePrincipalCert"
+/** Known values of {@link AmazonRdsForSqlAuthenticationType} that the service accepts. */
+export enum KnownAmazonRdsForSqlAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** Windows */
+  Windows = "Windows",
 }
 
 /**
- * Defines values for CosmosDbServicePrincipalCredentialType. \
- * {@link KnownCosmosDbServicePrincipalCredentialType} can be used interchangeably with CosmosDbServicePrincipalCredentialType,
+ * Defines values for AmazonRdsForSqlAuthenticationType. \
+ * {@link KnownAmazonRdsForSqlAuthenticationType} can be used interchangeably with AmazonRdsForSqlAuthenticationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ServicePrincipalKey** \
- * **ServicePrincipalCert**
+ * **SQL** \
+ * **Windows**
  */
-export type CosmosDbServicePrincipalCredentialType = string;
+export type AmazonRdsForSqlAuthenticationType = string;
+
+/** Known values of {@link AzureSqlDatabaseAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlDatabaseAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlDatabaseAuthenticationType. \
+ * {@link KnownAzureSqlDatabaseAuthenticationType} can be used interchangeably with AzureSqlDatabaseAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlDatabaseAuthenticationType = string;
+
+/** Known values of {@link AzureSqlMIAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlMIAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlMIAuthenticationType. \
+ * {@link KnownAzureSqlMIAuthenticationType} can be used interchangeably with AzureSqlMIAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlMIAuthenticationType = string;
 
 /** Known values of {@link CosmosDbConnectionMode} that the service accepts. */
 export enum KnownCosmosDbConnectionMode {
   /** Gateway */
   Gateway = "Gateway",
   /** Direct */
-  Direct = "Direct"
+  Direct = "Direct",
 }
 
 /**
@@ -11590,7 +13144,7 @@ export enum KnownSybaseAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11606,7 +13160,7 @@ export type SybaseAuthenticationType = string;
 /** Known values of {@link Db2AuthenticationType} that the service accepts. */
 export enum KnownDb2AuthenticationType {
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -11623,7 +13177,7 @@ export enum KnownTeradataAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11647,7 +13201,7 @@ export enum KnownODataAuthenticationType {
   /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
   /** ManagedServiceIdentity */
-  ManagedServiceIdentity = "ManagedServiceIdentity"
+  ManagedServiceIdentity = "ManagedServiceIdentity",
 }
 
 /**
@@ -11668,7 +13222,7 @@ export enum KnownODataAadServicePrincipalCredentialType {
   /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
   /** ServicePrincipalCert */
-  ServicePrincipalCert = "ServicePrincipalCert"
+  ServicePrincipalCert = "ServicePrincipalCert",
 }
 
 /**
@@ -11688,7 +13242,7 @@ export enum KnownWebAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** ClientCertificate */
-  ClientCertificate = "ClientCertificate"
+  ClientCertificate = "ClientCertificate",
 }
 
 /**
@@ -11707,7 +13261,7 @@ export enum KnownMongoDbAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Anonymous */
-  Anonymous = "Anonymous"
+  Anonymous = "Anonymous",
 }
 
 /**
@@ -11731,7 +13285,7 @@ export enum KnownRestServiceAuthenticationType {
   /** ManagedServiceIdentity */
   ManagedServiceIdentity = "ManagedServiceIdentity",
   /** OAuth2ClientCredential */
-  OAuth2ClientCredential = "OAuth2ClientCredential"
+  OAuth2ClientCredential = "OAuth2ClientCredential",
 }
 
 /**
@@ -11752,7 +13306,7 @@ export enum KnownTeamDeskAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Token */
-  Token = "Token"
+  Token = "Token",
 }
 
 /**
@@ -11770,7 +13324,7 @@ export enum KnownZendeskAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Token */
-  Token = "Token"
+  Token = "Token",
 }
 
 /**
@@ -11794,7 +13348,7 @@ export enum KnownHttpAuthenticationType {
   /** Windows */
   Windows = "Windows",
   /** ClientCertificate */
-  ClientCertificate = "ClientCertificate"
+  ClientCertificate = "ClientCertificate",
 }
 
 /**
@@ -11815,7 +13369,7 @@ export enum KnownFtpAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Anonymous */
-  Anonymous = "Anonymous"
+  Anonymous = "Anonymous",
 }
 
 /**
@@ -11835,7 +13389,7 @@ export enum KnownSftpAuthenticationType {
   /** SshPublicKey */
   SshPublicKey = "SshPublicKey",
   /** MultiFactor */
-  MultiFactor = "MultiFactor"
+  MultiFactor = "MultiFactor",
 }
 
 /**
@@ -11854,7 +13408,7 @@ export enum KnownSapHanaAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -11872,7 +13426,7 @@ export enum KnownGoogleBigQueryAuthenticationType {
   /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
   /** UserAuthentication */
-  UserAuthentication = "UserAuthentication"
+  UserAuthentication = "UserAuthentication",
 }
 
 /**
@@ -11885,12 +13439,30 @@ export enum KnownGoogleBigQueryAuthenticationType {
  */
 export type GoogleBigQueryAuthenticationType = string;
 
+/** Known values of {@link GoogleBigQueryV2AuthenticationType} that the service accepts. */
+export enum KnownGoogleBigQueryV2AuthenticationType {
+  /** ServiceAuthentication */
+  ServiceAuthentication = "ServiceAuthentication",
+  /** UserAuthentication */
+  UserAuthentication = "UserAuthentication",
+}
+
+/**
+ * Defines values for GoogleBigQueryV2AuthenticationType. \
+ * {@link KnownGoogleBigQueryV2AuthenticationType} can be used interchangeably with GoogleBigQueryV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceAuthentication** \
+ * **UserAuthentication**
+ */
+export type GoogleBigQueryV2AuthenticationType = string;
+
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -11910,7 +13482,7 @@ export enum KnownHiveServerType {
   /** HiveServer2 */
   HiveServer2 = "HiveServer2",
   /** HiveThriftServer */
-  HiveThriftServer = "HiveThriftServer"
+  HiveThriftServer = "HiveThriftServer",
 }
 
 /**
@@ -11931,7 +13503,7 @@ export enum KnownHiveThriftTransportProtocol {
   /** Sasl */
   Sasl = "SASL",
   /** Http */
-  Http = "HTTP "
+  Http = "HTTP ",
 }
 
 /**
@@ -11954,7 +13526,7 @@ export enum KnownHiveAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -11976,7 +13548,7 @@ export enum KnownImpalaAuthenticationType {
   /** SaslUsername */
   SaslUsername = "SASLUsername",
   /** UsernameAndPassword */
-  UsernameAndPassword = "UsernameAndPassword"
+  UsernameAndPassword = "UsernameAndPassword",
 }
 
 /**
@@ -11997,7 +13569,7 @@ export enum KnownPhoenixAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -12016,7 +13588,7 @@ export enum KnownPrestoAuthenticationType {
   /** Anonymous */
   Anonymous = "Anonymous",
   /** Ldap */
-  Ldap = "LDAP"
+  Ldap = "LDAP",
 }
 
 /**
@@ -12034,7 +13606,7 @@ export enum KnownServiceNowAuthenticationType {
   /** Basic */
   Basic = "Basic",
   /** OAuth2 */
-  OAuth2 = "OAuth2"
+  OAuth2 = "OAuth2",
 }
 
 /**
@@ -12054,7 +13626,7 @@ export enum KnownSparkServerType {
   /** SharkServer2 */
   SharkServer2 = "SharkServer2",
   /** SparkThriftServer */
-  SparkThriftServer = "SparkThriftServer"
+  SparkThriftServer = "SparkThriftServer",
 }
 
 /**
@@ -12075,7 +13647,7 @@ export enum KnownSparkThriftTransportProtocol {
   /** Sasl */
   Sasl = "SASL",
   /** Http */
-  Http = "HTTP "
+  Http = "HTTP ",
 }
 
 /**
@@ -12098,7 +13670,7 @@ export enum KnownSparkAuthenticationType {
   /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
   /** WindowsAzureHDInsightService */
-  WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
+  WindowsAzureHDInsightService = "WindowsAzureHDInsightService",
 }
 
 /**
@@ -12118,7 +13690,7 @@ export enum KnownGoogleAdWordsAuthenticationType {
   /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
   /** UserAuthentication */
-  UserAuthentication = "UserAuthentication"
+  UserAuthentication = "UserAuthentication",
 }
 
 /**
@@ -12131,23 +13703,44 @@ export enum KnownGoogleAdWordsAuthenticationType {
  */
 export type GoogleAdWordsAuthenticationType = string;
 
-/** Known values of {@link SalesforceSourceReadBehavior} that the service accepts. */
-export enum KnownSalesforceSourceReadBehavior {
-  /** Query */
-  Query = "Query",
-  /** QueryAll */
-  QueryAll = "QueryAll"
+/** Known values of {@link SnowflakeAuthenticationType} that the service accepts. */
+export enum KnownSnowflakeAuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** KeyPair */
+  KeyPair = "KeyPair",
+  /** AADServicePrincipal */
+  AADServicePrincipal = "AADServicePrincipal",
 }
 
 /**
- * Defines values for SalesforceSourceReadBehavior. \
- * {@link KnownSalesforceSourceReadBehavior} can be used interchangeably with SalesforceSourceReadBehavior,
+ * Defines values for SnowflakeAuthenticationType. \
+ * {@link KnownSnowflakeAuthenticationType} can be used interchangeably with SnowflakeAuthenticationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Query** \
- * **QueryAll**
+ * **Basic** \
+ * **KeyPair** \
+ * **AADServicePrincipal**
  */
-export type SalesforceSourceReadBehavior = string;
+export type SnowflakeAuthenticationType = string;
+
+/** Known values of {@link ServiceNowV2AuthenticationType} that the service accepts. */
+export enum KnownServiceNowV2AuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** OAuth2 */
+  OAuth2 = "OAuth2",
+}
+
+/**
+ * Defines values for ServiceNowV2AuthenticationType. \
+ * {@link KnownServiceNowV2AuthenticationType} can be used interchangeably with ServiceNowV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **OAuth2**
+ */
+export type ServiceNowV2AuthenticationType = string;
 
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
@@ -12170,7 +13763,7 @@ export enum KnownCassandraSourceReadConsistencyLevels {
   /** Serial */
   Serial = "SERIAL",
   /** LocalSerial */
-  LocalSerial = "LOCAL_SERIAL"
+  LocalSerial = "LOCAL_SERIAL",
 }
 
 /**
@@ -12206,7 +13799,7 @@ export enum KnownStoredProcedureParameterType {
   /** Boolean */
   Boolean = "Boolean",
   /** Date */
-  Date = "Date"
+  Date = "Date",
 }
 
 /**
@@ -12229,7 +13822,7 @@ export enum KnownSapCloudForCustomerSinkWriteBehavior {
   /** Insert */
   Insert = "Insert",
   /** Update */
-  Update = "Update"
+  Update = "Update",
 }
 
 /**
@@ -12247,7 +13840,7 @@ export enum KnownPolybaseSettingsRejectType {
   /** Value */
   Value = "value",
   /** Percentage */
-  Percentage = "percentage"
+  Percentage = "percentage",
 }
 
 /**
@@ -12265,7 +13858,7 @@ export enum KnownAzureSearchIndexWriteBehaviorType {
   /** Merge */
   Merge = "Merge",
   /** Upload */
-  Upload = "Upload"
+  Upload = "Upload",
 }
 
 /**
@@ -12281,7 +13874,7 @@ export type AzureSearchIndexWriteBehaviorType = string;
 /** Known values of {@link DynamicsSinkWriteBehavior} that the service accepts. */
 export enum KnownDynamicsSinkWriteBehavior {
   /** Upsert */
-  Upsert = "Upsert"
+  Upsert = "Upsert",
 }
 
 /**
@@ -12298,7 +13891,7 @@ export enum KnownSalesforceSinkWriteBehavior {
   /** Insert */
   Insert = "Insert",
   /** Upsert */
-  Upsert = "Upsert"
+  Upsert = "Upsert",
 }
 
 /**
@@ -12318,7 +13911,7 @@ export enum KnownHDInsightActivityDebugInfoOption {
   /** Always */
   Always = "Always",
   /** Failure */
-  Failure = "Failure"
+  Failure = "Failure",
 }
 
 /**
@@ -12341,7 +13934,7 @@ export enum KnownSsisPackageLocationType {
   /** InlinePackage */
   InlinePackage = "InlinePackage",
   /** PackageStore */
-  PackageStore = "PackageStore"
+  PackageStore = "PackageStore",
 }
 
 /**
@@ -12359,7 +13952,7 @@ export type SsisPackageLocationType = string;
 /** Known values of {@link SsisLogLocationType} that the service accepts. */
 export enum KnownSsisLogLocationType {
   /** File */
-  File = "File"
+  File = "File",
 }
 
 /**
@@ -12380,7 +13973,7 @@ export enum KnownWebActivityMethod {
   /** PUT */
   PUT = "PUT",
   /** Delete */
-  Delete = "DELETE"
+  Delete = "DELETE",
 }
 
 /**
@@ -12410,7 +14003,7 @@ export enum KnownAzureFunctionActivityMethod {
   /** Head */
   Head = "HEAD",
   /** Trace */
-  Trace = "TRACE"
+  Trace = "TRACE",
 }
 
 /**
@@ -12431,7 +14024,7 @@ export type AzureFunctionActivityMethod = string;
 /** Known values of {@link WebHookActivityMethod} that the service accepts. */
 export enum KnownWebHookActivityMethod {
   /** Post */
-  Post = "POST"
+  Post = "POST",
 }
 
 /**
@@ -12442,24 +14035,6 @@ export enum KnownWebHookActivityMethod {
  * **POST**
  */
 export type WebHookActivityMethod = string;
-
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery"
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
 
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
@@ -12486,7 +14061,7 @@ export enum KnownScriptActivityParameterType {
   /** String */
   String = "String",
   /** Timespan */
-  Timespan = "Timespan"
+  Timespan = "Timespan",
 }
 
 /**
@@ -12516,7 +14091,7 @@ export enum KnownScriptActivityParameterDirection {
   /** Output */
   Output = "Output",
   /** InputOutput */
-  InputOutput = "InputOutput"
+  InputOutput = "InputOutput",
 }
 
 /**
@@ -12535,7 +14110,7 @@ export enum KnownScriptActivityLogDestination {
   /** ActivityOutput */
   ActivityOutput = "ActivityOutput",
   /** ExternalStore */
-  ExternalStore = "ExternalStore"
+  ExternalStore = "ExternalStore",
 }
 
 /**
@@ -12551,7 +14126,7 @@ export type ScriptActivityLogDestination = string;
 /** Known values of {@link NotebookReferenceType} that the service accepts. */
 export enum KnownNotebookReferenceType {
   /** NotebookReference */
-  NotebookReference = "NotebookReference"
+  NotebookReference = "NotebookReference",
 }
 
 /**
@@ -12566,7 +14141,7 @@ export type NotebookReferenceType = string;
 /** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
 export enum KnownBigDataPoolReferenceType {
   /** BigDataPoolReference */
-  BigDataPoolReference = "BigDataPoolReference"
+  BigDataPoolReference = "BigDataPoolReference",
 }
 
 /**
@@ -12587,7 +14162,7 @@ export enum KnownNotebookParameterType {
   /** Float */
   Float = "float",
   /** Bool */
-  Bool = "bool"
+  Bool = "bool",
 }
 
 /**
@@ -12602,21 +14177,6 @@ export enum KnownNotebookParameterType {
  */
 export type NotebookParameterType = string;
 
-/** Known values of {@link SparkJobReferenceType} that the service accepts. */
-export enum KnownSparkJobReferenceType {
-  /** SparkJobDefinitionReference */
-  SparkJobDefinitionReference = "SparkJobDefinitionReference"
-}
-
-/**
- * Defines values for SparkJobReferenceType. \
- * {@link KnownSparkJobReferenceType} can be used interchangeably with SparkJobReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SparkJobDefinitionReference**
- */
-export type SparkJobReferenceType = string;
-
 /** Known values of {@link ConfigurationType} that the service accepts. */
 export enum KnownConfigurationType {
   /** Default */
@@ -12624,7 +14184,7 @@ export enum KnownConfigurationType {
   /** Customized */
   Customized = "Customized",
   /** Artifact */
-  Artifact = "Artifact"
+  Artifact = "Artifact",
 }
 
 /**
@@ -12641,7 +14201,7 @@ export type ConfigurationType = string;
 /** Known values of {@link SparkConfigurationReferenceType} that the service accepts. */
 export enum KnownSparkConfigurationReferenceType {
   /** SparkConfigurationReference */
-  SparkConfigurationReference = "SparkConfigurationReference"
+  SparkConfigurationReference = "SparkConfigurationReference",
 }
 
 /**
@@ -12652,6 +14212,66 @@ export enum KnownSparkConfigurationReferenceType {
  * **SparkConfigurationReference**
  */
 export type SparkConfigurationReferenceType = string;
+
+/** Known values of {@link SparkJobReferenceType} that the service accepts. */
+export enum KnownSparkJobReferenceType {
+  /** SparkJobDefinitionReference */
+  SparkJobDefinitionReference = "SparkJobDefinitionReference",
+}
+
+/**
+ * Defines values for SparkJobReferenceType. \
+ * {@link KnownSparkJobReferenceType} can be used interchangeably with SparkJobReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SparkJobDefinitionReference**
+ */
+export type SparkJobReferenceType = string;
+
+/** Known values of {@link SalesforceV2SinkWriteBehavior} that the service accepts. */
+export enum KnownSalesforceV2SinkWriteBehavior {
+  /** Insert */
+  Insert = "Insert",
+  /** Upsert */
+  Upsert = "Upsert",
+}
+
+/**
+ * Defines values for SalesforceV2SinkWriteBehavior. \
+ * {@link KnownSalesforceV2SinkWriteBehavior} can be used interchangeably with SalesforceV2SinkWriteBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Insert** \
+ * **Upsert**
+ */
+export type SalesforceV2SinkWriteBehavior = string;
+
+/** Known values of {@link ExpressionV2Type} that the service accepts. */
+export enum KnownExpressionV2Type {
+  /** Constant */
+  Constant = "Constant",
+  /** Field */
+  Field = "Field",
+  /** Unary */
+  Unary = "Unary",
+  /** Binary */
+  Binary = "Binary",
+  /** NAry */
+  NAry = "NAry",
+}
+
+/**
+ * Defines values for ExpressionV2Type. \
+ * {@link KnownExpressionV2Type} can be used interchangeably with ExpressionV2Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Constant** \
+ * **Field** \
+ * **Unary** \
+ * **Binary** \
+ * **NAry**
+ */
+export type ExpressionV2Type = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -12668,7 +14288,7 @@ export enum KnownRecurrenceFrequency {
   /** Month */
   Month = "Month",
   /** Year */
-  Year = "Year"
+  Year = "Year",
 }
 
 /**
@@ -12691,7 +14311,7 @@ export enum KnownBlobEventTypes {
   /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
   /** MicrosoftStorageBlobDeleted */
-  MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted"
+  MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted",
 }
 
 /**
@@ -12711,7 +14331,7 @@ export enum KnownTumblingWindowFrequency {
   /** Hour */
   Hour = "Hour",
   /** Month */
-  Month = "Month"
+  Month = "Month",
 }
 
 /**
@@ -12728,7 +14348,7 @@ export type TumblingWindowFrequency = string;
 /** Known values of {@link TriggerReferenceType} that the service accepts. */
 export enum KnownTriggerReferenceType {
   /** TriggerReference */
-  TriggerReference = "TriggerReference"
+  TriggerReference = "TriggerReference",
 }
 
 /**
@@ -12745,7 +14365,7 @@ export enum KnownJsonFormatFilePattern {
   /** SetOfObjects */
   SetOfObjects = "setOfObjects",
   /** ArrayOfObjects */
-  ArrayOfObjects = "arrayOfObjects"
+  ArrayOfObjects = "arrayOfObjects",
 }
 
 /**
@@ -12763,7 +14383,7 @@ export enum KnownDatasetCompressionLevel {
   /** Optimal */
   Optimal = "Optimal",
   /** Fastest */
-  Fastest = "Fastest"
+  Fastest = "Fastest",
 }
 
 /**
@@ -12787,7 +14407,7 @@ export enum KnownAvroCompressionCodec {
   /** Xz */
   Xz = "xz",
   /** Bzip2 */
-  Bzip2 = "bzip2"
+  Bzip2 = "bzip2",
 }
 
 /**
@@ -12824,7 +14444,7 @@ export enum KnownCompressionCodec {
   /** Tar */
   Tar = "tar",
   /** TarGZip */
-  TarGZip = "tarGZip"
+  TarGZip = "tarGZip",
 }
 
 /**
@@ -12854,7 +14474,7 @@ export enum KnownOrcCompressionCodec {
   /** Snappy */
   Snappy = "snappy",
   /** Lzo */
-  Lzo = "lzo"
+  Lzo = "lzo",
 }
 
 /**
@@ -12874,7 +14494,7 @@ export enum KnownDynamicsDeploymentType {
   /** Online */
   Online = "Online",
   /** OnPremisesWithIfd */
-  OnPremisesWithIfd = "OnPremisesWithIfd"
+  OnPremisesWithIfd = "OnPremisesWithIfd",
 }
 
 /**
@@ -12894,7 +14514,9 @@ export enum KnownDynamicsAuthenticationType {
   /** Ifd */
   Ifd = "Ifd",
   /** AADServicePrincipal */
-  AADServicePrincipal = "AADServicePrincipal"
+  AADServicePrincipal = "AADServicePrincipal",
+  /** ActiveDirectory */
+  ActiveDirectory = "Active Directory",
 }
 
 /**
@@ -12904,7 +14526,8 @@ export enum KnownDynamicsAuthenticationType {
  * ### Known values supported by the service
  * **Office365** \
  * **Ifd** \
- * **AADServicePrincipal**
+ * **AADServicePrincipal** \
+ * **Active Directory**
  */
 export type DynamicsAuthenticationType = string;
 
@@ -12913,7 +14536,7 @@ export enum KnownServicePrincipalCredentialType {
   /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
   /** ServicePrincipalCert */
-  ServicePrincipalCert = "ServicePrincipalCert"
+  ServicePrincipalCert = "ServicePrincipalCert",
 }
 
 /**
@@ -12933,7 +14556,7 @@ export enum KnownHdiNodeTypes {
   /** Workernode */
   Workernode = "Workernode",
   /** Zookeeper */
-  Zookeeper = "Zookeeper"
+  Zookeeper = "Zookeeper",
 }
 
 /**
@@ -12952,7 +14575,7 @@ export enum KnownJsonWriteFilePattern {
   /** SetOfObjects */
   SetOfObjects = "setOfObjects",
   /** ArrayOfObjects */
-  ArrayOfObjects = "arrayOfObjects"
+  ArrayOfObjects = "arrayOfObjects",
 }
 
 /**
@@ -12965,6 +14588,24 @@ export enum KnownJsonWriteFilePattern {
  */
 export type JsonWriteFilePattern = string;
 
+/** Known values of {@link SalesforceSourceReadBehavior} that the service accepts. */
+export enum KnownSalesforceSourceReadBehavior {
+  /** Query */
+  Query = "Query",
+  /** QueryAll */
+  QueryAll = "QueryAll",
+}
+
+/**
+ * Defines values for SalesforceSourceReadBehavior. \
+ * {@link KnownSalesforceSourceReadBehavior} can be used interchangeably with SalesforceSourceReadBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **QueryAll**
+ */
+export type SalesforceSourceReadBehavior = string;
+
 /** Known values of {@link AmazonRdsForOraclePartitionOption} that the service accepts. */
 export enum KnownAmazonRdsForOraclePartitionOption {
   /** None */
@@ -12972,7 +14613,7 @@ export enum KnownAmazonRdsForOraclePartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -12993,7 +14634,7 @@ export enum KnownCopyBehaviorType {
   /** FlattenHierarchy */
   FlattenHierarchy = "FlattenHierarchy",
   /** MergeFiles */
-  MergeFiles = "MergeFiles"
+  MergeFiles = "MergeFiles",
 }
 
 /**
@@ -13014,7 +14655,7 @@ export enum KnownSqlWriteBehaviorEnum {
   /** Upsert */
   Upsert = "Upsert",
   /** StoredProcedure */
-  StoredProcedure = "StoredProcedure"
+  StoredProcedure = "StoredProcedure",
 }
 
 /**
@@ -13033,7 +14674,7 @@ export enum KnownSqlDWWriteBehaviorEnum {
   /** Insert */
   Insert = "Insert",
   /** Upsert */
-  Upsert = "Upsert"
+  Upsert = "Upsert",
 }
 
 /**
@@ -13046,6 +14687,24 @@ export enum KnownSqlDWWriteBehaviorEnum {
  */
 export type SqlDWWriteBehaviorEnum = string;
 
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  /** Query */
+  Query = "Query",
+  /** NonQuery */
+  NonQuery = "NonQuery",
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
   /** None */
@@ -13053,7 +14712,7 @@ export enum KnownSqlPartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13074,7 +14733,7 @@ export enum KnownSapHanaPartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** SapHanaDynamicRange */
-  SapHanaDynamicRange = "SapHanaDynamicRange"
+  SapHanaDynamicRange = "SapHanaDynamicRange",
 }
 
 /**
@@ -13101,7 +14760,7 @@ export enum KnownSapTablePartitionOption {
   /** PartitionOnCalendarDate */
   PartitionOnCalendarDate = "PartitionOnCalendarDate",
   /** PartitionOnTime */
-  PartitionOnTime = "PartitionOnTime"
+  PartitionOnTime = "PartitionOnTime",
 }
 
 /**
@@ -13125,7 +14784,7 @@ export enum KnownOraclePartitionOption {
   /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13146,7 +14805,7 @@ export enum KnownTeradataPartitionOption {
   /** Hash */
   Hash = "Hash",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13167,7 +14826,7 @@ export enum KnownNetezzaPartitionOption {
   /** DataSlice */
   DataSlice = "DataSlice",
   /** DynamicRange */
-  DynamicRange = "DynamicRange"
+  DynamicRange = "DynamicRange",
 }
 
 /**
@@ -13305,21 +14964,24 @@ export interface ExposureControlGetFeatureValueByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFeatureValueByFactory operation. */
-export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlResponse;
+export type ExposureControlGetFeatureValueByFactoryResponse =
+  ExposureControlResponse;
 
 /** Optional parameters. */
 export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryFeatureValuesByFactory operation. */
-export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControlBatchResponse;
+export type ExposureControlQueryFeatureValuesByFactoryResponse =
+  ExposureControlBatchResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type IntegrationRuntimesListByFactoryResponse = IntegrationRuntimeListResponse;
+export type IntegrationRuntimesListByFactoryResponse =
+  IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesCreateOrUpdateOptionalParams
@@ -13329,7 +14991,8 @@ export interface IntegrationRuntimesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationRuntimesCreateOrUpdateResponse = IntegrationRuntimeResource;
+export type IntegrationRuntimesCreateOrUpdateResponse =
+  IntegrationRuntimeResource;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesGetOptionalParams
@@ -13357,35 +15020,40 @@ export interface IntegrationRuntimesGetStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
-export type IntegrationRuntimesGetStatusResponse = IntegrationRuntimeStatusResponse;
+export type IntegrationRuntimesGetStatusResponse =
+  IntegrationRuntimeStatusResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse = IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
+export type IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse =
+  IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesGetConnectionInfoOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConnectionInfo operation. */
-export type IntegrationRuntimesGetConnectionInfoResponse = IntegrationRuntimeConnectionInfo;
+export type IntegrationRuntimesGetConnectionInfoResponse =
+  IntegrationRuntimeConnectionInfo;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesRegenerateAuthKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateAuthKey operation. */
-export type IntegrationRuntimesRegenerateAuthKeyResponse = IntegrationRuntimeAuthKeys;
+export type IntegrationRuntimesRegenerateAuthKeyResponse =
+  IntegrationRuntimeAuthKeys;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListAuthKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthKeys operation. */
-export type IntegrationRuntimesListAuthKeysResponse = IntegrationRuntimeAuthKeys;
+export type IntegrationRuntimesListAuthKeysResponse =
+  IntegrationRuntimeAuthKeys;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesStartOptionalParams
@@ -13417,7 +15085,8 @@ export interface IntegrationRuntimesGetMonitoringDataOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMonitoringData operation. */
-export type IntegrationRuntimesGetMonitoringDataResponse = IntegrationRuntimeMonitoringData;
+export type IntegrationRuntimesGetMonitoringDataResponse =
+  IntegrationRuntimeMonitoringData;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesUpgradeOptionalParams
@@ -13432,14 +15101,16 @@ export interface IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createLinkedIntegrationRuntime operation. */
-export type IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse = IntegrationRuntimeStatusResponse;
+export type IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse =
+  IntegrationRuntimeStatusResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeListResponse;
+export type IntegrationRuntimesListByFactoryNextResponse =
+  IntegrationRuntimeListResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
@@ -13451,7 +15122,8 @@ export interface IntegrationRuntimeObjectMetadataRefreshOptionalParams
 }
 
 /** Contains response data for the refresh operation. */
-export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse;
+export type IntegrationRuntimeObjectMetadataRefreshResponse =
+  SsisObjectMetadataStatusResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeObjectMetadataGetOptionalParams
@@ -13461,14 +15133,16 @@ export interface IntegrationRuntimeObjectMetadataGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse;
+export type IntegrationRuntimeObjectMetadataGetResponse =
+  SsisObjectMetadataListResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeNodesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode;
+export type IntegrationRuntimeNodesGetResponse =
+  SelfHostedIntegrationRuntimeNode;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeNodesDeleteOptionalParams
@@ -13479,14 +15153,16 @@ export interface IntegrationRuntimeNodesUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode;
+export type IntegrationRuntimeNodesUpdateResponse =
+  SelfHostedIntegrationRuntimeNode;
 
 /** Optional parameters. */
 export interface IntegrationRuntimeNodesGetIpAddressOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getIpAddress operation. */
-export type IntegrationRuntimeNodesGetIpAddressResponse = IntegrationRuntimeNodeIpAddress;
+export type IntegrationRuntimeNodesGetIpAddressResponse =
+  IntegrationRuntimeNodeIpAddress;
 
 /** Optional parameters. */
 export interface LinkedServicesListByFactoryOptionalParams
@@ -13694,14 +15370,16 @@ export interface TriggersSubscribeToEventsOptionalParams
 }
 
 /** Contains response data for the subscribeToEvents operation. */
-export type TriggersSubscribeToEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggersSubscribeToEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggersGetEventSubscriptionStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggersGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
+export type TriggersGetEventSubscriptionStatusResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggersUnsubscribeFromEventsOptionalParams
@@ -13713,7 +15391,8 @@ export interface TriggersUnsubscribeFromEventsOptionalParams
 }
 
 /** Contains response data for the unsubscribeFromEvents operation. */
-export type TriggersUnsubscribeFromEventsResponse = TriggerSubscriptionOperationStatus;
+export type TriggersUnsubscribeFromEventsResponse =
+  TriggerSubscriptionOperationStatus;
 
 /** Optional parameters. */
 export interface TriggersStartOptionalParams
@@ -13803,21 +15482,24 @@ export interface DataFlowDebugSessionCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionResponse;
+export type DataFlowDebugSessionCreateResponse =
+  CreateDataFlowDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactory operation. */
-export type DataFlowDebugSessionQueryByFactoryResponse = QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryByFactoryResponse =
+  QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionAddDataFlowOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the addDataFlow operation. */
-export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionResponse;
+export type DataFlowDebugSessionAddDataFlowResponse =
+  AddDataFlowToDebugSessionResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionDeleteOptionalParams
@@ -13833,21 +15515,24 @@ export interface DataFlowDebugSessionExecuteCommandOptionalParams
 }
 
 /** Contains response data for the executeCommand operation. */
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse;
+export type DataFlowDebugSessionExecuteCommandResponse =
+  DataFlowDebugCommandResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionQueryByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the queryByFactoryNext operation. */
-export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugSessionsResponse;
+export type DataFlowDebugSessionQueryByFactoryNextResponse =
+  QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
 export interface ManagedVirtualNetworksListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse;
+export type ManagedVirtualNetworksListByFactoryResponse =
+  ManagedVirtualNetworkListResponse;
 
 /** Optional parameters. */
 export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams
@@ -13857,7 +15542,8 @@ export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetworkResource;
+export type ManagedVirtualNetworksCreateOrUpdateResponse =
+  ManagedVirtualNetworkResource;
 
 /** Optional parameters. */
 export interface ManagedVirtualNetworksGetOptionalParams
@@ -13874,14 +15560,16 @@ export interface ManagedVirtualNetworksListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetworkListResponse;
+export type ManagedVirtualNetworksListByFactoryNextResponse =
+  ManagedVirtualNetworkListResponse;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpointListResponse;
+export type ManagedPrivateEndpointsListByFactoryResponse =
+  ManagedPrivateEndpointListResponse;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
@@ -13891,7 +15579,8 @@ export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpointResource;
+export type ManagedPrivateEndpointsCreateOrUpdateResponse =
+  ManagedPrivateEndpointResource;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsGetOptionalParams
@@ -13912,7 +15601,8 @@ export interface ManagedPrivateEndpointsListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse;
+export type ManagedPrivateEndpointsListByFactoryNextResponse =
+  ManagedPrivateEndpointListResponse;
 
 /** Optional parameters. */
 export interface CredentialOperationsListByFactoryOptionalParams
@@ -13929,7 +15619,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsGetOptionalParams
@@ -13939,7 +15629,7 @@ export interface CredentialOperationsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsGetResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsDeleteOptionalParams
@@ -13950,21 +15640,24 @@ export interface CredentialOperationsListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
+export type CredentialOperationsListByFactoryNextResponse =
+  CredentialListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactory operation. */
-export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointConnectionListResponse;
+export type PrivateEndPointConnectionsListByFactoryResponse =
+  PrivateEndpointConnectionListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type PrivateEndPointConnectionsListByFactoryNextResponse = PrivateEndpointConnectionListResponse;
+export type PrivateEndPointConnectionsListByFactoryNextResponse =
+  PrivateEndpointConnectionListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
@@ -13974,7 +15667,8 @@ export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionCreateOrUpdateResponse =
+  PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionGetOptionalParams
@@ -13984,7 +15678,8 @@ export interface PrivateEndpointConnectionGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionGetResponse =
+  PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionDeleteOptionalParams
@@ -14027,7 +15722,66 @@ export interface GlobalParametersListByFactoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFactoryNext operation. */
-export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
+export type GlobalParametersListByFactoryNextResponse =
+  GlobalParameterListResponse;
+
+/** Optional parameters. */
+export interface ChangeDataCaptureListByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactory operation. */
+export type ChangeDataCaptureListByFactoryResponse =
+  ChangeDataCaptureListResponse;
+
+/** Optional parameters. */
+export interface ChangeDataCaptureCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the change data capture entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ChangeDataCaptureCreateOrUpdateResponse = ChangeDataCaptureResource;
+
+/** Optional parameters. */
+export interface ChangeDataCaptureGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the change data capture entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ChangeDataCaptureGetResponse = ChangeDataCaptureResource;
+
+/** Optional parameters. */
+export interface ChangeDataCaptureDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ChangeDataCaptureStartOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ChangeDataCaptureStopOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ChangeDataCaptureStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the status operation. */
+export type ChangeDataCaptureStatusResponse = {
+  /** The parsed response body. */
+  body: string;
+};
+
+/** Optional parameters. */
+export interface ChangeDataCaptureListByFactoryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactoryNext operation. */
+export type ChangeDataCaptureListByFactoryNextResponse =
+  ChangeDataCaptureListResponse;
 
 /** Optional parameters. */
 export interface DataFactoryManagementClientOptionalParams

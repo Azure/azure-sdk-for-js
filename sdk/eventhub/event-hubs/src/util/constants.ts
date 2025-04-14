@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.11.0",
+  version: "6.0.1",
 };
 
 /**
@@ -22,9 +22,12 @@ export const idempotentProducerAmqpPropertyNames = {
 /** @internal */
 export const receiverIdPropertyName = "com.microsoft:receiver-name";
 
+/** @internal */
+export const geoReplication = "com.microsoft:georeplication";
+
 /**
  * @internal
  */
 export const PENDING_PUBLISH_SEQ_NUM_SYMBOL = Symbol.for(
-  "@azure/event-hubs.pendingPublishSequenceNumber"
+  "@azure/event-hubs.pendingPublishSequenceNumber",
 );

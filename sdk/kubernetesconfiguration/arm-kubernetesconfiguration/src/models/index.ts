@@ -332,6 +332,28 @@ export interface KustomizationDefinition {
   prune?: boolean;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
   force?: boolean;
+  /** Enable/disable health check for all Kubernetes objects created by this Kustomization. */
+  wait?: boolean;
+  /** Used for variable substitution for this Kustomization after kustomize build. */
+  postBuild?: PostBuildDefinition;
+}
+
+/** The postBuild definitions defining variable substitutions for this Kustomization after kustomize build. */
+export interface PostBuildDefinition {
+  /** Key/value pairs holding the variables to be substituted in this Kustomization. */
+  substitute?: { [propertyName: string]: string };
+  /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
+  substituteFrom?: (SubstituteFromDefinition | null)[];
+}
+
+/** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
+export interface SubstituteFromDefinition {
+  /** Define whether it is ConfigMap or Secret that holds the variables to be used in substitution. */
+  kind?: string;
+  /** Name of the ConfigMap/Secret that holds the variables to be used in substitution. */
+  name?: string;
+  /** Set to True to proceed without ConfigMap/Secret, if it is not present. */
+  optional?: boolean;
 }
 
 /** Statuses of objects deployed by the user-specified kustomizations from the git repository. */
@@ -506,6 +528,10 @@ export interface KustomizationPatchDefinition {
   prune?: boolean;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
   force?: boolean;
+  /** Enable/disable health check for all Kubernetes objects created by this Kustomization. */
+  wait?: boolean;
+  /** Used for variable substitution for this Kustomization after kustomize build. */
+  postBuild?: PostBuildDefinition;
 }
 
 /** Result of the request to list Flux Configurations.  It contains a list of FluxConfiguration objects and a URL link to get the next set of results. */
@@ -728,6 +754,10 @@ export interface FluxConfiguration extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statusUpdatedAt?: Date;
+  /** Whether flux configuration deployment should wait for cluster to reconcile the kustomizations. */
+  waitForReconciliation?: boolean;
+  /** Maximum duration to wait for flux configuration reconciliation. E.g PT1H, PT5M, P1D */
+  reconciliationWaitDuration?: string;
   /**
    * Combined status of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects.
    * NOTE: This property will not be serialized. It can only be populated by the server.

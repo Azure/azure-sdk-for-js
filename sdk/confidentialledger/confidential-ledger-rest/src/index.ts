@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import ConfidentialLedger from "./confidentialLedger";
-export * from "./generated/src/confidentialLedger";
-export * from "./generated/src/models";
-export * from "./generated/src/parameters";
-export * from "./generated/src/responses";
-export * from "./generated/src/clientDefinitions";
-export * from "./generated/src/isUnexpected";
-export * from "./generated/src/outputModels";
-export * from "./generated/src/paginateHelper";
-export { LedgerIdentity, getLedgerIdentity } from "./getLedgerIdentity";
+import ConfidentialLedger from "./confidentialLedgerCustomized.js";
+export * from "./confidentialLedger.js";
+export * from "./models.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./outputModels.js";
+export * from "./paginateHelper.js";
+export { LedgerIdentity, getLedgerIdentity } from "./getLedgerIdentity.js";
 export default ConfidentialLedger;

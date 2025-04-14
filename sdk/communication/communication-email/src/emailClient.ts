@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { EmailRestApiClient } from "./generated/src/emailRestApiClient";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { logger } from "./logger";
-import { EmailSendResponse } from "./generated/src";
+import { EmailRestApiClient } from "./generated/src/emailRestApiClient.js";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { logger } from "./logger.js";
+import type { EmailSendResponse } from "./generated/src/index.js";
 
 /**
  * Checks whether the type of a value is EmailClientOptions or not.
@@ -45,13 +46,13 @@ export class EmailClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: EmailClientOptions
+    options?: EmailClientOptions,
   );
 
   constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: EmailClientOptions | TokenCredential | KeyCredential,
-    maybeOptions: EmailClientOptions = {}
+    maybeOptions: EmailClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isEmailClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -77,7 +78,7 @@ export class EmailClient {
    */
   beginSend(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>> {
     return this.generatedClient.email.beginSend(message, options);
   }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ApplicationData,
   SearchBoundaryQuery,
   Boundary,
@@ -43,7 +43,7 @@ import {
   WeatherDataIngestionJob,
   WeatherDataProviderRequest,
   Zone,
-} from "./models";
+} from "./models.js";
 
 export interface ApplicationDataListQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */
@@ -2330,8 +2330,8 @@ export interface ScenesListQueryParamProperties {
   maxDarkPixelCoveragePercentage?: number;
   /** List of image names to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageNames?: string;
-  /** List of image resolutions in meters to be filtered. */
-  imageResolutions?: Array<number>;
+  /** List of image resolutions in meters to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  imageResolutions?: string;
   /** List of image formats to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageFormats?: string;
   /**
@@ -2536,8 +2536,8 @@ export interface SeasonsListQueryParamProperties {
   minEndDateTime?: Date | string;
   /** Maximum season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   maxEndDateTime?: Date | string;
-  /** Years of the resource. */
-  years?: Array<number>;
+  /** Years of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  years?: string;
   /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   ids?: string;
   /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */

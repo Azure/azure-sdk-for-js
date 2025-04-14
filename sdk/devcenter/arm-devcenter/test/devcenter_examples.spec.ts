@@ -6,28 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { DevCenterClient } from "../src/devCenterClient";
-import { DevCenter } from "../src/models";
+import { DevCenterClient } from "../src/devCenterClient.js";
+import type { DevCenter } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -43,10 +38,10 @@ describe("devcenter test", () => {
   let body: DevCenter;
   let devCenterName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new DevCenterClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -55,11 +50,11 @@ describe("devcenter test", () => {
     devCenterName = "Contoso1";
     body = {
       location,
-      tags: { costCode: "12345" }
+      tags: { costCode: "12345" },
     };
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -68,7 +63,8 @@ describe("devcenter test", () => {
       resourceGroup,
       devCenterName,
       body,
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, devCenterName);
   });
 
@@ -79,7 +75,7 @@ describe("devcenter test", () => {
 
   it("devcenters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.devCenters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.devCenters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -87,10 +83,10 @@ describe("devcenter test", () => {
 
   it("devcenters delete test", async function () {
     const resArray = new Array();
-    const res = await client.devCenters.beginDeleteAndWait(resourceGroup, devCenterName)
-    for await (let item of client.devCenters.listByResourceGroup(resourceGroup)) {
+    await client.devCenters.beginDeleteAndWait(resourceGroup, devCenterName, testPollingOptions);
+    for await (const item of client.devCenters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

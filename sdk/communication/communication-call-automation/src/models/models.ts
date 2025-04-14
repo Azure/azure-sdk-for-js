@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import type {
+  CallConnectionStateModel,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+} from "../generated/src/index.js";
 
 export {
   CallConnectionStateModel,
@@ -16,10 +22,18 @@ export {
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
   MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
+  MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
-} from "../generated/src/models/index";
+  TranscriptionOptions,
+  TranscriptionTransportType,
+  RecognitionType,
+  ChoiceResult,
+  DtmfResult,
+  SpeechResult,
+  RecordingState,
+  Tone,
+} from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
 export interface CallConnectionProperties {
@@ -35,7 +49,7 @@ export interface CallConnectionProperties {
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
   /** Source identity. */
-  sourceIdentity?: CommunicationIdentifier;
+  source?: CommunicationIdentifier;
   /** The targets of the call. */
   targetParticipants?: CommunicationIdentifier[];
   /** The state of the call connection. */
@@ -47,7 +61,13 @@ export interface CallConnectionProperties {
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
-  answeredByIdentifier?: CommunicationUserIdentifier;
+  answeredby?: CommunicationUserIdentifier;
+  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  answeredFor?: PhoneNumberIdentifier;
+  /** Media streaming subscription */
+  mediaStreamingSubscription?: MediaStreamingSubscription;
+  /** Transcription Subscription. */
+  transcriptionSubscription?: TranscriptionSubscription;
 }
 
 /** Contract model of an ACS call participant */
@@ -56,6 +76,8 @@ export interface CallParticipant {
   identifier?: CommunicationIdentifier;
   /** Is participant muted */
   isMuted?: boolean;
+  /** Is participant on hold. */
+  isOnHold?: boolean;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -64,15 +86,43 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
+/** Defines values for VoiceKind that the service accepts. */
+export enum VoiceKind {
+  /** Male */
+  Male = "male",
+  /** Female */
+  Female = "female",
+}
+
 /** The PlaySource model. */
 export interface PlaySource {
-  playSourceId?: string;
+  /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
+  playsourcacheid?: string;
+  /** Sets the play source cache id.*/
+  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
 export interface FileSource extends PlaySource {
   url: string;
   readonly kind: "fileSource";
+}
+
+/** The TextSource model. */
+export interface TextSource extends PlaySource {
+  text: string;
+  sourceLocale?: string;
+  voiceKind?: VoiceKind;
+  voiceName?: string;
+  customVoiceEndpointId?: string;
+  readonly kind: "textSource";
+}
+
+/** The SsmlSource model. */
+export interface SsmlSource extends PlaySource {
+  ssmlText: string;
+  customVoiceEndpointId?: string;
+  readonly kind: "ssmlSource";
 }
 
 /** A Dtmf Tone. */
@@ -111,6 +161,15 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
+/** A Recognition Choice */
+export interface RecognitionChoice {
+  /** Identifier for a given choice */
+  label: string;
+  /** List of phrases to recognize */
+  phrases: string[];
+  tone?: DtmfTone;
+}
+
 /** The type of the recognition that the service accepts. */
 export enum RecognizeInputType {
   /** Dtmf */
@@ -121,19 +180,21 @@ export enum RecognizeInputType {
 
 /** Call invitee details. */
 export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier or CommunicationUserIdentifier. */
-  readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
+  readonly targetParticipant:
+    | PhoneNumberIdentifier
+    | CommunicationUserIdentifier
+    | MicrosoftTeamsUserIdentifier
+    | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Custom context for PSTN. */
-  readonly sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voipr. */
-  readonly voipHeaders?: { [propertyName: string]: string };
+  /** Used by customer to send custom context to targets. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /** The locator type of a call. */
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 /** The content type of a call recording. */
 export type RecordingContent = "audio" | "audioVideo";
@@ -144,8 +205,11 @@ export type RecordingChannel = "mixed" | "unmixed";
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
+/** The format type of a call recording. */
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
 /** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {
@@ -156,4 +220,41 @@ export interface ChannelAffinity {
    * represented by the channel number.
    */
   targetParticipant: CommunicationIdentifier;
+}
+
+/** The recording storage */
+export interface RecordingStorage {
+  /** Defines the kind of recording storage */
+  recordingStorageKind: RecordingStorageKind;
+  /** Uri of a container or a location within a container */
+  recordingDestinationContainerUrl?: string;
+}
+
+interface CustomCallingContextHeader {
+  key: string;
+  value: string;
+}
+
+/** VOIP header. */
+export interface VoipHeader extends CustomCallingContextHeader {
+  kind: "voip";
+}
+
+/** SIP User To User header. */
+export interface SipUserToUserHeader extends CustomCallingContextHeader {
+  kind: "sipuui";
+}
+
+/** SIP Custom header. */
+export interface SipCustomHeader extends CustomCallingContextHeader {
+  kind: "sipx";
+}
+
+/** Custom Calling Context */
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+
+/** AI options for the call. */
+export interface CallIntelligenceOptions {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
 }

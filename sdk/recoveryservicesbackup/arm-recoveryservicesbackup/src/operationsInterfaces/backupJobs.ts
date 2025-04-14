@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { JobResource, BackupJobsListOptionalParams } from "../models";
+import { JobResource, BackupJobsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BackupJobs. */
@@ -22,6 +22,6 @@ export interface BackupJobs {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupJobsListOptionalParams
+    options?: BackupJobsListOptionalParams,
   ): PagedAsyncIterableIterator<JobResource>;
 }

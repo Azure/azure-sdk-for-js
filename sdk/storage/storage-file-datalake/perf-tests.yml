@@ -19,7 +19,6 @@ PackageVersions:
 - '@azure/storage-file-datalake': source
   '@azure/storage-blob': source
   '@azure/core-auth': source
-  '@azure/core-http': source
   '@azure/core-lro': source
   '@azure/core-paging': source
   '@azure/core-rest-pipeline': source

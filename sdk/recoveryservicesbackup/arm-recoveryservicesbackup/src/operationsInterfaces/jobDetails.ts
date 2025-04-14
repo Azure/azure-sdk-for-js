@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { JobDetailsGetOptionalParams, JobDetailsGetResponse } from "../models";
+import { JobDetailsGetOptionalParams, JobDetailsGetResponse } from "../models/index.js";
 
 /** Interface representing a JobDetails. */
 export interface JobDetails {
@@ -22,6 +22,6 @@ export interface JobDetails {
     vaultName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: JobDetailsGetOptionalParams
+    options?: JobDetailsGetOptionalParams,
   ): Promise<JobDetailsGetResponse>;
 }

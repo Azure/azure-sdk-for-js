@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the OpenID Connect Provider.
  *
  * @summary Creates or updates the OpenID Connect Provider.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateOpenIdConnectProvider.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateOpenIdConnectProvider.json
  */
 async function apiManagementCreateOpenIdConnectProvider() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -28,6 +28,8 @@ async function apiManagementCreateOpenIdConnectProvider() {
     clientSecret: "x",
     displayName: "templateoidprovider3",
     metadataEndpoint: "https://oidprovider-template3.net",
+    useInApiDocumentation: true,
+    useInTestConsole: false,
   };
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);

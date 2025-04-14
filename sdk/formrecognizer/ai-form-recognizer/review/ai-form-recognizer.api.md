@@ -4,16 +4,14 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AzureKeyCredential } from '@azure/core-auth';
-import { CommonClientOptions } from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddressValue {
@@ -49,10 +47,9 @@ export interface AnalyzedDocument {
 
 // @public
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
-    features?: string[];
+    features?: FormRecognizerFeature[];
     locale?: string;
     pages?: string;
-    queryFields?: string[];
 }
 
 // @public
@@ -68,7 +65,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
 
 // @public
 export interface AnalyzeResultCommon {
-    apiVersion: FormRecognizerApiVersion;
+    apiVersion: string;
     content: string;
     modelId: string;
 }
@@ -77,15 +74,27 @@ export interface AnalyzeResultCommon {
 export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
 
 // @public
-export interface AzureBlobContentSource {
-    containerUrl: string;
-    prefix?: string;
+export interface AzureBlobFileListSource {
+    azureBlobFileListSource: AzureBlobFileListSourceDetails;
+    azureBlobSource?: undefined;
 }
 
 // @public
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListSourceDetails {
     containerUrl: string;
     fileList: string;
+}
+
+// @public
+export interface AzureBlobSource {
+    azureBlobFileListSource?: undefined;
+    azureBlobSource: AzureBlobSourceDetails;
+}
+
+// @public
+export interface AzureBlobSourceDetails {
+    containerUrl: string;
+    prefix?: string;
 }
 
 export { AzureKeyCredential }
@@ -114,8 +123,8 @@ export interface BoundingRegion extends HasBoundingPolygon {
 
 // @public
 export interface ClassifierDocumentTypeDetails {
-    azureBlobFileListSource?: AzureBlobFileListSource;
-    azureBlobSource?: AzureBlobContentSource;
+    azureBlobFileListSource?: AzureBlobFileListSourceDetails;
+    azureBlobSource?: AzureBlobSourceDetails;
 }
 
 // @public
@@ -182,7 +191,7 @@ export class DocumentAnalysisClient {
 }
 
 // @public
-export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClientOptions {
+export interface DocumentAnalysisClientOptions extends CommonClientOptions {
     stringIndexType?: StringIndexType;
 }
 
@@ -198,11 +207,7 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
 // @public
 export interface DocumentAnnotation extends HasBoundingPolygon {
     confidence: number;
-    kind: DocumentAnnotationKind;
 }
-
-// @public
-export type DocumentAnnotationKind = string;
 
 // @public
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
@@ -255,11 +260,19 @@ export interface DocumentClassifierDetails {
 }
 
 // @public
+export interface DocumentClassifierDocumentTypeSources {
+    [docType: string]: DocumentClassifierSource;
+}
+
+// @public
 export interface DocumentClassifierOperationState extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {
 }
 
 // @public
 export type DocumentClassifierPoller = PollerLike<DocumentClassifierOperationState, DocumentClassifierDetails>;
+
+// @public
+export type DocumentClassifierSource = AzureBlobSource | AzureBlobFileListSource;
 
 // @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
@@ -322,13 +335,6 @@ export interface DocumentFormula extends HasBoundingPolygon {
 export type DocumentFormulaKind = string;
 
 // @public
-export interface DocumentImage extends HasBoundingPolygon {
-    confidence: number;
-    pageNumber: number;
-    span: DocumentSpan;
-}
-
-// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -342,7 +348,6 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
-    commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
@@ -364,7 +369,7 @@ export interface DocumentLine extends HasBoundingPolygon {
 
 // @public
 export interface DocumentModel<Result> {
-    apiVersion?: FormRecognizerApiVersion;
+    apiVersion?: string;
     modelId: string;
     transformResult: (input: AnalyzeResult) => Result;
 }
@@ -374,10 +379,9 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildDocumentClassifier(classifierId: string, docTypes: {
-        [docType: string]: ClassifierDocumentTypeDetails;
-    }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
+    beginBuildDocumentClassifier(classifierId: string, docTypeSources: DocumentClassifierDocumentTypeSources, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, contentSource: DocumentModelSource, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<void>;
@@ -393,7 +397,7 @@ export class DocumentModelAdministrationClient {
 }
 
 // @public
-export interface DocumentModelAdministrationClientOptions extends FormRecognizerCommonClientOptions {
+export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -446,6 +450,9 @@ export interface DocumentModelOperationState extends PollOperationState<Document
 export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelDetails>;
 
 // @public
+export type DocumentModelSource = AzureBlobSource | AzureBlobFileListSource;
+
+// @public
 export interface DocumentModelSummary {
     apiVersion?: string;
     createdOn: Date;
@@ -473,12 +480,9 @@ export interface DocumentObjectField<Properties = {
 // @public
 export interface DocumentPage {
     angle?: number;
-    annotations?: DocumentAnnotation[];
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
-    images?: DocumentImage[];
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -487,9 +491,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -620,30 +621,16 @@ export type FontStyle = string;
 export type FontWeight = string;
 
 // @public
-export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
-
-// @public
-export const FormRecognizerApiVersion: {
-    readonly Latest: "2023-02-28-preview";
-    readonly Stable: "2022-08-31";
-    readonly "2022-08-31": "2022-08-31";
-    readonly "2023-02-28-preview": "2023-02-28-preview";
-};
-
-// @public
-export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
-    apiVersion?: FormRecognizerApiVersion;
-}
-
-// @public
 export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});
 
-// @public (undocumented)
+// @public
 export const FormRecognizerFeature: {
-    readonly QueryFieldsPremium: "queryFields.premium";
-    readonly OcrFont: "ocr.font";
-    readonly OcrHighResolution: "ocr.highResolution";
-    readonly OcrFormula: "ocr.formula";
+    readonly Fonts: "styleFont";
+    readonly OcrHighResolution: "ocrHighResolution";
+    readonly Formulas: "formulas";
+    readonly Languages: "languages";
+    readonly Barcodes: "barcodes";
+    readonly KeyValuePairs: "keyValuePairs";
 };
 
 // @public
@@ -675,12 +662,6 @@ export interface InnerError {
     code: string;
     innererror?: InnerError;
     message?: string;
-}
-
-// @public
-export enum KnownDocumentAnnotationKind {
-    Check = "check",
-    Cross = "cross"
 }
 
 // @public
@@ -732,14 +713,6 @@ export enum KnownDocumentFieldType {
 export enum KnownDocumentFormulaKind {
     Display = "display",
     Inline = "inline"
-}
-
-// @public
-export enum KnownDocumentPageKind {
-    Document = "document",
-    Image = "image",
-    Sheet = "sheet",
-    Slide = "slide"
 }
 
 // @public
@@ -838,7 +811,7 @@ export interface OperationDetails {
     };
 }
 
-// @public (undocumented)
+// @public
 export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails | DocumentClassifierBuildOperationDetails;
 
 // @public

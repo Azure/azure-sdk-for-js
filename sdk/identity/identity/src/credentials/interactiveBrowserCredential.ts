@@ -1,74 +1,91 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import {
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
-} from "./interactiveBrowserCredentialOptions";
+} from "./interactiveBrowserCredentialOptions.js";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { AuthenticationRecord } from "../msal/types";
-import { MsalFlow } from "../msal/flows";
-import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+  resolveAdditionallyAllowedTenantIds,
+  resolveTenantId,
+} from "../util/tenantIdUtils.js";
+
+import type { AuthenticationRecord } from "../msal/types.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
+import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import { DeveloperSignOnClientId } from "../constants.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
- * Enables authentication to Azure Active Directory inside of the web browser
+ * Enables authentication to Microsoft Entra ID inside of the web browser
  * using the interactive login flow.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
   private disableAutomaticAuthentication?: boolean;
+  private browserCustomizationOptions: InteractiveBrowserCredentialNodeOptions["browserCustomizationOptions"];
+  private loginHint?: string;
 
   /**
    * Creates an instance of InteractiveBrowserCredential with the details needed.
    *
-   * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+   * This credential uses the [Authorization Code Flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow).
    * On Node.js, it will open a browser window while it listens for a redirect response from the authentication service.
    * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
    *
-   * For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint.
-   * Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+   * For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint.
+   * Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-app-registration#redirect-uris).
    *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(
-    options:
-      | InteractiveBrowserCredentialNodeOptions
-      | InteractiveBrowserCredentialInBrowserOptions = {}
+    options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions,
   ) {
-    const redirectUri =
-      typeof options.redirectUri === "function"
-        ? options.redirectUri()
-        : options.redirectUri || "http://localhost";
-
-    this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.tenantId = resolveTenantId(logger, options.tenantId, options.clientId);
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
 
-    this.msalFlow = new MsalOpenBrowser({
+    const msalClientOptions: MsalClientOptions = {
       ...options,
       tokenCredentialOptions: options,
       logger,
-      redirectUri,
-    });
+    };
+    const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
+    this.browserCustomizationOptions = ibcNodeOptions.browserCustomizationOptions;
+    this.loginHint = ibcNodeOptions.loginHint;
+    if (ibcNodeOptions?.brokerOptions?.enabled) {
+      if (!ibcNodeOptions?.brokerOptions?.parentWindowHandle) {
+        throw new Error(
+          "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter",
+        );
+      } else {
+        msalClientOptions.brokerOptions = {
+          enabled: true,
+          parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
+          legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
+          useDefaultBrokerAccount: ibcNodeOptions.brokerOptions?.useDefaultBrokerAccount,
+        };
+      }
+    }
+    this.msalClient = createMsalClient(
+      options.clientId ?? DeveloperSignOnClientId,
+      this.tenantId,
+      msalClientOptions,
+    );
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
@@ -88,23 +105,25 @@ export class InteractiveBrowserCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
+        return this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+          browserCustomizationOptions: this.browserCustomizationOptions,
+          loginHint: this.loginHint,
         });
-      }
+      },
     );
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   * If the token can't be retrieved silently, this method will always generate a challenge for the user.
    *
    * On Node.js, this credential has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
    * PKCE is a security feature that mitigates authentication code interception attacks.
@@ -115,16 +134,21 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
       options,
       async (newOptions) => {
         const arrayScopes = ensureScopes(scopes);
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
-      }
+        await this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: false, // this method should always allow user interaction
+          browserCustomizationOptions: this.browserCustomizationOptions,
+          loginHint: this.loginHint,
+        });
+        return this.msalClient.getActiveAccount();
+      },
     );
   }
 }

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AuthorityValidationOptions } from "./authorityValidationOptions";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import type { AuthorityValidationOptions } from "./authorityValidationOptions.js";
+import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
  */
 export interface OnBehalfOfCredentialSecretOptions {
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId: string;
   /**
@@ -32,7 +32,7 @@ export interface OnBehalfOfCredentialSecretOptions {
  */
 export interface OnBehalfOfCredentialCertificateOptions {
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId: string;
   /**
@@ -55,11 +55,33 @@ export interface OnBehalfOfCredentialCertificateOptions {
 }
 
 /**
+ * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with an assertion.
+ */
+export interface OnBehalfOfCredentialAssertionOptions {
+  /**
+   * The Microsoft Entra tenant (directory) ID.
+   */
+  tenantId: string;
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   */
+  clientId: string;
+  /**
+   * A function that retrieves the client assertion for the credential to use
+   */
+  getAssertion: () => Promise<string>;
+  /**
+   * The user assertion for the On-Behalf-Of flow.
+   */
+  userAssertionToken: string;
+}
+/**
  * Optional parameters for the {@link OnBehalfOfCredential} class.
  */
 export type OnBehalfOfCredentialOptions = (
   | OnBehalfOfCredentialSecretOptions
   | OnBehalfOfCredentialCertificateOptions
+  | OnBehalfOfCredentialAssertionOptions
 ) &
   MultiTenantTokenCredentialOptions &
   CredentialPersistenceOptions &

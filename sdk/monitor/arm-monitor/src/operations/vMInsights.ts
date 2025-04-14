@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VMInsights } from "../operationsInterfaces";
+import { VMInsights } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   VMInsightsGetOnboardingStatusOptionalParams,
-  VMInsightsGetOnboardingStatusResponse
-} from "../models";
+  VMInsightsGetOnboardingStatusResponse,
+} from "../models/index.js";
 
 /** Class containing VMInsights operations. */
 export class VMInsightsImpl implements VMInsights {
@@ -36,11 +36,11 @@ export class VMInsightsImpl implements VMInsights {
    */
   getOnboardingStatus(
     resourceUri: string,
-    options?: VMInsightsGetOnboardingStatusOptionalParams
+    options?: VMInsightsGetOnboardingStatusOptionalParams,
   ): Promise<VMInsightsGetOnboardingStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOnboardingStatusOperationSpec
+      getOnboardingStatusOperationSpec,
     );
   }
 }
@@ -48,19 +48,18 @@ export class VMInsightsImpl implements VMInsights {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOnboardingStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
+  path: "/{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMInsightsOnboardingStatus
+      bodyMapper: Mappers.VMInsightsOnboardingStatus,
     },
     default: {
-      bodyMapper: Mappers.ResponseWithError
-    }
+      bodyMapper: Mappers.ResponseWithError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-
+// Licensed under the MIT License.
 import {
   configureBlobStorageClient,
+  SimpleTokenCredential,
   getBSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils";
-import { PublicAccessType } from "../../src";
-import {
-  ContainerClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ContainerSASPermissions,
-  BlobServiceClient,
-} from "../../src";
-import { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+} from "../utils/index.js";
+import type { PublicAccessType } from "../../src/index.js";
+import { getBlobServiceAccountAudience } from "../../src/index.js";
+import type { StorageSharedKeyCredential, BlobServiceClient } from "../../src/index.js";
+import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
@@ -29,8 +24,8 @@ describe("ContainerClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -38,12 +33,64 @@ describe("ContainerClient Node.js only", () => {
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("getAccessPolicy", async function () {
+  it("Default audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Customized audience should work", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      },
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const containerClientWithPlainOAuthToken = new ContainerClient(
+      containerClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+    configureBlobStorageClient(recorder, containerClientWithPlainOAuthToken);
+
+    try {
+      await containerClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      },
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    await containerClientWithOAuthToken.getProperties();
+  });
+
+  it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -53,7 +100,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(result.date);
   });
 
-  it("setAccessPolicy", async function () {
+  it("setAccessPolicy", async () => {
     const access: PublicAccessType = "blob";
     const containerAcl = [
       {
@@ -101,7 +148,7 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(resultEmpty.blobPublicAccess, access);
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -119,7 +166,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
@@ -141,7 +188,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -153,7 +200,7 @@ describe("ContainerClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("can be created with a url and a pipeline", async () => {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);
@@ -172,7 +219,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
     configureBlobStorageClient(recorder, newClient);
 
@@ -189,7 +236,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a connection string and a container name and an option bag", async function () {
+  it("can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
         maxTries: 5,

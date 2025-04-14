@@ -12,7 +12,7 @@ import {
   JobStreamListByJobOptionalParams,
   JobStreamGetOptionalParams,
   JobStreamGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobStreamOperations. */

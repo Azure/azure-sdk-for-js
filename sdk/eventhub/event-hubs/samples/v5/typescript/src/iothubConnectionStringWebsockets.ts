@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
@@ -9,7 +9,7 @@
  * The Event Hubs connection string is then used with the EventHubConsumerClient to receive events.
  *
  * More information about the built-in messaging endpoint can be found at:
- * https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+ * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
 import * as crypto from "crypto";
@@ -17,11 +17,12 @@ import { Buffer } from "buffer";
 import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
 import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { DefaultAzureCredential } from "@azure/identity";
 import WebSocket from "ws";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 /**
  * Type guard for AmqpError.
@@ -31,14 +32,19 @@ function isAmqpError(err: any): err is AmqpError {
   return rheaPromise.isAmqpError(err);
 }
 
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
-// This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
+// This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(
   resourceUri: string,
   signingKey: string,
   policyName: string,
-  expiresInMins: number
+  expiresInMins: number,
 ): string {
   resourceUri = encodeURIComponent(resourceUri);
 
@@ -81,12 +87,12 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   }
 
   // Generate a token to authenticate to the service.
-  // The code for generateSasToken can be found at https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens
+  // The code for generateSasToken can be found at https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens
   const token = generateSasToken(
     `${HostName}/messages/events`,
     SharedAccessKey,
     SharedAccessKeyName,
-    5 // token expires in 5 minutes
+    5, // token expires in 5 minutes
   );
 
   const connection = new Connection({
@@ -119,7 +125,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
           reject(error);
         } else {
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
+            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
           );
         }
       } else {
@@ -135,9 +141,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
 export async function main() {
   console.log(`Running iothubConnectionString sample`);
 
-  const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"
-  );
+  const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
+  const { value: iotHubConnectionString } = await kvClient.getSecret(iotHubConnectionStringName);
+  if (!iotHubConnectionString) {
+    throw new Error(`Failed to retrieve the IotHub connection string from Key Vault.`);
+  }
+
+  const eventHubsConnectionString =
+    await convertIotHubToEventHubsConnectionString(iotHubConnectionString);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);
 
@@ -147,7 +158,7 @@ export async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
           );
         }
       },
@@ -155,7 +166,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    { startPosition: earliestEventPosition },
   );
 
   // Wait for a bit before cleaning up the sample

@@ -7,32 +7,33 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { BmcKeySets } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { BmcKeySets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkCloud } from "../networkCloud";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkCloud } from "../networkCloud.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   BmcKeySet,
-  BmcKeySetsListByResourceGroupNextOptionalParams,
-  BmcKeySetsListByResourceGroupOptionalParams,
-  BmcKeySetsListByResourceGroupResponse,
+  BmcKeySetsListByClusterNextOptionalParams,
+  BmcKeySetsListByClusterOptionalParams,
+  BmcKeySetsListByClusterResponse,
   BmcKeySetsGetOptionalParams,
   BmcKeySetsGetResponse,
   BmcKeySetsCreateOrUpdateOptionalParams,
   BmcKeySetsCreateOrUpdateResponse,
   BmcKeySetsDeleteOptionalParams,
+  BmcKeySetsDeleteResponse,
   BmcKeySetsUpdateOptionalParams,
   BmcKeySetsUpdateResponse,
-  BmcKeySetsListByResourceGroupNextResponse
-} from "../models";
+  BmcKeySetsListByClusterNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BmcKeySets operations. */
@@ -48,21 +49,20 @@ export class BmcKeySetsImpl implements BmcKeySets {
   }
 
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<BmcKeySet> {
-    const iter = this.listByResourceGroupPagingAll(
+    const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,29 +75,29 @@ export class BmcKeySetsImpl implements BmcKeySets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: BmcKeySetsListByClusterOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<BmcKeySet[]> {
-    let result: BmcKeySetsListByResourceGroupResponse;
+    let result: BmcKeySetsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
+      result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,11 +105,11 @@ export class BmcKeySetsImpl implements BmcKeySets {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByClusterNext(
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,35 +118,34 @@ export class BmcKeySetsImpl implements BmcKeySets {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams,
   ): AsyncIterableIterator<BmcKeySet> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
-  ): Promise<BmcKeySetsListByResourceGroupResponse> {
+    options?: BmcKeySetsListByClusterOptionalParams,
+  ): Promise<BmcKeySetsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByResourceGroupOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -161,11 +160,11 @@ export class BmcKeySetsImpl implements BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsGetOptionalParams
+    options?: BmcKeySetsGetOptionalParams,
   ): Promise<BmcKeySetsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, bmcKeySetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,7 +182,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsCreateOrUpdateResponse>,
@@ -192,21 +191,20 @@ export class BmcKeySetsImpl implements BmcKeySets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BmcKeySetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -215,8 +213,8 @@ export class BmcKeySetsImpl implements BmcKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -224,8 +222,8 @@ export class BmcKeySetsImpl implements BmcKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -236,9 +234,9 @@ export class BmcKeySetsImpl implements BmcKeySets {
         clusterName,
         bmcKeySetName,
         bmcKeySetParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BmcKeySetsCreateOrUpdateResponse,
@@ -246,7 +244,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -266,14 +264,14 @@ export class BmcKeySetsImpl implements BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<BmcKeySetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       bmcKeySetName,
       bmcKeySetParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -289,25 +287,29 @@ export class BmcKeySetsImpl implements BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BmcKeySetsDeleteResponse>,
+      BmcKeySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<BmcKeySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +318,8 @@ export class BmcKeySetsImpl implements BmcKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,20 +327,23 @@ export class BmcKeySetsImpl implements BmcKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, bmcKeySetName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BmcKeySetsDeleteResponse,
+      OperationState<BmcKeySetsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -355,13 +360,13 @@ export class BmcKeySetsImpl implements BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<void> {
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<BmcKeySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       bmcKeySetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -378,7 +383,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsUpdateResponse>,
@@ -387,21 +392,20 @@ export class BmcKeySetsImpl implements BmcKeySets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BmcKeySetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -410,8 +414,8 @@ export class BmcKeySetsImpl implements BmcKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -419,15 +423,15 @@ export class BmcKeySetsImpl implements BmcKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, bmcKeySetName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       BmcKeySetsUpdateResponse,
@@ -435,7 +439,7 @@ export class BmcKeySetsImpl implements BmcKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -453,72 +457,49 @@ export class BmcKeySetsImpl implements BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<BmcKeySetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       bmcKeySetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByClusterNext(
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: BmcKeySetsListByResourceGroupNextOptionalParams
-  ): Promise<BmcKeySetsListByResourceGroupNextResponse> {
+    options?: BmcKeySetsListByClusterNextOptionalParams,
+  ): Promise<BmcKeySetsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets",
+const listByClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BmcKeySetList
+      bodyMapper: Mappers.BmcKeySetList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -526,31 +507,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bmcKeySetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BmcKeySet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.bmcKeySetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     201: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     202: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     204: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bmcKeySetParameters,
   queryParameters: [Parameters.apiVersion],
@@ -559,24 +560,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bmcKeySetName
+    Parameters.bmcKeySetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -584,31 +592,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bmcKeySetName
+    Parameters.bmcKeySetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bmcKeySets/{bmcKeySetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     201: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     202: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     204: {
-      bodyMapper: Mappers.BmcKeySet
+      bodyMapper: Mappers.BmcKeySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bmcKeySetUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -617,30 +624,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bmcKeySetName
+    Parameters.bmcKeySetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BmcKeySetList
+      bodyMapper: Mappers.BmcKeySetList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

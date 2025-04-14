@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  LoadBalancerNetworkInterfacesListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { LoadBalancerNetworkInterfacesListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets associated load balancer network interfaces.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets associated load balancer network interfaces.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListSimple.json
  */
-async function loadBalancerNetworkInterfaceListSimple() {
+async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +25,7 @@ async function loadBalancerNetworkInterfaceListSimple() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -50,7 +43,7 @@ loadBalancerNetworkInterfaceListSimple().catch(console.error);
  * @summary Gets associated load balancer network interfaces.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListVmss.json
  */
-async function loadBalancerNetworkInterfaceListVmss() {
+async function loadBalancerNetworkInterfaceListVmss(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -64,7 +57,7 @@ async function loadBalancerNetworkInterfaceListVmss() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

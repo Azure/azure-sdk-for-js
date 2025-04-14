@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MessageSender } from "../../../src/core/messageSender";
-import { assertThrows } from "../../public/utils/testUtils";
-import { createConnectionContextForTests } from "./unittestUtils";
-import { assert } from "chai";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
+import { createConnectionContextForTests } from "./unittestUtils.js";
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("MessageSender unit tests", () => {
   it("getMaxMessageSize should retry (exhaust retries)", async () => {
@@ -18,7 +19,7 @@ describe("MessageSender unit tests", () => {
       "serviceBusClientId",
       createConnectionContextForTests(),
       "entityPath",
-      retryOptions
+      retryOptions,
     );
 
     let openCalled = 0;
@@ -46,11 +47,32 @@ describe("MessageSender unit tests", () => {
           abortSignal: undefined,
           retryOptions,
         }),
-      {
-        name: "ServiceBusError",
-        code: "GeneralError",
-        message: "Link failed to initialize, cannot get max message size.",
-      }
+      [
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+      ],
     );
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);
@@ -67,7 +89,7 @@ describe("MessageSender unit tests", () => {
       "serviceBusClientId",
       createConnectionContextForTests(),
       "entityPath",
-      retryOptions
+      retryOptions,
     );
 
     let openCalled = 0;
@@ -87,5 +109,78 @@ describe("MessageSender unit tests", () => {
 
     assert.equal(maxMessageSize, 101);
     assert.equal(openCalled, 1);
+  });
+
+  it("send should retry on detached link after open", async function () {
+    const retryOptions = {
+      maxRetries: 3,
+      retryDelayInMs: 0,
+      timeoutInMs: 1000,
+    };
+
+    const messageSender = new MessageSender(
+      "serviceBusClientId",
+      createConnectionContextForTests(),
+      "entityPath",
+      retryOptions,
+    );
+    messageSender["_logPrefix"] = "fakeSenderForSendRetry"; // prevent uuid in error message
+
+    let openCalled = 0;
+
+    messageSender["open"] = async () => {
+      ++openCalled;
+
+      messageSender["_link"] = {
+        send: () => {
+          /* no op */
+        },
+        isOpen: () => true,
+        sendable: () => {
+          // Simulating this result:
+          // _trySend() starts.
+          //   open() called and finished.
+          //   waitForSendable(), which calls link.sendable(), finishes, control not returned to _trySend() yet.
+          //   onDetach() happens, link detaches and sets this._link to undefined.
+          //   control returned back to _trySend()
+          // code assumes link was initialized from open() (but was closed) and then tries
+          //   to send, throwing an exception.
+          messageSender["_link"] = undefined;
+          return true;
+        },
+      } as any;
+    };
+
+    await assertThrows(
+      () => messageSender.send({ body: "message" }),
+      [
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+      ],
+    );
+
+    assert.equal(openCalled, retryOptions.maxRetries + 1);
   });
 });

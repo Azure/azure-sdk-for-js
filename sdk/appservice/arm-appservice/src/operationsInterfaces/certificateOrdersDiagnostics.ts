@@ -11,8 +11,8 @@ import {
   DetectorResponse,
   CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
-  CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse
-} from "../models";
+  CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CertificateOrdersDiagnostics. */
@@ -26,7 +26,7 @@ export interface CertificateOrdersDiagnostics {
   listAppServiceCertificateOrderDetectorResponse(
     resourceGroupName: string,
     certificateOrderName: string,
-    options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams
+    options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
@@ -39,8 +39,6 @@ export interface CertificateOrdersDiagnostics {
     resourceGroupName: string,
     certificateOrderName: string,
     detectorName: string,
-    options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
-  ): Promise<
-    CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse
-  >;
+    options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
+  ): Promise<CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse>;
 }

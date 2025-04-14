@@ -18,7 +18,7 @@ import {
   DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DiagnosticSettings. */
 export interface DiagnosticSettings {

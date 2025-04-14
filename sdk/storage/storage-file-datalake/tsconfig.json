@@ -1,18 +1,13 @@
 {
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "declarationDir": "./types/latest",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
-
-    "paths": {
-      "@azure/storage-file-datalake": ["./src/index"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
     }
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts",
-    "../storage-common/**/*.ts"
   ]
 }

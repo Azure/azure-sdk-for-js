@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Profiles } from "../operationsInterfaces";
+import { Profiles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TrafficManagerManagementClient } from "../trafficManagerManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TrafficManagerManagementClient } from "../trafficManagerManagementClient.js";
 import {
   Profile,
   ProfilesListByResourceGroupOptionalParams,
@@ -21,6 +21,8 @@ import {
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse,
+  ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
+  ProfilesCheckTrafficManagerNameAvailabilityV2Response,
   ProfilesGetOptionalParams,
   ProfilesGetResponse,
   ProfilesCreateOrUpdateOptionalParams,
@@ -29,7 +31,7 @@ import {
   ProfilesDeleteResponse,
   ProfilesUpdateOptionalParams,
   ProfilesUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Profiles operations. */
@@ -154,6 +156,22 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
+   * Checks the availability of a Traffic Manager Relative DNS name.
+   * @param parameters The Traffic Manager name parameters supplied to the
+   *                   CheckTrafficManagerNameAvailability operation.
+   * @param options The options parameters.
+   */
+  checkTrafficManagerNameAvailabilityV2(
+    parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
+  ): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response> {
+    return this.client.sendOperationRequest(
+      { parameters, options },
+      checkTrafficManagerNameAvailabilityV2OperationSpec
+    );
+  }
+
+  /**
    * Lists all Traffic Manager profiles within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
@@ -270,6 +288,25 @@ const checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec: coreClient.Op
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const checkTrafficManagerNameAvailabilityV2OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TrafficManagerNameAvailability
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

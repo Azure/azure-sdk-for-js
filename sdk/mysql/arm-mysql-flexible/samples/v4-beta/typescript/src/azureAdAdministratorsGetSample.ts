@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about an azure ad administrator.
  *
  * @summary Gets information about an azure ad administrator.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorGet.json
  */
-async function getAnAzureAdAdministrator() {
+async function getAnAzureAdAdministrator(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -30,17 +28,17 @@ async function getAnAzureAdAdministrator() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.azureADAdministrators.get(
     resourceGroupName,
     serverName,
-    administratorName
+    administratorName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnAzureAdAdministrator();
 }
 

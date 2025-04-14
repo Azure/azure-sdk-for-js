@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or Updates a logger.
  *
  * @summary Creates or Updates a logger.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateAILogger.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAILogger.json
  */
 async function apiManagementCreateAiLogger() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -43,7 +43,7 @@ async function apiManagementCreateAiLogger() {
  * This sample demonstrates how to Creates or Updates a logger.
  *
  * @summary Creates or Updates a logger.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateEHLogger.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateEHLogger.json
  */
 async function apiManagementCreateEhLogger() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

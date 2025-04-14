@@ -1,12 +1,7 @@
 {
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
-    "paths": {
-      "@azure/core-rest-pipeline": ["./src/index"]
-    },
-    "lib": ["dom", "dom.iterable"]
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

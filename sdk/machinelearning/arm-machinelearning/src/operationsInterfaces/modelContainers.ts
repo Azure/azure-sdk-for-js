@@ -14,8 +14,8 @@ import {
   ModelContainersGetOptionalParams,
   ModelContainersGetResponse,
   ModelContainersCreateOrUpdateOptionalParams,
-  ModelContainersCreateOrUpdateResponse
-} from "../models";
+  ModelContainersCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ModelContainers. */
@@ -29,7 +29,7 @@ export interface ModelContainers {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ModelContainersListOptionalParams
+    options?: ModelContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ModelContainer>;
   /**
    * Delete container.
@@ -42,7 +42,7 @@ export interface ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelContainersDeleteOptionalParams
+    options?: ModelContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get container.
@@ -55,7 +55,7 @@ export interface ModelContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ModelContainersGetOptionalParams
+    options?: ModelContainersGetOptionalParams,
   ): Promise<ModelContainersGetResponse>;
   /**
    * Create or update container.
@@ -70,6 +70,6 @@ export interface ModelContainers {
     workspaceName: string,
     name: string,
     body: ModelContainer,
-    options?: ModelContainersCreateOrUpdateOptionalParams
+    options?: ModelContainersCreateOrUpdateOptionalParams,
   ): Promise<ModelContainersCreateOrUpdateResponse>;
 }

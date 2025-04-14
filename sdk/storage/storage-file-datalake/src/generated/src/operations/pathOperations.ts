@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PathOperations } from "../operationsInterfaces";
+import { PathOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageClient } from "../storageClient.js";
 import {
   PathCreateOptionalParams,
   PathCreateResponse,
@@ -41,7 +41,7 @@ import {
   PathSetExpiryResponse,
   PathUndeleteOptionalParams,
   PathUndeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PathOperations operations. */
 export class PathOperationsImpl implements PathOperations {
@@ -300,7 +300,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.leaseDuration,
     Parameters.expiryOptions,
-    Parameters.expiresOn
+    Parameters.expiresOn,
+    Parameters.encryptionContext
   ],
   serializer
 };
@@ -470,6 +471,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {
       headersMapper: Mappers.PathDeleteHeaders
     },
+    202: {
+      headersMapper: Mappers.PathDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.PathDeleteExceptionHeaders
@@ -478,7 +482,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.continuation,
     Parameters.timeout,
-    Parameters.recursive1
+    Parameters.recursive1,
+    Parameters.paginated
   ],
   urlParameters: [Parameters.url],
   headerParameters: [

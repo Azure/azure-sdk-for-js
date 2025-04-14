@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2023-02-28-preview
-// Created:     Wed Apr 05 2023
+// API Version: 2023-07-31
+// Created:     Tue Aug 01 2023
 
-import * as fr from "../../../src";
+import * as fr from "../../../src/index.js";
 
 /**
  * Extract key information from receipts.
  */
 export const PrebuiltReceiptModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltReceiptResult>;
 
 export interface PrebuiltReceiptResult extends fr.AnalyzeResultCommon {
@@ -701,12 +701,12 @@ export interface ReceiptHotelItemsElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       receipt: {
         buildMode: "template",

@@ -28,7 +28,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ServerKeysImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Servers,
   Replicas,
@@ -48,8 +48,8 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ServerKeys
-} from "./operationsInterfaces";
-import { PostgreSQLManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PostgreSQLManagementClientOptionalParams } from "./models/index.js";
 
 export class PostgreSQLManagementClient extends coreClient.ServiceClient {
   $host: string;

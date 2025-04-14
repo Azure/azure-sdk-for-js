@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Message, message as rheaMessage } from "rhea";
+import rhea from "rhea";
 
 /**
  * Converts `Buffer`s received from `onMessage` events to an array of messages.
  */
-export function convertBufferToMessages(buf: Buffer): Message[] {
-  const amqpMessage = rheaMessage.decode(buf);
+export function convertBufferToMessages(buf: Buffer): rhea.Message[] {
+  const amqpMessage = rhea.message.decode(buf);
   if (!amqpMessage.body?.content) {
-    return [amqpMessage as unknown as Message];
+    return [amqpMessage as unknown as rhea.Message];
   }
 
   if (Array.isArray(amqpMessage.body.content)) {
     return amqpMessage.body.content.map((content: Buffer) => {
-      return rheaMessage.decode(content);
+      return rhea.message.decode(content);
     });
   }
 
-  return [rheaMessage.decode(amqpMessage.body.content) as unknown as Message];
+  return [rhea.message.decode(amqpMessage.body.content) as unknown as rhea.Message];
 }

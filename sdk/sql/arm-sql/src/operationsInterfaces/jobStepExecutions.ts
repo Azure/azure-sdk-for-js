@@ -11,8 +11,8 @@ import {
   JobExecution,
   JobStepExecutionsListByJobExecutionOptionalParams,
   JobStepExecutionsGetOptionalParams,
-  JobStepExecutionsGetResponse
-} from "../models";
+  JobStepExecutionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobStepExecutions. */
@@ -33,7 +33,7 @@ export interface JobStepExecutions {
     jobAgentName: string,
     jobName: string,
     jobExecutionId: string,
-    options?: JobStepExecutionsListByJobExecutionOptionalParams
+    options?: JobStepExecutionsListByJobExecutionOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution>;
   /**
    * Gets a step execution of a job execution.
@@ -53,6 +53,6 @@ export interface JobStepExecutions {
     jobName: string,
     jobExecutionId: string,
     stepName: string,
-    options?: JobStepExecutionsGetOptionalParams
+    options?: JobStepExecutionsGetOptionalParams,
   ): Promise<JobStepExecutionsGetResponse>;
 }

@@ -13,12 +13,6 @@
     // Required Scripts
     {
       "commandKind": "bulk",
-      "name": "audit",
-      "summary": "Audit projects",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "build",
       "summary": "Build all projects that haven't been built, or have changed since they were last built",
       "description": "This command is similar to \"rush rebuild\", except that \"rush build\" performs...",
@@ -81,12 +75,6 @@
       "description": "Execute tests which require an actual service instance (live Azure, emulator, etc). Integration tests typically require service endpoints to be specified via environment variables in order to run.",
       "enableParallelism": true,
       "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "lint:fix",
-      "summary": "Fix linting errors for projects",
-      "enableParallelism": true
     },
     {
       "commandKind": "bulk",
@@ -163,6 +151,27 @@
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
+    {
+      "commandKind": "bulk",
+      "name": "typecheck",
+      "summary": "type check files that are not part of the build",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "update-snippets",
+      "summary": "Replace snippets placeholders with code extracted from TypeScript files",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint:fix",
+      "summary": "Fix linting errors for projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
     // Global Commands
     {
       "commandKind": "global",
@@ -189,14 +198,6 @@
       "summary": "Unlink dependencies and purge downloaded node_modules",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "rush unlink && rush purge"
-    },
-    {
-      "name": "prettier",
-      "commandKind": "global",
-      "summary": "Used by the pre-commit Git hook. This command invokes Prettier to reformat staged changes.",
-      "autoinstallerName": "rush-prettier",
-      // This will invoke common/autoinstallers/rush-prettier/node_modules/.bin/pretty-quick
-      "shellCommand": "pretty-quick --staged --no-restage"
     }
   ],
   /**
@@ -208,9 +209,7 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": [
-        "sync-versions"
-      ]
+      "associatedCommands": ["sync-versions"]
     }
   ]
 }

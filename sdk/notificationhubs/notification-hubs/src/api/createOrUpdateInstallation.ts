@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
-import { Installation } from "../models/installation.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsResponse } from "../models/notificationDetails.js";
-import { OperationOptions } from "@azure/core-client";
+import type { Installation } from "../models/installation.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { NotificationHubsResponse } from "../models/notificationDetails.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "createOrUpdateInstallation";
@@ -20,7 +20,7 @@ const OPERATION_NAME = "createOrUpdateInstallation";
 export function createOrUpdateInstallation(
   context: NotificationHubsClientContext,
   installation: Installation,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -38,6 +38,6 @@ export function createOrUpdateInstallation(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }

@@ -11,8 +11,8 @@ import {
   LtrServerBackupOperation,
   LtrBackupOperationsListByServerOptionalParams,
   LtrBackupOperationsGetOptionalParams,
-  LtrBackupOperationsGetResponse
-} from "../models";
+  LtrBackupOperationsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LtrBackupOperations. */
@@ -26,7 +26,7 @@ export interface LtrBackupOperations {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LtrBackupOperationsListByServerOptionalParams
+    options?: LtrBackupOperationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LtrServerBackupOperation>;
   /**
    * Gets the result of the give long term retention backup operation for the flexible server.
@@ -39,6 +39,6 @@ export interface LtrBackupOperations {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: LtrBackupOperationsGetOptionalParams
+    options?: LtrBackupOperationsGetOptionalParams,
   ): Promise<LtrBackupOperationsGetResponse>;
 }

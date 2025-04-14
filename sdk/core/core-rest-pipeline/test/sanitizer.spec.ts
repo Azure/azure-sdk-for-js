@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { Sanitizer } from "../src/util/sanitizer";
+import { assert, describe, it } from "vitest";
+import { Sanitizer } from "../src/util/sanitizer.js";
 
 describe("Sanitizer", function () {
   it("Redacts query parameters in url properties", function () {
@@ -11,6 +11,15 @@ describe("Sanitizer", function () {
 }`;
     const sanitizer = new Sanitizer();
     const result = sanitizer.sanitize({ url: "http://example.com/foo?api-version=123&secret=42" });
+    assert.strictEqual(result, expected);
+  });
+
+  it("Ignores url of empty string", function () {
+    const expected = `{
+  "url": ""
+}`;
+    const sanitizer = new Sanitizer();
+    const result = sanitizer.sanitize({ url: "" });
     assert.strictEqual(result, expected);
   });
 

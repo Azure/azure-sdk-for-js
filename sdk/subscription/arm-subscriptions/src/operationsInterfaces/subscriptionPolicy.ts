@@ -15,7 +15,7 @@ import {
   SubscriptionPolicyAddUpdatePolicyForTenantResponse,
   SubscriptionPolicyGetPolicyForTenantOptionalParams,
   SubscriptionPolicyGetPolicyForTenantResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionPolicy. */

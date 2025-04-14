@@ -1,72 +1,149 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
+import type { ShareClientConfig, ShareClientOptions } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
-} from "../../src";
-import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../../storage-blob/src/Pipeline";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+} from "../../src/index.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { newPipeline } from "../../src/Pipeline.js";
+import { ShareServiceClient } from "../../src/ShareServiceClient.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { getUniqueName, configureStorageClient } from "./testutils.common.js";
+import type { StorageClient } from "../../src/StorageClient.js";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericBSU(
+  recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  config?: ShareClientOptions,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  const accountName = process.env[accountNameEnvVar];
-  const accountKey = process.env[accountKeyEnvVar];
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
 
-  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+  if (!accountName || !accountKey) {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
   const credentials = new StorageSharedKeyCredential(accountName, accountKey);
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials, config);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  return new ShareServiceClient(filePrimaryURL, pipeline);
+  const client = new ShareServiceClient(filePrimaryURL, pipeline, config);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getBlobServceClient(): BlobServiceClient {
-  return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
+  const client = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+  configureStorageClient(recorder, client as unknown as StorageClient);
+  return client;
 }
 
-export function getBSU(): ShareServiceClient {
-  return getGenericBSU("");
+export function getSoftDeleteBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  return getTokenBSUWithDefaultCredential(
+    recorder,
+    "SOFT_DELETE_",
+    accountNameSuffix,
+    shareClientConfig,
+  );
 }
 
-export function getAlternateBSU(): ShareServiceClient {
-  return getGenericBSU("SECONDARY_", "-secondary");
+export function getTokenBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = createTestCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getSoftDeleteBSU(): ShareServiceClient {
-  return getGenericBSU("SOFT_DELETE_");
+export function getTokenBSU(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
+}
+
+export function getBSU(recorder: Recorder, config?: ShareClientOptions): ShareServiceClient {
+  return getGenericBSU(recorder, "", "", config);
+}
+
+export function getAccountName(): string {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  const accountName = process.env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  return accountName;
+}
+
+export function getAlternateBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SECONDARY_", "-secondary");
+}
+
+export function getSoftDeleteBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SOFT_DELETE_");
 }
 
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
-  const connectionString = process.env[connectionStringEnvVar];
+  const connectionString = env[connectionStringEnvVar];
 
   if (!connectionString) {
     throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
@@ -87,7 +164,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
@@ -108,7 +185,7 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSize: number
+  blockSize: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
@@ -143,19 +220,19 @@ export async function createRandomLocalFile(
   });
 }
 
-export function getSASConnectionStringFromEnvironment(): string {
+export function getSASConnectionStringFromEnvironment(recorder: Recorder): string {
   const now = new Date();
   now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
-  const queueServiceClient = getBSU();
+  const queueServiceClient = getBSU(recorder);
   const sharedKeyCredential = queueServiceClient["credential"];
 
   const sas = generateAccountSASQueryParameters(
     {
       expiresOn: tmr,
-      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
@@ -163,20 +240,20 @@ export function getSASConnectionStringFromEnvironment(): string {
       startsOn: now,
       version: "2016-05-31",
     },
-    sharedKeyCredential as StorageSharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential,
   ).toString();
 
   const fileEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
   return `BlobEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".blob."
+    ".blob.",
   )}/;QueueEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".queue."
+    ".queue.",
   )}/;FileEndpoint=${fileEndpoint}/;TableEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".table."
+    ".table.",
   )}/;SharedAccessSignature=${sas}`;
 }
 
@@ -185,7 +262,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+      chunks.push(typeof data === "string" ? Buffer.from(data) : data);
     });
     readableStream.on("end", () => {
       resolve(Buffer.concat(chunks));
@@ -195,14 +272,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
 }
 
 export function getTokenCredential(): TokenCredential {
-  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  const accountToken = process.env[accountTokenEnvVar];
-
-  if (!accountToken || accountToken === "") {
-    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
-  }
-
-  return new SimpleTokenCredential(accountToken);
+  return createTestCredential();
 }
 
 /**
@@ -216,7 +286,7 @@ export async function compareBodyWithUint8Array(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  uint8arry: Uint8Array
+  uint8arry: Uint8Array,
 ): Promise<boolean> {
   const buf = await streamToBuffer(response.readableStreamBody!);
   return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));

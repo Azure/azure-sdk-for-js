@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the attached NetworkConnections for a Project.
  *
  * @summary Lists the attached NetworkConnections for a Project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/AttachedNetworks_ListByProject.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_ListByProject.json
  */
 async function attachedNetworksListByProject() {
   const subscriptionId =

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Maps } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Maps } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMapsManagementClient } from "../azureMapsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMapsManagementClient } from "../azureMapsManagementClient.js";
 import {
   OperationDetail,
   MapsListOperationsNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   MapsListSubscriptionOperationsResponse,
   MapsListOperationsNextResponse,
   MapsListSubscriptionOperationsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Maps operations. */
@@ -254,7 +254,6 @@ const listOperationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -270,7 +269,6 @@ const listSubscriptionOperationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

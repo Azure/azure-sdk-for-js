@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const ManagedPrivateEndpoint: coreClient.CompositeMapper = {
   type: {
@@ -17,32 +17,32 @@ export const ManagedPrivateEndpoint: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ManagedPrivateEndpointProperties"
-        }
-      }
-    }
-  }
+          className: "ManagedPrivateEndpointProperties",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedPrivateEndpointProperties: coreClient.CompositeMapper = {
@@ -53,41 +53,41 @@ export const ManagedPrivateEndpointProperties: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateLinkResourceId: {
         serializedName: "privateLinkResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupId: {
         serializedName: "groupId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       connectionState: {
         serializedName: "connectionState",
         type: {
           name: "Composite",
-          className: "ManagedPrivateEndpointConnectionState"
-        }
+          className: "ManagedPrivateEndpointConnectionState",
+        },
       },
       isReserved: {
         serializedName: "isReserved",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       fqdns: {
         serializedName: "fqdns",
@@ -95,19 +95,19 @@ export const ManagedPrivateEndpointProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       isCompliant: {
         serializedName: "isCompliant",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedPrivateEndpointConnectionState: coreClient.CompositeMapper = {
@@ -119,23 +119,23 @@ export const ManagedPrivateEndpointConnectionState: coreClient.CompositeMapper =
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionsRequired: {
         serializedName: "actionsRequired",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedPrivateEndpointListResponse: coreClient.CompositeMapper = {
@@ -150,18 +150,18 @@ export const ManagedPrivateEndpointListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagedPrivateEndpoint"
-            }
-          }
-        }
+              className: "ManagedPrivateEndpoint",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

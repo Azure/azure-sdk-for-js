@@ -5,17 +5,18 @@
  * @summary Demonstrates implementing optimistic concurrency using App Configuration and etags.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log("Running optimistic concurrency sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const key = "optimisticConcurrencySampleKey";
   await cleanupSampleValues([key], client);
@@ -51,7 +52,7 @@ async function main() {
   const betaUpdatedSetting = await client.setConfigurationSetting(betaSetting, {
     // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
     // which is true for Beta since nobody has modified it since Beta got it.
-    onlyIfUnchanged: true
+    onlyIfUnchanged: true,
   });
 
   console.log(`Beta has updated the setting. The setting's etag is now ${betaUpdatedSetting.etag}`);
@@ -59,7 +60,7 @@ async function main() {
   // now Alpha is going to attempt to update it - note that at this point
   // the setting has been updated (by Beta) and so our etag will not match
   console.log(
-    "Alpha is unaware of Beta's update and will now attempt to update the setting as well"
+    "Alpha is unaware of Beta's update and will now attempt to update the setting as well",
   );
 
   try {
@@ -71,13 +72,13 @@ async function main() {
       // it.
       //
       // the 'catch' below will now incorporate the update
-      onlyIfUnchanged: true
+      onlyIfUnchanged: true,
     });
   } catch (err) {
     if (err.statusCode === 412) {
       // precondition failed
       console.log(
-        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`
+        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`,
       );
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");
@@ -89,7 +90,7 @@ async function main() {
 
       console.log(`Alpha is setting the value again with the new etag ${actualSetting.etag}`);
       await client.setConfigurationSetting(actualSetting, {
-        onlyIfUnchanged: true
+        onlyIfUnchanged: true,
       });
     }
   }
@@ -109,7 +110,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -122,3 +123,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

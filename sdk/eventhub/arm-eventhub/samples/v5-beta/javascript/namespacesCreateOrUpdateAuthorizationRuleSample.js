@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates an AuthorizationRule for a Namespace.
  *
  * @summary Creates or updates an AuthorizationRule for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleCreate.json
  */
 async function nameSpaceAuthorizationRuleCreate() {
   const subscriptionId =
@@ -31,13 +29,13 @@ async function nameSpaceAuthorizationRuleCreate() {
     resourceGroupName,
     namespaceName,
     authorizationRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleCreate();
+  await nameSpaceAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

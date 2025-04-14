@@ -27,7 +27,7 @@ async function main() {
   const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Download the manifest to obtain the list of files in the image based on the tag

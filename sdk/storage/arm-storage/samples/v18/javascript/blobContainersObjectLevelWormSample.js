@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This operation migrates a blob container from container level WORM to object level immutability enabled container. Prerequisites require a container level immutability policy either in locked or unlocked state, Account level versioning must be enabled and there should be no Legal hold on the container.
  *
  * @summary This operation migrates a blob container from container level WORM to object level immutability enabled container. Prerequisites require a container level immutability policy either in locked or unlocked state, Account level versioning must be enabled and there should be no Legal hold on the container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/ObjectLevelWormContainerMigration.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/ObjectLevelWormContainerMigration.json
  */
 async function versionLevelWormContainerMigration() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res1782";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res1782";
   const accountName = "sto7069";
   const containerName = "container6397";
   const credential = new DefaultAzureCredential();
@@ -27,9 +26,13 @@ async function versionLevelWormContainerMigration() {
   const result = await client.blobContainers.beginObjectLevelWormAndWait(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }
 
-versionLevelWormContainerMigration().catch(console.error);
+async function main() {
+  await versionLevelWormContainerMigration();
+}
+
+main().catch(console.error);

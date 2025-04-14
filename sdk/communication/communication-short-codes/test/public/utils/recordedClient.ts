@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as dotenv from "dotenv";
 
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { ShortCodesClient } from "../../../src";
-import { isNode } from "@azure/test-utils";
+import { ShortCodesClient } from "../../../src/index.js";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -29,6 +30,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
+  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
 export const recorderOptions: RecorderStartOptions = {
@@ -45,12 +47,16 @@ export const recorderOptions: RecorderStartOptions = {
       { key: "x-ms-client-request-id", value: "Sanitized" },
     ],
   },
+  removeCentralSanitizers: [
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createRecordedClient(
-  context: Context
+  context: TestInfo,
 ): Promise<RecordedClient<ShortCodesClient>> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
@@ -63,7 +69,14 @@ export async function createRecordedClient(
   return {
     client: new ShortCodesClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      }),
     ),
     recorder,
   };
@@ -80,14 +93,14 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: TestInfo,
 ): Promise<RecordedClient<ShortCodesClient> | undefined> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -95,24 +108,46 @@ export async function createRecordedClientWithToken(
 
     // casting is a workaround to enable min-max testing
     return {
-      client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
+      client: new ShortCodesClient(
+        endpoint,
+        credential,
+        recorder.configureClientOptions({
+          additionalPolicies: [
+            {
+              policy: createMSUserAgentPolicy(),
+              position: "perCall",
+            },
+          ],
+        }),
+      ),
       recorder,
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(
       assertEnvironmentVariable("AZURE_TENANT_ID"),
       assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
+      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
     );
   }
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new ShortCodesClient(endpoint, credential, recorder.configureClientOptions({})),
+    client: new ShortCodesClient(
+      endpoint,
+      credential,
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      }),
+    ),
     recorder,
   };
 }

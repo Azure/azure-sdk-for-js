@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a configuration store.
  *
  * @summary Gets the private link resources that need to be created for a configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/PrivateLinkResourcesListByConfigurationStore.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/PrivateLinkResourcesListByConfigurationStore.json
  */
 async function privateLinkResourcesListGroupIds() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function privateLinkResourcesListGroupIds() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByConfigurationStore(
     resourceGroupName,
-    configStoreName
+    configStoreName,
   )) {
     resArray.push(item);
   }

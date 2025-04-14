@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.
@@ -8,19 +8,25 @@
  */
 
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
-const eventHubName = process.env["EVENTHUB_NAME"] || "";
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running receiveEvents sample`);
 
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+  const credential = new DefaultAzureCredential();
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    fullyQualifiedNamespace,
+    eventHubName,
+    credential,
+  );
 
   const subscription = consumerClient.subscribe(
     {
@@ -34,7 +40,7 @@ export async function main() {
         // it in the `options` passed to `subscribe()`.
         for (const event of events) {
           console.log(
-            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
           );
         }
       },
@@ -42,7 +48,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    { startPosition: earliestEventPosition },
   );
 
   // Wait for a bit before cleaning up the sample

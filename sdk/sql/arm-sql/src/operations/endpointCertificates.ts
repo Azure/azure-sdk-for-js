@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EndpointCertificates } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EndpointCertificates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   EndpointCertificate,
   EndpointCertificatesListByInstanceNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   EndpointCertificatesListByInstanceResponse,
   EndpointCertificatesGetOptionalParams,
   EndpointCertificatesGetResponse,
-  EndpointCertificatesListByInstanceNextResponse
-} from "../models";
+  EndpointCertificatesListByInstanceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EndpointCertificates operations. */
@@ -46,12 +46,12 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
   public listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: EndpointCertificatesListByInstanceOptionalParams
+    options?: EndpointCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<EndpointCertificate> {
     const iter = this.listByInstancePagingAll(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
           resourceGroupName,
           managedInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: EndpointCertificatesListByInstanceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EndpointCertificate[]> {
     let result: EndpointCertificatesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
       result = await this._listByInstance(
         resourceGroupName,
         managedInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +98,7 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
         resourceGroupName,
         managedInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
   private async *listByInstancePagingAll(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: EndpointCertificatesListByInstanceOptionalParams
+    options?: EndpointCertificatesListByInstanceOptionalParams,
   ): AsyncIterableIterator<EndpointCertificate> {
     for await (const page of this.listByInstancePagingPage(
       resourceGroupName,
       managedInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +131,11 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
   private _listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: EndpointCertificatesListByInstanceOptionalParams
+    options?: EndpointCertificatesListByInstanceOptionalParams,
   ): Promise<EndpointCertificatesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, options },
-      listByInstanceOperationSpec
+      listByInstanceOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     endpointType: string,
-    options?: EndpointCertificatesGetOptionalParams
+    options?: EndpointCertificatesGetOptionalParams,
   ): Promise<EndpointCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, endpointType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -171,11 +171,11 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
     resourceGroupName: string,
     managedInstanceName: string,
     nextLink: string,
-    options?: EndpointCertificatesListByInstanceNextOptionalParams
+    options?: EndpointCertificatesListByInstanceNextOptionalParams,
   ): Promise<EndpointCertificatesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, nextLink, options },
-      listByInstanceNextOperationSpec
+      listByInstanceNextOperationSpec,
     );
   }
 }
@@ -183,62 +183,60 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/endpointCertificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/endpointCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointCertificateListResult
+      bodyMapper: Mappers.EndpointCertificateListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion7],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/endpointCertificates/{endpointType}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EndpointCertificate
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.endpointType
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/endpointCertificates/{endpointType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EndpointCertificate,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.endpointType,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointCertificateListResult
+      bodyMapper: Mappers.EndpointCertificateListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ManagedRuleSetDefinition,
-  ManagedRuleSetsListOptionalParams
-} from "../models";
+  ManagedRuleSetsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedRuleSets. */
@@ -20,6 +20,6 @@ export interface ManagedRuleSets {
    * @param options The options parameters.
    */
   list(
-    options?: ManagedRuleSetsListOptionalParams
+    options?: ManagedRuleSetsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedRuleSetDefinition>;
 }

@@ -1,28 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AvailabilityData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
-  KnownSeverityLevel,
   MessageData,
   MonitorDomain,
   PageViewData,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
-} from "../generated";
-import { createTagsFromResource } from "./common";
-import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
-import { Measurements, Properties, Tags } from "../types";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag } from "@opentelemetry/api";
+} from "../generated/index.js";
+import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
+import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
+import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import {
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_STACKTRACE,
+  ATTR_EXCEPTION_TYPE,
+} from "@opentelemetry/semantic-conventions";
+import type { Measurements, Properties, Tags } from "../types.js";
+import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
+import { Attributes, diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
   ApplicationInsightsAvailabilityName,
   ApplicationInsightsBaseType,
+  ApplicationInsightsCustomEventName,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -31,60 +35,83 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
-} from "./constants/applicationinsights";
+} from "./constants/applicationinsights.js";
+import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  const time = log.hrTime ? new Date(hrTimeToMilliseconds(log.hrTime)) : new Date();
-  let sampleRate = 100;
+  const time = hrTimeToDate(log.hrTime);
+  const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
-  const [properties, measurements] = createPropertiesFromLog(log);
+  // eslint-disable-next-line prefer-const
+  let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
   let baseData: MonitorDomain;
 
-  if (!log.attributes[ApplicationInsightsBaseType]) {
-    // Get Exception attributes if available
-    let exceptionType = log.attributes[SemanticAttributes.EXCEPTION_TYPE];
-    if (exceptionType) {
-      let exceptionMessage = log.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
-      let exceptionStacktrace = log.attributes[SemanticAttributes.EXCEPTION_STACKTRACE];
-      name = ApplicationInsightsExceptionName;
-      baseType = ApplicationInsightsExceptionBaseType;
-      let exceptionDetails: TelemetryExceptionDetails = {
-        typeName: String(exceptionType),
-        message: String(exceptionMessage),
-        hasFullStack: exceptionStacktrace ? true : false,
-        stack: String(exceptionStacktrace),
-      };
-      const exceptionData: TelemetryExceptionData = {
-        exceptions: [exceptionDetails],
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = exceptionData;
-    } else {
-      name = ApplicationInsightsMessageName;
-      baseType = ApplicationInsightsMessageBaseType;
-      const messageData: MessageData = {
-        message: String(log.body),
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = messageData;
-    }
+  const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
+  const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
+  const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const isMessageType: boolean =
+    !log.attributes[ApplicationInsightsBaseType] &&
+    !log.attributes[ApplicationInsightsCustomEventName] &&
+    !exceptionType;
+  if (isExceptionType) {
+    const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
+    name = ApplicationInsightsExceptionName;
+    baseType = ApplicationInsightsExceptionBaseType;
+    const exceptionDetails: TelemetryExceptionDetails = {
+      typeName: String(exceptionType),
+      message: String(exceptionMessage),
+      hasFullStack: exceptionStacktrace ? true : false,
+      stack: String(exceptionStacktrace),
+    };
+    const exceptionData: TelemetryExceptionData = {
+      exceptions: [exceptionDetails],
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = exceptionData;
+  } else if (log.attributes[ApplicationInsightsCustomEventName]) {
+    name = ApplicationInsightsEventName;
+    baseType = ApplicationInsightsEventBaseType;
+    const eventData: TelemetryEventData = {
+      name: String(log.attributes[ApplicationInsightsCustomEventName]),
+      version: 2,
+    };
+    baseData = eventData;
+    measurements = getLegacyApplicationInsightsMeasurements(log);
+  } else if (isMessageType) {
+    name = ApplicationInsightsMessageName;
+    baseType = ApplicationInsightsMessageBaseType;
+    const messageData: MessageData = {
+      message: String(log.body),
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = messageData;
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
     baseData = getLegacyApplicationInsightsBaseData(log);
+    measurements = getLegacyApplicationInsightsMeasurements(log);
     if (!baseData) {
       // Failed to parse log
       return;
+    }
+  }
+  // Truncate properties
+  if (baseData.message) {
+    baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+  }
+  if (properties) {
+    for (const key of Object.keys(properties)) {
+      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
     }
   }
   return {
@@ -113,6 +140,12 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
+  }
+  getLocationIp(tags, log.attributes as Attributes);
   return tags;
 }
 
@@ -125,12 +158,13 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticAttributes.EXCEPTION_TYPE ||
-          key == SemanticAttributes.EXCEPTION_MESSAGE ||
-          key == SemanticAttributes.EXCEPTION_STACKTRACE
+          key.startsWith("microsoft") ||
+          legacySemanticValues.includes(key) ||
+          httpSemanticValues.includes(key as any) ||
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
-        properties[key] = log.attributes[key] as string;
+        properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
   }
@@ -177,6 +211,14 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
   return name;
 }
 
+function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
+  let measurements: Measurements = {};
+  if ((log.body as MonitorDomain)?.measurements) {
+    measurements = { ...(log.body as MonitorDomain).measurements };
+  }
+  return measurements;
+}
+
 function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
   let baseData: MonitorDomain = {
     version: 2,
@@ -185,20 +227,23 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = JSON.parse(log.body) as AvailabilityData;
+          baseData = log.body as AvailabilityData;
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = JSON.parse(log.body) as TelemetryExceptionData;
+          baseData = log.body as TelemetryExceptionData;
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = JSON.parse(log.body) as MessageData;
+          baseData = log.body as MessageData;
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = JSON.parse(log.body) as PageViewData;
+          baseData = log.body as PageViewData;
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = JSON.parse(log.body) as TelemetryEventData;
+          baseData = log.body as TelemetryEventData;
           break;
+      }
+      if (typeof baseData?.message === "object") {
+        baseData.message = JSON.stringify(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

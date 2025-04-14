@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how to create an Authentication provider
   which is capable of fetching an authorization token for the
@@ -15,9 +15,9 @@
   see https://www.npmjs.com/package/@azure/identity.
 
   For more information on the Authorization code credential strategy please
-  see https://docs.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
+  see https://learn.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
 
-  Finally, you may visit https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
+  Finally, you may visit https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
   to learn more about the OAuth 2.0 authorization code flow.
 */
 import { BrowserWindow, protocol, session } from "electron";

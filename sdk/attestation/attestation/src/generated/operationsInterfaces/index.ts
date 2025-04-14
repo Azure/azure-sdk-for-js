@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./policy";
-export * from "./policyCertificates";
-export * from "./attestation";
-export * from "./signingCertificates";
-export * from "./metadataConfiguration";
+export * from "./policy.js";
+export * from "./policyCertificates.js";
+export * from "./attestation.js";
+export * from "./signingCertificates.js";
+export * from "./metadataConfiguration.js";

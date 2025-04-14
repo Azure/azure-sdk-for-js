@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
-import { ClientCertificateCredential } from "./clientCertificateCredential";
-import { ClientSecretCredential } from "./clientSecretCredential";
-import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { checkTenantId } from "../util/tenantIdUtils";
-import { tracingClient } from "../util/tracing";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging.js";
+
+import { ClientCertificateCredential } from "./clientCertificateCredential.js";
+import { ClientSecretCredential } from "./clientSecretCredential.js";
+import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions.js";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential.js";
+import { checkTenantId } from "../util/tenantIdUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -27,6 +28,7 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_USERNAME",
   "AZURE_PASSWORD",
   "AZURE_ADDITIONALLY_ALLOWED_TENANTS",
+  "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN",
 ];
 
 function getAdditionallyAllowedTenants(): string[] {
@@ -37,8 +39,19 @@ function getAdditionallyAllowedTenants(): string[] {
 const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
 
+export function getSendCertificateChain(): boolean {
+  const sendCertificateChain = (
+    process.env.AZURE_CLIENT_SEND_CERTIFICATE_CHAIN ?? ""
+  ).toLowerCase();
+  const result = sendCertificateChain === "true" || sendCertificateChain === "1";
+  logger.verbose(
+    `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN: ${process.env.AZURE_CLIENT_SEND_CERTIFICATE_CHAIN}; sendCertificateChain: ${result}`,
+  );
+  return result;
+}
+
 /**
- * Enables authentication to Azure Active Directory using a client secret or certificate, or as a user
+ * Enables authentication to Microsoft Entra ID using a client secret or certificate, or as a user
  * with a username and password.
  */
 export class EnvironmentCredential implements TokenCredential {
@@ -50,7 +63,7 @@ export class EnvironmentCredential implements TokenCredential {
    * Creates an instance of the EnvironmentCredential class and decides what credential to use depending on the available environment variables.
    *
    * Required environment variables:
-   * - `AZURE_TENANT_ID`: The Azure Active Directory tenant (directory) ID.
+   * - `AZURE_TENANT_ID`: The Microsoft Entra tenant (directory) ID.
    * - `AZURE_CLIENT_ID`: The client (application) ID of an App Registration in the tenant.
    *
    * If setting the AZURE_TENANT_ID, then you can also set the additionally allowed tenants
@@ -60,6 +73,7 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_SECRET`: A client secret that was generated for the App Registration.
    * - `AZURE_CLIENT_CERTIFICATE_PATH`: The path to a PEM certificate to use during the authentication, instead of the client secret.
    * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
+   * - `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN`: (optional) indicates that the certificate chain should be set in x5c header to support subject name / issuer based authentication.
    *
    * Alternatively, users can provide environment variables for username and password authentication:
    * - `AZURE_USERNAME`: Username to authenticate with.
@@ -81,7 +95,8 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     const additionallyAllowedTenantIds = getAdditionallyAllowedTenants();
-    const newOptions = { ...options, additionallyAllowedTenantIds };
+    const sendCertificateChain = getSendCertificateChain();
+    const newOptions = { ...options, additionallyAllowedTenantIds, sendCertificateChain };
 
     if (tenantId) {
       checkTenantId(logger, tenantId);
@@ -89,7 +104,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
-        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`
+        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`,
       );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, newOptions);
       return;
@@ -99,13 +114,13 @@ export class EnvironmentCredential implements TokenCredential {
     const certificatePassword = process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD;
     if (tenantId && clientId && certificatePath) {
       logger.info(
-        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
+        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`,
       );
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
         { certificatePath, certificatePassword },
-        newOptions
+        newOptions,
       );
       return;
     }
@@ -114,20 +129,20 @@ export class EnvironmentCredential implements TokenCredential {
     const password = process.env.AZURE_PASSWORD;
     if (tenantId && clientId && username && password) {
       logger.info(
-        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`
+        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`,
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,
         clientId,
         username,
         password,
-        newOptions
+        newOptions,
       );
     }
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - Optional parameters. See {@link GetTokenOptions}.
@@ -149,7 +164,7 @@ export class EnvironmentCredential implements TokenCredential {
         }
       }
       throw new CredentialUnavailableError(
-        `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`
+        `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
       );
     });
   }

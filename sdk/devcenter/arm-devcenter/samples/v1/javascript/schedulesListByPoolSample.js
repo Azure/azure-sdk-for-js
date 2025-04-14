@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists schedules for a pool
  *
  * @summary Lists schedules for a pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Schedules_ListByPool.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Schedules_ListByPool.json
  */
 async function schedulesListByPool() {
   const subscriptionId =

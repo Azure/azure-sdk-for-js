@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
-import { Item } from "./Item";
-import { ItemDefinition } from "./ItemDefinition";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/ResourceResponse.js";
+import type { Resource } from "../Resource.js";
+import type { Item } from "./Item.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
 
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
   constructor(
@@ -14,7 +14,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
     statusCode: number,
     subsstatusCode: number,
     item: Item,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics, subsstatusCode);
     this.item = item;

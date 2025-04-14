@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the deferMessage() function can be used to defer a message for later processing.
@@ -7,37 +7,36 @@
  * In this sample, we have an application that gets cooking instructions out of order. It uses
  * message deferral to defer the instruction that is out of order, and then processes it in order.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-deferral to learn about
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-deferral to learn about
  * message deferral.
  *
  * @summary Demonstrates how to defer a message for later processing.
  * @azsdk-weight 55
  */
 
-import {
-  ServiceBusClient,
-  delay,
+import type {
   ProcessErrorArgs,
   ServiceBusReceivedMessage,
   ServiceBusMessage,
 } from "@azure/service-bus";
+import { ServiceBusClient, delay } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
+const credential = new DefaultAzureCredential();
 
-export async function main() {
+export async function main(): Promise<void> {
   await sendMessages();
   await receiveMessage();
 }
 
 // Shuffle and send messages
-async function sendMessages() {
-  const sbClient = new ServiceBusClient(connectionString);
+async function sendMessages(): Promise<void> {
+  const sbClient = new ServiceBusClient(fqdn, credential);
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
@@ -64,7 +63,7 @@ async function sendMessages() {
         } catch (err: any) {
           console.log("Error while sending message", err);
         }
-      })
+      }),
     );
   }
   // wait until all the send tasks are complete
@@ -73,8 +72,8 @@ async function sendMessages() {
   await sbClient.close();
 }
 
-async function receiveMessage() {
-  const sbClient = new ServiceBusClient(connectionString);
+async function receiveMessage(): Promise<void> {
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   // If receiving from a subscription, you can use the createReceiver(topicName, subscriptionName) overload
   let receiver = sbClient.createReceiver(queueName);
@@ -105,7 +104,7 @@ async function receiveMessage() {
         // we dead-letter the message if we don't know what to do with it.
         console.log(
           "Unknown message received, moving it to dead-letter queue ",
-          brokeredMessage.body
+          brokeredMessage.body,
         );
         await receiver.deadLetterMessage(brokeredMessage);
       }
@@ -118,7 +117,7 @@ async function receiveMessage() {
       { processMessage, processError },
       {
         autoCompleteMessages: false,
-      }
+      },
     ); // Disabling autoCompleteMessages so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();

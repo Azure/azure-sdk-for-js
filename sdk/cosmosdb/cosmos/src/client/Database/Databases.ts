@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Resource } from "../Resource";
-import { Database } from "./Database";
-import { DatabaseDefinition } from "./DatabaseDefinition";
-import { DatabaseRequest } from "./DatabaseRequest";
-import { DatabaseResponse } from "./DatabaseResponse";
-import { validateOffer } from "../../utils/offers";
+// Licensed under the MIT License.
+
+import type { ClientContext } from "../../ClientContext.js";
+import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common/index.js";
+import type { CosmosClient } from "../../CosmosClient.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { mergeHeaders } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import { Database } from "./Database.js";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
+import type { DatabaseRequest } from "./DatabaseRequest.js";
+import { DatabaseResponse } from "./DatabaseResponse.js";
+import { validateOffer } from "../../utils/offers.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -30,7 +35,8 @@ export class Databases {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -39,14 +45,18 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -56,19 +66,23 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @database`,
+   *   parameters: [{ name: "@database", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const cb: FetchFunctionCallback = (innerOptions) => {
+    const cb: FetchFunctionCallback = (diagNode: DiagnosticNodeInternal, innerOptions) => {
       return this.clientContext.queryFeed({
         path: "/dbs",
         resourceType: ResourceType.database,
@@ -76,6 +90,7 @@ export class Databases {
         resultFn: (result) => result.Databases,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode,
       });
     };
     return new QueryIterator(this.clientContext, query, options, cb);
@@ -94,10 +109,34 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: databaseDefinition, database } = await client.databases.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: DatabaseRequest,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
+  ): Promise<DatabaseResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.createInternal(diagnosticNode, body, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async createInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    body: DatabaseRequest,
+    options: RequestOptions = {},
   ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
@@ -141,15 +180,22 @@ export class Databases {
       path,
       resourceType: ResourceType.database,
       resourceId: undefined,
+      diagnosticNode,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext);
+    const ref = new Database(
+      this.client,
+      body.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new DatabaseResponse(
       response.result,
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -167,10 +213,20 @@ export class Databases {
    *
    * @param body - The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ReadmeSampleCreateDatabase
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * ```
    */
   public async createIfNotExists(
     body: DatabaseRequest,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
@@ -179,19 +235,23 @@ export class Databases {
       1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
       2. If it fails with NotFound error, attempt to create the db. Else, return the read results.
     */
-    try {
-      const readResponse = await this.client.database(body.id).read(options);
-      return readResponse;
-    } catch (err: any) {
-      if (err.code === StatusCodes.NotFound) {
-        const createResponse = await this.create(body, options);
-        // Must merge the headers to capture RU costskaty
-        mergeHeaders(createResponse.headers, err.headers);
-        return createResponse;
-      } else {
-        throw err;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      try {
+        const readResponse = await this.client
+          .database(body.id)
+          .readInternal(diagnosticNode, options);
+        return readResponse;
+      } catch (err: any) {
+        if (err.code === StatusCodes.NotFound) {
+          const createResponse = await this.createInternal(diagnosticNode, body, options);
+          // Must merge the headers to capture RU costskaty
+          mergeHeaders(createResponse.headers, err.headers);
+          return createResponse;
+        } else {
+          throw err;
+        }
       }
-    }
+    }, this.clientContext);
   }
 
   // TODO: DatabaseResponse for QueryIterator?
@@ -200,8 +260,14 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
-   * const {body: databaseList} = await client.databases.readAll().fetchAll();
+   * ```ts snippet:DatabasesReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: databaseList } = await client.databases.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {

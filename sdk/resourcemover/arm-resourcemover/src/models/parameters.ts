@@ -20,7 +20,7 @@ import {
   DiscardRequest as DiscardRequestMapper,
   BulkRemoveRequest as BulkRemoveRequestMapper,
   MoveResource as MoveResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -99,7 +99,7 @@ export const moveCollectionName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2023-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

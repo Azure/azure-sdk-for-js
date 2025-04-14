@@ -20,8 +20,6 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
-    exclude:
-      - feature/v4
   paths:
     include:
       - sdk/eventhub/
@@ -41,3 +39,5 @@ extends:
         safeName: azureeventhubscheckpointstoreblob
       - name: azure-eventhubs-checkpointstore-table
         safeName: azureeventhubscheckpointstoretable
+      - name: azure-tools-mock-hub
+        safeName: azuretoolsmockhub

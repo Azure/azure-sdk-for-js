@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -11,7 +14,11 @@ export class NetworkStatsbeat {
 
   public lastRequestCount: number;
 
-  public totalSuccesfulRequestCount: number;
+  public totalSuccessfulRequestCount: number;
+
+  public totalReadFailureCount: number;
+
+  public totalWriteFailureCount: number;
 
   public totalFailedRequestCount: { statusCode: number; count: number }[];
 
@@ -31,7 +38,9 @@ export class NetworkStatsbeat {
     this.endpoint = endpoint;
     this.host = host;
     this.totalRequestCount = 0;
-    this.totalSuccesfulRequestCount = 0;
+    this.totalSuccessfulRequestCount = 0;
+    this.totalReadFailureCount = 0;
+    this.totalWriteFailureCount = 0;
     this.totalFailedRequestCount = [];
     this.retryCount = [];
     this.exceptionCount = [];
@@ -46,22 +55,32 @@ export class NetworkStatsbeat {
 
 export const STATSBEAT_LANGUAGE = "node";
 
+export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+
 export const MAX_STATSBEAT_FAILURES = 3;
 
 export const StatsbeatResourceProvider = {
   appsvc: "appsvc",
+  aks: "aks",
   functions: "functions",
   vm: "vm",
   unknown: "unknown",
 };
 
+export enum AttachTypeName {
+  INTEGRATED_AUTO = "IntegratedAuto",
+  MANUAL = "Manual",
+}
+
 export enum StatsbeatCounter {
-  SUCCESS_COUNT = "Request Success Count",
-  FAILURE_COUNT = "Request Failure Count",
-  RETRY_COUNT = "Retry Count",
-  THROTTLE_COUNT = "Throttle Count",
-  EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Request Duration",
+  SUCCESS_COUNT = "Request_Success_Count",
+  FAILURE_COUNT = "Request_Failure_Count",
+  RETRY_COUNT = "Retry_Count",
+  THROTTLE_COUNT = "Throttle_Count",
+  EXCEPTION_COUNT = "Exception_Count",
+  AVERAGE_DURATION = "Request_Duration",
+  READ_FAILURE_COUNT = "Read_Failure_Count",
+  WRITE_FAILURE_COUNT = "Write_Failure_Count",
   ATTACH = "Attach",
   FEATURE = "Feature",
 }
@@ -112,6 +131,7 @@ export interface StatsbeatOptions {
   endpointUrl: string;
   networkCollectionInterval?: number;
   longCollectionInterval?: number;
+  disableOfflineStorage?: boolean;
 }
 
 export interface VirtualMachineInfo {
@@ -122,6 +142,18 @@ export interface VirtualMachineInfo {
 }
 
 export enum StatsbeatFeatureType {
-  FEATURE = "Feature",
-  INSTRUMENTATION = "Instrumentation",
+  FEATURE = 0,
+  INSTRUMENTATION = 1,
+}
+
+/**
+ * Status codes indicating that we should shutdown statsbeat
+ * @internal
+ */
+export function isStatsbeatShutdownStatus(statusCode: number): boolean {
+  return (
+    statusCode === 401 || // Unauthorized
+    statusCode === 403 || // Forbidden
+    statusCode === 503 // Server Unavailable
+  );
 }

@@ -82,7 +82,7 @@ node assessedMachinesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MIGRATE_SUBSCRIPTION_ID="<migrate subscription id>" MIGRATE_RESOURCE_GROUP="<migrate resource group>" node assessedMachinesGetSample.js
+npx dev-tool run vendored cross-env MIGRATE_SUBSCRIPTION_ID="<migrate subscription id>" MIGRATE_RESOURCE_GROUP="<migrate resource group>" node assessedMachinesGetSample.js
 ```
 
 ## Next Steps
@@ -135,6 +135,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vmwarecollectorsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/migrate/arm-migrate/samples/v2/javascript/vMwareCollectorsDeleteSample.js
 [vmwarecollectorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/migrate/arm-migrate/samples/v2/javascript/vMwareCollectorsGetSample.js
 [vmwarecollectorslistbyprojectsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/migrate/arm-migrate/samples/v2/javascript/vMwareCollectorsListByProjectSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-migrate?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-migrate?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/migrate/arm-migrate/README.md

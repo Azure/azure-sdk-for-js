@@ -141,7 +141,7 @@ node createOrUpdateDatabaseMigrationResourceWithMaximumParameters.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node createOrUpdateDatabaseMigrationResourceWithMaximumParameters.js
+npx dev-tool run vendored cross-env  node createOrUpdateDatabaseMigrationResourceWithMaximumParameters.js
 ```
 
 ## Next Steps
@@ -253,6 +253,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tasksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datamigration/arm-datamigration/samples/v3-beta/javascript/tasksUpdateSample.js
 [updatesqlmigrationservice]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datamigration/arm-datamigration/samples/v3-beta/javascript/updateSqlMigrationService.js
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datamigration/arm-datamigration/samples/v3-beta/javascript/usagesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-datamigration?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-datamigration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datamigration/arm-datamigration/README.md

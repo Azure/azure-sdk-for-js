@@ -61,7 +61,7 @@ node dist/communicationsGatewaysCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env VOICESERVICES_SUBSCRIPTION_ID="<voiceservices subscription id>" VOICESERVICES_RESOURCE_GROUP="<voiceservices resource group>" node dist/communicationsGatewaysCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env VOICESERVICES_SUBSCRIPTION_ID="<voiceservices subscription id>" VOICESERVICES_RESOURCE_GROUP="<voiceservices resource group>" node dist/communicationsGatewaysCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -81,7 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [testlinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesGetSample.ts
 [testlineslistbycommunicationsgatewaysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesListByCommunicationsGatewaySample.ts
 [testlinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voiceservices/arm-voiceservices/samples/v1/typescript/src/testLinesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voiceservices/arm-voiceservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

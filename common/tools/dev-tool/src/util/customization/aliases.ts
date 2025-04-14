@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { SourceFile, TypeAliasDeclaration } from "ts-morph";
 
 export function augmentTypeAliases(
   originalAliases: Map<string, TypeAliasDeclaration>,
   customAliases: TypeAliasDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customAlias of customAliases) {
     const aliasName = customAlias.getName();
@@ -14,7 +14,7 @@ export function augmentTypeAliases(
       const aliasStructure = customAlias.getStructure();
       throw new Error(`Alias doesn't have a name\n${JSON.stringify(aliasStructure)}`);
     }
-    const originalAlias = originalAliases.get(customAlias.getName() ?? "");
+    const originalAlias = originalAliases.get(aliasName);
     augmentTypeAlias(customAlias, originalAlias, originalFile);
   }
 }
@@ -22,7 +22,7 @@ export function augmentTypeAliases(
 export function augmentTypeAlias(
   customTypeAlias: TypeAliasDeclaration,
   originalTypeAlias: TypeAliasDeclaration | undefined,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   // Bring over the custom alias
   originalFile.addTypeAlias(customTypeAlias.getStructure());

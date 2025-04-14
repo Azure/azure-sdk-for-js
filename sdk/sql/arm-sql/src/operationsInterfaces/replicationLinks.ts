@@ -14,12 +14,17 @@ import {
   ReplicationLinksListByServerOptionalParams,
   ReplicationLinksGetOptionalParams,
   ReplicationLinksGetResponse,
+  ReplicationLinksCreateOrUpdateOptionalParams,
+  ReplicationLinksCreateOrUpdateResponse,
   ReplicationLinksDeleteOptionalParams,
+  ReplicationLinkUpdate,
+  ReplicationLinksUpdateOptionalParams,
+  ReplicationLinksUpdateResponse,
   ReplicationLinksFailoverOptionalParams,
   ReplicationLinksFailoverResponse,
   ReplicationLinksFailoverAllowDataLossOptionalParams,
-  ReplicationLinksFailoverAllowDataLossResponse
-} from "../models";
+  ReplicationLinksFailoverAllowDataLossResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationLinks. */
@@ -36,7 +41,7 @@ export interface ReplicationLinks {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: ReplicationLinksListByDatabaseOptionalParams
+    options?: ReplicationLinksListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink>;
   /**
    * Gets a list of replication links.
@@ -48,7 +53,7 @@ export interface ReplicationLinks {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicationLinksListByServerOptionalParams
+    options?: ReplicationLinksListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink>;
   /**
    * Gets a replication link.
@@ -64,8 +69,49 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksGetOptionalParams
+    options?: ReplicationLinksGetOptionalParams,
   ): Promise<ReplicationLinksGetResponse>;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLink,
+    options?: ReplicationLinksCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationLinksCreateOrUpdateResponse>,
+      ReplicationLinksCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLink,
+    options?: ReplicationLinksCreateOrUpdateOptionalParams,
+  ): Promise<ReplicationLinksCreateOrUpdateResponse>;
   /**
    * Deletes the replication link.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -80,7 +126,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksDeleteOptionalParams
+    options?: ReplicationLinksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the replication link.
@@ -96,8 +142,49 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksDeleteOptionalParams
+    options?: ReplicationLinksDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link update request.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLinkUpdate,
+    options?: ReplicationLinksUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationLinksUpdateResponse>,
+      ReplicationLinksUpdateResponse
+    >
+  >;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link update request.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLinkUpdate,
+    options?: ReplicationLinksUpdateOptionalParams,
+  ): Promise<ReplicationLinksUpdateResponse>;
   /**
    * Fails over from the current primary server to this server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -112,7 +199,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverOptionalParams
+    options?: ReplicationLinksFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationLinksFailoverResponse>,
@@ -133,7 +220,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverOptionalParams
+    options?: ReplicationLinksFailoverOptionalParams,
   ): Promise<ReplicationLinksFailoverResponse>;
   /**
    * Fails over from the current primary server to this server allowing data loss.
@@ -149,7 +236,7 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverAllowDataLossOptionalParams
+    options?: ReplicationLinksFailoverAllowDataLossOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationLinksFailoverAllowDataLossResponse>,
@@ -170,6 +257,6 @@ export interface ReplicationLinks {
     serverName: string,
     databaseName: string,
     linkId: string,
-    options?: ReplicationLinksFailoverAllowDataLossOptionalParams
+    options?: ReplicationLinksFailoverAllowDataLossOptionalParams,
   ): Promise<ReplicationLinksFailoverAllowDataLossResponse>;
 }

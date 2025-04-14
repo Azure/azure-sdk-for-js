@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all workspaces in the specified subscription
+ * This sample demonstrates how to Lists all Azure Monitor Workspaces in the specified subscription
  *
- * @summary Lists all workspaces in the specified subscription
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesListBySubscription.json
+ * @summary Lists all Azure Monitor Workspaces in the specified subscription
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesListBySubscription.json
  */
-async function listWorkspacesBySubscription() {
+async function listAzureMonitorWorkspacesBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "703362b3-f278-4e4b-9179-c76eaf41ffc2";
@@ -33,8 +31,8 @@ async function listWorkspacesBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listWorkspacesBySubscription();
+async function main(): Promise<void> {
+  listAzureMonitorWorkspacesBySubscription();
 }
 
 main().catch(console.error);

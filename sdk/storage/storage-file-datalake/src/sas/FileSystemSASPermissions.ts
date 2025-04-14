@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
@@ -116,7 +116,7 @@ export class FileSystemSASPermissions {
    * order accepted by the service.
    *
    * The order of the characters should be as specified here to ensure correctness.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    */
   public toString(): string {

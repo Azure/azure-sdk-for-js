@@ -8,8 +8,8 @@
 
 import {
   ExtensionTopicsGetOptionalParams,
-  ExtensionTopicsGetResponse
-} from "../models";
+  ExtensionTopicsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ExtensionTopics. */
 export interface ExtensionTopics {
@@ -25,6 +25,6 @@ export interface ExtensionTopics {
    */
   get(
     scope: string,
-    options?: ExtensionTopicsGetOptionalParams
+    options?: ExtensionTopicsGetOptionalParams,
   ): Promise<ExtensionTopicsGetResponse>;
 }

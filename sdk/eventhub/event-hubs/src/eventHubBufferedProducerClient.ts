@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EventData } from "./eventData";
-import { EventHubProducerClient } from "./eventHubProducerClient";
-import { OperationOptions } from "./util/operationOptions";
-import {
+import type { EventData } from "./eventData.js";
+import { EventHubProducerClient } from "./eventHubProducerClient.js";
+import type { OperationOptions } from "./util/operationOptions.js";
+import type {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   SendBatchOptions,
-} from "./models/public";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+} from "./models/public.js";
+import type { EventHubProperties, PartitionProperties } from "./managementClient.js";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { AbortController } from "@azure/abort-controller";
-import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
-import { BatchingPartitionChannel } from "./batchingPartitionChannel";
-import { PartitionAssigner } from "./impl/partitionAssigner";
-import { logger } from "./logger";
-import { getRandomName } from "./util/utils";
+import { isCredential } from "./util/typeGuards.js";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { delay } from "@azure/core-amqp";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel.js";
+import { PartitionAssigner } from "./impl/partitionAssigner.js";
+import { logger } from "./logger.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -108,7 +108,7 @@ export interface BufferedCloseOptions extends OperationOptions {
 }
 
 /**
- * Options to configure the `enqueueEvents` method on the `EventHubBufferedProcuerClient`.
+ * Options to configure the `enqueueEvents` method on the `EventHubBufferedProducerClient`.
  */
 export interface EnqueueEventOptions extends SendBatchOptions {}
 
@@ -240,7 +240,7 @@ export class EventHubBufferedProducerClient {
   constructor(
     connectionString: string,
     eventHubName: string,
-    options: EventHubBufferedProducerClientOptions
+    options: EventHubBufferedProducerClientOptions,
   );
   /**
    * The `EventHubBufferedProducerClient` class is used to send events to an Event Hub.
@@ -266,7 +266,7 @@ export class EventHubBufferedProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options: EventHubBufferedProducerClientOptions
+    options: EventHubBufferedProducerClientOptions,
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -276,7 +276,7 @@ export class EventHubBufferedProducerClient {
       | NamedKeyCredential
       | SASCredential
       | EventHubBufferedProducerClientOptions,
-    options4?: EventHubBufferedProducerClientOptions
+    options4?: EventHubBufferedProducerClientOptions,
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
       this.identifier = eventHubNameOrOptions2.identifier ?? getRandomName();
@@ -290,7 +290,7 @@ export class EventHubBufferedProducerClient {
       this._producer = new EventHubProducerClient(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
-        { ...credentialOrOptions3, identifier: this.identifier }
+        { ...credentialOrOptions3, identifier: this.identifier },
       );
       this._clientOptions = { ...credentialOrOptions3! };
     } else {
@@ -299,7 +299,7 @@ export class EventHubBufferedProducerClient {
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3,
-        { ...options4, identifier: this.identifier }
+        { ...options4, identifier: this.identifier },
       );
       this._clientOptions = { ...options4! };
     }
@@ -352,11 +352,11 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvent(
     event: EventData | AmqpAnnotatedMessage,
-    options: EnqueueEventOptions = {}
+    options: EnqueueEventOptions = {},
   ): Promise<number> {
     if (this._isClosed) {
       throw new Error(
-        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
+        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`,
       );
     }
 
@@ -369,8 +369,8 @@ export class EventHubBufferedProducerClient {
           `The following error occured during batch creation or sending: ${JSON.stringify(
             e,
             undefined,
-            "  "
-          )}`
+            "  ",
+          )}`,
         );
       });
       this._isBackgroundManagementRunning = true;
@@ -406,7 +406,8 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvents(
     events: EventData[] | AmqpAnnotatedMessage[],
-    options: EnqueueEventOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: EnqueueEventOptions = {},
   ): Promise<number> {
     for (const event of events) {
       await this.enqueueEvent(event, options);
@@ -425,7 +426,7 @@ export class EventHubBufferedProducerClient {
    */
   async flush(options: BufferedFlushOptions = {}): Promise<void> {
     await Promise.all(
-      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options))
+      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options)),
     );
   }
 
@@ -462,7 +463,7 @@ export class EventHubBufferedProducerClient {
    */
   getPartitionProperties(
     partitionId: string,
-    options: GetPartitionPropertiesOptions = {}
+    options: GetPartitionPropertiesOptions = {},
   ): Promise<PartitionProperties> {
     return this._producer.getPartitionProperties(partitionId, options);
   }

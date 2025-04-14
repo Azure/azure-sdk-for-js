@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Read body from downloading operation methods to string.
@@ -14,7 +14,7 @@ export async function bodyToString(
     blobBody?: Promise<Blob>;
   },
   // tslint:disable-next-line:variable-name
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.blobBody!;
   return blobToString(blob);

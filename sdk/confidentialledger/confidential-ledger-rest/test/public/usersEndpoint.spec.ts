@@ -1,34 +1,51 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ConfidentialLedgerClient, GetUser200Response } from "../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { createClient, createRecorder } from "./utils/recordedClient";
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { assert } from "chai";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Get user", function () {
+describe("Get user", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
-    client = await createClient();
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should obtain user data", async function () {
-    // if the ledger in the .env changes, so should this
-    const userId = env.AZURE_CLIENT_ID;
-    let result = await client.path("/app/users/{userId}", userId).get();
+  it("should obtain user data", { skip: !env.AZURE_CLIENT_OID }, async () => {
+    // If using a test app, it needs to be the oid.
+    const userId = env.AZURE_CLIENT_OID;
+    const result = await client.path("/app/users/{userId}", userId!).get();
     assert.equal(result.status, "200");
 
-    // this cast is still required
-    result = result as GetUser200Response;
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
 
     assert.equal(result.body.userId, userId);
+  });
+
+  it("should list all user data", { skip: !env.AZURE_CLIENT_OID }, async () => {
+    // If using a test app, it needs to be the oid.
+    const userId = env.AZURE_CLIENT_OID;
+    const result = await client.path("/app/users").get();
+    assert.equal(result.status, "200");
+
+    if (isUnexpected(result)) {
+      throw result.body;
+    }
+
+    assert.equal(result.body.ledgerUsers?.length, 1);
+    assert.isNotNull(result.body.ledgerUsers);
+    assert.equal(result.body.ledgerUsers![0].userId, userId);
   });
 });

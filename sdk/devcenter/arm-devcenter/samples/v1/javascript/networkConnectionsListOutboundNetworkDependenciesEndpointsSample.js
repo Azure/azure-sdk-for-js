@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs should be allowed for outbound access in order for the Dev Box service to function.
  *
  * @summary Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs should be allowed for outbound access in order for the Dev Box service to function.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_ListOutboundNetworkDependenciesEndpoints.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_ListOutboundNetworkDependenciesEndpoints.json
  */
 async function listOutboundNetworkDependencies() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listOutboundNetworkDependencies() {
   const resArray = new Array();
   for await (let item of client.networkConnections.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
-    networkConnectionName
+    networkConnectionName,
   )) {
     resArray.push(item);
   }

@@ -11,8 +11,8 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResourcesOperations. */
@@ -26,7 +26,7 @@ export interface PrivateLinkResourcesOperations {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Returns a specified private link resource that need to be created for Backup and SiteRecovery
@@ -39,6 +39,6 @@ export interface PrivateLinkResourcesOperations {
     resourceGroupName: string,
     vaultName: string,
     privateLinkResourceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

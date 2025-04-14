@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import express from "express-serve-static-core";
+import type express from "express-serve-static-core";
 
-import { CloudEventsDispatcher } from "./cloudEventsDispatcher";
-import { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols";
+import { CloudEventsDispatcher } from "./cloudEventsDispatcher.js";
+import type { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols.js";
 
 /**
  * The handler to handle incoming CloudEvents messages
@@ -21,31 +21,33 @@ export class WebPubSubEventHandler {
    * Creates an instance of a WebPubSubEventHandler for handling incoming CloudEvents messages.
    *
    * Example usage:
-   * ```ts
-   * import express from "express";
+   * ```ts snippet:WebPubSubEventHandlerHandleMessages
    * import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
-   * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const handler = new WebPubSubEventHandler('chat', {
+   *
+   * const endpoint = "https://xxxx.webpubsubdev.azure.com";
+   * const handler = new WebPubSubEventHandler("chat", {
    *   handleConnect: (req, res) => {
    *     console.log(JSON.stringify(req));
    *     return {};
    *   },
-   *   onConnected: req => {
+   *   onConnected: (req) => {
    *     console.log(JSON.stringify(req));
    *   },
    *   handleUserEvent: (req, res) => {
    *     console.log(JSON.stringify(req));
    *     res.success("Hey " + req.data, req.dataType);
-   *    };
-   *   allowedEndpoints: [ endpoint ]
-   *  },
+   *   },
+   *   allowedEndpoints: [endpoint],
    * });
    * ```
    *
    * @param hub - The name of the hub to listen to
    * @param options - Options to configure the event handler
    */
-  constructor(private hub: string, options?: WebPubSubEventHandlerOptions) {
+  constructor(
+    private hub: string,
+    options?: WebPubSubEventHandlerOptions,
+  ) {
     const path = (options?.path ?? `/api/webpubsub/hubs/${hub}/`).toLowerCase();
     this.path = path.endsWith("/") ? path : path + "/";
     this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, options);
@@ -58,7 +60,7 @@ export class WebPubSubEventHandler {
     return async (
       req: express.Request,
       res: express.Response,
-      next: express.NextFunction
+      next: express.NextFunction,
     ): Promise<void> => {
       // Request originalUrl can contain query while baseUrl + path not
       let requestUrl = (req.baseUrl + req.path).toLowerCase();

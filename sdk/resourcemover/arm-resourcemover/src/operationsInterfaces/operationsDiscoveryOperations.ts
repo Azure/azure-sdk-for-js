@@ -9,7 +9,7 @@
 import {
   OperationsDiscoveryGetOptionalParams,
   OperationsDiscoveryGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationsDiscoveryOperations. */
 export interface OperationsDiscoveryOperations {

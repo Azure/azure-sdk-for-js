@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -20,15 +20,29 @@ export interface CheckNameAvailabilityParameters {
 }
 
 // @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
+    enableDataPartitions?: boolean;
+    encryption?: Encryption;
+    readonly eventState?: ServiceEventState;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceUrl?: string;
+    storageConfiguration?: StorageConfiguration;
     readonly systemData?: SystemData;
 }
 
@@ -50,11 +64,11 @@ export interface DicomServicePatchResource extends ResourceTags, ServiceManagedI
 
 // @public
 export interface DicomServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DicomServicesCreateOrUpdateResponse>, DicomServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DicomServicesCreateOrUpdateResponse>, DicomServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<DicomServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DicomServicesUpdateResponse>, DicomServicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DicomServicesUpdateResponse>, DicomServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<DicomServicesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, dicomServiceName: string, options?: DicomServicesGetOptionalParams): Promise<DicomServicesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: DicomServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<DicomService>;
@@ -106,6 +120,16 @@ export interface DicomServicesUpdateOptionalParams extends coreClient.OperationO
 export type DicomServicesUpdateResponse = DicomService;
 
 // @public
+export interface Encryption {
+    customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
+}
+
+// @public
+export interface EncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
 export interface ErrorDetails {
     error?: ErrorDetailsInternal;
 }
@@ -146,23 +170,20 @@ export type FhirResourceVersionPolicy = string;
 
 // @public
 export interface FhirService extends TaggedResource, ServiceManagedIdentity {
-    accessPolicies?: FhirServiceAccessPolicyEntry[];
     acrConfiguration?: FhirServiceAcrConfiguration;
     authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
     corsConfiguration?: FhirServiceCorsConfiguration;
+    encryption?: Encryption;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface FhirServiceAccessPolicyEntry {
-    objectId: string;
 }
 
 // @public
@@ -175,6 +196,7 @@ export interface FhirServiceAcrConfiguration {
 export interface FhirServiceAuthenticationConfiguration {
     audience?: string;
     authority?: string;
+    smartIdentityProviders?: SmartIdentityProviderConfiguration[];
     smartProxyEnabled?: boolean;
 }
 
@@ -199,6 +221,13 @@ export interface FhirServiceExportConfiguration {
 }
 
 // @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export type FhirServiceKind = string;
 
 // @public
@@ -207,11 +236,11 @@ export interface FhirServicePatchResource extends ResourceTags, ServiceManagedId
 
 // @public
 export interface FhirServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FhirServicesCreateOrUpdateResponse>, FhirServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FhirServicesCreateOrUpdateResponse>, FhirServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<FhirServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<FhirServicesUpdateResponse>, FhirServicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FhirServicesUpdateResponse>, FhirServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<FhirServicesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, fhirServiceName: string, options?: FhirServicesGetOptionalParams): Promise<FhirServicesGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: FhirServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<FhirService>;
@@ -310,6 +339,11 @@ export interface HealthcareApisManagementClientOptionalParams extends coreClient
 }
 
 // @public
+export interface ImplementationGuidesConfiguration {
+    usCoreMissingData?: boolean;
+}
+
+// @public
 export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
     deviceMapping?: IotMappingProperties;
     ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
@@ -325,9 +359,9 @@ export interface IotConnectorCollection {
 
 // @public
 export interface IotConnectorFhirDestination {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>, IotConnectorFhirDestinationCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>, IotConnectorFhirDestinationCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationGetOptionalParams): Promise<IotConnectorFhirDestinationGetResponse>;
 }
@@ -360,11 +394,11 @@ export interface IotConnectorPatchResource extends ResourceTags, ServiceManagedI
 
 // @public
 export interface IotConnectors {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorsCreateOrUpdateResponse>, IotConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorsCreateOrUpdateResponse>, IotConnectorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<IotConnectorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorsUpdateResponse>, IotConnectorsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorsUpdateResponse>, IotConnectorsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<IotConnectorsUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: IotConnectorsGetOptionalParams): Promise<IotConnectorsGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: IotConnectorsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<IotConnector>;
@@ -561,6 +595,11 @@ export enum KnownServiceManagedIdentityType {
 }
 
 // @public
+export enum KnownSmartDataActions {
+    Read = "Read"
+}
+
+// @public
 export interface ListOperations {
     nextLink?: string;
     readonly value?: OperationDetail[];
@@ -595,8 +634,13 @@ export interface MetricSpecification {
     dimensions?: MetricDimension[];
     displayDescription?: string;
     displayName?: string;
+    enableRegionalMdmAccount?: boolean;
     fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
     name?: string;
+    resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     sourceMdmNamespace?: string;
     supportedAggregationTypes?: string[];
     supportedTimeGrainTypes?: string[];
@@ -702,9 +746,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByService(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
@@ -851,6 +895,7 @@ export interface ServiceCorsConfigurationInfo {
 
 // @public
 export interface ServiceCosmosDbConfigurationInfo {
+    crossTenantCmkApplicationId?: string;
     keyVaultKeyUri?: string;
     offerThroughput?: number;
 }
@@ -861,6 +906,13 @@ export type ServiceEventState = string;
 // @public
 export interface ServiceExportConfigurationInfo {
     storageAccountName?: string;
+}
+
+// @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -893,11 +945,11 @@ export interface ServiceOciArtifactEntry {
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
     checkNameAvailability(checkNameAvailabilityInputs: CheckNameAvailabilityParameters, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, resourceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
@@ -1003,6 +1055,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1037,6 +1090,28 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = ServicesDescription;
+
+// @public
+export type SmartDataActions = string;
+
+// @public
+export interface SmartIdentityProviderApplication {
+    allowedDataActions?: SmartDataActions[];
+    audience?: string;
+    clientId?: string;
+}
+
+// @public
+export interface SmartIdentityProviderConfiguration {
+    applications?: SmartIdentityProviderApplication[];
+    authority?: string;
+}
+
+// @public
+export interface StorageConfiguration {
+    fileSystemName?: string;
+    storageResourceId?: string;
+}
 
 // @public
 export interface SystemData {
@@ -1076,9 +1151,9 @@ export interface WorkspacePatchResource extends ResourceTags {
 
 // @public
 export interface WorkspacePrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>, WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>, WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsGetOptionalParams): Promise<WorkspacePrivateEndpointConnectionsGetResponse>;
     listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
@@ -1142,11 +1217,11 @@ export interface WorkspaceProperties {
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;

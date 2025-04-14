@@ -30,7 +30,7 @@ import {
   TableGetAccessPolicyResponse,
   TableSetAccessPolicyOptionalParams,
   TableSetAccessPolicyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Table. */
 export interface Table {

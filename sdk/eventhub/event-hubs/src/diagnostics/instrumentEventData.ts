@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EventData, isAmqpAnnotatedMessage } from "../eventData";
-import { TracingContext } from "@azure/core-tracing";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { OperationOptions } from "../util/operationOptions";
-import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
+import type { EventData } from "../eventData.js";
+import { isAmqpAnnotatedMessage } from "../eventData.js";
+import type { TracingContext } from "@azure/core-tracing";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { OperationOptions } from "../util/operationOptions.js";
+import type { MessagingOperationNames } from "./tracing.js";
+import { toSpanOptions, tracingClient } from "./tracing.js";
 
 /**
  * @internal
@@ -25,7 +27,7 @@ export function instrumentEventData(
   options: OperationOptions,
   entityPath: string,
   host: string,
-  operation?: MessagingOperationNames
+  operation?: MessagingOperationNames,
 ): { event: EventData; spanContext: TracingContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
@@ -41,7 +43,7 @@ export function instrumentEventData(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, operation, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer"),
   );
   try {
     if (!messageSpan.isRecording()) {
@@ -52,7 +54,7 @@ export function instrumentEventData(
     }
 
     const traceParent = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions?.tracingContext
+      updatedOptions.tracingOptions?.tracingContext,
     )["traceparent"];
     if (traceParent) {
       const copiedProps = { ...props };

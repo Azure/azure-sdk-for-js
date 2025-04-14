@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   getMessageIterator,
@@ -7,25 +7,26 @@ import {
   settleMessage,
   settleMessageOperation,
   wrapProcessErrorHandler,
-} from "../../../src/receivers/receiverCommon";
-import chai from "chai";
-import { ServiceBusReceiver } from "../../../src/receivers/receiver";
-import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
-import { ProcessErrorArgs } from "../../../src/models";
-import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
+} from "../../../src/receivers/receiverCommon.js";
+import type { ServiceBusReceiver } from "../../../src/receivers/receiver.js";
+import type { ServiceBusLogger } from "../../../src/log.js";
+import { createServiceBusLogger } from "../../../src/log.js";
+import type { ProcessErrorArgs } from "../../../src/models.js";
+import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError.js";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
-import {
-  DispositionType,
+import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../../src/serviceBusMessage";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { DispositionStatusOptions } from "../../../src/core/managementClient";
-import { Delivery } from "rhea-promise";
-import { MessageAlreadySettled } from "../../../src/util/errors";
-import { assertThrows } from "../../public/utils/testUtils";
+} from "../../../src/serviceBusMessage.js";
+import { DispositionType } from "../../../src/serviceBusMessage.js";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type { DispositionStatusOptions } from "../../../src/core/managementClient.js";
+import type { Delivery } from "rhea-promise";
+import { MessageAlreadySettled } from "../../../src/util/errors.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
 import { AbortError } from "@azure/abort-controller";
-const assert = chai.assert;
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("shared receiver code", () => {
   describe("translateServiceBusError", () => {
@@ -39,7 +40,7 @@ describe("shared receiver code", () => {
         assert.equal(
           translatedError,
           expectedError,
-          "The returned error should be exactly the same as the passed in error."
+          "The returned error should be exactly the same as the passed in error.",
         );
       });
     });
@@ -62,7 +63,7 @@ describe("shared receiver code", () => {
           message: messagingError.message,
           retryable: messagingError.retryable,
         } as ServiceBusError,
-        "The code should be intact and the reason code, since it matches our blessed list, should match."
+        "The code should be intact and the reason code, since it matches our blessed list, should match.",
       );
     });
   });
@@ -92,7 +93,7 @@ describe("shared receiver code", () => {
           message: expectedMessage,
           retryable: messagingError.retryable,
         } as ServiceBusError,
-        "The code should be intact and the reason code, since it matches our blessed list, should match."
+        "The code should be intact and the reason code, since it matches our blessed list, should match.",
       );
     });
   });
@@ -123,7 +124,7 @@ describe("shared receiver code", () => {
           operation: DispositionType,
           context: ConnectionContext,
           entityPath: string,
-          options: DispositionStatusOptions
+          options: DispositionStatusOptions,
         ) => {
           ++numTimesCalled;
 
@@ -138,7 +139,7 @@ describe("shared receiver code", () => {
             (err as any).retryable = true;
             throw err;
           }
-        }
+        },
       );
 
       assert.equal(numTimesCalled, 2);
@@ -160,11 +161,12 @@ describe("shared receiver code", () => {
             "entityPath",
             {
               retryOptions: undefined,
-            }
+            },
           ),
         {
           message: MessageAlreadySettled,
-        }
+          name: "Error",
+        },
       );
     });
 
@@ -185,11 +187,12 @@ describe("shared receiver code", () => {
             "entityPath",
             {
               retryOptions: undefined,
-            }
+            },
           ),
         {
           message: MessageAlreadySettled,
-        }
+          name: "Error",
+        },
       );
     });
   });
@@ -283,7 +286,7 @@ describe("shared receiver code", () => {
             },
           },
         },
-        fakeRetry
+        fakeRetry,
       );
 
       assert.deepEqual(errorMessages, [
@@ -325,12 +328,12 @@ describe("shared receiver code", () => {
               const currentTime = Date.now();
               const elapsed = currentTime - previousAttemptTime;
               console.log(
-                `###  ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`
+                `###  ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`,
               );
               const expectedDelay = retryDelayInMs - 5; // with error tolerance to account for time accuracy issue
               if (elapsed < expectedDelay) {
                 errorMessages.push(
-                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected. The wait between attempts should have been about ${retryDelayInMs} ms.`
+                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected. The wait between attempts should have been about ${retryDelayInMs} ms.`,
                 );
               }
               previousAttemptTime = currentTime;
@@ -349,7 +352,7 @@ describe("shared receiver code", () => {
             },
           },
         },
-        fakeRetry
+        fakeRetry,
       );
 
       assert.deepEqual(errorMessages, [
@@ -388,7 +391,7 @@ it("error handler wrapper", () => {
             errorSource: "renewLock",
             code: "ServiceCommunicationProblem",
             identifier: "identifier",
-          }
+          },
         );
 
         throw new Error("Whoops!");
@@ -402,7 +405,7 @@ it("error handler wrapper", () => {
         assert.equal(err.toString(), "Error: Whoops!");
         logErrorCalled = true;
       },
-    } as ServiceBusLogger
+    } as ServiceBusLogger,
   );
 
   const err = new MessagingError("Actual error that was passed in from service bus to the user");
@@ -463,7 +466,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
         },
       ],
       allReceivedMessages,
-      "We should only get one message. We don't return anything when the receive returns nothing."
+      "We should only get one message. We don't return anything when the receive returns nothing.",
     );
   }
 });

@@ -11,7 +11,7 @@ import {
   LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
   ReservationRecommendationDetailsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ReservationRecommendationDetails. */
 export interface ReservationRecommendationDetails {

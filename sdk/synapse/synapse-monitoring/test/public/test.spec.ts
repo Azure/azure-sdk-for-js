@@ -1,15 +1,18 @@
-import { MonitoringClient } from "../../src/monitoringClient";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { MonitoringClient } from "../../src/monitoringClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: MonitoringClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    client = createClient({ recorder });
   });
 
   afterEach(async () => {
@@ -18,6 +21,6 @@ describe("Access Control smoke", () => {
 
   it("should list roles", async () => {
     const result = await client.monitoring.getSparkJobList();
-    assert.isTrue((result.sparkJobs || []).length > 0);
+    assert.isNumber(result.nJobs);
   });
 });

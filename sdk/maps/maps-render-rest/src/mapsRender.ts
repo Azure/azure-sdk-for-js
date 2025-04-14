@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, isTokenCredential, TokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsRenderClient } from "./generated";
-import createClient from "./generated/mapsRenderClient";
+import type { MapsRenderClient } from "./generated/index.js";
+import createClient from "./generated/mapsRenderClient.js";
 
 /**
  * Creates an instance of MapsRenderClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsRender from "@azure-rest/maps-Render";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+ * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapsRender from "@azure-rest/maps-render";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsRender(credential);
@@ -24,15 +26,15 @@ import createClient from "./generated/mapsRenderClient";
  */
 export default function MapsRender(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRenderClient;
 /**
  * Creates an instance of MapsRender from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsRenderClient from "@azure-rest/maps-render";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsRender from "@azure-rest/maps-render";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsRender(credential, "<maps-account-client-id>");
@@ -45,17 +47,36 @@ export default function MapsRender(
 export default function MapsRender(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
+): MapsRenderClient;
+/**
+ * Creates an instance of MapsRender from an Azure Identity `AzureSASCredential`.
+ *
+ * @example
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
+ * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsRender from "@azure-rest/maps-render";
+ *
+ * const credential = new AzureSASCredential("<SAS Token>");
+ * const client = MapsRender(credential);
+ * ```
+ *
+ * @param credential - An AzureSASCredential instance used to authenticate requests to the service
+ * @param options - Options used to configure the Render Client
+ */
+export default function MapsRender(
+  credential: AzureSASCredential,
+  options?: ClientOptions,
 ): MapsRenderClient;
 export default function MapsRender(
-  credential: TokenCredential | AzureKeyCredential,
+  credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsRenderClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */
@@ -68,11 +89,24 @@ export default function MapsRender(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+        scopes: "https://atlas.microsoft.com/.default",
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
   }
+
+  if (isSASCredential(credential)) {
+    const client = createClient(undefined as any, options);
+    client.pipeline.addPolicy({
+      name: "mapsSASCredentialPolicy",
+      async sendRequest(request, next) {
+        request.headers.set("Authorization", `jwt-sas ${credential.signature}`);
+        return next(request);
+      },
+    });
+    return client;
+  }
+
   return createClient(credential, options);
 }

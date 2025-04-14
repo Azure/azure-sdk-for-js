@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an API Management service resource description.
  *
  * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementServiceGetMultiRegionInternalVnet.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetMultiRegionInternalVnet.json
  */
 async function apiManagementServiceGetMultiRegionInternalVnet() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function apiManagementServiceGetMultiRegionInternalVnet() {
  * This sample demonstrates how to Gets an API Management service resource description.
  *
  * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementServiceGetService.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetService.json
  */
 async function apiManagementServiceGetService() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -48,7 +48,7 @@ async function apiManagementServiceGetService() {
  * This sample demonstrates how to Gets an API Management service resource description.
  *
  * @summary Gets an API Management service resource description.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementServiceGetServiceHavingMsi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetServiceHavingMsi.json
  */
 async function apiManagementServiceGetServiceHavingMsi() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

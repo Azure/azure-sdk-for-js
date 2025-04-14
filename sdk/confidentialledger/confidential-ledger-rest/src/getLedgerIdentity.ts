@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getClient } from "@azure-rest/core-client";
 
@@ -10,7 +10,7 @@ export interface LedgerIdentity {
 
 export async function getLedgerIdentity(
   ledgerId: string,
-  identityServiceBaseUrl: string = "https://identity.confidential-ledger.core.azure.com"
+  identityServiceBaseUrl: string = "https://identity.confidential-ledger.core.azure.com",
 ): Promise<LedgerIdentity> {
   const client = getClient(identityServiceBaseUrl);
 
@@ -23,7 +23,7 @@ export async function getLedgerIdentity(
 
   if (!isLedgerIdentity(updatedCert)) {
     throw new Error(
-      "Body received from Confidential Ledger Identity is invalid. It must contain ledgerId and ledgerIdentityCertificate"
+      "Body received from Confidential Ledger Identity is invalid. It must contain ledgerId and ledgerIdentityCertificate",
     );
   }
 

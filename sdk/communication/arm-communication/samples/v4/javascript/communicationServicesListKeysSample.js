@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the access keys of the CommunicationService resource.
  *
  * @summary Get the access keys of the CommunicationService resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/listKeys.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/listKeys.json
  */
 async function listKeys() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listKeys() {
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.listKeys(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

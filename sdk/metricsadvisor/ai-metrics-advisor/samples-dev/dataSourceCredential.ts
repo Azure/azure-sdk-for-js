@@ -7,18 +7,18 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import "dotenv/config";
+import type {
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
   DataSourceSqlConnectionString,
 } from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
+} from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -36,7 +36,9 @@ export async function main() {
   }
 }
 
-async function listDataSourceCredentials(client: MetricsAdvisorAdministrationClient) {
+async function listDataSourceCredentials(
+  client: MetricsAdvisorAdministrationClient,
+): Promise<void> {
   console.log("Listing DataSource credentials ...");
   console.log("  using while loop");
   const iter = client.listDataSourceCredential();
@@ -51,7 +53,7 @@ async function listDataSourceCredentials(client: MetricsAdvisorAdministrationCli
   const iterator = client.listDataSourceCredential();
   for await (const datasourceCredential of iterator) {
     console.log(
-      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`
+      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`,
     );
   }
 
@@ -72,7 +74,7 @@ async function listDataSourceCredentials(client: MetricsAdvisorAdministrationCli
 }
 
 async function createDataSourceCredential(
-  client: MetricsAdvisorAdministrationClient
+  client: MetricsAdvisorAdministrationClient,
 ): Promise<DataSourceCredentialEntityUnion> {
   console.log("Creating DataSource credential...");
   const datasourceCredential: DataSourceSqlConnectionString = {
@@ -82,14 +84,14 @@ async function createDataSourceCredential(
     connectionString: "connection-string",
   };
   const result = await client.createDataSourceCredential(datasourceCredential);
-  console.dir(result);
+  await console.dir(result);
   return result;
 }
 
 async function getDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  datasourceCredentialId: string
-) {
+  datasourceCredentialId: string,
+): Promise<void> {
   console.log("Retrieving datasourceCredential by id...");
   const result = await client.getDataSourceCredential(datasourceCredentialId);
   console.log("datasource credential result is as follows - ");
@@ -100,8 +102,8 @@ async function getDataSourceCredential(
 
 async function updateDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  credentialId: string
-) {
+  credentialId: string,
+): Promise<void> {
   const patch = {
     name: "update-credential-name",
     description: "updated-description",
@@ -121,17 +123,13 @@ async function updateDataSourceCredential(
 
 async function deleteDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  credentialId: string
-) {
+  credentialId: string,
+): Promise<void> {
   console.log(`Deleting datasource credential ${credentialId}...`);
   await client.deleteDataSourceCredential(credentialId);
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

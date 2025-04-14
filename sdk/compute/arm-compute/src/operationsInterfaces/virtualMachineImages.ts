@@ -6,7 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  VirtualMachineImage,
+  Expand,
+  VirtualMachineImagesListWithPropertiesOptionalParams,
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
   VirtualMachineImagesListOptionalParams,
@@ -18,11 +22,28 @@ import {
   VirtualMachineImagesListSkusOptionalParams,
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
-  VirtualMachineImagesListByEdgeZoneResponse
-} from "../models";
+  VirtualMachineImagesListByEdgeZoneResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineImages. */
 export interface VirtualMachineImages {
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param expand The expand expression to apply on the operation.
+   * @param options The options parameters.
+   */
+  listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualMachineImage>;
   /**
    * Gets a virtual machine image.
    * @param location The name of a supported Azure region.
@@ -38,7 +59,7 @@ export interface VirtualMachineImages {
     offer: string,
     skus: string,
     version: string,
-    options?: VirtualMachineImagesGetOptionalParams
+    options?: VirtualMachineImagesGetOptionalParams,
   ): Promise<VirtualMachineImagesGetResponse>;
   /**
    * Gets a list of all virtual machine image versions for the specified location, publisher, offer, and
@@ -54,7 +75,7 @@ export interface VirtualMachineImages {
     publisherName: string,
     offer: string,
     skus: string,
-    options?: VirtualMachineImagesListOptionalParams
+    options?: VirtualMachineImagesListOptionalParams,
   ): Promise<VirtualMachineImagesListResponse>;
   /**
    * Gets a list of virtual machine image offers for the specified location and publisher.
@@ -65,7 +86,7 @@ export interface VirtualMachineImages {
   listOffers(
     location: string,
     publisherName: string,
-    options?: VirtualMachineImagesListOffersOptionalParams
+    options?: VirtualMachineImagesListOffersOptionalParams,
   ): Promise<VirtualMachineImagesListOffersResponse>;
   /**
    * Gets a list of virtual machine image publishers for the specified Azure location.
@@ -74,7 +95,7 @@ export interface VirtualMachineImages {
    */
   listPublishers(
     location: string,
-    options?: VirtualMachineImagesListPublishersOptionalParams
+    options?: VirtualMachineImagesListPublishersOptionalParams,
   ): Promise<VirtualMachineImagesListPublishersResponse>;
   /**
    * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
@@ -87,7 +108,7 @@ export interface VirtualMachineImages {
     location: string,
     publisherName: string,
     offer: string,
-    options?: VirtualMachineImagesListSkusOptionalParams
+    options?: VirtualMachineImagesListSkusOptionalParams,
   ): Promise<VirtualMachineImagesListSkusResponse>;
   /**
    * Gets a list of all virtual machine image versions for the specified edge zone
@@ -98,6 +119,6 @@ export interface VirtualMachineImages {
   listByEdgeZone(
     location: string,
     edgeZone: string,
-    options?: VirtualMachineImagesListByEdgeZoneOptionalParams
+    options?: VirtualMachineImagesListByEdgeZoneOptionalParams,
   ): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
 }

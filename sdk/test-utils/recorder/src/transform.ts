@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
-import { logger } from "./log";
+import { paths } from "./utils/paths.js";
+import { RecorderError } from "./utils/utils.js";
+import { logger } from "./log.js";
 
 interface ApplyCondition {
   uriRegex: string;
@@ -30,7 +30,7 @@ export async function addTransform(
   recorderUrl: string,
   httpClient: HttpClient,
   transform: Transform,
-  recordingId: string
+  recordingId: string,
 ): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.addTransform}`;
 

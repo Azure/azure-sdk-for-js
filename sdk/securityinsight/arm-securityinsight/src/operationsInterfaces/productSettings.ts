@@ -15,7 +15,7 @@ import {
   SettingsUnion,
   ProductSettingsUpdateOptionalParams,
   ProductSettingsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProductSettings. */
 export interface ProductSettings {

@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure/test-utils";
+// Licensed under the MIT License.
 import { RestError } from "@azure/core-rest-pipeline";
-import { DeleteSecretPoller } from "../../src/lro/delete/poller";
-import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller";
+import { DeleteSecretPoller } from "../../src/lro/delete/poller.js";
+import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller.js";
+import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {
-  const vaultUrl = `https://keyVaultName.vault.azure.net`;
-
   describe("delete LRO", () => {
-    it("403 doesn't throw", async function () {
+    it("403 doesn't throw", async () => {
       const code = 403;
       const client: any = {
         async deleteSecret(): Promise<any> {
@@ -24,7 +21,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new DeleteSecretPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -34,7 +30,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       assert.isTrue(poller.getOperationState().isCompleted);
     });
 
-    it("404 doesn't throw", async function () {
+    it("404 doesn't throw", async () => {
       const code = 404;
       const client: any = {
         async deleteSecret(): Promise<any> {
@@ -48,7 +44,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new DeleteSecretPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -59,7 +54,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       assert.isUndefined(poller.getOperationState().isCompleted);
     });
 
-    it("Errors other than 403 and 404 throw", async function () {
+    it("Errors other than 403 and 404 throw", async () => {
       const codes = [401, 402, 405, 500];
       for (const code of codes) {
         const client: any = {
@@ -74,7 +69,6 @@ describe("The LROs properly throw on unexpected errors", () => {
           },
         };
         const poller = new DeleteSecretPoller({
-          vaultUrl,
           name: "name",
           client,
         });
@@ -92,7 +86,7 @@ describe("The LROs properly throw on unexpected errors", () => {
   });
 
   describe("recover LRO", () => {
-    it("403 doesn't throw", async function () {
+    it("403 doesn't throw", async () => {
       const code = 403;
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
@@ -106,7 +100,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new RecoverDeletedSecretPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -116,7 +109,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       assert.isTrue(poller.getOperationState().isCompleted);
     });
 
-    it("404 doesn't throw", async function () {
+    it("404 doesn't throw", async () => {
       const code = 404;
       const client: any = {
         async recoverDeletedSecret(): Promise<any> {
@@ -130,7 +123,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new RecoverDeletedSecretPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -141,7 +133,7 @@ describe("The LROs properly throw on unexpected errors", () => {
       assert.isUndefined(poller.getOperationState().isCompleted);
     });
 
-    it("Errors other than 403 and 404 throw", async function () {
+    it("Errors other than 403 and 404 throw", async () => {
       const codes = [401, 402, 405, 500];
       for (const code of codes) {
         const client: any = {
@@ -156,7 +148,6 @@ describe("The LROs properly throw on unexpected errors", () => {
           },
         };
         const poller = new RecoverDeletedSecretPoller({
-          vaultUrl,
           name: "name",
           client,
         });

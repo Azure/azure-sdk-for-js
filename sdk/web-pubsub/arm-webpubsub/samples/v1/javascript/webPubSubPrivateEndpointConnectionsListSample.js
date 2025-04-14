@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List private endpoint connections
  *
  * @summary List private endpoint connections
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubPrivateEndpointConnections_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubPrivateEndpointConnections_List.json
  */
 async function webPubSubPrivateEndpointConnectionsList() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function webPubSubPrivateEndpointConnectionsList() {
   const resArray = new Array();
   for await (let item of client.webPubSubPrivateEndpointConnections.list(
     resourceGroupName,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

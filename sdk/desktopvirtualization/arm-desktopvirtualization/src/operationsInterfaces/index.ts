@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./workspaces";
-export * from "./scalingPlans";
-export * from "./scalingPlanPooledSchedules";
-export * from "./applicationGroups";
-export * from "./startMenuItems";
-export * from "./applications";
-export * from "./desktops";
-export * from "./hostPools";
-export * from "./userSessions";
-export * from "./sessionHosts";
-export * from "./msixPackages";
-export * from "./msixImages";
+export * from "./operations.js";
+export * from "./workspaces.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./scalingPlans.js";
+export * from "./scalingPlanPooledSchedules.js";
+export * from "./scalingPlanPersonalSchedules.js";
+export * from "./applicationGroups.js";
+export * from "./startMenuItems.js";
+export * from "./applications.js";
+export * from "./desktops.js";
+export * from "./hostPools.js";
+export * from "./userSessions.js";
+export * from "./sessionHosts.js";
+export * from "./msixPackages.js";
+export * from "./appAttachPackageInfo.js";
+export * from "./msixImages.js";
+export * from "./appAttachPackageOperations.js";

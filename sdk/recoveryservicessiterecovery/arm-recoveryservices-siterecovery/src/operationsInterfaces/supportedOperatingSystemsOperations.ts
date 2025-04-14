@@ -8,8 +8,8 @@
 
 import {
   SupportedOperatingSystemsGetOptionalParams,
-  SupportedOperatingSystemsGetResponse
-} from "../models";
+  SupportedOperatingSystemsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a SupportedOperatingSystemsOperations. */
 export interface SupportedOperatingSystemsOperations {
@@ -23,6 +23,6 @@ export interface SupportedOperatingSystemsOperations {
   get(
     resourceName: string,
     resourceGroupName: string,
-    options?: SupportedOperatingSystemsGetOptionalParams
+    options?: SupportedOperatingSystemsGetOptionalParams,
   ): Promise<SupportedOperatingSystemsGetResponse>;
 }

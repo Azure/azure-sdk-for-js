@@ -1,156 +1,168 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
-import {
-  AccountsGetAccessKeysParameters,
+import type {
   AccountsGetAccountPropertiesParameters,
-  AccountsRegenerateAccessKeyParameters,
   AccountsUpdateAccountPropertiesParameters,
+  AccountsGetAccessKeysParameters,
+  AccountsRegenerateAccessKeyParameters,
+  CollectionsGetCollectionParameters,
   CollectionsCreateOrUpdateCollectionParameters,
   CollectionsDeleteCollectionParameters,
-  CollectionsGetCollectionParameters,
-  CollectionsGetCollectionPathParameters,
-  CollectionsListChildCollectionNamesParameters,
   CollectionsListCollectionsParameters,
+  CollectionsListChildCollectionNamesParameters,
+  CollectionsGetCollectionPathParameters,
+  ResourceSetRulesGetResourceSetRuleParameters,
   ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
   ResourceSetRulesDeleteResourceSetRuleParameters,
-  ResourceSetRulesGetResourceSetRuleParameters,
   ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
-import {
-  AccountsGetAccessKeys200Response,
-  AccountsGetAccessKeysdefaultResponse,
+} from "./parameters.js";
+import type {
   AccountsGetAccountProperties200Response,
-  AccountsGetAccountPropertiesdefaultResponse,
-  AccountsRegenerateAccessKey200Response,
-  AccountsRegenerateAccessKeydefaultResponse,
+  AccountsGetAccountPropertiesDefaultResponse,
   AccountsUpdateAccountProperties200Response,
-  AccountsUpdateAccountPropertiesdefaultResponse,
-  CollectionsCreateOrUpdateCollection200Response,
-  CollectionsCreateOrUpdateCollectiondefaultResponse,
-  CollectionsDeleteCollection204Response,
-  CollectionsDeleteCollectiondefaultResponse,
+  AccountsUpdateAccountPropertiesDefaultResponse,
+  AccountsGetAccessKeys200Response,
+  AccountsGetAccessKeysDefaultResponse,
+  AccountsRegenerateAccessKey200Response,
+  AccountsRegenerateAccessKeyDefaultResponse,
   CollectionsGetCollection200Response,
-  CollectionsGetCollectiondefaultResponse,
-  CollectionsGetCollectionPath200Response,
-  CollectionsGetCollectionPathdefaultResponse,
-  CollectionsListChildCollectionNames200Response,
-  CollectionsListChildCollectionNamesdefaultResponse,
+  CollectionsGetCollectionDefaultResponse,
+  CollectionsCreateOrUpdateCollection200Response,
+  CollectionsCreateOrUpdateCollectionDefaultResponse,
+  CollectionsDeleteCollection204Response,
+  CollectionsDeleteCollectionDefaultResponse,
   CollectionsListCollections200Response,
-  CollectionsListCollectionsdefaultResponse,
+  CollectionsListCollectionsDefaultResponse,
+  CollectionsListChildCollectionNames200Response,
+  CollectionsListChildCollectionNamesDefaultResponse,
+  CollectionsGetCollectionPath200Response,
+  CollectionsGetCollectionPathDefaultResponse,
+  ResourceSetRulesGetResourceSetRule200Response,
+  ResourceSetRulesGetResourceSetRuleDefaultResponse,
   ResourceSetRulesCreateOrUpdateResourceSetRule200Response,
-  ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse,
+  ResourceSetRulesCreateOrUpdateResourceSetRuleDefaultResponse,
   ResourceSetRulesDeleteResourceSetRule200Response,
   ResourceSetRulesDeleteResourceSetRule204Response,
-  ResourceSetRulesDeleteResourceSetRuledefaultResponse,
-  ResourceSetRulesGetResourceSetRule200Response,
-  ResourceSetRulesGetResourceSetRuledefaultResponse,
+  ResourceSetRulesDeleteResourceSetRuleDefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
-  ResourceSetRulesListResourceSetRulesdefaultResponse,
-} from "./responses";
+  ResourceSetRulesListResourceSetRulesDefaultResponse,
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AccountsGetAccountProperties {
   /** Get an account */
   get(
-    options?: AccountsGetAccountPropertiesParameters
-  ): Promise<AccountsGetAccountProperties200Response | AccountsGetAccountPropertiesdefaultResponse>;
+    options?: AccountsGetAccountPropertiesParameters,
+  ): StreamableMethod<
+    AccountsGetAccountProperties200Response | AccountsGetAccountPropertiesDefaultResponse
+  >;
   /** Updates an account */
   patch(
-    options: AccountsUpdateAccountPropertiesParameters
-  ): Promise<
-    AccountsUpdateAccountProperties200Response | AccountsUpdateAccountPropertiesdefaultResponse
+    options: AccountsUpdateAccountPropertiesParameters,
+  ): StreamableMethod<
+    AccountsUpdateAccountProperties200Response | AccountsUpdateAccountPropertiesDefaultResponse
   >;
 }
 
 export interface AccountsGetAccessKeys {
   /** List the authorization keys associated with this account. */
   post(
-    options?: AccountsGetAccessKeysParameters
-  ): Promise<AccountsGetAccessKeys200Response | AccountsGetAccessKeysdefaultResponse>;
+    options?: AccountsGetAccessKeysParameters,
+  ): StreamableMethod<AccountsGetAccessKeys200Response | AccountsGetAccessKeysDefaultResponse>;
 }
 
 export interface AccountsRegenerateAccessKey {
   /** Regenerate the authorization keys associated with this data catalog. */
   post(
-    options: AccountsRegenerateAccessKeyParameters
-  ): Promise<AccountsRegenerateAccessKey200Response | AccountsRegenerateAccessKeydefaultResponse>;
+    options: AccountsRegenerateAccessKeyParameters,
+  ): StreamableMethod<
+    AccountsRegenerateAccessKey200Response | AccountsRegenerateAccessKeyDefaultResponse
+  >;
 }
 
 export interface CollectionsGetCollection {
   /** Get a collection */
   get(
-    options?: CollectionsGetCollectionParameters
-  ): Promise<CollectionsGetCollection200Response | CollectionsGetCollectiondefaultResponse>;
+    options?: CollectionsGetCollectionParameters,
+  ): StreamableMethod<
+    CollectionsGetCollection200Response | CollectionsGetCollectionDefaultResponse
+  >;
   /** Creates or updates a collection entity. */
   put(
-    options: CollectionsCreateOrUpdateCollectionParameters
-  ): Promise<
+    options: CollectionsCreateOrUpdateCollectionParameters,
+  ): StreamableMethod<
     | CollectionsCreateOrUpdateCollection200Response
-    | CollectionsCreateOrUpdateCollectiondefaultResponse
+    | CollectionsCreateOrUpdateCollectionDefaultResponse
   >;
   /** Deletes a Collection entity. */
   delete(
-    options?: CollectionsDeleteCollectionParameters
-  ): Promise<CollectionsDeleteCollection204Response | CollectionsDeleteCollectiondefaultResponse>;
+    options?: CollectionsDeleteCollectionParameters,
+  ): StreamableMethod<
+    CollectionsDeleteCollection204Response | CollectionsDeleteCollectionDefaultResponse
+  >;
 }
 
 export interface CollectionsListCollections {
   /** List the collections in the account. */
   get(
-    options?: CollectionsListCollectionsParameters
-  ): Promise<CollectionsListCollections200Response | CollectionsListCollectionsdefaultResponse>;
+    options?: CollectionsListCollectionsParameters,
+  ): StreamableMethod<
+    CollectionsListCollections200Response | CollectionsListCollectionsDefaultResponse
+  >;
 }
 
 export interface CollectionsListChildCollectionNames {
   /** Lists the child collections names in the collection. */
   get(
-    options?: CollectionsListChildCollectionNamesParameters
-  ): Promise<
+    options?: CollectionsListChildCollectionNamesParameters,
+  ): StreamableMethod<
     | CollectionsListChildCollectionNames200Response
-    | CollectionsListChildCollectionNamesdefaultResponse
+    | CollectionsListChildCollectionNamesDefaultResponse
   >;
 }
 
 export interface CollectionsGetCollectionPath {
   /** Gets the parent name and parent friendly name chains that represent the collection path. */
   get(
-    options?: CollectionsGetCollectionPathParameters
-  ): Promise<CollectionsGetCollectionPath200Response | CollectionsGetCollectionPathdefaultResponse>;
+    options?: CollectionsGetCollectionPathParameters,
+  ): StreamableMethod<
+    CollectionsGetCollectionPath200Response | CollectionsGetCollectionPathDefaultResponse
+  >;
 }
 
 export interface ResourceSetRulesGetResourceSetRule {
   /** Get a resource set config service model. */
   get(
-    options?: ResourceSetRulesGetResourceSetRuleParameters
-  ): Promise<
+    options?: ResourceSetRulesGetResourceSetRuleParameters,
+  ): StreamableMethod<
     | ResourceSetRulesGetResourceSetRule200Response
-    | ResourceSetRulesGetResourceSetRuledefaultResponse
+    | ResourceSetRulesGetResourceSetRuleDefaultResponse
   >;
   /** Creates or updates an resource set config. */
   put(
-    options: ResourceSetRulesCreateOrUpdateResourceSetRuleParameters
-  ): Promise<
+    options: ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
+  ): StreamableMethod<
     | ResourceSetRulesCreateOrUpdateResourceSetRule200Response
-    | ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse
+    | ResourceSetRulesCreateOrUpdateResourceSetRuleDefaultResponse
   >;
   /** Deletes a ResourceSetRuleConfig resource. */
   delete(
-    options?: ResourceSetRulesDeleteResourceSetRuleParameters
-  ): Promise<
+    options?: ResourceSetRulesDeleteResourceSetRuleParameters,
+  ): StreamableMethod<
     | ResourceSetRulesDeleteResourceSetRule200Response
     | ResourceSetRulesDeleteResourceSetRule204Response
-    | ResourceSetRulesDeleteResourceSetRuledefaultResponse
+    | ResourceSetRulesDeleteResourceSetRuleDefaultResponse
   >;
 }
 
 export interface ResourceSetRulesListResourceSetRules {
   /** Get a resource set config service model. */
   get(
-    options?: ResourceSetRulesListResourceSetRulesParameters
-  ): Promise<
+    options?: ResourceSetRulesListResourceSetRulesParameters,
+  ): StreamableMethod<
     | ResourceSetRulesListResourceSetRules200Response
-    | ResourceSetRulesListResourceSetRulesdefaultResponse
+    | ResourceSetRulesListResourceSetRulesDefaultResponse
   >;
 }
 
@@ -168,21 +180,21 @@ export interface Routes {
   /** Resource for '/collections/\{collectionName\}/getChildCollectionNames' has methods for the following verbs: get */
   (
     path: "/collections/{collectionName}/getChildCollectionNames",
-    collectionName: string
+    collectionName: string,
   ): CollectionsListChildCollectionNames;
   /** Resource for '/collections/\{collectionName\}/getCollectionPath' has methods for the following verbs: get */
   (
     path: "/collections/{collectionName}/getCollectionPath",
-    collectionName: string
+    collectionName: string,
   ): CollectionsGetCollectionPath;
   /** Resource for '/resourceSetRuleConfigs/defaultResourceSetRuleConfig' has methods for the following verbs: get, put, delete */
   (
-    path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig"
+    path: "/resourceSetRuleConfigs/defaultResourceSetRuleConfig",
   ): ResourceSetRulesGetResourceSetRule;
   /** Resource for '/resourceSetRuleConfigs' has methods for the following verbs: get */
   (path: "/resourceSetRuleConfigs"): ResourceSetRulesListResourceSetRules;
 }
 
-export type PurviewAccountRestClient = Client & {
+export type PurviewAccountClient = Client & {
   path: Routes;
 };

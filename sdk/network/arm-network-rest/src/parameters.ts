@@ -1,148 +1,148 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
-  ActiveConfigurationParameter,
-  AdminRuleCollection,
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ApplicationGateway,
+  TagsObject,
   ApplicationGatewayOnDemandProbe,
   ApplicationGatewayPrivateEndpointConnection,
   ApplicationSecurityGroup,
-  AvailableProvidersListParameters,
   AzureFirewall,
-  AzureReachabilityReportParameters,
-  BackendAddressPool,
-  BaseAdminRule,
   BastionHost,
   BastionShareableLinkListRequest,
-  BgpConnection,
-  CheckPrivateLinkServiceVisibilityRequest,
-  ConnectionMonitor,
-  ConnectionResetSharedKey,
-  ConnectionSharedKey,
-  ConnectivityConfiguration,
-  ConnectivityParameters,
+  SessionIds,
+  ActiveConfigurationParameter,
+  QueryRequestOptions,
+  VirtualWanVpnProfileParameters,
+  NetworkInterface,
+  PublicIPAddress,
   CustomIpPrefix,
   DdosCustomPolicy,
   DdosProtectionPlan,
   DscpConfiguration,
-  EffectiveRoutesParameters,
-  ExpressRouteCircuit,
   ExpressRouteCircuitAuthorization,
-  ExpressRouteCircuitConnection,
   ExpressRouteCircuitPeering,
-  ExpressRouteConnection,
+  ExpressRouteCircuitConnection,
+  ExpressRouteCircuit,
   ExpressRouteCrossConnection,
   ExpressRouteCrossConnectionPeering,
-  ExpressRouteGateway,
   ExpressRoutePort,
+  GenerateExpressRoutePortsLOARequest,
   ExpressRoutePortAuthorization,
   FirewallPolicy,
   FirewallPolicyRuleCollectionGroup,
-  FlowLog,
-  FlowLogInformation,
-  FlowLogStatusParameters,
-  GenerateExpressRoutePortsLOARequest,
-  GetInboundRoutesParameters,
-  GetOutboundRoutesParameters,
-  GetVpnSitesConfigurationRequest,
-  HubIpConfiguration,
-  HubRouteTable,
-  HubVirtualNetworkConnection,
   IdpsQueryObject,
-  InboundNatRule,
-  InboundSecurityRule,
+  SignaturesOverrides,
+  SignatureOverridesFilterValuesQuery,
   IpAllocation,
   IpGroup,
   LoadBalancer,
   LoadBalancerVipSwapRequest,
-  LocalNetworkGateway,
+  QueryInboundNatRulePortMappingRequest,
+  BackendAddressPool,
+  InboundNatRule,
   NatGateway,
-  NetworkConfigurationDiagnosticParameters,
-  NetworkGroup,
-  NetworkInterface,
   NetworkInterfaceTapConfiguration,
   NetworkManager,
-  NetworkManagerCommit,
-  NetworkManagerConnection,
-  NetworkManagerDeploymentStatusParameter,
-  NetworkProfile,
-  NetworkSecurityGroup,
-  NetworkVirtualAppliance,
-  NetworkWatcher,
-  NextHopParameters,
-  P2SVpnConnectionHealthRequest,
-  P2SVpnConnectionRequest,
-  P2SVpnGateway,
-  P2SVpnProfileParameters,
-  PacketCapture,
   PatchObject,
-  PrepareNetworkPoliciesRequest,
-  PrivateDnsZoneGroup,
-  PrivateEndpoint,
-  PrivateEndpointConnection,
-  PrivateLinkService,
-  PublicIPAddress,
-  PublicIPPrefix,
-  QueryInboundNatRulePortMappingRequest,
-  QueryRequestOptions,
-  QueryTroubleshootingParameters,
-  Route,
-  RouteFilter,
-  RouteFilterRule,
-  RouteMap,
-  RouteTable,
-  RoutingIntent,
+  NetworkManagerCommit,
+  NetworkManagerDeploymentStatusParameter,
+  NetworkManagerConnection,
+  ConnectivityConfiguration,
+  NetworkGroup,
+  StaticMember,
   ScopeConnection,
   SecurityAdminConfiguration,
-  SecurityGroupViewParameters,
-  SecurityPartnerProvider,
+  AdminRuleCollection,
+  BaseAdminRule,
+  NetworkProfile,
+  NetworkSecurityGroup,
   SecurityRule,
+  NetworkVirtualAppliance,
+  VirtualApplianceSite,
+  InboundSecurityRule,
+  NetworkWatcher,
+  TopologyParameters,
+  VerificationIPFlowParameters,
+  NextHopParameters,
+  SecurityGroupViewParameters,
+  TroubleshootingParameters,
+  QueryTroubleshootingParameters,
+  FlowLogInformation,
+  FlowLogStatusParameters,
+  ConnectivityParameters,
+  AzureReachabilityReportParameters,
+  AvailableProvidersListParameters,
+  NetworkConfigurationDiagnosticParameters,
+  PacketCapture,
+  ConnectionMonitor,
+  FlowLog,
+  PrivateEndpoint,
+  PrivateDnsZoneGroup,
+  PrivateLinkService,
+  PrivateEndpointConnection,
+  CheckPrivateLinkServiceVisibilityRequest,
+  PublicIPPrefix,
+  RouteFilter,
+  RouteFilterRule,
+  RouteTable,
+  Route,
+  SecurityPartnerProvider,
   ServiceEndpointPolicy,
   ServiceEndpointPolicyDefinition,
-  SessionIds,
-  SignatureOverridesFilterValuesQuery,
-  SignaturesOverrides,
-  StaticMember,
-  Subnet,
-  SwapResource,
-  TagsObject,
-  TopologyParameters,
-  TroubleshootingParameters,
-  UnprepareNetworkPoliciesRequest,
-  VerificationIPFlowParameters,
-  VirtualApplianceSite,
-  VirtualHub,
-  VirtualHubRouteTableV2,
   VirtualNetwork,
-  VirtualNetworkGateway,
-  VirtualNetworkGatewayConnection,
-  VirtualNetworkGatewayNatRule,
+  Subnet,
+  PrepareNetworkPoliciesRequest,
+  UnprepareNetworkPoliciesRequest,
   VirtualNetworkPeering,
+  VirtualNetworkGateway,
+  VpnClientParameters,
+  VpnClientIPsecParameters,
+  VpnDeviceScriptParameters,
+  VpnPacketCaptureStartParameters,
+  VpnPacketCaptureStopParameters,
+  P2SVpnConnectionRequest,
+  VirtualNetworkGatewayConnection,
+  ConnectionSharedKey,
+  ConnectionResetSharedKey,
+  LocalNetworkGateway,
+  VirtualNetworkGatewayNatRule,
   VirtualNetworkTap,
   VirtualRouter,
   VirtualRouterPeering,
   VirtualWAN,
-  VirtualWanVpnProfileParameters,
-  VpnClientIPsecParameters,
-  VpnClientParameters,
+  VpnSite,
+  GetVpnSitesConfigurationRequest,
+  VpnServerConfiguration,
+  VpnServerConfigurationPolicyGroup,
+  VirtualHub,
+  EffectiveRoutesParameters,
+  GetInboundRoutesParameters,
+  GetOutboundRoutesParameters,
+  RouteMap,
+  HubVirtualNetworkConnection,
+  VpnGateway,
+  VpnGatewayPacketCaptureStartParameters,
+  VpnGatewayPacketCaptureStopParameters,
   VpnConnection,
   VpnConnectionPacketCaptureStartParameters,
   VpnConnectionPacketCaptureStopParameters,
-  VpnDeviceScriptParameters,
-  VpnGateway,
   VpnGatewayNatRule,
-  VpnGatewayPacketCaptureStartParameters,
-  VpnGatewayPacketCaptureStopParameters,
-  VpnPacketCaptureStartParameters,
-  VpnPacketCaptureStopParameters,
-  VpnServerConfiguration,
-  VpnServerConfigurationPolicyGroup,
-  VpnSite,
+  P2SVpnGateway,
+  P2SVpnProfileParameters,
+  P2SVpnConnectionHealthRequest,
+  VirtualHubRouteTableV2,
+  ExpressRouteGateway,
+  ExpressRouteConnection,
+  BgpConnection,
+  HubIpConfiguration,
+  HubRouteTable,
+  RoutingIntent,
   WebApplicationFirewallPolicy,
-} from "./models";
+  SwapResource,
+} from "./models.js";
 
 export interface ApplicationGatewaysDeleteQueryParamProperties {
   /** Api Version */
@@ -985,6 +985,18 @@ export interface CheckDnsNameAvailabilityQueryParam {
 }
 
 export type CheckDnsNameAvailabilityParameters = CheckDnsNameAvailabilityQueryParam &
+  RequestParameters;
+
+export interface ExpressRouteProviderPortQueryParamProperties {
+  /** Api Version */
+  "api-version": "2022-05-01";
+}
+
+export interface ExpressRouteProviderPortQueryParam {
+  queryParameters: ExpressRouteProviderPortQueryParamProperties;
+}
+
+export type ExpressRouteProviderPortParameters = ExpressRouteProviderPortQueryParam &
   RequestParameters;
 
 export interface ListActiveConnectivityConfigurationsBodyParam {
@@ -2682,18 +2694,6 @@ export interface ExpressRouteProviderPortsLocationListQueryParam {
 export type ExpressRouteProviderPortsLocationListParameters =
   ExpressRouteProviderPortsLocationListQueryParam & RequestParameters;
 
-export interface ExpressRouteProviderPortsGetQueryParamProperties {
-  /** Api Version */
-  "api-version": "2022-05-01";
-}
-
-export interface ExpressRouteProviderPortsGetQueryParam {
-  queryParameters: ExpressRouteProviderPortsGetQueryParamProperties;
-}
-
-export type ExpressRouteProviderPortsGetParameters = ExpressRouteProviderPortsGetQueryParam &
-  RequestParameters;
-
 export interface FirewallPoliciesDeleteQueryParamProperties {
   /** Api Version */
   "api-version": "2022-05-01";
@@ -4105,7 +4105,7 @@ export interface NetworkGroupsCreateOrUpdateQueryParam {
 }
 
 export interface NetworkGroupsCreateOrUpdateHeaderParam {
-  headers: RawHttpHeadersInput & NetworkGroupsCreateOrUpdateHeaders;
+  headers?: RawHttpHeadersInput & NetworkGroupsCreateOrUpdateHeaders;
 }
 
 export interface NetworkGroupsCreateOrUpdateMediaTypesParam {

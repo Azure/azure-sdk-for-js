@@ -12,7 +12,7 @@ const DeviceUpdate = require("@azure-rest/iot-device-update").default,
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
-const { v4 } = require("uuid");
+const { randomUUID } = require("@azure/core-util");
 
 dotenv.config();
 
@@ -29,7 +29,7 @@ async function main() {
   const credentials = new DefaultAzureCredential();
 
   const client = DeviceUpdate(endpoint, credentials);
-  const deploymentId = v4();
+  const deploymentId = randomUUID();
   const startAt = new Date().toISOString();
 
   const initialResponse = await client
@@ -37,7 +37,7 @@ async function main() {
       "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}",
       instanceId,
       groupId,
-      deploymentId
+      deploymentId,
     )
     .put({
       body: {
@@ -54,7 +54,7 @@ async function main() {
       },
     });
 
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
 
   if (isUnexpected(result)) {
@@ -68,7 +68,7 @@ async function main() {
       "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status",
       instanceId,
       groupId,
-      deploymentId
+      deploymentId,
     )
     .get();
 

@@ -7,12 +7,15 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LoadBalancingRule,
   LoadBalancerLoadBalancingRulesListOptionalParams,
   LoadBalancerLoadBalancingRulesGetOptionalParams,
-  LoadBalancerLoadBalancingRulesGetResponse
-} from "../models";
+  LoadBalancerLoadBalancingRulesGetResponse,
+  LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  LoadBalancerLoadBalancingRulesHealthResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerLoadBalancingRules. */
@@ -26,7 +29,7 @@ export interface LoadBalancerLoadBalancingRules {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerLoadBalancingRulesListOptionalParams
+    options?: LoadBalancerLoadBalancingRulesListOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancingRule>;
   /**
    * Gets the specified load balancer load balancing rule.
@@ -39,6 +42,37 @@ export interface LoadBalancerLoadBalancingRules {
     resourceGroupName: string,
     loadBalancerName: string,
     loadBalancingRuleName: string,
-    options?: LoadBalancerLoadBalancingRulesGetOptionalParams
+    options?: LoadBalancerLoadBalancingRulesGetOptionalParams,
   ): Promise<LoadBalancerLoadBalancingRulesGetResponse>;
+  /**
+   * Get health details of a load balancing rule.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param loadBalancingRuleName The name of the load balancing rule.
+   * @param options The options parameters.
+   */
+  beginHealth(
+    groupName: string,
+    loadBalancerName: string,
+    loadBalancingRuleName: string,
+    options?: LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LoadBalancerLoadBalancingRulesHealthResponse>,
+      LoadBalancerLoadBalancingRulesHealthResponse
+    >
+  >;
+  /**
+   * Get health details of a load balancing rule.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param loadBalancingRuleName The name of the load balancing rule.
+   * @param options The options parameters.
+   */
+  beginHealthAndWait(
+    groupName: string,
+    loadBalancerName: string,
+    loadBalancingRuleName: string,
+    options?: LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  ): Promise<LoadBalancerLoadBalancingRulesHealthResponse>;
 }

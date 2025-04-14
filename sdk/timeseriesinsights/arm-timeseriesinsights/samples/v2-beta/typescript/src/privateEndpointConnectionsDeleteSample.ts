@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Disconnects the private endpoint connection and deletes it from the environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Disconnects the private endpoint connection and deletes it from the environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateEndpointConnectionDelete.json
  */
-async function privateEndpointConnectionDelete() {
+async function privateEndpointConnectionDelete(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function privateEndpointConnectionDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionDelete();
 }
 

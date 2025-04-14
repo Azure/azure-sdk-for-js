@@ -11,8 +11,8 @@ import {
   DatabaseSchema,
   DatabaseSchemasListByDatabaseOptionalParams,
   DatabaseSchemasGetOptionalParams,
-  DatabaseSchemasGetResponse
-} from "../models";
+  DatabaseSchemasGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseSchemas. */
@@ -29,7 +29,7 @@ export interface DatabaseSchemas {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseSchemasListByDatabaseOptionalParams
+    options?: DatabaseSchemasListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSchema>;
   /**
    * Get database schema
@@ -45,6 +45,6 @@ export interface DatabaseSchemas {
     serverName: string,
     databaseName: string,
     schemaName: string,
-    options?: DatabaseSchemasGetOptionalParams
+    options?: DatabaseSchemasGetOptionalParams,
   ): Promise<DatabaseSchemasGetResponse>;
 }

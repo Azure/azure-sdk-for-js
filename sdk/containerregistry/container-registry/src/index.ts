@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export * from "./containerRegistryClient";
+export * from "./containerRegistryClient.js";
 export {
   ContainerRepository,
   DeleteRepositoryOptions,
   GetRepositoryPropertiesOptions,
   UpdateRepositoryPropertiesOptions,
   ListManifestPropertiesOptions,
-} from "./containerRepository";
+} from "./containerRepository.js";
 export {
   RegistryArtifact,
   DeleteArtifactOptions,
@@ -18,6 +18,6 @@ export {
   UpdateManifestPropertiesOptions,
   UpdateTagPropertiesOptions,
   ListTagPropertiesOptions,
-} from "./registryArtifact";
-export * from "./models";
-export * from "./content";
+} from "./registryArtifact.js";
+export * from "./models.js";
+export * from "./content/index.js";

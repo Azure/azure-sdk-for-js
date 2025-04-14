@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace).
@@ -8,10 +8,9 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
@@ -35,7 +34,7 @@ export async function main() {
     let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
     console.log(
       "Some logs have failed to complete ingestion. Length of errors =",
-      aggregateErrors.length
+      aggregateErrors.length,
     );
     for (const errors of aggregateErrors) {
       console.log(`Error - ${JSON.stringify(errors.cause)}`);

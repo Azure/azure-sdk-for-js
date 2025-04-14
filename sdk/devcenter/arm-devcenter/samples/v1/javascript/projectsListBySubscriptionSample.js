@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all projects in the subscription.
  *
  * @summary Lists all projects in the subscription.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_ListBySubscription.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_ListBySubscription.json
  */
 async function projectsListBySubscription() {
   const subscriptionId =

@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { AccessToken, NamedKeyCredential } from "@azure/core-auth";
-import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import { generateKey } from "./crypto";
-import { createSasTokenProvider, SasTokenProvider } from "@azure/core-amqp";
+import type { AccessToken, NamedKeyCredential } from "@azure/core-auth";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { generateKey } from "./crypto.js";
+import type { SasTokenProvider } from "@azure/core-amqp";
+import { createSasTokenProvider } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -55,13 +53,13 @@ export class SasServiceClientCredentials {
     const signature = await this._generateSignature(targetUri, expirationDate);
     request.headers.set(
       "authorization",
-      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`
+      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`,
     );
     request.withCredentials = true;
     return request;
   }
 
-  getToken(audience: string): AccessToken {
+  getToken(audience: string): Promise<AccessToken> {
     return this._tokenProvider.getToken(audience);
   }
 }

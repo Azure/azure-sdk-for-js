@@ -1,32 +1,38 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController } from "@azure/abort-controller";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { join } from "path";
-
-import {
+import { join } from "node:path";
+import * as fs from "node:fs";
+import type {
   AccessControlChangeCounters,
   AccessControlChanges,
-  DataLakeFileClient,
   DataLakeFileSystemClient,
-  DataLakeSASPermissions,
   DataLakeServiceClient,
   PathAccessControlItem,
   PathPermissions,
-} from "../../src";
-import { toAcl, toRemoveAcl } from "../../src/transforms";
+} from "../../src/index.js";
+import {
+  DataLakeFileClient,
+  DataLakePathClient,
+  DataLakeSASPermissions,
+  getDataLakeServiceAccountAudience,
+} from "../../src/index.js";
+import { toAcl, toRemoveAcl } from "../../src/transforms.js";
 import {
   bodyToString,
   getDataLakeServiceClient,
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
+  getDataLakeServiceClientWithDefaultCredential,
   getUniqueName,
   uriSanitizers,
-} from "../utils";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+  SimpleTokenCredential,
+  configureStorageClient,
+} from "../utils/index.js";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -38,8 +44,8 @@ describe("DataLakePathClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
@@ -49,7 +55,7 @@ describe("DataLakePathClient Node.js only", () => {
           headersForRemoval: ["x-ms-rename-source"],
         },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -62,9 +68,80 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it.skip(
+    "DataLakeDirectoryClient paginated delete",
+    { timeout: 10 * 60 * 60 * 1000 },
+    async () => {
+      // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+      const directoryName1 = recorder.variable("directory1", getUniqueName("directory1"));
+      const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
+      await directoryClient.create();
+
+      for (let i = 0; i < 5020; i++) {
+        const fileClientInternal = directoryClient.getFileClient(
+          recorder.variable("file" + i, getUniqueName("file" + i)),
+        );
+        await fileClientInternal.create();
+      }
+
+      const rootDirectory = fileSystemClient.getDirectoryClient("/");
+
+      const originAcls = await rootDirectory.getAccessControl();
+      const acls: PathAccessControlItem[] = [];
+
+      originAcls.acl.forEach((entry) => {
+        if (entry.accessControlType === "other") {
+          entry.permissions = {
+            read: true,
+            write: true,
+            execute: true,
+          };
+        }
+        acls.push(entry);
+      });
+
+      await rootDirectory.setAccessControlRecursive(acls);
+
+      const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
+      const oauthDirectory = oauthService
+        .getFileSystemClient(fileSystemName)
+        .getDirectoryClient(directoryName1);
+      await oauthDirectory.delete(true);
+    },
+  );
+
+  it.skip("DataLakeFileClient delete without paginated", async () => {
+    // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+    const fileName1 = recorder.variable("file1", getUniqueName("file1"));
+    const fileClient1 = fileSystemClient.getFileClient(fileName1);
+    await fileClient1.create();
+
+    const rootDirectory = fileSystemClient.getDirectoryClient("/");
+
+    const originAcls = await rootDirectory.getAccessControl();
+    const acls: PathAccessControlItem[] = [];
+
+    originAcls.acl.forEach((entry) => {
+      if (entry.accessControlType === "other") {
+        entry.permissions = {
+          read: true,
+          write: true,
+          execute: true,
+        };
+      }
+      acls.push(entry);
+    });
+
+    await rootDirectory.setAccessControlRecursive(acls);
+
+    const oauthService = getDataLakeServiceClientWithDefaultCredential(recorder);
+    const oauthFile = oauthService.getFileSystemClient(fileSystemName).getFileClient(fileName1);
+    await oauthFile.delete();
   });
 
   it("DataLakeFileClient create with owner", async () => {
@@ -75,6 +152,10 @@ describe("DataLakePathClient Node.js only", () => {
     await testFileClient.create({ owner: owner });
     const result = await testFileClient.getAccessControl();
     assert.equal(result.owner, owner);
+
+    const properties = await testFileClient.getProperties();
+    assert.equal(properties.owner, owner);
+    assert.equal(properties.group, "$superuser");
   });
 
   it("DataLakeFileClient create with group", async () => {
@@ -85,6 +166,10 @@ describe("DataLakePathClient Node.js only", () => {
     await testFileClient.create({ group: group });
     const result = await testFileClient.getAccessControl();
     assert.equal(result.group, group);
+
+    const properties = await testFileClient.getProperties();
+    assert.equal(properties.owner, "$superuser");
+    assert.equal(properties.group, group);
   });
 
   it("DataLakeFileClient create with acl", async () => {
@@ -148,6 +233,83 @@ describe("DataLakePathClient Node.js only", () => {
       },
     });
     assert.deepStrictEqual(permissions.acl, acl);
+
+    const properties = await testFileClient.getProperties();
+
+    assert.deepStrictEqual(properties.owner, "$superuser");
+    assert.deepStrictEqual(properties.group, "$superuser");
+    assert.deepStrictEqual(properties.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(permissions.acl, acl);
+
+    const readResult = await testFileClient.read();
+
+    assert.deepStrictEqual(readResult.owner, "$superuser");
+    assert.deepStrictEqual(readResult.group, "$superuser");
+    assert.deepStrictEqual(readResult.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(readResult.acl, acl);
+
+    const readFilePath = recorder.variable("readFilePath", getUniqueName("readFilePath"));
+    const readToFileResponse = await testFileClient.readToFile(readFilePath);
+    fs.unlinkSync(readFilePath);
+
+    assert.deepStrictEqual(readToFileResponse.owner, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.group, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(readToFileResponse.acl, acl);
   });
 
   it("DataLakeFileClient createIfNotExists with owner", async () => {
@@ -241,6 +403,9 @@ describe("DataLakePathClient Node.js only", () => {
     await testDirClient.create({ owner: owner });
     const result = await testDirClient.getAccessControl();
     assert.equal(result.owner, owner);
+
+    const properties = await testDirClient.getProperties();
+    assert.equal(properties.owner, owner);
   });
 
   it("DataLakeDirectoryClient create with group", async () => {
@@ -251,6 +416,9 @@ describe("DataLakePathClient Node.js only", () => {
     await testDirClient.create({ group: group });
     const result = await testDirClient.getAccessControl();
     assert.equal(result.group, group);
+
+    const properties = await testDirClient.getProperties();
+    assert.equal(properties.group, group);
   });
 
   it("DataLakeDirectoryClient create with acl", async () => {
@@ -290,11 +458,7 @@ describe("DataLakePathClient Node.js only", () => {
     ];
     await testDirClient.create({ acl: acl });
 
-    const permissions = await testDirClient.getAccessControl();
-
-    assert.deepStrictEqual(permissions.owner, "$superuser");
-    assert.deepStrictEqual(permissions.group, "$superuser");
-    assert.deepStrictEqual(permissions.permissions, {
+    const permissions = {
       extendedAcls: false,
       stickyBit: false,
       owner: {
@@ -312,8 +476,19 @@ describe("DataLakePathClient Node.js only", () => {
         write: true,
         execute: false,
       },
-    });
-    assert.deepStrictEqual(permissions.acl, acl);
+    };
+
+    const aclResult = await testDirClient.getAccessControl();
+    assert.deepStrictEqual(aclResult.owner, "$superuser");
+    assert.deepStrictEqual(aclResult.group, "$superuser");
+    assert.deepStrictEqual(aclResult.permissions, permissions);
+    assert.deepStrictEqual(aclResult.acl, acl);
+
+    const propertiesResult = await testDirClient.getProperties();
+    assert.deepStrictEqual(propertiesResult.owner, "$superuser");
+    assert.deepStrictEqual(propertiesResult.group, "$superuser");
+    assert.deepStrictEqual(propertiesResult.permissions, permissions);
+    assert.deepStrictEqual(aclResult.acl, acl);
   });
 
   it("DataLakeDirectoryClient createIfNotExists with owner", async () => {
@@ -665,7 +840,7 @@ describe("DataLakePathClient Node.js only", () => {
   it("move should encode source", async () => {
     const destFileName = recorder.variable(
       " a+'%20%2F%2B%27%%25%2520.txt",
-      getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt")
+      getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
@@ -702,7 +877,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 1").create();
     const destFileName = recorder.variable(
       "dest file with & and 1/char",
-      getUniqueName("dest file with & and 1/char")
+      getUniqueName("dest file with & and 1/char"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
@@ -713,7 +888,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 2").create();
     const destFileName = recorder.variable(
       "dest file with & and 2/char",
-      getUniqueName("dest file with & and 2/char")
+      getUniqueName("dest file with & and 2/char"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileName);
@@ -782,9 +957,7 @@ describe("DataLakePathClient Node.js only", () => {
     await bodyToString(response);
   });
 
-  it("query should work with Parquet input configuration", async function (this: Context) {
-    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
-    this.skip();
+  it("query should work with Parquet input configuration", async () => {
     const parquetFilePath = join("test", "resources", "parquet.parquet");
 
     const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
@@ -817,6 +990,115 @@ describe("DataLakePathClient Node.js only", () => {
     });
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
+
+  it("DataLakeFileClient default audience should work", async () => {
+    const fileClientWithOAuthToken = new DataLakeFileClient(fileClient.url, createTestCredential());
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileClient customized audience should work", async () => {
+    const fileClientWithOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      createTestCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
+    );
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileClient bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const fileClientWithPlainOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+    configureStorageClient(recorder, fileClientWithPlainOAuthToken);
+
+    try {
+      await fileClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const fileClientWithOAuthToken = new DataLakeFileClient(
+      fileClient.url,
+      createTestCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
+    );
+    configureStorageClient(recorder, fileClientWithOAuthToken);
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient default audience should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      directoryClient.url,
+      createTestCredential(),
+    ).toDirectoryClient();
+    configureStorageClient(recorder, directoryClientWithOAuthToken);
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient customized audience should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      createTestCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
+    ).toDirectoryClient();
+    configureStorageClient(recorder, directoryClientWithOAuthToken);
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeDirectoryClient bearer token challenge should work", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.createIfNotExists();
+
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const directoryClientWithPlainOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    ).toDirectoryClient();
+    configureStorageClient(recorder, directoryClientWithPlainOAuthToken);
+
+    try {
+      await directoryClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const directoryClientWithOAuthToken = new DataLakePathClient(
+      fileClient.url,
+      createTestCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
+    ).toDirectoryClient();
+    configureStorageClient(recorder, directoryClientWithOAuthToken);
+    const exist = await directoryClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
 });
 
 describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
@@ -829,8 +1111,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -843,7 +1125,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -876,8 +1158,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -915,7 +1197,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     let batchCounter = 0;
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         batchSize: 2,
@@ -923,7 +1205,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         onProgress: () => {
           batchCounter++;
         },
-      }
+      },
     );
 
     assert.deepStrictEqual(1, batchCounter);
@@ -964,7 +1246,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     };
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         batchSize: 2,
@@ -973,7 +1255,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
             progress.batchCounters.changedDirectoriesCount +
               progress.batchCounters.changedFilesCount +
               progress.batchCounters.failedChangesCount <=
-              2
+              2,
           );
           cumulativeCounters.changedDirectoriesCount +=
             progress.batchCounters.changedDirectoriesCount;
@@ -982,20 +1264,20 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
           assert.deepStrictEqual(
             progress.aggregateCounters.changedDirectoriesCount,
-            cumulativeCounters.changedDirectoriesCount
+            cumulativeCounters.changedDirectoriesCount,
           );
           assert.deepStrictEqual(
             progress.aggregateCounters.changedFilesCount,
-            cumulativeCounters.changedFilesCount
+            cumulativeCounters.changedFilesCount,
           );
           assert.deepStrictEqual(
             progress.aggregateCounters.failedChangesCount,
-            cumulativeCounters.failedChangesCount
+            cumulativeCounters.failedChangesCount,
           );
 
           batchCounter++;
         },
-      }
+      },
     );
 
     assert.deepStrictEqual(3, cumulativeCounters.changedDirectoriesCount);
@@ -1040,7 +1322,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       const aborter = new AbortController();
       await directoryClient.setAccessControlRecursive(
         toAcl(
-          "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+          "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
         ),
         {
           batchSize: 2,
@@ -1050,38 +1332,38 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
             aborter.abort();
           },
           abortSignal: aborter.signal,
-        }
+        },
       );
     } catch (err: any) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(
         err.innerError.message,
-        "The operation was aborted.",
-        "Unexpected error caught: " + err
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
       );
     }
 
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         continuationToken: continuation,
-      }
+      },
     );
 
     assert.deepStrictEqual(
       3,
-      result.counters.changedDirectoriesCount + midProgress!.batchCounters.changedDirectoriesCount
+      result.counters.changedDirectoriesCount + midProgress!.batchCounters.changedDirectoriesCount,
     );
     assert.deepStrictEqual(
       4,
-      result.counters.changedFilesCount + midProgress!.batchCounters.changedFilesCount
+      result.counters.changedFilesCount + midProgress!.batchCounters.changedFilesCount,
     );
     assert.deepStrictEqual(
       0,
-      result.counters.failedChangesCount + midProgress!.batchCounters.failedChangesCount
+      result.counters.failedChangesCount + midProgress!.batchCounters.failedChangesCount,
     );
     assert.deepStrictEqual(undefined, result.continuationToken);
   });
@@ -1114,8 +1396,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.updateAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -1152,8 +1434,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.updateAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -1166,8 +1448,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         "mask," +
           "default:user,default:group," +
           "user:ec3595d6-2c17-4696-8caa-7e139758d24a,group:ec3595d6-2c17-4696-8caa-7e139758d24a," +
-          "default:user:ec3595d6-2c17-4696-8caa-7e139758d24a,default:group:ec3595d6-2c17-4696-8caa-7e139758d24a"
-      )
+          "default:user:ec3595d6-2c17-4696-8caa-7e139758d24a,default:group:ec3595d6-2c17-4696-8caa-7e139758d24a",
+      ),
     );
 
     assert.deepStrictEqual(3, removeResult.counters.changedDirectoriesCount);

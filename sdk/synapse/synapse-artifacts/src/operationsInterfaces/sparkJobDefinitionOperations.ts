@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   SparkJobDefinitionResource,
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
@@ -21,141 +21,139 @@ import {
   ArtifactRenameRequest,
   SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
   SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
-  SparkJobDefinitionDebugSparkJobDefinitionResponse
-} from "../models";
+  SparkJobDefinitionDebugSparkJobDefinitionResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SparkJobDefinitionOperations. */
 export interface SparkJobDefinitionOperations {
   /**
    * Lists spark job definitions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listSparkJobDefinitionsByWorkspace(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param sparkJobDefinition Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param sparkJobDefinition - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSparkJobDefinition(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
-      >,
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>,
       SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
     >
   >;
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param sparkJobDefinition Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param sparkJobDefinition - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
   /**
    * Gets a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   getSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   beginDeleteSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   beginDeleteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
   ): Promise<void>;
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   beginExecuteSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
       SparkJobDefinitionExecuteSparkJobDefinitionResponse
     >
   >;
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   beginExecuteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSparkJobDefinition(
     sparkJobDefinitionName: string,
     request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
     request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
   ): Promise<void>;
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   beginDebugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
       SparkJobDefinitionDebugSparkJobDefinitionResponse
     >
   >;
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   beginDebugSparkJobDefinitionAndWait(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
 }

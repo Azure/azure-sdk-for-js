@@ -14,8 +14,8 @@ import {
   DatasetsCreateOrUpdateResponse,
   DatasetsGetOptionalParams,
   DatasetsGetResponse,
-  DatasetsDeleteOptionalParams
-} from "../models";
+  DatasetsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Datasets. */
@@ -29,7 +29,7 @@ export interface Datasets {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DatasetsListByFactoryOptionalParams
+    options?: DatasetsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<DatasetResource>;
   /**
    * Creates or updates a dataset.
@@ -44,7 +44,7 @@ export interface Datasets {
     factoryName: string,
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetsCreateOrUpdateOptionalParams
+    options?: DatasetsCreateOrUpdateOptionalParams,
   ): Promise<DatasetsCreateOrUpdateResponse>;
   /**
    * Gets a dataset.
@@ -57,7 +57,7 @@ export interface Datasets {
     resourceGroupName: string,
     factoryName: string,
     datasetName: string,
-    options?: DatasetsGetOptionalParams
+    options?: DatasetsGetOptionalParams,
   ): Promise<DatasetsGetResponse>;
   /**
    * Deletes a dataset.
@@ -70,6 +70,6 @@ export interface Datasets {
     resourceGroupName: string,
     factoryName: string,
     datasetName: string,
-    options?: DatasetsDeleteOptionalParams
+    options?: DatasetsDeleteOptionalParams,
   ): Promise<void>;
 }

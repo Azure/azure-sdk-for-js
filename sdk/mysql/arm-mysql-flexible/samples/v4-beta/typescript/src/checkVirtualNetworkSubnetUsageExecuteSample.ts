@@ -10,41 +10,39 @@
 // Licensed under the MIT License.
 import {
   VirtualNetworkSubnetUsageParameter,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get virtual network subnet usage for a given vNet resource id.
  *
  * @summary Get virtual network subnet usage for a given vNet resource id.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/preview/2021-12-01-preview/examples/CheckVirtualNetworkSubnetUsage.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckVirtualNetworkSubnetUsage.json
  */
-async function checkVirtualNetworkSubnetUsage() {
+async function checkVirtualNetworkSubnetUsage(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "WestUS";
   const parameters: VirtualNetworkSubnetUsageParameter = {
     virtualNetworkResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet",
   };
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.checkVirtualNetworkSubnetUsage.execute(
     locationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkVirtualNetworkSubnetUsage();
 }
 

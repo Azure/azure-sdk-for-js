@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { BotsImpl, OperationsImpl } from "./operations";
-import { Bots, Operations } from "./operationsInterfaces";
-import { HealthbotClientOptionalParams } from "./models";
+import { BotsImpl, OperationsImpl } from "./operations/index.js";
+import { Bots, Operations } from "./operationsInterfaces/index.js";
+import { HealthbotClientOptionalParams } from "./models/index.js";
 
 export class HealthbotClient extends coreClient.ServiceClient {
   $host: string;

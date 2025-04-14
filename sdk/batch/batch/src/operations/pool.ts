@@ -56,34 +56,6 @@ export class Pool {
   }
 
   /**
-   * Statistics are aggregated across all Pools that have ever existed in the Account, from Account
-   * creation to the last update time of the statistics. The statistics may not be immediately
-   * available. The Batch service performs periodic roll-up of statistics. The typical delay is about
-   * 30 minutes.
-   * @summary Gets lifetime summary statistics for all of the Pools in the specified Account.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PoolGetAllLifetimeStatisticsResponse>
-   */
-  getAllLifetimeStatistics(options?: Models.PoolGetAllLifetimeStatisticsOptionalParams): Promise<Models.PoolGetAllLifetimeStatisticsResponse>;
-  /**
-   * @param callback The callback
-   */
-  getAllLifetimeStatistics(callback: msRest.ServiceCallback<Models.PoolStatistics>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getAllLifetimeStatistics(options: Models.PoolGetAllLifetimeStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.PoolStatistics>): void;
-  getAllLifetimeStatistics(options?: Models.PoolGetAllLifetimeStatisticsOptionalParams | msRest.ServiceCallback<Models.PoolStatistics>, callback?: msRest.ServiceCallback<Models.PoolStatistics>): Promise<Models.PoolGetAllLifetimeStatisticsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        options
-      },
-      getAllLifetimeStatisticsOperationSpec,
-      callback) as Promise<Models.PoolGetAllLifetimeStatisticsResponse>;
-  }
-
-  /**
    * When naming Pools, avoid including sensitive information such as user names or secret project
    * names. This information may appear in telemetry logs accessible to Microsoft Support engineers.
    * @summary Adds a Pool to the specified Account.
@@ -114,7 +86,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the Pools in the specified Account.
+   * @summary Lists all of the Pools which be mounted
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
    */
@@ -341,7 +313,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEvaluateAutoScaleResponse>
    */
@@ -352,7 +324,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param callback The callback
    */
   evaluateAutoScale(poolId: string, autoScaleFormula: string, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
@@ -362,7 +334,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -555,7 +527,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the Pools in the specified Account.
+   * @summary Lists all of the Pools which be mounted
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
@@ -618,9 +590,9 @@ const listUsageMetricsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "lifetimepoolstats",
+const addOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "pools",
   urlParameters: [
     Parameters.batchUrl
   ],
@@ -633,35 +605,6 @@ const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
     Parameters.clientRequestId4,
     Parameters.returnClientRequestId4,
     Parameters.ocpDate4
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PoolStatistics,
-      headersMapper: Mappers.PoolGetAllLifetimeStatisticsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.BatchError,
-      headersMapper: Mappers.PoolGetAllLifetimeStatisticsHeaders
-    }
-  },
-  serializer
-};
-
-const addOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "pools",
-  urlParameters: [
-    Parameters.batchUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.timeout4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId5,
-    Parameters.returnClientRequestId5,
-    Parameters.ocpDate5
   ],
   requestBody: {
     parameterPath: "pool",
@@ -695,13 +638,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.select0,
     Parameters.expand0,
     Parameters.maxResults2,
-    Parameters.timeout5
+    Parameters.timeout4
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId6,
-    Parameters.returnClientRequestId6,
-    Parameters.ocpDate6
+    Parameters.clientRequestId5,
+    Parameters.returnClientRequestId5,
+    Parameters.ocpDate5
   ],
   responses: {
     200: {
@@ -725,13 +668,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout6
+    Parameters.timeout5
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId7,
-    Parameters.returnClientRequestId7,
-    Parameters.ocpDate7,
+    Parameters.clientRequestId6,
+    Parameters.returnClientRequestId6,
+    Parameters.ocpDate6,
     Parameters.ifMatch0,
     Parameters.ifNoneMatch0,
     Parameters.ifModifiedSince0,
@@ -758,13 +701,13 @@ const existsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout7
+    Parameters.timeout6
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId8,
-    Parameters.returnClientRequestId8,
-    Parameters.ocpDate8,
+    Parameters.clientRequestId7,
+    Parameters.returnClientRequestId7,
+    Parameters.ocpDate7,
     Parameters.ifMatch1,
     Parameters.ifNoneMatch1,
     Parameters.ifModifiedSince1,
@@ -796,13 +739,13 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.select1,
     Parameters.expand1,
-    Parameters.timeout8
+    Parameters.timeout7
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId9,
-    Parameters.returnClientRequestId9,
-    Parameters.ocpDate9,
+    Parameters.clientRequestId8,
+    Parameters.returnClientRequestId8,
+    Parameters.ocpDate8,
     Parameters.ifMatch2,
     Parameters.ifNoneMatch2,
     Parameters.ifModifiedSince2,
@@ -830,13 +773,13 @@ const patchOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout9
+    Parameters.timeout8
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId10,
-    Parameters.returnClientRequestId10,
-    Parameters.ocpDate10,
+    Parameters.clientRequestId9,
+    Parameters.returnClientRequestId9,
+    Parameters.ocpDate9,
     Parameters.ifMatch3,
     Parameters.ifNoneMatch3,
     Parameters.ifModifiedSince3,
@@ -871,13 +814,13 @@ const disableAutoScaleOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout10
+    Parameters.timeout9
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId11,
-    Parameters.returnClientRequestId11,
-    Parameters.ocpDate11
+    Parameters.clientRequestId10,
+    Parameters.returnClientRequestId10,
+    Parameters.ocpDate10
   ],
   responses: {
     200: {
@@ -900,13 +843,13 @@ const enableAutoScaleOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout11
+    Parameters.timeout10
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId12,
-    Parameters.returnClientRequestId12,
-    Parameters.ocpDate12,
+    Parameters.clientRequestId11,
+    Parameters.returnClientRequestId11,
+    Parameters.ocpDate11,
     Parameters.ifMatch4,
     Parameters.ifNoneMatch4,
     Parameters.ifModifiedSince4,
@@ -941,13 +884,13 @@ const evaluateAutoScaleOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout12
+    Parameters.timeout11
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId13,
-    Parameters.returnClientRequestId13,
-    Parameters.ocpDate13
+    Parameters.clientRequestId12,
+    Parameters.returnClientRequestId12,
+    Parameters.ocpDate12
   ],
   requestBody: {
     parameterPath: {
@@ -981,13 +924,13 @@ const resizeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout13
+    Parameters.timeout12
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId14,
-    Parameters.returnClientRequestId14,
-    Parameters.ocpDate14,
+    Parameters.clientRequestId13,
+    Parameters.returnClientRequestId13,
+    Parameters.ocpDate13,
     Parameters.ifMatch5,
     Parameters.ifNoneMatch5,
     Parameters.ifModifiedSince5,
@@ -1022,13 +965,13 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout14
+    Parameters.timeout13
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId15,
-    Parameters.returnClientRequestId15,
-    Parameters.ocpDate15,
+    Parameters.clientRequestId14,
+    Parameters.returnClientRequestId14,
+    Parameters.ocpDate14,
     Parameters.ifMatch6,
     Parameters.ifNoneMatch6,
     Parameters.ifModifiedSince6,
@@ -1055,13 +998,13 @@ const updatePropertiesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout15
+    Parameters.timeout14
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId16,
-    Parameters.returnClientRequestId16,
-    Parameters.ocpDate16
+    Parameters.clientRequestId15,
+    Parameters.returnClientRequestId15,
+    Parameters.ocpDate15
   ],
   requestBody: {
     parameterPath: "poolUpdatePropertiesParameter",
@@ -1092,13 +1035,13 @@ const removeNodesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout16
+    Parameters.timeout15
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId17,
-    Parameters.returnClientRequestId17,
-    Parameters.ocpDate17,
+    Parameters.clientRequestId16,
+    Parameters.returnClientRequestId16,
+    Parameters.ocpDate16,
     Parameters.ifMatch7,
     Parameters.ifNoneMatch7,
     Parameters.ifModifiedSince7,
@@ -1136,9 +1079,9 @@ const listUsageMetricsNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId18,
-    Parameters.returnClientRequestId18,
-    Parameters.ocpDate18
+    Parameters.clientRequestId17,
+    Parameters.returnClientRequestId17,
+    Parameters.ocpDate17
   ],
   responses: {
     200: {
@@ -1165,9 +1108,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId19,
-    Parameters.returnClientRequestId19,
-    Parameters.ocpDate19
+    Parameters.clientRequestId18,
+    Parameters.returnClientRequestId18,
+    Parameters.ocpDate18
   ],
   responses: {
     200: {

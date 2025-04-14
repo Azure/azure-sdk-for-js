@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { WebPubSubMessage } from "../models/messages";
-import { WebPubSubJsonProtocolImpl } from "./webPubSubJsonProtocol";
-import { WebPubSubJsonReliableProtocolImpl } from "./webPubSubJsonReliableProtocol";
+import type { WebPubSubMessage } from "../models/messages.js";
+import { WebPubSubJsonProtocolImpl } from "./webPubSubJsonProtocol.js";
+import { WebPubSubJsonReliableProtocolImpl } from "./webPubSubJsonReliableProtocol.js";
 
 /**
  * The interface to be implemented for a web pubsub subprotocol
@@ -23,7 +23,7 @@ export interface WebPubSubClientProtocol {
    * Creates WebPubSubMessage objects from the specified serialized representation.
    * @param input - The serialized representation
    */
-  parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage | null;
+  parseMessages(input: string | ArrayBuffer | Buffer): WebPubSubMessage[] | WebPubSubMessage | null;
 
   /**
    * Write WebPubSubMessage to string or ArrayBuffer

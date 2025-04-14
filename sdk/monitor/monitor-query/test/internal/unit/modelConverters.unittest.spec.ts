@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import {
+import type {
   BatchQueryRequest,
   BatchRequest as GeneratedBatchRequest,
-} from "../../../src/generated/logquery/src";
-import {
+} from "../../../src/generated/logquery/src/index.js";
+import type {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
-} from "../../../src/generated/metrics/src";
-import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+} from "../../../src/generated/metrics/src/index.js";
+import type { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src/index.js";
 import {
   convertRequestForMetrics,
   convertRequestForQueryBatch,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
-} from "../../../src/internal/modelConverters";
-import {
+} from "../../../src/internal/modelConverters.js";
+import type {
   OperationRequestOptions,
   RawResponseCallback,
   SerializerOptions,
 } from "@azure/core-client";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type {
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-} from "../../../src";
-import { AbortSignalLike } from "@azure/abort-controller";
+} from "../../../src/index.js";
+import { Durations } from "../../../src/index.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
-} from "../../../src/timespanConversion";
+} from "../../../src/timespanConversion.js";
+import { describe, it, assert } from "vitest";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -103,8 +103,7 @@ describe("Model unit tests", () => {
       const serializerOptions = {} as SerializerOptions;
       const onResponse = {} as RawResponseCallback;
 
-      // (Required<T> just to make sure I don't forget a field)
-      const track2Model: Required<MetricsQueryOptions> = {
+      const track2Model: MetricsQueryOptions = {
         abortSignal,
         aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",
@@ -115,6 +114,8 @@ describe("Model unit tests", () => {
         resultType: "Data",
         top: 10,
         timespan: { duration: "P20H" },
+        autoAdjustTimegrain: true,
+        validateDimensions: true,
         tracingOptions,
         serializerOptions,
         onResponse,
@@ -122,7 +123,7 @@ describe("Model unit tests", () => {
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
         ["name1", "name2"],
-        track2Model
+        track2Model,
       );
 
       const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
@@ -137,6 +138,8 @@ describe("Model unit tests", () => {
         resultType: "Data",
         timespan: "P20H",
         top: 10,
+        autoAdjustTimegrain: true,
+        validateDimensions: true,
         tracingOptions,
         serializerOptions,
         onResponse,
@@ -241,11 +244,10 @@ describe("Model unit tests", () => {
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { getMetricByName, ...rest } = actualConvertedResponse;
       assert.deepEqual(
         { ...rest } as Omit<MetricsQueryResult, "getMetricByName">,
-        expectedResponse
+        expectedResponse,
       );
     });
 
@@ -307,7 +309,7 @@ describe("Model unit tests", () => {
             dimensions: ["the value"],
           },
         ],
-        actualResponse
+        actualResponse,
       );
     });
 
@@ -326,7 +328,7 @@ describe("Model unit tests", () => {
             id: "anything",
           },
         ],
-        actualResponse
+        actualResponse,
       );
     });
 

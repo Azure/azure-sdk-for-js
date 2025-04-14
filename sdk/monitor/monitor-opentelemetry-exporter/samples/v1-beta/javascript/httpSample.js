@@ -24,23 +24,18 @@ const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
-
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
-/*********************************************************************
- *  OPEN TELEMETRY SETUP
- **********************************************************************/
+// OPEN TELEMETRY SETUP
 let serverTracer;
 let clientTracer;
 setupOpenTelemetry();
 
 // Open Telemetry setup need to happen before http library is loaded
-const http = require("http");
+const http = require("node:http");
 
-/*********************************************************************
- *  HTTP SERVER SETUP
- **********************************************************************/
+// HTTP SERVER SETUP
 /** Starts a HTTP server that receives requests on sample server port. */
 let server;
 function startServer(port) {
@@ -56,11 +51,11 @@ function startServer(port) {
 function handleRequest(request, response) {
   const currentSpan = api.trace.getSpan(api.context.active());
   if (currentSpan) {
-    // display traceid in the terminal
-    console.log(`traceid: ${currentSpan.spanContext().traceId}`);
+    // display traceId in the terminal
+    console.log(`traceId: ${currentSpan.spanContext().traceId}`);
   }
   const span = serverTracer.startSpan("handleRequest", {
-    kind: 1,
+    kind: 1, // server
     attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
@@ -73,7 +68,7 @@ function handleRequest(request, response) {
     // deliberately sleeping to mock some action.
     setTimeout(() => {
       span.end();
-      response.end("Hello World!");
+      response.end(body.length > 0 ? body.join("") : "Hello World!");
       // terminate the process to stop CI pipeline from running forever
       server.close();
       server.unref();
@@ -84,10 +79,7 @@ function handleRequest(request, response) {
 
 startServer(8080);
 
-/*********************************************************************
- *  HTTP CLIENT SETUP
- **********************************************************************/
-/** A function which makes requests and handles response. */
+// HTTP CLIENT SETUP
 function makeRequest() {
   // span corresponds to outgoing requests. Here, we have manually created
   // the span, which is created to track work that happens outside of the
@@ -103,29 +95,31 @@ function makeRequest() {
         const body = [];
         response.on("data", (chunk) => body.push(chunk));
         response.on("end", () => {
-          console.log(body.toString());
+          console.log(body);
           span.end();
         });
-      }
+      },
     );
   });
 }
 makeRequest();
 
 function setupOpenTelemetry() {
-  const provider = new NodeTracerProvider();
   const exporter = new AzureMonitorTraceExporter({
     connectionString:
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+      // Replace with your Application Insights Connection String
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+      "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
 
-  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+  const provider = new NodeTracerProvider({
+    spanProcessors: [new SimpleSpanProcessor(exporter)],
+  });
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
   provider.register();
 
   registerInstrumentations({
-    // // when boostraping with lerna for testing purposes
     instrumentations: [new HttpInstrumentation()],
   });
   serverTracer = provider.getTracer("serverTracer");

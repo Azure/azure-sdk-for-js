@@ -11,8 +11,8 @@ import {
   ImageVersion,
   ImageVersionsListByImageOptionalParams,
   ImageVersionsGetOptionalParams,
-  ImageVersionsGetResponse
-} from "../models";
+  ImageVersionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ImageVersions. */
@@ -30,7 +30,7 @@ export interface ImageVersions {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImageVersionsListByImageOptionalParams
+    options?: ImageVersionsListByImageOptionalParams,
   ): PagedAsyncIterableIterator<ImageVersion>;
   /**
    * Gets an image version.
@@ -47,6 +47,6 @@ export interface ImageVersions {
     galleryName: string,
     imageName: string,
     versionName: string,
-    options?: ImageVersionsGetOptionalParams
+    options?: ImageVersionsGetOptionalParams,
   ): Promise<ImageVersionsGetResponse>;
 }

@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { v4 as generateUuid } from "uuid";
-import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
-import { ModifiedAccessConditions } from "./models";
-import { CommonOptions } from "./StorageClient";
-import { ETagNone } from "./utils/constants";
-import { tracingClient } from "./utils/tracing";
-import { BlobClient } from "./Clients";
-import { ContainerClient } from "./ContainerClient";
-import { assertResponse, WithResponse } from "./utils/utils.common";
-import {
+// Licensed under the MIT License.
+
+import { randomUUID } from "@azure/core-util";
+import type { ContainerBreakLeaseOptionalParams } from "./generatedModels.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces/index.js";
+import type { ModifiedAccessConditions } from "./models.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { ETagNone } from "./utils/constants.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { BlobClient } from "./Clients.js";
+import type { ContainerClient } from "./ContainerClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
+import { assertResponse } from "./utils/utils.common.js";
+import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * The details for a specific lease.
@@ -133,7 +135,7 @@ export class BlobLeaseClient {
     }
 
     if (!leaseId) {
-      leaseId = generateUuid();
+      leaseId = randomUUID();
     }
     this._leaseId = leaseId;
   }
@@ -142,9 +144,9 @@ export class BlobLeaseClient {
    * Establishes and manages a lock on a container for delete operations, or on a blob
    * for write and delete operations.
    * The lock duration can be 15 to 60 seconds, or can be infinite.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
    * and
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
    * @param options - option to configure lease management operations.
@@ -152,7 +154,7 @@ export class BlobLeaseClient {
    */
   public async acquireLease(
     duration: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -161,7 +163,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan(
@@ -178,17 +180,17 @@ export class BlobLeaseClient {
             },
             proposedLeaseId: this._leaseId,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
   /**
    * To change the ID of the lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
    * and
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param proposedLeaseId - the proposed new lease Id.
    * @param options - option to configure lease management operations.
@@ -196,7 +198,7 @@ export class BlobLeaseClient {
    */
   public async changeLease(
     proposedLeaseId: string,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -205,7 +207,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
 
@@ -221,20 +223,20 @@ export class BlobLeaseClient {
               ifTags: options.conditions?.tagConditions,
             },
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
         this._leaseId = proposedLeaseId;
         return response;
-      }
+      },
     );
   }
 
   /**
    * To free the lease if it is no longer needed so that another client may
    * immediately acquire a lease against the container or the blob.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
    * and
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param options - option to configure lease management operations.
    * @returns Response data for release lease operation.
@@ -247,7 +249,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan(
@@ -262,17 +264,17 @@ export class BlobLeaseClient {
               ifTags: options.conditions?.tagConditions,
             },
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
   /**
    * To renew the lease.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
    * and
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param options - Optional option to configure lease management operations.
    * @returns Response data for renew lease operation.
@@ -285,7 +287,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan("BlobLeaseClient-renewLease", options, async (updatedOptions) => {
@@ -303,9 +305,9 @@ export class BlobLeaseClient {
   /**
    * To end the lease but ensure that another client cannot acquire a new lease
    * until the current lease period has expired.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-container
    * and
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param breakPeriod - Break period
    * @param options - Optional options to configure lease management operations.
@@ -313,7 +315,7 @@ export class BlobLeaseClient {
    */
   public async breakLease(
     breakPeriod: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -322,7 +324,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
 
@@ -337,7 +339,7 @@ export class BlobLeaseClient {
         tracingOptions: updatedOptions.tracingOptions,
       };
       return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
-        await this._containerOrBlobOperation.breakLease(operationOptions)
+        await this._containerOrBlobOperation.breakLease(operationOptions),
       );
     });
   }

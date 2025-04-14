@@ -1,22 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
-import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateLogsUploadError, LogsUploadFailure, LogsUploadOptions } from "./models";
-import { GZippingPolicy } from "./gZippingPolicy";
-import { concurrentRun } from "./utils/concurrentPoolHelper";
-import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
+import type { TokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import { GeneratedMonitorIngestionClient } from "./generated/index.js";
+import type { LogsUploadFailure, LogsUploadOptions } from "./models.js";
+import { AggregateLogsUploadError } from "./models.js";
+import { GZippingPolicy } from "./gZippingPolicy.js";
+import { concurrentRun } from "./utils/concurrentPoolHelper.js";
+import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
 import { isError } from "@azure/core-util";
+import { KnownMonitorAudience } from "./constants.js";
 /**
  * Options for Monitor Logs Ingestion Client
  */
 export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
   apiVersion?: string;
+
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   */
+  audience?: string;
 }
-const defaultIngestionScope = "https://monitor.azure.com//.default";
 const DEFAULT_MAX_CONCURRENCY = 5;
 
 /**
@@ -37,12 +45,16 @@ export class LogsIngestionClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: LogsIngestionClientOptions
+    options?: LogsIngestionClientOptions,
   ) {
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
     this.endpoint = endpoint;
     this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
-      credentialScopes: defaultIngestionScope,
+      credentialScopes: scope,
     });
     // adding gzipping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
@@ -60,8 +72,8 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: LogsUploadOptions
+
+    options?: LogsUploadOptions,
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
@@ -79,17 +91,20 @@ export class LogsIngestionClient {
             contentEncoding: "gzip",
             abortSignal: options?.abortSignal,
           });
-        } catch (e: any) {
+        } catch (e: unknown) {
           if (options?.onError) {
-            options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+            options.onError({
+              failedLogs: eachChunk,
+              cause: isError(e) ? e : new Error(e as string),
+            });
           }
           uploadResultErrors.push({
-            cause: isError(e) ? e : new Error(e),
+            cause: isError(e) ? e : new Error(e as string),
             failedLogs: eachChunk,
           });
         }
       },
-      options?.abortSignal
+      options?.abortSignal,
     );
     if (uploadResultErrors.length > 0) {
       throw new AggregateLogsUploadError(uploadResultErrors);

@@ -11,7 +11,7 @@ import {
   RegenerateKeysChannelName,
   DirectLineRegenerateKeysOptionalParams,
   DirectLineRegenerateKeysResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DirectLine. */
 export interface DirectLine {

@@ -12,8 +12,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
-- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid/)
+- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
 
 ## Getting started
@@ -72,13 +72,13 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
-  "<endpoint schema>",
-  new AzureKeyCredential("<Access Key>")
+  "EventGrid",
+  new AzureKeyCredential("<Access Key>"),
 );
 ```
 
@@ -86,26 +86,26 @@ const client = new EventGridPublisherClient(
 
 Like an access key, a SAS token allows access to sending events to an Event Grid topic. Unlike an access key, which can be used until it is regenerated, a SAS token has an experation time, at which point it is no longer valid. To use a SAS token for authentication, use the `AzureSASCredential` as follows:
 
-```js
-const { EventGridPublisherClient, AzureSASCredential } = require("@azure/eventgrid");
+```ts snippet:ReadmeSampleCreateClient_SASCredential
+import { EventGridPublisherClient, AzureSASCredential } from "@azure/eventgrid";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
-  "<endpoint schema>",
-  new AzureSASCredential("<SAS Token>")
+  "EventGrid",
+  new AzureSASCredential("<SAS Token>"),
 );
 ```
 
 You can generate a SAS token by using the `generateSharedAccessSigniture` function.
 
-```js
-const { generateSharedAccessSignature, AzureKeyCredential } = require("@azure/eventgrid");
+```ts snippet:ReadmeSample_GenerateSasToken
+import { generateSharedAccessSignature, AzureKeyCredential } from "@azure/eventgrid";
 
 // Create a SAS Token which expires on 2020-01-01 at Midnight.
 const token = generateSharedAccessSignature(
   "<endpoint>",
   new AzureKeyCredential("<API key>"),
-  new Date("2020-01-01T00:00:00")
+  new Date("2020-01-01T00:00:00"),
 );
 ```
 
@@ -119,14 +119,14 @@ With the `@azure/identity` package, you can seamlessly authorize requests in bot
 
 For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
 
-```js
-const { EventGridPublisherClient } = require("@azure/eventgrid");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
-  "<endpoint schema>",
-  new DefaultAzureCredential()
+  "CloudEvent",
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -142,32 +142,37 @@ Event Grid supports multiple schemas for encoding events. When a Custom Topic or
 
 If your topic is configured to use the Event Grid Schema, set "EventGrid" as the schema type:
 
-```js
+```ts snippet:ReadmeSampleCreateClient_EventGrid
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API Key>")
+  new DefaultAzureCredential(),
 );
 ```
 
 If your topic is configured to use the Cloud Event Schema, set "CloudEvent" as the schema type:
 
-```js
+```ts snippet:ReadmeSampleCreateClient_CloudEvent
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "CloudEvent",
-  new AzureKeyCredential("<API Key>")
+  new DefaultAzureCredential(),
 );
 ```
 
 If your topic is configured to use a Custom Event Schema, set "Custom" as the schema type:
 
-```js
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "Custom",
-  new AzureKeyCredential("<API Key>")
-);
+```ts snippet:ReadmeSampleCreateClient_Custom
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new EventGridPublisherClient("<endpoint>", "Custom", new DefaultAzureCredential());
 ```
 
 Constructing the client with a different schema than what the topic is configured to expect will result in an error from the service and your events will not be published.
@@ -203,13 +208,14 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 
 ### Publish a Custom Event to an Event Grid Topic using the Event Grid Schema
 
-```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
+```ts snippet:ReadmeSample_PublishCustomEvent
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>")
+  new DefaultAzureCredential(),
 );
 
 await client.send([
@@ -218,9 +224,9 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world"
-    }
-  }
+      hello: "world",
+    },
+  },
 ]);
 ```
 
@@ -228,13 +234,14 @@ await client.send([
 
 Publishing events to an Event Grid Domain is similar to publish to an Event Grid Topic, except that when using the Event Grid schema for events, you must include the `topic` property. When publishing events in the Cloud Events 1.0 schema, the required `source` property is used as the name of the topic in the domain to publish to:
 
-```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
+```ts snippet:ReadmeSample_PublishCustomEventToDomain
+import { EventGridPublisherClient } from "@azure/eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>")
+  new DefaultAzureCredential(),
 );
 
 await client.send([
@@ -244,53 +251,41 @@ await client.send([
     subject: "Event Subject",
     dataVersion: "1.0",
     data: {
-      hello: "world"
-    }
-  }
+      hello: "world",
+    },
+  },
 ]);
 ```
 
 ### Deserializing an Event
 
-`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. When deserializing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Queue in the Cloud Events schema. Using the Service Bus SDK we can receive these events from the Service Bus Queue and then deserialize them using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
+`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. In this example we have a cloud event that is deserialized using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
 
-```js
-const { ServiceBusClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { EventGridDeserializer, isSystemEvent } = require("@azure/eventgrid");
+```ts snippet:ReadmeSample_DeserializeEvent
+import { EventGridDeserializer, isSystemEvent } from "@azure/eventgrid";
 
-const client = new ServiceBusClient("<service bus hostname>", new DefaultAzureCredential());
-
-const receiver = client.createReceiver("<queue name>", "peekLock");
-
-const consumer = new EventGridDeserializer();
-
-async function processMessage(message) {
-  // When delivering to a Service Bus Queue or Topic, EventGrid delivers a single event per message.
-  // so we just pluck the first one.
-  const event = (await consumer.deserializeCloudEvents(message.body))[0];
-
-  if (isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", event)) {
-    console.log(
-      `${event.time}: Container Registry Image Pushed event for image ${event.data.target.repository}:${event.data.target.tag}`
-    );
-  } else if (isSystemEvent("Microsoft.ContainerRegistry.ImageDeleted", event)) {
-    console.log(
-      `${event.time}: Container Registry Image Deleted event for repository ${event.data.target.repository}`
-    );
-  }
-
-  await message.complete();
-}
-
-console.log("starting receiver");
-
-receiver.subscribe({
-  processError: async (err) => {
-    console.error(err);
+const deserializer = new EventGridDeserializer();
+const message = {
+  id: "5bc888aa-c2f4-11ea-b3de-0242ac130004",
+  source:
+    "/subscriptions/<subscriptionid>/resourceGroups/dummy-rg/providers/Microsoft.EventGrid/topics/dummy-topic",
+  specversion: "1.0",
+  type: "Microsoft.ContainerRegistry.ImagePushed",
+  subject: "Test Subject",
+  time: "2020-07-10T21:27:12.925Z",
+  data: {
+    hello: "world",
   },
-  processMessage
-});
+};
+const deserializedMessage = await deserializer.deserializeCloudEvents(message);
+console.log(deserializedMessage);
+if (
+  deserializedMessage != null &&
+  deserializedMessage.length !== 0 &&
+  isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", deserializedMessage[0])
+) {
+  console.log("This is a Microsoft.ContainerRegistry.ImagePushed event");
+}
 ```
 
 ## Troubleshooting
@@ -299,13 +294,13 @@ receiver.subscribe({
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable the logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -321,12 +316,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/azure/event-grid
+[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
 [cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/
+[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/

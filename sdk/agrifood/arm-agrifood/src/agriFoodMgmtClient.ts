@@ -22,7 +22,7 @@ import {
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Extensions,
   FarmBeatsExtensions,
@@ -31,8 +31,8 @@ import {
   Operations,
   PrivateEndpointConnections,
   PrivateLinkResources
-} from "./operationsInterfaces";
-import { AgriFoodMgmtClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AgriFoodMgmtClientOptionalParams } from "./models/index.js";
 
 export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   $host: string;
@@ -66,7 +66,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

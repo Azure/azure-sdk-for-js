@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatadogSingleSignOnResource,
   SingleSignOnConfigurationsListOptionalParams,
@@ -15,7 +15,7 @@ import {
   SingleSignOnConfigurationsCreateOrUpdateResponse,
   SingleSignOnConfigurationsGetOptionalParams,
   SingleSignOnConfigurationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SingleSignOnConfigurations. */
@@ -44,8 +44,8 @@ export interface SingleSignOnConfigurations {
     configurationName: string,
     options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
       SingleSignOnConfigurationsCreateOrUpdateResponse
     >
   >;

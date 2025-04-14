@@ -19,14 +19,14 @@ import {
   OperationsImpl,
   TagRulesImpl,
   SingleSignOnImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Monitors,
   Operations,
   TagRules,
   SingleSignOn
-} from "./operationsInterfaces";
-import { DynatraceObservabilityOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DynatraceObservabilityOptionalParams } from "./models/index.js";
 
 export class DynatraceObservability extends coreClient.ServiceClient {
   $host: string;
@@ -60,7 +60,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dynatrace/1.0.2`;
+    const packageDetails = `azsdk-js-arm-dynatrace/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,7 +113,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01";
+    this.apiVersion = options.apiVersion || "2023-04-27";
     this.monitors = new MonitorsImpl(this);
     this.operations = new OperationsImpl(this);
     this.tagRules = new TagRulesImpl(this);

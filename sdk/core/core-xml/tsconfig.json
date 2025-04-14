@@ -1,12 +1,7 @@
 {
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
-    "paths": {
-      "@azure/core-xml": ["./src/index.js"]
-    }
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

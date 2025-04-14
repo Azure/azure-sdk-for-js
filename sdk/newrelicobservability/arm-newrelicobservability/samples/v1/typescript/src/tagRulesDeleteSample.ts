@@ -10,19 +10,18 @@
 // Licensed under the MIT License.
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a TagRule
  *
  * @summary Delete a TagRule
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/TagRules_Delete_MaximumSet_Gen.json
  */
-async function tagRulesDeleteMaximumSetGen() {
+async function tagRulesDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
@@ -32,7 +31,7 @@ async function tagRulesDeleteMaximumSetGen() {
   const result = await client.tagRules.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }
@@ -41,11 +40,12 @@ async function tagRulesDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a TagRule
  *
  * @summary Delete a TagRule
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/TagRules_Delete_MinimumSet_Gen.json
  */
-async function tagRulesDeleteMinimumSetGen() {
+async function tagRulesDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
@@ -55,12 +55,12 @@ async function tagRulesDeleteMinimumSetGen() {
   const result = await client.tagRules.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tagRulesDeleteMaximumSetGen();
   tagRulesDeleteMinimumSetGen();
 }

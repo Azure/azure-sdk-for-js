@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Creates or updates the specified private endpoint connection proxy resource associated with the device update account.
  *
  * @summary (INTERNAL - DO NOT USE) Creates or updates the specified private endpoint connection proxy resource associated with the device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_CreateOrUpdate.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_CreateOrUpdate.json
  */
 async function privateEndpointConnectionProxyCreateOrUpdate() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function privateEndpointConnectionProxyCreateOrUpdate() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionProxyId,
-    privateEndpointConnectionProxy
+    privateEndpointConnectionProxy,
   );
   console.log(result);
 }

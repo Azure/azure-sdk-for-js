@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DocumentSpan } from "../../src";
+import type { DocumentSpan } from "../../src/index.js";
 import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analysis";
-
-import { assert } from "chai";
+} from "../../src/lro/analysis.js";
+import { describe, it, assert } from "vitest";
 
 interface TestData {
   id: number;
@@ -17,8 +16,7 @@ interface TestData {
 
 let currentId = 0;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-function TestData(offset: number, length: number): TestData {
+function createTestData(offset: number, length: number): TestData {
   return {
     id: currentId++,
     span: {
@@ -29,13 +27,13 @@ function TestData(offset: number, length: number): TestData {
 }
 
 const TEST_DATA: TestData[] = [
-  TestData(0, 0),
-  TestData(0, 1),
-  TestData(2, 1),
-  TestData(3, 6),
-  TestData(9, 2),
-  TestData(9, 2),
-  TestData(11, 5),
+  createTestData(0, 0),
+  createTestData(0, 1),
+  createTestData(2, 1),
+  createTestData(3, 6),
+  createTestData(9, 2),
+  createTestData(9, 2),
+  createTestData(11, 5),
 ];
 
 /**
@@ -53,7 +51,7 @@ function intoIter<T>(values: T | T[]): IterableIterator<T> {
 
 function naiveGetChildren<T extends { span: DocumentSpan }>(
   spans: DocumentSpan[],
-  items: T[]
+  items: T[],
 ): T[] {
   const arr = [] as T[];
 
@@ -70,7 +68,7 @@ function naiveGetChildren<T extends { span: DocumentSpan }>(
 
 function naiveFindFirst<T extends { span: DocumentSpan }>(
   span: DocumentSpan,
-  items: T[]
+  items: T[],
 ): T | undefined {
   for (const item of items) {
     if (item.span.offset >= span.offset) {
@@ -89,7 +87,7 @@ describe("get children", function () {
     assert.deepStrictEqual(result, [2]);
     assert.deepStrictEqual(
       result,
-      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id)
+      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id),
     );
   });
 
@@ -101,7 +99,7 @@ describe("get children", function () {
 
       assert.deepStrictEqual(
         result,
-        naiveGetChildren([span], TEST_DATA).map(({ id }) => id)
+        naiveGetChildren([span], TEST_DATA).map(({ id }) => id),
       );
     }
   });
@@ -114,7 +112,7 @@ describe("get children", function () {
 
     assert.deepStrictEqual(
       result,
-      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id)
+      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id),
     );
   });
 
@@ -124,7 +122,7 @@ describe("get children", function () {
         const testSpan = { offset: datum.span.offset, length: 1 };
         assert.strictEqual(
           (iteratorFromFirstMatchBinarySearch(testSpan, TEST_DATA).next().value as TestData)?.id,
-          naiveFindFirst(testSpan, TEST_DATA)?.id
+          naiveFindFirst(testSpan, TEST_DATA)?.id,
         );
       }
     });

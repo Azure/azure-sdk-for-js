@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EventData } from "./eventData";
+import type { EventData } from "./eventData.js";
 
 /**
  * A message with payload and content type fields
@@ -76,7 +76,7 @@ export interface EventDataAdapterParameters {
  * @returns An event data adapter that can produce and consume event data
  */
 export function createEventDataAdapter(
-  params: EventDataAdapterParameters = {}
+  params: EventDataAdapterParameters = {},
 ): MessageAdapter<EventData> {
   return {
     produce: ({ data: body, contentType }: MessageContent) => {

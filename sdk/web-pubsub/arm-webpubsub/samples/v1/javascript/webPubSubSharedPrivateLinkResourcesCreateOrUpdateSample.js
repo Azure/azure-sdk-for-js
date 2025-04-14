@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a shared private link resource
  *
  * @summary Create or update a shared private link resource
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
  */
 async function webPubSubSharedPrivateLinkResourcesCreateOrUpdate() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function webPubSubSharedPrivateLinkResourcesCreateOrUpdate() {
     sharedPrivateLinkResourceName,
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

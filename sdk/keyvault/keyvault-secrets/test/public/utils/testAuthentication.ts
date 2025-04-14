@@ -1,25 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SecretClient } from "../../../src";
-import {
-  assertEnvironmentVariable,
-  env,
-  isRecordMode,
-  Recorder,
+import { SecretClient } from "../../../src/index.js";
+import type {
+  FindReplaceSanitizer,
   RecorderStartOptions,
+  VitestTestContext,
 } from "@azure-tools/test-recorder";
-import { uniqueString } from "./recorderUtils";
-import TestClient from "./testClient";
-import { Context } from "mocha";
-import { getServiceVersion } from "./common";
+import { assertEnvironmentVariable, env, isRecordMode, Recorder } from "@azure-tools/test-recorder";
+import { uniqueString } from "./recorderUtils.js";
+import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
-export async function authenticate(
-  that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>
-): Promise<any> {
+export async function authenticate(ctx: VitestTestContext): Promise<any> {
   const generalSanitizers: FindReplaceSanitizer[] = [];
 
   const secretSuffix = uniqueString();
@@ -50,9 +43,13 @@ export async function authenticate(
     sanitizerOptions: {
       generalSanitizers,
     },
+    removeCentralSanitizers: [
+      // The secret ID has a specific format that is parsed by the SDK, cannot be sanitized, and is not a secret
+      "AZSDK3430",
+    ],
   };
 
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(ctx);
   await recorder.start(recorderStartOptions);
   const credential = createTestCredential();
 
@@ -65,9 +62,8 @@ export async function authenticate(
     keyVaultUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion,
       disableChallengeResourceVerification: true,
-    })
+    }),
   );
   const testClient = new TestClient(client);
 

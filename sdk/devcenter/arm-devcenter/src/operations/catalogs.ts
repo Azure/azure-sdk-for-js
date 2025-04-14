@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Catalogs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Catalogs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevCenterClient } from "../devCenterClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevCenterClient } from "../devCenterClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Catalog,
   CatalogsListByDevCenterNextOptionalParams,
@@ -32,9 +32,15 @@ import {
   CatalogsUpdateOptionalParams,
   CatalogsUpdateResponse,
   CatalogsDeleteOptionalParams,
+  CatalogsDeleteResponse,
+  CatalogsGetSyncErrorDetailsOptionalParams,
+  CatalogsGetSyncErrorDetailsResponse,
   CatalogsSyncOptionalParams,
-  CatalogsListByDevCenterNextResponse
-} from "../models";
+  CatalogsSyncResponse,
+  CatalogsConnectOptionalParams,
+  CatalogsConnectResponse,
+  CatalogsListByDevCenterNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Catalogs operations. */
@@ -58,12 +64,12 @@ export class CatalogsImpl implements Catalogs {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams
+    options?: CatalogsListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<Catalog> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +86,9 @@ export class CatalogsImpl implements Catalogs {
           resourceGroupName,
           devCenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +96,7 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     options?: CatalogsListByDevCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Catalog[]> {
     let result: CatalogsListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +104,7 @@ export class CatalogsImpl implements Catalogs {
       result = await this._listByDevCenter(
         resourceGroupName,
         devCenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +116,7 @@ export class CatalogsImpl implements Catalogs {
         resourceGroupName,
         devCenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +128,12 @@ export class CatalogsImpl implements Catalogs {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams
+    options?: CatalogsListByDevCenterOptionalParams,
   ): AsyncIterableIterator<Catalog> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +148,11 @@ export class CatalogsImpl implements Catalogs {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams
+    options?: CatalogsListByDevCenterOptionalParams,
   ): Promise<CatalogsListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec
+      listByDevCenterOperationSpec,
     );
   }
 
@@ -161,11 +167,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: CatalogsGetOptionalParams
+    options?: CatalogsGetOptionalParams,
   ): Promise<CatalogsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, catalogName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,7 +188,7 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     body: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams
+    options?: CatalogsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CatalogsCreateOrUpdateResponse>,
@@ -191,21 +197,20 @@ export class CatalogsImpl implements Catalogs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CatalogsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -214,8 +219,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -223,15 +228,15 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, catalogName, body, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       CatalogsCreateOrUpdateResponse,
@@ -239,7 +244,7 @@ export class CatalogsImpl implements Catalogs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -258,14 +263,14 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     body: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams
+    options?: CatalogsCreateOrUpdateOptionalParams,
   ): Promise<CatalogsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
       catalogName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -283,7 +288,7 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     body: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams
+    options?: CatalogsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CatalogsUpdateResponse>,
@@ -292,21 +297,20 @@ export class CatalogsImpl implements Catalogs {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CatalogsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +319,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,15 +328,15 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, catalogName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       CatalogsUpdateResponse,
@@ -340,7 +344,7 @@ export class CatalogsImpl implements Catalogs {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -359,14 +363,14 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     body: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams
+    options?: CatalogsUpdateOptionalParams,
   ): Promise<CatalogsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       devCenterName,
       catalogName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -382,25 +386,29 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: CatalogsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CatalogsDeleteResponse>,
+      CatalogsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<CatalogsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -409,8 +417,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -418,20 +426,23 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, catalogName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CatalogsDeleteResponse,
+      OperationState<CatalogsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -448,15 +459,34 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams
-  ): Promise<void> {
+    options?: CatalogsDeleteOptionalParams,
+  ): Promise<CatalogsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
       catalogName,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets catalog synchronization error details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  getSyncErrorDetails(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsGetSyncErrorDetailsOptionalParams,
+  ): Promise<CatalogsGetSyncErrorDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, devCenterName, catalogName, options },
+      getSyncErrorDetailsOperationSpec,
+    );
   }
 
   /**
@@ -470,25 +500,26 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: CatalogsSyncOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: CatalogsSyncOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<CatalogsSyncResponse>, CatalogsSyncResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<CatalogsSyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -497,8 +528,8 @@ export class CatalogsImpl implements Catalogs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -506,20 +537,23 @@ export class CatalogsImpl implements Catalogs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, devCenterName, catalogName, options },
-      spec: syncOperationSpec
+      spec: syncOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CatalogsSyncResponse,
+      OperationState<CatalogsSyncResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -536,13 +570,108 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: CatalogsSyncOptionalParams
-  ): Promise<void> {
+    options?: CatalogsSyncOptionalParams,
+  ): Promise<CatalogsSyncResponse> {
     const poller = await this.beginSync(
       resourceGroupName,
       devCenterName,
       catalogName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnect(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CatalogsConnectResponse>,
+      CatalogsConnectResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<CatalogsConnectResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, options },
+      spec: connectOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CatalogsConnectResponse,
+      OperationState<CatalogsConnectResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnectAndWait(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams,
+  ): Promise<CatalogsConnectResponse> {
+    const poller = await this.beginConnect(
+      resourceGroupName,
+      devCenterName,
+      catalogName,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -558,11 +687,11 @@ export class CatalogsImpl implements Catalogs {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: CatalogsListByDevCenterNextOptionalParams
+    options?: CatalogsListByDevCenterNextOptionalParams,
   ): Promise<CatalogsListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec
+      listByDevCenterNextOperationSpec,
     );
   }
 }
@@ -570,38 +699,36 @@ export class CatalogsImpl implements Catalogs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.devCenterName
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -609,31 +736,63 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     201: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     202: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     204: {
-      bodyMapper: Mappers.Catalog
+      bodyMapper: Mappers.Catalog,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Catalog,
+    },
+    201: {
+      bodyMapper: Mappers.Catalog,
+    },
+    202: {
+      bodyMapper: Mappers.Catalog,
+    },
+    204: {
+      bodyMapper: Mappers.Catalog,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -642,58 +801,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Catalog
-    },
-    201: {
-      bodyMapper: Mappers.Catalog
-    },
-    202: {
-      bodyMapper: Mappers.Catalog
-    },
-    204: {
-      bodyMapper: Mappers.Catalog
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.body7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.devCenterName,
-    Parameters.catalogName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.CatalogsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CatalogsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CatalogsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CatalogsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -701,23 +833,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const syncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/sync",
+const getSyncErrorDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/getSyncErrorDetails",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.SyncErrorDetails,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -725,29 +855,91 @@ const syncOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.catalogName
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const syncOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/sync",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.CatalogsSyncHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CatalogsSyncHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CatalogsSyncHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CatalogsSyncHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const connectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/connect",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.CatalogsConnectHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CatalogsConnectHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CatalogsConnectHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CatalogsConnectHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogListResult
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

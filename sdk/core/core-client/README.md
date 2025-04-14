@@ -35,10 +35,6 @@ This method is used to create a `Pipeline` instance that is customized with extr
 
 The method `createSerializer` creates a `Serializer` that is used to do the bulk of the work transforming data when making a request or processing a response. Given a corpus of `Mapper`s and the appropriate `OperationSpec` it can manufacture an HTTP request object from a user provided input or convert an HTTP response object into a user-friendly form.
 
-## Examples
-
-Examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client/samples) folder.
-
 ## Next steps
 
 You can build and run the tests locally by executing `rushx test`. Explore the [test](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client/test) folder to see advanced usage and behavior of the public classes.
@@ -52,5 +48,3 @@ If you run into issues while using this library, please feel free to [file an is
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-client%2FREADME.png)

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Exports the backup of the given server by creating a backup if not existing.
  *
  * @summary Exports the backup of the given server by creating a backup if not existing.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2022-09-30-preview/examples/BackupAndExport.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/BackupAndExport.json
  */
 async function createAndExportBackup() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function createAndExportBackup() {
   const result = await client.backupAndExport.beginCreateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

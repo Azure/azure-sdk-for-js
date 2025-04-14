@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
  *
  * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceDelete.json
  */
-async function nameSpaceDelete() {
+async function nameSpaceDelete(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -30,13 +28,13 @@ async function nameSpaceDelete() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.beginDeleteAndWait(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   );
   console.log(result);
 }
 
-async function main() {
-  nameSpaceDelete();
+async function main(): Promise<void> {
+  await nameSpaceDelete();
 }
 
 main().catch(console.error);

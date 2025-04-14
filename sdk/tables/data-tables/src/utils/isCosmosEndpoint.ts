@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);
@@ -11,7 +11,20 @@ export function isCosmosEndpoint(url: string): boolean {
     return true;
   }
 
-  if (parsedURL.hostname === "localhost" && parsedURL.port !== "10002") {
+  // Azurite emulator IP-style URL for table?
+  if (
+    (parsedURL.hostname === "localhost" || parsedURL.hostname === "127.0.0.1") &&
+    parsedURL.pathname.startsWith("/devstoreaccount1")
+  ) {
+    return false;
+  }
+
+  const azuriteAccounts = process?.env?.AZURITE_ACCOUNTS?.split(":");
+  if (azuriteAccounts?.[0] && parsedURL.hostname.includes(azuriteAccounts[0])) {
+    return false;
+  }
+
+  if (parsedURL.hostname === "localhost") {
     return true;
   }
 

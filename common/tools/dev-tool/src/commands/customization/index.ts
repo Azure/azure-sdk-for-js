@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { subCommand, makeCommandInfo } from "../../framework/command";
 
@@ -7,4 +7,5 @@ export const commandInfo = makeCommandInfo("customization", "applies customizati
 
 export default subCommand(commandInfo, {
   apply: () => import("./apply"),
+  ["apply-v2"]: () => import("./apply-v2"),
 });

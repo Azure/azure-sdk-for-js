@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update a feature registration.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/FeatureRegistration/SubscriptionFeatureRegistrationPUT.json
  */
-async function createsAFeatureRegistration() {
+async function createsAFeatureRegistration(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const providerNamespace = "subscriptionFeatureRegistrationGroupTestRG";
   const featureName = "testFeature";

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationArguments, OperationSpec } from "@azure/core-client";
-import { isNode } from "@azure/core-util";
-import { StorageClient } from "./generated/src";
+import type { OperationArguments, OperationSpec } from "@azure/core-client";
+import { isNodeLike } from "@azure/core-util";
+import { StorageClient } from "./generated/src/index.js";
 
 /**
  * @internal
@@ -11,15 +11,15 @@ import { StorageClient } from "./generated/src";
 export class StorageContextClient extends StorageClient {
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec
+    operationSpec: OperationSpec,
   ): Promise<T> {
     const operationSpecToSend = { ...operationSpec };
 
     if (
-      !isNode &&
+      !isNodeLike &&
       !operationSpec.requestBody &&
       operationSpec.headerParameters?.some(
-        (param) => param.mapper.serializedName === "Content-Length"
+        (param) => param.mapper.serializedName === "Content-Length",
       )
     ) {
       operationSpecToSend.mediaType = "text";

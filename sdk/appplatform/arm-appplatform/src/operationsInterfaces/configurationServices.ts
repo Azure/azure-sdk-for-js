@@ -18,8 +18,10 @@ import {
   ConfigurationServicesDeleteOptionalParams,
   ConfigurationServiceSettings,
   ConfigurationServicesValidateOptionalParams,
-  ConfigurationServicesValidateResponse
-} from "../models";
+  ConfigurationServicesValidateResponse,
+  ConfigurationServicesValidateResourceOptionalParams,
+  ConfigurationServicesValidateResourceResponse
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationServices. */
@@ -154,4 +156,41 @@ export interface ConfigurationServices {
     settings: ConfigurationServiceSettings,
     options?: ConfigurationServicesValidateOptionalParams
   ): Promise<ConfigurationServicesValidateResponse>;
+  /**
+   * Check if the Application Configuration Service resource is valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Application Configuration Service resource to be validated
+   * @param options The options parameters.
+   */
+  beginValidateResource(
+    resourceGroupName: string,
+    serviceName: string,
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesValidateResourceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConfigurationServicesValidateResourceResponse>,
+      ConfigurationServicesValidateResourceResponse
+    >
+  >;
+  /**
+   * Check if the Application Configuration Service resource is valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Application Configuration Service resource to be validated
+   * @param options The options parameters.
+   */
+  beginValidateResourceAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesValidateResourceOptionalParams
+  ): Promise<ConfigurationServicesValidateResourceResponse>;
 }

@@ -10,21 +10,50 @@
 // Licensed under the MIT License.
 const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a monitor resource.
  *
  * @summary Create a monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/Monitors_Create.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_Create.json
  */
 async function monitorsCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
+  const body = {
+    name: "myMonitor",
+    location: "West US",
+    properties: {
+      datadogOrganizationProperties: {
+        name: "myOrg",
+        cspm: false,
+        enterpriseAppId: "00000000-0000-0000-0000-000000000000",
+        id: "myOrg123",
+        linkingAuthCode: "someAuthCode",
+        linkingClientId: "00000000-0000-0000-0000-000000000000",
+      },
+      monitoringStatus: "Enabled",
+      userInfo: {
+        name: "Alice",
+        emailAddress: "alice@microsoft.com",
+        phoneNumber: "123-456-7890",
+      },
+    },
+    sku: { name: "free_Monthly" },
+    tags: { environment: "Dev" },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName);
+  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName, options);
   console.log(result);
 }
 
-monitorsCreate().catch(console.error);
+async function main() {
+  monitorsCreate();
+}
+
+main().catch(console.error);

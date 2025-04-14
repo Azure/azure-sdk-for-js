@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ServiceTagInformation,
-  ServiceTagInformationListOptionalParams
-} from "../models";
+  ServiceTagInformationListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceTagInformationOperations. */
@@ -24,6 +24,6 @@ export interface ServiceTagInformationOperations {
    */
   list(
     location: string,
-    options?: ServiceTagInformationListOptionalParams
+    options?: ServiceTagInformationListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceTagInformation>;
 }

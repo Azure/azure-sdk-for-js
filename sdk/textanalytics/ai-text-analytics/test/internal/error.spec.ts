@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-
-import { makeTextAnalyticsErrorResult } from "../../src/textAnalyticsResult";
+import { makeTextAnalyticsErrorResult } from "../../src/textAnalyticsResult.js";
+import { describe, it, assert } from "vitest";
 
 describe("makeTextAnalyticsErrorResult", function () {
   it("single-layer error is transposed", () => {

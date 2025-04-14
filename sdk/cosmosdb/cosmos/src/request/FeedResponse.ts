@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Constants } from "../common";
-import { CosmosHeaders } from "../queryExecutionContext";
-import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";
-import { CosmosDiagnostics } from "../CosmosDiagnostics";
+// Licensed under the MIT License.
+import { Constants } from "../common/index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
+import {
+  decodeAndParseJSONString,
+  getRequestChargeIfAny,
+} from "../queryExecutionContext/headerUtils.js";
+import type { CosmosDiagnostics } from "../CosmosDiagnostics.js";
 
 export class FeedResponse<TResource> {
   constructor(
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,
     public readonly hasMoreResults: boolean,
-    public readonly diagnostics: CosmosDiagnostics
+    public readonly diagnostics: CosmosDiagnostics,
   ) {}
 
   public get continuation(): string {
@@ -23,17 +26,15 @@ export class FeedResponse<TResource> {
     return this.headers[Constants.HttpHeaders.QueryMetrics];
   }
   public get requestCharge(): number {
-    return this.headers[Constants.HttpHeaders.RequestCharge];
+    return getRequestChargeIfAny(this.headers);
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
   }
+  public get correlatedActivityId(): string {
+    return this.headers[Constants.HttpHeaders.CorrelatedActivityId];
+  }
   public get indexMetrics(): string {
-    const writer = new IndexMetricWriter();
-    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
-      this.headers[Constants.HttpHeaders.IndexUtilization],
-      true
-    );
-    return writer.writeIndexMetrics(indexUtilizationInfo);
+    return decodeAndParseJSONString(this.headers[Constants.HttpHeaders.IndexUtilization]);
   }
 }

@@ -5,17 +5,14 @@
  * @summary Demonstrates how to resume a long running request.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-// import { DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteGetRouteDirectionsBatch200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * With the help from the long running operation poller, we can resume a long running request.
@@ -25,16 +22,16 @@ dotenv.config();
  * But the same approach can be used in:
  *  - "/route/matrix/"
  */
-async function main() {
-  /** Use subscription key authentication */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRoute(credential);
+async function main(): Promise<void> {
+  /** Or use Microsoft Entra ID authentication */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRoute(credential, mapsClientId);
 
-  /** Or use Azure AD authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
-  // const client = new MapsRoute(credential, mapsClientId);
+  /** Use subscription key authentication */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRoute(credential);
 
   const request = createRouteDirectionsBatchRequest([
     {
@@ -71,33 +68,32 @@ async function main() {
     body: request,
   });
 
-  const initialPoller = getLongRunningPoller(client, initialResponse);
+  const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
-  await initialPoller.poll();
   /** Serialized the current operation for future poller */
-  const serializedState = initialPoller.toString();
+  const serializedState = await initialPoller.serialize();
   /** Use the `resumeFrom` option to rehydrate the previous operation */
-  const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-    resumeFrom: serializedState,
+  const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+    restoreFrom: serializedState,
   });
   const {
     body: { summary, batchItems },
   } = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  batchItems.forEach((item, index) => {
+  await batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {
       console.log(`Request ${index} success!`);
-      item.response.routes.forEach(({ summary, legs }) => {
+      item.response.routes.forEach(({ summary: routeSummary, legs }) => {
         console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+          `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
         );
-        legs.forEach(({ summary, points }, idx) => {
+        legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-              summary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
+            } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));
         });

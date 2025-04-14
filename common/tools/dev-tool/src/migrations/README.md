@@ -6,7 +6,7 @@ The simplest migration module is:
 
 ```ts migration-template
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createMigration } from "../util/migrations";
 

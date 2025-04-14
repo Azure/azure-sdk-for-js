@@ -6,25 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VirtualMachineSizes } from "../operationsInterfaces";
+import { VirtualMachineSizes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   VirtualMachineSizesListOptionalParams,
-  VirtualMachineSizesListResponse
-} from "../models";
+  VirtualMachineSizesListResponse,
+} from "../models/index.js";
 
 /** Class containing VirtualMachineSizes operations. */
 export class VirtualMachineSizesImpl implements VirtualMachineSizes {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class VirtualMachineSizes class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -35,11 +35,11 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
    */
   list(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams
+    options?: VirtualMachineSizesListOptionalParams,
   ): Promise<VirtualMachineSizesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -47,23 +47,22 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/vmSizes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/vmSizes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineSizeListResult
+      bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

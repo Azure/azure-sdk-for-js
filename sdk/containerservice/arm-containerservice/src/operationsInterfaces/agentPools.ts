@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   AgentPool,
   AgentPoolsListOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
@@ -21,10 +21,13 @@ import {
   AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
+  AgentPoolDeleteMachinesParameter,
+  AgentPoolsDeleteMachinesOptionalParams,
+  AgentPoolsDeleteMachinesResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsResponse,
-  AgentPoolsUpgradeNodeImageVersionOptionalParams
-} from "../models";
+  AgentPoolsUpgradeNodeImageVersionOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AgentPools. */
@@ -38,7 +41,7 @@ export interface AgentPools {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool>;
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
@@ -53,7 +56,7 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsAbortLatestOperationOptionalParams
+    options?: AgentPoolsAbortLatestOperationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsAbortLatestOperationResponse>,
@@ -73,7 +76,7 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsAbortLatestOperationOptionalParams
+    options?: AgentPoolsAbortLatestOperationOptionalParams,
   ): Promise<AgentPoolsAbortLatestOperationResponse>;
   /**
    * Gets the specified managed cluster agent pool.
@@ -86,7 +89,7 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetOptionalParams
+    options?: AgentPoolsGetOptionalParams,
   ): Promise<AgentPoolsGetResponse>;
   /**
    * Creates or updates an agent pool in the specified managed cluster.
@@ -101,7 +104,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     parameters: AgentPool,
-    options?: AgentPoolsCreateOrUpdateOptionalParams
+    options?: AgentPoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsCreateOrUpdateResponse>,
@@ -121,7 +124,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     parameters: AgentPool,
-    options?: AgentPoolsCreateOrUpdateOptionalParams
+    options?: AgentPoolsCreateOrUpdateOptionalParams,
   ): Promise<AgentPoolsCreateOrUpdateResponse>;
   /**
    * Deletes an agent pool in the specified managed cluster.
@@ -134,13 +137,8 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  >;
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
   /**
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -152,7 +150,7 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
+    options?: AgentPoolsDeleteOptionalParams,
   ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Gets the upgrade profile for an agent pool.
@@ -165,8 +163,43 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetUpgradeProfileOptionalParams
+    options?: AgentPoolsGetUpgradeProfileOptionalParams,
   ): Promise<AgentPoolsGetUpgradeProfileResponse>;
+  /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  beginDeleteMachines(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteMachinesResponse>,
+      AgentPoolsDeleteMachinesResponse
+    >
+  >;
+  /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  beginDeleteMachinesAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<AgentPoolsDeleteMachinesResponse>;
   /**
    * See [supported Kubernetes
    * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about
@@ -178,7 +211,7 @@ export interface AgentPools {
   getAvailableAgentPoolVersions(
     resourceGroupName: string,
     resourceName: string,
-    options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams
+    options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   ): Promise<AgentPoolsGetAvailableAgentPoolVersionsResponse>;
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
@@ -193,7 +226,7 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
+    options?: AgentPoolsUpgradeNodeImageVersionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
@@ -208,6 +241,6 @@ export interface AgentPools {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: AgentPoolsUpgradeNodeImageVersionOptionalParams
+    options?: AgentPoolsUpgradeNodeImageVersionOptionalParams,
   ): Promise<void>;
 }

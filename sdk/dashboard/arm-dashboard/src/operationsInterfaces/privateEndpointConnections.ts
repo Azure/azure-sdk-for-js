@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -15,8 +15,9 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsApproveOptionalParams,
   PrivateEndpointConnectionsApproveResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
-} from "../models";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsDeleteResponse
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
@@ -58,8 +59,8 @@ export interface PrivateEndpointConnections {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsApproveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsApproveResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsApproveResponse>,
       PrivateEndpointConnectionsApproveResponse
     >
   >;
@@ -88,7 +89,12 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsDeleteResponse>,
+      PrivateEndpointConnectionsDeleteResponse
+    >
+  >;
   /**
    * Delete private endpoint connection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -101,5 +107,5 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

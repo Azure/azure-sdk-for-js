@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { SearchServiceClient } from "./searchServiceClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { SearchServiceClient } from "./searchServiceClient.js";
+export * from "./operationsInterfaces/index.js";

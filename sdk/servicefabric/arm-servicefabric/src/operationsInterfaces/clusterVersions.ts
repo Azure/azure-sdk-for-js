@@ -9,14 +9,14 @@
 import {
   ClusterVersionsGetOptionalParams,
   ClusterVersionsGetResponse,
-  Enum14,
+  ClusterVersionsEnvironment,
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetByEnvironmentResponse,
   ClusterVersionsListOptionalParams,
   ClusterVersionsListResponse,
   ClusterVersionsListByEnvironmentOptionalParams,
   ClusterVersionsListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ClusterVersions. */
 export interface ClusterVersions {
@@ -40,7 +40,7 @@ export interface ClusterVersions {
    */
   getByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     clusterVersion: string,
     options?: ClusterVersionsGetByEnvironmentOptionalParams
   ): Promise<ClusterVersionsGetByEnvironmentResponse>;
@@ -61,7 +61,7 @@ export interface ClusterVersions {
    */
   listByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     options?: ClusterVersionsListByEnvironmentOptionalParams
   ): Promise<ClusterVersionsListByEnvironmentResponse>;
 }

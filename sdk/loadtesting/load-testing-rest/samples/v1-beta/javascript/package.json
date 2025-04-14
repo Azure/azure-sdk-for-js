@@ -2,9 +2,9 @@
   "name": "@azure-samples/load-testing-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Load Testing rest client library samples for JavaScript (Beta)",
+  "description": "Azure Load Testing client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,6 @@
   "dependencies": {
     "@azure-rest/load-testing": "next",
     "dotenv": "latest",
-    "@azure/abort-controller": "^1.1.1",
-    "@azure/identity": "^2.0.1",
-    "uuid": "^9.0.0"
+    "@azure/identity": "^4.6.0"
   }
 }

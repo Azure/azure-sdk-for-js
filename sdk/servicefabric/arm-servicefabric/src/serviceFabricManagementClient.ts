@@ -22,7 +22,7 @@ import {
   ApplicationTypeVersionsImpl,
   ApplicationsImpl,
   ServicesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   ClusterVersions,
@@ -31,8 +31,8 @@ import {
   ApplicationTypeVersions,
   Applications,
   Services
-} from "./operationsInterfaces";
-import { ServiceFabricManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceFabricManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceFabricManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -66,7 +66,7 @@ export class ServiceFabricManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-servicefabric/2.1.1`;
+    const packageDetails = `azsdk-js-arm-servicefabric/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

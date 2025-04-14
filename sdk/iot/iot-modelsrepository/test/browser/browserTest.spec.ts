@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { expect } from "chai";
-import { ModelsRepositoryClient } from "../../src";
+import { ModelsRepositoryClient } from "../../src/index.js";
+import { describe, it, expect } from "vitest";
 
 describe("resolver -  browser", () => {
   describe("single resolution (no pseudo-parsing)", () => {
-    it("integration works in browser", async function () {
+    it("integration works in browser", async () => {
       const dtmi: string = "dtmi:azure:DeviceManagement:DeviceInformation;1";
       const endpoint = "https://devicemodels.azure.com";
       const client = new ModelsRepositoryClient({ repositoryLocation: endpoint });
@@ -14,10 +14,10 @@ describe("resolver -  browser", () => {
         dependencyResolution: "tryFromExpanded",
       });
       expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.not.equal(
-        undefined
+        undefined,
       );
       expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]["@id"]).to.equal(
-        "dtmi:azure:DeviceManagement:DeviceInformation;1"
+        "dtmi:azure:DeviceManagement:DeviceInformation;1",
       );
     });
   });

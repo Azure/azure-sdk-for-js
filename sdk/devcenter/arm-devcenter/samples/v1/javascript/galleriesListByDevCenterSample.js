@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists galleries for a devcenter.
  *
  * @summary Lists galleries for a devcenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Galleries_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Galleries_List.json
  */
 async function galleriesListByDevCenter() {
   const subscriptionId =

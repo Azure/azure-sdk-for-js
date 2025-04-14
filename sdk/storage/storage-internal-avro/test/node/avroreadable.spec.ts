@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as fs from "fs";
-import { AbortController } from "@azure/abort-controller";
-import { AvroReadableFromStream } from "../../src";
-import { Readable } from "stream";
-import { assert } from "chai";
+import * as fs from "node:fs";
+import { AvroReadableFromStream } from "../../src/index.js";
+import { Readable } from "node:stream";
+import { describe, it, assert } from "vitest";
 
 describe("AvroReadableFromStream", () => {
   it("read pass end should throw", async () => {
@@ -29,13 +28,12 @@ describe("AvroReadableFromStream", () => {
   });
 
   it("abort read should work", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
     const rfs = new AvroReadableFromStream(delayedReadable);
 
     let AbortErrorCaught = false;
     try {
-      await rfs.read(100000, { abortSignal: AbortController.timeout(1) });
+      await rfs.read(100000, { abortSignal: AbortSignal.timeout(1) });
     } catch (err: any) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;

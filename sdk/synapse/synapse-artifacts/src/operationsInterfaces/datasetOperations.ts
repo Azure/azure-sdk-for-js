@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   DatasetResource,
   DatasetGetDatasetsByWorkspaceOptionalParams,
   DatasetCreateOrUpdateDatasetOptionalParams,
@@ -17,93 +17,92 @@ import {
   DatasetGetDatasetResponse,
   DatasetDeleteDatasetOptionalParams,
   ArtifactRenameRequest,
-  DatasetRenameDatasetOptionalParams
-} from "../models";
+  DatasetRenameDatasetOptionalParams,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatasetOperations. */
 export interface DatasetOperations {
   /**
    * Lists datasets.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listDatasetsByWorkspace(
-    options?: DatasetGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DatasetResource>;
   /**
    * Creates or updates a dataset.
-   * @param datasetName The dataset name.
-   * @param dataset Dataset resource definition.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param dataset - Dataset resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatasetCreateOrUpdateDatasetResponse>,
+    SimplePollerLike<
+      OperationState<DatasetCreateOrUpdateDatasetResponse>,
       DatasetCreateOrUpdateDatasetResponse
     >
   >;
   /**
    * Creates or updates a dataset.
-   * @param datasetName The dataset name.
-   * @param dataset Dataset resource definition.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param dataset - Dataset resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateDatasetAndWait(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams,
   ): Promise<DatasetCreateOrUpdateDatasetResponse>;
   /**
    * Gets a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   getDataset(
     datasetName: string,
-    options?: DatasetGetDatasetOptionalParams
+    options?: DatasetGetDatasetOptionalParams,
   ): Promise<DatasetGetDatasetResponse>;
   /**
    * Deletes a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   beginDeleteDataset(
     datasetName: string,
-    options?: DatasetDeleteDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DatasetDeleteDatasetOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a dataset.
-   * @param datasetName The dataset name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param options - The options parameters.
    */
   beginDeleteDatasetAndWait(
     datasetName: string,
-    options?: DatasetDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams,
   ): Promise<void>;
   /**
    * Renames a dataset.
-   * @param datasetName The dataset name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameDataset(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetRenameDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DatasetRenameDatasetOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataset.
-   * @param datasetName The dataset name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param datasetName - The dataset name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameDatasetAndWait(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams,
   ): Promise<void>;
 }

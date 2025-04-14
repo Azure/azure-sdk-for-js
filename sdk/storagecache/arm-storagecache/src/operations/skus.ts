@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Skus } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Skus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageCacheManagementClient } from "../storageCacheManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageCacheManagementClient } from "../storageCacheManagementClient.js";
 import {
   ResourceSku,
   SkusListNextOptionalParams,
   SkusListOptionalParams,
   SkusListResponse,
-  SkusListNextResponse
-} from "../models";
+  SkusListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Skus operations. */
@@ -39,7 +39,7 @@ export class SkusImpl implements Skus {
    * @param options The options parameters.
    */
   public list(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSku[]> {
     let result: SkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class SkusImpl implements Skus {
   }
 
   private async *listPagingAll(
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): AsyncIterableIterator<ResourceSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class SkusImpl implements Skus {
    */
   private _listNext(
     nextLink: string,
-    options?: SkusListNextOptionalParams
+    options?: SkusListNextOptionalParams,
   ): Promise<SkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -119,33 +119,33 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

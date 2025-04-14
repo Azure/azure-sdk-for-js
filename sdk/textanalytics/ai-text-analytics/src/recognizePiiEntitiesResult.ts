@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
+import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import { Entity, PiiDocumentEntities, TextAnalyticsError } from "./generated/models";
+} from "./textAnalyticsResult.js";
+import type { Entity, PiiDocumentEntities, TextAnalyticsError } from "./generated/models/index.js";
 
 /**
  * An entity from PII recognition with information about the kind of PII
@@ -46,7 +48,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeRecognizePiiEntitiesResult(
-  document: PiiDocumentEntities
+  document: PiiDocumentEntities,
 ): RecognizePiiEntitiesSuccessResult {
   const { id, entities, warnings, statistics, redactedText } = document;
   return {
@@ -61,7 +63,7 @@ export function makeRecognizePiiEntitiesResult(
  */
 export function makeRecognizePiiEntitiesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): RecognizePiiEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

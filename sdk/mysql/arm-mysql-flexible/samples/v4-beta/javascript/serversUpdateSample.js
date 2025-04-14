@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdate.json
  */
 async function updateAServer() {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function updateAServer() {
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const parameters = {
+    network: { publicNetworkAccess: "Disabled" },
     storage: {
       autoGrow: "Disabled",
       autoIoScaling: "Disabled",
@@ -41,7 +42,7 @@ async function updateAServer() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerUpdateWithCustomerMaintenanceWindow.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
 async function updateServerCustomerMaintenanceWindow() {
   const subscriptionId =
@@ -66,7 +67,7 @@ async function updateServerCustomerMaintenanceWindow() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerUpdateWithBYOK.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerUpdateWithBYOK.json
  */
 async function updateServerWithByok() {
   const subscriptionId =

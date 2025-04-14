@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import { BlobImmutabilityPolicyMode } from "./generatedModels";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
+import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
+import type {
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
   AccessTier,
   CpkInfo,
   BlobDownloadResponseModel,
-} from "./generatedModels";
-import { EncryptionAlgorithmAES25 } from "./utils/constants";
+} from "./generatedModels.js";
+import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
 
 /**
  * Blob tags.
@@ -103,7 +103,7 @@ export interface ContainerRequestConditions extends LeaseAccessConditions, Modif
 
 /**
  * Represents the access tier on a blob.
- * For detailed information about block blob level tiering see {@link https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
+ * For detailed information about block blob level tiering see {@link https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
  */
 export enum BlockBlobTier {
   /**
@@ -127,7 +127,7 @@ export enum BlockBlobTier {
 
 /**
  * Specifies the page blob tier to set the blob to. This is only applicable to page blobs on premium storage accounts.
- * Please see {@link https://docs.microsoft.com/azure/storage/storage-premium-storage#scalability-and-performance-targets|here}
+ * Please see {@link https://learn.microsoft.com/azure/storage/storage-premium-storage#scalability-and-performance-targets|here}
  * for detailed information on the corresponding IOPS and throughput per PageBlobTier.
  */
 export enum PremiumPageBlobTier {
@@ -178,7 +178,7 @@ export enum PremiumPageBlobTier {
 }
 
 export function toAccessTier(
-  tier: BlockBlobTier | PremiumPageBlobTier | string | undefined
+  tier: BlockBlobTier | PremiumPageBlobTier | string | undefined,
 ): AccessTier | undefined {
   if (tier === undefined) {
     return undefined;
@@ -330,6 +330,14 @@ export enum StorageBlobAudience {
    * The OAuth scope to use to retrieve an AAD token for Azure Disk.
    */
   DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
+}
+
+/**
+ *
+ * To get OAuth audience for a storage account for blob service.
+ */
+export function getBlobServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.blob.core.windows.net/.default`;
 }
 
 /**

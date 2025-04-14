@@ -4,16 +4,18 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
-import { CommonClientOptions } from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AlphaIdConfiguration {
-    enabled: boolean;
+export interface AlphaId {
+    countryCode?: string;
+    purchaseDate?: Date;
+    value?: string;
 }
 
 // @public (undocumented)
@@ -22,9 +24,15 @@ export class AlphaIdsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: AlphaIdsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: AlphaIdsClientOptions);
     // (undocumented)
-    getConfiguration(options?: GetConfigurationOptions): Promise<AlphaIdConfiguration>;
+    getAlphaIds(options?: ListAlphaIdsOptions): PagedAsyncIterableIterator<AlphaId>;
     // (undocumented)
-    upsertConfiguration(enabled: boolean, options?: UpsertConfigurationOptions): Promise<AlphaIdConfiguration>;
+    getDynamicAlphaIdConfiguration(options?: GetConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
+    // (undocumented)
+    getDynamicAlphaIdCountries(options?: GetDynamicAlphaIdCountriesOptions): Promise<SupportedCountries>;
+    // (undocumented)
+    getPreRegisteredAlphaIdCountries(options?: GetPreRegisteredAlphaIdCountriesOptions): Promise<SupportedCountries>;
+    // (undocumented)
+    upsertDynamicAlphaIdConfiguration(enabled: boolean, options?: UpsertConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
 }
 
 // @public
@@ -32,7 +40,43 @@ export interface AlphaIdsClientOptions extends CommonClientOptions {
 }
 
 // @public
+export interface AlphaIdsGetAlphaIdsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface AlphaIdsGetDynamicAlphaIdCountriesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DynamicAlphaIdConfiguration {
+    enabled: boolean;
+}
+
+// @public
 export interface GetConfigurationOptions extends OperationOptions {
+}
+
+// @public
+export interface GetDynamicAlphaIdCountriesOptions extends AlphaIdsGetDynamicAlphaIdCountriesOptionalParams {
+}
+
+// @public
+export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams {
+}
+
+// @public
+export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams {
+}
+
+// @public
+export interface SupportedCountries {
+    countries?: string[];
 }
 
 // @public

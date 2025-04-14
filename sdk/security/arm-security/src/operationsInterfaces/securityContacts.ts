@@ -10,12 +10,13 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecurityContact,
   SecurityContactsListOptionalParams,
+  SecurityContactName,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
-  SecurityContactsDeleteOptionalParams
-} from "../models";
+  SecurityContactsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityContacts. */
@@ -25,7 +26,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   list(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityContact>;
   /**
    * Get Default Security contact configurations for the subscription
@@ -33,8 +34,8 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   get(
-    securityContactName: string,
-    options?: SecurityContactsGetOptionalParams
+    securityContactName: SecurityContactName,
+    options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse>;
   /**
    * Create security contact configurations for the subscription
@@ -43,9 +44,9 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   create(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     securityContact: SecurityContact,
-    options?: SecurityContactsCreateOptionalParams
+    options?: SecurityContactsCreateOptionalParams,
   ): Promise<SecurityContactsCreateResponse>;
   /**
    * Delete security contact configurations for the subscription
@@ -53,7 +54,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   delete(
-    securityContactName: string,
-    options?: SecurityContactsDeleteOptionalParams
+    securityContactName: SecurityContactName,
+    options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void>;
 }

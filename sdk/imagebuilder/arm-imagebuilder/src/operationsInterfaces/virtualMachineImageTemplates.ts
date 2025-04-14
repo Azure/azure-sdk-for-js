@@ -22,11 +22,12 @@ import {
   VirtualMachineImageTemplatesGetOptionalParams,
   VirtualMachineImageTemplatesGetResponse,
   VirtualMachineImageTemplatesDeleteOptionalParams,
+  VirtualMachineImageTemplatesDeleteResponse,
   VirtualMachineImageTemplatesRunOptionalParams,
   VirtualMachineImageTemplatesCancelOptionalParams,
   VirtualMachineImageTemplatesGetRunOutputOptionalParams,
-  VirtualMachineImageTemplatesGetRunOutputResponse
-} from "../models";
+  VirtualMachineImageTemplatesGetRunOutputResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineImageTemplates. */
@@ -36,7 +37,7 @@ export interface VirtualMachineImageTemplates {
    * @param options The options parameters.
    */
   list(
-    options?: VirtualMachineImageTemplatesListOptionalParams
+    options?: VirtualMachineImageTemplatesListOptionalParams,
   ): PagedAsyncIterableIterator<ImageTemplate>;
   /**
    * Gets information about the VM image templates associated with the specified resource group.
@@ -45,7 +46,7 @@ export interface VirtualMachineImageTemplates {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ImageTemplate>;
   /**
    * List all run outputs for the specified Image Template resource
@@ -56,7 +57,7 @@ export interface VirtualMachineImageTemplates {
   listRunOutputs(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams
+    options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams,
   ): PagedAsyncIterableIterator<RunOutput>;
   /**
    * Create or update a virtual machine image template
@@ -69,7 +70,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     parameters: ImageTemplate,
-    options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams
+    options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
@@ -87,7 +88,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     parameters: ImageTemplate,
-    options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams
+    options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineImageTemplatesCreateOrUpdateResponse>;
   /**
    * Update the tags for this Virtual Machine Image Template
@@ -100,7 +101,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     parameters: ImageTemplateUpdateParameters,
-    options?: VirtualMachineImageTemplatesUpdateOptionalParams
+    options?: VirtualMachineImageTemplatesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineImageTemplatesUpdateResponse>,
@@ -118,7 +119,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     parameters: ImageTemplateUpdateParameters,
-    options?: VirtualMachineImageTemplatesUpdateOptionalParams
+    options?: VirtualMachineImageTemplatesUpdateOptionalParams,
   ): Promise<VirtualMachineImageTemplatesUpdateResponse>;
   /**
    * Get information about a virtual machine image template
@@ -129,7 +130,7 @@ export interface VirtualMachineImageTemplates {
   get(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesGetOptionalParams
+    options?: VirtualMachineImageTemplatesGetOptionalParams,
   ): Promise<VirtualMachineImageTemplatesGetResponse>;
   /**
    * Delete a virtual machine image template
@@ -140,8 +141,13 @@ export interface VirtualMachineImageTemplates {
   beginDelete(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: VirtualMachineImageTemplatesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesDeleteResponse>,
+      VirtualMachineImageTemplatesDeleteResponse
+    >
+  >;
   /**
    * Delete a virtual machine image template
    * @param resourceGroupName The name of the resource group.
@@ -151,8 +157,8 @@ export interface VirtualMachineImageTemplates {
   beginDeleteAndWait(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<void>;
+    options?: VirtualMachineImageTemplatesDeleteOptionalParams,
+  ): Promise<VirtualMachineImageTemplatesDeleteResponse>;
   /**
    * Create artifacts from a existing image template
    * @param resourceGroupName The name of the resource group.
@@ -162,7 +168,7 @@ export interface VirtualMachineImageTemplates {
   beginRun(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesRunOptionalParams
+    options?: VirtualMachineImageTemplatesRunOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Create artifacts from a existing image template
@@ -173,7 +179,7 @@ export interface VirtualMachineImageTemplates {
   beginRunAndWait(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesRunOptionalParams
+    options?: VirtualMachineImageTemplatesRunOptionalParams,
   ): Promise<void>;
   /**
    * Cancel the long running image build based on the image template
@@ -184,7 +190,7 @@ export interface VirtualMachineImageTemplates {
   beginCancel(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesCancelOptionalParams
+    options?: VirtualMachineImageTemplatesCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancel the long running image build based on the image template
@@ -195,7 +201,7 @@ export interface VirtualMachineImageTemplates {
   beginCancelAndWait(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesCancelOptionalParams
+    options?: VirtualMachineImageTemplatesCancelOptionalParams,
   ): Promise<void>;
   /**
    * Get the specified run output for the specified image template resource
@@ -208,6 +214,6 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     runOutputName: string,
-    options?: VirtualMachineImageTemplatesGetRunOutputOptionalParams
+    options?: VirtualMachineImageTemplatesGetRunOutputOptionalParams,
   ): Promise<VirtualMachineImageTemplatesGetRunOutputResponse>;
 }

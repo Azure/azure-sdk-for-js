@@ -11,8 +11,8 @@ import {
   RegulatoryComplianceAssessment,
   RegulatoryComplianceAssessmentsListOptionalParams,
   RegulatoryComplianceAssessmentsGetOptionalParams,
-  RegulatoryComplianceAssessmentsGetResponse
-} from "../models";
+  RegulatoryComplianceAssessmentsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegulatoryComplianceAssessments. */
@@ -26,7 +26,7 @@ export interface RegulatoryComplianceAssessments {
   list(
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
-    options?: RegulatoryComplianceAssessmentsListOptionalParams
+    options?: RegulatoryComplianceAssessmentsListOptionalParams,
   ): PagedAsyncIterableIterator<RegulatoryComplianceAssessment>;
   /**
    * Supported regulatory compliance details and state for selected assessment
@@ -39,6 +39,6 @@ export interface RegulatoryComplianceAssessments {
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
     regulatoryComplianceAssessmentName: string,
-    options?: RegulatoryComplianceAssessmentsGetOptionalParams
+    options?: RegulatoryComplianceAssessmentsGetOptionalParams,
   ): Promise<RegulatoryComplianceAssessmentsGetResponse>;
 }

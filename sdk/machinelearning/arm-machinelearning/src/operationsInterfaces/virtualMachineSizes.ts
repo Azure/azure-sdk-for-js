@@ -8,8 +8,8 @@
 
 import {
   VirtualMachineSizesListOptionalParams,
-  VirtualMachineSizesListResponse
-} from "../models";
+  VirtualMachineSizesListResponse,
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachineSizes. */
 export interface VirtualMachineSizes {
@@ -20,6 +20,6 @@ export interface VirtualMachineSizes {
    */
   list(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams
+    options?: VirtualMachineSizesListOptionalParams,
   ): Promise<VirtualMachineSizesListResponse>;
 }

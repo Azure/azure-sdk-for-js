@@ -8,8 +8,8 @@
 
 import {
   ServiceAssociationLinksListOptionalParams,
-  ServiceAssociationLinksListResponse
-} from "../models";
+  ServiceAssociationLinksListResponse,
+} from "../models/index.js";
 
 /** Interface representing a ServiceAssociationLinks. */
 export interface ServiceAssociationLinks {
@@ -24,6 +24,6 @@ export interface ServiceAssociationLinks {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: ServiceAssociationLinksListOptionalParams
+    options?: ServiceAssociationLinksListOptionalParams,
   ): Promise<ServiceAssociationLinksListResponse>;
 }

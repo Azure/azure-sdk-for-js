@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { env } from "./env";
+// Licensed under the MIT License.
+
+import { env } from "./env.js";
+
 /**
  * A custom error type for failed pipeline requests.
  */
 export class RecorderError extends Error {
-  constructor(message: string, public statusCode?: number) {
+  constructor(
+    message: string,
+    public statusCode?: number,
+  ) {
     super(message);
     this.name = "RecorderError";
     this.statusCode = statusCode;
@@ -22,7 +27,7 @@ export class RecordingStateManager {
   /**
    * validateState
    */
-  private validateState(nextState: RecordingState) {
+  private validateState(nextState: RecordingState): void {
     if (nextState === "started") {
       if (this.state === "started") {
         throw new RecorderError("Already started, should not have called start again.");
@@ -128,7 +133,7 @@ export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is
  *
  * If the body is NOT a JSON object, this sanitizer will NOT be applied.
  */
-type BodyKeySanitizer = {
+export type BodyKeySanitizer = {
   regex?: string;
 
   value?: string;
@@ -289,6 +294,19 @@ export interface RecorderStartOptions {
    * Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
    */
   sanitizerOptions?: SanitizerOptions;
+  /**
+   * When a service uses a custom SSL certificate to communicate with the client.
+   */
+  tlsValidationCert?: string;
+  /**
+   * Central test-proxy sanitizers to be disabled
+   *
+   * More info:
+   *
+   *  https://github.com/Azure/azure-sdk-tools/pull/8142/
+   *  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+   */
+  removeCentralSanitizers?: string[];
 }
 
 /**
@@ -299,7 +317,7 @@ export interface RecorderStartOptions {
 export function ensureExistence<T>(thing: T | undefined, label: string): thing is T {
   if (!thing) {
     throw new RecorderError(
-      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`
+      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`,
     );
   }
   return true; // Since we would throw error if undefined
@@ -325,15 +343,15 @@ export const once = <T>(make: () => T): (() => T) => {
   return () => (value = value ?? make());
 };
 
-export function isRecordMode() {
+export function isRecordMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "record";
 }
 
-export function isLiveMode() {
+export function isLiveMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "live";
 }
 
-export function isPlaybackMode() {
+export function isPlaybackMode(): boolean {
   return !isRecordMode() && !isLiveMode();
 }
 
@@ -345,7 +363,7 @@ export function isPlaybackMode() {
  * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
  * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
  */
-export function setEnvironmentVariables(variables: { [key: string]: string }) {
+export function setEnvironmentVariables(variables: { [key: string]: string }): void {
   for (const [key, value] of Object.entries(variables)) {
     env[key] = value;
   }
@@ -359,3 +377,10 @@ export function assertEnvironmentVariable(variable: string): string {
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
 }
+
+/**
+ * Polling options that don't wait in playback mode.
+ */
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};

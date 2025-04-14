@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  LoadBalancersCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { LoadBalancersCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreate.json
  */
-async function createLoadBalancer() {
+async function createLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -101,7 +94,7 @@ async function createLoadBalancer() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -116,7 +109,7 @@ createLoadBalancer().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithZones.json
  */
-async function createLoadBalancerWithFrontendIPInZone1() {
+async function createLoadBalancerWithFrontendIPInZone1(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -200,7 +193,7 @@ async function createLoadBalancerWithFrontendIPInZone1() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -215,7 +208,7 @@ createLoadBalancerWithFrontendIPInZone1().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
+async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -301,7 +294,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -316,7 +309,7 @@ createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(console.erro
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
+async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -406,7 +399,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -415,7 +408,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
 }
 
 createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -423,7 +416,7 @@ createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool().
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
+async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -500,7 +493,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -509,7 +502,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
 }
 
 createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -517,7 +510,7 @@ createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool().
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGlobalTier.json
  */
-async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
+async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -599,7 +592,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -614,7 +607,7 @@ createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().cat
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateStandardSku.json
  */
-async function createLoadBalancerWithStandardSku() {
+async function createLoadBalancerWithStandardSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -697,7 +690,7 @@ async function createLoadBalancerWithStandardSku() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -712,7 +705,7 @@ createLoadBalancerWithStandardSku().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithInboundNatPool.json
  */
-async function createLoadBalancerWithInboundNatPool() {
+async function createLoadBalancerWithInboundNatPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -768,7 +761,7 @@ async function createLoadBalancerWithInboundNatPool() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -783,7 +776,7 @@ createLoadBalancerWithInboundNatPool().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithOutboundRules.json
  */
-async function createLoadBalancerWithOutboundRules() {
+async function createLoadBalancerWithOutboundRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -882,7 +875,7 @@ async function createLoadBalancerWithOutboundRules() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

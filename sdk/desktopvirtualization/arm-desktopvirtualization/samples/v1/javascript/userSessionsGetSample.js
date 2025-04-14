@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a userSession.
  *
  * @summary Get a userSession.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/UserSession_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/UserSession_Get.json
  */
 async function userSessionGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function userSessionGet() {
     resourceGroupName,
     hostPoolName,
     sessionHostName,
-    userSessionId
+    userSessionId,
   );
   console.log(result);
 }

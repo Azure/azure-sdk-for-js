@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models.js";
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
@@ -39,7 +39,7 @@ export interface DeviceUpdateGetUpdateHeaders {
 }
 
 export interface DeviceUpdateGetUpdateHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
+  headers?: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
 }
 
 export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam & RequestParameters;
@@ -66,7 +66,7 @@ export interface DeviceUpdateGetFileHeaders {
 }
 
 export interface DeviceUpdateGetFileHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
+  headers?: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
 }
 
 export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
@@ -91,7 +91,7 @@ export interface DeviceUpdateGetOperationStatusHeaders {
 }
 
 export interface DeviceUpdateGetOperationStatusHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetOperationStatusHeaders;
+  headers?: RawHttpHeadersInput & DeviceUpdateGetOperationStatusHeaders;
 }
 
 export type DeviceUpdateGetOperationStatusParameters = DeviceUpdateGetOperationStatusHeaderParam &
@@ -109,10 +109,12 @@ export interface DeviceManagementListDeviceClassesQueryParam {
 export type DeviceManagementListDeviceClassesParameters =
   DeviceManagementListDeviceClassesQueryParam & RequestParameters;
 export type DeviceManagementGetDeviceClassParameters = RequestParameters;
+/** The device class json merge patch body. Currently only supports patching friendlyName. */
+export type PatchBodyResourceMergeAndPatch = Partial<PatchBody>;
 
 export interface DeviceManagementUpdateDeviceClassBodyParam {
   /** The device class json merge patch body. Currently only supports patching friendlyName. */
-  body: PatchBody;
+  body: PatchBodyResourceMergeAndPatch;
 }
 
 export interface DeviceManagementUpdateDeviceClassMediaTypesParam {
@@ -253,7 +255,7 @@ export interface DeviceManagementGetOperationStatusHeaders {
 }
 
 export interface DeviceManagementGetOperationStatusHeaderParam {
-  headers: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
+  headers?: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
 }
 
 export type DeviceManagementGetOperationStatusParameters =

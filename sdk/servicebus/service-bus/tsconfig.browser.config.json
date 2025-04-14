@@ -1,0 +1,9 @@
+{
+  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
+  "exclude": [
+    "${configDir}/test/**/node",
+    "${configDir}/test/stress",
+    "${configDir}/test/snippets.spec.ts",
+    "${configDir}/test/internal/connectionManagement.spec.ts"
+  ]
+}

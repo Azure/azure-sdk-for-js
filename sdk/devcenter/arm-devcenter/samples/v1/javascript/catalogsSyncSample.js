@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Syncs templates for a template source.
  *
  * @summary Syncs templates for a template source.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_Sync.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_Sync.json
  */
 async function catalogsSync() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function catalogsSync() {
   const result = await client.catalogs.beginSyncAndWait(
     resourceGroupName,
     devCenterName,
-    catalogName
+    catalogName,
   );
   console.log(result);
 }

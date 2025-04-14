@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { SharedOptions } from "./SharedOptions";
+// Licensed under the MIT License.
+import type { PartitionKey } from "../documents/index.js";
+import type { SharedOptions } from "./SharedOptions.js";
 
 /**
  * The feed options and query methods.
@@ -48,6 +49,18 @@ export interface FeedOptions extends SharedOptions {
    * Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. Default: false
    */
   useIncrementalFeed?: boolean;
+  /**
+   * @internal
+   * Indicates a change feed request in latestVersion mode.
+   * Note: Not to be used directly. Use `ChangeFeedMode` instead to set the mode.
+   */
+  useLatestVersionFeed?: boolean;
+  /**
+   * @internal
+   * Indicates a change feed request in allVersionsAndDelete mode. Default false.
+   * Note: Not to be used directly. Use `ChangeFeedMode` instead to set the mode.
+   */
+  useAllVersionsAndDeletesFeed?: boolean;
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */
@@ -95,9 +108,36 @@ export interface FeedOptions extends SharedOptions {
    * The former is useful when the query body is out of your control
    * but you still want to restrict it to a single partition. Example: an end user specified query.
    */
-  partitionKey?: any;
+  partitionKey?: PartitionKey;
   /**
    * Enable returning index metrics in response headers. Default: false
    */
   populateIndexMetrics?: boolean;
+  /**
+   * Specifies a custom maximum buffer size for storing final results for nonStreamingOrderBy queries.
+   * This value is ignored if the query includes top/offset+limit clauses.
+   */
+  vectorSearchBufferSize?: number;
+  /**
+   * Disable the nonStreamingOrderBy query feature in supported query features.
+   * Default: false. Set to true to avoid error from an old gateway that doesn't support this feature.
+   */
+  disableNonStreamingOrderByQuery?: boolean;
+  /**
+   * Valid only for non streaming order by query.
+   * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
+   */
+  allowUnboundedNonStreamingQueries?: boolean;
+
+  /**
+   * Controls query execution behavior.
+   * Default: false. If set to false, the query will retry until results are ready and `maxItemCount` is reached, which can take time for large partitions with relatively small data.
+   * If set to true, scans partitions up to `maxDegreeOfParallelism`, adds results to the buffer, and returns what is available. If results are not ready, it returns an empty response.
+   */
+  enableQueryControl?: boolean;
+  /**
+   * @internal
+   * rid of the container.
+   */
+  containerRid?: string;
 }

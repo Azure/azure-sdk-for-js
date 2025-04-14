@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-
-import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray";
-import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray";
-import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray";
-import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray";
-import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray";
-import { DetectLanguageInput, TextDocumentInput } from "../../src";
-import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray";
+import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray.js";
+import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray.js";
+import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray.js";
+import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray.js";
+import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray.js";
+import type { DetectLanguageInput, TextDocumentInput } from "../../src/index.js";
+import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray.js";
+import { describe, it, assert } from "vitest";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {

@@ -14,6 +14,33 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export type AggregationType = string;
+
+// @public
+export interface AutomatedCheckResult {
+    result?: string;
+    status?: string;
+    type?: AutomatedCheckResultType;
+    version?: string;
+}
+
+// @public
+export type AutomatedCheckResultType = string;
+
+// @public
+export interface CheckNameAvailability {
+    checkAvailability(scope: string, options?: CheckNameAvailabilityCheckAvailabilityOptionalParams): Promise<CheckNameAvailabilityCheckAvailabilityResponse>;
+}
+
+// @public
+export interface CheckNameAvailabilityCheckAvailabilityOptionalParams extends coreClient.OperationOptions {
+    checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
+}
+
+// @public
+export type CheckNameAvailabilityCheckAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
 export interface CheckNameAvailabilityRequest {
     name?: string;
     type?: string;
@@ -24,6 +51,23 @@ export interface CheckNameAvailabilityResponse {
     message?: string;
     nameAvailable?: boolean;
     reason?: string;
+}
+
+// @public
+export interface ClassificationService {
+    readonly displayName?: string;
+    resourceTypes?: string[];
+    readonly serviceId?: string;
+}
+
+// @public
+export type Confidence = string;
+
+// @public
+export interface ContinueRequestBody {
+    // (undocumented)
+    responses?: TroubleshooterResponse[];
+    stepId?: string;
 }
 
 // @public
@@ -46,6 +90,9 @@ export interface DiagnosticInvocation {
 }
 
 // @public
+export type DiagnosticProvisioningState = string;
+
+// @public
 export interface DiagnosticResource extends ProxyResource {
     readonly acceptedAt?: string;
     readonly diagnostics?: Diagnostic[];
@@ -53,24 +100,15 @@ export interface DiagnosticResource extends ProxyResource {
         [propertyName: string]: string;
     };
     insights?: DiagnosticInvocation[];
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: DiagnosticProvisioningState;
 }
 
 // @public
 export interface Diagnostics {
     beginCreate(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsCreateResponse>, DiagnosticsCreateResponse>>;
     beginCreateAndWait(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<DiagnosticsCreateResponse>;
-    checkNameAvailability(scope: string, options?: DiagnosticsCheckNameAvailabilityOptionalParams): Promise<DiagnosticsCheckNameAvailabilityResponse>;
     get(scope: string, diagnosticsResourceName: string, options?: DiagnosticsGetOptionalParams): Promise<DiagnosticsGetResponse>;
 }
-
-// @public
-export interface DiagnosticsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-    checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
-}
-
-// @public
-export type DiagnosticsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface DiagnosticsCreateOptionalParams extends coreClient.OperationOptions {
@@ -90,6 +128,19 @@ export interface DiagnosticsGetOptionalParams extends coreClient.OperationOption
 export type DiagnosticsGetResponse = DiagnosticResource;
 
 // @public
+export interface DiscoveryNlpRequest {
+    additionalContext?: string;
+    issueSummary: string;
+    resourceId?: string;
+    serviceId?: string;
+}
+
+// @public
+export interface DiscoveryNlpResponse {
+    value?: SolutionNlpMetadataResource[];
+}
+
+// @public
 export interface DiscoveryResponse {
     nextLink?: string;
     value?: SolutionMetadataResource[];
@@ -97,7 +148,7 @@ export interface DiscoveryResponse {
 
 // @public
 export interface DiscoverySolution {
-    list(scope: string, options?: DiscoverySolutionListOptionalParams): PagedAsyncIterableIterator<SolutionMetadataResource>;
+    list(options?: DiscoverySolutionListOptionalParams): PagedAsyncIterableIterator<SolutionMetadataResource>;
 }
 
 // @public
@@ -115,6 +166,28 @@ export interface DiscoverySolutionListOptionalParams extends coreClient.Operatio
 
 // @public
 export type DiscoverySolutionListResponse = DiscoveryResponse;
+
+// @public
+export interface DiscoverySolutionNLP {
+    discoverSolutions(options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse>;
+    discoverSolutionsBySubscription(subscriptionId: string, options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse>;
+}
+
+// @public
+export interface DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    discoverSolutionRequest?: DiscoveryNlpRequest;
+}
+
+// @public
+export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse = DiscoveryNlpResponse;
+
+// @public
+export interface DiscoverySolutionNLPDiscoverSolutionsOptionalParams extends coreClient.OperationOptions {
+    discoverSolutionRequest?: DiscoveryNlpRequest;
+}
+
+// @public
+export type DiscoverySolutionNLPDiscoverSolutionsResponse = DiscoveryNlpResponse;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -145,6 +218,21 @@ export interface ErrorResponse {
 }
 
 // @public
+export type ExecutionStatus = string;
+
+// @public
+export interface Filter {
+    name?: string;
+    operator?: string;
+    values?: string;
+}
+
+// @public
+export interface FilterGroup {
+    filter?: Filter[];
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
@@ -155,11 +243,23 @@ export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    checkNameAvailability: CheckNameAvailability;
+    // (undocumented)
     diagnostics: Diagnostics;
     // (undocumented)
     discoverySolution: DiscoverySolution;
     // (undocumented)
+    discoverySolutionNLP: DiscoverySolutionNLP;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    simplifiedSolutions: SimplifiedSolutions;
+    // (undocumented)
+    solution: Solution;
+    // (undocumented)
+    solutionSelfHelp: SolutionSelfHelp;
+    // (undocumented)
+    troubleshooters: Troubleshooters;
 }
 
 // @public
@@ -186,11 +286,52 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAggregationType {
+    Avg = "Avg",
+    Count = "Count",
+    Max = "Max",
+    Min = "Min",
+    Sum = "Sum"
+}
+
+// @public
+export enum KnownAutomatedCheckResultType {
+    Error = "Error",
+    Information = "Information",
+    Success = "Success",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownConfidence {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDiagnosticProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    PartialComplete = "PartialComplete",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownExecutionStatus {
+    Failed = "Failed",
+    Running = "Running",
+    Success = "Success",
+    Warning = "Warning"
 }
 
 // @public
@@ -201,6 +342,13 @@ export enum KnownImportanceLevel {
 }
 
 // @public
+export enum KnownName {
+    ProblemClassificationId = "ProblemClassificationId",
+    ReplacementKey = "ReplacementKey",
+    SolutionId = "SolutionId"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -208,11 +356,43 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownProvisioningState {
+export enum KnownQuestionContentType {
+    Html = "Html",
+    Markdown = "Markdown",
+    Text = "Text"
+}
+
+// @public
+export enum KnownQuestionType {
+    DateTimePicker = "DateTimePicker",
+    Dropdown = "Dropdown",
+    MultiLineInfoBox = "MultiLineInfoBox",
+    MultiSelect = "MultiSelect",
+    RadioButton = "RadioButton",
+    TextInput = "TextInput"
+}
+
+// @public
+export enum KnownResultType {
+    Community = "Community",
+    Documentation = "Documentation"
+}
+
+// @public
+export enum KnownSolutionProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
     PartialComplete = "PartialComplete",
+    Running = "Running",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownSolutionType {
+    Diagnostics = "Diagnostics",
+    SelfHelp = "SelfHelp",
+    Solutions = "Solutions",
+    Troubleshooters = "Troubleshooters"
 }
 
 // @public
@@ -223,6 +403,46 @@ export enum KnownStatus {
     Succeeded = "Succeeded",
     Timeout = "Timeout"
 }
+
+// @public
+export enum KnownTroubleshooterProvisioningState {
+    AutoContinue = "AutoContinue",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownType {
+    AutomatedCheck = "AutomatedCheck",
+    Decision = "Decision",
+    Input = "Input",
+    Insight = "Insight",
+    Solution = "Solution"
+}
+
+// @public
+export enum KnownValidationScope {
+    GuidFormat = "GuidFormat",
+    IpAddressFormat = "IpAddressFormat",
+    None = "None",
+    NumberOnlyFormat = "NumberOnlyFormat",
+    URLFormat = "URLFormat"
+}
+
+// @public
+export interface MetricsBasedChart {
+    aggregationType?: AggregationType;
+    filterGroup?: FilterGroup;
+    name?: string;
+    replacementKey?: string;
+    timeSpanDuration?: string;
+    title?: string;
+}
+
+// @public
+export type Name = string;
 
 // @public
 export interface Operation {
@@ -270,10 +490,30 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
+export interface ProxyResource extends Resource {
+}
 
 // @public
-export interface ProxyResource extends Resource {
+export type QuestionContentType = string;
+
+// @public
+export type QuestionType = string;
+
+// @public
+export interface ReplacementMaps {
+    diagnostics?: SolutionsDiagnostic[];
+    metricsBasedCharts?: MetricsBasedChart[];
+    troubleshooters?: SolutionsTroubleshooters[];
+    videoGroups?: VideoGroup[];
+    videos?: Video[];
+    webResults?: WebResult[];
+}
+
+// @public
+export interface ReplacementMapsSelfHelp {
+    videoGroups?: VideoGroup[];
+    videos?: Video[];
+    webResults?: WebResult[];
 }
 
 // @public
@@ -285,15 +525,278 @@ export interface Resource {
 }
 
 // @public
-export interface SolutionMetadataResource extends ProxyResource {
-    description?: string;
-    requiredParameterSets?: string[][];
+export interface ResponseOption {
+    key?: string;
+    value?: string;
+}
+
+// @public
+export interface ResponseValidationProperties {
+    isRequired?: boolean;
+    maxLength?: number;
+    regex?: string;
+    validationErrorMessage?: string;
+    validationScope?: ValidationScope;
+}
+
+// @public
+export interface RestartTroubleshooterResponse {
+    readonly troubleshooterResourceName?: string;
+}
+
+// @public
+export type ResultType = string;
+
+// @public
+export interface SearchResult {
+    confidence?: Confidence;
+    content?: string;
+    link?: string;
+    rank?: number;
+    resultType?: ResultType;
     solutionId?: string;
-    solutionType?: string;
+    source?: string;
+    title?: string;
+}
+
+// @public
+export interface Section {
+    content?: string;
+    replacementMaps?: ReplacementMaps;
+    title?: string;
+}
+
+// @public
+export interface SectionSelfHelp {
+    content?: string;
+    replacementMaps?: ReplacementMapsSelfHelp;
+    title?: string;
+}
+
+// @public
+export interface SimplifiedSolutions {
+    beginCreate(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SimplifiedSolutionsCreateResponse>, SimplifiedSolutionsCreateResponse>>;
+    beginCreateAndWait(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplifiedSolutionsCreateResponse>;
+    get(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsGetOptionalParams): Promise<SimplifiedSolutionsGetResponse>;
+}
+
+// @public
+export interface SimplifiedSolutionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    simplifiedSolutionsRequestBody?: SimplifiedSolutionsResource;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimplifiedSolutionsCreateResponse = SimplifiedSolutionsResource;
+
+// @public
+export interface SimplifiedSolutionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SimplifiedSolutionsGetResponse = SimplifiedSolutionsResource;
+
+// @public
+export interface SimplifiedSolutionsResource extends ProxyResource {
+    readonly appendix?: {
+        [propertyName: string]: string;
+    };
+    readonly content?: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: SolutionProvisioningState;
+    solutionId?: string;
+    readonly title?: string;
+}
+
+// @public
+export interface Solution {
+    beginCreate(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionCreateResponse>, SolutionCreateResponse>>;
+    beginCreateAndWait(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SolutionCreateResponse>;
+    beginUpdate(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionUpdateResponse>, SolutionUpdateResponse>>;
+    beginUpdateAndWait(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SolutionUpdateResponse>;
+    get(scope: string, solutionResourceName: string, options?: SolutionGetOptionalParams): Promise<SolutionGetResponse>;
+    warmUp(scope: string, solutionResourceName: string, options?: SolutionWarmUpOptionalParams): Promise<void>;
+}
+
+// @public
+export interface SolutionCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    solutionRequestBody?: SolutionResource;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SolutionCreateResponse = SolutionResource;
+
+// @public
+export interface SolutionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SolutionGetResponse = SolutionResource;
+
+// @public
+export interface SolutionMetadataProperties {
+    readonly description?: string;
+    readonly requiredInputs?: string[];
+    solutionId?: string;
+    readonly solutionType?: SolutionType;
+}
+
+// @public
+export interface SolutionMetadataResource extends ProxyResource {
+    solutions?: SolutionMetadataProperties[];
+}
+
+// @public
+export interface SolutionNlpMetadataResource extends ProxyResource {
+    problemClassificationId?: string;
+    problemDescription?: string;
+    problemTitle?: string;
+    relatedServices?: ClassificationService[];
+    serviceId?: string;
+    solutions?: SolutionMetadataProperties[];
+}
+
+// @public
+export interface SolutionPatchRequestBody {
+    readonly content?: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: SolutionProvisioningState;
+    readonly replacementMaps?: ReplacementMaps;
+    readonly sections?: Section[];
+    readonly solutionId?: string;
+    readonly title?: string;
+    triggerCriteria?: TriggerCriterion[];
+}
+
+// @public
+export type SolutionProvisioningState = string;
+
+// @public
+export interface SolutionResource extends ProxyResource {
+    readonly content?: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: SolutionProvisioningState;
+    readonly replacementMaps?: ReplacementMaps;
+    readonly sections?: Section[];
+    readonly solutionId?: string;
+    readonly title?: string;
+    triggerCriteria?: TriggerCriterion[];
+}
+
+// @public
+export interface SolutionResourceSelfHelp extends ProxyResource {
+    readonly content?: string;
+    readonly replacementMaps?: ReplacementMapsSelfHelp;
+    readonly sections?: SectionSelfHelp[];
+    readonly solutionId?: string;
+    readonly title?: string;
+}
+
+// @public
+export interface SolutionsDiagnostic {
+    estimatedCompletionTime?: string;
+    insights?: Insight[];
+    replacementKey?: string;
+    requiredParameters?: string[];
+    solutionId?: string;
+    status?: Status;
+    statusDetails?: string;
+}
+
+// @public
+export interface SolutionSelfHelp {
+    get(solutionId: string, options?: SolutionSelfHelpGetOptionalParams): Promise<SolutionSelfHelpGetResponse>;
+}
+
+// @public
+export interface SolutionSelfHelpGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SolutionSelfHelpGetResponse = SolutionResourceSelfHelp;
+
+// @public
+export interface SolutionsTroubleshooters {
+    solutionId?: string;
+    summary?: string;
+    title?: string;
+}
+
+// @public
+export type SolutionType = string;
+
+// @public
+export interface SolutionUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SolutionUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    solutionPatchRequestBody?: SolutionPatchRequestBody;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
+
+// @public
+export interface SolutionWarmUpOptionalParams extends coreClient.OperationOptions {
+    solutionWarmUpRequestBody?: SolutionWarmUpRequestBody;
+}
+
+// @public
+export interface SolutionWarmUpRequestBody {
+    parameters?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export type Status = string;
+
+// @public
+export interface Step {
+    automatedCheckResults?: AutomatedCheckResult;
+    description?: string;
+    error?: ErrorDetail;
+    executionStatus?: ExecutionStatus;
+    executionStatusDescription?: string;
+    guidance?: string;
+    id?: string;
+    // (undocumented)
+    inputs?: StepInput[];
+    // (undocumented)
+    insights?: Insight[];
+    isLastStep?: boolean;
+    title?: string;
+    type?: Type;
+}
+
+// @public
+export interface StepInput {
+    questionContent?: string;
+    questionContentType?: QuestionContentType;
+    questionId?: string;
+    questionTitle?: string;
+    questionType?: QuestionType;
+    recommendedOption?: string;
+    responseHint?: string;
+    // (undocumented)
+    responseOptions?: ResponseOption[];
+    responseValidationProperties?: ResponseValidationProperties;
+    selectedOptionValue?: string;
+}
 
 // @public
 export interface SystemData {
@@ -303,6 +806,125 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TriggerCriterion {
+    name?: Name;
+    value?: string;
+}
+
+// @public
+export type TroubleshooterProvisioningState = string;
+
+// @public
+export interface TroubleshooterResource extends ProxyResource {
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: TroubleshooterProvisioningState;
+    solutionId?: string;
+    readonly steps?: Step[];
+}
+
+// @public
+export interface TroubleshooterResponse {
+    questionId?: string;
+    questionType?: QuestionType;
+    response?: string;
+}
+
+// @public
+export interface Troubleshooters {
+    continue(scope: string, troubleshooterName: string, options?: TroubleshootersContinueOptionalParams): Promise<TroubleshootersContinueResponse>;
+    create(scope: string, troubleshooterName: string, options?: TroubleshootersCreateOptionalParams): Promise<TroubleshootersCreateResponse>;
+    end(scope: string, troubleshooterName: string, options?: TroubleshootersEndOptionalParams): Promise<TroubleshootersEndResponse>;
+    get(scope: string, troubleshooterName: string, options?: TroubleshootersGetOptionalParams): Promise<TroubleshootersGetResponse>;
+    restart(scope: string, troubleshooterName: string, options?: TroubleshootersRestartOptionalParams): Promise<TroubleshootersRestartResponse>;
+}
+
+// @public
+export interface TroubleshootersContinueHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersContinueOptionalParams extends coreClient.OperationOptions {
+    continueRequestBody?: ContinueRequestBody;
+}
+
+// @public
+export type TroubleshootersContinueResponse = TroubleshootersContinueHeaders;
+
+// @public
+export interface TroubleshootersCreateOptionalParams extends coreClient.OperationOptions {
+    createTroubleshooterRequestBody?: TroubleshooterResource;
+}
+
+// @public
+export type TroubleshootersCreateResponse = TroubleshooterResource;
+
+// @public
+export interface TroubleshootersEndHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersEndOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersEndResponse = TroubleshootersEndHeaders;
+
+// @public
+export interface TroubleshootersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersGetResponse = TroubleshooterResource;
+
+// @public
+export interface TroubleshootersRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersRestartOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders & RestartTroubleshooterResponse;
+
+// @public
+export type Type = string;
+
+// @public
+export type ValidationScope = string;
+
+// @public
+export interface Video extends VideoGroupVideo {
+    replacementKey?: string;
+}
+
+// @public
+export interface VideoGroup {
+    replacementKey?: string;
+    videos?: VideoGroupVideo[];
+}
+
+// @public
+export interface VideoGroupVideo {
+    src?: string;
+    title?: string;
+}
+
+// @public
+export interface WebResult {
+    replacementKey?: string;
+    searchResults?: SearchResult[];
 }
 
 // (No @packageDocumentation comment for this package)

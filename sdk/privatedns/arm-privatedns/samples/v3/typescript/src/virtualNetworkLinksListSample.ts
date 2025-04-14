@@ -10,35 +10,33 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the virtual network links to the specified Private DNS zone.
  *
  * @summary Lists the virtual network links to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkList.json
  */
-async function getPrivateDnsZoneVirtualNetworkLinks() {
+async function getPrivateDnsZoneVirtualNetworkLinks(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
     process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
+  const privateZoneName = "privatelink.contoso.com";
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.virtualNetworkLinks.list(
     resourceGroupName,
-    privateZoneName
+    privateZoneName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateDnsZoneVirtualNetworkLinks();
 }
 

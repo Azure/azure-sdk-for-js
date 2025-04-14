@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   FlexibleServerCapability,
-  ServerCapabilitiesListOptionalParams
-} from "../models";
+  ServerCapabilitiesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerCapabilities. */
@@ -24,6 +24,6 @@ export interface ServerCapabilities {
   list(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerCapabilitiesListOptionalParams
+    options?: ServerCapabilitiesListOptionalParams,
   ): PagedAsyncIterableIterator<FlexibleServerCapability>;
 }

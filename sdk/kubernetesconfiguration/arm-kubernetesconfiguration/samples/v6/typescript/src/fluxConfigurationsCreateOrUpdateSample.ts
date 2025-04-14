@@ -13,17 +13,15 @@ import {
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
  *
  * @summary Create a new Kubernetes Flux Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateFluxConfiguration.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateFluxConfiguration.json
  */
-async function createFluxConfiguration() {
+async function createFluxConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -44,22 +42,38 @@ async function createFluxConfiguration() {
       srsKustomization1: {
         path: "./test/path",
         dependsOn: [],
+        postBuild: {
+          substitute: { clusterEnv: "prod", replicaCount: "2" },
+          substituteFrom: [
+            { name: "cluster-test", kind: "ConfigMap", optional: true }
+          ]
+        },
         syncIntervalInSeconds: 600,
-        timeoutInSeconds: 600
+        timeoutInSeconds: 600,
+        wait: true
       },
       srsKustomization2: {
         path: "./other/test/path",
         dependsOn: ["srs-kustomization1"],
+        postBuild: {
+          substituteFrom: [
+            { name: "cluster-values", kind: "ConfigMap", optional: true },
+            { name: "secret-name", kind: "Secret", optional: false }
+          ]
+        },
         prune: false,
         retryIntervalInSeconds: 600,
         syncIntervalInSeconds: 600,
-        timeoutInSeconds: 600
+        timeoutInSeconds: 600,
+        wait: false
       }
     },
     namespace: "srs-namespace",
+    reconciliationWaitDuration: "PT30M",
     scope: "cluster",
     sourceKind: "GitRepository",
-    suspend: false
+    suspend: false,
+    waitForReconciliation: true
   };
   const credential = new DefaultAzureCredential();
   const client = new SourceControlConfigurationClient(
@@ -81,9 +95,9 @@ async function createFluxConfiguration() {
  * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
  *
  * @summary Create a new Kubernetes Flux Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateFluxConfigurationWithBucket.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateFluxConfigurationWithBucket.json
  */
-async function createFluxConfigurationWithBucketSourceKind() {
+async function createFluxConfigurationWithBucketSourceKind(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -137,7 +151,7 @@ async function createFluxConfigurationWithBucketSourceKind() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createFluxConfiguration();
   createFluxConfigurationWithBucketSourceKind();
 }

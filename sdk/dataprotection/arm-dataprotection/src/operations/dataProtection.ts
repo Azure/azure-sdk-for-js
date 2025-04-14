@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataProtection } from "../operationsInterfaces";
+import { DataProtection } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   FeatureValidationRequestBaseUnion,
   DataProtectionCheckFeatureSupportOptionalParams,
-  DataProtectionCheckFeatureSupportResponse
-} from "../models";
+  DataProtectionCheckFeatureSupportResponse,
+} from "../models/index.js";
 
 /** Class containing DataProtection operations. */
 export class DataProtectionImpl implements DataProtection {
@@ -38,11 +38,11 @@ export class DataProtectionImpl implements DataProtection {
   checkFeatureSupport(
     location: string,
     parameters: FeatureValidationRequestBaseUnion,
-    options?: DataProtectionCheckFeatureSupportOptionalParams
+    options?: DataProtectionCheckFeatureSupportOptionalParams,
   ): Promise<DataProtectionCheckFeatureSupportResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkFeatureSupportOperationSpec
+      checkFeatureSupportOperationSpec,
     );
   }
 }
@@ -50,25 +50,24 @@ export class DataProtectionImpl implements DataProtection {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkFeatureSupportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/checkFeatureSupport",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/locations/{location}/checkFeatureSupport",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FeatureValidationResponseBase
+      bodyMapper: Mappers.FeatureValidationResponseBase,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -8,5 +8,5 @@ skipped -->
 <!-- Each of these file types will be completely skipped for the entire scan -->
 <!--<Exclusion Type="FileType">.ABC|.XYZ</Exclusion>-->
 <!-- The specified file names will be skipped during the scan regardless which folder they are in -->
-<!--<Exclusion Type="FileName">ABC.TXT|XYZ.CS</Exclusion>-->
+<Exclusion Type="FileName">PNPM-LOCK.YAML</Exclusion>
 </PoliCheckExclusions>

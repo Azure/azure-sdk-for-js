@@ -15,8 +15,8 @@ import {
   LongTermRetentionPoliciesGetOptionalParams,
   LongTermRetentionPoliciesGetResponse,
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
-  LongTermRetentionPoliciesCreateOrUpdateResponse
-} from "../models";
+  LongTermRetentionPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LongTermRetentionPolicies. */
@@ -33,7 +33,7 @@ export interface LongTermRetentionPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionPolicy>;
   /**
    * Gets a database's long term retention policy.
@@ -49,10 +49,10 @@ export interface LongTermRetentionPolicies {
     serverName: string,
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
-    options?: LongTermRetentionPoliciesGetOptionalParams
+    options?: LongTermRetentionPoliciesGetOptionalParams,
   ): Promise<LongTermRetentionPoliciesGetResponse>;
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -67,7 +67,7 @@ export interface LongTermRetentionPolicies {
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
     parameters: LongTermRetentionPolicy,
-    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LongTermRetentionPoliciesCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface LongTermRetentionPolicies {
     >
   >;
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -90,6 +90,6 @@ export interface LongTermRetentionPolicies {
     databaseName: string,
     policyName: LongTermRetentionPolicyName,
     parameters: LongTermRetentionPolicy,
-    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<LongTermRetentionPoliciesCreateOrUpdateResponse>;
 }

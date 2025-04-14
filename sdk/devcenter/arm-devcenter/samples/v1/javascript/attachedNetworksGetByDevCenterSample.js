@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an attached NetworkConnection.
  *
  * @summary Gets an attached NetworkConnection.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/AttachedNetworks_GetByDevCenter.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_GetByDevCenter.json
  */
 async function attachedNetworksGetByDevCenter() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function attachedNetworksGetByDevCenter() {
   const result = await client.attachedNetworks.getByDevCenter(
     resourceGroupName,
     devCenterName,
-    attachedNetworkConnectionName
+    attachedNetworkConnectionName,
   );
   console.log(result);
 }

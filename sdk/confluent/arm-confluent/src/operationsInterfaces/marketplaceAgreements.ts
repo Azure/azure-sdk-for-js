@@ -11,8 +11,8 @@ import {
   ConfluentAgreementResource,
   MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsCreateOptionalParams,
-  MarketplaceAgreementsCreateResponse
-} from "../models";
+  MarketplaceAgreementsCreateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MarketplaceAgreements. */
@@ -22,13 +22,13 @@ export interface MarketplaceAgreements {
    * @param options The options parameters.
    */
   list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfluentAgreementResource>;
   /**
    * Create Confluent Marketplace agreement in the subscription.
    * @param options The options parameters.
    */
   create(
-    options?: MarketplaceAgreementsCreateOptionalParams
+    options?: MarketplaceAgreementsCreateOptionalParams,
   ): Promise<MarketplaceAgreementsCreateResponse>;
 }

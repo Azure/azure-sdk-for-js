@@ -1,19 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { createHttpHeaders, createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
+import { paths } from "./utils/paths.js";
+import { RecorderError } from "./utils/utils.js";
 
 export type RecordingOptions = {
   handleRedirects?: boolean;
+  tlsValidationCert?: string;
 };
 
 export async function setRecordingOptions(
   recorderUrl: string,
   httpClient: HttpClient,
-  { handleRedirects }: RecordingOptions
-) {
-  const body = JSON.stringify({
+  { handleRedirects, tlsValidationCert }: RecordingOptions,
+): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rawBody: Record<string, any> = {
     HandleRedirects: handleRedirects,
-  });
+  };
+  if (tlsValidationCert) {
+    rawBody.Transport = {
+      TLSValidationCert: tlsValidationCert,
+    };
+  }
+  const body = JSON.stringify(rawBody);
 
   const request = createPipelineRequest({
     url: `${recorderUrl}${paths.admin}${paths.setRecordingOptions}`,

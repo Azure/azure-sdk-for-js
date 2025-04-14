@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 // import { NodeTracerProvider } from "@opentelemetry/node";

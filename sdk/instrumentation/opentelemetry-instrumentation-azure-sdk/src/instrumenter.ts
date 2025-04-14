@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { Span } from "@opentelemetry/api";
 import {
   INVALID_SPAN_CONTEXT,
-  Span,
   context,
   defaultTextMapGetter,
   defaultTextMapSetter,
   trace,
 } from "@opentelemetry/api";
-import {
+import type {
   Instrumenter,
   InstrumenterSpanOptions,
   TracingContext,
@@ -17,9 +17,9 @@ import {
 } from "@azure/core-tracing";
 import { W3CTraceContextPropagator, suppressTracing } from "@opentelemetry/core";
 
-import { OpenTelemetrySpanWrapper } from "./spanWrapper";
-import { envVarToBoolean } from "./configuration";
-import { toSpanOptions } from "./transformations";
+import { OpenTelemetrySpanWrapper } from "./spanWrapper.js";
+import { envVarToBoolean } from "./configuration.js";
+import { toSpanOptions } from "./transformations.js";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
 export const propagator = new W3CTraceContextPropagator();
@@ -27,7 +27,7 @@ export const propagator = new W3CTraceContextPropagator();
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
     name: string,
-    spanOptions: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions,
   ): { span: TracingSpan; tracingContext: TracingContext } {
     let ctx = spanOptions?.tracingContext || context.active();
     let span: Span;
@@ -57,7 +57,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
   }
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     tracingContext: TracingContext,
     callback: Callback,
@@ -67,7 +67,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
       tracingContext,
       callback,
       /** Assume caller will bind `this` or use arrow functions */ undefined,
-      ...callbackArgs
+      ...callbackArgs,
     );
   }
 
@@ -75,7 +75,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     return propagator.extract(
       context.active(),
       { traceparent: traceparentHeader },
-      defaultTextMapGetter
+      defaultTextMapGetter,
     );
   }
 

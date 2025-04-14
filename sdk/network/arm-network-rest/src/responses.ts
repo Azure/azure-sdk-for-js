@@ -1,309 +1,306 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
-  ActiveConnectivityConfigurationsListResultOutput,
-  ActiveSecurityAdminRulesListResultOutput,
-  AdminRuleCollectionListResultOutput,
-  AdminRuleCollectionOutput,
-  AdminRuleListResultOutput,
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
+  CloudErrorOutput,
+  ApplicationGatewayOutput,
+  ApplicationGatewayListResultOutput,
+  ApplicationGatewayBackendHealthOutput,
+  ApplicationGatewayBackendHealthOnDemandOutput,
+  ErrorModelOutput,
+  ApplicationGatewayAvailableWafRuleSetsResultOutput,
   ApplicationGatewayAvailableSslOptionsOutput,
   ApplicationGatewayAvailableSslPredefinedPoliciesOutput,
-  ApplicationGatewayAvailableWafRuleSetsResultOutput,
-  ApplicationGatewayBackendHealthOnDemandOutput,
-  ApplicationGatewayBackendHealthOutput,
-  ApplicationGatewayListResultOutput,
-  ApplicationGatewayOutput,
-  ApplicationGatewayPrivateEndpointConnectionListResultOutput,
-  ApplicationGatewayPrivateEndpointConnectionOutput,
-  ApplicationGatewayPrivateLinkResourceListResultOutput,
   ApplicationGatewaySslPredefinedPolicyOutput,
-  ApplicationGatewayWafDynamicManifestResultListOutput,
+  ApplicationGatewayPrivateLinkResourceListResultOutput,
+  ApplicationGatewayPrivateEndpointConnectionOutput,
+  ApplicationGatewayPrivateEndpointConnectionListResultOutput,
   ApplicationGatewayWafDynamicManifestResultOutput,
-  ApplicationSecurityGroupListResultOutput,
+  ApplicationGatewayWafDynamicManifestResultListOutput,
   ApplicationSecurityGroupOutput,
-  AuthorizationListResultOutput,
-  AutoApprovedPrivateLinkServicesResultOutput,
+  ApplicationSecurityGroupListResultOutput,
   AvailableDelegationsResultOutput,
-  AvailablePrivateEndpointTypesResultOutput,
-  AvailableProvidersListOutput,
   AvailableServiceAliasesResultOutput,
-  AzureFirewallFqdnTagListResultOutput,
-  AzureFirewallListResultOutput,
   AzureFirewallOutput,
-  AzureReachabilityReportOutput,
-  AzureWebCategoryListResultOutput,
+  AzureFirewallListResultOutput,
+  IPPrefixesListOutput,
+  AzureFirewallFqdnTagListResultOutput,
   AzureWebCategoryOutput,
-  BackendAddressInboundNatRulePortMappingsOutput,
-  BackendAddressPoolOutput,
-  BaseAdminRuleOutput,
-  BastionActiveSessionListResultOutput,
-  BastionHostListResultOutput,
+  AzureWebCategoryListResultOutput,
   BastionHostOutput,
-  BastionSessionDeleteResultOutput,
+  BastionHostListResultOutput,
   BastionShareableLinkListResultOutput,
-  BgpConnectionOutput,
-  BgpPeerStatusListResultOutput,
-  BgpServiceCommunityListResultOutput,
-  CloudErrorOutput,
-  ConnectionMonitorListResultOutput,
-  ConnectionMonitorQueryResultOutput,
-  ConnectionMonitorResultOutput,
-  ConnectionResetSharedKeyOutput,
-  ConnectionSharedKeyOutput,
-  ConnectivityConfigurationListResultOutput,
-  ConnectivityConfigurationOutput,
-  ConnectivityInformationOutput,
-  CustomIpPrefixListResultOutput,
-  CustomIpPrefixOutput,
-  DdosCustomPolicyOutput,
-  DdosProtectionPlanListResultOutput,
-  DdosProtectionPlanOutput,
+  BastionActiveSessionListResultOutput,
+  BastionSessionDeleteResultOutput,
   DnsNameAvailabilityResultOutput,
-  DscpConfigurationListResultOutput,
-  DscpConfigurationOutput,
-  EffectiveNetworkSecurityGroupListResultOutput,
+  ExpressRouteProviderPortOutput,
+  ActiveConnectivityConfigurationsListResultOutput,
+  ActiveSecurityAdminRulesListResultOutput,
+  NetworkManagerEffectiveConnectivityConfigurationListResultOutput,
+  NetworkManagerEffectiveSecurityAdminRulesListResultOutput,
+  VirtualWanSecurityProvidersOutput,
+  VpnProfileResponseOutput,
+  NetworkInterfaceListResultOutput,
+  NetworkInterfaceOutput,
   EffectiveRouteListResultOutput,
+  EffectiveNetworkSecurityGroupListResultOutput,
+  NetworkInterfaceIPConfigurationListResultOutput,
+  NetworkInterfaceIPConfigurationOutput,
+  PublicIPAddressListResultOutput,
+  PublicIPAddressOutput,
+  PublicIpDdosProtectionStatusResultOutput,
+  CustomIpPrefixOutput,
+  CustomIpPrefixListResultOutput,
+  DdosCustomPolicyOutput,
+  DdosProtectionPlanOutput,
+  DdosProtectionPlanListResultOutput,
+  DscpConfigurationOutput,
+  DscpConfigurationListResultOutput,
   EndpointServicesListResultOutput,
-  ErrorModelOutput,
-  ErrorResponseOutput,
   ExpressRouteCircuitAuthorizationOutput,
-  ExpressRouteCircuitConnectionListResultOutput,
-  ExpressRouteCircuitConnectionOutput,
-  ExpressRouteCircuitListResultOutput,
-  ExpressRouteCircuitOutput,
-  ExpressRouteCircuitPeeringListResultOutput,
+  AuthorizationListResultOutput,
   ExpressRouteCircuitPeeringOutput,
-  ExpressRouteCircuitStatsOutput,
+  ExpressRouteCircuitPeeringListResultOutput,
+  ExpressRouteCircuitConnectionOutput,
+  ExpressRouteCircuitConnectionListResultOutput,
+  PeerExpressRouteCircuitConnectionOutput,
+  PeerExpressRouteCircuitConnectionListResultOutput,
+  ExpressRouteCircuitOutput,
   ExpressRouteCircuitsArpTableListResultOutput,
   ExpressRouteCircuitsRoutesTableListResultOutput,
   ExpressRouteCircuitsRoutesTableSummaryListResultOutput,
-  ExpressRouteConnectionListOutput,
-  ExpressRouteConnectionOutput,
+  ExpressRouteCircuitStatsOutput,
+  ExpressRouteCircuitListResultOutput,
+  ExpressRouteServiceProviderListResultOutput,
   ExpressRouteCrossConnectionListResultOutput,
   ExpressRouteCrossConnectionOutput,
+  ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput,
   ExpressRouteCrossConnectionPeeringListOutput,
   ExpressRouteCrossConnectionPeeringOutput,
-  ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput,
-  ExpressRouteGatewayListOutput,
-  ExpressRouteGatewayOutput,
-  ExpressRouteLinkListResultOutput,
-  ExpressRouteLinkOutput,
-  ExpressRoutePortAuthorizationListResultOutput,
-  ExpressRoutePortAuthorizationOutput,
-  ExpressRoutePortListResultOutput,
-  ExpressRoutePortOutput,
   ExpressRoutePortsLocationListResultOutput,
   ExpressRoutePortsLocationOutput,
-  ExpressRouteProviderPortListResultOutput,
-  ExpressRouteProviderPortOutput,
-  ExpressRouteServiceProviderListResultOutput,
-  FirewallPolicyListResultOutput,
-  FirewallPolicyOutput,
-  FirewallPolicyRuleCollectionGroupListResultOutput,
-  FirewallPolicyRuleCollectionGroupOutput,
-  FlowLogInformationOutput,
-  FlowLogListResultOutput,
-  FlowLogOutput,
-  FrontendIPConfigurationOutput,
-  GatewayRouteListResultOutput,
+  ExpressRoutePortOutput,
+  ExpressRoutePortListResultOutput,
   GenerateExpressRoutePortsLOAResultOutput,
-  HubIpConfigurationOutput,
-  HubRouteTableOutput,
-  HubVirtualNetworkConnectionOutput,
-  IPAddressAvailabilityResultOutput,
-  IPPrefixesListOutput,
+  ExpressRouteLinkOutput,
+  ExpressRouteLinkListResultOutput,
+  ExpressRoutePortAuthorizationOutput,
+  ExpressRoutePortAuthorizationListResultOutput,
+  ExpressRouteProviderPortListResultOutput,
+  FirewallPolicyOutput,
+  FirewallPolicyListResultOutput,
+  FirewallPolicyRuleCollectionGroupOutput,
+  FirewallPolicyRuleCollectionGroupListResultOutput,
+  QueryResultsOutput,
+  SignaturesOverridesOutput,
+  SignaturesOverridesListOutput,
+  SignatureOverridesFilterValuesResponseOutput,
+  IpAllocationOutput,
+  IpAllocationListResultOutput,
+  IpGroupOutput,
+  IpGroupListResultOutput,
+  LoadBalancerOutput,
+  LoadBalancerListResultOutput,
+  BackendAddressInboundNatRulePortMappingsOutput,
+  LoadBalancerBackendAddressPoolListResultOutput,
+  BackendAddressPoolOutput,
+  LoadBalancerFrontendIPConfigurationListResultOutput,
+  FrontendIPConfigurationOutput,
   InboundNatRuleListResultOutput,
   InboundNatRuleOutput,
-  InboundSecurityRuleOutput,
-  IpAllocationListResultOutput,
-  IpAllocationOutput,
-  IpGroupListResultOutput,
-  IpGroupOutput,
-  ListHubRouteTablesResultOutput,
-  ListHubVirtualNetworkConnectionsResultOutput,
-  ListP2SVpnGatewaysResultOutput,
-  ListRouteMapsResultOutput,
-  ListRoutingIntentResultOutput,
-  ListVirtualHubBgpConnectionResultsOutput,
-  ListVirtualHubIpConfigurationResultsOutput,
-  ListVirtualHubRouteTableV2SResultOutput,
-  ListVirtualHubsResultOutput,
-  ListVirtualNetworkGatewayNatRulesResultOutput,
-  ListVirtualWANsResultOutput,
-  ListVpnConnectionsResultOutput,
-  ListVpnGatewayNatRulesResultOutput,
-  ListVpnGatewaysResultOutput,
-  ListVpnServerConfigurationPolicyGroupsResultOutput,
-  ListVpnServerConfigurationsResultOutput,
-  ListVpnSiteLinkConnectionsResultOutput,
-  ListVpnSiteLinksResultOutput,
-  ListVpnSitesResultOutput,
-  LoadBalancerBackendAddressPoolListResultOutput,
-  LoadBalancerFrontendIPConfigurationListResultOutput,
-  LoadBalancerListResultOutput,
   LoadBalancerLoadBalancingRuleListResultOutput,
-  LoadBalancerOutboundRuleListResultOutput,
-  LoadBalancerOutput,
-  LoadBalancerProbeListResultOutput,
   LoadBalancingRuleOutput,
-  LocalNetworkGatewayListResultOutput,
-  LocalNetworkGatewayOutput,
-  NatGatewayListResultOutput,
+  LoadBalancerOutboundRuleListResultOutput,
+  OutboundRuleOutput,
+  LoadBalancerProbeListResultOutput,
+  ProbeOutput,
   NatGatewayOutput,
-  NetworkConfigurationDiagnosticResponseOutput,
-  NetworkGroupListResultOutput,
-  NetworkGroupOutput,
-  NetworkInterfaceIPConfigurationListResultOutput,
-  NetworkInterfaceIPConfigurationOutput,
-  NetworkInterfaceListResultOutput,
+  NatGatewayListResultOutput,
   NetworkInterfaceLoadBalancerListResultOutput,
-  NetworkInterfaceOutput,
-  NetworkInterfaceTapConfigurationListResultOutput,
   NetworkInterfaceTapConfigurationOutput,
-  NetworkManagerCommitOutput,
-  NetworkManagerConnectionListResultOutput,
-  NetworkManagerConnectionOutput,
-  NetworkManagerDeploymentStatusListResultOutput,
-  NetworkManagerEffectiveConnectivityConfigurationListResultOutput,
-  NetworkManagerEffectiveSecurityAdminRulesListResultOutput,
-  NetworkManagerListResultOutput,
+  NetworkInterfaceTapConfigurationListResultOutput,
   NetworkManagerOutput,
-  NetworkProfileListResultOutput,
+  NetworkManagerListResultOutput,
+  NetworkManagerCommitOutput,
+  NetworkManagerDeploymentStatusListResultOutput,
+  NetworkManagerConnectionOutput,
+  NetworkManagerConnectionListResultOutput,
+  ConnectivityConfigurationOutput,
+  ConnectivityConfigurationListResultOutput,
+  NetworkGroupOutput,
+  NetworkGroupListResultOutput,
+  StaticMemberOutput,
+  StaticMemberListResultOutput,
+  ScopeConnectionOutput,
+  ScopeConnectionListResultOutput,
+  SecurityAdminConfigurationListResultOutput,
+  SecurityAdminConfigurationOutput,
+  AdminRuleCollectionListResultOutput,
+  AdminRuleCollectionOutput,
+  AdminRuleListResultOutput,
+  BaseAdminRuleOutput,
   NetworkProfileOutput,
-  NetworkSecurityGroupListResultOutput,
+  NetworkProfileListResultOutput,
   NetworkSecurityGroupOutput,
-  NetworkVirtualApplianceListResultOutput,
+  NetworkSecurityGroupListResultOutput,
+  SecurityRuleOutput,
+  SecurityRuleListResultOutput,
   NetworkVirtualApplianceOutput,
+  NetworkVirtualApplianceListResultOutput,
+  VirtualApplianceSiteOutput,
   NetworkVirtualApplianceSiteListResultOutput,
   NetworkVirtualApplianceSkuListResultOutput,
   NetworkVirtualApplianceSkuOutput,
-  NetworkWatcherListResultOutput,
+  InboundSecurityRuleOutput,
   NetworkWatcherOutput,
-  NextHopResultOutput,
-  OperationListResultOutput,
-  OutboundRuleOutput,
-  P2SVpnConnectionHealthOutput,
-  P2SVpnGatewayOutput,
-  PacketCaptureListResultOutput,
-  PacketCaptureQueryStatusResultOutput,
-  PacketCaptureResultOutput,
-  PeerExpressRouteCircuitConnectionListResultOutput,
-  PeerExpressRouteCircuitConnectionOutput,
-  PeerRouteListOutput,
-  PrivateDnsZoneGroupListResultOutput,
-  PrivateDnsZoneGroupOutput,
-  PrivateEndpointConnectionListResultOutput,
-  PrivateEndpointConnectionOutput,
-  PrivateEndpointListResultOutput,
-  PrivateEndpointOutput,
-  PrivateLinkServiceListResultOutput,
-  PrivateLinkServiceOutput,
-  PrivateLinkServiceVisibilityOutput,
-  ProbeOutput,
-  PublicIPAddressListResultOutput,
-  PublicIPAddressOutput,
-  PublicIPPrefixListResultOutput,
-  PublicIPPrefixOutput,
-  PublicIpDdosProtectionStatusResultOutput,
-  QueryResultsOutput,
-  ResourceNavigationLinksListResultOutput,
-  RouteFilterListResultOutput,
-  RouteFilterOutput,
-  RouteFilterRuleListResultOutput,
-  RouteFilterRuleOutput,
-  RouteListResultOutput,
-  RouteMapOutput,
-  RouteOutput,
-  RouteTableListResultOutput,
-  RouteTableOutput,
-  RoutingIntentOutput,
-  ScopeConnectionListResultOutput,
-  ScopeConnectionOutput,
-  SecurityAdminConfigurationListResultOutput,
-  SecurityAdminConfigurationOutput,
-  SecurityGroupViewResultOutput,
-  SecurityPartnerProviderListResultOutput,
-  SecurityPartnerProviderOutput,
-  SecurityRuleListResultOutput,
-  SecurityRuleOutput,
-  ServiceAssociationLinksListResultOutput,
-  ServiceEndpointPolicyDefinitionListResultOutput,
-  ServiceEndpointPolicyDefinitionOutput,
-  ServiceEndpointPolicyListResultOutput,
-  ServiceEndpointPolicyOutput,
-  ServiceTagInformationListResultOutput,
-  ServiceTagsListResultOutput,
-  SignatureOverridesFilterValuesResponseOutput,
-  SignaturesOverridesListOutput,
-  SignaturesOverridesOutput,
-  StaticMemberListResultOutput,
-  StaticMemberOutput,
-  SubnetListResultOutput,
-  SubnetOutput,
-  SwapResourceListResultOutput,
-  SwapResourceOutput,
+  ErrorResponseOutput,
+  NetworkWatcherListResultOutput,
   TopologyOutput,
-  TroubleshootingResultOutput,
-  UsagesListResultOutput,
   VerificationIPFlowResultOutput,
-  VirtualApplianceSiteOutput,
-  VirtualHubOutput,
-  VirtualHubRouteTableV2Output,
-  VirtualNetworkDdosProtectionStatusResultOutput,
-  VirtualNetworkGatewayConnectionListResultOutput,
-  VirtualNetworkGatewayConnectionOutput,
-  VirtualNetworkGatewayListConnectionsResultOutput,
-  VirtualNetworkGatewayListResultOutput,
-  VirtualNetworkGatewayNatRuleOutput,
-  VirtualNetworkGatewayOutput,
-  VirtualNetworkListResultOutput,
-  VirtualNetworkListUsageResultOutput,
+  NextHopResultOutput,
+  SecurityGroupViewResultOutput,
+  TroubleshootingResultOutput,
+  FlowLogInformationOutput,
+  ConnectivityInformationOutput,
+  AzureReachabilityReportOutput,
+  AvailableProvidersListOutput,
+  NetworkConfigurationDiagnosticResponseOutput,
+  PacketCaptureResultOutput,
+  PacketCaptureQueryStatusResultOutput,
+  PacketCaptureListResultOutput,
+  ConnectionMonitorResultOutput,
+  ConnectionMonitorQueryResultOutput,
+  ConnectionMonitorListResultOutput,
+  FlowLogOutput,
+  FlowLogListResultOutput,
+  OperationListResultOutput,
+  PrivateEndpointOutput,
+  PrivateEndpointListResultOutput,
+  AvailablePrivateEndpointTypesResultOutput,
+  PrivateDnsZoneGroupOutput,
+  PrivateDnsZoneGroupListResultOutput,
+  PrivateLinkServiceOutput,
+  PrivateLinkServiceListResultOutput,
+  PrivateEndpointConnectionOutput,
+  PrivateEndpointConnectionListResultOutput,
+  PrivateLinkServiceVisibilityOutput,
+  AutoApprovedPrivateLinkServicesResultOutput,
+  PublicIPPrefixOutput,
+  PublicIPPrefixListResultOutput,
+  RouteFilterOutput,
+  RouteFilterListResultOutput,
+  RouteFilterRuleOutput,
+  RouteFilterRuleListResultOutput,
+  RouteTableOutput,
+  RouteTableListResultOutput,
+  RouteOutput,
+  RouteListResultOutput,
+  SecurityPartnerProviderOutput,
+  SecurityPartnerProviderListResultOutput,
+  BgpServiceCommunityListResultOutput,
+  ServiceEndpointPolicyOutput,
+  ServiceEndpointPolicyListResultOutput,
+  ServiceEndpointPolicyDefinitionOutput,
+  ServiceEndpointPolicyDefinitionListResultOutput,
+  ServiceTagsListResultOutput,
+  ServiceTagInformationListResultOutput,
+  UsagesListResultOutput,
   VirtualNetworkOutput,
-  VirtualNetworkPeeringListResultOutput,
+  VirtualNetworkListResultOutput,
+  IPAddressAvailabilityResultOutput,
+  VirtualNetworkListUsageResultOutput,
+  VirtualNetworkDdosProtectionStatusResultOutput,
+  SubnetOutput,
+  SubnetListResultOutput,
+  ResourceNavigationLinksListResultOutput,
+  ServiceAssociationLinksListResultOutput,
   VirtualNetworkPeeringOutput,
-  VirtualNetworkTapListResultOutput,
-  VirtualNetworkTapOutput,
-  VirtualRouterListResultOutput,
-  VirtualRouterOutput,
-  VirtualRouterPeeringListResultOutput,
-  VirtualRouterPeeringOutput,
-  VirtualWANOutput,
-  VirtualWanSecurityProvidersOutput,
-  VpnClientConnectionHealthDetailListResultOutput,
+  VirtualNetworkPeeringListResultOutput,
+  VirtualNetworkGatewayOutput,
+  VirtualNetworkGatewayListResultOutput,
+  VirtualNetworkGatewayListConnectionsResultOutput,
+  BgpPeerStatusListResultOutput,
+  GatewayRouteListResultOutput,
   VpnClientIPsecParametersOutput,
-  VpnConnectionOutput,
-  VpnGatewayNatRuleOutput,
-  VpnGatewayOutput,
-  VpnProfileResponseOutput,
-  VpnServerConfigurationOutput,
-  VpnServerConfigurationPolicyGroupOutput,
-  VpnServerConfigurationsResponseOutput,
-  VpnSiteLinkConnectionOutput,
-  VpnSiteLinkOutput,
+  VpnClientConnectionHealthDetailListResultOutput,
+  VirtualNetworkGatewayConnectionOutput,
+  ConnectionSharedKeyOutput,
+  VirtualNetworkGatewayConnectionListResultOutput,
+  ConnectionResetSharedKeyOutput,
+  LocalNetworkGatewayOutput,
+  LocalNetworkGatewayListResultOutput,
+  VirtualNetworkGatewayNatRuleOutput,
+  ListVirtualNetworkGatewayNatRulesResultOutput,
+  VirtualNetworkTapOutput,
+  VirtualNetworkTapListResultOutput,
+  VirtualRouterOutput,
+  VirtualRouterListResultOutput,
+  VirtualRouterPeeringOutput,
+  VirtualRouterPeeringListResultOutput,
+  VirtualWANOutput,
+  ListVirtualWANsResultOutput,
   VpnSiteOutput,
+  ListVpnSitesResultOutput,
+  VpnSiteLinkOutput,
+  ListVpnSiteLinksResultOutput,
+  VpnServerConfigurationOutput,
+  ListVpnServerConfigurationsResultOutput,
+  VpnServerConfigurationPolicyGroupOutput,
+  ListVpnServerConfigurationPolicyGroupsResultOutput,
+  VirtualHubOutput,
+  ListVirtualHubsResultOutput,
+  RouteMapOutput,
+  ListRouteMapsResultOutput,
+  HubVirtualNetworkConnectionOutput,
+  ListHubVirtualNetworkConnectionsResultOutput,
+  VpnGatewayOutput,
+  ListVpnGatewaysResultOutput,
+  ListVpnSiteLinkConnectionsResultOutput,
+  VpnConnectionOutput,
+  ListVpnConnectionsResultOutput,
+  VpnSiteLinkConnectionOutput,
+  VpnGatewayNatRuleOutput,
+  ListVpnGatewayNatRulesResultOutput,
+  P2SVpnGatewayOutput,
+  ListP2SVpnGatewaysResultOutput,
+  P2SVpnConnectionHealthOutput,
+  VpnServerConfigurationsResponseOutput,
+  VirtualHubRouteTableV2Output,
+  ListVirtualHubRouteTableV2SResultOutput,
+  ExpressRouteGatewayListOutput,
+  ExpressRouteGatewayOutput,
+  ExpressRouteConnectionOutput,
+  ExpressRouteConnectionListOutput,
+  BgpConnectionOutput,
+  ListVirtualHubBgpConnectionResultsOutput,
+  PeerRouteListOutput,
+  HubIpConfigurationOutput,
+  ListVirtualHubIpConfigurationResultsOutput,
+  HubRouteTableOutput,
+  ListHubRouteTablesResultOutput,
+  RoutingIntentOutput,
+  ListRoutingIntentResultOutput,
   WebApplicationFirewallPolicyListResultOutput,
   WebApplicationFirewallPolicyOutput,
-} from "./outputModels";
+  SwapResourceOutput,
+  SwapResourceListResultOutput,
+} from "./outputModels.js";
 
 /** Deletes the specified application gateway. */
 export interface ApplicationGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application gateway. */
 export interface ApplicationGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application gateway. */
 export interface ApplicationGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application gateway. */
@@ -381,13 +378,11 @@ export interface ApplicationGatewaysListAllDefaultResponse extends HttpResponse 
 /** Starts the specified application gateway. */
 export interface ApplicationGatewaysStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts the specified application gateway. */
 export interface ApplicationGatewaysStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts the specified application gateway. */
@@ -399,13 +394,11 @@ export interface ApplicationGatewaysStartDefaultResponse extends HttpResponse {
 /** Stops the specified application gateway in a resource group. */
 export interface ApplicationGatewaysStop200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stops the specified application gateway in a resource group. */
 export interface ApplicationGatewaysStop202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops the specified application gateway in a resource group. */
@@ -423,7 +416,6 @@ export interface ApplicationGatewaysBackendHealth200Response extends HttpRespons
 /** Gets the backend health of the specified application gateway in a resource group. */
 export interface ApplicationGatewaysBackendHealth202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the backend health of the specified application gateway in a resource group. */
@@ -441,7 +433,6 @@ export interface ApplicationGatewaysBackendHealthOnDemand200Response extends Htt
 /** Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group. */
 export interface ApplicationGatewaysBackendHealthOnDemand202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group. */
@@ -555,21 +546,18 @@ export interface ApplicationGatewayPrivateLinkResourcesListDefaultResponse exten
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint connection on application gateway. */
@@ -590,7 +578,6 @@ export interface ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
 export interface ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates the specified private endpoint connection on application gateway. */
@@ -654,19 +641,16 @@ export interface ApplicationGatewayWafDynamicManifestsGetDefaultResponse extends
 /** Deletes the specified application security group. */
 export interface ApplicationSecurityGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application security group. */
 export interface ApplicationSecurityGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application security group. */
 export interface ApplicationSecurityGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified application security group. */
@@ -792,19 +776,16 @@ export interface AvailableServiceAliasesListByResourceGroupDefaultResponse exten
 /** Deletes the specified Azure Firewall. */
 export interface AzureFirewallsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Azure Firewall. */
 export interface AzureFirewallsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Azure Firewall. */
 export interface AzureFirewallsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Azure Firewall. */
@@ -852,7 +833,6 @@ export interface AzureFirewallsUpdateTags200Response extends HttpResponse {
 /** Updates tags of an Azure Firewall resource. */
 export interface AzureFirewallsUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates tags of an Azure Firewall resource. */
@@ -894,7 +874,6 @@ export interface AzureFirewallsListLearnedPrefixes200Response extends HttpRespon
 /** Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT. */
 export interface AzureFirewallsListLearnedPrefixes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT. */
@@ -942,19 +921,16 @@ export interface WebCategoriesListBySubscriptionDefaultResponse extends HttpResp
 /** Deletes the specified Bastion Host. */
 export interface BastionHostsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Bastion Host. */
 export interface BastionHostsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Bastion Host. */
 export interface BastionHostsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Bastion Host. */
@@ -1002,7 +978,6 @@ export interface BastionHostsUpdateTags200Response extends HttpResponse {
 /** Updates Tags for BastionHost resource */
 export interface BastionHostsUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates Tags for BastionHost resource */
@@ -1044,7 +1019,6 @@ export interface PutBastionShareableLink200Response extends HttpResponse {
 /** Creates a Bastion Shareable Links for all the VMs specified in the request. */
 export interface PutBastionShareableLink202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Creates a Bastion Shareable Links for all the VMs specified in the request. */
@@ -1056,13 +1030,11 @@ export interface PutBastionShareableLinkDefaultResponse extends HttpResponse {
 /** Deletes the Bastion Shareable Links for all the VMs specified in the request. */
 export interface DeleteBastionShareableLink200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the Bastion Shareable Links for all the VMs specified in the request. */
 export interface DeleteBastionShareableLink202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the Bastion Shareable Links for all the VMs specified in the request. */
@@ -1092,7 +1064,6 @@ export interface GetActiveSessions200Response extends HttpResponse {
 /** Returns the list of currently active sessions on the Bastion. */
 export interface GetActiveSessions202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Returns the list of currently active sessions on the Bastion. */
@@ -1121,6 +1092,18 @@ export interface CheckDnsNameAvailability200Response extends HttpResponse {
 
 /** Checks whether a domain name in the cloudapp.azure.com zone is available for use. */
 export interface CheckDnsNameAvailabilityDefaultResponse extends HttpResponse {
+  status: string;
+  body: CloudErrorOutput;
+}
+
+/** Retrieves detail of a provider port. */
+export interface ExpressRouteProviderPort200Response extends HttpResponse {
+  status: "200";
+  body: ExpressRouteProviderPortOutput;
+}
+
+/** Retrieves detail of a provider port. */
+export interface ExpressRouteProviderPortDefaultResponse extends HttpResponse {
   status: string;
   body: CloudErrorOutput;
 }
@@ -1198,7 +1181,6 @@ export interface Generatevirtualwanvpnserverconfigurationvpnprofile200Response
 export interface Generatevirtualwanvpnserverconfigurationvpnprofile202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group. */
@@ -1252,19 +1234,16 @@ export interface NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse
 /** Deletes the specified network interface. */
 export interface NetworkInterfacesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network interface. */
 export interface NetworkInterfacesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network interface. */
 export interface NetworkInterfacesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network interface. */
@@ -1348,7 +1327,6 @@ export interface NetworkInterfacesGetEffectiveRouteTable200Response extends Http
 /** Gets all route tables applied to a network interface. */
 export interface NetworkInterfacesGetEffectiveRouteTable202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets all route tables applied to a network interface. */
@@ -1368,7 +1346,6 @@ export interface NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
 export interface NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets all network security groups applied to a network interface. */
@@ -1492,19 +1469,16 @@ export interface PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse
 /** Deletes the specified public IP address. */
 export interface PublicIPAddressesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP address. */
 export interface PublicIPAddressesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP address. */
 export interface PublicIPAddressesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP address. */
@@ -1588,7 +1562,6 @@ export interface PublicIPAddressesDdosProtectionStatus200Response extends HttpRe
 /** Gets the Ddos Protection Status of a Public IP Address */
 export interface PublicIPAddressesDdosProtectionStatus202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the Ddos Protection Status of a Public IP Address */
@@ -1642,19 +1615,16 @@ export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaul
 /** Deletes the specified custom IP prefix. */
 export interface CustomIPPrefixesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified custom IP prefix. */
 export interface CustomIPPrefixesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified custom IP prefix. */
 export interface CustomIPPrefixesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified custom IP prefix. */
@@ -1732,19 +1702,16 @@ export interface CustomIPPrefixesListDefaultResponse extends HttpResponse {
 /** Deletes the specified DDoS custom policy. */
 export interface DdosCustomPoliciesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS custom policy. */
 export interface DdosCustomPoliciesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS custom policy. */
 export interface DdosCustomPoliciesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS custom policy. */
@@ -1798,19 +1765,16 @@ export interface DdosCustomPoliciesUpdateTagsDefaultResponse extends HttpRespons
 /** Deletes the specified DDoS protection plan. */
 export interface DdosProtectionPlansDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS protection plan. */
 export interface DdosProtectionPlansDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS protection plan. */
 export interface DdosProtectionPlansDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified DDoS protection plan. */
@@ -1906,19 +1870,16 @@ export interface DscpConfigurationCreateOrUpdateDefaultResponse extends HttpResp
 /** Deletes a DSCP Configuration. */
 export interface DscpConfigurationDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a DSCP Configuration. */
 export interface DscpConfigurationDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a DSCP Configuration. */
 export interface DscpConfigurationDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a DSCP Configuration. */
@@ -1978,19 +1939,16 @@ export interface AvailableEndpointServicesListDefaultResponse extends HttpRespon
 /** Deletes the specified authorization from the specified express route circuit. */
 export interface ExpressRouteCircuitAuthorizationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route circuit. */
 export interface ExpressRouteCircuitAuthorizationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route circuit. */
 export interface ExpressRouteCircuitAuthorizationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route circuit. */
@@ -2045,19 +2003,16 @@ export interface ExpressRouteCircuitAuthorizationsListDefaultResponse extends Ht
 /** Deletes the specified peering from the specified express route circuit. */
 export interface ExpressRouteCircuitPeeringsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the specified express route circuit. */
 export interface ExpressRouteCircuitPeeringsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the specified express route circuit. */
 export interface ExpressRouteCircuitPeeringsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the specified express route circuit. */
@@ -2111,19 +2066,16 @@ export interface ExpressRouteCircuitPeeringsListDefaultResponse extends HttpResp
 /** Deletes the specified Express Route Circuit Connection from the specified express route circuit. */
 export interface ExpressRouteCircuitConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Express Route Circuit Connection from the specified express route circuit. */
 export interface ExpressRouteCircuitConnectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Express Route Circuit Connection from the specified express route circuit. */
 export interface ExpressRouteCircuitConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Express Route Circuit Connection from the specified express route circuit. */
@@ -2201,19 +2153,16 @@ export interface PeerExpressRouteCircuitConnectionsListDefaultResponse extends H
 /** Deletes the specified express route circuit. */
 export interface ExpressRouteCircuitsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified express route circuit. */
 export interface ExpressRouteCircuitsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified express route circuit. */
 export interface ExpressRouteCircuitsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified express route circuit. */
@@ -2273,7 +2222,6 @@ export interface ExpressRouteCircuitsListArpTable200Response extends HttpRespons
 /** Gets the currently advertised ARP table associated with the express route circuit in a resource group. */
 export interface ExpressRouteCircuitsListArpTable202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the currently advertised ARP table associated with the express route circuit in a resource group. */
@@ -2291,7 +2239,6 @@ export interface ExpressRouteCircuitsListRoutesTable200Response extends HttpResp
 /** Gets the currently advertised routes table associated with the express route circuit in a resource group. */
 export interface ExpressRouteCircuitsListRoutesTable202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the currently advertised routes table associated with the express route circuit in a resource group. */
@@ -2309,7 +2256,6 @@ export interface ExpressRouteCircuitsListRoutesTableSummary200Response extends H
 /** Gets the currently advertised routes table summary associated with the express route circuit in a resource group. */
 export interface ExpressRouteCircuitsListRoutesTableSummary202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the currently advertised routes table summary associated with the express route circuit in a resource group. */
@@ -2448,7 +2394,6 @@ export interface ExpressRouteCrossConnectionsListArpTable200Response extends Htt
 /** Gets the currently advertised ARP table associated with the express route cross connection in a resource group. */
 export interface ExpressRouteCrossConnectionsListArpTable202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the currently advertised ARP table associated with the express route cross connection in a resource group. */
@@ -2468,7 +2413,6 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummary200Response
 export interface ExpressRouteCrossConnectionsListRoutesTableSummary202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the route table summary associated with the express route cross connection in a resource group. */
@@ -2487,7 +2431,6 @@ export interface ExpressRouteCrossConnectionsListRoutesTable200Response extends 
 /** Gets the currently advertised routes table associated with the express route cross connection in a resource group. */
 export interface ExpressRouteCrossConnectionsListRoutesTable202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the currently advertised routes table associated with the express route cross connection in a resource group. */
@@ -2511,19 +2454,16 @@ export interface ExpressRouteCrossConnectionPeeringsListDefaultResponse extends 
 /** Deletes the specified peering from the ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPeeringsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPeeringsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPeeringsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from the ExpressRouteCrossConnection. */
@@ -2590,19 +2530,16 @@ export interface ExpressRoutePortsLocationsGetDefaultResponse extends HttpRespon
 /** Deletes the specified ExpressRoutePort resource. */
 export interface ExpressRoutePortsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoutePort resource. */
 export interface ExpressRoutePortsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoutePort resource. */
 export interface ExpressRoutePortsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoutePort resource. */
@@ -2716,19 +2653,16 @@ export interface ExpressRouteLinksListDefaultResponse extends HttpResponse {
 /** Deletes the specified authorization from the specified express route port. */
 export interface ExpressRoutePortAuthorizationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route port. */
 export interface ExpressRoutePortAuthorizationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route port. */
 export interface ExpressRoutePortAuthorizationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified authorization from the specified express route port. */
@@ -2791,34 +2725,19 @@ export interface ExpressRouteProviderPortsLocationListDefaultResponse extends Ht
   body: CloudErrorOutput;
 }
 
-/** Retrieves detail of a provider port. */
-export interface ExpressRouteProviderPortsGet200Response extends HttpResponse {
-  status: "200";
-  body: ExpressRouteProviderPortOutput;
-}
-
-/** Retrieves detail of a provider port. */
-export interface ExpressRouteProviderPortsGetDefaultResponse extends HttpResponse {
-  status: string;
-  body: CloudErrorOutput;
-}
-
 /** Deletes the specified Firewall Policy. */
 export interface FirewallPoliciesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Firewall Policy. */
 export interface FirewallPoliciesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Firewall Policy. */
 export interface FirewallPoliciesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Firewall Policy. */
@@ -2896,19 +2815,16 @@ export interface FirewallPoliciesListAllDefaultResponse extends HttpResponse {
 /** Deletes the specified FirewallPolicyRuleCollectionGroup. */
 export interface FirewallPolicyRuleCollectionGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified FirewallPolicyRuleCollectionGroup. */
 export interface FirewallPolicyRuleCollectionGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified FirewallPolicyRuleCollectionGroup. */
 export interface FirewallPolicyRuleCollectionGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified FirewallPolicyRuleCollectionGroup. */
@@ -3035,19 +2951,16 @@ export interface FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse ext
 /** Deletes the specified IpAllocation. */
 export interface IpAllocationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified IpAllocation. */
 export interface IpAllocationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified IpAllocation. */
 export interface IpAllocationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified IpAllocation. */
@@ -3167,19 +3080,16 @@ export interface IpGroupsUpdateGroupsDefaultResponse extends HttpResponse {
 /** Deletes the specified ipGroups. */
 export interface IpGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ipGroups. */
 export interface IpGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ipGroups. */
 export interface IpGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ipGroups. */
@@ -3215,19 +3125,16 @@ export interface IpGroupsListDefaultResponse extends HttpResponse {
 /** Deletes the specified load balancer. */
 export interface LoadBalancersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer. */
 export interface LoadBalancersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer. */
 export interface LoadBalancersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer. */
@@ -3305,13 +3212,11 @@ export interface LoadBalancersListDefaultResponse extends HttpResponse {
 /** Swaps VIPs between two load balancers. */
 export interface LoadBalancersSwapPublicIpAddresses200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Swaps VIPs between two load balancers. */
 export interface LoadBalancersSwapPublicIpAddresses202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Swaps VIPs between two load balancers. */
@@ -3383,19 +3288,16 @@ export interface LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse ex
 /** Deletes the specified load balancer backend address pool. */
 export interface LoadBalancerBackendAddressPoolsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer backend address pool. */
 export interface LoadBalancerBackendAddressPoolsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer backend address pool. */
 export interface LoadBalancerBackendAddressPoolsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer backend address pool. */
@@ -3443,19 +3345,16 @@ export interface InboundNatRulesListDefaultResponse extends HttpResponse {
 /** Deletes the specified load balancer inbound NAT rule. */
 export interface InboundNatRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer inbound NAT rule. */
 export interface InboundNatRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer inbound NAT rule. */
 export interface InboundNatRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified load balancer inbound NAT rule. */
@@ -3581,19 +3480,16 @@ export interface LoadBalancerProbesGetDefaultResponse extends HttpResponse {
 /** Deletes the specified nat gateway. */
 export interface NatGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified nat gateway. */
 export interface NatGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified nat gateway. */
 export interface NatGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified nat gateway. */
@@ -3629,7 +3525,6 @@ export interface NatGatewaysCreateOrUpdate201Response extends HttpResponse {
 /** Creates or updates a nat gateway. */
 export interface NatGatewaysCreateOrUpdate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Creates or updates a nat gateway. */
@@ -3713,19 +3608,16 @@ export interface NetworkInterfaceLoadBalancersListDefaultResponse extends HttpRe
 /** Deletes the specified tap configuration from the NetworkInterface. */
 export interface NetworkInterfaceTapConfigurationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified tap configuration from the NetworkInterface. */
 export interface NetworkInterfaceTapConfigurationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified tap configuration from the NetworkInterface. */
 export interface NetworkInterfaceTapConfigurationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified tap configuration from the NetworkInterface. */
@@ -3810,7 +3702,6 @@ export interface NetworkManagersCreateOrUpdateDefaultResponse extends HttpRespon
 /** Deletes a network manager. */
 export interface NetworkManagersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface NetworkManagersDelete202Headers {
@@ -3821,14 +3712,12 @@ export interface NetworkManagersDelete202Headers {
 /** Deletes a network manager. */
 export interface NetworkManagersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & NetworkManagersDelete202Headers;
 }
 
 /** Deletes a network manager. */
 export interface NetworkManagersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a network manager. */
@@ -3945,13 +3834,11 @@ export interface SubscriptionNetworkManagerConnectionsGetDefaultResponse extends
 /** Delete specified connection created by this subscription. */
 export interface SubscriptionNetworkManagerConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete specified connection created by this subscription. */
 export interface SubscriptionNetworkManagerConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete specified connection created by this subscription. */
@@ -4008,13 +3895,11 @@ export interface ManagementGroupNetworkManagerConnectionsGetDefaultResponse exte
 /** Delete specified pending connection created by this management group. */
 export interface ManagementGroupNetworkManagerConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete specified pending connection created by this management group. */
 export interface ManagementGroupNetworkManagerConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete specified pending connection created by this management group. */
@@ -4069,7 +3954,6 @@ export interface ConnectivityConfigurationsCreateOrUpdateDefaultResponse extends
 /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
 export interface ConnectivityConfigurationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface ConnectivityConfigurationsDelete202Headers {
@@ -4080,14 +3964,12 @@ export interface ConnectivityConfigurationsDelete202Headers {
 /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
 export interface ConnectivityConfigurationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & ConnectivityConfigurationsDelete202Headers;
 }
 
 /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
 export interface ConnectivityConfigurationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a network manager connectivity configuration, specified by the resource group, network manager name, and connectivity configuration name */
@@ -4153,7 +4035,6 @@ export interface NetworkGroupsCreateOrUpdateDefaultResponse extends HttpResponse
 /** Deletes a network group. */
 export interface NetworkGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface NetworkGroupsDelete202Headers {
@@ -4164,14 +4045,12 @@ export interface NetworkGroupsDelete202Headers {
 /** Deletes a network group. */
 export interface NetworkGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & NetworkGroupsDelete202Headers;
 }
 
 /** Deletes a network group. */
 export interface NetworkGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a network group. */
@@ -4225,13 +4104,11 @@ export interface StaticMembersCreateOrUpdateDefaultResponse extends HttpResponse
 /** Deletes a static member. */
 export interface StaticMembersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static member. */
 export interface StaticMembersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static member. */
@@ -4285,13 +4162,11 @@ export interface ScopeConnectionsGetDefaultResponse extends HttpResponse {
 /** Delete the pending scope connection created by this network manager. */
 export interface ScopeConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete the pending scope connection created by this network manager. */
 export interface ScopeConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete the pending scope connection created by this network manager. */
@@ -4357,7 +4232,6 @@ export interface SecurityAdminConfigurationsCreateOrUpdateDefaultResponse extend
 /** Deletes a network manager security admin configuration. */
 export interface SecurityAdminConfigurationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface SecurityAdminConfigurationsDelete202Headers {
@@ -4368,14 +4242,12 @@ export interface SecurityAdminConfigurationsDelete202Headers {
 /** Deletes a network manager security admin configuration. */
 export interface SecurityAdminConfigurationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & SecurityAdminConfigurationsDelete202Headers;
 }
 
 /** Deletes a network manager security admin configuration. */
 export interface SecurityAdminConfigurationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a network manager security admin configuration. */
@@ -4429,7 +4301,6 @@ export interface AdminRuleCollectionsCreateOrUpdateDefaultResponse extends HttpR
 /** Deletes an admin rule collection. */
 export interface AdminRuleCollectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface AdminRuleCollectionsDelete202Headers {
@@ -4440,14 +4311,12 @@ export interface AdminRuleCollectionsDelete202Headers {
 /** Deletes an admin rule collection. */
 export interface AdminRuleCollectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & AdminRuleCollectionsDelete202Headers;
 }
 
 /** Deletes an admin rule collection. */
 export interface AdminRuleCollectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes an admin rule collection. */
@@ -4501,7 +4370,6 @@ export interface AdminRulesCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes an admin rule. */
 export interface AdminRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 export interface AdminRulesDelete202Headers {
@@ -4512,14 +4380,12 @@ export interface AdminRulesDelete202Headers {
 /** Deletes an admin rule. */
 export interface AdminRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & AdminRulesDelete202Headers;
 }
 
 /** Deletes an admin rule. */
 export interface AdminRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes an admin rule. */
@@ -4531,19 +4397,16 @@ export interface AdminRulesDeleteDefaultResponse extends HttpResponse {
 /** Deletes the specified network profile. */
 export interface NetworkProfilesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network profile. */
 export interface NetworkProfilesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network profile. */
 export interface NetworkProfilesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network profile. */
@@ -4621,19 +4484,16 @@ export interface NetworkProfilesListDefaultResponse extends HttpResponse {
 /** Deletes the specified network security group. */
 export interface NetworkSecurityGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security group. */
 export interface NetworkSecurityGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security group. */
 export interface NetworkSecurityGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security group. */
@@ -4711,19 +4571,16 @@ export interface NetworkSecurityGroupsListDefaultResponse extends HttpResponse {
 /** Deletes the specified network security rule. */
 export interface SecurityRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security rule. */
 export interface SecurityRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security rule. */
 export interface SecurityRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network security rule. */
@@ -4801,19 +4658,16 @@ export interface DefaultSecurityRulesGetDefaultResponse extends HttpResponse {
 /** Deletes the specified Network Virtual Appliance. */
 export interface NetworkVirtualAppliancesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Network Virtual Appliance. */
 export interface NetworkVirtualAppliancesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Network Virtual Appliance. */
 export interface NetworkVirtualAppliancesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Network Virtual Appliance. */
@@ -4891,19 +4745,16 @@ export interface NetworkVirtualAppliancesListDefaultResponse extends HttpRespons
 /** Deletes the specified site from a Virtual Appliance. */
 export interface VirtualApplianceSitesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified site from a Virtual Appliance. */
 export interface VirtualApplianceSitesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified site from a Virtual Appliance. */
 export interface VirtualApplianceSitesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified site from a Virtual Appliance. */
@@ -5029,13 +4880,11 @@ export interface NetworkWatchersGetDefaultResponse extends HttpResponse {
 /** Deletes the specified network watcher resource. */
 export interface NetworkWatchersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network watcher resource. */
 export interface NetworkWatchersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified network watcher resource. */
@@ -5318,13 +5167,11 @@ export interface PacketCapturesGetDefaultResponse extends HttpResponse {
 /** Deletes the specified packet capture session. */
 export interface PacketCapturesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified packet capture session. */
 export interface PacketCapturesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified packet capture session. */
@@ -5336,13 +5183,11 @@ export interface PacketCapturesDeleteDefaultResponse extends HttpResponse {
 /** Stops a specified packet capture session. */
 export interface PacketCapturesStop200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stops a specified packet capture session. */
 export interface PacketCapturesStop202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops a specified packet capture session. */
@@ -5414,13 +5259,11 @@ export interface ConnectionMonitorsGetDefaultResponse extends HttpResponse {
 /** Deletes the specified connection monitor. */
 export interface ConnectionMonitorsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified connection monitor. */
 export interface ConnectionMonitorsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified connection monitor. */
@@ -5444,13 +5287,11 @@ export interface ConnectionMonitorsUpdateTagsDefaultResponse extends HttpRespons
 /** Stops the specified connection monitor. */
 export interface ConnectionMonitorsStop200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stops the specified connection monitor. */
 export interface ConnectionMonitorsStop202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops the specified connection monitor. */
@@ -5462,13 +5303,11 @@ export interface ConnectionMonitorsStopDefaultResponse extends HttpResponse {
 /** Starts the specified connection monitor. */
 export interface ConnectionMonitorsStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts the specified connection monitor. */
 export interface ConnectionMonitorsStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts the specified connection monitor. */
@@ -5552,13 +5391,11 @@ export interface FlowLogsGetDefaultResponse extends HttpResponse {
 /** Deletes the specified flow log resource. */
 export interface FlowLogsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified flow log resource. */
 export interface FlowLogsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified flow log resource. */
@@ -5594,19 +5431,16 @@ export interface OperationsListDefaultResponse extends HttpResponse {
 /** Deletes the specified private endpoint. */
 export interface PrivateEndpointsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint. */
 export interface PrivateEndpointsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint. */
 export interface PrivateEndpointsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private endpoint. */
@@ -5697,19 +5531,16 @@ export interface AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse
 /** Deletes the specified private dns zone group. */
 export interface PrivateDnsZoneGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private dns zone group. */
 export interface PrivateDnsZoneGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private dns zone group. */
 export interface PrivateDnsZoneGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private dns zone group. */
@@ -5763,19 +5594,16 @@ export interface PrivateDnsZoneGroupsListDefaultResponse extends HttpResponse {
 /** Deletes the specified private link service. */
 export interface PrivateLinkServicesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private link service. */
 export interface PrivateLinkServicesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private link service. */
 export interface PrivateLinkServicesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified private link service. */
@@ -5869,21 +5697,18 @@ export interface PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultRespon
 export interface PrivateLinkServicesDeletePrivateEndpointConnection200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
 export interface PrivateLinkServicesDeletePrivateEndpointConnection202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
 export interface PrivateLinkServicesDeletePrivateEndpointConnection204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete private end point connection for a private link service in a subscription. */
@@ -5917,7 +5742,6 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Checks whether the subscription is visible to private link service. */
@@ -5938,7 +5762,6 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceG
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Checks whether the subscription is visible to private link service in the specified resource group. */
@@ -5979,19 +5802,16 @@ export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourc
 /** Deletes the specified public IP prefix. */
 export interface PublicIPPrefixesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP prefix. */
 export interface PublicIPPrefixesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP prefix. */
 export interface PublicIPPrefixesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified public IP prefix. */
@@ -6069,19 +5889,16 @@ export interface PublicIPPrefixesListDefaultResponse extends HttpResponse {
 /** Deletes the specified route filter. */
 export interface RouteFiltersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route filter. */
 export interface RouteFiltersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route filter. */
 export interface RouteFiltersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route filter. */
@@ -6159,19 +5976,16 @@ export interface RouteFiltersListDefaultResponse extends HttpResponse {
 /** Deletes the specified rule from a route filter. */
 export interface RouteFilterRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified rule from a route filter. */
 export interface RouteFilterRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified rule from a route filter. */
 export interface RouteFilterRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified rule from a route filter. */
@@ -6225,19 +6039,16 @@ export interface RouteFilterRulesListByRouteFilterDefaultResponse extends HttpRe
 /** Deletes the specified route table. */
 export interface RouteTablesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route table. */
 export interface RouteTablesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route table. */
 export interface RouteTablesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route table. */
@@ -6315,19 +6126,16 @@ export interface RouteTablesListAllDefaultResponse extends HttpResponse {
 /** Deletes the specified route from a route table. */
 export interface RoutesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route from a route table. */
 export interface RoutesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route from a route table. */
 export interface RoutesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified route from a route table. */
@@ -6381,19 +6189,16 @@ export interface RoutesListDefaultResponse extends HttpResponse {
 /** Deletes the specified Security Partner Provider. */
 export interface SecurityPartnerProvidersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Security Partner Provider. */
 export interface SecurityPartnerProvidersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Security Partner Provider. */
 export interface SecurityPartnerProvidersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Security Partner Provider. */
@@ -6483,19 +6288,16 @@ export interface BgpServiceCommunitiesListDefaultResponse extends HttpResponse {
 /** Deletes the specified service endpoint policy. */
 export interface ServiceEndpointPoliciesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified service endpoint policy. */
 export interface ServiceEndpointPoliciesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified service endpoint policy. */
 export interface ServiceEndpointPoliciesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified service endpoint policy. */
@@ -6573,19 +6375,16 @@ export interface ServiceEndpointPoliciesListByResourceGroupDefaultResponse exten
 /** Deletes the specified ServiceEndpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ServiceEndpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ServiceEndpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ServiceEndpoint policy definitions. */
@@ -6678,19 +6477,16 @@ export interface UsagesListDefaultResponse extends HttpResponse {
 /** Deletes the specified virtual network. */
 export interface VirtualNetworksDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network. */
 export interface VirtualNetworksDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network. */
 export interface VirtualNetworksDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network. */
@@ -6798,7 +6594,6 @@ export interface VirtualNetworksListDdosProtectionStatus200Response extends Http
 /** Gets the Ddos Protection Status of all IP Addresses under the Virtual Network */
 export interface VirtualNetworksListDdosProtectionStatus202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the Ddos Protection Status of all IP Addresses under the Virtual Network */
@@ -6810,19 +6605,16 @@ export interface VirtualNetworksListDdosProtectionStatusDefaultResponse extends 
 /** Deletes the specified subnet. */
 export interface SubnetsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified subnet. */
 export interface SubnetsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified subnet. */
 export interface SubnetsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified subnet. */
@@ -6864,13 +6656,11 @@ export interface SubnetsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Prepares a subnet by applying network intent policies. */
 export interface SubnetsPrepareNetworkPolicies200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Prepares a subnet by applying network intent policies. */
 export interface SubnetsPrepareNetworkPolicies202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Prepares a subnet by applying network intent policies. */
@@ -6882,13 +6672,11 @@ export interface SubnetsPrepareNetworkPoliciesDefaultResponse extends HttpRespon
 /** Unprepares a subnet by removing network intent policies. */
 export interface SubnetsUnprepareNetworkPolicies200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Unprepares a subnet by removing network intent policies. */
 export interface SubnetsUnprepareNetworkPolicies202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Unprepares a subnet by removing network intent policies. */
@@ -6936,19 +6724,16 @@ export interface ServiceAssociationLinksListDefaultResponse extends HttpResponse
 /** Deletes the specified virtual network peering. */
 export interface VirtualNetworkPeeringsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network peering. */
 export interface VirtualNetworkPeeringsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network peering. */
 export interface VirtualNetworkPeeringsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network peering. */
@@ -7032,19 +6817,16 @@ export interface VirtualNetworkGatewaysGetDefaultResponse extends HttpResponse {
 /** Deletes the specified virtual network gateway. */
 export interface VirtualNetworkGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network gateway. */
 export interface VirtualNetworkGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network gateway. */
 export interface VirtualNetworkGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network gateway. */
@@ -7062,7 +6844,6 @@ export interface VirtualNetworkGatewaysUpdateTags200Response extends HttpRespons
 /** Updates a virtual network gateway tags. */
 export interface VirtualNetworkGatewaysUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates a virtual network gateway tags. */
@@ -7104,7 +6885,6 @@ export interface VirtualNetworkGatewaysReset200Response extends HttpResponse {
 /** Resets the primary of the virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysReset202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the primary of the virtual network gateway in the specified resource group. */
@@ -7116,13 +6896,11 @@ export interface VirtualNetworkGatewaysResetDefaultResponse extends HttpResponse
 /** Resets the VPN client shared key of the virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysResetVpnClientSharedKey200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Resets the VPN client shared key of the virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysResetVpnClientSharedKey202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the VPN client shared key of the virtual network gateway in the specified resource group. */
@@ -7140,7 +6918,6 @@ export interface VirtualNetworkGatewaysGeneratevpnclientpackage200Response exten
 /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysGeneratevpnclientpackage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Generates VPN client package for P2S client of the virtual network gateway in the specified resource group. */
@@ -7159,7 +6936,6 @@ export interface VirtualNetworkGatewaysGenerateVpnProfile200Response extends Htt
 /** Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication. */
 export interface VirtualNetworkGatewaysGenerateVpnProfile202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication. */
@@ -7177,7 +6953,6 @@ export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response extend
 /** Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile. */
 export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile. */
@@ -7195,7 +6970,6 @@ export interface VirtualNetworkGatewaysGetBgpPeerStatus200Response extends HttpR
 /** The GetBgpPeerStatus operation retrieves the status of all BGP peers. */
 export interface VirtualNetworkGatewaysGetBgpPeerStatus202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The GetBgpPeerStatus operation retrieves the status of all BGP peers. */
@@ -7225,7 +6999,6 @@ export interface VirtualNetworkGatewaysGetLearnedRoutes200Response extends HttpR
 /** This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers. */
 export interface VirtualNetworkGatewaysGetLearnedRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers. */
@@ -7243,7 +7016,6 @@ export interface VirtualNetworkGatewaysGetAdvertisedRoutes200Response extends Ht
 /** This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer. */
 export interface VirtualNetworkGatewaysGetAdvertisedRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer. */
@@ -7261,7 +7033,6 @@ export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response ex
 /** The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
 export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider. */
@@ -7307,7 +7078,6 @@ export interface VirtualNetworkGatewaysStartPacketCapture200Response extends Htt
 /** Starts packet capture on virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysStartPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts packet capture on virtual network gateway in the specified resource group. */
@@ -7325,7 +7095,6 @@ export interface VirtualNetworkGatewaysStopPacketCapture200Response extends Http
 /** Stops packet capture on virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysStopPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops packet capture on virtual network gateway in the specified resource group. */
@@ -7345,7 +7114,6 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
 export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group. */
@@ -7359,14 +7127,12 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultRespon
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Disconnect vpn connections of virtual network gateway in the specified resource group. */
@@ -7410,19 +7176,16 @@ export interface VirtualNetworkGatewayConnectionsGetDefaultResponse extends Http
 /** Deletes the specified virtual network Gateway connection. */
 export interface VirtualNetworkGatewayConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network Gateway connection. */
 export interface VirtualNetworkGatewayConnectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network Gateway connection. */
 export interface VirtualNetworkGatewayConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network Gateway connection. */
@@ -7440,7 +7203,6 @@ export interface VirtualNetworkGatewayConnectionsUpdateTags200Response extends H
 /** Updates a virtual network gateway connection tags. */
 export interface VirtualNetworkGatewayConnectionsUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates a virtual network gateway connection tags. */
@@ -7500,7 +7262,6 @@ export interface VirtualNetworkGatewayConnectionsResetSharedKey200Response exten
 /** The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
 export interface VirtualNetworkGatewayConnectionsResetSharedKey202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider. */
@@ -7521,7 +7282,6 @@ export interface VirtualNetworkGatewayConnectionsStartPacketCapture200Response
 export interface VirtualNetworkGatewayConnectionsStartPacketCapture202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts packet capture on virtual network gateway connection in the specified resource group. */
@@ -7540,7 +7300,6 @@ export interface VirtualNetworkGatewayConnectionsStopPacketCapture200Response ex
 /** Stops packet capture on virtual network gateway connection in the specified resource group. */
 export interface VirtualNetworkGatewayConnectionsStopPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops packet capture on virtual network gateway connection in the specified resource group. */
@@ -7559,7 +7318,6 @@ export interface VirtualNetworkGatewayConnectionsGetIkeSas200Response extends Ht
 /** Lists IKE Security Associations for the virtual network gateway connection in the specified resource group. */
 export interface VirtualNetworkGatewayConnectionsGetIkeSas202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Lists IKE Security Associations for the virtual network gateway connection in the specified resource group. */
@@ -7571,7 +7329,6 @@ export interface VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse extend
 /** Resets the virtual network gateway connection specified. */
 export interface VirtualNetworkGatewayConnectionsResetConnection202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the virtual network gateway connection specified. */
@@ -7614,19 +7371,16 @@ export interface LocalNetworkGatewaysGetDefaultResponse extends HttpResponse {
 /** Deletes the specified local network gateway. */
 export interface LocalNetworkGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified local network gateway. */
 export interface LocalNetworkGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified local network gateway. */
 export interface LocalNetworkGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified local network gateway. */
@@ -7692,19 +7446,16 @@ export interface VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse exte
 /** Deletes a nat rule. */
 export interface VirtualNetworkGatewayNatRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
 export interface VirtualNetworkGatewayNatRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
 export interface VirtualNetworkGatewayNatRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
@@ -7730,19 +7481,16 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefault
 /** Deletes the specified virtual network tap. */
 export interface VirtualNetworkTapsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network tap. */
 export interface VirtualNetworkTapsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network tap. */
 export interface VirtualNetworkTapsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified virtual network tap. */
@@ -7820,19 +7568,16 @@ export interface VirtualNetworkTapsListByResourceGroupDefaultResponse extends Ht
 /** Deletes the specified Virtual Router. */
 export interface VirtualRoutersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Virtual Router. */
 export interface VirtualRoutersDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Virtual Router. */
 export interface VirtualRoutersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified Virtual Router. */
@@ -7898,19 +7643,16 @@ export interface VirtualRoutersListDefaultResponse extends HttpResponse {
 /** Deletes the specified peering from a Virtual Router. */
 export interface VirtualRouterPeeringsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from a Virtual Router. */
 export interface VirtualRouterPeeringsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from a Virtual Router. */
 export interface VirtualRouterPeeringsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified peering from a Virtual Router. */
@@ -8006,19 +7748,16 @@ export interface VirtualWansUpdateTagsDefaultResponse extends HttpResponse {
 /** Deletes a VirtualWAN. */
 export interface VirtualWansDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualWAN. */
 export interface VirtualWansDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualWAN. */
 export interface VirtualWansDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualWAN. */
@@ -8096,19 +7835,16 @@ export interface VpnSitesUpdateTagsDefaultResponse extends HttpResponse {
 /** Deletes a VpnSite. */
 export interface VpnSitesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnSite. */
 export interface VpnSitesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnSite. */
 export interface VpnSitesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnSite. */
@@ -8168,13 +7904,11 @@ export interface VpnSiteLinksListByVpnSiteDefaultResponse extends HttpResponse {
 /** Gives the sas-url to download the configurations for vpn-sites in a resource group. */
 export interface VpnSitesConfigurationDownload200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Gives the sas-url to download the configurations for vpn-sites in a resource group. */
 export interface VpnSitesConfigurationDownload202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gives the sas-url to download the configurations for vpn-sites in a resource group. */
@@ -8228,19 +7962,16 @@ export interface VpnServerConfigurationsUpdateTagsDefaultResponse extends HttpRe
 /** Deletes a VpnServerConfiguration. */
 export interface VpnServerConfigurationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnServerConfiguration. */
 export interface VpnServerConfigurationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnServerConfiguration. */
 export interface VpnServerConfigurationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VpnServerConfiguration. */
@@ -8294,19 +8025,16 @@ export interface ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse extends 
 /** Deletes a ConfigurationPolicyGroup. */
 export interface ConfigurationPolicyGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a ConfigurationPolicyGroup. */
 export interface ConfigurationPolicyGroupsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a ConfigurationPolicyGroup. */
 export interface ConfigurationPolicyGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a ConfigurationPolicyGroup. */
@@ -8386,19 +8114,16 @@ export interface VirtualHubsUpdateTagsDefaultResponse extends HttpResponse {
 /** Deletes a VirtualHub. */
 export interface VirtualHubsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHub. */
 export interface VirtualHubsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHub. */
 export interface VirtualHubsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHub. */
@@ -8434,13 +8159,11 @@ export interface VirtualHubsListDefaultResponse extends HttpResponse {
 /** Gets the effective routes configured for the Virtual Hub resource or the specified resource . */
 export interface VirtualHubsGetEffectiveVirtualHubRoutes200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Gets the effective routes configured for the Virtual Hub resource or the specified resource . */
 export interface VirtualHubsGetEffectiveVirtualHubRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the effective routes configured for the Virtual Hub resource or the specified resource . */
@@ -8452,13 +8175,11 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse extends 
 /** Gets the inbound routes configured for the Virtual Hub on a particular connection. */
 export interface VirtualHubsGetInboundRoutes200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Gets the inbound routes configured for the Virtual Hub on a particular connection. */
 export interface VirtualHubsGetInboundRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the inbound routes configured for the Virtual Hub on a particular connection. */
@@ -8470,13 +8191,11 @@ export interface VirtualHubsGetInboundRoutesDefaultResponse extends HttpResponse
 /** Gets the outbound routes configured for the Virtual Hub on a particular connection. */
 export interface VirtualHubsGetOutboundRoutes200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Gets the outbound routes configured for the Virtual Hub on a particular connection. */
 export interface VirtualHubsGetOutboundRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the outbound routes configured for the Virtual Hub on a particular connection. */
@@ -8518,19 +8237,16 @@ export interface RouteMapsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a RouteMap. */
 export interface RouteMapsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteMap. */
 export interface RouteMapsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteMap. */
 export interface RouteMapsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteMap. */
@@ -8572,19 +8288,16 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse exten
 /** Deletes a HubVirtualNetworkConnection. */
 export interface HubVirtualNetworkConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a HubVirtualNetworkConnection. */
 export interface HubVirtualNetworkConnectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a HubVirtualNetworkConnection. */
 export interface HubVirtualNetworkConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a HubVirtualNetworkConnection. */
@@ -8656,7 +8369,6 @@ export interface VpnGatewaysUpdateTags200Response extends HttpResponse {
 /** Updates virtual wan vpn gateway tags. */
 export interface VpnGatewaysUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates virtual wan vpn gateway tags. */
@@ -8668,19 +8380,16 @@ export interface VpnGatewaysUpdateTagsDefaultResponse extends HttpResponse {
 /** Deletes a virtual wan vpn gateway. */
 export interface VpnGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan vpn gateway. */
 export interface VpnGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan vpn gateway. */
 export interface VpnGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan vpn gateway. */
@@ -8698,7 +8407,6 @@ export interface VpnGatewaysReset200Response extends HttpResponse {
 /** Resets the primary of the vpn gateway in the specified resource group. */
 export interface VpnGatewaysReset202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the primary of the vpn gateway in the specified resource group. */
@@ -8716,7 +8424,6 @@ export interface VpnGatewaysStartPacketCapture200Response extends HttpResponse {
 /** Starts packet capture on vpn gateway in the specified resource group. */
 export interface VpnGatewaysStartPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts packet capture on vpn gateway in the specified resource group. */
@@ -8734,7 +8441,6 @@ export interface VpnGatewaysStopPacketCapture200Response extends HttpResponse {
 /** Stops packet capture on vpn gateway in the specified resource group. */
 export interface VpnGatewaysStopPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops packet capture on vpn gateway in the specified resource group. */
@@ -8770,7 +8476,6 @@ export interface VpnGatewaysListDefaultResponse extends HttpResponse {
 /** Resets the VpnLink connection specified. */
 export interface VpnLinkConnectionsResetConnection202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the VpnLink connection specified. */
@@ -8788,7 +8493,6 @@ export interface VpnLinkConnectionsGetIkeSas200Response extends HttpResponse {
 /** Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group. */
 export interface VpnLinkConnectionsGetIkeSas202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group. */
@@ -8842,19 +8546,16 @@ export interface VpnConnectionsCreateOrUpdateDefaultResponse extends HttpRespons
 /** Deletes a vpn connection. */
 export interface VpnConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a vpn connection. */
 export interface VpnConnectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a vpn connection. */
 export interface VpnConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a vpn connection. */
@@ -8872,7 +8573,6 @@ export interface VpnConnectionsStartPacketCapture200Response extends HttpRespons
 /** Starts packet capture on Vpn connection in the specified resource group. */
 export interface VpnConnectionsStartPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts packet capture on Vpn connection in the specified resource group. */
@@ -8890,7 +8590,6 @@ export interface VpnConnectionsStopPacketCapture200Response extends HttpResponse
 /** Stops packet capture on Vpn connection in the specified resource group. */
 export interface VpnConnectionsStopPacketCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Stops packet capture on Vpn connection in the specified resource group. */
@@ -8956,19 +8655,16 @@ export interface NatRulesCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a nat rule. */
 export interface NatRulesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
 export interface NatRulesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
 export interface NatRulesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a nat rule. */
@@ -9028,7 +8724,6 @@ export interface P2SVpnGatewaysUpdateTags200Response extends HttpResponse {
 /** Updates virtual wan p2s vpn gateway tags. */
 export interface P2SVpnGatewaysUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates virtual wan p2s vpn gateway tags. */
@@ -9040,19 +8735,16 @@ export interface P2SVpnGatewaysUpdateTagsDefaultResponse extends HttpResponse {
 /** Deletes a virtual wan p2s vpn gateway. */
 export interface P2SVpnGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan p2s vpn gateway. */
 export interface P2SVpnGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan p2s vpn gateway. */
 export interface P2SVpnGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual wan p2s vpn gateway. */
@@ -9094,7 +8786,6 @@ export interface P2SVpnGatewaysReset200Response extends HttpResponse {
 /** Resets the primary of the p2s vpn gateway in the specified resource group. */
 export interface P2SVpnGatewaysReset202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Resets the primary of the p2s vpn gateway in the specified resource group. */
@@ -9112,7 +8803,6 @@ export interface P2SVpnGatewaysGenerateVpnProfile200Response extends HttpRespons
 /** Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group. */
 export interface P2SVpnGatewaysGenerateVpnProfile202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group. */
@@ -9130,7 +8820,6 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealth200Response extends Http
 /** Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealth202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
@@ -9148,7 +8837,6 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response exte
 /** Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group. */
@@ -9161,13 +8849,11 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse
 /** Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group. */
 export interface P2SVpnGatewaysDisconnectP2SVpnConnections200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group. */
 export interface P2SVpnGatewaysDisconnectP2SVpnConnections202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group. */
@@ -9187,7 +8873,6 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWanList200Response
 export interface VpnServerConfigurationsAssociatedWithVirtualWanList202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group. */
@@ -9230,19 +8915,16 @@ export interface VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse extends Ht
 /** Deletes a VirtualHubRouteTableV2. */
 export interface VirtualHubRouteTableV2SDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubRouteTableV2. */
 export interface VirtualHubRouteTableV2SDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubRouteTableV2. */
 export interface VirtualHubRouteTableV2SDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubRouteTableV2. */
@@ -9314,7 +8996,6 @@ export interface ExpressRouteGatewaysUpdateTags200Response extends HttpResponse 
 /** Updates express route gateway tags. */
 export interface ExpressRouteGatewaysUpdateTags202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates express route gateway tags. */
@@ -9338,19 +9019,16 @@ export interface ExpressRouteGatewaysGetDefaultResponse extends HttpResponse {
 /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
 export interface ExpressRouteGatewaysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
 export interface ExpressRouteGatewaysDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
 export interface ExpressRouteGatewaysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources. */
@@ -9392,19 +9070,16 @@ export interface ExpressRouteConnectionsGetDefaultResponse extends HttpResponse 
 /** Deletes a connection to a ExpressRoute circuit. */
 export interface ExpressRouteConnectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection to a ExpressRoute circuit. */
 export interface ExpressRouteConnectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection to a ExpressRoute circuit. */
 export interface ExpressRouteConnectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection to a ExpressRoute circuit. */
@@ -9458,19 +9133,16 @@ export interface VirtualHubBgpConnectionCreateOrUpdateDefaultResponse extends Ht
 /** Deletes a VirtualHubBgpConnection. */
 export interface VirtualHubBgpConnectionDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubBgpConnection. */
 export interface VirtualHubBgpConnectionDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubBgpConnection. */
 export interface VirtualHubBgpConnectionDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubBgpConnection. */
@@ -9500,7 +9172,6 @@ export interface VirtualHubBgpConnectionsListLearnedRoutes200Response extends Ht
 /** Retrieves a list of routes the virtual hub bgp connection has learned. */
 export interface VirtualHubBgpConnectionsListLearnedRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Retrieves a list of routes the virtual hub bgp connection has learned. */
@@ -9518,7 +9189,6 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutes200Response extends
 /** Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer. */
 export interface VirtualHubBgpConnectionsListAdvertisedRoutes202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer. */
@@ -9560,19 +9230,16 @@ export interface VirtualHubIpConfigurationCreateOrUpdateDefaultResponse extends 
 /** Deletes a VirtualHubIpConfiguration. */
 export interface VirtualHubIpConfigurationDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubIpConfiguration. */
 export interface VirtualHubIpConfigurationDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubIpConfiguration. */
 export interface VirtualHubIpConfigurationDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VirtualHubIpConfiguration. */
@@ -9626,19 +9293,16 @@ export interface HubRouteTablesGetDefaultResponse extends HttpResponse {
 /** Deletes a RouteTable. */
 export interface HubRouteTablesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteTable. */
 export interface HubRouteTablesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteTable. */
 export interface HubRouteTablesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RouteTable. */
@@ -9692,19 +9356,16 @@ export interface RoutingIntentGetDefaultResponse extends HttpResponse {
 /** Deletes a RoutingIntent. */
 export interface RoutingIntentDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RoutingIntent. */
 export interface RoutingIntentDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RoutingIntent. */
 export interface RoutingIntentDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a RoutingIntent. */
@@ -9782,19 +9443,16 @@ export interface WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse ext
 /** Deletes Policy. */
 export interface WebApplicationFirewallPoliciesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes Policy. */
 export interface WebApplicationFirewallPoliciesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes Policy. */
 export interface WebApplicationFirewallPoliciesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes Policy. */
@@ -9818,13 +9476,11 @@ export interface VipSwapGetDefaultResponse extends HttpResponse {
 /** Performs vip swap operation on swappable cloud services. */
 export interface VipSwapCreate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Performs vip swap operation on swappable cloud services. */
 export interface VipSwapCreate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Performs vip swap operation on swappable cloud services. */

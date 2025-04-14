@@ -18,8 +18,8 @@ import {
   ManagedCertificatesDeleteOptionalParams,
   ManagedCertificatePatch,
   ManagedCertificatesUpdateOptionalParams,
-  ManagedCertificatesUpdateResponse
-} from "../models";
+  ManagedCertificatesUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedCertificates. */
@@ -33,7 +33,7 @@ export interface ManagedCertificates {
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedCertificatesListOptionalParams
+    options?: ManagedCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCertificate>;
   /**
    * Get the specified Managed Certificate.
@@ -46,7 +46,7 @@ export interface ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesGetOptionalParams
+    options?: ManagedCertificatesGetOptionalParams,
   ): Promise<ManagedCertificatesGetResponse>;
   /**
    * Create or Update a Managed Certificate.
@@ -59,7 +59,7 @@ export interface ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesCreateOrUpdateOptionalParams
+    options?: ManagedCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedCertificatesCreateOrUpdateResponse>,
@@ -77,7 +77,7 @@ export interface ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesCreateOrUpdateOptionalParams
+    options?: ManagedCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ManagedCertificatesCreateOrUpdateResponse>;
   /**
    * Deletes the specified Managed Certificate.
@@ -90,7 +90,7 @@ export interface ManagedCertificates {
     resourceGroupName: string,
     environmentName: string,
     managedCertificateName: string,
-    options?: ManagedCertificatesDeleteOptionalParams
+    options?: ManagedCertificatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a managed certificate. Oly patching of tags is supported
@@ -105,6 +105,6 @@ export interface ManagedCertificates {
     environmentName: string,
     managedCertificateName: string,
     managedCertificateEnvelope: ManagedCertificatePatch,
-    options?: ManagedCertificatesUpdateOptionalParams
+    options?: ManagedCertificatesUpdateOptionalParams,
   ): Promise<ManagedCertificatesUpdateResponse>;
 }

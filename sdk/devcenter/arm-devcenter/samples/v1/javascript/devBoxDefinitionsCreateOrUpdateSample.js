@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Dev Box definition.
  *
  * @summary Creates or updates a Dev Box definition.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevBoxDefinitions_Create.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Create.json
  */
 async function devBoxDefinitionsCreate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function devBoxDefinitionsCreate() {
     resourceGroupName,
     devCenterName,
     devBoxDefinitionName,
-    body
+    body,
   );
   console.log(result);
 }

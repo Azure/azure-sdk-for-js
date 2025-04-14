@@ -8,36 +8,44 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  OfferingsImpl,
   AdminKeysImpl,
   QueryKeysImpl,
   ServicesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
-  SharedPrivateLinkResourcesImpl
-} from "./operations";
-import {
+  SharedPrivateLinkResourcesImpl,
+  UsagesImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
+} from "./operations/index.js";
+import type {
   Operations,
+  Offerings,
   AdminKeys,
   QueryKeys,
   Services,
   PrivateLinkResources,
   PrivateEndpointConnections,
-  SharedPrivateLinkResources
-} from "./operationsInterfaces";
-import { SearchManagementClientOptionalParams } from "./models";
+  SharedPrivateLinkResources,
+  Usages,
+  NetworkSecurityPerimeterConfigurations,
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import type {
+  SearchManagementClientOptionalParams,
+  UsageBySubscriptionSkuOptionalParams,
+  UsageBySubscriptionSkuResponse,
+} from "./models/index.js";
 
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the SearchManagementClient class.
@@ -49,13 +57,27 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: SearchManagementClientOptionalParams
+    options?: SearchManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: SearchManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: SearchManagementClientOptionalParams | string,
+    options?: SearchManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -64,10 +86,10 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     }
     const defaults: SearchManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.1.1`;
+    const packageDetails = `azsdk-js-arm-search/3.3.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -77,20 +99,19 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -100,19 +121,17 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -120,14 +139,19 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-08-01";
+    this.apiVersion = options.apiVersion || "2025-02-01-preview";
     this.operations = new OperationsImpl(this);
+    this.offerings = new OfferingsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
     this.services = new ServicesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.sharedPrivateLinkResources = new SharedPrivateLinkResourcesImpl(this);
+    this.usages = new UsagesImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this,
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -138,10 +162,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -154,16 +175,60 @@ export class SearchManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Gets the quota usage for a search SKU in the given subscription.
+   * @param location The unique location name for a Microsoft Azure geographic region.
+   * @param skuName The unique SKU name that identifies a billable tier.
+   * @param options The options parameters.
+   */
+  usageBySubscriptionSku(
+    location: string,
+    skuName: string,
+    options?: UsageBySubscriptionSkuOptionalParams,
+  ): Promise<UsageBySubscriptionSkuResponse> {
+    return this.sendOperationRequest(
+      { location, skuName, options },
+      usageBySubscriptionSkuOperationSpec,
+    );
+  }
+
   operations: Operations;
+  offerings: Offerings;
   adminKeys: AdminKeys;
   queryKeys: QueryKeys;
   services: Services;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
   sharedPrivateLinkResources: SharedPrivateLinkResources;
+  usages: Usages;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const usageBySubscriptionSkuOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages/{skuName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaUsageResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.skuName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer,
+};

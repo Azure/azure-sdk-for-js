@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsGeolocationClient } from "./generated";
-import createClient from "./generated";
+import type { MapsGeolocationClient } from "./generated/index.js";
+import createClient from "./generated/index.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
  * Creates an instance of MapsGeolocationClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsGeolocation from "@azure-rest/maps-geolocation";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
  * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsGeolocation(credential);
@@ -25,15 +26,15 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  */
 export default function MapsGeolocation(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsGeolocationClient;
 /**
  * Creates an instance of MapsGeolocation from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsGeolocation from "@azure/maps-geo-location";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsGeolocation(credential, "<maps-account-client-id>");
@@ -46,17 +47,36 @@ export default function MapsGeolocation(
 export default function MapsGeolocation(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
+): MapsGeolocationClient;
+/**
+ * Creates an instance of MapsGeolocation from an Azure Identity `AzureSASCredential`.
+ *
+ * @example
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
+ * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
+ *
+ * const credential = new AzureSASCredential("<SAS Token>");
+ * const client = MapsGeolocation(credential);
+ * ```
+ *
+ * @param credential - An AzureSASCredential instance used to authenticate requests to the service
+ * @param options - Options used to configure the Geolocation Client
+ */
+export default function MapsGeolocation(
+  credential: AzureSASCredential,
+  options?: ClientOptions,
 ): MapsGeolocationClient;
 export default function MapsGeolocation(
-  credential: TokenCredential | AzureKeyCredential,
+  credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsGeolocationClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */
@@ -69,11 +89,24 @@ export default function MapsGeolocation(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+        scopes: "https://atlas.microsoft.com/.default",
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
   }
+
+  if (isSASCredential(credential)) {
+    const client = createClient(undefined as any, options);
+    client.pipeline.addPolicy({
+      name: "mapsSASCredentialPolicy",
+      async sendRequest(request, next) {
+        request.headers.set("Authorization", `jwt-sas ${credential.signature}`);
+        return next(request);
+      },
+    });
+    return client;
+  }
+
   return createClient(credential, options);
 }

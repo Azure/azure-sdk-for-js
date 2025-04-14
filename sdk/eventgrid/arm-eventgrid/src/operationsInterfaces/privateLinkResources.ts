@@ -11,8 +11,8 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListByResourceOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
@@ -30,7 +30,7 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     parentType: string,
     parentName: string,
-    options?: PrivateLinkResourcesListByResourceOptionalParams
+    options?: PrivateLinkResourcesListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Get properties of a private link resource.
@@ -48,6 +48,6 @@ export interface PrivateLinkResources {
     parentType: string,
     parentName: string,
     privateLinkResourceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

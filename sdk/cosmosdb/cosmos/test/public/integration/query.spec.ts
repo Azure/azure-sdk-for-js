@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { FeedOptions } from "../../../src";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+// Licensed under the MIT License.
+
+import type { Container, FeedOptions } from "../../../src/index.js";
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+describe("ResourceLink Trimming of leading and trailing slashes", { timeout: 10000 }, () => {
   const containerId = "testcontainer";
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate correct execution of query using named container link with leading and trailing slashes", async function () {
+  it("validate correct execution of query using named container link with leading and trailing slashes", async () => {
     const containerDefinition = {
       id: containerId,
       partitionKey: {
@@ -28,7 +27,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
       "validate correct execution of query",
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create(doc);
@@ -40,15 +39,14 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
   });
 });
 
-describe("Test Query Metrics", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+describe("Test Query Metrics", { timeout: 20000 }, () => {
   const collectionId = "testCollection3";
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate that query metrics are correct for a single partition query", async function () {
+  it("validate that query metrics are correct for a single partition query", async () => {
     const database = await getTestDatabase("query metrics test db");
 
     const collectionDefinition = {
@@ -61,13 +59,15 @@ describe("Test Query Metrics", function (this: Suite) {
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions
+      collectionOptions,
     );
     const createdContainer = database.container(createdCollectionDef.id);
 
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
-    const queryOptions: FeedOptions = { populateQueryMetrics: true };
+    const queryOptions: FeedOptions = {
+      populateQueryMetrics: true,
+    };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
     while (queryIterator.hasMoreResults()) {
@@ -89,14 +89,12 @@ describe("Test Query Metrics", function (this: Suite) {
   });
 });
 
-describe("Partition key in FeedOptions", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
-  beforeEach(async function () {
+describe("Partition key in FeedOptions", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("passing partition key in FeedOptions", async function () {
+  it("passing partition key in FeedOptions", async () => {
     const containerDefinition = {
       id: "testcontainer",
       partitionKey: {
@@ -107,13 +105,15 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     const container = await getTestContainer(
       "validate correct execution of query",
       undefined,
-      containerDefinition
+      containerDefinition,
     );
 
     await container.items.create({ id: "foo" });
     await container.items.create({ id: "bar" });
     const query = "SELECT * from C";
-    const queryIterator = container.items.query(query, { partitionKey: "foo" });
+    const queryIterator = container.items.query(query, {
+      partitionKey: "foo",
+    });
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources.length, 1);
@@ -121,13 +121,11 @@ describe("Partition key in FeedOptions", function (this: Suite) {
   });
 });
 
-describe("aggregate query over null value", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-
+describe("aggregate query over null value", { timeout: 10000 }, () => {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
-    containerThroughput: number
+    containerThroughput: number,
   ): Promise<void> {
     const containerDefinition = {
       id: containerName,
@@ -141,7 +139,7 @@ describe("aggregate query over null value", function (this: Suite) {
       testName,
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create({
@@ -170,29 +168,76 @@ describe("aggregate query over null value", function (this: Suite) {
     assert.strictEqual(resources[0].source, null);
   };
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("should execute successfully for container with single partition", async function () {
+  it("should execute successfully for container with single partition", async () => {
     await aggregateQueryOverNullValue("SinglePartition", "SinglePartition", 400);
   });
 
-  it("should execute successfully for container with multiple partitions", async function () {
+  it("should execute successfully for container with multiple partitions", async () => {
     await aggregateQueryOverNullValue("MultiplePartitons", "MultiplePartitons", 10100);
   });
 });
 
-describe("Test Index metrics", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-  const collectionId = "testCollection3";
-
-  beforeEach(async function () {
+describe("Test Index metrics", { timeout: 20000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("validate that index metrics are correct for a single partition query", async function () {
-    const database = await getTestDatabase("index metrics test db");
+  it("validate that index metrics are correct", async () => {
+    const collectionId = "testCollection3";
+    const createdContainerSinglePartition = await setupContainer(
+      "index metrics test db",
+      collectionId,
+      4000,
+    );
+    const createdContainerMultiPartition = await setupContainer(
+      "index metrics test db multi-partitioned",
+      collectionId,
+      12000,
+    );
+
+    await validateIndexMetrics(createdContainerSinglePartition, collectionId);
+    await validateIndexMetrics(createdContainerMultiPartition, collectionId);
+  });
+
+  async function validateIndexMetrics(container: Container, collectionId: string): Promise<void> {
+    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
+    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
+    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
+    await container.items.create(doc1);
+    await container.items.create(doc2);
+    await container.items.create(doc3);
+    //  streamable query
+    const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    //  aggregate query
+    const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
+    const queryList = [query1, query2];
+    const queryOptions: FeedOptions = {
+      populateIndexMetrics: true,
+      maxItemCount: 1,
+    };
+    for (const query of queryList) {
+      const queryIterator = container.items.query(query, queryOptions);
+      while (queryIterator.hasMoreResults()) {
+        const { resources: results, indexMetrics } = await queryIterator.fetchNext();
+
+        if (results === undefined) {
+          break;
+        }
+        assert.notEqual(indexMetrics, undefined);
+      }
+    }
+  }
+
+  async function setupContainer(
+    datbaseName: string,
+    collectionId: string,
+    throughput?: number,
+  ): Promise<Container> {
+    const database = await getTestDatabase(datbaseName);
 
     const collectionDefinition = {
       id: collectionId,
@@ -200,31 +245,12 @@ describe("Test Index metrics", function (this: Suite) {
         paths: ["/pk"],
       },
     };
-    const collectionOptions = { offerThroughput: 4000 };
+    const collectionOptions = { offerThroughput: throughput };
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions
+      collectionOptions,
     );
-    const createdContainer = database.container(createdCollectionDef.id);
-
-    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
-    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
-    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
-    await createdContainer.items.create(doc1);
-    await createdContainer.items.create(doc2);
-    await createdContainer.items.create(doc3);
-    const query = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    const queryOptions: FeedOptions = { populateIndexMetrics: true };
-    const queryIterator = createdContainer.items.query(query, queryOptions);
-
-    while (queryIterator.hasMoreResults()) {
-      const { resources: results, indexMetrics } = await queryIterator.fetchNext();
-
-      if (results === undefined) {
-        break;
-      }
-      assert.notEqual(indexMetrics, undefined);
-    }
-  });
+    return database.container(createdCollectionDef.id);
+  }
 });

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all azure regions in which the service exists.
  *
  * @summary Lists all azure regions in which the service exists.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListRegions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListRegions.json
  */
 async function apiManagementListRegions() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-error-handling rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-error-handling";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-error-handling.js";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-error-handling", rule, {
   valid: [

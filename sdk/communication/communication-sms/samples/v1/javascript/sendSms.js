@@ -8,8 +8,7 @@
 const { SmsClient } = require("@azure/communication-sms");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log("== Send SMS Message ==");
@@ -23,13 +22,19 @@ async function main() {
   const client = new SmsClient(connectionString);
 
   // construct send request
+  let phoneNumbers;
+  if (process.env.TO_PHONE_NUMBERS !== undefined) {
+    phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",");
+  } else if (process.env.AZURE_PHONE_NUMBER !== undefined) {
+    phoneNumbers = [process.env.AZURE_PHONE_NUMBER];
+  } else {
+    phoneNumbers = ["<to-phone-number-1>", "<to-phone-number-2>"];
+  }
+
   const sendRequest = {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
-    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER] || [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>"
-      ],
-    message: "Hello World via SMS!"
+    to: phoneNumbers,
+    message: "Hello World via SMS!",
   };
 
   // send sms with request
@@ -52,3 +57,5 @@ main().catch((error) => {
   console.error("Encountered an error while sending SMS: ", error);
   process.exit(1);
 });
+
+module.exports = { main };

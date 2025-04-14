@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
-  ResolvePrivateLinkServiceIdPostResponse
-} from "../models";
+  ResolvePrivateLinkServiceIdPostResponse,
+} from "../models/index.js";
 
 /** Interface representing a ResolvePrivateLinkServiceId. */
 export interface ResolvePrivateLinkServiceId {
@@ -25,6 +25,6 @@ export interface ResolvePrivateLinkServiceId {
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateLinkResource,
-    options?: ResolvePrivateLinkServiceIdPostOptionalParams
+    options?: ResolvePrivateLinkServiceIdPostOptionalParams,
   ): Promise<ResolvePrivateLinkServiceIdPostResponse>;
 }

@@ -5,31 +5,41 @@
  * @summary Demonstrates how to run generate custom metrics that will be sent to Azure Monitor
  */
 
-import {
-  AzureMonitorOpenTelemetryClient,
-  AzureMonitorOpenTelemetryConfig,
-} from "@azure/monitor-opentelemetry";
+import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { metrics } from "@opentelemetry/api";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
+const options: AzureMonitorOpenTelemetryOptions = {
+  azureMonitorExporterOptions: {
+    connectionString:
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+  },
+};
 
-let config = new AzureMonitorOpenTelemetryConfig();
-const client = new AzureMonitorOpenTelemetryClient(config);
+useAzureMonitor(options);
 
-export async function main() {
-  // Ge Meter and create custom metric
-  const meter = client.getMetricHandler().getMeter();
+const express = require("express");
+const app = express();
+const PORT = 8080;
+
+async function metricExport(): Promise<void> {
+  const meter = metrics.getMeter("testMeter");
   const customCounter = meter.createCounter("TestCounter");
-  customCounter.add(1);
-  customCounter.add(2);
-  customCounter.add(3);
-
-  // Flush telemetry
-  //client.getMetricHandler().flush();
+  await customCounter.add(1);
+  await customCounter.add(2);
+  await customCounter.add(3);
 }
 
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
+async function setupRoutes(): Promise<void> {
+  await app.get("/", async (_req: any, res: any) => {
+    await metricExport().then(() => {
+      res.send("Metrics sent to Azure Monitor");
+    });
+  });
+}
+
+setupRoutes().then(() => {
+  app.listen(PORT);
+  console.log(`Listening on http://localhost:${PORT}`);
 });

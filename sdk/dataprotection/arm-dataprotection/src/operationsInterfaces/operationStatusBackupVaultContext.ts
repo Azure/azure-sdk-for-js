@@ -8,8 +8,8 @@
 
 import {
   OperationStatusBackupVaultContextGetOptionalParams,
-  OperationStatusBackupVaultContextGetResponse
-} from "../models";
+  OperationStatusBackupVaultContextGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a OperationStatusBackupVaultContext. */
 export interface OperationStatusBackupVaultContext {
@@ -24,6 +24,6 @@ export interface OperationStatusBackupVaultContext {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: OperationStatusBackupVaultContextGetOptionalParams
+    options?: OperationStatusBackupVaultContextGetOptionalParams,
   ): Promise<OperationStatusBackupVaultContextGetResponse>;
 }

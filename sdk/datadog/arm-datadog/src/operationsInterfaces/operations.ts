@@ -7,13 +7,13 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OperationResult, OperationsListOptionalParams } from "../models";
+import { OperationResult, OperationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
    * @param options The options parameters.
    */
   list(

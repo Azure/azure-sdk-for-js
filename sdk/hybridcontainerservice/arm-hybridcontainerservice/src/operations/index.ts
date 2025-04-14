@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./provisionedClustersOperations";
-export * from "./hybridIdentityMetadataOperations";
-export * from "./agentPoolOperations";
-export * from "./hybridContainerService";
-export * from "./operations";
-export * from "./storageSpacesOperations";
-export * from "./virtualNetworksOperations";
+export * from "./provisionedClusterInstances.js";
+export * from "./hybridIdentityMetadataOperations.js";
+export * from "./agentPoolOperations.js";
+export * from "./kubernetesVersions.js";
+export * from "./vMSkus.js";
+export * from "./operations.js";
+export * from "./virtualNetworks.js";

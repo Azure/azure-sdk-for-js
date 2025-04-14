@@ -17,8 +17,8 @@ import {
   ProjectEnvironmentTypeUpdate,
   ProjectEnvironmentTypesUpdateOptionalParams,
   ProjectEnvironmentTypesUpdateResponse,
-  ProjectEnvironmentTypesDeleteOptionalParams
-} from "../models";
+  ProjectEnvironmentTypesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProjectEnvironmentTypes. */
@@ -32,7 +32,7 @@ export interface ProjectEnvironmentTypes {
   list(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectEnvironmentTypesListOptionalParams
+    options?: ProjectEnvironmentTypesListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectEnvironmentType>;
   /**
    * Gets a project environment type.
@@ -45,7 +45,7 @@ export interface ProjectEnvironmentTypes {
     resourceGroupName: string,
     projectName: string,
     environmentTypeName: string,
-    options?: ProjectEnvironmentTypesGetOptionalParams
+    options?: ProjectEnvironmentTypesGetOptionalParams,
   ): Promise<ProjectEnvironmentTypesGetResponse>;
   /**
    * Creates or updates a project environment type.
@@ -60,7 +60,7 @@ export interface ProjectEnvironmentTypes {
     projectName: string,
     environmentTypeName: string,
     body: ProjectEnvironmentType,
-    options?: ProjectEnvironmentTypesCreateOrUpdateOptionalParams
+    options?: ProjectEnvironmentTypesCreateOrUpdateOptionalParams,
   ): Promise<ProjectEnvironmentTypesCreateOrUpdateResponse>;
   /**
    * Partially updates a project environment type.
@@ -75,7 +75,7 @@ export interface ProjectEnvironmentTypes {
     projectName: string,
     environmentTypeName: string,
     body: ProjectEnvironmentTypeUpdate,
-    options?: ProjectEnvironmentTypesUpdateOptionalParams
+    options?: ProjectEnvironmentTypesUpdateOptionalParams,
   ): Promise<ProjectEnvironmentTypesUpdateResponse>;
   /**
    * Deletes a project environment type.
@@ -88,6 +88,6 @@ export interface ProjectEnvironmentTypes {
     resourceGroupName: string,
     projectName: string,
     environmentTypeName: string,
-    options?: ProjectEnvironmentTypesDeleteOptionalParams
+    options?: ProjectEnvironmentTypesDeleteOptionalParams,
   ): Promise<void>;
 }

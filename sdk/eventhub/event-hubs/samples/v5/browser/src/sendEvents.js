@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /*
   This sample demonstrates how the send() function can be used to send events to Event Hubs.
-  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
+  See https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
 */
 
 const { EventHubProducerClient } = require("@azure/event-hubs");

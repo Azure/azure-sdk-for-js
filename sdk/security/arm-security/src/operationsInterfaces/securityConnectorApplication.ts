@@ -12,8 +12,8 @@ import {
   Application,
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationCreateOrUpdateResponse,
-  SecurityConnectorApplicationDeleteOptionalParams
-} from "../models";
+  SecurityConnectorApplicationDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a SecurityConnectorApplication. */
 export interface SecurityConnectorApplication {
@@ -29,7 +29,7 @@ export interface SecurityConnectorApplication {
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    options?: SecurityConnectorApplicationGetOptionalParams
+    options?: SecurityConnectorApplicationGetOptionalParams,
   ): Promise<SecurityConnectorApplicationGetResponse>;
   /**
    * Creates or update a security Application on the given security connector.
@@ -45,7 +45,7 @@ export interface SecurityConnectorApplication {
     securityConnectorName: string,
     applicationId: string,
     application: Application,
-    options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams
+    options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   ): Promise<SecurityConnectorApplicationCreateOrUpdateResponse>;
   /**
    * Delete an Application over a given scope
@@ -59,6 +59,6 @@ export interface SecurityConnectorApplication {
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    options?: SecurityConnectorApplicationDeleteOptionalParams
+    options?: SecurityConnectorApplicationDeleteOptionalParams,
   ): Promise<void>;
 }

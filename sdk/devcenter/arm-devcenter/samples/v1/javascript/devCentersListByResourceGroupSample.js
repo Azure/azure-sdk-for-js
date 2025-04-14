@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all devcenters in a resource group.
  *
  * @summary Lists all devcenters in a resource group.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_ListByResourceGroup.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_ListByResourceGroup.json
  */
 async function devCentersListByResourceGroup() {
   const subscriptionId =

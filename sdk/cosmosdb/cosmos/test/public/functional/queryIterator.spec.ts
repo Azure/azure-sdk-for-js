@@ -1,0 +1,253 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { Container, FeedOptions } from "../../../src/index.js";
+import { CosmosClient, OperationType, ResourceType } from "../../../src/index.js";
+import { endpoint } from "../../public/common/_testConfig.js";
+import { masterKey } from "../../public/common/_fakeTestSecrets.js";
+import {
+  getTestContainer,
+  isValidV4UUID,
+  removeAllDatabases,
+} from "../../public/common/TestHelpers.js";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
+
+describe("Correlated Activity Id", { timeout: 30000 }, () => {
+  let container: Container;
+  let capturedCorrelatedActivityIds: any[];
+  const client = new CosmosClient({
+    endpoint,
+    key: masterKey,
+    plugins: [
+      {
+        on: "request",
+        plugin: async (context, _diagNode, next) => {
+          if (
+            context.operationType === OperationType.Query &&
+            context.resourceType === ResourceType.item
+          ) {
+            capturedCorrelatedActivityIds.push(
+              context.headers["x-ms-cosmos-correlated-activityid"],
+            );
+          }
+          const response = await next(context);
+          return response;
+        },
+      },
+    ],
+  });
+
+  beforeAll(async () => {
+    container = await getTestContainer("Test", client, {
+      partitionKey: "/name",
+      throughput: 10000,
+    });
+    await Promise.all([
+      container.items.create({ id: "1", name: "foo" }),
+      container.items.create({ id: "2", name: "bar" }),
+      container.items.create({ id: "3", name: "foo" }),
+      container.items.create({ id: "4", name: "bar" }),
+    ]);
+  });
+
+  it("fetchNext and fetchAll should have different correlated id with same iterator", async () => {
+    const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
+    const fetchNextResult = await queryIterator.fetchNext();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchNextResult.correlatedActivityId, correlatedIdFetchNext);
+    capturedCorrelatedActivityIds = [];
+    const fetchAllResult = await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    assert.equal(fetchAllResult.correlatedActivityId, correlatedIdFetchAll);
+    assert.ok(correlatedIdFetchAll !== correlatedIdFetchNext);
+  });
+
+  it("fetchNext should have same correlated Ids in hasMoreResult loop", async () => {
+    const querySpec = {
+      query: "SELECT * from c",
+    };
+    const options: FeedOptions = { maxItemCount: 2 };
+    const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
+    while (queryIterator.hasMoreResults()) {
+      await queryIterator.fetchNext();
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("fetchNext should pass correlation Id to request header with force query plan enabled", async () => {
+    const querySpec = {
+      query: "SELECT * from c",
+    };
+    const options: FeedOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchNext();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("fetchAll should pass correlation Id to request header with force query plan enabled", async () => {
+    const querySpec = {
+      query: "SELECT * from c",
+    };
+    const options: FeedOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(querySpec, options);
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("ORDER BY query should pass correlation Id to request header", async () => {
+    const querySpec = {
+      query: "SELECT c.name FROM c ORDER BY c.name ASC",
+    };
+    const queryIterator = container.items.query(querySpec);
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("GROUP BY query should pass correlation Id to request header", async () => {
+    const querySpec = {
+      query: "SELECT c.name FROM c GROUP BY c.name",
+    };
+    const queryIterator = container.items.query(querySpec);
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("getAsyncIterator should pass correlation ID to request header", async () => {
+    const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
+    for await (const response of queryIterator.getAsyncIterator()) {
+      assert.equal(response.correlatedActivityId, capturedCorrelatedActivityIds[0]);
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("fetchAll and getAsyncIterator should have different correlated id with same iterator", async () => {
+    const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    capturedCorrelatedActivityIds = [];
+
+    for await (const _ of queryIterator.getAsyncIterator()) {
+      // The loop is intentionally empty
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
+    assert.ok(correlatedIdFetchAll !== correlatedIdAsyncIterator);
+  });
+
+  it("fetchNext and getAsyncIterator should have different correlated id with same iterator", async () => {
+    const queryIterator = container.items.readAll();
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchNext();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    capturedCorrelatedActivityIds = [];
+
+    for await (const _ of queryIterator.getAsyncIterator()) {
+      // The loop is intentionally empty
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+    const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
+    assert.ok(correlatedIdFetchNext !== correlatedIdAsyncIterator);
+  });
+
+  it("error response should have correlated activity id header", async () => {
+    // wrong query format to trigger error
+    const query = "SELECT * frm c";
+    const queryIterator = container.items.query(query);
+    capturedCorrelatedActivityIds = [];
+    // fetchNext
+    try {
+      await queryIterator.fetchNext();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // fetchAll
+    try {
+      await queryIterator.fetchAll();
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+    queryIterator.reset();
+    capturedCorrelatedActivityIds = [];
+    // getAsyncIterator
+    try {
+      for await (const _ of queryIterator.getAsyncIterator()) {
+        // The loop is intentionally empty
+      }
+    } catch (err) {
+      assert.ok(capturedCorrelatedActivityIds.length);
+      assert.ok(capturedCorrelatedActivityIds.every(isValidV4UUID));
+      assert.equal(
+        err.headers["x-ms-cosmos-correlated-activityid"],
+        capturedCorrelatedActivityIds[0],
+      );
+    }
+  });
+
+  afterAll(async () => {
+    await removeAllDatabases();
+  });
+});

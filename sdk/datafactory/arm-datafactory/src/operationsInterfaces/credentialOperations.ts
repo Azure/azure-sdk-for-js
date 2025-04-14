@@ -8,14 +8,14 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ManagedIdentityCredentialResource,
+  CredentialResource,
   CredentialOperationsListByFactoryOptionalParams,
   CredentialOperationsCreateOrUpdateOptionalParams,
   CredentialOperationsCreateOrUpdateResponse,
   CredentialOperationsGetOptionalParams,
   CredentialOperationsGetResponse,
-  CredentialOperationsDeleteOptionalParams
-} from "../models";
+  CredentialOperationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CredentialOperations. */
@@ -29,8 +29,8 @@ export interface CredentialOperations {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: CredentialOperationsListByFactoryOptionalParams
-  ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
+    options?: CredentialOperationsListByFactoryOptionalParams,
+  ): PagedAsyncIterableIterator<CredentialResource>;
   /**
    * Creates or updates a credential.
    * @param resourceGroupName The resource group name.
@@ -43,8 +43,8 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    credential: ManagedIdentityCredentialResource,
-    options?: CredentialOperationsCreateOrUpdateOptionalParams
+    credential: CredentialResource,
+    options?: CredentialOperationsCreateOrUpdateOptionalParams,
   ): Promise<CredentialOperationsCreateOrUpdateResponse>;
   /**
    * Gets a credential.
@@ -57,7 +57,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsGetOptionalParams
+    options?: CredentialOperationsGetOptionalParams,
   ): Promise<CredentialOperationsGetResponse>;
   /**
    * Deletes a credential.
@@ -70,6 +70,6 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsDeleteOptionalParams
+    options?: CredentialOperationsDeleteOptionalParams,
   ): Promise<void>;
 }

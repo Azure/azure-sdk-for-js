@@ -18,7 +18,7 @@ import {
   StepResource as StepResourceMapper,
   RolloutRequest as RolloutRequestMapper,
   ArtifactSource as ArtifactSourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

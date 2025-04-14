@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   MaintenanceConfiguration,
   MaintenanceConfigurationsListByManagedClusterOptionalParams,
   MaintenanceConfigurationsGetOptionalParams,
   MaintenanceConfigurationsGetResponse,
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateResponse,
-  MaintenanceConfigurationsDeleteOptionalParams
-} from "../models";
+  MaintenanceConfigurationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MaintenanceConfigurations. */
@@ -29,7 +29,7 @@ export interface MaintenanceConfigurations {
   listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration>;
   /**
    * Gets the specified maintenance configuration of a managed cluster.
@@ -42,7 +42,7 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams
+    options?: MaintenanceConfigurationsGetOptionalParams,
   ): Promise<MaintenanceConfigurationsGetResponse>;
   /**
    * Creates or updates a maintenance configuration in the specified managed cluster.
@@ -57,7 +57,7 @@ export interface MaintenanceConfigurations {
     resourceName: string,
     configName: string,
     parameters: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes a maintenance configuration.
@@ -70,6 +70,6 @@ export interface MaintenanceConfigurations {
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams
+    options?: MaintenanceConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

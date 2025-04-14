@@ -1,5 +1,53 @@
 # Release History
 
+## 1.3.1 (2024-07-31)
+
+### Bugs Fixed
+
+- Fixed the `audience` values for `MetricsQueryClient` and `MetricsClient`.
+
+## 1.3.0 (2024-06-11)
+
+### Features Added
+
+- Added `audience` support for all the clients to specify the audience for the authentication token. This is useful when working in sovereign clouds. Refer to [#28821](https://github.com/Azure/azure-sdk-for-js/issues/28821) for further details.
+
+## 1.2.0 (2024-03-25)
+
+### Features Added
+
+- Added a new `MetricsClient` to query metrics for multiple resources.
+- Added `autoAdjustTimegrain`, `rollUpBy` and `validateDimensions` properties to the `MetricsQueryOptions` object.
+- Added `resourceId` property to the `MetricsQueryResult` object.
+
+## 1.2.0-beta.3 (2023-11-20)
+
+### Other Changes
+
+- The Monitor Query service has done some internal changes and we have updated the service versions. A detailed list of changes could be found at [PR #27825](https://github.com/Azure/azure-sdk-for-js/pull/27825/).
+
+## 1.2.0-beta.2 (2023-08-21)
+
+- Added `batchMetricsAuthScope` property to `MetricsBatchQueryClientOptions` object.
+- Added integration test cases for `MetricsBatchQueryClient`.
+
+### Breaking Changes
+
+- In the `MetricsBatchOptionalParams` object, the casing of property names `endtime`, `orderby`, and `starttime` changed to `endTime`, `orderBy`, and `startTime` respectively.
+- In the `MetricsBatchQueryClientOptions` object, the `batchEndPoint` has been removed as optional property. Instead, this has been changed to mandatory parameter in the `MetricsBatchQueryClient` class.
+- In the `MetricsBatchOptionalParams` object, the data type properties of `startTime` & `endTime` have been changed from `string` to `Date`.
+
+## 1.2.0-beta.1 (2023-08-11)
+
+- Added `MetricsBatchQueryClient` to support batch querying of metrics.
+
+## 1.1.1 (2023-06-08)
+
+### Bugs Fixed
+
+- Fixed the ISO8601 value for `twentyFourHours`to `PT24H`, instead of the incorrect `P24H` under `Durations` object.
+- Fixed the ISO8601 value for `fortyEightHours`to `PT48H`, instead of the incorrect `P48H` under `Durations` object.
+
 ## 1.1.0 (2023-05-09)
 
 ### Features Added
@@ -15,7 +63,7 @@
 ### Other Changes
 
 - Added alias `fortyEightHours` for ISO8601 value `P48H` under `Durations` object.
-- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value  to be `P48H` instead of `P2D` under `Durations` object.
+- Deprecated alias name `fourtyEightHours` and fixed the ISO8601 value to be `P48H` instead of `P2D` under `Durations` object.
 
 ## 1.1.0-beta.1 (2023-05-02)
 
@@ -24,6 +72,7 @@
 - Added Resource centric query logs api for `LogsIngestionClient`.
 
 ## 1.0.3 (2022-10-05)
+
 ### Bugs Fixed
 
 - #23349 Fixed endpoint resolution to allow endpoints from sovereign clouds
@@ -33,6 +82,7 @@
 ### Bugs Fixed
 
 - Fixed a typo in the string for user-provided scope for `MetricsQueryClient` and `LogsQueryClient`.
+
 ## 1.0.1 (2022-02-10)
 
 ### Bugs Fixed

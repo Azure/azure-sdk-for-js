@@ -1,41 +1,43 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure/core-client";
 
-import {
+import type {
   HealthResponse as BeginAnalyzeHealthcareResponse,
   HealthcareJobState,
   HealthStatusOptionalParams as HealthcareJobStatusOptions,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "../../generated/models";
-import {
+} from "../../generated/models/index.js";
+import type {
   AnalyzeHealthcareEntitiesResult,
   AnalyzeHealthcareEntitiesResultArray,
   PagedAnalyzeHealthcareEntitiesResult,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
+} from "../../analyzeHealthcareEntitiesResult.js";
+import {
   makeHealthcareEntitiesErrorResult,
   makeHealthcareEntitiesResult,
-} from "../../analyzeHealthcareEntitiesResult";
-import { PageSettings } from "@azure/core-paging";
+} from "../../analyzeHealthcareEntitiesResult.js";
+import type { PageSettings } from "@azure/core-paging";
+import type { StringIndexType } from "../../util.js";
 import {
-  StringIndexType,
   addStrEncodingParam,
   getOperationId,
   nextLinkToTopAndSkip,
   throwError,
-} from "../../util";
-import {
-  AnalysisPollOperation,
+} from "../../util.js";
+import type {
   AnalysisPollOperationState,
   OperationMetadata as AnalyzeHealthcareEntitiesOperationMetadata,
-} from "../poller";
-import { GeneratedClient as Client } from "../../generated";
-import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
-import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
-import { TracingClient } from "@azure/core-tracing";
+} from "../poller.js";
+import { AnalysisPollOperation } from "../poller.js";
+import type { GeneratedClient as Client } from "../../generated/index.js";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult.js";
+import type { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions.js";
+import type { TracingClient } from "@azure/core-tracing";
 
 /**
  * @internal
@@ -73,7 +75,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
    * For supported model versions, see operation-specific documentation, for example:
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
+   * https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
   /**
@@ -118,7 +120,7 @@ export interface AnalyzeHealthcareOperationState
  * @internal
  */
 function getMetaInfoFromResponse(
-  response: HealthcareJobState
+  response: HealthcareJobState,
 ): Omit<AnalyzeHealthcareEntitiesOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
@@ -142,7 +144,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     private client: Client,
     private tracing: TracingClient,
     private documents: TextDocumentInput[],
-    private options: BeginAnalyzeHealthcareEntitiesOptions = {}
+    private options: BeginAnalyzeHealthcareEntitiesOptions = {},
   ) {
     super(state);
   }
@@ -154,7 +156,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
    */
   private listHealthcareEntitiesByPage(
     operationId: string,
-    options: HealthcareJobStatusOptions = {}
+    options: HealthcareJobStatusOptions = {},
   ): PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
     const iter = this._listHealthcareEntities(operationId, options);
     return {
@@ -176,7 +178,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
    */
   private async *_listHealthcareEntities(
     operationId: string,
-    options?: HealthcareJobStatusOptions
+    options?: HealthcareJobStatusOptions,
   ): AsyncIterableIterator<AnalyzeHealthcareEntitiesResult> {
     for await (const page of this._listHealthcareEntitiesPaged(operationId, options)) {
       yield* page;
@@ -188,7 +190,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
    */
   private async *_listHealthcareEntitiesPaged(
     operationId: string,
-    options?: HealthcareJobStatusOptions
+    options?: HealthcareJobStatusOptions,
   ): AsyncIterableIterator<AnalyzeHealthcareEntitiesResultArray> {
     let response = await this._listHealthcareEntitiesSinglePage(operationId, options);
     yield response.result;
@@ -208,19 +210,19 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
    */
   private async _listHealthcareEntitiesSinglePage(
     operationId: string,
-    options?: HealthcareJobStatusOptions
+    options?: HealthcareJobStatusOptions,
   ): Promise<AnalyzeHealthcareEntitiesResultWithPagination> {
     const response = await this.tracing.withSpan(
       "TextAnalyticsClient-_listHealthcareEntitiesSinglePage",
       options || {},
-      (finalOptions) => this.client.healthStatus(operationId, finalOptions)
+      (finalOptions) => this.client.healthStatus(operationId, finalOptions),
     );
     if (response.results) {
       const result = processAndCombineSuccessfulAndErroneousDocuments(
         this.documents,
         response.results,
         makeHealthcareEntitiesResult,
-        makeHealthcareEntitiesErrorResult
+        makeHealthcareEntitiesErrorResult,
       );
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
@@ -236,12 +238,12 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
    */
   private async getHealthStatus(
     operationId: string,
-    options?: HealthcareJobStatusOptions
+    options?: HealthcareJobStatusOptions,
   ): Promise<HealthcareJobStatus> {
     const response = await this.tracing.withSpan(
       "TextAnalyticsClient-getHealthStatus",
       options || {},
-      (finalOptions) => this.client.healthStatus(operationId, finalOptions)
+      (finalOptions) => this.client.healthStatus(operationId, finalOptions),
     );
     switch (response.status) {
       case "notStarted":
@@ -272,12 +274,12 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
 
   private async beginAnalyzeHealthcare(
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeHealthcareInternalOptions
+    options?: BeginAnalyzeHealthcareInternalOptions,
   ): Promise<BeginAnalyzeHealthcareResponse> {
     return this.tracing.withSpan(
       "TextAnalyticsClient-beginAnalyzeHealthcare",
       addStrEncodingParam(options || {}),
-      (finalOptions) => throwError(this.client.health({ documents: documents }, finalOptions))
+      (finalOptions) => throwError(this.client.health({ documents: documents }, finalOptions)),
     );
   }
 
@@ -285,7 +287,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: AnalyzeHealthcareOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
     const updatedAbortSignal = options.abortSignal;
@@ -301,7 +303,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       });
       if (!response.operationLocation) {
         throw new Error(
-          "Expects a valid 'operationLocation' to retrieve health results but did not find any"
+          "Expects a valid 'operationLocation' to retrieve health results but did not find any",
         );
       }
       state.operationId = getOperationId(response.operationLocation);

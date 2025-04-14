@@ -26,7 +26,7 @@ import {
   SBTopic as SBTopicMapper,
   Rule as RuleMapper,
   SBSubscription as SBSubscriptionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

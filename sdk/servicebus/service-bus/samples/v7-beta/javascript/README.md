@@ -18,7 +18,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [topicSubscriptionWithRuleOperationsSample.js][topicsubscriptionwithruleoperationssample] | Demonstrates how to filter messages in Service Bus                                                                                                             |
 | [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
-| [usingAadAuth.js][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
 | [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
 | [session.js][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.js][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
@@ -66,7 +65,7 @@ node sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEUE_NAME="<queue name>" node sendMessages.js
+npx dev-tool run vendored cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEUE_NAME="<queue name>" node sendMessages.js
 ```
 
 ## Next Steps
@@ -77,7 +76,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicsubscriptionwithruleoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/topicSubscriptionWithRuleOperationsSample.js
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesStreaming.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/usingAadAuth.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/browseMessages.js
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/session.js
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/scheduledMessages.js
@@ -91,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/movingMessagesToDLQ.js
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/processMessageFromDLQ.js
 [exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/exceedMaxDeliveryCount.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging
+[createinstance_azureservicebus]: https://learn.microsoft.com/azure/service-bus-messaging
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md

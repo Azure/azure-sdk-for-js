@@ -4,8 +4,8 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -14,6 +14,7 @@ import { TokenCredential } from '@azure/core-auth';
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
+    constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
@@ -24,10 +25,10 @@ export interface CommunicationGetTokenOptions {
 }
 
 // @public
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftBotIdentifier | UnknownIdentifier;
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier | TeamsExtensionUserIdentifier | UnknownIdentifier;
 
 // @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftBotKind | UnknownIdentifierKind;
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftTeamsAppKind | TeamsExtensionUserKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -71,6 +72,13 @@ export interface EndpointCredential {
 }
 
 // @public
+export interface EntraCommunicationTokenCredentialOptions {
+    resourceEndpoint: string;
+    scopes?: string[];
+    tokenCredential: TokenCredential;
+}
+
+// @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
@@ -83,7 +91,7 @@ export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier
 export const isKeyCredential: (credential: unknown) => credential is KeyCredential;
 
 // @public
-export const isMicrosoftBotIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftBotIdentifier;
+export const isMicrosoftTeamsAppIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsAppIdentifier;
 
 // @public
 export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
@@ -92,19 +100,21 @@ export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifie
 export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
 
 // @public
+export const isTeamsExtensionUserIdentifier: (identifier: CommunicationIdentifier) => identifier is TeamsExtensionUserIdentifier;
+
+// @public
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
-export interface MicrosoftBotIdentifier {
-    botId: string;
+export interface MicrosoftTeamsAppIdentifier {
     cloud?: "public" | "dod" | "gcch";
-    isResourceAccountConfigured?: boolean;
     rawId?: string;
+    teamsAppId: string;
 }
 
 // @public
-export interface MicrosoftBotKind extends MicrosoftBotIdentifier {
-    kind: "microsoftBot";
+export interface MicrosoftTeamsAppKind extends MicrosoftTeamsAppIdentifier {
+    kind: "microsoftTeamsApp";
 }
 
 // @public
@@ -128,6 +138,8 @@ export const parseConnectionString: (connectionString: string) => EndpointCreden
 
 // @public
 export interface PhoneNumberIdentifier {
+    assertedId?: string;
+    isAnonymous?: boolean;
     phoneNumber: string;
     rawId?: string;
 }
@@ -147,10 +159,11 @@ export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 export interface SerializedCommunicationIdentifier {
     communicationUser?: SerializedCommunicationUserIdentifier;
     kind?: string;
-    microsoftBot?: SerializedMicrosoftBotIdentifier;
+    microsoftTeamsApp?: SerializedMicrosoftTeamsAppIdentifier;
     microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
     phoneNumber?: SerializedPhoneNumberIdentifier;
     rawId?: string;
+    teamsExtensionUser?: SerializedTeamsExtensionUserIdentifier;
 }
 
 // @public
@@ -159,10 +172,9 @@ export interface SerializedCommunicationUserIdentifier {
 }
 
 // @public
-export interface SerializedMicrosoftBotIdentifier {
-    botId: string;
+export interface SerializedMicrosoftTeamsAppIdentifier {
+    appId: string;
     cloud?: SerializedCommunicationCloudEnvironment;
-    isResourceAccountConfigured?: boolean;
 }
 
 // @public
@@ -174,7 +186,31 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
 
 // @public
 export interface SerializedPhoneNumberIdentifier {
+    assertedId?: string;
+    isAnonymous?: boolean;
     value: string;
+}
+
+// @public
+export interface SerializedTeamsExtensionUserIdentifier {
+    cloud?: SerializedCommunicationCloudEnvironment;
+    resourceId: string;
+    tenantId: string;
+    userId: string;
+}
+
+// @public
+export interface TeamsExtensionUserIdentifier {
+    cloud?: "public" | "dod" | "gcch";
+    rawId?: string;
+    resourceId: string;
+    tenantId: string;
+    userId: string;
+}
+
+// @public
+export interface TeamsExtensionUserKind extends TeamsExtensionUserIdentifier {
+    kind: "teamsExtensionUser";
 }
 
 // @public

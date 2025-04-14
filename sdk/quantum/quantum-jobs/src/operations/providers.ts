@@ -6,22 +6,66 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Providers } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Providers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { QuantumJobClient } from "../quantumJobClient.js";
+import type {
   ProviderStatus,
   ProvidersGetStatusNextOptionalParams,
   ProvidersGetStatusOptionalParams,
   ProvidersGetStatusResponse,
-  ProvidersGetStatusNextResponse
-} from "../models";
+  ProvidersGetStatusNextResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const getStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/providerStatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderStatusList,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getStatusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderStatusList,
+    },
+    default: {
+      bodyMapper: Mappers.RestError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+
 /** Class containing Providers operations. */
 export class ProvidersImpl implements Providers {
   private readonly client: QuantumJobClient;
@@ -39,7 +83,7 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   public listStatus(
-    options?: ProvidersGetStatusOptionalParams
+    options?: ProvidersGetStatusOptionalParams,
   ): PagedAsyncIterableIterator<ProviderStatus> {
     const iter = this.getStatusPagingAll(options);
     return {
@@ -51,12 +95,12 @@ export class ProvidersImpl implements Providers {
       },
       byPage: () => {
         return this.getStatusPagingPage(options);
-      }
+      },
     };
   }
 
   private async *getStatusPagingPage(
-    options?: ProvidersGetStatusOptionalParams
+    options?: ProvidersGetStatusOptionalParams,
   ): AsyncIterableIterator<ProviderStatus[]> {
     let result = await this._getStatus(options);
     yield result.value || [];
@@ -69,7 +113,7 @@ export class ProvidersImpl implements Providers {
   }
 
   private async *getStatusPagingAll(
-    options?: ProvidersGetStatusOptionalParams
+    options?: ProvidersGetStatusOptionalParams,
   ): AsyncIterableIterator<ProviderStatus> {
     for await (const page of this.getStatusPagingPage(options)) {
       yield* page;
@@ -81,17 +125,17 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   private async _getStatus(
-    options?: ProvidersGetStatusOptionalParams
+    options?: ProvidersGetStatusOptionalParams,
   ): Promise<ProvidersGetStatusResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._getStatus",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { options },
-          getStatusOperationSpec
+          { updatedOptions },
+          getStatusOperationSpec,
         ) as Promise<ProvidersGetStatusResponse>;
-      }
+      },
     );
   }
 
@@ -102,62 +146,17 @@ export class ProvidersImpl implements Providers {
    */
   private async _getStatusNext(
     nextLink: string,
-    options?: ProvidersGetStatusNextOptionalParams
+    options?: ProvidersGetStatusNextOptionalParams,
   ): Promise<ProvidersGetStatusNextResponse> {
     return tracingClient.withSpan(
       "QuantumJobClient._getStatusNext",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { nextLink, options },
-          getStatusNextOperationSpec
+          { nextLink, updatedOptions },
+          getStatusNextOperationSpec,
         ) as Promise<ProvidersGetStatusNextResponse>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const getStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/providerStatus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProviderStatusList
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getStatusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProviderStatusList
-    },
-    default: {
-      bodyMapper: Mappers.RestError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};

@@ -21,7 +21,7 @@ import {
   JoinRequestsImpl,
   StudentsImpl,
   StudentLabsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Grants,
@@ -29,14 +29,14 @@ import {
   JoinRequests,
   Students,
   StudentLabs
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   EducationManagementClientOptionalParams,
   RedeemRequest,
   RedeemInvitationCodeOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 export class EducationManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -30,3 +30,5 @@ extends:
         safeName: azureschemaregistry
       - name: azure-schema-registry-avro
         safeName: azureschemaregistryavro
+      - name: azure-schema-registry-json
+        safeName: azureschemaregistryjson

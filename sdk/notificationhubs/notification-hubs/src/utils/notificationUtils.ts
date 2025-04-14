@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Notification } from "../models/notification.js";
+import type { Notification } from "../models/notification.js";
 
 /**
  * @internal
@@ -9,7 +9,7 @@ import { Notification } from "../models/notification.js";
 export function createMultipartDirectNotification(
   boundaryName: string,
   notification: Notification,
-  deviceHandles: string[]
+  deviceHandles: string[],
 ): string {
   return (
     `--${boundaryName}\r\n` +

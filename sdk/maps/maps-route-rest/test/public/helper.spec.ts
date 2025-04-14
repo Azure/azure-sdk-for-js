@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "../../src/index.js";
 import {
-  BatchRequest,
-  RouteGetRouteDirectionsQueryParamProperties,
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
-} from "../../src";
-import { assert } from "chai";
-import { LatLon } from "@azure/maps-common";
+} from "../../src/index.js";
+import type { LatLon } from "@azure/maps-common";
+import { describe, it, assert } from "vitest";
 
 describe("toColonDelimitedLatLonString", function () {
-  it("should compose the string correctly", function () {
+  it("should compose the string correctly", () => {
     const input: LatLon[] = [
       [-122.123, 47.123],
       [-122.123, 47.123],
@@ -22,7 +21,7 @@ describe("toColonDelimitedLatLonString", function () {
     assert.equal(actual, expected);
   });
 
-  it("should return empty string if input is empty", function () {
+  it("should return empty string if input is empty", () => {
     const input: LatLon[] = [];
     const expected = "";
     const actual = toColonDelimitedLatLonString(input);
@@ -32,7 +31,7 @@ describe("toColonDelimitedLatLonString", function () {
 });
 
 describe("createRouteDirectionsBatchRequest", function () {
-  it("should compose the request correctly", function () {
+  it("should compose the request correctly", () => {
     const input: RouteGetRouteDirectionsQueryParamProperties[] = [
       {
         query: "-122.123,47.123:-122.123,47.123",

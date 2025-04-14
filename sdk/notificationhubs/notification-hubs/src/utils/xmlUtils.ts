@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isDefined } from "./utils.js";
 import { parseXML } from "@azure/core-xml";
@@ -74,7 +74,7 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  */
 export function serializeToAtomXmlRequest(
   resourceName: string,
-  resource: unknown
+  resource: unknown,
 ): Record<string, unknown> {
   const content: any = {};
 
@@ -104,11 +104,21 @@ export function serializeToAtomXmlRequest(
  * @returns The notification details if any from the XML.
  */
 export async function parseXMLError(bodyText: string): Promise<string | undefined> {
+  if (!bodyText) {
+    return;
+  }
+
   let result: string | undefined;
-  const xmlError = await parseXML(bodyText, { includeRoot: true });
-  const detail = xmlError["Detail"];
-  if (isDefined(detail)) {
-    return detail;
+  try {
+    const xmlError = await parseXML(bodyText, { includeRoot: true });
+    if (
+      Object.hasOwnProperty.call(xmlError, "Error") &&
+      Object.hasOwnProperty.call(xmlError["Error"], "Detail")
+    ) {
+      return xmlError["Error"]["Detail"];
+    }
+  } catch {
+    // nothing to do
   }
 
   return result;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PerfTest } from "../src";
+import { PerfTest } from "../src/index.js";
 
 /**
  * Exception is designed to test the response speed of the Perf test framework
@@ -14,7 +14,7 @@ export class Exception extends PerfTest {
   async run(): Promise<void> {
     try {
       throw new Error();
-    } catch (e: any) {
+    } catch (e: unknown) {
       // Nothing to do here
     }
   }

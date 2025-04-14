@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a project environment type.
  *
  * @summary Deletes a project environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ProjectEnvironmentTypes_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectEnvironmentTypes_Delete.json
  */
 async function projectEnvironmentTypesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function projectEnvironmentTypesDelete() {
   const result = await client.projectEnvironmentTypes.delete(
     resourceGroupName,
     projectName,
-    environmentTypeName
+    environmentTypeName,
   );
   console.log(result);
 }

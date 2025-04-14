@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { TracingClient } from "@azure/core-tracing";
-import { GeneratedClient } from "../generated/generatedClient";
-import { State, TextDocumentInput } from "../generated/models";
-import { delay } from "../util";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import type { TracingClient } from "@azure/core-tracing";
+import type { GeneratedClient } from "../generated/generatedClient.js";
+import type { State, TextDocumentInput } from "../generated/models/index.js";
+import { delay } from "../util.js";
 
 /**
  * Common parameters to a Poller.
@@ -58,7 +59,7 @@ export interface AnalysisPollOperationState<TResult>
  */
 export abstract class AnalysisPoller<
   TState extends PollOperationState<TResult>,
-  TResult
+  TResult,
 > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

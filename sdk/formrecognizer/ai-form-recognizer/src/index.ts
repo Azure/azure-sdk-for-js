@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/)
@@ -9,8 +9,8 @@
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
-export { DocumentAnalysisClient } from "./documentAnalysisClient";
-export { DocumentModelAdministrationClient } from "./documentModelAdministrationClient";
+export { DocumentAnalysisClient } from "./documentAnalysisClient.js";
+export { DocumentModelAdministrationClient } from "./documentModelAdministrationClient.js";
 export {
   // Generated types used verbatim
   AddressValue,
@@ -48,21 +48,14 @@ export {
   DocumentClassifierBuildOperationDetails,
   DocumentClassifierDetails,
   ClassifierDocumentTypeDetails,
-  DocumentAnnotationKind,
   DocumentBarcodeKind,
   DocumentFormulaKind,
-  AzureBlobFileListSource,
-  AzureBlobContentSource,
   QuotaDetails,
-  DocumentPageKind,
-
   // KnownXYZ enums
   KnownDocumentBuildMode,
   KnownDocumentFieldType,
-  KnownDocumentAnnotationKind,
   KnownDocumentBarcodeKind,
   KnownDocumentFormulaKind,
-  KnownDocumentPageKind,
   KnownDocumentSignatureType,
   KnownDocumentTableCellKind,
   KnownFontStyle,
@@ -71,7 +64,7 @@ export {
   KnownOperationKind,
   KnownParagraphRole,
   KnownSelectionMarkState,
-} from "./generated";
+} from "./generated/index.js";
 export {
   AnalysisPoller,
   AnalyzeResult,
@@ -79,15 +72,15 @@ export {
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,
-} from "./lro/analysis";
+} from "./lro/analysis.js";
 export {
   DocumentModelPoller,
   DocumentClassifierPoller,
   DocumentModelOperationState,
   DocumentClassifierOperationState,
   ModelAdministrationOperationStateCommon,
-} from "./lro/administration";
-export * from "./models";
-export * from "./options";
-export * from "./documentModel";
-export { Point2D } from "./transforms/polygon";
+} from "./lro/administration.js";
+export * from "./models/index.js";
+export * from "./options/index.js";
+export * from "./documentModel.js";
+export { Point2D } from "./transforms/polygon.js";

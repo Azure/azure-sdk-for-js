@@ -9,8 +9,8 @@
 import {
   AzureBackupFindRestorableTimeRangesRequest,
   RestorableTimeRangesFindOptionalParams,
-  RestorableTimeRangesFindResponse
-} from "../models";
+  RestorableTimeRangesFindResponse,
+} from "../models/index.js";
 
 /** Interface representing a RestorableTimeRanges. */
 export interface RestorableTimeRanges {
@@ -26,6 +26,6 @@ export interface RestorableTimeRanges {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupFindRestorableTimeRangesRequest,
-    options?: RestorableTimeRangesFindOptionalParams
+    options?: RestorableTimeRangesFindOptionalParams,
   ): Promise<RestorableTimeRangesFindResponse>;
 }

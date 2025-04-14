@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MessageHandlers, ProcessErrorArgs } from "../models";
-import { ServiceBusReceiver } from "./receiver";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { createServiceBusLogger, logger, receiverLogger, ServiceBusLogger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
-import {
+import type { MessageHandlers, ProcessErrorArgs } from "../models.js";
+import type { ServiceBusReceiver } from "./receiver.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { createServiceBusLogger, ServiceBusLogger } from "../log.js";
+import { logger, receiverLogger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import type {
   DeadLetterOptions,
-  DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
-import { ConnectionContext } from "../connectionContext";
+} from "../serviceBusMessage.js";
+import { DispositionType } from "../serviceBusMessage.js";
+import type { DispositionStatusOptions } from "../core/managementClient.js";
+import type { ConnectionContext } from "../connectionContext.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
 import {
   Constants,
   ErrorNameConditionMapper,
   retry,
-  RetryConfig,
   RetryMode,
   RetryOperationType,
-  RetryOptions,
 } from "@azure/core-amqp";
-import { MessageAlreadySettled } from "../util/errors";
+import { MessageAlreadySettled } from "../util/errors.js";
 import { delay, isDefined } from "@azure/core-util";
-import { TracingSpanLink } from "@azure/core-tracing";
-import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
-import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import type { TracingSpanLink } from "@azure/core-tracing";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * @internal
@@ -52,7 +52,7 @@ export function assertValidMessageHandlers(handlers: {
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
-  options?: OperationOptionsBase
+  options?: OperationOptionsBase,
 ): AsyncIterableIterator<ServiceBusReceivedMessage> {
   while (true) {
     const messages = await receiver.receiveMessages(1, options);
@@ -70,7 +70,7 @@ export async function* getMessageIterator(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
-  loggerParam: ServiceBusLogger = receiverLogger
+  loggerParam: ServiceBusLogger = receiverLogger,
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
@@ -90,12 +90,12 @@ export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Completing the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -109,7 +109,7 @@ export function completeMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -122,12 +122,12 @@ export function abandonMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Abandoning the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -142,7 +142,7 @@ export function abandonMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -155,12 +155,12 @@ export function deferMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deferring the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -175,7 +175,7 @@ export function deferMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -190,12 +190,12 @@ export function deadLetterMessage(
   propertiesToModify:
     | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
     | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deadlettering the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
 
   const actualPropertiesToModify: Partial<DeadLetterOptions> = {
@@ -225,12 +225,12 @@ export function deadLetterMessage(
         DispositionType.deadletter,
         context,
         entityPath,
-        dispositionStatusOptions
+        dispositionStatusOptions,
       ),
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -243,7 +243,7 @@ export function settleMessage(
   context: ConnectionContext,
   entityPath: string,
   options: DispositionStatusOptions,
-  _settleMessageOperation: typeof settleMessageOperation = settleMessageOperation
+  _settleMessageOperation: typeof settleMessageOperation = settleMessageOperation,
 ): Promise<void> {
   return retry({
     connectionId: context.connectionId,
@@ -268,7 +268,7 @@ export async function settleMessageOperation(
   operation: DispositionType,
   context: ConnectionContext,
   entityPath: string,
-  options: DispositionStatusOptions
+  options: DispositionStatusOptions,
 ): Promise<void> {
   const isDeferredMessage = !message.delivery.link;
   const receiver = isDeferredMessage
@@ -297,7 +297,7 @@ export async function settleMessageOperation(
       error,
       "[%s] An error occurred when settling a message with id '%s'",
       context.connectionId,
-      message.messageId
+      message.messageId,
     );
     throw error;
   }
@@ -338,7 +338,7 @@ function calculateDelay(
   attemptCount: number,
   retryDelayInMs: number,
   maxRetryDelayInMs: number,
-  mode: RetryMode
+  mode: RetryMode,
 ): number {
   if (mode === RetryMode.Exponential) {
     const boundedRandDelta =
@@ -363,7 +363,7 @@ function calculateDelay(
  */
 export async function retryForever<T>(
   args: RetryForeverArgs<T>,
-  retryFn: typeof retry = retry
+  retryFn: typeof retry = retry,
 ): Promise<T> {
   let numRetryCycles = 0;
   const config = args.retryConfig;
@@ -387,7 +387,6 @@ export async function retryForever<T>(
 
   // The retries are broken up into cycles, giving the user some control over how often
   // we actually attempt to retry.
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     ++numRetryCycles;
 
@@ -413,20 +412,20 @@ export async function retryForever<T>(
       args.logger.logError(
         err,
         `${args.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
-        args.retryConfig
+        args.retryConfig,
       );
 
       const delayInMs = calculateDelay(
         numRetryCycles,
         config.retryOptions.retryDelayInMs,
         config.retryOptions.maxRetryDelayInMs,
-        config.retryOptions.mode
+        config.retryOptions.mode,
       );
       logger.verbose(
         "[%s] Sleeping for %d milliseconds for '%s'.",
         config.connectionId,
         delayInMs,
-        config.operationType
+        config.operationType,
       );
       await delay(delayInMs, {
         abortSignal: config.abortSignal,

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a Dev Box definition
  *
  * @summary Gets a Dev Box definition
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevBoxDefinitions_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Get.json
  */
 async function devBoxDefinitionsGet() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function devBoxDefinitionsGet() {
   const result = await client.devBoxDefinitions.get(
     resourceGroupName,
     devCenterName,
-    devBoxDefinitionName
+    devBoxDefinitionName,
   );
   console.log(result);
 }

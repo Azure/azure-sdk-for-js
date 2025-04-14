@@ -25,7 +25,7 @@
       },
       "RequestBody": {
         "query": "range x from 1 to 10000000000000 step 1 | count",
-        "timespan": "P24H"
+        "timespan": "PT24H"
       },
       "StatusCode": 504,
       "ResponseHeaders": {

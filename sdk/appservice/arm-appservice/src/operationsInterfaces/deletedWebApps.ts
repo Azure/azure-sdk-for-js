@@ -12,8 +12,8 @@ import {
   DeletedWebAppsListOptionalParams,
   DeletedWebAppsListByLocationOptionalParams,
   DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
-  DeletedWebAppsGetDeletedWebAppByLocationResponse
-} from "../models";
+  DeletedWebAppsGetDeletedWebAppByLocationResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedWebApps. */
@@ -23,7 +23,7 @@ export interface DeletedWebApps {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedWebAppsListOptionalParams
+    options?: DeletedWebAppsListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedSite>;
   /**
    * Description for Get all deleted apps for a subscription at location
@@ -32,7 +32,7 @@ export interface DeletedWebApps {
    */
   listByLocation(
     location: string,
-    options?: DeletedWebAppsListByLocationOptionalParams
+    options?: DeletedWebAppsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<DeletedSite>;
   /**
    * Description for Get deleted app for a subscription at location.
@@ -43,6 +43,6 @@ export interface DeletedWebApps {
   getDeletedWebAppByLocation(
     location: string,
     deletedSiteId: string,
-    options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams
+    options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
   ): Promise<DeletedWebAppsGetDeletedWebAppByLocationResponse>;
 }

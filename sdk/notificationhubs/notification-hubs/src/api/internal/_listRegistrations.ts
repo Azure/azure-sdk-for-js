@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./_client.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { RegistrationDescription } from "../../models/registration.js";
-import { RegistrationQueryOptions } from "../../models/options.js";
-import { RegistrationQueryResponse } from "../../models/response.js";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { RegistrationDescription } from "../../models/registration.js";
+import type { RegistrationQueryOptions } from "../../models/options.js";
+import type { RegistrationQueryResponse } from "../../models/response.js";
 import { registrationDescriptionParser } from "../../serializers/registrationSerializer.js";
 
 export async function* listRegistrationsAll(
   context: NotificationHubsClientContext,
-  options: RegistrationQueryOptions
+  options: RegistrationQueryOptions,
 ): AsyncIterableIterator<RegistrationDescription> {
   for await (const page of listRegistrationPagingPage(context, options)) {
     yield* page;
@@ -19,7 +19,7 @@ export async function* listRegistrationsAll(
 
 export async function* listRegistrationPagingPage(
   context: NotificationHubsClientContext,
-  options: RegistrationQueryOptions
+  options: RegistrationQueryOptions,
 ): AsyncIterableIterator<RegistrationDescription[]> {
   let result = await _listRegistrations(context, options);
   yield result.registrations || [];
@@ -34,7 +34,7 @@ export async function* listRegistrationPagingPage(
 async function _listRegistrations(
   context: NotificationHubsClientContext,
   options: RegistrationQueryOptions,
-  continuationToken?: string
+  continuationToken?: string,
 ): Promise<RegistrationQueryResponse> {
   const endpoint = context.requestUrl();
   endpoint.pathname += "/registrations";
@@ -55,7 +55,7 @@ async function _listRegistrations(
   const response = await sendRequest(context, request, 200);
 
   const registrations = await registrationDescriptionParser.parseRegistrationFeed(
-    response.bodyAsText!
+    response.bodyAsText!,
   );
   const nextToken = response.headers.get("x-ms-continuationtoken");
   return {

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Refreshes any information about the association.
  *
  * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationList() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
@@ -28,13 +26,13 @@ async function networkSecurityPerimeterConfigurationList() {
   const result = await client.networkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     namespaceName,
-    resourceAssociationName
+    resourceAssociationName,
   );
   console.log(result);
 }
 
 async function main() {
-  networkSecurityPerimeterConfigurationList();
+  await networkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 
-import {
+import type {
   BlobDownloadResponseModel,
   BlobType,
   CopyStatusType,
@@ -12,16 +12,17 @@ import {
   LeaseStatusType,
   BlobQueryHeaders,
   BlobQueryResponseModel,
-} from "./generatedModels";
-import { Metadata } from "./models";
-import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
-import { ResponseWithHeaders } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Metadata } from "./models.js";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream.js";
+import { BlobQuickQueryStream } from "./utils/BlobQuickQueryStream.js";
+import type { ResponseWithHeaders } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * BlobQueryResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
- * parse avor data returned by blob query.
+ * parse avro data returned by blob query.
  */
 export class BlobQueryResponse implements BlobDownloadResponseModel {
   /**
@@ -394,7 +395,7 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.blobDownloadStream : undefined;
+    return isNodeLike ? this.blobDownloadStream : undefined;
   }
 
   /**
@@ -415,12 +416,12 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    */
   public constructor(
     originalResponse: BlobQueryResponseModel,
-    options: BlobQuickQueryStreamOptions = {}
+    options: BlobQuickQueryStreamOptions = {},
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new BlobQuickQueryStream(
       this.originalResponse.readableStreamBody!,
-      options
+      options,
     );
   }
 }

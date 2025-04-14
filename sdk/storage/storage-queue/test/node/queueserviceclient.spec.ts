@@ -1,33 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { recorderEnvSetup } from "../utils/testutils.common";
-import { Context } from "mocha";
+import {
+  getQSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+  configureStorageClient,
+} from "../utils/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { QueueServiceClient } from "../../src/QueueServiceClient.js";
+import { newPipeline } from "../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {
-    const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const queueServiceClient = getQSU(recorder);
+    const credential = queueServiceClient["credential"];
     const newClient = new QueueServiceClient(queueServiceClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -38,14 +41,14 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const queueServiceClient = getQSU(recorder);
+    const credential = queueServiceClient["credential"];
     const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -56,11 +59,11 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const queueServiceClient = getQSU(recorder);
+    const credential = queueServiceClient["credential"];
     const pipeline = newPipeline(credential);
     const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -72,6 +75,7 @@ describe("QueueServiceClient Node.js only", () => {
 
   it("can be created from a connection string", async () => {
     const newClient = QueueServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -89,8 +93,9 @@ describe("QueueServiceClient Node.js only", () => {
     };
     const newClient = new QueueServiceClient(
       "https://accountname.queue.core.windows.net",
-      tokenCredential
+      tokenCredential,
     );
+    configureStorageClient(recorder, newClient);
     assertClientUsesTokenCredential(newClient);
   });
 });

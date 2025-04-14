@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   AppServiceCertificateOrderCollectionOutput,
   DefaultErrorResponseOutput,
   AppServiceCertificateOrderOutput,
@@ -174,7 +174,7 @@ import {
   TriggeredJobHistoryOutput,
   WebJobCollectionOutput,
   WebJobOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** List all certificate orders in a subscription. */
 export interface AppServiceCertificateOrdersList200Response extends HttpResponse {
@@ -183,8 +183,8 @@ export interface AppServiceCertificateOrdersList200Response extends HttpResponse
 }
 
 /** List all certificate orders in a subscription. */
-export interface AppServiceCertificateOrdersListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -192,13 +192,12 @@ export interface AppServiceCertificateOrdersListdefaultResponse extends HttpResp
 export interface AppServiceCertificateOrdersValidatePurchaseInformation204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Validate information for a certificate order. */
-export interface AppServiceCertificateOrdersValidatePurchaseInformationdefaultResponse
+export interface AppServiceCertificateOrdersValidatePurchaseInformationDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -209,9 +208,9 @@ export interface AppServiceCertificateOrdersListByResourceGroup200Response exten
 }
 
 /** Get certificate orders in a resource group. */
-export interface AppServiceCertificateOrdersListByResourceGroupdefaultResponse
+export interface AppServiceCertificateOrdersListByResourceGroupDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -222,8 +221,8 @@ export interface AppServiceCertificateOrdersGet200Response extends HttpResponse 
 }
 
 /** Get a certificate order. */
-export interface AppServiceCertificateOrdersGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -240,26 +239,24 @@ export interface AppServiceCertificateOrdersCreateOrUpdate201Response extends Ht
 }
 
 /** Create or update a certificate purchase order. */
-export interface AppServiceCertificateOrdersCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete an existing certificate order. */
 export interface AppServiceCertificateOrdersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete an existing certificate order. */
 export interface AppServiceCertificateOrdersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete an existing certificate order. */
-export interface AppServiceCertificateOrdersDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -270,8 +267,8 @@ export interface AppServiceCertificateOrdersUpdate200Response extends HttpRespon
 }
 
 /** Create or update a certificate purchase order. */
-export interface AppServiceCertificateOrdersUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -282,8 +279,8 @@ export interface AppServiceCertificateOrdersListCertificates200Response extends 
 }
 
 /** List all certificates associated with a certificate order. */
-export interface AppServiceCertificateOrdersListCertificatesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersListCertificatesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -294,8 +291,8 @@ export interface AppServiceCertificateOrdersGetCertificate200Response extends Ht
 }
 
 /** Get the certificate associated with a certificate order. */
-export interface AppServiceCertificateOrdersGetCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersGetCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -314,27 +311,25 @@ export interface AppServiceCertificateOrdersCreateOrUpdateCertificate201Response
 }
 
 /** Creates or updates a certificate and associates with key vault secret. */
-export interface AppServiceCertificateOrdersCreateOrUpdateCertificatedefaultResponse
+export interface AppServiceCertificateOrdersCreateOrUpdateCertificateDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete the certificate associated with a certificate order. */
 export interface AppServiceCertificateOrdersDeleteCertificate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete the certificate associated with a certificate order. */
 export interface AppServiceCertificateOrdersDeleteCertificate204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete the certificate associated with a certificate order. */
-export interface AppServiceCertificateOrdersDeleteCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersDeleteCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -345,57 +340,53 @@ export interface AppServiceCertificateOrdersUpdateCertificate200Response extends
 }
 
 /** Creates or updates a certificate and associates with key vault secret. */
-export interface AppServiceCertificateOrdersUpdateCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersUpdateCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reissue an existing certificate order. */
 export interface AppServiceCertificateOrdersReissue204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reissue an existing certificate order. */
-export interface AppServiceCertificateOrdersReissuedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersReissueDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Renew an existing certificate order. */
 export interface AppServiceCertificateOrdersRenew204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Renew an existing certificate order. */
-export interface AppServiceCertificateOrdersRenewdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersRenewDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Resend certificate email. */
 export interface AppServiceCertificateOrdersResendEmail204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Resend certificate email. */
-export interface AppServiceCertificateOrdersResendEmaildefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersResendEmailDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order */
 export interface AppServiceCertificateOrdersResendRequestEmails204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order */
-export interface AppServiceCertificateOrdersResendRequestEmailsdefaultResponse
+export interface AppServiceCertificateOrdersResendRequestEmailsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -406,21 +397,20 @@ export interface AppServiceCertificateOrdersRetrieveSiteSeal200Response extends 
 }
 
 /** This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times. */
-export interface AppServiceCertificateOrdersRetrieveSiteSealdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceCertificateOrdersRetrieveSiteSealDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Verify domain ownership for this certificate order. */
 export interface AppServiceCertificateOrdersVerifyDomainOwnership204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Verify domain ownership for this certificate order. */
-export interface AppServiceCertificateOrdersVerifyDomainOwnershipdefaultResponse
+export interface AppServiceCertificateOrdersVerifyDomainOwnershipDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -432,9 +422,9 @@ export interface AppServiceCertificateOrdersRetrieveCertificateActions200Respons
 }
 
 /** Retrieve the list of certificate actions. */
-export interface AppServiceCertificateOrdersRetrieveCertificateActionsdefaultResponse
+export interface AppServiceCertificateOrdersRetrieveCertificateActionsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -446,9 +436,9 @@ export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistory200Re
 }
 
 /** Retrieve email history. */
-export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistorydefaultResponse
+export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -460,9 +450,9 @@ export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetec
 }
 
 /** Microsoft.CertificateRegistration to get the list of detectors for this RP. */
-export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponsedefaultResponse
+export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -474,9 +464,9 @@ export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetect
 }
 
 /** Microsoft.CertificateRegistration call to get a detector response from App Lens. */
-export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponsedefaultResponse
+export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -487,8 +477,8 @@ export interface CertificateRegistrationProviderListOperations200Response extend
 }
 
 /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
-export interface CertificateRegistrationProviderListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificateRegistrationProviderListOperationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -499,8 +489,8 @@ export interface DomainsCheckAvailability200Response extends HttpResponse {
 }
 
 /** Check if a domain is available for registration. */
-export interface DomainsCheckAvailabilitydefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsCheckAvailabilityDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -511,8 +501,8 @@ export interface DomainsList200Response extends HttpResponse {
 }
 
 /** Get all domains in a subscription. */
-export interface DomainsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -523,8 +513,8 @@ export interface DomainsGetControlCenterSsoRequest200Response extends HttpRespon
 }
 
 /** Generate a single sign-on request for the domain management portal. */
-export interface DomainsGetControlCenterSsoRequestdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsGetControlCenterSsoRequestDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -535,8 +525,8 @@ export interface DomainsListRecommendations200Response extends HttpResponse {
 }
 
 /** Get domain name recommendations based on keywords. */
-export interface DomainsListRecommendationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsListRecommendationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -547,8 +537,8 @@ export interface DomainsListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Get all domains in a resource group. */
-export interface DomainsListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -559,8 +549,8 @@ export interface DomainsGet200Response extends HttpResponse {
 }
 
 /** Get a domain. */
-export interface DomainsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -577,26 +567,24 @@ export interface DomainsCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Creates or updates a domain. */
-export interface DomainsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a domain. */
 export interface DomainsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a domain. */
 export interface DomainsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a domain. */
-export interface DomainsDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -613,8 +601,8 @@ export interface DomainsUpdate202Response extends HttpResponse {
 }
 
 /** Creates or updates a domain. */
-export interface DomainsUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -625,8 +613,8 @@ export interface DomainsListOwnershipIdentifiers200Response extends HttpResponse
 }
 
 /** Lists domain ownership identifiers. */
-export interface DomainsListOwnershipIdentifiersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsListOwnershipIdentifiersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -637,8 +625,8 @@ export interface DomainsGetOwnershipIdentifier200Response extends HttpResponse {
 }
 
 /** Get ownership identifier for domain */
-export interface DomainsGetOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsGetOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -649,26 +637,24 @@ export interface DomainsCreateOrUpdateOwnershipIdentifier200Response extends Htt
 }
 
 /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
-export interface DomainsCreateOrUpdateOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsCreateOrUpdateOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete ownership identifier for domain */
 export interface DomainsDeleteOwnershipIdentifier200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete ownership identifier for domain */
 export interface DomainsDeleteOwnershipIdentifier204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete ownership identifier for domain */
-export interface DomainsDeleteOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsDeleteOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -679,32 +665,29 @@ export interface DomainsUpdateOwnershipIdentifier200Response extends HttpRespons
 }
 
 /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
-export interface DomainsUpdateOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsUpdateOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Renew a domain. */
 export interface DomainsRenew200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Renew a domain. */
 export interface DomainsRenew202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Renew a domain. */
 export interface DomainsRenew204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Renew a domain. */
-export interface DomainsRenewdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsRenewDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -717,12 +700,11 @@ export interface DomainsTransferOut200Response extends HttpResponse {
 /** Transfer out domain to another registrar */
 export interface DomainsTransferOut400Response extends HttpResponse {
   status: "400";
-  body: Record<string, unknown>;
 }
 
 /** Transfer out domain to another registrar */
-export interface DomainsTransferOutdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainsTransferOutDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -733,8 +715,8 @@ export interface TopLevelDomainsList200Response extends HttpResponse {
 }
 
 /** Get all top-level domains supported for registration. */
-export interface TopLevelDomainsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface TopLevelDomainsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -745,8 +727,8 @@ export interface TopLevelDomainsGet200Response extends HttpResponse {
 }
 
 /** Get details of a top-level domain. */
-export interface TopLevelDomainsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface TopLevelDomainsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -757,8 +739,8 @@ export interface TopLevelDomainsListAgreements200Response extends HttpResponse {
 }
 
 /** Gets all legal agreements that user needs to accept before purchasing a domain. */
-export interface TopLevelDomainsListAgreementsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface TopLevelDomainsListAgreementsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -769,8 +751,8 @@ export interface DomainRegistrationProviderListOperations200Response extends Htt
 }
 
 /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
-export interface DomainRegistrationProviderListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DomainRegistrationProviderListOperationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -781,8 +763,8 @@ export interface AppServiceEnvironmentsList200Response extends HttpResponse {
 }
 
 /** Get all App Service Environments for a subscription. */
-export interface AppServiceEnvironmentsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -793,8 +775,8 @@ export interface AppServiceEnvironmentsListByResourceGroup200Response extends Ht
 }
 
 /** Get all App Service Environments in a resource group. */
-export interface AppServiceEnvironmentsListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -805,8 +787,8 @@ export interface AppServiceEnvironmentsGet200Response extends HttpResponse {
 }
 
 /** Get the properties of an App Service Environment. */
-export interface AppServiceEnvironmentsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -829,26 +811,24 @@ export interface AppServiceEnvironmentsCreateOrUpdate202Response extends HttpRes
 }
 
 /** Create or update an App Service Environment. */
-export interface AppServiceEnvironmentsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete an App Service Environment. */
 export interface AppServiceEnvironmentsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete an App Service Environment. */
 export interface AppServiceEnvironmentsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete an App Service Environment. */
-export interface AppServiceEnvironmentsDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -871,8 +851,8 @@ export interface AppServiceEnvironmentsUpdate202Response extends HttpResponse {
 }
 
 /** Create or update an App Service Environment. */
-export interface AppServiceEnvironmentsUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -883,8 +863,8 @@ export interface AppServiceEnvironmentsListCapacities200Response extends HttpRes
 }
 
 /** Get the used, available, and total worker capacity an App Service Environment. */
-export interface AppServiceEnvironmentsListCapacitiesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListCapacitiesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -895,8 +875,8 @@ export interface AppServiceEnvironmentsGetVipInfo200Response extends HttpRespons
 }
 
 /** Get IP addresses assigned to an App Service Environment. */
-export interface AppServiceEnvironmentsGetVipInfodefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetVipInfoDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -913,8 +893,8 @@ export interface AppServiceEnvironmentsChangeVnet202Response extends HttpRespons
 }
 
 /** Move an App Service Environment to a different VNET. */
-export interface AppServiceEnvironmentsChangeVnetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsChangeVnetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -926,9 +906,9 @@ export interface AppServiceEnvironmentsGetAseV3NetworkingConfiguration200Respons
 }
 
 /** Get networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationdefaultResponse
+export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -940,9 +920,9 @@ export interface AppServiceEnvironmentsUpdateAseNetworkingConfiguration200Respon
 }
 
 /** Update networking configuration of an App Service Environment */
-export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationdefaultResponse
+export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -953,8 +933,8 @@ export interface AppServiceEnvironmentsListDiagnostics200Response extends HttpRe
 }
 
 /** Get diagnostic information for an App Service Environment. */
-export interface AppServiceEnvironmentsListDiagnosticsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListDiagnosticsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -965,8 +945,8 @@ export interface AppServiceEnvironmentsGetDiagnosticsItem200Response extends Htt
 }
 
 /** Get a diagnostics item for an App Service Environment. */
-export interface AppServiceEnvironmentsGetDiagnosticsItemdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetDiagnosticsItemDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -978,9 +958,9 @@ export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints200
 }
 
 /** Get the network endpoints of all inbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsdefaultResponse
+export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -991,8 +971,8 @@ export interface AppServiceEnvironmentsListMultiRolePools200Response extends Htt
 }
 
 /** Get all multi-role pools. */
-export interface AppServiceEnvironmentsListMultiRolePoolsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListMultiRolePoolsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1003,8 +983,8 @@ export interface AppServiceEnvironmentsGetMultiRolePool200Response extends HttpR
 }
 
 /** Get properties of a multi-role pool. */
-export interface AppServiceEnvironmentsGetMultiRolePooldefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetMultiRolePoolDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1021,9 +1001,9 @@ export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePool202Response ex
 }
 
 /** Create or update a multi-role pool. */
-export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePooldefaultResponse
+export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1040,8 +1020,8 @@ export interface AppServiceEnvironmentsUpdateMultiRolePool202Response extends Ht
 }
 
 /** Create or update a multi-role pool. */
-export interface AppServiceEnvironmentsUpdateMultiRolePooldefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsUpdateMultiRolePoolDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1053,9 +1033,9 @@ export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinition
 }
 
 /** Get metric definitions for a specific instance of a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsdefaultResponse
+export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1067,9 +1047,9 @@ export interface AppServiceEnvironmentsListMultiRoleMetricDefinitions200Response
 }
 
 /** Get metric definitions for a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsdefaultResponse
+export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1080,8 +1060,8 @@ export interface AppServiceEnvironmentsListMultiRolePoolSkus200Response extends 
 }
 
 /** Get available SKUs for scaling a multi-role pool. */
-export interface AppServiceEnvironmentsListMultiRolePoolSkusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListMultiRolePoolSkusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1092,8 +1072,8 @@ export interface AppServiceEnvironmentsListMultiRoleUsages200Response extends Ht
 }
 
 /** Get usage metrics for a multi-role pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListMultiRoleUsagesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListMultiRoleUsagesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1104,8 +1084,8 @@ export interface AppServiceEnvironmentsListOperations200Response extends HttpRes
 }
 
 /** List all currently running operations on the App Service Environment. */
-export interface AppServiceEnvironmentsListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListOperationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1117,9 +1097,9 @@ export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints20
 }
 
 /** Get the network endpoints of all outbound dependencies of an App Service Environment. */
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsdefaultResponse
+export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1131,9 +1111,9 @@ export interface AppServiceEnvironmentsGetPrivateEndpointConnectionList200Respon
 }
 
 /** Gets the list of private endpoints associated with a hosting environment */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListdefaultResponse
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1145,9 +1125,9 @@ export interface AppServiceEnvironmentsGetPrivateEndpointConnection200Response
 }
 
 /** Gets a private endpoint connection */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectiondefaultResponse
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1166,9 +1146,9 @@ export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection2
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectiondefaultResponse
+export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1194,9 +1174,9 @@ export interface AppServiceEnvironmentsDeletePrivateEndpointConnection204Respons
 }
 
 /** Deletes a private endpoint connection */
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnectiondefaultResponse
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1207,20 +1187,19 @@ export interface AppServiceEnvironmentsGetPrivateLinkResources200Response extend
 }
 
 /** Gets the private link resources */
-export interface AppServiceEnvironmentsGetPrivateLinkResourcesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetPrivateLinkResourcesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reboot all machines in an App Service Environment. */
 export interface AppServiceEnvironmentsReboot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reboot all machines in an App Service Environment. */
-export interface AppServiceEnvironmentsRebootdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsRebootDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1237,8 +1216,8 @@ export interface AppServiceEnvironmentsResume202Response extends HttpResponse {
 }
 
 /** Resume an App Service Environment. */
-export interface AppServiceEnvironmentsResumedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsResumeDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1249,8 +1228,8 @@ export interface AppServiceEnvironmentsListAppServicePlans200Response extends Ht
 }
 
 /** Get all App Service plans in an App Service Environment. */
-export interface AppServiceEnvironmentsListAppServicePlansdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListAppServicePlansDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1261,8 +1240,8 @@ export interface AppServiceEnvironmentsListWebApps200Response extends HttpRespon
 }
 
 /** Get all apps in an App Service Environment. */
-export interface AppServiceEnvironmentsListWebAppsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListWebAppsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1279,8 +1258,8 @@ export interface AppServiceEnvironmentsSuspend202Response extends HttpResponse {
 }
 
 /** Suspend an App Service Environment. */
-export interface AppServiceEnvironmentsSuspenddefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsSuspendDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1291,8 +1270,8 @@ export interface AppServiceEnvironmentsListUsages200Response extends HttpRespons
 }
 
 /** Get global usage metrics of an App Service Environment. */
-export interface AppServiceEnvironmentsListUsagesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListUsagesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1303,8 +1282,8 @@ export interface AppServiceEnvironmentsListWorkerPools200Response extends HttpRe
 }
 
 /** Get all worker pools of an App Service Environment. */
-export interface AppServiceEnvironmentsListWorkerPoolsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListWorkerPoolsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1315,8 +1294,8 @@ export interface AppServiceEnvironmentsGetWorkerPool200Response extends HttpResp
 }
 
 /** Get properties of a worker pool. */
-export interface AppServiceEnvironmentsGetWorkerPooldefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsGetWorkerPoolDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1333,9 +1312,9 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPool202Response exten
 }
 
 /** Create or update a worker pool. */
-export interface AppServiceEnvironmentsCreateOrUpdateWorkerPooldefaultResponse
+export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1352,8 +1331,8 @@ export interface AppServiceEnvironmentsUpdateWorkerPool202Response extends HttpR
 }
 
 /** Create or update a worker pool. */
-export interface AppServiceEnvironmentsUpdateWorkerPooldefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsUpdateWorkerPoolDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1365,9 +1344,9 @@ export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions20
 }
 
 /** Get metric definitions for a specific instance of a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsdefaultResponse
+export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1379,9 +1358,9 @@ export interface AppServiceEnvironmentsListWebWorkerMetricDefinitions200Response
 }
 
 /** Get metric definitions for a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsdefaultResponse
+export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1392,8 +1371,8 @@ export interface AppServiceEnvironmentsListWorkerPoolSkus200Response extends Htt
 }
 
 /** Get available SKUs for scaling a worker pool. */
-export interface AppServiceEnvironmentsListWorkerPoolSkusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListWorkerPoolSkusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1404,8 +1383,8 @@ export interface AppServiceEnvironmentsListWebWorkerUsages200Response extends Ht
 }
 
 /** Get usage metrics for a worker pool of an App Service Environment. */
-export interface AppServiceEnvironmentsListWebWorkerUsagesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServiceEnvironmentsListWebWorkerUsagesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1416,8 +1395,8 @@ export interface AppServicePlansList200Response extends HttpResponse {
 }
 
 /** Get all App Service plans for a subscription. */
-export interface AppServicePlansListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1428,8 +1407,8 @@ export interface AppServicePlansListByResourceGroup200Response extends HttpRespo
 }
 
 /** Get all App Service plans in a resource group. */
-export interface AppServicePlansListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1442,12 +1421,11 @@ export interface AppServicePlansGet200Response extends HttpResponse {
 /** Get an App Service plan. */
 export interface AppServicePlansGet404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get an App Service plan. */
-export interface AppServicePlansGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1464,26 +1442,24 @@ export interface AppServicePlansCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Creates or updates an App Service Plan. */
-export interface AppServicePlansCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete an App Service plan. */
 export interface AppServicePlansDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete an App Service plan. */
 export interface AppServicePlansDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete an App Service plan. */
-export interface AppServicePlansDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1500,8 +1476,8 @@ export interface AppServicePlansUpdate202Response extends HttpResponse {
 }
 
 /** Creates or updates an App Service Plan. */
-export interface AppServicePlansUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1512,8 +1488,8 @@ export interface AppServicePlansListCapabilities200Response extends HttpResponse
 }
 
 /** List all capabilities of an App Service plan. */
-export interface AppServicePlansListCapabilitiesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListCapabilitiesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1524,26 +1500,24 @@ export interface AppServicePlansGetHybridConnection200Response extends HttpRespo
 }
 
 /** Retrieve a Hybrid Connection in use in an App Service plan. */
-export interface AppServicePlansGetHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a Hybrid Connection in use in an App Service plan. */
 export interface AppServicePlansDeleteHybridConnection200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Hybrid Connection in use in an App Service plan. */
 export interface AppServicePlansDeleteHybridConnection204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Hybrid Connection in use in an App Service plan. */
-export interface AppServicePlansDeleteHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansDeleteHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1554,8 +1528,8 @@ export interface AppServicePlansListHybridConnectionKeys200Response extends Http
 }
 
 /** Get the send key name and value of a Hybrid Connection. */
-export interface AppServicePlansListHybridConnectionKeysdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListHybridConnectionKeysDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1566,8 +1540,8 @@ export interface AppServicePlansListWebAppsByHybridConnection200Response extends
 }
 
 /** Get all apps that use a Hybrid Connection in an App Service Plan. */
-export interface AppServicePlansListWebAppsByHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListWebAppsByHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1578,8 +1552,8 @@ export interface AppServicePlansGetHybridConnectionPlanLimit200Response extends 
 }
 
 /** Get the maximum number of Hybrid Connections allowed in an App Service plan. */
-export interface AppServicePlansGetHybridConnectionPlanLimitdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetHybridConnectionPlanLimitDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1590,20 +1564,19 @@ export interface AppServicePlansListHybridConnections200Response extends HttpRes
 }
 
 /** Retrieve all Hybrid Connections in use in an App Service plan. */
-export interface AppServicePlansListHybridConnectionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListHybridConnectionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restart all apps in an App Service plan. */
 export interface AppServicePlansRestartWebApps204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Restart all apps in an App Service plan. */
-export interface AppServicePlansRestartWebAppsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansRestartWebAppsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1614,8 +1587,8 @@ export interface AppServicePlansListWebApps200Response extends HttpResponse {
 }
 
 /** Get all apps associated with an App Service plan. */
-export interface AppServicePlansListWebAppsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListWebAppsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1626,8 +1599,8 @@ export interface AppServicePlansGetServerFarmSkus200Response extends HttpRespons
 }
 
 /** Gets all selectable SKUs for a given App Service Plan */
-export interface AppServicePlansGetServerFarmSkusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetServerFarmSkusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1638,8 +1611,8 @@ export interface AppServicePlansListUsages200Response extends HttpResponse {
 }
 
 /** Gets server farm usage information */
-export interface AppServicePlansListUsagesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListUsagesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1650,8 +1623,8 @@ export interface AppServicePlansListVnets200Response extends HttpResponse {
 }
 
 /** Get all Virtual Networks associated with an App Service plan. */
-export interface AppServicePlansListVnetsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListVnetsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1664,12 +1637,11 @@ export interface AppServicePlansGetVnetFromServerFarm200Response extends HttpRes
 /** Get a Virtual Network associated with an App Service plan. */
 export interface AppServicePlansGetVnetFromServerFarm404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a Virtual Network associated with an App Service plan. */
-export interface AppServicePlansGetVnetFromServerFarmdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetVnetFromServerFarmDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1680,8 +1652,8 @@ export interface AppServicePlansGetVnetGateway200Response extends HttpResponse {
 }
 
 /** Get a Virtual Network gateway. */
-export interface AppServicePlansGetVnetGatewaydefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetVnetGatewayDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1692,8 +1664,8 @@ export interface AppServicePlansUpdateVnetGateway200Response extends HttpRespons
 }
 
 /** Update a Virtual Network gateway. */
-export interface AppServicePlansUpdateVnetGatewaydefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansUpdateVnetGatewayDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1704,8 +1676,8 @@ export interface AppServicePlansListRoutesForVnet200Response extends HttpRespons
 }
 
 /** Get all routes that are associated with a Virtual Network in an App Service plan. */
-export interface AppServicePlansListRoutesForVnetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansListRoutesForVnetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1718,12 +1690,11 @@ export interface AppServicePlansGetRouteForVnet200Response extends HttpResponse 
 /** Get a Virtual Network route in an App Service plan. */
 export interface AppServicePlansGetRouteForVnet404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a Virtual Network route in an App Service plan. */
-export interface AppServicePlansGetRouteForVnetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansGetRouteForVnetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1736,36 +1707,32 @@ export interface AppServicePlansCreateOrUpdateVnetRoute200Response extends HttpR
 /** Create or update a Virtual Network route in an App Service plan. */
 export interface AppServicePlansCreateOrUpdateVnetRoute400Response extends HttpResponse {
   status: "400";
-  body: Record<string, unknown>;
 }
 
 /** Create or update a Virtual Network route in an App Service plan. */
 export interface AppServicePlansCreateOrUpdateVnetRoute404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Create or update a Virtual Network route in an App Service plan. */
-export interface AppServicePlansCreateOrUpdateVnetRoutedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansCreateOrUpdateVnetRouteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a Virtual Network route in an App Service plan. */
 export interface AppServicePlansDeleteVnetRoute200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Virtual Network route in an App Service plan. */
 export interface AppServicePlansDeleteVnetRoute404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Virtual Network route in an App Service plan. */
-export interface AppServicePlansDeleteVnetRoutedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansDeleteVnetRouteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1778,30 +1745,27 @@ export interface AppServicePlansUpdateVnetRoute200Response extends HttpResponse 
 /** Create or update a Virtual Network route in an App Service plan. */
 export interface AppServicePlansUpdateVnetRoute400Response extends HttpResponse {
   status: "400";
-  body: Record<string, unknown>;
 }
 
 /** Create or update a Virtual Network route in an App Service plan. */
 export interface AppServicePlansUpdateVnetRoute404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Create or update a Virtual Network route in an App Service plan. */
-export interface AppServicePlansUpdateVnetRoutedefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansUpdateVnetRouteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reboot a worker machine in an App Service plan. */
 export interface AppServicePlansRebootWorker204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reboot a worker machine in an App Service plan. */
-export interface AppServicePlansRebootWorkerdefaultResponse extends HttpResponse {
-  status: "500";
+export interface AppServicePlansRebootWorkerDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1812,8 +1776,8 @@ export interface CertificatesList200Response extends HttpResponse {
 }
 
 /** Get all certificates for a subscription. */
-export interface CertificatesListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1824,8 +1788,8 @@ export interface CertificatesListByResourceGroup200Response extends HttpResponse
 }
 
 /** Get all certificates in a resource group. */
-export interface CertificatesListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1836,8 +1800,8 @@ export interface CertificatesGet200Response extends HttpResponse {
 }
 
 /** Get a certificate. */
-export interface CertificatesGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1848,26 +1812,24 @@ export interface CertificatesCreateOrUpdate200Response extends HttpResponse {
 }
 
 /** Create or update a certificate. */
-export interface CertificatesCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a certificate. */
 export interface CertificatesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a certificate. */
 export interface CertificatesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a certificate. */
-export interface CertificatesDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1878,8 +1840,8 @@ export interface CertificatesUpdate200Response extends HttpResponse {
 }
 
 /** Create or update a certificate. */
-export interface CertificatesUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface CertificatesUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1890,8 +1852,8 @@ export interface ContainerAppsListBySubscription200Response extends HttpResponse
 }
 
 /** Get the Container Apps in a given subscription. */
-export interface ContainerAppsListBySubscriptiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsListBySubscriptionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1902,8 +1864,8 @@ export interface ContainerAppsListByResourceGroup200Response extends HttpRespons
 }
 
 /** Get the Container Apps in a given resource group. */
-export interface ContainerAppsListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1916,12 +1878,11 @@ export interface ContainerAppsGet200Response extends HttpResponse {
 /** Get the properties of a Container App. */
 export interface ContainerAppsGet404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get the properties of a Container App. */
-export interface ContainerAppsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1938,32 +1899,29 @@ export interface ContainerAppsCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Create or update a Container App. */
-export interface ContainerAppsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a Container App. */
 export interface ContainerAppsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Container App. */
 export interface ContainerAppsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Container App. */
 export interface ContainerAppsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Container App. */
-export interface ContainerAppsDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1974,8 +1932,8 @@ export interface ContainerAppsListSecrets200Response extends HttpResponse {
 }
 
 /** List secrets for a container app */
-export interface ContainerAppsListSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsListSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1986,8 +1944,8 @@ export interface ContainerAppsRevisionsListRevisions200Response extends HttpResp
 }
 
 /** Get the Revisions for a given Container App. */
-export interface ContainerAppsRevisionsListRevisionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsRevisionsListRevisionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -1998,44 +1956,41 @@ export interface ContainerAppsRevisionsGetRevision200Response extends HttpRespon
 }
 
 /** Get a revision of a Container App. */
-export interface ContainerAppsRevisionsGetRevisiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsRevisionsGetRevisionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Activates a revision for a Container App */
 export interface ContainerAppsRevisionsActivateRevision200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Activates a revision for a Container App */
-export interface ContainerAppsRevisionsActivateRevisiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsRevisionsActivateRevisionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deactivates a revision for a Container App */
 export interface ContainerAppsRevisionsDeactivateRevision200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deactivates a revision for a Container App */
-export interface ContainerAppsRevisionsDeactivateRevisiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsRevisionsDeactivateRevisionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restarts a revision for a Container App */
 export interface ContainerAppsRevisionsRestartRevision200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts a revision for a Container App */
-export interface ContainerAppsRevisionsRestartRevisiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface ContainerAppsRevisionsRestartRevisionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2046,8 +2001,8 @@ export interface DeletedWebAppsList200Response extends HttpResponse {
 }
 
 /** Get all deleted apps for a subscription. */
-export interface DeletedWebAppsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DeletedWebAppsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2058,8 +2013,8 @@ export interface DeletedWebAppsListByLocation200Response extends HttpResponse {
 }
 
 /** Get all deleted apps for a subscription at location */
-export interface DeletedWebAppsListByLocationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DeletedWebAppsListByLocationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2070,8 +2025,8 @@ export interface DeletedWebAppsGetDeletedWebAppByLocation200Response extends Htt
 }
 
 /** Get deleted app for a subscription at location. */
-export interface DeletedWebAppsGetDeletedWebAppByLocationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DeletedWebAppsGetDeletedWebAppByLocationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2083,9 +2038,9 @@ export interface DiagnosticsListHostingEnvironmentDetectorResponses200Response
 }
 
 /** List Hosting Environment Detector Responses */
-export interface DiagnosticsListHostingEnvironmentDetectorResponsesdefaultResponse
+export interface DiagnosticsListHostingEnvironmentDetectorResponsesDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2096,9 +2051,9 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponse200Response ext
 }
 
 /** Get Hosting Environment Detector Response */
-export interface DiagnosticsGetHostingEnvironmentDetectorResponsedefaultResponse
+export interface DiagnosticsGetHostingEnvironmentDetectorResponseDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2109,8 +2064,8 @@ export interface DiagnosticsListSiteDetectorResponses200Response extends HttpRes
 }
 
 /** List Site Detector Responses */
-export interface DiagnosticsListSiteDetectorResponsesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDetectorResponsesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2121,8 +2076,8 @@ export interface DiagnosticsGetSiteDetectorResponse200Response extends HttpRespo
 }
 
 /** Get site detector response */
-export interface DiagnosticsGetSiteDetectorResponsedefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDetectorResponseDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2133,8 +2088,8 @@ export interface DiagnosticsListSiteDiagnosticCategories200Response extends Http
 }
 
 /** Get Diagnostics Categories */
-export interface DiagnosticsListSiteDiagnosticCategoriesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDiagnosticCategoriesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2145,8 +2100,8 @@ export interface DiagnosticsGetSiteDiagnosticCategory200Response extends HttpRes
 }
 
 /** Get Diagnostics Category */
-export interface DiagnosticsGetSiteDiagnosticCategorydefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDiagnosticCategoryDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2157,8 +2112,8 @@ export interface DiagnosticsListSiteAnalyses200Response extends HttpResponse {
 }
 
 /** Get Site Analyses */
-export interface DiagnosticsListSiteAnalysesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteAnalysesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2169,8 +2124,8 @@ export interface DiagnosticsGetSiteAnalysis200Response extends HttpResponse {
 }
 
 /** Get Site Analysis */
-export interface DiagnosticsGetSiteAnalysisdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteAnalysisDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2181,8 +2136,8 @@ export interface DiagnosticsExecuteSiteAnalysis200Response extends HttpResponse 
 }
 
 /** Execute Analysis */
-export interface DiagnosticsExecuteSiteAnalysisdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsExecuteSiteAnalysisDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2193,8 +2148,8 @@ export interface DiagnosticsListSiteDetectors200Response extends HttpResponse {
 }
 
 /** Get Detectors */
-export interface DiagnosticsListSiteDetectorsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDetectorsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2205,8 +2160,8 @@ export interface DiagnosticsGetSiteDetector200Response extends HttpResponse {
 }
 
 /** Get Detector */
-export interface DiagnosticsGetSiteDetectordefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDetectorDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2217,8 +2172,8 @@ export interface DiagnosticsExecuteSiteDetector200Response extends HttpResponse 
 }
 
 /** Execute Detector */
-export interface DiagnosticsExecuteSiteDetectordefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsExecuteSiteDetectorDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2229,8 +2184,8 @@ export interface DiagnosticsListSiteDetectorResponsesSlot200Response extends Htt
 }
 
 /** List Site Detector Responses */
-export interface DiagnosticsListSiteDetectorResponsesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDetectorResponsesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2241,8 +2196,8 @@ export interface DiagnosticsGetSiteDetectorResponseSlot200Response extends HttpR
 }
 
 /** Get site detector response */
-export interface DiagnosticsGetSiteDetectorResponseSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDetectorResponseSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2253,8 +2208,8 @@ export interface DiagnosticsListSiteDiagnosticCategoriesSlot200Response extends 
 }
 
 /** Get Diagnostics Categories */
-export interface DiagnosticsListSiteDiagnosticCategoriesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDiagnosticCategoriesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2265,8 +2220,8 @@ export interface DiagnosticsGetSiteDiagnosticCategorySlot200Response extends Htt
 }
 
 /** Get Diagnostics Category */
-export interface DiagnosticsGetSiteDiagnosticCategorySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDiagnosticCategorySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2277,8 +2232,8 @@ export interface DiagnosticsListSiteAnalysesSlot200Response extends HttpResponse
 }
 
 /** Get Site Analyses */
-export interface DiagnosticsListSiteAnalysesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteAnalysesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2289,8 +2244,8 @@ export interface DiagnosticsGetSiteAnalysisSlot200Response extends HttpResponse 
 }
 
 /** Get Site Analysis */
-export interface DiagnosticsGetSiteAnalysisSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteAnalysisSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2301,8 +2256,8 @@ export interface DiagnosticsExecuteSiteAnalysisSlot200Response extends HttpRespo
 }
 
 /** Execute Analysis */
-export interface DiagnosticsExecuteSiteAnalysisSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsExecuteSiteAnalysisSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2313,8 +2268,8 @@ export interface DiagnosticsListSiteDetectorsSlot200Response extends HttpRespons
 }
 
 /** Get Detectors */
-export interface DiagnosticsListSiteDetectorsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsListSiteDetectorsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2325,8 +2280,8 @@ export interface DiagnosticsGetSiteDetectorSlot200Response extends HttpResponse 
 }
 
 /** Get Detector */
-export interface DiagnosticsGetSiteDetectorSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsGetSiteDetectorSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2337,8 +2292,8 @@ export interface DiagnosticsExecuteSiteDetectorSlot200Response extends HttpRespo
 }
 
 /** Execute Detector */
-export interface DiagnosticsExecuteSiteDetectorSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface DiagnosticsExecuteSiteDetectorSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2349,8 +2304,8 @@ export interface GlobalGetDeletedWebApp200Response extends HttpResponse {
 }
 
 /** Get deleted app for a subscription. */
-export interface GlobalGetDeletedWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface GlobalGetDeletedWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2361,21 +2316,20 @@ export interface GlobalGetDeletedWebAppSnapshots200Response extends HttpResponse
 }
 
 /** Get all deleted apps for a subscription. */
-export interface GlobalGetDeletedWebAppSnapshotsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface GlobalGetDeletedWebAppSnapshotsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Gets an operation in a subscription and given region */
 export interface GlobalGetSubscriptionOperationWithAsyncResponse204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Gets an operation in a subscription and given region */
-export interface GlobalGetSubscriptionOperationWithAsyncResponsedefaultResponse
+export interface GlobalGetSubscriptionOperationWithAsyncResponseDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2386,8 +2340,8 @@ export interface KubeEnvironmentsListBySubscription200Response extends HttpRespo
 }
 
 /** Get all Kubernetes Environments for a subscription. */
-export interface KubeEnvironmentsListBySubscriptiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsListBySubscriptionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2398,8 +2352,8 @@ export interface KubeEnvironmentsListByResourceGroup200Response extends HttpResp
 }
 
 /** Get all the Kubernetes Environments in a resource group. */
-export interface KubeEnvironmentsListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2410,8 +2364,8 @@ export interface KubeEnvironmentsGet200Response extends HttpResponse {
 }
 
 /** Get the properties of a Kubernetes Environment. */
-export interface KubeEnvironmentsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2428,32 +2382,29 @@ export interface KubeEnvironmentsCreateOrUpdate201Response extends HttpResponse 
 }
 
 /** Creates or updates a Kubernetes Environment. */
-export interface KubeEnvironmentsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a Kubernetes Environment. */
 export interface KubeEnvironmentsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Kubernetes Environment. */
 export interface KubeEnvironmentsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Kubernetes Environment. */
 export interface KubeEnvironmentsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Kubernetes Environment. */
-export interface KubeEnvironmentsDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2470,8 +2421,8 @@ export interface KubeEnvironmentsUpdate201Response extends HttpResponse {
 }
 
 /** Creates or updates a Kubernetes Environment. */
-export interface KubeEnvironmentsUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface KubeEnvironmentsUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2482,8 +2433,8 @@ export interface ProviderGetAvailableStacks200Response extends HttpResponse {
 }
 
 /** Get available application frameworks and their versions */
-export interface ProviderGetAvailableStacksdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetAvailableStacksDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2494,8 +2445,8 @@ export interface ProviderGetFunctionAppStacks200Response extends HttpResponse {
 }
 
 /** Get available Function app frameworks and their versions */
-export interface ProviderGetFunctionAppStacksdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetFunctionAppStacksDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2506,8 +2457,8 @@ export interface ProviderGetFunctionAppStacksForLocation200Response extends Http
 }
 
 /** Get available Function app frameworks and their versions for location */
-export interface ProviderGetFunctionAppStacksForLocationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetFunctionAppStacksForLocationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2518,8 +2469,8 @@ export interface ProviderGetWebAppStacksForLocation200Response extends HttpRespo
 }
 
 /** Get available Web app frameworks and their versions for location */
-export interface ProviderGetWebAppStacksForLocationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetWebAppStacksForLocationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2530,8 +2481,8 @@ export interface ProviderListOperations200Response extends HttpResponse {
 }
 
 /** Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
-export interface ProviderListOperationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderListOperationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2542,8 +2493,8 @@ export interface ProviderGetWebAppStacks200Response extends HttpResponse {
 }
 
 /** Get available Web app frameworks and their versions */
-export interface ProviderGetWebAppStacksdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetWebAppStacksDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2554,8 +2505,8 @@ export interface ProviderGetAvailableStacksOnPrem200Response extends HttpRespons
 }
 
 /** Get available application frameworks and their versions */
-export interface ProviderGetAvailableStacksOnPremdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ProviderGetAvailableStacksOnPremDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2566,20 +2517,19 @@ export interface RecommendationsList200Response extends HttpResponse {
 }
 
 /** List all recommendations for a subscription. */
-export interface RecommendationsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reset all recommendation opt-out settings for a subscription. */
 export interface RecommendationsResetAllFilters204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reset all recommendation opt-out settings for a subscription. */
-export interface RecommendationsResetAllFiltersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsResetAllFiltersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2587,13 +2537,12 @@ export interface RecommendationsResetAllFiltersdefaultResponse extends HttpRespo
 export interface RecommendationsDisableRecommendationForSubscription200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Disables the specified rule so it will not apply to a subscription in the future. */
-export interface RecommendationsDisableRecommendationForSubscriptiondefaultResponse
+export interface RecommendationsDisableRecommendationForSubscriptionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2604,9 +2553,9 @@ export interface RecommendationsListHistoryForHostingEnvironment200Response exte
 }
 
 /** Get past recommendations for an app, optionally specified by the time range. */
-export interface RecommendationsListHistoryForHostingEnvironmentdefaultResponse
+export interface RecommendationsListHistoryForHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2618,22 +2567,21 @@ export interface RecommendationsListRecommendedRulesForHostingEnvironment200Resp
 }
 
 /** Get all recommendations for a hosting environment. */
-export interface RecommendationsListRecommendedRulesForHostingEnvironmentdefaultResponse
+export interface RecommendationsListRecommendedRulesForHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Disable all recommendations for an app. */
 export interface RecommendationsDisableAllForHostingEnvironment204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Disable all recommendations for an app. */
-export interface RecommendationsDisableAllForHostingEnvironmentdefaultResponse
+export interface RecommendationsDisableAllForHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2641,13 +2589,12 @@ export interface RecommendationsDisableAllForHostingEnvironmentdefaultResponse
 export interface RecommendationsResetAllFiltersForHostingEnvironment204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reset all recommendation opt-out settings for an app. */
-export interface RecommendationsResetAllFiltersForHostingEnvironmentdefaultResponse
+export interface RecommendationsResetAllFiltersForHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2658,9 +2605,9 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironment200Response ex
 }
 
 /** Get a recommendation rule for an app. */
-export interface RecommendationsGetRuleDetailsByHostingEnvironmentdefaultResponse
+export interface RecommendationsGetRuleDetailsByHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2668,13 +2615,12 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironmentdefaultRespons
 export interface RecommendationsDisableRecommendationForHostingEnvironment200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Disables the specific rule for a web site permanently. */
-export interface RecommendationsDisableRecommendationForHostingEnvironmentdefaultResponse
+export interface RecommendationsDisableRecommendationForHostingEnvironmentDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2685,8 +2631,8 @@ export interface RecommendationsListHistoryForWebApp200Response extends HttpResp
 }
 
 /** Get past recommendations for an app, optionally specified by the time range. */
-export interface RecommendationsListHistoryForWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsListHistoryForWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2697,32 +2643,30 @@ export interface RecommendationsListRecommendedRulesForWebApp200Response extends
 }
 
 /** Get all recommendations for an app. */
-export interface RecommendationsListRecommendedRulesForWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsListRecommendedRulesForWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Disable all recommendations for an app. */
 export interface RecommendationsDisableAllForWebApp204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Disable all recommendations for an app. */
-export interface RecommendationsDisableAllForWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsDisableAllForWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reset all recommendation opt-out settings for an app. */
 export interface RecommendationsResetAllFiltersForWebApp204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reset all recommendation opt-out settings for an app. */
-export interface RecommendationsResetAllFiltersForWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsResetAllFiltersForWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2733,20 +2677,19 @@ export interface RecommendationsGetRuleDetailsByWebApp200Response extends HttpRe
 }
 
 /** Get a recommendation rule for an app. */
-export interface RecommendationsGetRuleDetailsByWebAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsGetRuleDetailsByWebAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Disables the specific rule for a web site permanently. */
 export interface RecommendationsDisableRecommendationForSite200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Disables the specific rule for a web site permanently. */
-export interface RecommendationsDisableRecommendationForSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface RecommendationsDisableRecommendationForSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2757,8 +2700,8 @@ export interface ResourceHealthMetadataList200Response extends HttpResponse {
 }
 
 /** List all ResourceHealthMetadata for all sites in the subscription. */
-export interface ResourceHealthMetadataListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2769,8 +2712,8 @@ export interface ResourceHealthMetadataListByResourceGroup200Response extends Ht
 }
 
 /** List all ResourceHealthMetadata for all sites in the resource group in the subscription. */
-export interface ResourceHealthMetadataListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2781,8 +2724,8 @@ export interface ResourceHealthMetadataListBySite200Response extends HttpRespons
 }
 
 /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
-export interface ResourceHealthMetadataListBySitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataListBySiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2793,8 +2736,8 @@ export interface ResourceHealthMetadataGetBySite200Response extends HttpResponse
 }
 
 /** Gets the category of ResourceHealthMetadata to use for the given site */
-export interface ResourceHealthMetadataGetBySitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataGetBySiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2805,8 +2748,8 @@ export interface ResourceHealthMetadataListBySiteSlot200Response extends HttpRes
 }
 
 /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
-export interface ResourceHealthMetadataListBySiteSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataListBySiteSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2817,8 +2760,8 @@ export interface ResourceHealthMetadataGetBySiteSlot200Response extends HttpResp
 }
 
 /** Gets the category of ResourceHealthMetadata to use for the given site */
-export interface ResourceHealthMetadataGetBySiteSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ResourceHealthMetadataGetBySiteSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2829,8 +2772,8 @@ export interface GetPublishingUser200Response extends HttpResponse {
 }
 
 /** Gets publishing user */
-export interface GetPublishingUserdefaultResponse extends HttpResponse {
-  status: "500";
+export interface GetPublishingUserDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2841,8 +2784,8 @@ export interface UpdatePublishingUser200Response extends HttpResponse {
 }
 
 /** Updates publishing user */
-export interface UpdatePublishingUserdefaultResponse extends HttpResponse {
-  status: "500";
+export interface UpdatePublishingUserDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2853,8 +2796,8 @@ export interface ListSourceControls200Response extends HttpResponse {
 }
 
 /** Gets the source controls available for Azure websites. */
-export interface ListSourceControlsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListSourceControlsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2865,8 +2808,8 @@ export interface GetSourceControl200Response extends HttpResponse {
 }
 
 /** Gets source control token */
-export interface GetSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface GetSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2877,8 +2820,8 @@ export interface UpdateSourceControl200Response extends HttpResponse {
 }
 
 /** Updates source control token */
-export interface UpdateSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface UpdateSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2889,8 +2832,8 @@ export interface ListBillingMeters200Response extends HttpResponse {
 }
 
 /** Gets a list of meters for a given location. */
-export interface ListBillingMetersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListBillingMetersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2901,8 +2844,8 @@ export interface CheckNameAvailability200Response extends HttpResponse {
 }
 
 /** Check if a resource name is available. */
-export interface CheckNameAvailabilitydefaultResponse extends HttpResponse {
-  status: "500";
+export interface CheckNameAvailabilityDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2913,8 +2856,8 @@ export interface ListCustomHostNameSites200Response extends HttpResponse {
 }
 
 /** Get custom hostnames under this subscription */
-export interface ListCustomHostNameSitesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListCustomHostNameSitesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2925,8 +2868,8 @@ export interface GetSubscriptionDeploymentLocations200Response extends HttpRespo
 }
 
 /** Gets list of available geo regions plus ministamps */
-export interface GetSubscriptionDeploymentLocationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface GetSubscriptionDeploymentLocationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2937,8 +2880,8 @@ export interface ListGeoRegions200Response extends HttpResponse {
 }
 
 /** Get a list of available geographical regions. */
-export interface ListGeoRegionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListGeoRegionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2949,8 +2892,8 @@ export interface ListSiteIdentifiersAssignedToHostName200Response extends HttpRe
 }
 
 /** List all apps that are assigned to a hostname. */
-export interface ListSiteIdentifiersAssignedToHostNamedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListSiteIdentifiersAssignedToHostNameDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2961,8 +2904,8 @@ export interface ListPremierAddOnOffers200Response extends HttpResponse {
 }
 
 /** List all premier add-on offers. */
-export interface ListPremierAddOnOffersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListPremierAddOnOffersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2973,8 +2916,8 @@ export interface ListSkus200Response extends HttpResponse {
 }
 
 /** List all SKUs. */
-export interface ListSkusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface ListSkusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -2985,20 +2928,19 @@ export interface VerifyHostingEnvironmentVnet200Response extends HttpResponse {
 }
 
 /** Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules. */
-export interface VerifyHostingEnvironmentVnetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface VerifyHostingEnvironmentVnetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Move resources between resource groups. */
 export interface Move204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Move resources between resource groups. */
-export interface MovedefaultResponse extends HttpResponse {
-  status: "500";
+export interface MoveDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3009,20 +2951,19 @@ export interface Validate200Response extends HttpResponse {
 }
 
 /** Validate if a resource can be created. */
-export interface ValidatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ValidateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Validate whether a resource can be moved. */
 export interface ValidateMove204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Validate whether a resource can be moved. */
-export interface ValidateMovedefaultResponse extends HttpResponse {
-  status: "500";
+export interface ValidateMoveDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3033,8 +2974,8 @@ export interface StaticSitesPreviewWorkflow200Response extends HttpResponse {
 }
 
 /** Generates a preview workflow file for the static site */
-export interface StaticSitesPreviewWorkflowdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesPreviewWorkflowDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3045,8 +2986,8 @@ export interface StaticSitesList200Response extends HttpResponse {
 }
 
 /** Get all Static Sites for a subscription. */
-export interface StaticSitesListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3057,8 +2998,8 @@ export interface StaticSitesGetStaticSitesByResourceGroup200Response extends Htt
 }
 
 /** Gets all static sites in the specified resource group. */
-export interface StaticSitesGetStaticSitesByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetStaticSitesByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3069,8 +3010,8 @@ export interface StaticSitesGetStaticSite200Response extends HttpResponse {
 }
 
 /** Gets the details of a static site. */
-export interface StaticSitesGetStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3087,26 +3028,24 @@ export interface StaticSitesCreateOrUpdateStaticSite202Response extends HttpResp
 }
 
 /** Creates a new static site in an existing resource group, or updates an existing static site. */
-export interface StaticSitesCreateOrUpdateStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesCreateOrUpdateStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a static site. */
 export interface StaticSitesDeleteStaticSite200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static site. */
 export interface StaticSitesDeleteStaticSite202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static site. */
-export interface StaticSitesDeleteStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDeleteStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3123,8 +3062,8 @@ export interface StaticSitesUpdateStaticSite202Response extends HttpResponse {
 }
 
 /** Creates a new static site in an existing resource group, or updates an existing static site. */
-export interface StaticSitesUpdateStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesUpdateStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3135,20 +3074,19 @@ export interface StaticSitesListStaticSiteUsers200Response extends HttpResponse 
 }
 
 /** Gets the list of users of a static site. */
-export interface StaticSitesListStaticSiteUsersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteUsersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes the user entry from the static site. */
 export interface StaticSitesDeleteStaticSiteUser200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the user entry from the static site. */
-export interface StaticSitesDeleteStaticSiteUserdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDeleteStaticSiteUserDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3159,8 +3097,8 @@ export interface StaticSitesUpdateStaticSiteUser200Response extends HttpResponse
 }
 
 /** Updates a user entry with the listed roles */
-export interface StaticSitesUpdateStaticSiteUserdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesUpdateStaticSiteUserDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3171,8 +3109,8 @@ export interface StaticSitesGetStaticSiteBuilds200Response extends HttpResponse 
 }
 
 /** Gets all static site builds for a particular static site. */
-export interface StaticSitesGetStaticSiteBuildsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetStaticSiteBuildsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3183,32 +3121,29 @@ export interface StaticSitesGetStaticSiteBuild200Response extends HttpResponse {
 }
 
 /** Gets the details of a static site build. */
-export interface StaticSitesGetStaticSiteBuilddefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetStaticSiteBuildDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a static site build. */
 export interface StaticSitesDeleteStaticSiteBuild200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static site build. */
 export interface StaticSitesDeleteStaticSiteBuild202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static site build. */
 export interface StaticSitesDeleteStaticSiteBuild204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a static site build. */
-export interface StaticSitesDeleteStaticSiteBuilddefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDeleteStaticSiteBuildDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3220,9 +3155,9 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettings200Response
 }
 
 /** Creates or updates the app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsdefaultResponse
+export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3234,9 +3169,9 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings200R
 }
 
 /** Creates or updates the function app settings of a static site build. */
-export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsdefaultResponse
+export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3247,8 +3182,8 @@ export interface StaticSitesListStaticSiteBuildFunctions200Response extends Http
 }
 
 /** Gets the functions of a particular static site build. */
-export interface StaticSitesListStaticSiteBuildFunctionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteBuildFunctionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3259,8 +3194,8 @@ export interface StaticSitesListStaticSiteBuildAppSettings200Response extends Ht
 }
 
 /** Gets the application settings of a static site build. */
-export interface StaticSitesListStaticSiteBuildAppSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteBuildAppSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3271,9 +3206,9 @@ export interface StaticSitesListStaticSiteBuildFunctionAppSettings200Response ex
 }
 
 /** Gets the application settings of a static site build. */
-export interface StaticSitesListStaticSiteBuildFunctionAppSettingsdefaultResponse
+export interface StaticSitesListStaticSiteBuildFunctionAppSettingsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3285,9 +3220,9 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild200Resp
 }
 
 /** Gets the details of the user provided function apps registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuilddefaultResponse
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3299,9 +3234,9 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild200Respo
 }
 
 /** Gets the details of the user provided function app registered with a static site build */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuilddefaultResponse
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3320,9 +3255,9 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild20
 }
 
 /** Register a user provided function app with a static site build */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuilddefaultResponse
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3330,39 +3265,35 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildde
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Detach the user provided function app from the static site build */
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Detach the user provided function app from the static site build */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuilddefaultResponse
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deploys zipped content to a specific environment of a static site. */
 export interface StaticSitesCreateZipDeploymentForStaticSiteBuild200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deploys zipped content to a specific environment of a static site. */
 export interface StaticSitesCreateZipDeploymentForStaticSiteBuild202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deploys zipped content to a specific environment of a static site. */
-export interface StaticSitesCreateZipDeploymentForStaticSiteBuilddefaultResponse
+export interface StaticSitesCreateZipDeploymentForStaticSiteBuildDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3373,9 +3304,9 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettings200Response exten
 }
 
 /** Creates or updates the app settings of a static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsdefaultResponse
+export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3387,9 +3318,9 @@ export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings200Respon
 }
 
 /** Creates or updates the function app settings of a static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsdefaultResponse
+export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3400,8 +3331,8 @@ export interface StaticSitesCreateUserRolesInvitationLink200Response extends Htt
 }
 
 /** Creates an invitation link for a user with the role */
-export interface StaticSitesCreateUserRolesInvitationLinkdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesCreateUserRolesInvitationLinkDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3412,8 +3343,8 @@ export interface StaticSitesListStaticSiteCustomDomains200Response extends HttpR
 }
 
 /** Gets all static site custom domains for a particular static site. */
-export interface StaticSitesListStaticSiteCustomDomainsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteCustomDomainsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3424,8 +3355,8 @@ export interface StaticSitesGetStaticSiteCustomDomain200Response extends HttpRes
 }
 
 /** Gets an existing custom domain for a particular static site. */
-export interface StaticSitesGetStaticSiteCustomDomaindefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetStaticSiteCustomDomainDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3442,27 +3373,25 @@ export interface StaticSitesCreateOrUpdateStaticSiteCustomDomain202Response exte
 }
 
 /** Creates a new static site custom domain in an existing resource group and static site. */
-export interface StaticSitesCreateOrUpdateStaticSiteCustomDomaindefaultResponse
+export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a custom domain. */
 export interface StaticSitesDeleteStaticSiteCustomDomain200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a custom domain. */
 export interface StaticSitesDeleteStaticSiteCustomDomain202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a custom domain. */
-export interface StaticSitesDeleteStaticSiteCustomDomaindefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDeleteStaticSiteCustomDomainDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3470,38 +3399,34 @@ export interface StaticSitesDeleteStaticSiteCustomDomaindefaultResponse extends 
 export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Validates a particular custom domain can be added to a static site. */
 export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Validates a particular custom domain can be added to a static site. */
-export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSitedefaultResponse
+export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Detaches a static site. */
 export interface StaticSitesDetachStaticSite200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Detaches a static site. */
 export interface StaticSitesDetachStaticSite202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Detaches a static site. */
-export interface StaticSitesDetachStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDetachStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3512,8 +3437,8 @@ export interface StaticSitesListStaticSiteFunctions200Response extends HttpRespo
 }
 
 /** Gets the functions of a static site. */
-export interface StaticSitesListStaticSiteFunctionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteFunctionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3524,8 +3449,8 @@ export interface StaticSitesListStaticSiteAppSettings200Response extends HttpRes
 }
 
 /** Gets the application settings of a static site. */
-export interface StaticSitesListStaticSiteAppSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteAppSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3536,8 +3461,8 @@ export interface StaticSitesListStaticSiteConfiguredRoles200Response extends Htt
 }
 
 /** Lists the roles configured for the static site. */
-export interface StaticSitesListStaticSiteConfiguredRolesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteConfiguredRolesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3548,8 +3473,8 @@ export interface StaticSitesListStaticSiteFunctionAppSettings200Response extends
 }
 
 /** Gets the application settings of a static site. */
-export interface StaticSitesListStaticSiteFunctionAppSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteFunctionAppSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3560,8 +3485,8 @@ export interface StaticSitesListStaticSiteSecrets200Response extends HttpRespons
 }
 
 /** Lists the secrets for an existing static site. */
-export interface StaticSitesListStaticSiteSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesListStaticSiteSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3572,8 +3497,8 @@ export interface StaticSitesGetPrivateEndpointConnectionList200Response extends 
 }
 
 /** Gets the list of private endpoint connections associated with a static site */
-export interface StaticSitesGetPrivateEndpointConnectionListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetPrivateEndpointConnectionListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3584,8 +3509,8 @@ export interface StaticSitesGetPrivateEndpointConnection200Response extends Http
 }
 
 /** Gets a private endpoint connection */
-export interface StaticSitesGetPrivateEndpointConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetPrivateEndpointConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3604,9 +3529,9 @@ export interface StaticSitesApproveOrRejectPrivateEndpointConnection202Response
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface StaticSitesApproveOrRejectPrivateEndpointConnectiondefaultResponse
+export interface StaticSitesApproveOrRejectPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3629,8 +3554,8 @@ export interface StaticSitesDeletePrivateEndpointConnection204Response extends H
 }
 
 /** Deletes a private endpoint connection */
-export interface StaticSitesDeletePrivateEndpointConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesDeletePrivateEndpointConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3641,20 +3566,19 @@ export interface StaticSitesGetPrivateLinkResources200Response extends HttpRespo
 }
 
 /** Gets the private link resources */
-export interface StaticSitesGetPrivateLinkResourcesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesGetPrivateLinkResourcesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Resets the api key for an existing static site. */
 export interface StaticSitesResetStaticSiteApiKey200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Resets the api key for an existing static site. */
-export interface StaticSitesResetStaticSiteApiKeydefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesResetStaticSiteApiKeyDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3666,9 +3590,9 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSite200Response
 }
 
 /** Gets the details of the user provided function apps registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSitedefaultResponse
+export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3680,9 +3604,9 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSite200Response
 }
 
 /** Gets the details of the user provided function app registered with a static site */
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSitedefaultResponse
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3701,9 +3625,9 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSite202Resp
 }
 
 /** Register a user provided function app with a static site */
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSitedefaultResponse
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3711,38 +3635,34 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSitedefault
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Detach the user provided function app from the static site */
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSite204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Detach the user provided function app from the static site */
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSitedefaultResponse
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deploys zipped content to a static site. */
 export interface StaticSitesCreateZipDeploymentForStaticSite200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deploys zipped content to a static site. */
 export interface StaticSitesCreateZipDeploymentForStaticSite202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deploys zipped content to a static site. */
-export interface StaticSitesCreateZipDeploymentForStaticSitedefaultResponse extends HttpResponse {
-  status: "500";
+export interface StaticSitesCreateZipDeploymentForStaticSiteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3753,8 +3673,8 @@ export interface WebAppsList200Response extends HttpResponse {
 }
 
 /** Get all apps for a subscription. */
-export interface WebAppsListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3765,8 +3685,8 @@ export interface WebAppsListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Gets all web, mobile, and API apps in the specified resource group. */
-export interface WebAppsListByResourceGroupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListByResourceGroupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3779,12 +3699,11 @@ export interface WebAppsGet200Response extends HttpResponse {
 /** Gets the details of a web, mobile, or API app. */
 export interface WebAppsGet404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets the details of a web, mobile, or API app. */
-export interface WebAppsGetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3801,32 +3720,29 @@ export interface WebAppsCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-export interface WebAppsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDelete404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
-export interface WebAppsDeletedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3843,8 +3759,8 @@ export interface WebAppsUpdate202Response extends HttpResponse {
 }
 
 /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-export interface WebAppsUpdatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3855,20 +3771,19 @@ export interface WebAppsAnalyzeCustomHostname200Response extends HttpResponse {
 }
 
 /** Analyze a custom hostname. */
-export interface WebAppsAnalyzeCustomHostnamedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsAnalyzeCustomHostnameDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Applies the configuration settings from the target slot onto the current slot. */
 export interface WebAppsApplySlotConfigToProduction200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Applies the configuration settings from the target slot onto the current slot. */
-export interface WebAppsApplySlotConfigToProductiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsApplySlotConfigToProductionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3879,8 +3794,8 @@ export interface WebAppsBackup200Response extends HttpResponse {
 }
 
 /** Creates a backup of an app. */
-export interface WebAppsBackupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsBackupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3891,8 +3806,8 @@ export interface WebAppsListBackups200Response extends HttpResponse {
 }
 
 /** Gets existing backups of an app. */
-export interface WebAppsListBackupsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListBackupsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3903,26 +3818,24 @@ export interface WebAppsGetBackupStatus200Response extends HttpResponse {
 }
 
 /** Gets a backup of an app by its ID. */
-export interface WebAppsGetBackupStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetBackupStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a backup of an app by its ID. */
 export interface WebAppsDeleteBackup200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a backup of an app by its ID. */
 export interface WebAppsDeleteBackup404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a backup of an app by its ID. */
-export interface WebAppsDeleteBackupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteBackupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3933,26 +3846,24 @@ export interface WebAppsListBackupStatusSecrets200Response extends HttpResponse 
 }
 
 /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
-export interface WebAppsListBackupStatusSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListBackupStatusSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
 export interface WebAppsRestore200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
 export interface WebAppsRestore202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
-export interface WebAppsRestoredefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3963,8 +3874,8 @@ export interface WebAppsListBasicPublishingCredentialsPolicies200Response extend
 }
 
 /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
-export interface WebAppsListBasicPublishingCredentialsPoliciesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListBasicPublishingCredentialsPoliciesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3975,8 +3886,8 @@ export interface WebAppsGetFtpAllowed200Response extends HttpResponse {
 }
 
 /** Returns whether FTP is allowed on the site or not. */
-export interface WebAppsGetFtpAlloweddefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetFtpAllowedDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3987,8 +3898,8 @@ export interface WebAppsUpdateFtpAllowed200Response extends HttpResponse {
 }
 
 /** Updates whether FTP is allowed on the site or not. */
-export interface WebAppsUpdateFtpAlloweddefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateFtpAllowedDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -3999,8 +3910,8 @@ export interface WebAppsGetScmAllowed200Response extends HttpResponse {
 }
 
 /** Returns whether Scm basic auth is allowed on the site or not. */
-export interface WebAppsGetScmAlloweddefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetScmAllowedDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4011,8 +3922,8 @@ export interface WebAppsUpdateScmAllowed200Response extends HttpResponse {
 }
 
 /** Updates whether user publishing credentials are allowed on the site or not. */
-export interface WebAppsUpdateScmAlloweddefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateScmAllowedDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4023,8 +3934,8 @@ export interface WebAppsListConfigurations200Response extends HttpResponse {
 }
 
 /** List the configurations of an app */
-export interface WebAppsListConfigurationsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConfigurationsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4035,8 +3946,8 @@ export interface WebAppsUpdateApplicationSettings200Response extends HttpRespons
 }
 
 /** Replaces the application settings of an app. */
-export interface WebAppsUpdateApplicationSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateApplicationSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4047,8 +3958,8 @@ export interface WebAppsListApplicationSettings200Response extends HttpResponse 
 }
 
 /** Gets the application settings of an app. */
-export interface WebAppsListApplicationSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListApplicationSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4059,8 +3970,8 @@ export interface WebAppsUpdateAuthSettings200Response extends HttpResponse {
 }
 
 /** Updates the Authentication / Authorization settings associated with web app. */
-export interface WebAppsUpdateAuthSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAuthSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4071,8 +3982,8 @@ export interface WebAppsGetAuthSettings200Response extends HttpResponse {
 }
 
 /** Gets the Authentication/Authorization settings of an app. */
-export interface WebAppsGetAuthSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4083,8 +3994,8 @@ export interface WebAppsGetAuthSettingsV2WithoutSecrets200Response extends HttpR
 }
 
 /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsGetAuthSettingsV2WithoutSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsV2WithoutSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4095,8 +4006,8 @@ export interface WebAppsUpdateAuthSettingsV2200Response extends HttpResponse {
 }
 
 /** Updates site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsUpdateAuthSettingsV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAuthSettingsV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4107,8 +4018,8 @@ export interface WebAppsGetAuthSettingsV2200Response extends HttpResponse {
 }
 
 /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsGetAuthSettingsV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4119,8 +4030,8 @@ export interface WebAppsUpdateAzureStorageAccounts200Response extends HttpRespon
 }
 
 /** Updates the Azure storage account configurations of an app. */
-export interface WebAppsUpdateAzureStorageAccountsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAzureStorageAccountsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4131,8 +4042,8 @@ export interface WebAppsListAzureStorageAccounts200Response extends HttpResponse
 }
 
 /** Gets the Azure storage account configurations of an app. */
-export interface WebAppsListAzureStorageAccountsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListAzureStorageAccountsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4143,20 +4054,19 @@ export interface WebAppsUpdateBackupConfiguration200Response extends HttpRespons
 }
 
 /** Updates the backup configuration of an app. */
-export interface WebAppsUpdateBackupConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateBackupConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes the backup configuration of an app. */
 export interface WebAppsDeleteBackupConfiguration200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the backup configuration of an app. */
-export interface WebAppsDeleteBackupConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteBackupConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4167,8 +4077,8 @@ export interface WebAppsGetBackupConfiguration200Response extends HttpResponse {
 }
 
 /** Gets the backup configuration of an app. */
-export interface WebAppsGetBackupConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetBackupConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4179,8 +4089,8 @@ export interface WebAppsGetAppSettingsKeyVaultReferences200Response extends Http
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetAppSettingsKeyVaultReferencesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAppSettingsKeyVaultReferencesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4191,8 +4101,8 @@ export interface WebAppsGetAppSettingKeyVaultReference200Response extends HttpRe
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetAppSettingKeyVaultReferencedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAppSettingKeyVaultReferenceDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4203,9 +4113,9 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferences200Response ext
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesdefaultResponse
+export interface WebAppsGetSiteConnectionStringKeyVaultReferencesDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4216,9 +4126,9 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReference200Response exte
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencedefaultResponse
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4229,8 +4139,8 @@ export interface WebAppsUpdateConnectionStrings200Response extends HttpResponse 
 }
 
 /** Replaces the connection strings of an app. */
-export interface WebAppsUpdateConnectionStringsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateConnectionStringsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4241,8 +4151,8 @@ export interface WebAppsListConnectionStrings200Response extends HttpResponse {
 }
 
 /** Gets the connection strings of an app. */
-export interface WebAppsListConnectionStringsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConnectionStringsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4253,8 +4163,8 @@ export interface WebAppsGetDiagnosticLogsConfiguration200Response extends HttpRe
 }
 
 /** Gets the logging configuration of an app. */
-export interface WebAppsGetDiagnosticLogsConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDiagnosticLogsConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4265,8 +4175,8 @@ export interface WebAppsUpdateDiagnosticLogsConfig200Response extends HttpRespon
 }
 
 /** Updates the logging configuration of an app. */
-export interface WebAppsUpdateDiagnosticLogsConfigdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateDiagnosticLogsConfigDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4277,8 +4187,8 @@ export interface WebAppsUpdateMetadata200Response extends HttpResponse {
 }
 
 /** Replaces the metadata of an app. */
-export interface WebAppsUpdateMetadatadefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateMetadataDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4289,8 +4199,8 @@ export interface WebAppsListMetadata200Response extends HttpResponse {
 }
 
 /** Gets the metadata of an app. */
-export interface WebAppsListMetadatadefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListMetadataDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4301,8 +4211,8 @@ export interface WebAppsListPublishingCredentials200Response extends HttpRespons
 }
 
 /** Gets the Git/FTP publishing credentials of an app. */
-export interface WebAppsListPublishingCredentialsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPublishingCredentialsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4313,8 +4223,8 @@ export interface WebAppsUpdateSitePushSettings200Response extends HttpResponse {
 }
 
 /** Updates the Push settings associated with web app. */
-export interface WebAppsUpdateSitePushSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSitePushSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4325,8 +4235,8 @@ export interface WebAppsListSitePushSettings200Response extends HttpResponse {
 }
 
 /** Gets the Push settings associated with web app. */
-export interface WebAppsListSitePushSettingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSitePushSettingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4337,8 +4247,8 @@ export interface WebAppsListSlotConfigurationNames200Response extends HttpRespon
 }
 
 /** Gets the names of app settings and connection strings that stick to the slot (not swapped). */
-export interface WebAppsListSlotConfigurationNamesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSlotConfigurationNamesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4349,8 +4259,8 @@ export interface WebAppsUpdateSlotConfigurationNames200Response extends HttpResp
 }
 
 /** Updates the names of application settings and connection string that remain with the slot during swap operation. */
-export interface WebAppsUpdateSlotConfigurationNamesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSlotConfigurationNamesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4361,8 +4271,8 @@ export interface WebAppsGetConfiguration200Response extends HttpResponse {
 }
 
 /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
-export interface WebAppsGetConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4373,8 +4283,8 @@ export interface WebAppsCreateOrUpdateConfiguration200Response extends HttpRespo
 }
 
 /** Updates the configuration of an app. */
-export interface WebAppsCreateOrUpdateConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4385,8 +4295,8 @@ export interface WebAppsUpdateConfiguration200Response extends HttpResponse {
 }
 
 /** Updates the configuration of an app. */
-export interface WebAppsUpdateConfigurationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateConfigurationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4397,8 +4307,8 @@ export interface WebAppsListConfigurationSnapshotInfo200Response extends HttpRes
 }
 
 /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
-export interface WebAppsListConfigurationSnapshotInfodefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConfigurationSnapshotInfoDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4409,20 +4319,19 @@ export interface WebAppsGetConfigurationSnapshot200Response extends HttpResponse
 }
 
 /** Gets a snapshot of the configuration of an app at a previous point in time. */
-export interface WebAppsGetConfigurationSnapshotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetConfigurationSnapshotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reverts the configuration of an app to a previous snapshot. */
 export interface WebAppsRecoverSiteConfigurationSnapshot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reverts the configuration of an app to a previous snapshot. */
-export interface WebAppsRecoverSiteConfigurationSnapshotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRecoverSiteConfigurationSnapshotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4436,13 +4345,11 @@ export interface WebAppsGetWebSiteContainerLogs200Response extends HttpResponse 
 /** Gets the last lines of docker logs for the given site */
 export interface WebAppsGetWebSiteContainerLogs204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Gets the last lines of docker logs for the given site */
-export interface WebAppsGetWebSiteContainerLogsdefaultResponse extends HttpResponse {
-  status: "500";
-  body: Record<string, unknown>;
+export interface WebAppsGetWebSiteContainerLogsDefaultResponse extends HttpResponse {
+  status: string;
 }
 
 /** Gets the ZIP archived docker log files for the given site */
@@ -4455,13 +4362,11 @@ export interface WebAppsGetContainerLogsZip200Response extends HttpResponse {
 /** Gets the ZIP archived docker log files for the given site */
 export interface WebAppsGetContainerLogsZip204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Gets the ZIP archived docker log files for the given site */
-export interface WebAppsGetContainerLogsZipdefaultResponse extends HttpResponse {
-  status: "500";
-  body: Record<string, unknown>;
+export interface WebAppsGetContainerLogsZipDefaultResponse extends HttpResponse {
+  status: string;
 }
 
 /** List continuous web jobs for an app, or a deployment slot. */
@@ -4471,8 +4376,8 @@ export interface WebAppsListContinuousWebJobs200Response extends HttpResponse {
 }
 
 /** List continuous web jobs for an app, or a deployment slot. */
-export interface WebAppsListContinuousWebJobsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListContinuousWebJobsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4485,66 +4390,59 @@ export interface WebAppsGetContinuousWebJob200Response extends HttpResponse {
 /** Gets a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsGetContinuousWebJob404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a continuous web job by its ID for an app, or a deployment slot. */
-export interface WebAppsGetContinuousWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetContinuousWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteContinuousWebJob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteContinuousWebJob204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteContinuousWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteContinuousWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStartContinuousWebJob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStartContinuousWebJob404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
-export interface WebAppsStartContinuousWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartContinuousWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStopContinuousWebJob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStopContinuousWebJob404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
-export interface WebAppsStopContinuousWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopContinuousWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4555,8 +4453,8 @@ export interface WebAppsListDeployments200Response extends HttpResponse {
 }
 
 /** List deployments for an app, or a deployment slot. */
-export interface WebAppsListDeploymentsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDeploymentsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4567,8 +4465,8 @@ export interface WebAppsGetDeployment200Response extends HttpResponse {
 }
 
 /** Get a deployment by its ID for an app, or a deployment slot. */
-export interface WebAppsGetDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDeploymentDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4579,26 +4477,24 @@ export interface WebAppsCreateDeployment200Response extends HttpResponse {
 }
 
 /** Create a deployment for an app, or a deployment slot. */
-export interface WebAppsCreateDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateDeploymentDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteDeployment200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteDeployment204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteDeploymentdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteDeploymentDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4609,8 +4505,8 @@ export interface WebAppsListDeploymentLog200Response extends HttpResponse {
 }
 
 /** List deployment log for specific deployment for an app, or a deployment slot. */
-export interface WebAppsListDeploymentLogdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDeploymentLogDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4621,8 +4517,8 @@ export interface WebAppsDiscoverBackup200Response extends HttpResponse {
 }
 
 /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
-export interface WebAppsDiscoverBackupdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDiscoverBackupDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4633,8 +4529,8 @@ export interface WebAppsListDomainOwnershipIdentifiers200Response extends HttpRe
 }
 
 /** Lists ownership identifiers for domain associated with web app. */
-export interface WebAppsListDomainOwnershipIdentifiersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDomainOwnershipIdentifiersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4645,8 +4541,8 @@ export interface WebAppsGetDomainOwnershipIdentifier200Response extends HttpResp
 }
 
 /** Get domain ownership identifier for web app. */
-export interface WebAppsGetDomainOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDomainOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4657,27 +4553,25 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifier200Response exten
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierdefaultResponse
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
 export interface WebAppsDeleteDomainOwnershipIdentifier200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
 export interface WebAppsDeleteDomainOwnershipIdentifier204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
-export interface WebAppsDeleteDomainOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteDomainOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4688,8 +4582,8 @@ export interface WebAppsUpdateDomainOwnershipIdentifier200Response extends HttpR
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsUpdateDomainOwnershipIdentifierdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateDomainOwnershipIdentifierDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4700,8 +4594,8 @@ export interface WebAppsGetMSDeployStatus200Response extends HttpResponse {
 }
 
 /** Get the status of the last MSDeploy operation. */
-export interface WebAppsGetMSDeployStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMSDeployStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4714,12 +4608,11 @@ export interface WebAppsCreateMSDeployOperation201Response extends HttpResponse 
 /** Invoke the MSDeploy web app extension. */
 export interface WebAppsCreateMSDeployOperation409Response extends HttpResponse {
   status: "409";
-  body: Record<string, unknown>;
 }
 
 /** Invoke the MSDeploy web app extension. */
-export interface WebAppsCreateMSDeployOperationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateMSDeployOperationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4732,12 +4625,11 @@ export interface WebAppsGetMSDeployLog200Response extends HttpResponse {
 /** Get the MSDeploy Log for the last MSDeploy operation. */
 export interface WebAppsGetMSDeployLog404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get the MSDeploy Log for the last MSDeploy operation. */
-export interface WebAppsGetMSDeployLogdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMSDeployLogDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4748,8 +4640,8 @@ export interface WebAppsGetOneDeployStatus200Response extends HttpResponse {
 }
 
 /** Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
-export interface WebAppsGetOneDeployStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetOneDeployStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4760,8 +4652,8 @@ export interface WebAppsCreateOneDeployOperation200Response extends HttpResponse
 }
 
 /** Invoke the OneDeploy publish web app extension. */
-export interface WebAppsCreateOneDeployOperationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOneDeployOperationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4774,12 +4666,11 @@ export interface WebAppsListFunctions200Response extends HttpResponse {
 /** List the functions for a web site, or a deployment slot. */
 export interface WebAppsListFunctions404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the functions for a web site, or a deployment slot. */
-export interface WebAppsListFunctionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListFunctionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4790,8 +4681,8 @@ export interface WebAppsGetFunctionsAdminToken200Response extends HttpResponse {
 }
 
 /** Fetch a short lived token that can be exchanged for a master key. */
-export interface WebAppsGetFunctionsAdminTokendefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetFunctionsAdminTokenDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4804,12 +4695,11 @@ export interface WebAppsGetFunction200Response extends HttpResponse {
 /** Get function information by its ID for web site, or a deployment slot. */
 export interface WebAppsGetFunction404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get function information by its ID for web site, or a deployment slot. */
-export interface WebAppsGetFunctiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetFunctionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4820,26 +4710,24 @@ export interface WebAppsCreateFunction201Response extends HttpResponse {
 }
 
 /** Create function for web site, or a deployment slot. */
-export interface WebAppsCreateFunctiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateFunctionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a function for web site, or a deployment slot. */
 export interface WebAppsDeleteFunction204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function for web site, or a deployment slot. */
 export interface WebAppsDeleteFunction404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function for web site, or a deployment slot. */
-export interface WebAppsDeleteFunctiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteFunctionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4856,26 +4744,24 @@ export interface WebAppsCreateOrUpdateFunctionSecret201Response extends HttpResp
 }
 
 /** Add or update a function secret. */
-export interface WebAppsCreateOrUpdateFunctionSecretdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateFunctionSecretDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a function secret. */
 export interface WebAppsDeleteFunctionSecret204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function secret. */
 export interface WebAppsDeleteFunctionSecret404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function secret. */
-export interface WebAppsDeleteFunctionSecretdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteFunctionSecretDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4886,8 +4772,8 @@ export interface WebAppsListFunctionKeys200Response extends HttpResponse {
 }
 
 /** Get function keys for a function in a web site, or a deployment slot. */
-export interface WebAppsListFunctionKeysdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListFunctionKeysDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4898,8 +4784,8 @@ export interface WebAppsListFunctionSecrets200Response extends HttpResponse {
 }
 
 /** Get function secrets for a function in a web site, or a deployment slot. */
-export interface WebAppsListFunctionSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListFunctionSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4910,32 +4796,30 @@ export interface WebAppsListHostKeys200Response extends HttpResponse {
 }
 
 /** Get host secrets for a function app. */
-export interface WebAppsListHostKeysdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHostKeysDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** This is to allow calling via powershell and ARM template. */
 export interface WebAppsListSyncStatus204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** This is to allow calling via powershell and ARM template. */
-export interface WebAppsListSyncStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSyncStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Syncs function trigger metadata to the management database */
 export interface WebAppsSyncFunctions204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Syncs function trigger metadata to the management database */
-export interface WebAppsSyncFunctionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncFunctionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4952,26 +4836,24 @@ export interface WebAppsCreateOrUpdateHostSecret201Response extends HttpResponse
 }
 
 /** Add or update a host level secret. */
-export interface WebAppsCreateOrUpdateHostSecretdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHostSecretDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a host level secret. */
 export interface WebAppsDeleteHostSecret204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a host level secret. */
 export interface WebAppsDeleteHostSecret404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a host level secret. */
-export interface WebAppsDeleteHostSecretdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHostSecretDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4982,8 +4864,8 @@ export interface WebAppsListHostNameBindings200Response extends HttpResponse {
 }
 
 /** Get hostname bindings for an app or a deployment slot. */
-export interface WebAppsListHostNameBindingsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHostNameBindingsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -4994,8 +4876,8 @@ export interface WebAppsGetHostNameBinding200Response extends HttpResponse {
 }
 
 /** Get the named hostname binding for an app (or deployment slot, if specified). */
-export interface WebAppsGetHostNameBindingdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetHostNameBindingDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5006,26 +4888,24 @@ export interface WebAppsCreateOrUpdateHostNameBinding200Response extends HttpRes
 }
 
 /** Creates a hostname binding for an app. */
-export interface WebAppsCreateOrUpdateHostNameBindingdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHostNameBindingDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeleteHostNameBinding200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeleteHostNameBinding204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
-export interface WebAppsDeleteHostNameBindingdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHostNameBindingDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5036,8 +4916,8 @@ export interface WebAppsGetHybridConnection200Response extends HttpResponse {
 }
 
 /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
-export interface WebAppsGetHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5048,26 +4928,24 @@ export interface WebAppsCreateOrUpdateHybridConnection200Response extends HttpRe
 }
 
 /** Creates a new Hybrid Connection using a Service Bus relay. */
-export interface WebAppsCreateOrUpdateHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Removes a Hybrid Connection from this site. */
 export interface WebAppsDeleteHybridConnection200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Removes a Hybrid Connection from this site. */
 export interface WebAppsDeleteHybridConnection404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Removes a Hybrid Connection from this site. */
-export interface WebAppsDeleteHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5078,8 +4956,8 @@ export interface WebAppsUpdateHybridConnection200Response extends HttpResponse {
 }
 
 /** Creates a new Hybrid Connection using a Service Bus relay. */
-export interface WebAppsUpdateHybridConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateHybridConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5090,8 +4968,8 @@ export interface WebAppsListHybridConnections200Response extends HttpResponse {
 }
 
 /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
-export interface WebAppsListHybridConnectionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHybridConnectionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5102,8 +4980,8 @@ export interface WebAppsListRelayServiceConnections200Response extends HttpRespo
 }
 
 /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
-export interface WebAppsListRelayServiceConnectionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListRelayServiceConnectionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5114,8 +4992,8 @@ export interface WebAppsGetRelayServiceConnection200Response extends HttpRespons
 }
 
 /** Gets a hybrid connection configuration by its name. */
-export interface WebAppsGetRelayServiceConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetRelayServiceConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5126,26 +5004,24 @@ export interface WebAppsCreateOrUpdateRelayServiceConnection200Response extends 
 }
 
 /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-export interface WebAppsCreateOrUpdateRelayServiceConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateRelayServiceConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a relay service connection by its name. */
 export interface WebAppsDeleteRelayServiceConnection200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a relay service connection by its name. */
 export interface WebAppsDeleteRelayServiceConnection404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a relay service connection by its name. */
-export interface WebAppsDeleteRelayServiceConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteRelayServiceConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5156,8 +5032,8 @@ export interface WebAppsUpdateRelayServiceConnection200Response extends HttpResp
 }
 
 /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-export interface WebAppsUpdateRelayServiceConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateRelayServiceConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5168,8 +5044,8 @@ export interface WebAppsListInstanceIdentifiers200Response extends HttpResponse 
 }
 
 /** Gets all scale-out instances of an app. */
-export interface WebAppsListInstanceIdentifiersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceIdentifiersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5180,8 +5056,8 @@ export interface WebAppsGetInstanceInfo200Response extends HttpResponse {
 }
 
 /** Gets all scale-out instances of an app. */
-export interface WebAppsGetInstanceInfodefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceInfoDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5192,8 +5068,8 @@ export interface WebAppsGetInstanceMsDeployStatus200Response extends HttpRespons
 }
 
 /** Get the status of the last MSDeploy operation. */
-export interface WebAppsGetInstanceMsDeployStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceMsDeployStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5206,12 +5082,11 @@ export interface WebAppsCreateInstanceMSDeployOperation201Response extends HttpR
 /** Invoke the MSDeploy web app extension. */
 export interface WebAppsCreateInstanceMSDeployOperation409Response extends HttpResponse {
   status: "409";
-  body: Record<string, unknown>;
 }
 
 /** Invoke the MSDeploy web app extension. */
-export interface WebAppsCreateInstanceMSDeployOperationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateInstanceMSDeployOperationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5224,12 +5099,11 @@ export interface WebAppsGetInstanceMSDeployLog200Response extends HttpResponse {
 /** Get the MSDeploy Log for the last MSDeploy operation. */
 export interface WebAppsGetInstanceMSDeployLog404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get the MSDeploy Log for the last MSDeploy operation. */
-export interface WebAppsGetInstanceMSDeployLogdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceMSDeployLogDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5242,12 +5116,11 @@ export interface WebAppsListInstanceProcesses200Response extends HttpResponse {
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcesses404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5260,30 +5133,27 @@ export interface WebAppsGetInstanceProcess200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcess404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteInstanceProcess204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteInstanceProcess404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-export interface WebAppsDeleteInstanceProcessdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteInstanceProcessDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5297,12 +5167,11 @@ export interface WebAppsGetInstanceProcessDump200Response extends HttpResponse {
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcessDump404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessDumpdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessDumpDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5315,12 +5184,11 @@ export interface WebAppsListInstanceProcessModules200Response extends HttpRespon
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcessModules404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessModulesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessModulesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5333,12 +5201,11 @@ export interface WebAppsGetInstanceProcessModule200Response extends HttpResponse
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcessModule404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessModuledefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessModuleDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5351,12 +5218,11 @@ export interface WebAppsListInstanceProcessThreads200Response extends HttpRespon
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcessThreads404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessThreadsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessThreadsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5367,8 +5233,8 @@ export interface WebAppsIsCloneable200Response extends HttpResponse {
 }
 
 /** Shows whether an app can be cloned to another resource group or subscription. */
-export interface WebAppsIsCloneabledefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsIsCloneableDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5379,8 +5245,8 @@ export interface WebAppsListSiteBackups200Response extends HttpResponse {
 }
 
 /** Gets existing backups of an app. */
-export interface WebAppsListSiteBackupsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSiteBackupsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5391,8 +5257,8 @@ export interface WebAppsListSyncFunctionTriggers200Response extends HttpResponse
 }
 
 /** This is to allow calling via powershell and ARM template. */
-export interface WebAppsListSyncFunctionTriggersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSyncFunctionTriggersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5403,8 +5269,8 @@ export interface WebAppsMigrateStorage200Response extends HttpResponse {
 }
 
 /** Restores a web app. */
-export interface WebAppsMigrateStoragedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsMigrateStorageDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5415,8 +5281,8 @@ export interface WebAppsMigrateMySql200Response extends HttpResponse {
 }
 
 /** Migrates a local (in-app) MySql database to a remote MySql database. */
-export interface WebAppsMigrateMySqldefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsMigrateMySqlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5427,8 +5293,8 @@ export interface WebAppsGetMigrateMySqlStatus200Response extends HttpResponse {
 }
 
 /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
-export interface WebAppsGetMigrateMySqlStatusdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMigrateMySqlStatusDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5439,8 +5305,8 @@ export interface WebAppsGetSwiftVirtualNetworkConnection200Response extends Http
 }
 
 /** Gets a Swift Virtual Network connection. */
-export interface WebAppsGetSwiftVirtualNetworkConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSwiftVirtualNetworkConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5458,27 +5324,25 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200R
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
 export interface WebAppsDeleteSwiftVirtualNetwork200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
 export interface WebAppsDeleteSwiftVirtualNetwork404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
-export interface WebAppsDeleteSwiftVirtualNetworkdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSwiftVirtualNetworkDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5496,9 +5360,9 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5511,12 +5375,11 @@ export interface WebAppsListNetworkFeatures200Response extends HttpResponse {
 /** Gets all network features used by the app (or deployment slot, if specified). */
 export interface WebAppsListNetworkFeatures404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets all network features used by the app (or deployment slot, if specified). */
-export interface WebAppsListNetworkFeaturesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListNetworkFeaturesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5533,8 +5396,8 @@ export interface WebAppsGetNetworkTraceOperation202Response extends HttpResponse
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTraceOperationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTraceOperationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5545,8 +5408,8 @@ export interface WebAppsStartWebSiteNetworkTrace200Response extends HttpResponse
 }
 
 /** Start capturing network packets for the site (To be deprecated). */
-export interface WebAppsStartWebSiteNetworkTracedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartWebSiteNetworkTraceDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5563,26 +5426,24 @@ export interface WebAppsStartWebSiteNetworkTraceOperation202Response extends Htt
 }
 
 /** Start capturing network packets for the site. */
-export interface WebAppsStartWebSiteNetworkTraceOperationdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartWebSiteNetworkTraceOperationDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopWebSiteNetworkTrace200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopWebSiteNetworkTrace204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
-export interface WebAppsStopWebSiteNetworkTracedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopWebSiteNetworkTraceDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5593,8 +5454,8 @@ export interface WebAppsGetNetworkTraces200Response extends HttpResponse {
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTracesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTracesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5611,8 +5472,8 @@ export interface WebAppsGetNetworkTraceOperationV2202Response extends HttpRespon
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTraceOperationV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTraceOperationV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5623,26 +5484,24 @@ export interface WebAppsGetNetworkTracesV2200Response extends HttpResponse {
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTracesV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTracesV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
 export interface WebAppsGenerateNewSitePublishingPassword200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
 export interface WebAppsGenerateNewSitePublishingPassword204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
-export interface WebAppsGenerateNewSitePublishingPassworddefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGenerateNewSitePublishingPasswordDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5653,8 +5512,8 @@ export interface WebAppsListPerfMonCounters200Response extends HttpResponse {
 }
 
 /** Gets perfmon counters for web app. */
-export interface WebAppsListPerfMonCountersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPerfMonCountersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5665,8 +5524,8 @@ export interface WebAppsGetSitePhpErrorLogFlag200Response extends HttpResponse {
 }
 
 /** Gets web app's event logs. */
-export interface WebAppsGetSitePhpErrorLogFlagdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSitePhpErrorLogFlagDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5677,8 +5536,8 @@ export interface WebAppsListPremierAddOns200Response extends HttpResponse {
 }
 
 /** Gets the premier add-ons of an app. */
-export interface WebAppsListPremierAddOnsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPremierAddOnsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5689,8 +5548,8 @@ export interface WebAppsGetPremierAddOn200Response extends HttpResponse {
 }
 
 /** Gets a named add-on of an app. */
-export interface WebAppsGetPremierAddOndefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPremierAddOnDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5701,20 +5560,19 @@ export interface WebAppsAddPremierAddOn200Response extends HttpResponse {
 }
 
 /** Updates a named add-on of an app. */
-export interface WebAppsAddPremierAddOndefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsAddPremierAddOnDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a premier add-on from an app. */
 export interface WebAppsDeletePremierAddOn200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a premier add-on from an app. */
-export interface WebAppsDeletePremierAddOndefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePremierAddOnDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5725,8 +5583,8 @@ export interface WebAppsUpdatePremierAddOn200Response extends HttpResponse {
 }
 
 /** Updates a named add-on of an app. */
-export interface WebAppsUpdatePremierAddOndefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdatePremierAddOnDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5737,8 +5595,8 @@ export interface WebAppsGetPrivateAccess200Response extends HttpResponse {
 }
 
 /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
-export interface WebAppsGetPrivateAccessdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateAccessDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5749,8 +5607,8 @@ export interface WebAppsPutPrivateAccessVnet200Response extends HttpResponse {
 }
 
 /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
-export interface WebAppsPutPrivateAccessVnetdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsPutPrivateAccessVnetDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5761,8 +5619,8 @@ export interface WebAppsGetPrivateEndpointConnectionList200Response extends Http
 }
 
 /** Gets the list of private endpoint connections associated with a site */
-export interface WebAppsGetPrivateEndpointConnectionListdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateEndpointConnectionListDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5773,8 +5631,8 @@ export interface WebAppsGetPrivateEndpointConnection200Response extends HttpResp
 }
 
 /** Gets a private endpoint connection */
-export interface WebAppsGetPrivateEndpointConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateEndpointConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5791,9 +5649,9 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnection202Response exte
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectiondefaultResponse
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5816,8 +5674,8 @@ export interface WebAppsDeletePrivateEndpointConnection204Response extends HttpR
 }
 
 /** Deletes a private endpoint connection */
-export interface WebAppsDeletePrivateEndpointConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePrivateEndpointConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5828,8 +5686,8 @@ export interface WebAppsGetPrivateLinkResources200Response extends HttpResponse 
 }
 
 /** Gets the private link resources */
-export interface WebAppsGetPrivateLinkResourcesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateLinkResourcesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5842,12 +5700,11 @@ export interface WebAppsListProcesses200Response extends HttpResponse {
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcesses404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5860,30 +5717,27 @@ export interface WebAppsGetProcess200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcess404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteProcess204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteProcess404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-export interface WebAppsDeleteProcessdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteProcessDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5897,12 +5751,11 @@ export interface WebAppsGetProcessDump200Response extends HttpResponse {
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcessDump404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessDumpdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessDumpDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5915,12 +5768,11 @@ export interface WebAppsListProcessModules200Response extends HttpResponse {
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcessModules404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessModulesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessModulesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5933,12 +5785,11 @@ export interface WebAppsGetProcessModule200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcessModule404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessModuledefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessModuleDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5951,12 +5802,11 @@ export interface WebAppsListProcessThreads200Response extends HttpResponse {
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcessThreads404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessThreadsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessThreadsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5967,8 +5817,8 @@ export interface WebAppsListPublicCertificates200Response extends HttpResponse {
 }
 
 /** Get public certificates for an app or a deployment slot. */
-export interface WebAppsListPublicCertificatesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPublicCertificatesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5979,8 +5829,8 @@ export interface WebAppsGetPublicCertificate200Response extends HttpResponse {
 }
 
 /** Get the named public certificate for an app (or deployment slot, if specified). */
-export interface WebAppsGetPublicCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPublicCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -5991,26 +5841,24 @@ export interface WebAppsCreateOrUpdatePublicCertificate200Response extends HttpR
 }
 
 /** Creates a hostname binding for an app. */
-export interface WebAppsCreateOrUpdatePublicCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdatePublicCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeletePublicCertificate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeletePublicCertificate204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
-export interface WebAppsDeletePublicCertificatedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePublicCertificateDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6022,86 +5870,78 @@ export interface WebAppsListPublishingProfileXmlWithSecrets200Response extends H
 }
 
 /** Gets the publishing profile for an app (or deployment slot, if specified). */
-export interface WebAppsListPublishingProfileXmlWithSecretsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPublishingProfileXmlWithSecretsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
 export interface WebAppsResetProductionSlotConfig200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
-export interface WebAppsResetProductionSlotConfigdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsResetProductionSlotConfigDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restarts an app (or deployment slot, if specified). */
 export interface WebAppsRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts an app (or deployment slot, if specified). */
-export interface WebAppsRestartdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestartDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
 export interface WebAppsRestoreFromBackupBlob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
 export interface WebAppsRestoreFromBackupBlob202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
-export interface WebAppsRestoreFromBackupBlobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreFromBackupBlobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a deleted web app to this web app. */
 export interface WebAppsRestoreFromDeletedApp200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a deleted web app to this web app. */
 export interface WebAppsRestoreFromDeletedApp202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a deleted web app to this web app. */
-export interface WebAppsRestoreFromDeletedAppdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreFromDeletedAppDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a web app from a snapshot. */
 export interface WebAppsRestoreSnapshot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a web app from a snapshot. */
 export interface WebAppsRestoreSnapshot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a web app from a snapshot. */
-export interface WebAppsRestoreSnapshotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreSnapshotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6114,12 +5954,11 @@ export interface WebAppsListSiteExtensions200Response extends HttpResponse {
 /** Get list of siteextensions for a web site, or a deployment slot. */
 export interface WebAppsListSiteExtensions404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of siteextensions for a web site, or a deployment slot. */
-export interface WebAppsListSiteExtensionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSiteExtensionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6132,12 +5971,11 @@ export interface WebAppsGetSiteExtension200Response extends HttpResponse {
 /** Get site extension information by its ID for a web site, or a deployment slot. */
 export interface WebAppsGetSiteExtension404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get site extension information by its ID for a web site, or a deployment slot. */
-export interface WebAppsGetSiteExtensiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSiteExtensionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6156,30 +5994,27 @@ export interface WebAppsInstallSiteExtension201Response extends HttpResponse {
 /** Install site extension on a web site, or a deployment slot. */
 export interface WebAppsInstallSiteExtension429Response extends HttpResponse {
   status: "429";
-  body: Record<string, unknown>;
 }
 
 /** Install site extension on a web site, or a deployment slot. */
-export interface WebAppsInstallSiteExtensiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsInstallSiteExtensionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
 export interface WebAppsDeleteSiteExtension204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
 export interface WebAppsDeleteSiteExtension404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
-export interface WebAppsDeleteSiteExtensiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSiteExtensionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6190,8 +6025,8 @@ export interface WebAppsListSlots200Response extends HttpResponse {
 }
 
 /** Gets an app's deployment slots. */
-export interface WebAppsListSlotsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSlotsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6204,12 +6039,11 @@ export interface WebAppsGetSlot200Response extends HttpResponse {
 /** Gets the details of a web, mobile, or API app. */
 export interface WebAppsGetSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets the details of a web, mobile, or API app. */
-export interface WebAppsGetSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6226,32 +6060,29 @@ export interface WebAppsCreateOrUpdateSlot202Response extends HttpResponse {
 }
 
 /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-export interface WebAppsCreateOrUpdateSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDeleteSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDeleteSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
 export interface WebAppsDeleteSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a web, mobile, or API app, or one of the deployment slots. */
-export interface WebAppsDeleteSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6268,8 +6099,8 @@ export interface WebAppsUpdateSlot202Response extends HttpResponse {
 }
 
 /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
-export interface WebAppsUpdateSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6280,20 +6111,19 @@ export interface WebAppsAnalyzeCustomHostnameSlot200Response extends HttpRespons
 }
 
 /** Analyze a custom hostname. */
-export interface WebAppsAnalyzeCustomHostnameSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsAnalyzeCustomHostnameSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Applies the configuration settings from the target slot onto the current slot. */
 export interface WebAppsApplySlotConfigurationSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Applies the configuration settings from the target slot onto the current slot. */
-export interface WebAppsApplySlotConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsApplySlotConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6304,8 +6134,8 @@ export interface WebAppsBackupSlot200Response extends HttpResponse {
 }
 
 /** Creates a backup of an app. */
-export interface WebAppsBackupSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsBackupSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6316,8 +6146,8 @@ export interface WebAppsListBackupsSlot200Response extends HttpResponse {
 }
 
 /** Gets existing backups of an app. */
-export interface WebAppsListBackupsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListBackupsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6328,26 +6158,24 @@ export interface WebAppsGetBackupStatusSlot200Response extends HttpResponse {
 }
 
 /** Gets a backup of an app by its ID. */
-export interface WebAppsGetBackupStatusSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetBackupStatusSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a backup of an app by its ID. */
 export interface WebAppsDeleteBackupSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a backup of an app by its ID. */
 export interface WebAppsDeleteBackupSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a backup of an app by its ID. */
-export interface WebAppsDeleteBackupSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteBackupSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6358,26 +6186,24 @@ export interface WebAppsListBackupStatusSecretsSlot200Response extends HttpRespo
 }
 
 /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
-export interface WebAppsListBackupStatusSecretsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListBackupStatusSecretsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
 export interface WebAppsRestoreSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
 export interface WebAppsRestoreSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a specific backup to another app (or deployment slot, if specified). */
-export interface WebAppsRestoreSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6388,9 +6214,9 @@ export interface WebAppsListBasicPublishingCredentialsPoliciesSlot200Response ex
 }
 
 /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
-export interface WebAppsListBasicPublishingCredentialsPoliciesSlotdefaultResponse
+export interface WebAppsListBasicPublishingCredentialsPoliciesSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6401,8 +6227,8 @@ export interface WebAppsGetFtpAllowedSlot200Response extends HttpResponse {
 }
 
 /** Returns whether FTP is allowed on the site or not. */
-export interface WebAppsGetFtpAllowedSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetFtpAllowedSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6413,8 +6239,8 @@ export interface WebAppsUpdateFtpAllowedSlot200Response extends HttpResponse {
 }
 
 /** Updates whether FTP is allowed on the site or not. */
-export interface WebAppsUpdateFtpAllowedSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateFtpAllowedSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6425,8 +6251,8 @@ export interface WebAppsGetScmAllowedSlot200Response extends HttpResponse {
 }
 
 /** Returns whether Scm basic auth is allowed on the site or not. */
-export interface WebAppsGetScmAllowedSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetScmAllowedSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6437,8 +6263,8 @@ export interface WebAppsUpdateScmAllowedSlot200Response extends HttpResponse {
 }
 
 /** Updates whether user publishing credentials are allowed on the site or not. */
-export interface WebAppsUpdateScmAllowedSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateScmAllowedSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6449,8 +6275,8 @@ export interface WebAppsListConfigurationsSlot200Response extends HttpResponse {
 }
 
 /** List the configurations of an app */
-export interface WebAppsListConfigurationsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConfigurationsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6461,8 +6287,8 @@ export interface WebAppsUpdateApplicationSettingsSlot200Response extends HttpRes
 }
 
 /** Replaces the application settings of an app. */
-export interface WebAppsUpdateApplicationSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateApplicationSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6473,8 +6299,8 @@ export interface WebAppsListApplicationSettingsSlot200Response extends HttpRespo
 }
 
 /** Gets the application settings of an app. */
-export interface WebAppsListApplicationSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListApplicationSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6485,8 +6311,8 @@ export interface WebAppsUpdateAuthSettingsSlot200Response extends HttpResponse {
 }
 
 /** Updates the Authentication / Authorization settings associated with web app. */
-export interface WebAppsUpdateAuthSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAuthSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6497,8 +6323,8 @@ export interface WebAppsGetAuthSettingsSlot200Response extends HttpResponse {
 }
 
 /** Gets the Authentication/Authorization settings of an app. */
-export interface WebAppsGetAuthSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6509,8 +6335,8 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot200Response extends H
 }
 
 /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6521,8 +6347,8 @@ export interface WebAppsUpdateAuthSettingsV2Slot200Response extends HttpResponse
 }
 
 /** Updates site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsUpdateAuthSettingsV2SlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAuthSettingsV2SlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6533,8 +6359,8 @@ export interface WebAppsGetAuthSettingsV2Slot200Response extends HttpResponse {
 }
 
 /** Gets site's Authentication / Authorization settings for apps via the V2 format */
-export interface WebAppsGetAuthSettingsV2SlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAuthSettingsV2SlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6545,8 +6371,8 @@ export interface WebAppsUpdateAzureStorageAccountsSlot200Response extends HttpRe
 }
 
 /** Updates the Azure storage account configurations of an app. */
-export interface WebAppsUpdateAzureStorageAccountsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateAzureStorageAccountsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6557,8 +6383,8 @@ export interface WebAppsListAzureStorageAccountsSlot200Response extends HttpResp
 }
 
 /** Gets the Azure storage account configurations of an app. */
-export interface WebAppsListAzureStorageAccountsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListAzureStorageAccountsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6569,20 +6395,19 @@ export interface WebAppsUpdateBackupConfigurationSlot200Response extends HttpRes
 }
 
 /** Updates the backup configuration of an app. */
-export interface WebAppsUpdateBackupConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateBackupConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes the backup configuration of an app. */
 export interface WebAppsDeleteBackupConfigurationSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the backup configuration of an app. */
-export interface WebAppsDeleteBackupConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteBackupConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6593,8 +6418,8 @@ export interface WebAppsGetBackupConfigurationSlot200Response extends HttpRespon
 }
 
 /** Gets the backup configuration of an app. */
-export interface WebAppsGetBackupConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetBackupConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6605,8 +6430,8 @@ export interface WebAppsGetAppSettingsKeyVaultReferencesSlot200Response extends 
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAppSettingsKeyVaultReferencesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6617,8 +6442,8 @@ export interface WebAppsGetAppSettingKeyVaultReferenceSlot200Response extends Ht
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetAppSettingKeyVaultReferenceSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetAppSettingKeyVaultReferenceSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6630,9 +6455,9 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlot200Response
 }
 
 /** Gets the config reference app settings and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotdefaultResponse
+export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6644,9 +6469,9 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlot200Response
 }
 
 /** Gets the config reference and status of an app */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotdefaultResponse
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6657,8 +6482,8 @@ export interface WebAppsUpdateConnectionStringsSlot200Response extends HttpRespo
 }
 
 /** Replaces the connection strings of an app. */
-export interface WebAppsUpdateConnectionStringsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateConnectionStringsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6669,8 +6494,8 @@ export interface WebAppsListConnectionStringsSlot200Response extends HttpRespons
 }
 
 /** Gets the connection strings of an app. */
-export interface WebAppsListConnectionStringsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConnectionStringsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6681,8 +6506,8 @@ export interface WebAppsGetDiagnosticLogsConfigurationSlot200Response extends Ht
 }
 
 /** Gets the logging configuration of an app. */
-export interface WebAppsGetDiagnosticLogsConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDiagnosticLogsConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6693,8 +6518,8 @@ export interface WebAppsUpdateDiagnosticLogsConfigSlot200Response extends HttpRe
 }
 
 /** Updates the logging configuration of an app. */
-export interface WebAppsUpdateDiagnosticLogsConfigSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateDiagnosticLogsConfigSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6705,8 +6530,8 @@ export interface WebAppsUpdateMetadataSlot200Response extends HttpResponse {
 }
 
 /** Replaces the metadata of an app. */
-export interface WebAppsUpdateMetadataSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateMetadataSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6717,8 +6542,8 @@ export interface WebAppsListMetadataSlot200Response extends HttpResponse {
 }
 
 /** Gets the metadata of an app. */
-export interface WebAppsListMetadataSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListMetadataSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6729,8 +6554,8 @@ export interface WebAppsListPublishingCredentialsSlot200Response extends HttpRes
 }
 
 /** Gets the Git/FTP publishing credentials of an app. */
-export interface WebAppsListPublishingCredentialsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPublishingCredentialsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6741,8 +6566,8 @@ export interface WebAppsUpdateSitePushSettingsSlot200Response extends HttpRespon
 }
 
 /** Updates the Push settings associated with web app. */
-export interface WebAppsUpdateSitePushSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSitePushSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6753,8 +6578,8 @@ export interface WebAppsListSitePushSettingsSlot200Response extends HttpResponse
 }
 
 /** Gets the Push settings associated with web app. */
-export interface WebAppsListSitePushSettingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSitePushSettingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6765,8 +6590,8 @@ export interface WebAppsGetConfigurationSlot200Response extends HttpResponse {
 }
 
 /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
-export interface WebAppsGetConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6777,8 +6602,8 @@ export interface WebAppsCreateOrUpdateConfigurationSlot200Response extends HttpR
 }
 
 /** Updates the configuration of an app. */
-export interface WebAppsCreateOrUpdateConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6789,8 +6614,8 @@ export interface WebAppsUpdateConfigurationSlot200Response extends HttpResponse 
 }
 
 /** Updates the configuration of an app. */
-export interface WebAppsUpdateConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6801,8 +6626,8 @@ export interface WebAppsListConfigurationSnapshotInfoSlot200Response extends Htt
 }
 
 /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
-export interface WebAppsListConfigurationSnapshotInfoSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListConfigurationSnapshotInfoSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6813,20 +6638,19 @@ export interface WebAppsGetConfigurationSnapshotSlot200Response extends HttpResp
 }
 
 /** Gets a snapshot of the configuration of an app at a previous point in time. */
-export interface WebAppsGetConfigurationSnapshotSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetConfigurationSnapshotSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Reverts the configuration of an app to a previous snapshot. */
 export interface WebAppsRecoverSiteConfigurationSnapshotSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Reverts the configuration of an app to a previous snapshot. */
-export interface WebAppsRecoverSiteConfigurationSnapshotSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRecoverSiteConfigurationSnapshotSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6840,13 +6664,11 @@ export interface WebAppsGetWebSiteContainerLogsSlot200Response extends HttpRespo
 /** Gets the last lines of docker logs for the given site */
 export interface WebAppsGetWebSiteContainerLogsSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Gets the last lines of docker logs for the given site */
-export interface WebAppsGetWebSiteContainerLogsSlotdefaultResponse extends HttpResponse {
-  status: "500";
-  body: Record<string, unknown>;
+export interface WebAppsGetWebSiteContainerLogsSlotDefaultResponse extends HttpResponse {
+  status: string;
 }
 
 /** Gets the ZIP archived docker log files for the given site */
@@ -6859,13 +6681,11 @@ export interface WebAppsGetContainerLogsZipSlot200Response extends HttpResponse 
 /** Gets the ZIP archived docker log files for the given site */
 export interface WebAppsGetContainerLogsZipSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Gets the ZIP archived docker log files for the given site */
-export interface WebAppsGetContainerLogsZipSlotdefaultResponse extends HttpResponse {
-  status: "500";
-  body: Record<string, unknown>;
+export interface WebAppsGetContainerLogsZipSlotDefaultResponse extends HttpResponse {
+  status: string;
 }
 
 /** List continuous web jobs for an app, or a deployment slot. */
@@ -6875,8 +6695,8 @@ export interface WebAppsListContinuousWebJobsSlot200Response extends HttpRespons
 }
 
 /** List continuous web jobs for an app, or a deployment slot. */
-export interface WebAppsListContinuousWebJobsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListContinuousWebJobsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6889,66 +6709,59 @@ export interface WebAppsGetContinuousWebJobSlot200Response extends HttpResponse 
 /** Gets a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsGetContinuousWebJobSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a continuous web job by its ID for an app, or a deployment slot. */
-export interface WebAppsGetContinuousWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetContinuousWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteContinuousWebJobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteContinuousWebJobSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a continuous web job by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteContinuousWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteContinuousWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStartContinuousWebJobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStartContinuousWebJobSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Start a continuous web job for an app, or a deployment slot. */
-export interface WebAppsStartContinuousWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartContinuousWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStopContinuousWebJobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
 export interface WebAppsStopContinuousWebJobSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Stop a continuous web job for an app, or a deployment slot. */
-export interface WebAppsStopContinuousWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopContinuousWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6959,8 +6772,8 @@ export interface WebAppsListDeploymentsSlot200Response extends HttpResponse {
 }
 
 /** List deployments for an app, or a deployment slot. */
-export interface WebAppsListDeploymentsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDeploymentsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6971,8 +6784,8 @@ export interface WebAppsGetDeploymentSlot200Response extends HttpResponse {
 }
 
 /** Get a deployment by its ID for an app, or a deployment slot. */
-export interface WebAppsGetDeploymentSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDeploymentSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -6983,26 +6796,24 @@ export interface WebAppsCreateDeploymentSlot200Response extends HttpResponse {
 }
 
 /** Create a deployment for an app, or a deployment slot. */
-export interface WebAppsCreateDeploymentSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateDeploymentSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteDeploymentSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteDeploymentSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a deployment by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteDeploymentSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteDeploymentSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7013,8 +6824,8 @@ export interface WebAppsListDeploymentLogSlot200Response extends HttpResponse {
 }
 
 /** List deployment log for specific deployment for an app, or a deployment slot. */
-export interface WebAppsListDeploymentLogSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDeploymentLogSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7025,8 +6836,8 @@ export interface WebAppsDiscoverBackupSlot200Response extends HttpResponse {
 }
 
 /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
-export interface WebAppsDiscoverBackupSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDiscoverBackupSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7037,8 +6848,8 @@ export interface WebAppsListDomainOwnershipIdentifiersSlot200Response extends Ht
 }
 
 /** Lists ownership identifiers for domain associated with web app. */
-export interface WebAppsListDomainOwnershipIdentifiersSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListDomainOwnershipIdentifiersSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7049,8 +6860,8 @@ export interface WebAppsGetDomainOwnershipIdentifierSlot200Response extends Http
 }
 
 /** Get domain ownership identifier for web app. */
-export interface WebAppsGetDomainOwnershipIdentifierSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetDomainOwnershipIdentifierSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7062,27 +6873,25 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot200Response
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotdefaultResponse
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
 export interface WebAppsDeleteDomainOwnershipIdentifierSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
 export interface WebAppsDeleteDomainOwnershipIdentifierSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a domain ownership identifier for a web app. */
-export interface WebAppsDeleteDomainOwnershipIdentifierSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteDomainOwnershipIdentifierSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7093,8 +6902,8 @@ export interface WebAppsUpdateDomainOwnershipIdentifierSlot200Response extends H
 }
 
 /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
-export interface WebAppsUpdateDomainOwnershipIdentifierSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateDomainOwnershipIdentifierSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7105,8 +6914,8 @@ export interface WebAppsGetMSDeployStatusSlot200Response extends HttpResponse {
 }
 
 /** Get the status of the last MSDeploy operation. */
-export interface WebAppsGetMSDeployStatusSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMSDeployStatusSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7119,12 +6928,11 @@ export interface WebAppsCreateMSDeployOperationSlot201Response extends HttpRespo
 /** Invoke the MSDeploy web app extension. */
 export interface WebAppsCreateMSDeployOperationSlot409Response extends HttpResponse {
   status: "409";
-  body: Record<string, unknown>;
 }
 
 /** Invoke the MSDeploy web app extension. */
-export interface WebAppsCreateMSDeployOperationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateMSDeployOperationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7137,12 +6945,11 @@ export interface WebAppsGetMSDeployLogSlot200Response extends HttpResponse {
 /** Get the MSDeploy Log for the last MSDeploy operation. */
 export interface WebAppsGetMSDeployLogSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get the MSDeploy Log for the last MSDeploy operation. */
-export interface WebAppsGetMSDeployLogSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMSDeployLogSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7155,12 +6962,11 @@ export interface WebAppsListInstanceFunctionsSlot200Response extends HttpRespons
 /** List the functions for a web site, or a deployment slot. */
 export interface WebAppsListInstanceFunctionsSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the functions for a web site, or a deployment slot. */
-export interface WebAppsListInstanceFunctionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceFunctionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7171,8 +6977,8 @@ export interface WebAppsGetFunctionsAdminTokenSlot200Response extends HttpRespon
 }
 
 /** Fetch a short lived token that can be exchanged for a master key. */
-export interface WebAppsGetFunctionsAdminTokenSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetFunctionsAdminTokenSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7185,12 +6991,11 @@ export interface WebAppsGetInstanceFunctionSlot200Response extends HttpResponse 
 /** Get function information by its ID for web site, or a deployment slot. */
 export interface WebAppsGetInstanceFunctionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get function information by its ID for web site, or a deployment slot. */
-export interface WebAppsGetInstanceFunctionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceFunctionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7201,26 +7006,24 @@ export interface WebAppsCreateInstanceFunctionSlot201Response extends HttpRespon
 }
 
 /** Create function for web site, or a deployment slot. */
-export interface WebAppsCreateInstanceFunctionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateInstanceFunctionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a function for web site, or a deployment slot. */
 export interface WebAppsDeleteInstanceFunctionSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function for web site, or a deployment slot. */
 export interface WebAppsDeleteInstanceFunctionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function for web site, or a deployment slot. */
-export interface WebAppsDeleteInstanceFunctionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteInstanceFunctionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7237,26 +7040,24 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlot201Response extends Http
 }
 
 /** Add or update a function secret. */
-export interface WebAppsCreateOrUpdateFunctionSecretSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateFunctionSecretSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a function secret. */
 export interface WebAppsDeleteFunctionSecretSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function secret. */
 export interface WebAppsDeleteFunctionSecretSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a function secret. */
-export interface WebAppsDeleteFunctionSecretSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteFunctionSecretSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7267,8 +7068,8 @@ export interface WebAppsListFunctionKeysSlot200Response extends HttpResponse {
 }
 
 /** Get function keys for a function in a web site, or a deployment slot. */
-export interface WebAppsListFunctionKeysSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListFunctionKeysSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7279,8 +7080,8 @@ export interface WebAppsListFunctionSecretsSlot200Response extends HttpResponse 
 }
 
 /** Get function secrets for a function in a web site, or a deployment slot. */
-export interface WebAppsListFunctionSecretsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListFunctionSecretsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7291,32 +7092,30 @@ export interface WebAppsListHostKeysSlot200Response extends HttpResponse {
 }
 
 /** Get host secrets for a function app. */
-export interface WebAppsListHostKeysSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHostKeysSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** This is to allow calling via powershell and ARM template. */
 export interface WebAppsListSyncStatusSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** This is to allow calling via powershell and ARM template. */
-export interface WebAppsListSyncStatusSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSyncStatusSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Syncs function trigger metadata to the management database */
 export interface WebAppsSyncFunctionsSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Syncs function trigger metadata to the management database */
-export interface WebAppsSyncFunctionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncFunctionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7333,26 +7132,24 @@ export interface WebAppsCreateOrUpdateHostSecretSlot201Response extends HttpResp
 }
 
 /** Add or update a host level secret. */
-export interface WebAppsCreateOrUpdateHostSecretSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHostSecretSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a host level secret. */
 export interface WebAppsDeleteHostSecretSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a host level secret. */
 export interface WebAppsDeleteHostSecretSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Delete a host level secret. */
-export interface WebAppsDeleteHostSecretSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHostSecretSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7363,8 +7160,8 @@ export interface WebAppsListHostNameBindingsSlot200Response extends HttpResponse
 }
 
 /** Get hostname bindings for an app or a deployment slot. */
-export interface WebAppsListHostNameBindingsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHostNameBindingsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7375,8 +7172,8 @@ export interface WebAppsGetHostNameBindingSlot200Response extends HttpResponse {
 }
 
 /** Get the named hostname binding for an app (or deployment slot, if specified). */
-export interface WebAppsGetHostNameBindingSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetHostNameBindingSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7387,26 +7184,24 @@ export interface WebAppsCreateOrUpdateHostNameBindingSlot200Response extends Htt
 }
 
 /** Creates a hostname binding for an app. */
-export interface WebAppsCreateOrUpdateHostNameBindingSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHostNameBindingSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeleteHostNameBindingSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeleteHostNameBindingSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
-export interface WebAppsDeleteHostNameBindingSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHostNameBindingSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7417,8 +7212,8 @@ export interface WebAppsGetHybridConnectionSlot200Response extends HttpResponse 
 }
 
 /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
-export interface WebAppsGetHybridConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetHybridConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7429,26 +7224,24 @@ export interface WebAppsCreateOrUpdateHybridConnectionSlot200Response extends Ht
 }
 
 /** Creates a new Hybrid Connection using a Service Bus relay. */
-export interface WebAppsCreateOrUpdateHybridConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateHybridConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Removes a Hybrid Connection from this site. */
 export interface WebAppsDeleteHybridConnectionSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Removes a Hybrid Connection from this site. */
 export interface WebAppsDeleteHybridConnectionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Removes a Hybrid Connection from this site. */
-export interface WebAppsDeleteHybridConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteHybridConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7459,8 +7252,8 @@ export interface WebAppsUpdateHybridConnectionSlot200Response extends HttpRespon
 }
 
 /** Creates a new Hybrid Connection using a Service Bus relay. */
-export interface WebAppsUpdateHybridConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateHybridConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7471,8 +7264,8 @@ export interface WebAppsListHybridConnectionsSlot200Response extends HttpRespons
 }
 
 /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
-export interface WebAppsListHybridConnectionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListHybridConnectionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7483,8 +7276,8 @@ export interface WebAppsListRelayServiceConnectionsSlot200Response extends HttpR
 }
 
 /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
-export interface WebAppsListRelayServiceConnectionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListRelayServiceConnectionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7495,8 +7288,8 @@ export interface WebAppsGetRelayServiceConnectionSlot200Response extends HttpRes
 }
 
 /** Gets a hybrid connection configuration by its name. */
-export interface WebAppsGetRelayServiceConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetRelayServiceConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7507,27 +7300,25 @@ export interface WebAppsCreateOrUpdateRelayServiceConnectionSlot200Response exte
 }
 
 /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotdefaultResponse
+export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a relay service connection by its name. */
 export interface WebAppsDeleteRelayServiceConnectionSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a relay service connection by its name. */
 export interface WebAppsDeleteRelayServiceConnectionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a relay service connection by its name. */
-export interface WebAppsDeleteRelayServiceConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteRelayServiceConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7538,8 +7329,8 @@ export interface WebAppsUpdateRelayServiceConnectionSlot200Response extends Http
 }
 
 /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
-export interface WebAppsUpdateRelayServiceConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateRelayServiceConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7550,8 +7341,8 @@ export interface WebAppsListInstanceIdentifiersSlot200Response extends HttpRespo
 }
 
 /** Gets all scale-out instances of an app. */
-export interface WebAppsListInstanceIdentifiersSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceIdentifiersSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7562,8 +7353,8 @@ export interface WebAppsGetInstanceInfoSlot200Response extends HttpResponse {
 }
 
 /** Gets all scale-out instances of an app. */
-export interface WebAppsGetInstanceInfoSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceInfoSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7574,8 +7365,8 @@ export interface WebAppsGetInstanceMsDeployStatusSlot200Response extends HttpRes
 }
 
 /** Get the status of the last MSDeploy operation. */
-export interface WebAppsGetInstanceMsDeployStatusSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceMsDeployStatusSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7588,12 +7379,11 @@ export interface WebAppsCreateInstanceMSDeployOperationSlot201Response extends H
 /** Invoke the MSDeploy web app extension. */
 export interface WebAppsCreateInstanceMSDeployOperationSlot409Response extends HttpResponse {
   status: "409";
-  body: Record<string, unknown>;
 }
 
 /** Invoke the MSDeploy web app extension. */
-export interface WebAppsCreateInstanceMSDeployOperationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateInstanceMSDeployOperationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7606,12 +7396,11 @@ export interface WebAppsGetInstanceMSDeployLogSlot200Response extends HttpRespon
 /** Get the MSDeploy Log for the last MSDeploy operation. */
 export interface WebAppsGetInstanceMSDeployLogSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get the MSDeploy Log for the last MSDeploy operation. */
-export interface WebAppsGetInstanceMSDeployLogSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceMSDeployLogSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7624,12 +7413,11 @@ export interface WebAppsListInstanceProcessesSlot200Response extends HttpRespons
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcessesSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7642,30 +7430,27 @@ export interface WebAppsGetInstanceProcessSlot200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcessSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteInstanceProcessSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteInstanceProcessSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-export interface WebAppsDeleteInstanceProcessSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteInstanceProcessSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7679,12 +7464,11 @@ export interface WebAppsGetInstanceProcessDumpSlot200Response extends HttpRespon
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcessDumpSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessDumpSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessDumpSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7697,12 +7481,11 @@ export interface WebAppsListInstanceProcessModulesSlot200Response extends HttpRe
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcessModulesSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessModulesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessModulesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7715,12 +7498,11 @@ export interface WebAppsGetInstanceProcessModuleSlot200Response extends HttpResp
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetInstanceProcessModuleSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetInstanceProcessModuleSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetInstanceProcessModuleSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7733,12 +7515,11 @@ export interface WebAppsListInstanceProcessThreadsSlot200Response extends HttpRe
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListInstanceProcessThreadsSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListInstanceProcessThreadsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListInstanceProcessThreadsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7749,8 +7530,8 @@ export interface WebAppsIsCloneableSlot200Response extends HttpResponse {
 }
 
 /** Shows whether an app can be cloned to another resource group or subscription. */
-export interface WebAppsIsCloneableSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsIsCloneableSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7761,8 +7542,8 @@ export interface WebAppsListSiteBackupsSlot200Response extends HttpResponse {
 }
 
 /** Gets existing backups of an app. */
-export interface WebAppsListSiteBackupsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSiteBackupsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7773,8 +7554,8 @@ export interface WebAppsListSyncFunctionTriggersSlot200Response extends HttpResp
 }
 
 /** This is to allow calling via powershell and ARM template. */
-export interface WebAppsListSyncFunctionTriggersSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSyncFunctionTriggersSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7785,8 +7566,8 @@ export interface WebAppsGetMigrateMySqlStatusSlot200Response extends HttpRespons
 }
 
 /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
-export interface WebAppsGetMigrateMySqlStatusSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetMigrateMySqlStatusSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7797,8 +7578,8 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlot200Response extends 
 }
 
 /** Gets a Swift Virtual Network connection. */
-export interface WebAppsGetSwiftVirtualNetworkConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSwiftVirtualNetworkConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7816,27 +7597,25 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
 export interface WebAppsDeleteSwiftVirtualNetworkSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
 export interface WebAppsDeleteSwiftVirtualNetworkSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
-export interface WebAppsDeleteSwiftVirtualNetworkSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSwiftVirtualNetworkSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7854,9 +7633,9 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Respo
  * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
  * in use by another App Service Plan other than the one this App is in.
  */
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7869,12 +7648,11 @@ export interface WebAppsListNetworkFeaturesSlot200Response extends HttpResponse 
 /** Gets all network features used by the app (or deployment slot, if specified). */
 export interface WebAppsListNetworkFeaturesSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets all network features used by the app (or deployment slot, if specified). */
-export interface WebAppsListNetworkFeaturesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListNetworkFeaturesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7891,8 +7669,8 @@ export interface WebAppsGetNetworkTraceOperationSlot202Response extends HttpResp
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTraceOperationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTraceOperationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7903,8 +7681,8 @@ export interface WebAppsStartWebSiteNetworkTraceSlot200Response extends HttpResp
 }
 
 /** Start capturing network packets for the site (To be deprecated). */
-export interface WebAppsStartWebSiteNetworkTraceSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartWebSiteNetworkTraceSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7921,26 +7699,24 @@ export interface WebAppsStartWebSiteNetworkTraceOperationSlot202Response extends
 }
 
 /** Start capturing network packets for the site. */
-export interface WebAppsStartWebSiteNetworkTraceOperationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartWebSiteNetworkTraceOperationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopWebSiteNetworkTraceSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopWebSiteNetworkTraceSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
-export interface WebAppsStopWebSiteNetworkTraceSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopWebSiteNetworkTraceSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7951,8 +7727,8 @@ export interface WebAppsGetNetworkTracesSlot200Response extends HttpResponse {
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTracesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTracesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7969,8 +7745,8 @@ export interface WebAppsGetNetworkTraceOperationSlotV2202Response extends HttpRe
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTraceOperationSlotV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTraceOperationSlotV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -7981,26 +7757,24 @@ export interface WebAppsGetNetworkTracesSlotV2200Response extends HttpResponse {
 }
 
 /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
-export interface WebAppsGetNetworkTracesSlotV2defaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetNetworkTracesSlotV2DefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
 export interface WebAppsGenerateNewSitePublishingPasswordSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
 export interface WebAppsGenerateNewSitePublishingPasswordSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Generates a new publishing password for an app (or deployment slot, if specified). */
-export interface WebAppsGenerateNewSitePublishingPasswordSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGenerateNewSitePublishingPasswordSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8011,8 +7785,8 @@ export interface WebAppsListPerfMonCountersSlot200Response extends HttpResponse 
 }
 
 /** Gets perfmon counters for web app. */
-export interface WebAppsListPerfMonCountersSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPerfMonCountersSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8023,8 +7797,8 @@ export interface WebAppsGetSitePhpErrorLogFlagSlot200Response extends HttpRespon
 }
 
 /** Gets web app's event logs. */
-export interface WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSitePhpErrorLogFlagSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8035,8 +7809,8 @@ export interface WebAppsListPremierAddOnsSlot200Response extends HttpResponse {
 }
 
 /** Gets the premier add-ons of an app. */
-export interface WebAppsListPremierAddOnsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPremierAddOnsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8047,8 +7821,8 @@ export interface WebAppsGetPremierAddOnSlot200Response extends HttpResponse {
 }
 
 /** Gets a named add-on of an app. */
-export interface WebAppsGetPremierAddOnSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPremierAddOnSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8059,20 +7833,19 @@ export interface WebAppsAddPremierAddOnSlot200Response extends HttpResponse {
 }
 
 /** Updates a named add-on of an app. */
-export interface WebAppsAddPremierAddOnSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsAddPremierAddOnSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a premier add-on from an app. */
 export interface WebAppsDeletePremierAddOnSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a premier add-on from an app. */
-export interface WebAppsDeletePremierAddOnSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePremierAddOnSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8083,8 +7856,8 @@ export interface WebAppsUpdatePremierAddOnSlot200Response extends HttpResponse {
 }
 
 /** Updates a named add-on of an app. */
-export interface WebAppsUpdatePremierAddOnSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdatePremierAddOnSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8095,8 +7868,8 @@ export interface WebAppsGetPrivateAccessSlot200Response extends HttpResponse {
 }
 
 /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
-export interface WebAppsGetPrivateAccessSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateAccessSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8107,8 +7880,8 @@ export interface WebAppsPutPrivateAccessVnetSlot200Response extends HttpResponse
 }
 
 /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
-export interface WebAppsPutPrivateAccessVnetSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsPutPrivateAccessVnetSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8119,8 +7892,8 @@ export interface WebAppsGetPrivateEndpointConnectionListSlot200Response extends 
 }
 
 /** Gets the list of private endpoint connections associated with a site */
-export interface WebAppsGetPrivateEndpointConnectionListSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateEndpointConnectionListSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8131,8 +7904,8 @@ export interface WebAppsGetPrivateEndpointConnectionSlot200Response extends Http
 }
 
 /** Gets a private endpoint connection */
-export interface WebAppsGetPrivateEndpointConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateEndpointConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8151,9 +7924,9 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlot202Response
 }
 
 /** Approves or rejects a private endpoint connection */
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotdefaultResponse
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8176,8 +7949,8 @@ export interface WebAppsDeletePrivateEndpointConnectionSlot204Response extends H
 }
 
 /** Deletes a private endpoint connection */
-export interface WebAppsDeletePrivateEndpointConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePrivateEndpointConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8188,8 +7961,8 @@ export interface WebAppsGetPrivateLinkResourcesSlot200Response extends HttpRespo
 }
 
 /** Gets the private link resources */
-export interface WebAppsGetPrivateLinkResourcesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPrivateLinkResourcesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8202,12 +7975,11 @@ export interface WebAppsListProcessesSlot200Response extends HttpResponse {
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcessesSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8220,30 +7992,27 @@ export interface WebAppsGetProcessSlot200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcessSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteProcessSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
 export interface WebAppsDeleteProcessSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
-export interface WebAppsDeleteProcessSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteProcessSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8257,12 +8026,11 @@ export interface WebAppsGetProcessDumpSlot200Response extends HttpResponse {
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcessDumpSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessDumpSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessDumpSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8275,12 +8043,11 @@ export interface WebAppsListProcessModulesSlot200Response extends HttpResponse {
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcessModulesSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessModulesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessModulesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8293,12 +8060,11 @@ export interface WebAppsGetProcessModuleSlot200Response extends HttpResponse {
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsGetProcessModuleSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get process information by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsGetProcessModuleSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetProcessModuleSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8311,12 +8077,11 @@ export interface WebAppsListProcessThreadsSlot200Response extends HttpResponse {
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
 export interface WebAppsListProcessThreadsSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
-export interface WebAppsListProcessThreadsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListProcessThreadsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8327,8 +8092,8 @@ export interface WebAppsListPublicCertificatesSlot200Response extends HttpRespon
 }
 
 /** Get public certificates for an app or a deployment slot. */
-export interface WebAppsListPublicCertificatesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListPublicCertificatesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8339,8 +8104,8 @@ export interface WebAppsGetPublicCertificateSlot200Response extends HttpResponse
 }
 
 /** Get the named public certificate for an app (or deployment slot, if specified). */
-export interface WebAppsGetPublicCertificateSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetPublicCertificateSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8351,26 +8116,24 @@ export interface WebAppsCreateOrUpdatePublicCertificateSlot200Response extends H
 }
 
 /** Creates a hostname binding for an app. */
-export interface WebAppsCreateOrUpdatePublicCertificateSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdatePublicCertificateSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeletePublicCertificateSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
 export interface WebAppsDeletePublicCertificateSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a hostname binding for an app. */
-export interface WebAppsDeletePublicCertificateSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeletePublicCertificateSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8382,87 +8145,79 @@ export interface WebAppsListPublishingProfileXmlWithSecretsSlot200Response exten
 }
 
 /** Gets the publishing profile for an app (or deployment slot, if specified). */
-export interface WebAppsListPublishingProfileXmlWithSecretsSlotdefaultResponse
+export interface WebAppsListPublishingProfileXmlWithSecretsSlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
 export interface WebAppsResetSlotConfigurationSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
-export interface WebAppsResetSlotConfigurationSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsResetSlotConfigurationSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restarts an app (or deployment slot, if specified). */
 export interface WebAppsRestartSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts an app (or deployment slot, if specified). */
-export interface WebAppsRestartSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestartSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
 export interface WebAppsRestoreFromBackupBlobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
 export interface WebAppsRestoreFromBackupBlobSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores an app from a backup blob in Azure Storage. */
-export interface WebAppsRestoreFromBackupBlobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreFromBackupBlobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a deleted web app to this web app. */
 export interface WebAppsRestoreFromDeletedAppSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a deleted web app to this web app. */
 export interface WebAppsRestoreFromDeletedAppSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a deleted web app to this web app. */
-export interface WebAppsRestoreFromDeletedAppSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreFromDeletedAppSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Restores a web app from a snapshot. */
 export interface WebAppsRestoreSnapshotSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restores a web app from a snapshot. */
 export interface WebAppsRestoreSnapshotSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restores a web app from a snapshot. */
-export interface WebAppsRestoreSnapshotSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRestoreSnapshotSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8475,12 +8230,11 @@ export interface WebAppsListSiteExtensionsSlot200Response extends HttpResponse {
 /** Get list of siteextensions for a web site, or a deployment slot. */
 export interface WebAppsListSiteExtensionsSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get list of siteextensions for a web site, or a deployment slot. */
-export interface WebAppsListSiteExtensionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSiteExtensionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8493,12 +8247,11 @@ export interface WebAppsGetSiteExtensionSlot200Response extends HttpResponse {
 /** Get site extension information by its ID for a web site, or a deployment slot. */
 export interface WebAppsGetSiteExtensionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Get site extension information by its ID for a web site, or a deployment slot. */
-export interface WebAppsGetSiteExtensionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSiteExtensionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8517,30 +8270,27 @@ export interface WebAppsInstallSiteExtensionSlot201Response extends HttpResponse
 /** Install site extension on a web site, or a deployment slot. */
 export interface WebAppsInstallSiteExtensionSlot429Response extends HttpResponse {
   status: "429";
-  body: Record<string, unknown>;
 }
 
 /** Install site extension on a web site, or a deployment slot. */
-export interface WebAppsInstallSiteExtensionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsInstallSiteExtensionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
 export interface WebAppsDeleteSiteExtensionSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
 export interface WebAppsDeleteSiteExtensionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Remove a site extension from a web site, or a deployment slot. */
-export interface WebAppsDeleteSiteExtensionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSiteExtensionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8551,26 +8301,24 @@ export interface WebAppsListSlotDifferencesSlot200Response extends HttpResponse 
 }
 
 /** Get the difference in configuration settings between two web app slots. */
-export interface WebAppsListSlotDifferencesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSlotDifferencesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Swaps two deployment slots of an app. */
 export interface WebAppsSwapSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Swaps two deployment slots of an app. */
 export interface WebAppsSwapSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Swaps two deployment slots of an app. */
-export interface WebAppsSwapSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSwapSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8581,8 +8329,8 @@ export interface WebAppsListSnapshotsSlot200Response extends HttpResponse {
 }
 
 /** Returns all Snapshots to the user. */
-export interface WebAppsListSnapshotsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSnapshotsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8593,8 +8341,8 @@ export interface WebAppsListSnapshotsFromDRSecondarySlot200Response extends Http
 }
 
 /** Returns all Snapshots to the user from DRSecondary endpoint. */
-export interface WebAppsListSnapshotsFromDRSecondarySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSnapshotsFromDRSecondarySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8617,8 +8365,8 @@ export interface WebAppsGetSourceControlSlot202Response extends HttpResponse {
 }
 
 /** Gets the source control configuration of an app. */
-export interface WebAppsGetSourceControlSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSourceControlSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8641,32 +8389,29 @@ export interface WebAppsCreateOrUpdateSourceControlSlot202Response extends HttpR
 }
 
 /** Updates the source control configuration of an app. */
-export interface WebAppsCreateOrUpdateSourceControlSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateSourceControlSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControlSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControlSlot202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControlSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
-export interface WebAppsDeleteSourceControlSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSourceControlSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8689,20 +8434,19 @@ export interface WebAppsUpdateSourceControlSlot202Response extends HttpResponse 
 }
 
 /** Updates the source control configuration of an app. */
-export interface WebAppsUpdateSourceControlSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSourceControlSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Starts an app (or deployment slot, if specified). */
 export interface WebAppsStartSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts an app (or deployment slot, if specified). */
-export interface WebAppsStartSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8719,62 +8463,57 @@ export interface WebAppsStartNetworkTraceSlot202Response extends HttpResponse {
 }
 
 /** Start capturing network packets for the site. */
-export interface WebAppsStartNetworkTraceSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartNetworkTraceSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stops an app (or deployment slot, if specified). */
 export interface WebAppsStopSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stops an app (or deployment slot, if specified). */
-export interface WebAppsStopSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopNetworkTraceSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopNetworkTraceSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
-export interface WebAppsStopNetworkTraceSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopNetworkTraceSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Sync web app repository. */
 export interface WebAppsSyncRepositorySlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Sync web app repository. */
-export interface WebAppsSyncRepositorySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncRepositorySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Syncs function trigger metadata to the management database */
 export interface WebAppsSyncFunctionTriggersSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Syncs function trigger metadata to the management database */
-export interface WebAppsSyncFunctionTriggersSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncFunctionTriggersSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8785,8 +8524,8 @@ export interface WebAppsListTriggeredWebJobsSlot200Response extends HttpResponse
 }
 
 /** List triggered web jobs for an app, or a deployment slot. */
-export interface WebAppsListTriggeredWebJobsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListTriggeredWebJobsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8799,30 +8538,27 @@ export interface WebAppsGetTriggeredWebJobSlot200Response extends HttpResponse {
 /** Gets a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsGetTriggeredWebJobSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a triggered web job by its ID for an app, or a deployment slot. */
-export interface WebAppsGetTriggeredWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetTriggeredWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteTriggeredWebJobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteTriggeredWebJobSlot204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteTriggeredWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteTriggeredWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8835,12 +8571,11 @@ export interface WebAppsListTriggeredWebJobHistorySlot200Response extends HttpRe
 /** List a triggered web job's history for an app, or a deployment slot. */
 export interface WebAppsListTriggeredWebJobHistorySlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List a triggered web job's history for an app, or a deployment slot. */
-export interface WebAppsListTriggeredWebJobHistorySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListTriggeredWebJobHistorySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8853,30 +8588,27 @@ export interface WebAppsGetTriggeredWebJobHistorySlot200Response extends HttpRes
 /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
 export interface WebAppsGetTriggeredWebJobHistorySlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
-export interface WebAppsGetTriggeredWebJobHistorySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetTriggeredWebJobHistorySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
 export interface WebAppsRunTriggeredWebJobSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
 export interface WebAppsRunTriggeredWebJobSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
-export interface WebAppsRunTriggeredWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRunTriggeredWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8887,8 +8619,8 @@ export interface WebAppsListUsagesSlot200Response extends HttpResponse {
 }
 
 /** Gets the quota usage information of an app (or deployment slot, if specified). */
-export interface WebAppsListUsagesSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListUsagesSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8899,8 +8631,8 @@ export interface WebAppsListVnetConnectionsSlot200Response extends HttpResponse 
 }
 
 /** Gets the virtual networks the app (or deployment slot) is connected to. */
-export interface WebAppsListVnetConnectionsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListVnetConnectionsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8911,8 +8643,8 @@ export interface WebAppsGetVnetConnectionSlot200Response extends HttpResponse {
 }
 
 /** Gets a virtual network the app (or deployment slot) is connected to by name. */
-export interface WebAppsGetVnetConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetVnetConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8923,26 +8655,24 @@ export interface WebAppsCreateOrUpdateVnetConnectionSlot200Response extends Http
 }
 
 /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-export interface WebAppsCreateOrUpdateVnetConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateVnetConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
 export interface WebAppsDeleteVnetConnectionSlot200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
 export interface WebAppsDeleteVnetConnectionSlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
-export interface WebAppsDeleteVnetConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteVnetConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8953,8 +8683,8 @@ export interface WebAppsUpdateVnetConnectionSlot200Response extends HttpResponse
 }
 
 /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-export interface WebAppsUpdateVnetConnectionSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateVnetConnectionSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8967,12 +8697,11 @@ export interface WebAppsGetVnetConnectionGatewaySlot200Response extends HttpResp
 /** Gets an app's Virtual Network gateway. */
 export interface WebAppsGetVnetConnectionGatewaySlot404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets an app's Virtual Network gateway. */
-export interface WebAppsGetVnetConnectionGatewaySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetVnetConnectionGatewaySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8983,9 +8712,9 @@ export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlot200Response exten
 }
 
 /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotdefaultResponse
+export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotDefaultResponse
   extends HttpResponse {
-  status: "500";
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -8996,8 +8725,8 @@ export interface WebAppsUpdateVnetConnectionGatewaySlot200Response extends HttpR
 }
 
 /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-export interface WebAppsUpdateVnetConnectionGatewaySlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateVnetConnectionGatewaySlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9008,8 +8737,8 @@ export interface WebAppsListWebJobsSlot200Response extends HttpResponse {
 }
 
 /** List webjobs for an app, or a deployment slot. */
-export interface WebAppsListWebJobsSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListWebJobsSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9020,8 +8749,8 @@ export interface WebAppsGetWebJobSlot200Response extends HttpResponse {
 }
 
 /** Get webjob information for an app, or a deployment slot. */
-export interface WebAppsGetWebJobSlotdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetWebJobSlotDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9032,26 +8761,24 @@ export interface WebAppsListSlotDifferencesFromProduction200Response extends Htt
 }
 
 /** Get the difference in configuration settings between two web app slots. */
-export interface WebAppsListSlotDifferencesFromProductiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSlotDifferencesFromProductionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Swaps two deployment slots of an app. */
 export interface WebAppsSwapSlotWithProduction200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Swaps two deployment slots of an app. */
 export interface WebAppsSwapSlotWithProduction202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Swaps two deployment slots of an app. */
-export interface WebAppsSwapSlotWithProductiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSwapSlotWithProductionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9062,8 +8789,8 @@ export interface WebAppsListSnapshots200Response extends HttpResponse {
 }
 
 /** Returns all Snapshots to the user. */
-export interface WebAppsListSnapshotsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSnapshotsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9074,8 +8801,8 @@ export interface WebAppsListSnapshotsFromDRSecondary200Response extends HttpResp
 }
 
 /** Returns all Snapshots to the user from DRSecondary endpoint. */
-export interface WebAppsListSnapshotsFromDRSecondarydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListSnapshotsFromDRSecondaryDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9098,8 +8825,8 @@ export interface WebAppsGetSourceControl202Response extends HttpResponse {
 }
 
 /** Gets the source control configuration of an app. */
-export interface WebAppsGetSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9122,32 +8849,29 @@ export interface WebAppsCreateOrUpdateSourceControl202Response extends HttpRespo
 }
 
 /** Updates the source control configuration of an app. */
-export interface WebAppsCreateOrUpdateSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControl200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControl202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
 export interface WebAppsDeleteSourceControl404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes the source control configuration of an app. */
-export interface WebAppsDeleteSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9170,20 +8894,19 @@ export interface WebAppsUpdateSourceControl202Response extends HttpResponse {
 }
 
 /** Updates the source control configuration of an app. */
-export interface WebAppsUpdateSourceControldefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateSourceControlDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Starts an app (or deployment slot, if specified). */
 export interface WebAppsStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts an app (or deployment slot, if specified). */
-export interface WebAppsStartdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9200,62 +8923,57 @@ export interface WebAppsStartNetworkTrace202Response extends HttpResponse {
 }
 
 /** Start capturing network packets for the site. */
-export interface WebAppsStartNetworkTracedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStartNetworkTraceDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stops an app (or deployment slot, if specified). */
 export interface WebAppsStop200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stops an app (or deployment slot, if specified). */
-export interface WebAppsStopdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopNetworkTrace200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
 export interface WebAppsStopNetworkTrace204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Stop ongoing capturing network packets for the site. */
-export interface WebAppsStopNetworkTracedefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsStopNetworkTraceDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Sync web app repository. */
 export interface WebAppsSyncRepository200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Sync web app repository. */
-export interface WebAppsSyncRepositorydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncRepositoryDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Syncs function trigger metadata to the management database */
 export interface WebAppsSyncFunctionTriggers204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Syncs function trigger metadata to the management database */
-export interface WebAppsSyncFunctionTriggersdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsSyncFunctionTriggersDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9266,8 +8984,8 @@ export interface WebAppsListTriggeredWebJobs200Response extends HttpResponse {
 }
 
 /** List triggered web jobs for an app, or a deployment slot. */
-export interface WebAppsListTriggeredWebJobsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListTriggeredWebJobsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9280,30 +8998,27 @@ export interface WebAppsGetTriggeredWebJob200Response extends HttpResponse {
 /** Gets a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsGetTriggeredWebJob404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a triggered web job by its ID for an app, or a deployment slot. */
-export interface WebAppsGetTriggeredWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetTriggeredWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteTriggeredWebJob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
 export interface WebAppsDeleteTriggeredWebJob204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a triggered web job by its ID for an app, or a deployment slot. */
-export interface WebAppsDeleteTriggeredWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteTriggeredWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9316,12 +9031,11 @@ export interface WebAppsListTriggeredWebJobHistory200Response extends HttpRespon
 /** List a triggered web job's history for an app, or a deployment slot. */
 export interface WebAppsListTriggeredWebJobHistory404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** List a triggered web job's history for an app, or a deployment slot. */
-export interface WebAppsListTriggeredWebJobHistorydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListTriggeredWebJobHistoryDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9334,30 +9048,27 @@ export interface WebAppsGetTriggeredWebJobHistory200Response extends HttpRespons
 /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
 export interface WebAppsGetTriggeredWebJobHistory404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
-export interface WebAppsGetTriggeredWebJobHistorydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetTriggeredWebJobHistoryDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
 export interface WebAppsRunTriggeredWebJob200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
 export interface WebAppsRunTriggeredWebJob404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Run a triggered web job for an app, or a deployment slot. */
-export interface WebAppsRunTriggeredWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsRunTriggeredWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9368,8 +9079,8 @@ export interface WebAppsListUsages200Response extends HttpResponse {
 }
 
 /** Gets the quota usage information of an app (or deployment slot, if specified). */
-export interface WebAppsListUsagesdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListUsagesDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9380,8 +9091,8 @@ export interface WebAppsListVnetConnections200Response extends HttpResponse {
 }
 
 /** Gets the virtual networks the app (or deployment slot) is connected to. */
-export interface WebAppsListVnetConnectionsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListVnetConnectionsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9392,8 +9103,8 @@ export interface WebAppsGetVnetConnection200Response extends HttpResponse {
 }
 
 /** Gets a virtual network the app (or deployment slot) is connected to by name. */
-export interface WebAppsGetVnetConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetVnetConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9404,26 +9115,24 @@ export interface WebAppsCreateOrUpdateVnetConnection200Response extends HttpResp
 }
 
 /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-export interface WebAppsCreateOrUpdateVnetConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateVnetConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
 export interface WebAppsDeleteVnetConnection200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
 export interface WebAppsDeleteVnetConnection404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a connection from an app (or deployment slot to a named virtual network. */
-export interface WebAppsDeleteVnetConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsDeleteVnetConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9434,8 +9143,8 @@ export interface WebAppsUpdateVnetConnection200Response extends HttpResponse {
 }
 
 /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
-export interface WebAppsUpdateVnetConnectiondefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateVnetConnectionDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9448,12 +9157,11 @@ export interface WebAppsGetVnetConnectionGateway200Response extends HttpResponse
 /** Gets an app's Virtual Network gateway. */
 export interface WebAppsGetVnetConnectionGateway404Response extends HttpResponse {
   status: "404";
-  body: Record<string, unknown>;
 }
 
 /** Gets an app's Virtual Network gateway. */
-export interface WebAppsGetVnetConnectionGatewaydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetVnetConnectionGatewayDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9464,8 +9172,8 @@ export interface WebAppsCreateOrUpdateVnetConnectionGateway200Response extends H
 }
 
 /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-export interface WebAppsCreateOrUpdateVnetConnectionGatewaydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsCreateOrUpdateVnetConnectionGatewayDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9476,8 +9184,8 @@ export interface WebAppsUpdateVnetConnectionGateway200Response extends HttpRespo
 }
 
 /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
-export interface WebAppsUpdateVnetConnectionGatewaydefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsUpdateVnetConnectionGatewayDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9488,8 +9196,8 @@ export interface WebAppsListWebJobs200Response extends HttpResponse {
 }
 
 /** List webjobs for an app, or a deployment slot. */
-export interface WebAppsListWebJobsdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsListWebJobsDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }
 
@@ -9500,7 +9208,7 @@ export interface WebAppsGetWebJob200Response extends HttpResponse {
 }
 
 /** Get webjob information for an app, or a deployment slot. */
-export interface WebAppsGetWebJobdefaultResponse extends HttpResponse {
-  status: "500";
+export interface WebAppsGetWebJobDefaultResponse extends HttpResponse {
+  status: string;
   body: DefaultErrorResponseOutput;
 }

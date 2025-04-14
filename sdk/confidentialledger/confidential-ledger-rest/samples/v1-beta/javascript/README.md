@@ -40,7 +40,7 @@ node getEnclaveQuotesCert.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env USER_CERT="<user cert>" USER_CERT_KEY="<user cert key>" ENDPOINT="<endpoint>" LEDGER_ID="<ledger id>" node getEnclaveQuotesCert.js
+npx dev-tool run vendored cross-env USER_CERT="<user cert>" USER_CERT_KEY="<user cert key>" ENDPOINT="<endpoint>" LEDGER_ID="<ledger id>" node getEnclaveQuotesCert.js
 ```
 
 ## Next Steps
@@ -49,7 +49,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [getenclavequotescert]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/confidential-ledger-rest/samples/v1-beta/javascript/getEnclaveQuotesCert.js
 [getenclavequotesaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/confidential-ledger-rest/samples/v1-beta/javascript/getEnclaveQuotesAAD.js
-[apiref]: https://docs.microsoft.com/azure/confidential-ledger
+[apiref]: https://learn.microsoft.com/azure/confidential-ledger
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureconfidentialcompute]: https://azure.microsoft.com/solutions/confidential-compute
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/confidential-ledger-rest/README.md

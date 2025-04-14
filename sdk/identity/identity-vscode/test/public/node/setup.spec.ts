@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { vsCodePlugin as plugin } from "../../../src";
+import { vsCodePlugin as plugin } from "../../../src/index.js";
 
 import { useIdentityPlugin } from "@azure/identity";
+import { beforeAll } from "vitest";
 
-before(function () {
+beforeAll(function () {
   useIdentityPlugin(plugin);
 });

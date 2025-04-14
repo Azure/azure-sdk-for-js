@@ -6,21 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ContainerAppsRevisionReplicas } from "../operationsInterfaces";
+import { ContainerAppsRevisionReplicas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   ContainerAppsRevisionReplicasGetReplicaOptionalParams,
   ContainerAppsRevisionReplicasGetReplicaResponse,
   ContainerAppsRevisionReplicasListReplicasOptionalParams,
-  ContainerAppsRevisionReplicasListReplicasResponse
-} from "../models";
+  ContainerAppsRevisionReplicasListReplicasResponse,
+} from "../models/index.js";
 
 /** Class containing ContainerAppsRevisionReplicas operations. */
 export class ContainerAppsRevisionReplicasImpl
-  implements ContainerAppsRevisionReplicas {
+  implements ContainerAppsRevisionReplicas
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -44,7 +45,7 @@ export class ContainerAppsRevisionReplicasImpl
     containerAppName: string,
     revisionName: string,
     replicaName: string,
-    options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams
+    options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams,
   ): Promise<ContainerAppsRevisionReplicasGetReplicaResponse> {
     return this.client.sendOperationRequest(
       {
@@ -52,9 +53,9 @@ export class ContainerAppsRevisionReplicasImpl
         containerAppName,
         revisionName,
         replicaName,
-        options
+        options,
       },
-      getReplicaOperationSpec
+      getReplicaOperationSpec,
     );
   }
 
@@ -69,11 +70,11 @@ export class ContainerAppsRevisionReplicasImpl
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionReplicasListReplicasOptionalParams
+    options?: ContainerAppsRevisionReplicasListReplicasOptionalParams,
   ): Promise<ContainerAppsRevisionReplicasListReplicasResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      listReplicasOperationSpec
+      listReplicasOperationSpec,
     );
   }
 }
@@ -81,16 +82,15 @@ export class ContainerAppsRevisionReplicasImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getReplicaOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/replicas/{replicaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -99,22 +99,21 @@ const getReplicaOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.containerAppName,
     Parameters.revisionName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listReplicasOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaCollection
+      bodyMapper: Mappers.ReplicaCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -122,8 +121,8 @@ const listReplicasOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

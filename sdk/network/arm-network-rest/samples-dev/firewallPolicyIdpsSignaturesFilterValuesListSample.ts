@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  FirewallPolicyIdpsSignaturesFilterValuesListParameters,
-} from "@azure-rest/arm-network";
+import type { FirewallPolicyIdpsSignaturesFilterValuesListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the current filter values for the signatures overrides
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Retrieves the current filter values for the signatures overrides
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyQuerySignatureOverridesFilterValues.json
  */
-async function querySignatureOverrides() {
+async function querySignatureOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +26,7 @@ async function querySignatureOverrides() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .post(options);
   console.log(result);

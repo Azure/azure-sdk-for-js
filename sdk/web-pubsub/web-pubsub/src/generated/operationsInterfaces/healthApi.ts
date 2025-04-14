@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HealthApiGetServiceStatusOptionalParams } from "../models";
+import { HealthApiGetServiceStatusOptionalParams } from "../models/index.js";
 
 /** Interface representing a HealthApi. */
 export interface HealthApi {
@@ -15,6 +15,6 @@ export interface HealthApi {
    * @param options The options parameters.
    */
   getServiceStatus(
-    options?: HealthApiGetServiceStatusOptionalParams
+    options?: HealthApiGetServiceStatusOptionalParams,
   ): Promise<void>;
 }

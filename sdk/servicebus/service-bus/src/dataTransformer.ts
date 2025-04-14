@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./log.js";
 
 /** @internal */
 export const dataSectionTypeCode = 0x75 as const;
@@ -109,7 +109,7 @@ export const defaultDataTransformer = {
    */
   decodeWithType(
     body: unknown | RheaAmqpSection,
-    skipParsingBodyAsJson: boolean
+    skipParsingBodyAsJson: boolean,
   ): { body: unknown; bodyType: "data" | "sequence" | "value" } {
     try {
       if (isRheaAmqpSection(body)) {
@@ -139,7 +139,7 @@ export const defaultDataTransformer = {
     } catch (err: any) {
       logger.verbose(
         "[decode] An error occurred while decoding the received message body. The error is: %O",
-        err
+        err,
       );
       throw err;
     }
@@ -148,7 +148,7 @@ export const defaultDataTransformer = {
 
 /** @internal */
 export function isRheaAmqpSection(
-  possibleSection: any | RheaAmqpSection
+  possibleSection: any | RheaAmqpSection,
 ): possibleSection is RheaAmqpSection {
   return (
     possibleSection != null &&
@@ -180,7 +180,7 @@ export function tryToJsonDecode(body: any): any {
     logger.verbose(
       "[decode] An error occurred while trying JSON.parse() on the received body. " +
         "The error is %O",
-      err
+      err,
     );
   }
   return processedBody;

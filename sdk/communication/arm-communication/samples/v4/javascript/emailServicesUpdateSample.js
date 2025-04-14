@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to update an existing EmailService.
  *
  * @summary Operation to update an existing EmailService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/emailServices/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/emailServices/update.json
  */
 async function updateEmailServiceResource() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function updateEmailServiceResource() {
   const result = await client.emailServices.beginUpdateAndWait(
     resourceGroupName,
     emailServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

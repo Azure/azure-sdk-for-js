@@ -1,12 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
  * Queue/Topic. You can send all messages at once with risk of the operation failing if they don't fit
  * in a batch or you can use one or batch objects directly to safely send all your messages.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
+ * See https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
  * to learn about Queues, Topics and Subscriptions.
  *
  *
@@ -14,12 +14,12 @@
  */
 
 const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const firstSetOfMessages = [
@@ -39,7 +39,8 @@ const secondSetOfMessages = [
 ];
 
 async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);

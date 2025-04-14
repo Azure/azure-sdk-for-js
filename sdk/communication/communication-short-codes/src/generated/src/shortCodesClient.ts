@@ -13,9 +13,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { ShortCodesOperationsImpl } from "./operations";
-import { ShortCodesOperations } from "./operationsInterfaces";
-import { ShortCodesClientOptionalParams } from "./models";
+import { ShortCodesImpl } from "./operations/index.js";
+import { ShortCodes } from "./operationsInterfaces/index.js";
+import { ShortCodesClientOptionalParams } from "./models/index.js";
 
 export class ShortCodesClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -82,7 +82,7 @@ export class ShortCodesClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2022-09-06";
-    this.shortCodesOperations = new ShortCodesOperationsImpl(this);
+    this.shortCodes = new ShortCodesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -114,5 +114,5 @@ export class ShortCodesClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  shortCodesOperations: ShortCodesOperations;
+  shortCodes: ShortCodes;
 }

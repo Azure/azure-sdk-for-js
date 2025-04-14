@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkspaceSetting, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to creating settings about where we should store your security data and logs
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary creating settings about where we should store your security data and logs
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/CreateWorkspaceSetting_example.json
  */
-async function createAWorkspaceSettingDataForSubscription() {
+async function createAWorkspaceSettingDataForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -28,22 +26,21 @@ async function createAWorkspaceSettingDataForSubscription() {
   const workspaceSetting: WorkspaceSetting = {
     name: "default",
     type: "Microsoft.Security/workspaceSettings",
-    id:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
+    id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
     scope: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23",
     workspaceId:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace"
+      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.workspaceSettings.create(
     workspaceSettingName,
-    workspaceSetting
+    workspaceSetting,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAWorkspaceSettingDataForSubscription();
 }
 

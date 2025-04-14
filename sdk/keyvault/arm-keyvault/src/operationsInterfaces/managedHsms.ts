@@ -27,8 +27,8 @@ import {
   ManagedHsmsPurgeDeletedResponse,
   CheckMhsmNameAvailabilityParameters,
   ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
-  ManagedHsmsCheckMhsmNameAvailabilityResponse
-} from "../models";
+  ManagedHsmsCheckMhsmNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedHsms. */
@@ -41,21 +41,21 @@ export interface ManagedHsms {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedHsmsListByResourceGroupOptionalParams
+    options?: ManagedHsmsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsm>;
   /**
    * The List operation gets information about the managed HSM Pools associated with the subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ManagedHsmsListBySubscriptionOptionalParams
+    options?: ManagedHsmsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsm>;
   /**
    * The List operation gets information about the deleted managed HSMs associated with the subscription.
    * @param options The options parameters.
    */
   listDeleted(
-    options?: ManagedHsmsListDeletedOptionalParams
+    options?: ManagedHsmsListDeletedOptionalParams,
   ): PagedAsyncIterableIterator<DeletedManagedHsm>;
   /**
    * Create or update a managed HSM Pool in the specified subscription.
@@ -68,7 +68,7 @@ export interface ManagedHsms {
     resourceGroupName: string,
     name: string,
     parameters: ManagedHsm,
-    options?: ManagedHsmsCreateOrUpdateOptionalParams
+    options?: ManagedHsmsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedHsmsCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface ManagedHsms {
     resourceGroupName: string,
     name: string,
     parameters: ManagedHsm,
-    options?: ManagedHsmsCreateOrUpdateOptionalParams
+    options?: ManagedHsmsCreateOrUpdateOptionalParams,
   ): Promise<ManagedHsmsCreateOrUpdateResponse>;
   /**
    * Update a managed HSM Pool in the specified subscription.
@@ -99,7 +99,7 @@ export interface ManagedHsms {
     resourceGroupName: string,
     name: string,
     parameters: ManagedHsm,
-    options?: ManagedHsmsUpdateOptionalParams
+    options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedHsmsUpdateResponse>,
@@ -117,7 +117,7 @@ export interface ManagedHsms {
     resourceGroupName: string,
     name: string,
     parameters: ManagedHsm,
-    options?: ManagedHsmsUpdateOptionalParams
+    options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<ManagedHsmsUpdateResponse>;
   /**
    * Deletes the specified managed HSM Pool.
@@ -128,7 +128,7 @@ export interface ManagedHsms {
   beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmsDeleteOptionalParams
+    options?: ManagedHsmsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified managed HSM Pool.
@@ -139,7 +139,7 @@ export interface ManagedHsms {
   beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmsDeleteOptionalParams
+    options?: ManagedHsmsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified managed HSM Pool.
@@ -150,7 +150,7 @@ export interface ManagedHsms {
   get(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmsGetOptionalParams
+    options?: ManagedHsmsGetOptionalParams,
   ): Promise<ManagedHsmsGetResponse>;
   /**
    * Gets the specified deleted managed HSM.
@@ -161,7 +161,7 @@ export interface ManagedHsms {
   getDeleted(
     name: string,
     location: string,
-    options?: ManagedHsmsGetDeletedOptionalParams
+    options?: ManagedHsmsGetDeletedOptionalParams,
   ): Promise<ManagedHsmsGetDeletedResponse>;
   /**
    * Permanently deletes the specified managed HSM.
@@ -172,7 +172,7 @@ export interface ManagedHsms {
   beginPurgeDeleted(
     name: string,
     location: string,
-    options?: ManagedHsmsPurgeDeletedOptionalParams
+    options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedHsmsPurgeDeletedResponse>,
@@ -188,7 +188,7 @@ export interface ManagedHsms {
   beginPurgeDeletedAndWait(
     name: string,
     location: string,
-    options?: ManagedHsmsPurgeDeletedOptionalParams
+    options?: ManagedHsmsPurgeDeletedOptionalParams,
   ): Promise<ManagedHsmsPurgeDeletedResponse>;
   /**
    * Checks that the managed hsm name is valid and is not already in use.
@@ -197,6 +197,6 @@ export interface ManagedHsms {
    */
   checkMhsmNameAvailability(
     mhsmName: CheckMhsmNameAvailabilityParameters,
-    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
+    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
   ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
 }

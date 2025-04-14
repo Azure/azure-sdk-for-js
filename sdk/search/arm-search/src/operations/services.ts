@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Services } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { Services } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchManagementClient } from "../searchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { SearchManagementClient } from "../searchManagementClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   SearchService,
   ServicesListByResourceGroupNextOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -33,9 +34,11 @@ import {
   ServicesDeleteOptionalParams,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse,
+  ServicesUpgradeOptionalParams,
+  ServicesUpgradeResponse,
   ServicesListByResourceGroupNextResponse,
-  ServicesListBySubscriptionNextResponse
-} from "../models";
+  ServicesListBySubscriptionNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Services operations. */
@@ -51,14 +54,14 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SearchService> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -72,19 +75,15 @@ export class ServicesImpl implements Services {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ServicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SearchService[]> {
     let result: ServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,11 +95,7 @@ export class ServicesImpl implements Services {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,22 +105,19 @@ export class ServicesImpl implements Services {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SearchService> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SearchService> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -140,13 +132,13 @@ export class ServicesImpl implements Services {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SearchService[]> {
     let result: ServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -167,7 +159,7 @@ export class ServicesImpl implements Services {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SearchService> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -179,12 +171,12 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to create or update. Search
-   *                          service names must only contain lowercase letters, digits or dashes, cannot use dash as the first
-   *                          two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60
-   *                          characters in length. Search service names must be globally unique since they are part of the
-   *                          service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   *                          service is created.
+   * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
+   *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
+   *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
+   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
+   *                          created.
    * @param service The definition of the search service to create or update.
    * @param options The options parameters.
    */
@@ -192,30 +184,25 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     searchServiceName: string,
     service: SearchService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
-      ServicesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -224,8 +211,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -233,19 +220,22 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, searchServiceName, service, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, service, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesCreateOrUpdateResponse,
+      OperationState<ServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -256,12 +246,12 @@ export class ServicesImpl implements Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to create or update. Search
-   *                          service names must only contain lowercase letters, digits or dashes, cannot use dash as the first
-   *                          two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60
-   *                          characters in length. Search service names must be globally unique since they are part of the
-   *                          service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   *                          service is created.
+   * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
+   *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
+   *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
+   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
+   *                          created.
    * @param service The definition of the search service to create or update.
    * @param options The options parameters.
    */
@@ -269,13 +259,13 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     searchServiceName: string,
     service: SearchService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       searchServiceName,
       service,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,7 +274,7 @@ export class ServicesImpl implements Services {
    * Updates an existing search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service to update.
+   * @param searchServiceName The name of the Azure AI Search service to update.
    * @param service The definition of the search service to update.
    * @param options The options parameters.
    */
@@ -292,11 +282,11 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     searchServiceName: string,
     service: SearchServiceUpdate,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, service, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -304,18 +294,18 @@ export class ServicesImpl implements Services {
    * Gets the search service with the given name in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -323,48 +313,45 @@ export class ServicesImpl implements Services {
    * Deletes a search service in the given resource group, along with its associated resources.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): Promise<ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ServicesListBySubscriptionOptionalParams
+    options?: ServicesListBySubscriptionOptionalParams,
   ): Promise<ServicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -377,12 +364,93 @@ export class ServicesImpl implements Services {
    */
   checkNameAvailability(
     name: string,
-    options?: ServicesCheckNameAvailabilityOptionalParams
+    options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      checkNameAvailabilityOperationSpec
-    );
+    return this.client.sendOperationRequest({ name, options }, checkNameAvailabilityOperationSpec);
+  }
+
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ServicesUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, options },
+      spec: upgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesUpgradeResponse,
+      OperationState<ServicesUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrades the Azure AI Search service to the latest version available.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   *                          obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: ServicesUpgradeOptionalParams,
+  ): Promise<ServicesUpgradeResponse> {
+    const poller = await this.beginUpgrade(resourceGroupName, searchServiceName, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -395,11 +463,11 @@ export class ServicesImpl implements Services {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ServicesListByResourceGroupNextOptionalParams
+    options?: ServicesListByResourceGroupNextOptionalParams,
   ): Promise<ServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -410,11 +478,11 @@ export class ServicesImpl implements Services {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ServicesListBySubscriptionNextOptionalParams
+    options?: ServicesListBySubscriptionNextOptionalParams,
   ): Promise<ServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -422,214 +490,217 @@ export class ServicesImpl implements Services {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     201: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     202: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     204: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.service,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.searchServiceName1,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.service1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.searchServiceName1,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchService
+      bodyMapper: Mappers.SearchService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchServiceListResult
+      bodyMapper: Mappers.SearchServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchServiceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer,
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: {
+    parameterPath: { name: ["name"], typeParam: ["typeParam"] },
+    mapper: { ...Mappers.CheckNameAvailabilityInput, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchService,
+    },
+    201: {
+      bodyMapper: Mappers.SearchService,
+    },
+    202: {
+      bodyMapper: Mappers.SearchService,
+    },
+    204: {
+      bodyMapper: Mappers.SearchService,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.searchServiceName,
+    Parameters.subscriptionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SearchServiceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: {
-    parameterPath: { name: ["name"], typeParam: ["typeParam"] },
-    mapper: { ...Mappers.CheckNameAvailabilityInput, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType
-  ],
-  mediaType: "json",
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchServiceListResult
+      bodyMapper: Mappers.SearchServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchServiceListResult
+      bodyMapper: Mappers.SearchServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

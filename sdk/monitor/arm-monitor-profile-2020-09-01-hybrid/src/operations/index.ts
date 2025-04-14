@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./metricDefinitions";
-export * from "./metrics";
-export * from "./diagnosticSettings";
-export * from "./diagnosticSettingsCategory";
-export * from "./eventCategories";
-export * from "./operations";
+export * from "./metricDefinitions.js";
+export * from "./metrics.js";
+export * from "./diagnosticSettings.js";
+export * from "./diagnosticSettingsCategory.js";
+export * from "./eventCategories.js";
+export * from "./operations.js";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the private link resources
  *
  * @summary Gets the private link resources
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListPrivateLinkGroupResources.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPrivateLinkGroupResources.json
  */
 async function apiManagementListPrivateLinkGroupResources() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

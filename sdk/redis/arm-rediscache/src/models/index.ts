@@ -136,7 +136,7 @@ export interface RedisCreateParameters {
   tags?: { [propertyName: string]: string };
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
-  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
+  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
@@ -154,6 +154,12 @@ export interface RedisCreateParameters {
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
+  updateChannel?: UpdateChannel;
+  /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
+  disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -174,7 +180,7 @@ export interface Sku {
 
 /** Create/Update/Get common properties of the redis cache. */
 export interface RedisCommonProperties {
-  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
+  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
@@ -192,9 +198,15 @@ export interface RedisCommonProperties {
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
+  updateChannel?: UpdateChannel;
+  /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
+  disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
-/** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
+/** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
 export interface RedisCommonPropertiesRedisConfiguration {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
@@ -225,6 +237,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maxclients?: string;
+  /** The keyspace events which should be monitored. */
+  notifyKeyspaceEvents?: string;
   /**
    * Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -239,6 +253,10 @@ export interface RedisCommonPropertiesRedisConfiguration {
   readonly zonalConfiguration?: string;
   /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view. */
   authnotrequired?: string;
+  /** SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity. */
+  storageSubscriptionId?: string;
+  /** Specifies whether AAD based authentication has been enabled or disabled for the cache */
+  aadEnabled?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -374,7 +392,7 @@ export interface RedisUpdateParameters {
   tags?: { [propertyName: string]: string };
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
-  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
+  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
@@ -392,6 +410,12 @@ export interface RedisUpdateParameters {
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
+  updateChannel?: UpdateChannel;
+  /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
+  disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku?: Sku;
 }
@@ -440,6 +464,8 @@ export interface ImportRDBParameters {
   files: string[];
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
   preferredDataArchiveAuthMethod?: string;
+  /** Subscription id of the storage container containing files to import using Managed Identity. */
+  storageSubscriptionId?: string;
 }
 
 /** Parameters for Redis export operation. */
@@ -452,6 +478,28 @@ export interface ExportRDBParameters {
   container: string;
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
   preferredDataArchiveAuthMethod?: string;
+  /** Subscription id of the storage container for data to be exported using ManagedIdentity. */
+  storageSubscriptionId?: string;
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
 }
 
 /** The response of list firewall rules Redis operation. */
@@ -549,53 +597,26 @@ export interface PrivateLinkResourceListResult {
   value?: PrivateLinkResource[];
 }
 
-/** The current status of an async operation. */
-export interface OperationStatusResult {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetailAutoGenerated;
+/** List of access policies (with properties) of a Redis cache. */
+export interface RedisCacheAccessPolicyList {
+  /** List of access policies (with properties) of a Redis cache. */
+  value?: RedisCacheAccessPolicy[];
+  /**
+   * Link for next set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** The error detail. */
-export interface ErrorDetailAutoGenerated {
+/** List of access policies assignments (with properties) of a Redis cache. */
+export interface RedisCacheAccessPolicyAssignmentList {
+  /** List of access policies assignments (with properties) of a Redis cache. */
+  value?: RedisCacheAccessPolicyAssignment[];
   /**
-   * The error code.
+   * Link for next set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetailAutoGenerated[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
+  readonly nextLink?: string;
 }
 
 /** Properties supplied to Create Redis operation. */
@@ -654,6 +675,12 @@ export interface PrivateLinkResource extends Resource {
   requiredZoneNames?: string[];
 }
 
+/** Asynchronous operation status */
+export interface OperationStatus extends OperationStatusResult {
+  /** Additional properties from RP, only when operation is successful */
+  properties?: { [propertyName: string]: any };
+}
+
 /** Properties of a linked server to be returned in get/put response */
 export interface RedisLinkedServerProperties
   extends RedisLinkedServerCreateProperties {
@@ -662,12 +689,6 @@ export interface RedisLinkedServerProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-}
-
-/** Asynchronous operation status */
-export interface OperationStatus extends OperationStatusResult {
-  /** Additional properties from RP, only when operation is successful */
-  properties?: { [propertyName: string]: any };
 }
 
 /** Properties of the redis cache. */
@@ -720,7 +741,7 @@ export interface RedisResource extends TrackedResource {
   zones?: string[];
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
-  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
+  /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
@@ -738,6 +759,12 @@ export interface RedisResource extends TrackedResource {
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
+  updateChannel?: UpdateChannel;
+  /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
+  disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -830,8 +857,62 @@ export interface RedisLinkedServerWithProperties extends ProxyResource {
   readonly provisioningState?: string;
 }
 
+/** Response to get/put access policy. */
+export interface RedisCacheAccessPolicy extends ProxyResource {
+  /**
+   * Provisioning state of access policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AccessPolicyProvisioningState;
+  /**
+   * Built-In or Custom access policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesType?: AccessPolicyType;
+  /** Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites */
+  permissions?: string;
+}
+
+/** Response to an operation on access policy assignment */
+export interface RedisCacheAccessPolicyAssignment extends ProxyResource {
+  /**
+   * Provisioning state of an access policy assignment set
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AccessPolicyAssignmentProvisioningState;
+  /** Object Id to assign access policy to */
+  objectId?: string;
+  /** User friendly name for object id. Also represents username for token based authentication */
+  objectIdAlias?: string;
+  /** The name of the access policy that is being assigned */
+  accessPolicyName?: string;
+}
+
 /** Parameters required for creating a firewall rule on redis cache. (Note, you can just use the FirewallRule type instead now.) */
 export interface RedisFirewallRuleCreateParameters extends RedisFirewallRule {}
+
+/** Defines headers for Redis_flushCache operation. */
+export interface RedisFlushCacheHeaders {
+  /** URL to query for the status of the operation. */
+  location?: string;
+  /** URL to query for the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LinkedServer_delete operation. */
+export interface LinkedServerDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for AccessPolicy_delete operation. */
+export interface AccessPolicyDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for AccessPolicyAssignment_delete operation. */
+export interface AccessPolicyAssignmentDeleteHeaders {
+  location?: string;
+}
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -840,7 +921,7 @@ export enum KnownSkuName {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -859,7 +940,7 @@ export enum KnownSkuFamily {
   /** C */
   C = "C",
   /** P */
-  P = "P"
+  P = "P",
 }
 
 /**
@@ -879,7 +960,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -898,7 +979,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -911,6 +992,45 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link UpdateChannel} that the service accepts. */
+export enum KnownUpdateChannel {
+  /** Stable */
+  Stable = "Stable",
+  /** Preview */
+  Preview = "Preview",
+}
+
+/**
+ * Defines values for UpdateChannel. \
+ * {@link KnownUpdateChannel} can be used interchangeably with UpdateChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Stable** \
+ * **Preview**
+ */
+export type UpdateChannel = string;
+
+/** Known values of {@link ZonalAllocationPolicy} that the service accepts. */
+export enum KnownZonalAllocationPolicy {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** UserDefined */
+  UserDefined = "UserDefined",
+  /** NoZones */
+  NoZones = "NoZones",
+}
+
+/**
+ * Defines values for ZonalAllocationPolicy. \
+ * {@link KnownZonalAllocationPolicy} can be used interchangeably with ZonalAllocationPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **UserDefined** \
+ * **NoZones**
+ */
+export type ZonalAllocationPolicy = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -920,7 +1040,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -960,7 +1080,9 @@ export enum KnownProvisioningState {
   /** Unprovisioning */
   Unprovisioning = "Unprovisioning",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
+  /** ConfiguringAAD */
+  ConfiguringAAD = "ConfiguringAAD",
 }
 
 /**
@@ -979,7 +1101,8 @@ export enum KnownProvisioningState {
  * **Succeeded** \
  * **Unlinking** \
  * **Unprovisioning** \
- * **Updating**
+ * **Updating** \
+ * **ConfiguringAAD**
  */
 export type ProvisioningState = string;
 
@@ -990,7 +1113,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -1013,7 +1136,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1035,7 +1158,7 @@ export enum KnownRebootType {
   /** SecondaryNode */
   SecondaryNode = "SecondaryNode",
   /** AllNodes */
-  AllNodes = "AllNodes"
+  AllNodes = "AllNodes",
 }
 
 /**
@@ -1052,7 +1175,7 @@ export type RebootType = string;
 /** Known values of {@link DefaultName} that the service accepts. */
 export enum KnownDefaultName {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -1063,6 +1186,84 @@ export enum KnownDefaultName {
  * **default**
  */
 export type DefaultName = string;
+
+/** Known values of {@link AccessPolicyProvisioningState} that the service accepts. */
+export enum KnownAccessPolicyProvisioningState {
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AccessPolicyProvisioningState. \
+ * {@link KnownAccessPolicyProvisioningState} can be used interchangeably with AccessPolicyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updating** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type AccessPolicyProvisioningState = string;
+
+/** Known values of {@link AccessPolicyType} that the service accepts. */
+export enum KnownAccessPolicyType {
+  /** Custom */
+  Custom = "Custom",
+  /** BuiltIn */
+  BuiltIn = "BuiltIn",
+}
+
+/**
+ * Defines values for AccessPolicyType. \
+ * {@link KnownAccessPolicyType} can be used interchangeably with AccessPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Custom** \
+ * **BuiltIn**
+ */
+export type AccessPolicyType = string;
+
+/** Known values of {@link AccessPolicyAssignmentProvisioningState} that the service accepts. */
+export enum KnownAccessPolicyAssignmentProvisioningState {
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AccessPolicyAssignmentProvisioningState. \
+ * {@link KnownAccessPolicyAssignmentProvisioningState} can be used interchangeably with AccessPolicyAssignmentProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updating** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type AccessPolicyAssignmentProvisioningState = string;
 /** Defines values for RedisKeyType. */
 export type RedisKeyType = "Primary" | "Secondary";
 /** Defines values for DayOfWeek. */
@@ -1194,11 +1395,25 @@ export interface RedisExportDataOptionalParams
 }
 
 /** Optional parameters. */
+export interface RedisFlushCacheOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the flushCache operation. */
+export type RedisFlushCacheResponse = RedisFlushCacheHeaders &
+  OperationStatusResult;
+
+/** Optional parameters. */
 export interface RedisListUpgradeNotificationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUpgradeNotificationsNext operation. */
-export type RedisListUpgradeNotificationsNextResponse = NotificationListResponse;
+export type RedisListUpgradeNotificationsNextResponse =
+  NotificationListResponse;
 
 /** Optional parameters. */
 export interface RedisListByResourceGroupNextOptionalParams
@@ -1251,7 +1466,8 @@ export interface PatchSchedulesListByRedisResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisResource operation. */
-export type PatchSchedulesListByRedisResourceResponse = RedisPatchScheduleListResult;
+export type PatchSchedulesListByRedisResourceResponse =
+  RedisPatchScheduleListResult;
 
 /** Optional parameters. */
 export interface PatchSchedulesCreateOrUpdateOptionalParams
@@ -1276,7 +1492,8 @@ export interface PatchSchedulesListByRedisResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisResourceNext operation. */
-export type PatchSchedulesListByRedisResourceNextResponse = RedisPatchScheduleListResult;
+export type PatchSchedulesListByRedisResourceNextResponse =
+  RedisPatchScheduleListResult;
 
 /** Optional parameters. */
 export interface LinkedServerCreateOptionalParams
@@ -1325,7 +1542,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1355,7 +1573,8 @@ export interface PrivateLinkResourcesListByRedisCacheOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisCache operation. */
-export type PrivateLinkResourcesListByRedisCacheResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByRedisCacheResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface AsyncOperationStatusGetOptionalParams
@@ -1363,6 +1582,94 @@ export interface AsyncOperationStatusGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type AsyncOperationStatusGetResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface AccessPolicyCreateUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdate operation. */
+export type AccessPolicyCreateUpdateResponse = RedisCacheAccessPolicy;
+
+/** Optional parameters. */
+export interface AccessPolicyDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessPolicyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessPolicyGetResponse = RedisCacheAccessPolicy;
+
+/** Optional parameters. */
+export interface AccessPolicyListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AccessPolicyListResponse = RedisCacheAccessPolicyList;
+
+/** Optional parameters. */
+export interface AccessPolicyListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AccessPolicyListNextResponse = RedisCacheAccessPolicyList;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentCreateUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdate operation. */
+export type AccessPolicyAssignmentCreateUpdateResponse =
+  RedisCacheAccessPolicyAssignment;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessPolicyAssignmentGetResponse =
+  RedisCacheAccessPolicyAssignment;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AccessPolicyAssignmentListResponse =
+  RedisCacheAccessPolicyAssignmentList;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AccessPolicyAssignmentListNextResponse =
+  RedisCacheAccessPolicyAssignmentList;
 
 /** Optional parameters. */
 export interface RedisManagementClientOptionalParams

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as fs from "fs";
-import { AvroReadableFromStream, AvroReader } from "../../src";
-import { AbortController } from "@azure/abort-controller";
-import { Readable } from "stream";
-import { arraysEqual } from "../../src/utils/utils.common";
-import { assert } from "chai";
+import * as fs from "node:fs";
+import { AvroReadableFromStream, AvroReader } from "../../src/index.js";
+import { Readable } from "node:stream";
+import { arraysEqual } from "../../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 type Action = (o: Record<string, any> | null) => void;
 class TestCase {
@@ -24,10 +23,10 @@ describe("AvroReader", () => {
       new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
       new TestCase("test_null_1.avro", (o) => assert.strictEqual(true, o as any)), // boolean
       new TestCase("test_null_2.avro", (o) =>
-        assert.strictEqual("adsfasdf09809dsf-=adsf", o as any)
+        assert.strictEqual("adsfasdf09809dsf-=adsf", o as any),
       ), // string
       new TestCase("test_null_3.avro", (o) =>
-        assert.ok(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array))
+        assert.ok(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array)),
       ), // byte[]
       new TestCase("test_null_4.avro", (o) => assert.strictEqual(1234, o as any)), // int
       new TestCase("test_null_5.avro", (o) => assert.strictEqual(1234, o as any)), // long
@@ -65,16 +64,13 @@ describe("AvroReader", () => {
   });
 
   it("aborter", async () => {
-    // eslint-disable-next-line 	@typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
     const rfs = new AvroReadableFromStream(delayedReadable);
     const avroReader = new AvroReader(rfs);
 
-    const timeoutSignal = AbortController.timeout(1);
-    const manualAborter = new AbortController();
-    const linkedAborter = new AbortController(timeoutSignal, manualAborter.signal);
+    const timeoutSignal = AbortSignal.timeout(1);
 
-    const iter = avroReader.parseObjects({ abortSignal: linkedAborter.signal });
+    const iter = avroReader.parseObjects({ abortSignal: timeoutSignal });
     let AbortErrorCaught = false;
     try {
       await iter.next();
@@ -84,7 +80,5 @@ describe("AvroReader", () => {
       }
     }
     assert.ok(AbortErrorCaught);
-
-    manualAborter.abort();
   });
 });

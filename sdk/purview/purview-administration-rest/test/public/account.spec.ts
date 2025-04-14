@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PurviewAccount } from "../../src";
+// Licensed under the MIT License.
+import type { PurviewAccount } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
-import { createAccountClient } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { createAccountClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Get account info", () => {
   let recorder: Recorder;
-  let client: PurviewAccount.Client.PurviewAccountRestClient;
+  let client: PurviewAccount.Client.PurviewAccountClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createAccountClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

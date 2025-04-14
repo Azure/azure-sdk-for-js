@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 
 export const extractOperationOptions = <T extends OperationOptions>(
-  obj: T
+  obj: T,
 ): {
   operationOptions: OperationOptions;
   restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
-import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
-import { assert } from "chai";
-import { IncomingMessage, ServerResponse } from "http";
-import { Socket } from "net";
-import * as sinon from "sinon";
+// Licensed under the MIT License.
+
+import { describe, it, assert, expect, vi, beforeEach } from "vitest";
+import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
+import { IncomingMessage, ServerResponse } from "node:http";
+import { Socket } from "node:net";
 
 function buildRequest(
   req: IncomingMessage,
   hub: string,
   connectionId: string,
-  userId?: string
+  userId?: string,
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["content-type"] = "application/json; charset=utf-8";
@@ -38,54 +37,54 @@ describe("Can handle connected event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function () {
-    const endSpy = sinon.spy(res.end);
+  it("Should not handle the request if request is not cloud events", async () => {
+    const endSpy = vi.spyOn(res, "end");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
-    assert.isTrue(endSpy.notCalled);
+    expect(endSpy).not.toBeCalled();
   });
 
-  it("Should not handle the request if hub does not match", async function () {
-    const endSpy = sinon.spy(res.end);
+  it("Should not handle the request if hub does not match", async () => {
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
-    assert.isTrue(endSpy.notCalled);
+    expect(endSpy).not.toBeCalled();
   });
 
-  it("Should response with 200 when option is not specified", async function () {
-    const endSpy = sinon.spy(res, "end");
+  it("Should response with 200 when option is not specified", async () => {
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub");
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 200 when handler is not specified", async function () {
-    const endSpy = sinon.spy(res, "end");
+  it("Should response with 200 when handler is not specified", async () => {
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {});
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response 200 even the event handler throws", async function () {
-    const endSpy = sinon.spy(res, "end");
+  it("Should response 200 even the event handler throws", async () => {
+    const endSpy = vi.spyOn(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
@@ -97,7 +96,7 @@ describe("Can handle connected event", function () {
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
-    assert.isTrue(endSpy.calledOnce, "should call once");
+    expect(endSpy).toBeCalledTimes(1);
     assert.equal(200, res.statusCode, "should be error");
   });
 });

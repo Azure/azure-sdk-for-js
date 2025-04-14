@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * @summary Scenario example of how to delete models
@@ -7,9 +7,9 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {
@@ -24,7 +24,7 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  const modelId = "<model ID to delete>"; //Model ID must exist in your Azure Digital Twins instance
+  const modelId = "<model ID to delete>"; // Model ID must exist in your Azure Digital Twins instance
 
   // Decommission model
   let response = await serviceClient.decomissionModel(modelId);

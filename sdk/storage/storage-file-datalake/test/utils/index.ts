@@ -1,32 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
-import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
+import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
+import type { StoragePipelineOptions } from "../../src/index.js";
+import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
 import {
-  newPipeline,
-  StoragePipelineOptions,
-  StorageSharedKeyCredential,
-} from "@azure/storage-blob";
-import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
+  getUniqueName,
+  SimpleTokenCredential,
+  configureStorageClient,
+} from "./testutils.common.js";
+import type { DataLakeSASSignatureValues } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   DataLakeFileSystemClient,
-  DataLakeSASSignatureValues,
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -37,7 +39,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
@@ -66,13 +68,13 @@ export function getSASToken(accountType: string, sasValues: DataLakeSASSignature
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
   const sasParameters = generateDataLakeSASQueryParameters(
     sasValues,
-    new StorageSharedKeyCredential(accountName, accountKey)
+    new StorageSharedKeyCredential(accountName, accountKey),
   );
   return sasParameters.toString();
 }
@@ -82,7 +84,7 @@ export function getSASFileSystemClient(
   accountType: string,
   sasValues: DataLakeSASSignatureValues,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): DataLakeFileSystemClient {
   const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
   const sasToken = getSASToken(accountType, sasValues);
@@ -97,14 +99,14 @@ export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): DataLakeServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
     env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
   ) {
     throw new Error(
-      `getGenericDataLakeServiceClient() doesn't support creating DataLakeServiceClient from connection string.`
+      `getGenericDataLakeServiceClient() doesn't support creating DataLakeServiceClient from connection string.`,
     );
   } else {
     const credential = getGenericCredential(accountType);
@@ -134,7 +136,7 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 
 export function getDataLakeServiceClient(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): DataLakeServiceClient {
   return getGenericDataLakeServiceClient(recorder, "DFS_", undefined, pipelineOptions);
 }
@@ -143,7 +145,7 @@ export function getDataLakeServiceClientWithDefaultCredential(
   recorder: Recorder,
   accountType: string = "DFS_",
   pipelineOptions: StoragePipelineOptions = {},
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountName = env[accountNameEnvVar];
@@ -166,14 +168,14 @@ export function getDataLakeFileSystemClientWithSASCredential(
   sasValues: DataLakeSASSignatureValues,
   accountType: string = "DFS_",
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): DataLakeFileSystemClient {
   return getSASFileSystemClient(
     recorder,
     accountType,
     sasValues,
     accountNameSuffix,
-    pipelineOptions
+    pipelineOptions,
   );
 }
 
@@ -204,7 +206,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     contentAsBlob?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
@@ -224,14 +226,14 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSize: number
+  blockSize: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(len = blockSize) {
+    function randomValueHex(len = blockSize): string {
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
@@ -286,15 +288,21 @@ export function getSASConnectionStringFromEnvironment(): string {
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
     },
-    sharedKeyCredential as StorageSharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential,
   ).toString();
 
   const blobEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
   return `BlobEndpoint=${blobEndpoint}/;QueueEndpoint=${blobEndpoint.replace(
     ".blob.",
-    ".queue."
+    ".queue.",
   )}/;FileEndpoint=${blobEndpoint.replace(
     ".queue.",
-    ".file."
+    ".file.",
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
 }

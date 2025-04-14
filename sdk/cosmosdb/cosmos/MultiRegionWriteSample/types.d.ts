@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
+// Licensed under the MIT License.
 
 declare module "ora";
 declare module "uuid";

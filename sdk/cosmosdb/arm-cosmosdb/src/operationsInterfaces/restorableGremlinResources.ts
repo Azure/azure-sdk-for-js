@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RestorableGremlinResourcesGetResult,
-  RestorableGremlinResourcesListOptionalParams
-} from "../models";
+  RestorableGremlinResourcesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableGremlinResources. */
@@ -27,6 +27,6 @@ export interface RestorableGremlinResources {
   list(
     location: string,
     instanceId: string,
-    options?: RestorableGremlinResourcesListOptionalParams
+    options?: RestorableGremlinResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableGremlinResourcesGetResult>;
 }

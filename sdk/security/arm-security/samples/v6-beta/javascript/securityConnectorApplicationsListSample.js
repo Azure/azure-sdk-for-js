@@ -28,7 +28,7 @@ async function listSecurityApplicationsBySecurityConnectorLevelScope() {
   const resArray = new Array();
   for await (let item of client.securityConnectorApplications.list(
     resourceGroupName,
-    securityConnectorName
+    securityConnectorName,
   )) {
     resArray.push(item);
   }

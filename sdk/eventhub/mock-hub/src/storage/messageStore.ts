@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="ES2018.AsyncIterable" />
 
-import { EventPosition } from "../utils/eventPosition";
-import { Message } from "rhea";
-import { Queue } from "./queue";
+import type { EventPosition } from "../utils/eventPosition.js";
+import type { Message } from "rhea";
+import { Queue } from "./queue.js";
 
 export interface MessageRecord {
   partitionKey?: string;
@@ -166,7 +166,7 @@ export class MessageStore {
    */
   public async *getMessageIterator(
     partitionId: string,
-    startPosition: EventPosition
+    startPosition: EventPosition,
   ): AsyncIterator<MessageRecord, void, boolean | undefined> {
     const partitionStore = this._getPartitionStore(partitionId);
     const partitionViews = this._getPartitionViews(partitionId);

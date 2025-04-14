@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a new Alias(Disaster Recovery configuration)
  *
  * @summary Creates or updates a new Alias(Disaster Recovery configuration)
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasCreate.json
  */
 async function ehAliasCreate() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
@@ -32,13 +30,13 @@ async function ehAliasCreate() {
     resourceGroupName,
     namespaceName,
     alias,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  ehAliasCreate();
+  await ehAliasCreate();
 }
 
 main().catch(console.error);

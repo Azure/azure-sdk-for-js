@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets API Management issue details
  *
  * @summary Gets API Management issue details
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetIssue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetIssue.json
  */
 async function apiManagementGetIssue() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

@@ -1,15 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { AverageAggregator } from "./AverageAggregator";
-import { CountAggregator } from "./CountAggregator";
-import { MaxAggregator } from "./MaxAggregator";
-import { MinAggregator } from "./MinAggregator";
-import { SumAggregator } from "./SumAggregator";
-import { StaticValueAggregator } from "./StaticValueAggregator";
-import { AggregateType } from "../../request/ErrorResponse";
+// Licensed under the MIT License.
+import { AverageAggregator } from "./AverageAggregator.js";
+import { CountAggregator } from "./CountAggregator.js";
+import { MaxAggregator } from "./MaxAggregator.js";
+import { MinAggregator } from "./MinAggregator.js";
+import { SumAggregator } from "./SumAggregator.js";
+import { StaticValueAggregator } from "./StaticValueAggregator.js";
+import type { AggregateType } from "../../request/ErrorResponse.js";
+import { MakeListAggregator } from "./MakeListAggregator.js";
+import { MakeSetAggregator } from "./MakeSetAggregator.js";
 
 export function createAggregator(
-  aggregateType: AggregateType
+  aggregateType: AggregateType,
 ):
   | AverageAggregator
   | CountAggregator
@@ -28,10 +30,14 @@ export function createAggregator(
       return new MinAggregator();
     case "Sum":
       return new SumAggregator();
+    case "MakeList":
+      return new MakeListAggregator();
+    case "MakeSet":
+      return new MakeSetAggregator();
     default:
       return new StaticValueAggregator();
   }
 }
 
 export { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator };
-export { Aggregator } from "./Aggregator";
+export { Aggregator } from "./Aggregator.js";

@@ -12,7 +12,7 @@
 
 ## 9.0.0 (2023-02-09)
     
-**Features**
+### Features Added
 
   - Added operation group Queries
   - Added operation group QueryPacks
@@ -113,7 +113,7 @@
   - Added Enum KnownTableTypeEnum
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Schema
   - Removed operation Tables.create
@@ -123,7 +123,7 @@
     
 ## 8.0.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
 
@@ -135,4 +135,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

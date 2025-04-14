@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AvroReadable, AvroReadableFromStream } from "../../../storage-internal-avro/src";
+import type { AvroReadable } from "@azure/storage-internal-avro";
+import { AvroReadableFromStream } from "@azure/storage-internal-avro";
 
 /**
  * Read body from downloading operation methods to string.
@@ -15,7 +16,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {

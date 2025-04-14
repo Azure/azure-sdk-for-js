@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
-import { RegistrationDescription } from "../models/registration.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { RegistrationDescription } from "../models/registration.js";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -19,7 +19,7 @@ const OPERATION_NAME = "createOrUpdateRegistration";
 export function createOrUpdateRegistration(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -29,8 +29,8 @@ export function createOrUpdateRegistration(
         context,
         registration,
         "createOrUpdate",
-        updatedOptions
+        updatedOptions,
       );
-    }
+    },
   );
 }

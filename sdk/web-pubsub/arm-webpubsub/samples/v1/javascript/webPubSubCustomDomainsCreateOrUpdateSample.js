@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a custom domain.
  *
  * @summary Create or update a custom domain.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubCustomDomains_CreateOrUpdate.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomDomains_CreateOrUpdate.json
  */
 async function webPubSubCustomDomainsCreateOrUpdate() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function webPubSubCustomDomainsCreateOrUpdate() {
     resourceGroupName,
     resourceName,
     name,
-    parameters
+    parameters,
   );
   console.log(result);
 }

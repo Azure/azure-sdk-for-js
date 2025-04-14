@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of all virtual machines for a lab.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a list of all virtual machines for a lab.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/listVirtualMachine.json
  */
-async function listVirtualMachine() {
+async function listVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -39,7 +37,7 @@ async function listVirtualMachine() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVirtualMachine();
 }
 

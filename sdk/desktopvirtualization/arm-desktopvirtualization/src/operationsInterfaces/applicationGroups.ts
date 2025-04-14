@@ -17,8 +17,8 @@ import {
   ApplicationGroupsCreateOrUpdateResponse,
   ApplicationGroupsDeleteOptionalParams,
   ApplicationGroupsUpdateOptionalParams,
-  ApplicationGroupsUpdateResponse
-} from "../models";
+  ApplicationGroupsUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationGroups. */
@@ -30,14 +30,14 @@ export interface ApplicationGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ApplicationGroupsListByResourceGroupOptionalParams
+    options?: ApplicationGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * List applicationGroups in subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * Get an application group.
@@ -48,7 +48,7 @@ export interface ApplicationGroups {
   get(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsGetOptionalParams
+    options?: ApplicationGroupsGetOptionalParams,
   ): Promise<ApplicationGroupsGetResponse>;
   /**
    * Create or update an applicationGroup.
@@ -61,7 +61,7 @@ export interface ApplicationGroups {
     resourceGroupName: string,
     applicationGroupName: string,
     applicationGroup: ApplicationGroup,
-    options?: ApplicationGroupsCreateOrUpdateOptionalParams
+    options?: ApplicationGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGroupsCreateOrUpdateResponse>;
   /**
    * Remove an applicationGroup.
@@ -72,7 +72,7 @@ export interface ApplicationGroups {
   delete(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsDeleteOptionalParams
+    options?: ApplicationGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an applicationGroup.
@@ -83,6 +83,6 @@ export interface ApplicationGroups {
   update(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsUpdateOptionalParams
+    options?: ApplicationGroupsUpdateOptionalParams,
   ): Promise<ApplicationGroupsUpdateResponse>;
 }

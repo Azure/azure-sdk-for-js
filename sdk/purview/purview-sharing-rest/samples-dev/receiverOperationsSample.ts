@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import createPurviewSharingClient, {
+import type {
   ReceivedSharesCreateOrReplaceParameters,
-  getLongRunningPoller,
-  paginate,
   InPlaceReceivedShareOutput,
   ReceivedSharesActivateTenantEmailRegistrationParameters,
   PurviewSharingClient,
   ReceivedShareOutput,
+} from "@azure-rest/purview-sharing";
+import createPurviewSharingClient, {
+  getLongRunningPoller,
+  paginate,
   isUnexpected,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to list detached received shares
@@ -28,12 +28,15 @@ async function getAllDetachedReceivedShares(): Promise<InPlaceReceivedShareOutpu
   const client = createPurviewSharingClient(endpoint, credential);
 
   const initialResponse = await client.path("/receivedShares/detached").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
 
   const result: InPlaceReceivedShareOutput[] = [];
   for await (const item of pageData) {
-    const receivedShare = item as InPlaceReceivedShareOutput;
-    receivedShare && result.push(receivedShare);
+    result.push(item);
   }
   console.log(result);
 
@@ -49,7 +52,7 @@ async function createOrReplaceReceivedShare(
   client: PurviewSharingClient,
   receivedShareId: string,
   storageAccountResourceId: string,
-  storeKind: "BlobAccount" | "AdlsGen2Account"
+  storeKind: "BlobAccount" | "AdlsGen2Account",
 ): Promise<ReceivedShareOutput> {
   const options: ReceivedSharesCreateOrReplaceParameters = {
     body: {
@@ -110,7 +113,7 @@ async function registerTenantEmail(client: PurviewSharingClient): Promise<void> 
  */
 async function activateTenantEmailRegistrationSample(
   client: PurviewSharingClient,
-  activationCode: string
+  activationCode: string,
 ): Promise<void> {
   const options: ReceivedSharesActivateTenantEmailRegistrationParameters = {
     body: { properties: { activationCode } },
@@ -125,7 +128,7 @@ async function activateTenantEmailRegistrationSample(
   console.log(tenantEmailRegistrationDetails);
 }
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["ENDPOINT"] || "";
   const blobStorageAccountResourceId = process.env["BLOB_STORAGE_ACCOUNT_RESOURCE_ID"] || "";
   const adlsgen2StorageAccountResourceId =
@@ -153,7 +156,7 @@ async function main() {
     client,
     receivedShareIdForBlobAsset,
     blobStorageAccountResourceId,
-    "BlobAccount"
+    "BlobAccount",
   );
   console.log(receivedShareForBlobAsset);
 
@@ -161,7 +164,7 @@ async function main() {
     client,
     receivedShareIdForAdlsGen2Asset,
     adlsgen2StorageAccountResourceId,
-    "AdlsGen2Account"
+    "AdlsGen2Account",
   );
   console.log(receivedShareForAdlsGen2Asset);
 }

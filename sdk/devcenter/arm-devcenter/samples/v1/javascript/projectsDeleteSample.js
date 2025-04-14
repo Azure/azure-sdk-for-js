@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a project resource.
  *
  * @summary Deletes a project resource.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Delete.json
  */
 async function projectsDelete() {
   const subscriptionId =

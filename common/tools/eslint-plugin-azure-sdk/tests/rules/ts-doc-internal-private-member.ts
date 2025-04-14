@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-doc-internal-private-member rule.
- * @author Hamsa Shankar
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-doc-internal-private-member";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-doc-internal-private-member.js";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-doc-internal-private-member", rule, {
   valid: [
@@ -39,16 +33,6 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                  * Property Signature
                  */
                 private y: number;
-
-                /**
-                * Index signature
-                */
-                private [s: string]: boolean | ((s: string) => boolean);
-
-                /**
-                 * Parameter Property
-                 */
-                private testMethod(private x: number, private y: number) {}
 
                 /**
                  * Method Definition
@@ -87,12 +71,6 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                 * @internal
                 */
                 [s: string]: boolean | ((s: string) => boolean);
-
-                /**
-                 * Parameter Property
-                 * @internal
-                 */
-                testMethod(private x: number, private y: number) {}
 
                 /**
                  * Method Definition

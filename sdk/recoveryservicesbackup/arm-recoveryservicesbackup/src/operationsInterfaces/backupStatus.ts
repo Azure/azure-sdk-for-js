@@ -9,8 +9,8 @@
 import {
   BackupStatusRequest,
   BackupStatusGetOptionalParams,
-  BackupStatusGetResponse
-} from "../models";
+  BackupStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a BackupStatus. */
 export interface BackupStatus {
@@ -23,6 +23,6 @@ export interface BackupStatus {
   get(
     azureRegion: string,
     parameters: BackupStatusRequest,
-    options?: BackupStatusGetOptionalParams
+    options?: BackupStatusGetOptionalParams,
   ): Promise<BackupStatusGetResponse>;
 }

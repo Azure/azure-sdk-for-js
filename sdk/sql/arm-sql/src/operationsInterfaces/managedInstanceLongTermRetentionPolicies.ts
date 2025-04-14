@@ -15,8 +15,8 @@ import {
   ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ManagedInstanceLongTermRetentionPoliciesGetResponse,
   ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
-  ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
-} from "../models";
+  ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceLongTermRetentionPolicies. */
@@ -33,7 +33,7 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionPolicy>;
   /**
    * Gets a managed database's long term retention policy.
@@ -49,7 +49,7 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     managedInstanceName: string,
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
-    options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesGetOptionalParams,
   ): Promise<ManagedInstanceLongTermRetentionPoliciesGetResponse>;
   /**
    * Sets a managed database's long term retention policy.
@@ -67,12 +67,10 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
     parameters: ManagedInstanceLongTermRetentionPolicy,
-    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
-      >,
+      OperationState<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse>,
       ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse
     >
   >;
@@ -92,6 +90,6 @@ export interface ManagedInstanceLongTermRetentionPolicies {
     databaseName: string,
     policyName: ManagedInstanceLongTermRetentionPolicyName,
     parameters: ManagedInstanceLongTermRetentionPolicy,
-    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams
+    options?: ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse>;
 }

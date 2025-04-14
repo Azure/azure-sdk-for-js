@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListOptionalParams,
@@ -19,7 +19,7 @@ import {
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
@@ -51,8 +51,8 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateResponse>,
       ClustersCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements cluster DELETE method.
    * @param resourceGroupName The Resource Group Name.

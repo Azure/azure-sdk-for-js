@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export const SDK_VERSION: string = "4.7.1";
+export const SDK_VERSION: string = "4.10.0-beta.2";

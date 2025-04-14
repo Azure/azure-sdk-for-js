@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the access keys of the resource.
  *
  * @summary Get the access keys of the resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_ListKeys.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_ListKeys.json
  */
 async function webPubSubListKeys() {
   const subscriptionId =

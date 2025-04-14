@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SasTokenProperties } from "../client/SasToken/SasTokenProperties";
-import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common";
-import { encodeUTF8 } from "./encode";
-import { hmac } from "./hmac";
+import type { SasTokenProperties } from "../client/SasToken/SasTokenProperties.js";
+import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common/index.js";
+import { encodeUTF8 } from "./encode.js";
+import { hmac } from "./hmac.js";
 
 /**
  * Experimental internal only
@@ -13,7 +13,7 @@ import { hmac } from "./hmac";
 
 export async function createAuthorizationSasToken(
   masterKey: string,
-  sasTokenProperties: SasTokenProperties
+  sasTokenProperties: SasTokenProperties,
 ): Promise<string> {
   let resourcePrefixPath = "";
   if (
@@ -97,7 +97,7 @@ export async function createAuthorizationSasToken(
 
   if (
     typeof sasTokenProperties.keyType !== "number" ||
-    typeof sasTokenProperties.keyType === undefined
+    typeof sasTokenProperties.keyType === "undefined"
   ) {
     switch (sasTokenProperties.keyType) {
       case CosmosKeyType.PrimaryMaster:

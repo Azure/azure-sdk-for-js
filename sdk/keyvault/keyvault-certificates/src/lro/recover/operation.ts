@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
   RecoverDeletedCertificateOptions,
-} from "../../certificatesModels";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { tracingClient } from "../../tracing";
-import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
-import {
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller";
+} from "../../certificatesModels.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { tracingClient } from "../../tracing.js";
+import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations.js";
+import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
@@ -31,9 +29,8 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
 > {
   constructor(
     public state: RecoverDeletedCertificateState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, {
       cancelMessage: "Canceling the recovery of a deleted certificate is not supported.",
@@ -45,20 +42,15 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
    */
   private getCertificate(
     certificateName: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -68,21 +60,18 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
    */
   private recoverDeletedCertificate(
     certificateName: string,
-    options: RecoverDeletedCertificateOptions = {}
+    options: RecoverDeletedCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
       options,
       async (updatedOptions) => {
-        await this.client.recoverDeletedCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
-      }
+        const response = await this.client.recoverDeletedCertificate(
+          certificateName,
+          updatedOptions,
+        );
+        return getCertificateWithPolicyFromCertificateBundle(response);
+      },
     );
   }
 
@@ -93,7 +82,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: RecoverDeletedCertificateState) => void;
-    } = {}
+    } = {},
   ): Promise<RecoverDeletedCertificatePollOperation> {
     const state = this.state;
     const { certificateName } = state;

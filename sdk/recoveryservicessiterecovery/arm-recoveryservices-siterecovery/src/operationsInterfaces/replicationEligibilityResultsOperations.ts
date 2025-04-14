@@ -10,8 +10,8 @@ import {
   ReplicationEligibilityResultsListOptionalParams,
   ReplicationEligibilityResultsListResponse,
   ReplicationEligibilityResultsGetOptionalParams,
-  ReplicationEligibilityResultsGetResponse
-} from "../models";
+  ReplicationEligibilityResultsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ReplicationEligibilityResultsOperations. */
 export interface ReplicationEligibilityResultsOperations {
@@ -25,7 +25,7 @@ export interface ReplicationEligibilityResultsOperations {
   list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ReplicationEligibilityResultsListOptionalParams
+    options?: ReplicationEligibilityResultsListOptionalParams,
   ): Promise<ReplicationEligibilityResultsListResponse>;
   /**
    * Validates whether a given VM can be protected or not in which case returns list of errors.
@@ -37,6 +37,6 @@ export interface ReplicationEligibilityResultsOperations {
   get(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ReplicationEligibilityResultsGetOptionalParams
+    options?: ReplicationEligibilityResultsGetOptionalParams,
   ): Promise<ReplicationEligibilityResultsGetResponse>;
 }

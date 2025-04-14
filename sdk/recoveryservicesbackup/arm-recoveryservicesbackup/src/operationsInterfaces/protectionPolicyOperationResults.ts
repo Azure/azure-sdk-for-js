@@ -8,8 +8,8 @@
 
 import {
   ProtectionPolicyOperationResultsGetOptionalParams,
-  ProtectionPolicyOperationResultsGetResponse
-} from "../models";
+  ProtectionPolicyOperationResultsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ProtectionPolicyOperationResults. */
 export interface ProtectionPolicyOperationResults {
@@ -27,6 +27,6 @@ export interface ProtectionPolicyOperationResults {
     resourceGroupName: string,
     policyName: string,
     operationId: string,
-    options?: ProtectionPolicyOperationResultsGetOptionalParams
+    options?: ProtectionPolicyOperationResultsGetOptionalParams,
   ): Promise<ProtectionPolicyOperationResultsGetResponse>;
 }

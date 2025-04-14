@@ -15,8 +15,9 @@ import {
   ApplicationAcceleratorsGetResponse,
   ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ApplicationAcceleratorsCreateOrUpdateResponse,
-  ApplicationAcceleratorsDeleteOptionalParams
-} from "../models";
+  ApplicationAcceleratorsDeleteOptionalParams,
+  ApplicationAcceleratorsDeleteResponse
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationAccelerators. */
@@ -97,7 +98,12 @@ export interface ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationAcceleratorsDeleteResponse>,
+      ApplicationAcceleratorsDeleteResponse
+    >
+  >;
   /**
    * Delete the application accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -111,5 +117,5 @@ export interface ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ApplicationAcceleratorsDeleteResponse>;
 }

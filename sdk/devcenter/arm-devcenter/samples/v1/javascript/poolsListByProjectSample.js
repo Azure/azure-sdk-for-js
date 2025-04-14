@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists pools for a project
  *
  * @summary Lists pools for a project
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_List.json
  */
 async function poolsListByProject() {
   const subscriptionId =

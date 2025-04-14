@@ -29,7 +29,7 @@ async function getSecurityRecommendationTaskInAResourceGroup() {
   const result = await client.tasks.getResourceGroupLevelTask(
     resourceGroupName,
     ascLocation,
-    taskName
+    taskName,
   );
   console.log(result);
 }

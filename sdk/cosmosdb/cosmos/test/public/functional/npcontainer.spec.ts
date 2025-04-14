@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import {
-  CosmosClient,
-  Constants,
+// Licensed under the MIT License.
+
+import type {
   Container,
   PluginConfig,
   CosmosClientOptions,
-} from "../../../src";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
+  OperationInput,
+} from "../../../src/index.js";
+import { CosmosClient, Constants, PatchOperationType } from "../../../src/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { ResourceType, HTTPMethod, StatusCodes } from "../../../src/index.js";
+import { describe, it, assert, beforeEach, afterAll } from "vitest";
 
 const plugins: PluginConfig[] = [
   {
     on: "request",
-    plugin: (context, next) => {
+    plugin: (context, diagNode, next) => {
       // Intercepts the API request to create a non-partitioned container using an old API version
+      assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
       if (context.resourceType === ResourceType.container && context.method === HTTPMethod.post) {
         context.body = JSON.stringify({ id: JSON.parse(context.body).id });
       }
@@ -39,15 +41,15 @@ const client = new CosmosClient({
   key: masterKey,
 });
 
-describe("Non Partitioned Container", function () {
+describe("Non Partitioned Container", () => {
   let container: Container;
-  before(async () => {
+  beforeEach(async () => {
     await removeAllDatabases();
     const npContainer = await getTestContainer("Validate Container CRUD", legacyClient);
     container = client.database(npContainer.database.id).container(npContainer.id);
   });
 
-  after(async () => {
+  afterAll(async () => {
     client.dispose();
     legacyClient.dispose();
   });
@@ -104,5 +106,84 @@ describe("Non Partitioned Container", function () {
     const response = await container.item(item1.id, undefined).read();
     assert.equal(response.statusCode, StatusCodes.NotFound);
     assert.equal(response.resource, undefined);
+  });
+
+  it("should handle bulk operations", async () => {
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "1", key: 1 },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "2", key: 2 },
+      },
+      {
+        operationType: "Replace",
+        id: "1",
+        resourceBody: { id: "1", key: 2 },
+      },
+      {
+        operationType: "Delete",
+        id: "2",
+      },
+      {
+        operationType: "Read",
+        id: "1",
+      },
+      {
+        operationType: "Patch",
+        id: "1",
+        resourceBody: { operations: [{ op: PatchOperationType.incr, value: 1, path: "/key" }] },
+      },
+    ];
+    const response = await container.items.bulk(operations);
+    assert.equal(response.length, 6);
+    assert.equal(response[0].statusCode, StatusCodes.Created);
+    assert.equal(response[1].statusCode, StatusCodes.Created);
+    assert.equal(response[2].statusCode, StatusCodes.Ok);
+    assert.equal(response[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response[4].statusCode, StatusCodes.Ok);
+    assert.equal(response[5].statusCode, StatusCodes.Ok);
+  });
+
+  it("should handle batch operations", async () => {
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "1", key: 1 },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "2", key: 2 },
+      },
+      {
+        operationType: "Replace",
+        id: "1",
+        resourceBody: { id: "1", key: 2 },
+      },
+      {
+        operationType: "Delete",
+        id: "2",
+      },
+      {
+        operationType: "Read",
+        id: "1",
+      },
+      {
+        operationType: "Patch",
+        id: "1",
+        resourceBody: { operations: [{ op: PatchOperationType.incr, value: 1, path: "/key" }] },
+      },
+    ];
+
+    const response = await container.items.batch(operations);
+    assert.equal(response.result.length, 6);
+    assert.equal(response.result[0].statusCode, StatusCodes.Created);
+    assert.equal(response.result[1].statusCode, StatusCodes.Created);
+    assert.equal(response.result[2].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response.result[4].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[5].statusCode, StatusCodes.Ok);
   });
 });

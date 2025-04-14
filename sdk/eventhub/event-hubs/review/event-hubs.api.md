@@ -4,17 +4,15 @@
 
 ```ts
 
-/// <reference types="node" />
-
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
-import { AzureLogger } from '@azure/logger';
+import type { AzureLogger } from '@azure/logger';
 import { MessagingError } from '@azure/core-amqp';
-import { NamedKeyCredential } from '@azure/core-auth';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import type { NamedKeyCredential } from '@azure/core-auth';
+import type { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { SASCredential } from '@azure/core-auth';
+import type { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -33,7 +31,7 @@ export interface Checkpoint {
     consumerGroup: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;
-    offset: number;
+    offset: string;
     partitionId: string;
     sequenceNumber: number;
 }
@@ -144,6 +142,7 @@ export interface EventHubConnectionStringProperties {
     sharedAccessKey?: string;
     sharedAccessKeyName?: string;
     sharedAccessSignature?: string;
+    useDevelopmentEmulator?: boolean;
 }
 
 // @public
@@ -191,6 +190,7 @@ export class EventHubProducerClient {
 // @public
 export interface EventHubProperties {
     createdOn: Date;
+    isGeoDrEnabled: boolean;
     name: string;
     partitionIds: string[];
 }
@@ -199,7 +199,7 @@ export interface EventHubProperties {
 export interface EventPosition {
     enqueuedOn?: Date | number;
     isInclusive?: boolean;
-    offset?: number | "@latest";
+    offset?: string | "@latest";
     sequenceNumber?: number;
 }
 
@@ -298,7 +298,7 @@ export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubName: string;
     isEmpty: boolean;
-    lastEnqueuedOffset: number;
+    lastEnqueuedOffset: string;
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
@@ -324,7 +324,7 @@ export interface ReceivedEventData {
     enqueuedTimeUtc: Date;
     getRawAmqpMessage(): AmqpAnnotatedMessage;
     messageId?: string | number | Buffer;
-    offset: number;
+    offset: string;
     partitionKey: string | null;
     properties?: {
         [key: string]: any;

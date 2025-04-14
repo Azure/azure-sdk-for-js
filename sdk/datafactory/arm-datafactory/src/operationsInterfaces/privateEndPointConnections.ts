@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateEndpointConnectionResource,
-  PrivateEndPointConnectionsListByFactoryOptionalParams
-} from "../models";
+  PrivateEndPointConnectionsListByFactoryOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndPointConnections. */
@@ -24,6 +24,6 @@ export interface PrivateEndPointConnections {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: PrivateEndPointConnectionsListByFactoryOptionalParams
+    options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 }

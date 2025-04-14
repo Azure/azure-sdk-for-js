@@ -9,8 +9,8 @@
 import {
   ILRRequestResource,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
-  ItemLevelRecoveryConnectionsRevokeOptionalParams
-} from "../models";
+  ItemLevelRecoveryConnectionsRevokeOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ItemLevelRecoveryConnections. */
 export interface ItemLevelRecoveryConnections {
@@ -40,7 +40,7 @@ export interface ItemLevelRecoveryConnections {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: ILRRequestResource,
-    options?: ItemLevelRecoveryConnectionsProvisionOptionalParams
+    options?: ItemLevelRecoveryConnectionsProvisionOptionalParams,
   ): Promise<void>;
   /**
    * Revokes an iSCSI connection which can be used to download a script. Executing this script opens a
@@ -64,6 +64,6 @@ export interface ItemLevelRecoveryConnections {
     containerName: string,
     protectedItemName: string,
     recoveryPointId: string,
-    options?: ItemLevelRecoveryConnectionsRevokeOptionalParams
+    options?: ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ): Promise<void>;
 }

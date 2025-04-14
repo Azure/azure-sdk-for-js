@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as sinon from "sinon";
-import { assert } from "@azure/test-utils";
-import { createTimerLoop } from "../../src/util/timerLoop";
+import { describe, it, vi, beforeAll, afterAll } from "vitest";
+import { assert } from "../utils/chai.js";
+import { createTimerLoop } from "../../src/util/timerLoop.js";
 
-describe("createTimerLoop", function () {
-  let clock: sinon.SinonFakeTimers;
-
-  before(function () {
-    clock = sinon.useFakeTimers();
+describe("createTimerLoop", () => {
+  beforeAll(async () => {
+    vi.useFakeTimers();
   });
-  after(function () {
-    clock.restore();
+  afterAll(async () => {
+    vi.useRealTimers();
   });
 
-  it("loops the exact number of iterations and can be stopped", async function () {
+  it("loops the exact number of iterations and can be stopped", async () => {
     const interval = 1000;
     const callCount = 10;
     let curCallCount = 0;
@@ -26,28 +24,28 @@ describe("createTimerLoop", function () {
     assert.doesNotThrow(() => loop.stop()); // stopping an not yet started loop is a no-op
     loop.start();
     assert.isTrue(loop.isRunning);
-    await clock.tickAsync(interval * callCount);
+    await vi.advanceTimersByTimeAsync(interval * callCount);
     assert.strictEqual(
       curCallCount,
       callCount,
-      "Expected the loop to run the exact number of iterations"
+      "Expected the loop to run the exact number of iterations",
     );
     loop.stop();
     assert.isFalse(loop.isRunning);
-    await clock.tickAsync(interval * 2);
+    await vi.advanceTimersByTimeAsync(interval * 2);
     assert.doesNotThrow(() => loop.stop()); // stopping an already stopped loop is a no-op
     assert.strictEqual(curCallCount, callCount, "Expected the loop to stop after stop() is called");
     assert.isFalse(loop.isRunning);
   });
 
-  it("continues looping in the presence of errors", async function () {
+  it("continues looping in the presence of errors", async () => {
     const interval = 1000;
     const loop = createTimerLoop(interval, async () => {
       throw new Error("expected exception");
     });
     loop.start();
     assert.isTrue(loop.isRunning);
-    await clock.tickAsync(interval);
+    await vi.advanceTimersByTimeAsync(interval);
     assert.isTrue(loop.isRunning);
     loop.stop();
   });

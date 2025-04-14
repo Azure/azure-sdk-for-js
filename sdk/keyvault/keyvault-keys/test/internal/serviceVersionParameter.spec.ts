@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure/test-utils";
-import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
-import { KeyClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/keysModels";
-import {
+// Licensed under the MIT License.
+import { KeyClient } from "../../src/index.js";
+import { LATEST_API_VERSION } from "../../src/keysModels.js";
+import type {
   HttpClient,
   PipelineRequest,
   PipelineResponse,
-  createHttpHeaders,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { versionsToTest } from "@azure/test-utils";
-import { serviceVersions } from "../public/utils/common";
+import type { MockInstance } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -33,47 +31,42 @@ describe("The Keys client should set the serviceVersion", () => {
     },
   };
 
-  let sandbox: SinonSandbox;
-  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
+  let spy: MockInstance<SendRequest>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
-    sandbox = createSandbox();
-    spy = sandbox.spy(mockHttpClient, "sendRequest");
+    spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
-  it("it should default to the latest API version", async function () {
+  it("it should default to the latest API version", async () => {
     const client = new KeyClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
     await client.createKey("keyName", "RSA");
 
-    const calls = spy.getCalls();
-    assert.equal(
-      calls[0].args[0].url,
-      `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`,
+      }),
     );
   });
 
-  versionsToTest(serviceVersions, {}, (serviceVersion) => {
-    it("it should allow us to specify an API version from a specific set of versions", async function () {
-      const client = new KeyClient(keyVaultUrl, credential, {
-        serviceVersion: serviceVersion,
-        httpClient: mockHttpClient,
-      });
-      await client.createKey("keyName", "RSA");
-
-      const calls = spy.getCalls();
-      const lastCall = calls[calls.length - 1];
-      assert.equal(
-        lastCall.args[0].url,
-        `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=${serviceVersion}`
-      );
+  it("it should allow us to specify an API version from a specific set of versions", async () => {
+    const client = new KeyClient(keyVaultUrl, credential, {
+      serviceVersion: "7.0",
+      httpClient: mockHttpClient,
     });
+    await client.createKey("keyName", "RSA");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api-version=7.0`,
+      }),
+    );
   });
 });

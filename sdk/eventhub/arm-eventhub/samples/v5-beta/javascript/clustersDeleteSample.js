@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an existing Event Hubs Cluster. This operation is idempotent.
  *
  * @summary Deletes an existing Event Hubs Cluster. This operation is idempotent.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClusterDelete.json
  */
 async function clusterDelete() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function clusterDelete() {
 }
 
 async function main() {
-  clusterDelete();
+  await clusterDelete();
 }
 
 main().catch(console.error);

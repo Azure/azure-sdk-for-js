@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all action groups in a subscription.
  *
  * @summary Get a list of all action groups in a subscription.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/listActionGroups.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/listActionGroups.json
  */
-async function listActionGroupsAtSubscriptionLevel() {
+async function listActionGroupsAtSubscriptionLevel(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "187f412d-1758-44d9-b052-169e2564721d";
@@ -33,7 +31,7 @@ async function listActionGroupsAtSubscriptionLevel() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listActionGroupsAtSubscriptionLevel();
 }
 

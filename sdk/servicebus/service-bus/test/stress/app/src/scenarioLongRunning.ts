@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   captureConsoleOutputToAppInsights,
@@ -7,16 +7,16 @@ import {
   loopForever as loopInfinitely,
   ServiceBusStressTester,
 } from "./serviceBusStressTester";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 captureConsoleOutputToAppInsights();
 
 async function sendMessagesForever(
   stressTest: ServiceBusStressTester,
   clientForSender: ServiceBusClient,
-  abortSignal: AbortSignalLike
+  abortSignal: AbortSignalLike,
 ) {
   console.log(`Started message sending`);
 
@@ -36,7 +36,7 @@ async function sendMessagesForever(
 
         const messagesToSend = [
           {
-            messageId: uuidv4(),
+            messageId: randomUUID(),
             body: `Message: ${Date.now()}`,
           },
         ];
@@ -49,7 +49,7 @@ async function sendMessagesForever(
       }
     },
     1000,
-    abortSignal
+    abortSignal,
   );
 }
 
@@ -85,7 +85,7 @@ async function main() {
       {
         autoCompleteMessages: false,
         maxConcurrentCalls: 10,
-      }
+      },
     );
 
     const clientForSender = createServiceBusClient();

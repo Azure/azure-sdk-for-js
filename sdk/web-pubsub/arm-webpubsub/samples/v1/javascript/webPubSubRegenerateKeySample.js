@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  *
  * @summary Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_RegenerateKey.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_RegenerateKey.json
  */
 async function webPubSubRegenerateKey() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubRegenerateKey() {
   const result = await client.webPubSub.beginRegenerateKeyAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

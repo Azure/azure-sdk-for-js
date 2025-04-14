@@ -17,8 +17,8 @@ import {
   DistributedAvailabilityGroupsCreateOrUpdateResponse,
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
-  DistributedAvailabilityGroupsUpdateResponse
-} from "../models";
+  DistributedAvailabilityGroupsUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DistributedAvailabilityGroups. */
@@ -33,7 +33,7 @@ export interface DistributedAvailabilityGroups {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams
+    options?: DistributedAvailabilityGroupsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<DistributedAvailabilityGroup>;
   /**
    * Gets a distributed availability group info.
@@ -47,7 +47,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsGetOptionalParams
+    options?: DistributedAvailabilityGroupsGetOptionalParams,
   ): Promise<DistributedAvailabilityGroupsGetResponse>;
   /**
    * Creates a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -63,7 +63,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsCreateOrUpdateResponse>,
@@ -84,7 +84,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsCreateOrUpdateResponse>;
   /**
    * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -98,7 +98,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Drops a distributed availability group between Sql On-Prem and Sql Managed Instance.
@@ -112,7 +112,7 @@ export interface DistributedAvailabilityGroups {
     resourceGroupName: string,
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
-    options?: DistributedAvailabilityGroupsDeleteOptionalParams
+    options?: DistributedAvailabilityGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a distributed availability group replication mode.
@@ -128,7 +128,7 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DistributedAvailabilityGroupsUpdateResponse>,
@@ -149,6 +149,6 @@ export interface DistributedAvailabilityGroups {
     managedInstanceName: string,
     distributedAvailabilityGroupName: string,
     parameters: DistributedAvailabilityGroup,
-    options?: DistributedAvailabilityGroupsUpdateOptionalParams
+    options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsUpdateResponse>;
 }

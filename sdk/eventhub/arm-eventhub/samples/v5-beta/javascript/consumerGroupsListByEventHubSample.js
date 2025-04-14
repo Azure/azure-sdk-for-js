@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
  *
  * @summary Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupListByEventHub.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ConsumerGroup/EHConsumerGroupListByEventHub.json
  */
 async function consumerGroupsListAll() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function consumerGroupsListAll() {
   for await (let item of client.consumerGroups.listByEventHub(
     resourceGroupName,
     namespaceName,
-    eventHubName
+    eventHubName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +36,7 @@ async function consumerGroupsListAll() {
 }
 
 async function main() {
-  consumerGroupsListAll();
+  await consumerGroupsListAll();
 }
 
 main().catch(console.error);

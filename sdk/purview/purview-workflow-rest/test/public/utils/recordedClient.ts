@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import "./env";
-
-import { ClientOptions } from "@azure-rest/core-client";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import "./env.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import PurviewWorkflow, { PurviewWorkflowClient } from "../../../src";
+import type { PurviewWorkflowClient } from "../../../src/index.js";
+import PurviewWorkflow from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -17,11 +18,17 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3478", // .accountname in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030", // .operation-location in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewWorkflowClient> {
   const credential = isPlaybackMode()
     ? new NoOpCredential()
@@ -29,7 +36,7 @@ export async function createClient(
         env["AZURE_TENANT_ID"] ?? "",
         env["AZURE_CLIENT_ID"] ?? "",
         env["USERNAME"] ?? "",
-        env["PASSWORD"] ?? ""
+        env["PASSWORD"] ?? "",
       );
   await recorder.start(recorderEnvSetup);
   return PurviewWorkflow(
@@ -37,6 +44,6 @@ export async function createClient(
     credential,
     recorder.configureClientOptions({
       options,
-    })
+    }),
   );
 }

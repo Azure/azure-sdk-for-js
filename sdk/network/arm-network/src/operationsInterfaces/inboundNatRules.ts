@@ -15,8 +15,8 @@ import {
   InboundNatRulesGetOptionalParams,
   InboundNatRulesGetResponse,
   InboundNatRulesCreateOrUpdateOptionalParams,
-  InboundNatRulesCreateOrUpdateResponse
-} from "../models";
+  InboundNatRulesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a InboundNatRules. */
@@ -30,7 +30,7 @@ export interface InboundNatRules {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: InboundNatRulesListOptionalParams
+    options?: InboundNatRulesListOptionalParams,
   ): PagedAsyncIterableIterator<InboundNatRule>;
   /**
    * Deletes the specified load balancer inbound NAT rule.
@@ -43,7 +43,7 @@ export interface InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesDeleteOptionalParams
+    options?: InboundNatRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified load balancer inbound NAT rule.
@@ -56,7 +56,7 @@ export interface InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesDeleteOptionalParams
+    options?: InboundNatRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified load balancer inbound NAT rule.
@@ -69,7 +69,7 @@ export interface InboundNatRules {
     resourceGroupName: string,
     loadBalancerName: string,
     inboundNatRuleName: string,
-    options?: InboundNatRulesGetOptionalParams
+    options?: InboundNatRulesGetOptionalParams,
   ): Promise<InboundNatRulesGetResponse>;
   /**
    * Creates or updates a load balancer inbound NAT rule.
@@ -85,7 +85,7 @@ export interface InboundNatRules {
     loadBalancerName: string,
     inboundNatRuleName: string,
     inboundNatRuleParameters: InboundNatRule,
-    options?: InboundNatRulesCreateOrUpdateOptionalParams
+    options?: InboundNatRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InboundNatRulesCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface InboundNatRules {
     loadBalancerName: string,
     inboundNatRuleName: string,
     inboundNatRuleParameters: InboundNatRule,
-    options?: InboundNatRulesCreateOrUpdateOptionalParams
+    options?: InboundNatRulesCreateOrUpdateOptionalParams,
   ): Promise<InboundNatRulesCreateOrUpdateResponse>;
 }

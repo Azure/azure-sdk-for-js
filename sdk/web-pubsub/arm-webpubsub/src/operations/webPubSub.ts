@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WebPubSub } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WebPubSub } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebPubSubManagementClient } from "../webPubSubManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebPubSubManagementClient } from "../webPubSubManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   WebPubSubResource,
   WebPubSubListBySubscriptionNextOptionalParams,
@@ -42,12 +42,15 @@ import {
   RegenerateKeyParameters,
   WebPubSubRegenerateKeyOptionalParams,
   WebPubSubRegenerateKeyResponse,
+  WebPubSubListReplicaSkusOptionalParams,
+  WebPubSubListReplicaSkusResponse,
   WebPubSubRestartOptionalParams,
+  WebPubSubRestartResponse,
   WebPubSubListSkusOptionalParams,
   WebPubSubListSkusResponse,
   WebPubSubListBySubscriptionNextResponse,
-  WebPubSubListByResourceGroupNextResponse
-} from "../models";
+  WebPubSubListByResourceGroupNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WebPubSub operations. */
@@ -67,7 +70,7 @@ export class WebPubSubImpl implements WebPubSub {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: WebPubSubListBySubscriptionOptionalParams
+    options?: WebPubSubListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<WebPubSubResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -82,13 +85,13 @@ export class WebPubSubImpl implements WebPubSub {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: WebPubSubListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WebPubSubResource[]> {
     let result: WebPubSubListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +112,7 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: WebPubSubListBySubscriptionOptionalParams
+    options?: WebPubSubListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<WebPubSubResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -118,13 +121,12 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WebPubSubListByResourceGroupOptionalParams
+    options?: WebPubSubListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WebPubSubResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -141,16 +143,16 @@ export class WebPubSubImpl implements WebPubSub {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: WebPubSubListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WebPubSubResource[]> {
     let result: WebPubSubListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +167,7 @@ export class WebPubSubImpl implements WebPubSub {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -176,11 +178,11 @@ export class WebPubSubImpl implements WebPubSub {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WebPubSubListByResourceGroupOptionalParams
+    options?: WebPubSubListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<WebPubSubResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -195,11 +197,11 @@ export class WebPubSubImpl implements WebPubSub {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityParameters,
-    options?: WebPubSubCheckNameAvailabilityOptionalParams
+    options?: WebPubSubCheckNameAvailabilityOptionalParams,
   ): Promise<WebPubSubCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -208,52 +210,49 @@ export class WebPubSubImpl implements WebPubSub {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: WebPubSubListBySubscriptionOptionalParams
+    options?: WebPubSubListBySubscriptionOptionalParams,
   ): Promise<WebPubSubListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WebPubSubListByResourceGroupOptionalParams
+    options?: WebPubSubListByResourceGroupOptionalParams,
   ): Promise<WebPubSubListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
    * Get the resource and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubGetOptionalParams
+    options?: WebPubSubGetOptionalParams,
   ): Promise<WebPubSubGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -262,7 +261,7 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubCreateOrUpdateOptionalParams
+    options?: WebPubSubCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCreateOrUpdateResponse>,
@@ -271,21 +270,20 @@ export class WebPubSubImpl implements WebPubSub {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -294,8 +292,8 @@ export class WebPubSubImpl implements WebPubSub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -303,22 +301,23 @@ export class WebPubSubImpl implements WebPubSub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubCreateOrUpdateResponse,
       OperationState<WebPubSubCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -326,8 +325,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -336,46 +334,44 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubCreateOrUpdateOptionalParams
+    options?: WebPubSubCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubDeleteOptionalParams
+    options?: WebPubSubDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -384,8 +380,8 @@ export class WebPubSubImpl implements WebPubSub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -393,20 +389,20 @@ export class WebPubSubImpl implements WebPubSub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -414,28 +410,26 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubDeleteOptionalParams
+    options?: WebPubSubDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -444,7 +438,7 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubUpdateOptionalParams
+    options?: WebPubSubUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubUpdateResponse>,
@@ -453,21 +447,20 @@ export class WebPubSubImpl implements WebPubSub {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -476,8 +469,8 @@ export class WebPubSubImpl implements WebPubSub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -485,22 +478,23 @@ export class WebPubSubImpl implements WebPubSub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubUpdateResponse,
       OperationState<WebPubSubUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -508,8 +502,7 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -518,40 +511,38 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubUpdateOptionalParams
+    options?: WebPubSubUpdateOptionalParams,
   ): Promise<WebPubSubUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Get the access keys of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubListKeysOptionalParams
+    options?: WebPubSubListKeysOptionalParams,
   ): Promise<WebPubSubListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -560,7 +551,7 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: WebPubSubRegenerateKeyOptionalParams
+    options?: WebPubSubRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubRegenerateKeyResponse>,
@@ -569,21 +560,20 @@ export class WebPubSubImpl implements WebPubSub {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubRegenerateKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -592,8 +582,8 @@ export class WebPubSubImpl implements WebPubSub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -601,15 +591,15 @@ export class WebPubSubImpl implements WebPubSub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: regenerateKeyOperationSpec
+      spec: regenerateKeyOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubRegenerateKeyResponse,
@@ -617,7 +607,7 @@ export class WebPubSubImpl implements WebPubSub {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -626,8 +616,7 @@ export class WebPubSubImpl implements WebPubSub {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -636,46 +625,68 @@ export class WebPubSubImpl implements WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: WebPubSubRegenerateKeyOptionalParams
+    options?: WebPubSubRegenerateKeyOptionalParams,
   ): Promise<WebPubSubRegenerateKeyResponse> {
     const poller = await this.beginRegenerateKey(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
+   * List all available skus of the replica resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param options The options parameters.
+   */
+  listReplicaSkus(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    options?: WebPubSubListReplicaSkusOptionalParams,
+  ): Promise<WebPubSubListReplicaSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, replicaName, options },
+      listReplicaSkusOperationSpec,
+    );
+  }
+
+  /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginRestart(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubRestartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: WebPubSubRestartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WebPubSubRestartResponse>,
+      WebPubSubRestartResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<WebPubSubRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -684,8 +695,8 @@ export class WebPubSubImpl implements WebPubSub {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -693,20 +704,23 @@ export class WebPubSubImpl implements WebPubSub {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      WebPubSubRestartResponse,
+      OperationState<WebPubSubRestartResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -714,39 +728,37 @@ export class WebPubSubImpl implements WebPubSub {
 
   /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginRestartAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubRestartOptionalParams
-  ): Promise<void> {
+    options?: WebPubSubRestartOptionalParams,
+  ): Promise<WebPubSubRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * List all available skus of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   listSkus(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubListSkusOptionalParams
+    options?: WebPubSubListSkusOptionalParams,
   ): Promise<WebPubSubListSkusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listSkusOperationSpec
+      listSkusOperationSpec,
     );
   }
 
@@ -757,29 +769,28 @@ export class WebPubSubImpl implements WebPubSub {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: WebPubSubListBySubscriptionNextOptionalParams
+    options?: WebPubSubListBySubscriptionNextOptionalParams,
   ): Promise<WebPubSubListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WebPubSubListByResourceGroupNextOptionalParams
+    options?: WebPubSubListByResourceGroupNextOptionalParams,
   ): Promise<WebPubSubListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -787,108 +798,103 @@ export class WebPubSubImpl implements WebPubSub {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/webPubSub",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/webPubSub",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResourceList
+      bodyMapper: Mappers.WebPubSubResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResourceList
+      bodyMapper: Mappers.WebPubSubResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WebPubSubResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     201: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     202: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     204: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -896,15 +902,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -912,39 +917,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     201: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     202: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     204: {
-      bodyMapper: Mappers.WebPubSubResource
+      bodyMapper: Mappers.WebPubSubResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -952,54 +956,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubKeys
+      bodyMapper: Mappers.WebPubSubKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubKeys
+      bodyMapper: Mappers.WebPubSubKeys,
     },
     201: {
-      bodyMapper: Mappers.WebPubSubKeys
+      bodyMapper: Mappers.WebPubSubKeys,
     },
     202: {
-      bodyMapper: Mappers.WebPubSubKeys
+      bodyMapper: Mappers.WebPubSubKeys,
     },
     204: {
-      bodyMapper: Mappers.WebPubSubKeys
+      bodyMapper: Mappers.WebPubSubKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -1007,93 +1009,121 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/skus",
+const listReplicaSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuList
+      bodyMapper: Mappers.SkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.WebPubSubRestartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.WebPubSubRestartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.WebPubSubRestartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.WebPubSubRestartHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResourceList
+      bodyMapper: Mappers.WebPubSubResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebPubSubResourceList
+      bodyMapper: Mappers.WebPubSubResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

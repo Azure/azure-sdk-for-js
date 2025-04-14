@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert, expect } from "@azure/test-utils";
-import { WebPubSubClientOptions } from "../src/models";
-import { WebPubSubJsonProtocol } from "../src/protocols";
-import { WebPubSubClient } from "../src/webPubSubClient";
-import { WebPubSubClientCredential } from "../src/webPubSubClientCredential";
+import type { WebPubSubClientOptions } from "../src/models/index.js";
+import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
+import { WebPubSubClient } from "../src/webPubSubClient.js";
+import type { WebPubSubClientCredential } from "../src/webPubSubClientCredential.js";
+import { describe, it, assert, expect } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Construct a new client and options", () => {
@@ -18,7 +18,7 @@ describe("WebPubSubClient", function () {
     it("take client access url as func", () => {
       assert.doesNotThrow(() => {
         new WebPubSubClient({
-          getClientAccessUrl: async (_) => "wss://service.com",
+          getClientAccessUrl: async () => "wss://service.com",
         } as WebPubSubClientCredential);
       });
     });
@@ -26,8 +26,8 @@ describe("WebPubSubClient", function () {
     it("take options", () => {
       assert.doesNotThrow(() => {
         new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
-          { protocol: WebPubSubJsonProtocol(), autoReconnect: false } as WebPubSubClientOptions
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
+          { protocol: WebPubSubJsonProtocol(), autoReconnect: false } as WebPubSubClientOptions,
         );
       });
     });
@@ -35,8 +35,8 @@ describe("WebPubSubClient", function () {
     it("protocol is missing", () => {
       assert.doesNotThrow(() => {
         const client = new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
-          { autoReconnect: false } as WebPubSubClientOptions
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
+          { autoReconnect: false } as WebPubSubClientOptions,
         );
         const protocol = client["_protocol"];
         assert.equal("json.reliable.webpubsub.azure.v1", protocol.name);
@@ -48,8 +48,8 @@ describe("WebPubSubClient", function () {
     it("reconnectionOptions is missing", () => {
       assert.doesNotThrow(() => {
         const client = new WebPubSubClient(
-          { getClientAccessUrl: async (_) => "wss://service.com" } as WebPubSubClientCredential,
-          {} as WebPubSubClientOptions
+          { getClientAccessUrl: async () => "wss://service.com" } as WebPubSubClientCredential,
+          {} as WebPubSubClientOptions,
         );
         const options = client["_options"];
         assert.isTrue(options.autoReconnect);
@@ -57,10 +57,14 @@ describe("WebPubSubClient", function () {
     });
 
     it("client start with a non-string client url", async () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const client = new WebPubSubClient({ getClientAccessUrl: async (_) => new { obj: "val" }() });
-      await expect(client.start()).to.be.rejectedWith(Error);
+      const client = new WebPubSubClient({
+        getClientAccessUrl: async () => {
+          return {
+            obj: "val",
+          } as any;
+        },
+      });
+      await expect(() => client.start()).rejects.toThrowError(Error);
     });
   });
 });

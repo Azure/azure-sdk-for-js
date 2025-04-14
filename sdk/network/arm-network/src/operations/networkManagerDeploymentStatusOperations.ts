@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagerDeploymentStatusOperations } from "../operationsInterfaces";
+import { NetworkManagerDeploymentStatusOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListOptionalParams,
-  NetworkManagerDeploymentStatusListResponse
-} from "../models";
+  NetworkManagerDeploymentStatusListResponse,
+} from "../models/index.js";
 
 /** Class containing NetworkManagerDeploymentStatusOperations operations. */
 export class NetworkManagerDeploymentStatusOperationsImpl
-  implements NetworkManagerDeploymentStatusOperations {
+  implements NetworkManagerDeploymentStatusOperations
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -41,11 +42,11 @@ export class NetworkManagerDeploymentStatusOperationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     parameters: NetworkManagerDeploymentStatusParameter,
-    options?: NetworkManagerDeploymentStatusListOptionalParams
+    options?: NetworkManagerDeploymentStatusListOptionalParams,
   ): Promise<NetworkManagerDeploymentStatusListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -53,26 +54,25 @@ export class NetworkManagerDeploymentStatusOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerDeploymentStatusListResult
+      bodyMapper: Mappers.NetworkManagerDeploymentStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters37,
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

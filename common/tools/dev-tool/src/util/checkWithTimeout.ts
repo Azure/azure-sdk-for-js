@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { createPrinter } from "./printer";
 const log = createPrinter("check-with-timeout");
@@ -11,7 +11,7 @@ const log = createPrinter("check-with-timeout");
 export async function checkWithTimeout(
   predicate: () => boolean | Promise<boolean>,
   delayBetweenRetriesInMilliseconds = 1000,
-  maxWaitTimeInMilliseconds = 10000
+  maxWaitTimeInMilliseconds = 10000,
 ): Promise<boolean> {
   const maxTime = Date.now() + maxWaitTimeInMilliseconds;
   while (Date.now() < maxTime) {
@@ -24,7 +24,7 @@ export async function checkWithTimeout(
   return false;
 }
 
-async function delay(timeInMs: number) {
+export async function delay(timeInMs: number) {
   return new Promise((resolve) => {
     log.info(`waiting for ${timeInMs}ms`);
     setTimeout(resolve, timeInMs);

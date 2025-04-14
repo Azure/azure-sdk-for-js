@@ -13,18 +13,14 @@
  * @azsdk-util true
  */
 
-import {
-  Pipeline,
-  RequestPolicyFactory,
-  StorageSharedKeyCredential,
-  newPipeline,
-} from "@azure/storage-blob";
+import type { Pipeline, RequestPolicyFactory } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-blob";
 
 // In this example, we assume you are running Event Hubs on Azure Stack Hub
 // version 2002 that supports up to version 2017-11-09 of the Azure Storage service.
 
 // For more information on the Azure Storage versions supported on Azure Stack,\
-// please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
+// please refer to https://learn.microsoft.com/azure-stack/user/azure-stack-acs-differences.
 
 const API_VERSION = "2017-11-09";
 
@@ -32,7 +28,7 @@ const API_VERSION = "2017-11-09";
  * The createCustomPipeline function returns a new pipeline that overwrites
  * the API version sent via the `x-ms-version` header to "2017-11-09".
  */
-export function createCustomPipeline(credentials: StorageSharedKeyCredential): Pipeline {
+export function createCustomPipeline(credentials: Parameters<typeof newPipeline>[0]): Pipeline {
   const storagePipeline = newPipeline(credentials);
   const storageVersionPolicy: RequestPolicyFactory = {
     create(nextPolicy) {

@@ -6,15 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AvailableBalances } from "../operationsInterfaces";
+import { AvailableBalances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { BillingManagementClient } from "../billingManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { BillingManagementClient } from "../billingManagementClient.js";
 import {
-  AvailableBalancesGetOptionalParams,
-  AvailableBalancesGetResponse
-} from "../models";
+  AvailableBalancesGetByBillingAccountOptionalParams,
+  AvailableBalancesGetByBillingAccountResponse,
+  AvailableBalancesGetByBillingProfileOptionalParams,
+  AvailableBalancesGetByBillingProfileResponse,
+} from "../models/index.js";
 
 /** Class containing AvailableBalances operations. */
 export class AvailableBalancesImpl implements AvailableBalances {
@@ -29,45 +31,79 @@ export class AvailableBalancesImpl implements AvailableBalances {
   }
 
   /**
-   * The available credit balance for a billing profile. This is the balance that can be used for pay now
-   * to settle due or past due invoices. The operation is supported only for billing accounts with
+   * The Available Credit or Payment on Account Balance for a billing account. The credit balance can be
+   * used to settle due or past due invoices and is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement. The payment on account balance is supported for billing accounts with
+   * agreement type Microsoft Customer Agreement or Microsoft Online Services Program.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  getByBillingAccount(
+    billingAccountName: string,
+    options?: AvailableBalancesGetByBillingAccountOptionalParams,
+  ): Promise<AvailableBalancesGetByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, options },
+      getByBillingAccountOperationSpec,
+    );
+  }
+
+  /**
+   * The Available Credit or Payment on Account Balance for a billing profile. The credit balance can be
+   * used to settle due or past due invoices and is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement. The payment on account balance is supported for billing accounts with
    * agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  get(
+  getByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: AvailableBalancesGetOptionalParams
-  ): Promise<AvailableBalancesGetResponse> {
+    options?: AvailableBalancesGetByBillingProfileOptionalParams,
+  ): Promise<AvailableBalancesGetByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      getOperationSpec
+      getByBillingProfileOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default",
+const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/availableBalance/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableBalance
+      bodyMapper: Mappers.AvailableBalance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailableBalance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

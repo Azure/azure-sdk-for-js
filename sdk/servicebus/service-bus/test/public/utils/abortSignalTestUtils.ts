@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Creates an AbortSignal that signals that it's aborted after .aborted is checked a certain
  * number of times.
  */
 export function createCountdownAbortSignal(
-  numTimesTillAborted: number
+  numTimesTillAborted: number,
 ): ReturnType<typeof createAbortSignalForTest> {
   const countdownFn = (): boolean => {
     --numTimesTillAborted;
 
     if (numTimesTillAborted < 0) {
       throw new Error(
-        "We're checking abortSignal more than we thought. Our count is probably incorrect."
+        "We're checking abortSignal more than we thought. Our count is probably incorrect.",
       );
     }
 
@@ -30,7 +30,7 @@ export function createCountdownAbortSignal(
  * custom function passed via isAborted.
  */
 export function createAbortSignalForTest(
-  isAborted: boolean | (() => boolean) = false
+  isAborted: boolean | (() => boolean) = false,
 ): AbortSignalLike & {
   removeWasCalled: boolean;
   addWasCalled: boolean;

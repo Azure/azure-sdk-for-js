@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import {
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type {
   CryptographyClientOptions,
   GetKeyOptions,
   JsonWebKey,
   KeyOperation,
   KeyVaultKey,
-  KnownKeyOperations,
-} from "./keysModels";
-import {
+} from "./keysModels.js";
+import { KnownKeyOperations } from "./keysModels.js";
+import type {
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
   CryptographyClientKey,
@@ -32,15 +32,15 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "./cryptographyClientModels";
-import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { randomBytes } from "./cryptography/crypto";
-import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
-import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
-import { tracingClient } from "./tracing";
+} from "./cryptographyClientModels.js";
+import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
+import { randomBytes } from "./cryptography/crypto.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
+import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
+import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
+import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -61,19 +61,22 @@ export class CryptographyClient {
    * Constructs a new instance of the Cryptography client for the given key
    *
    * Example usage:
-   * ```ts
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * ```ts snippet:ReadmeSampleCreateCryptographyClient
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
    *
-   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new DefaultAzureCredential();
+   * const credential = new DefaultAzureCredential();
    *
-   * let keyClient = new KeyClient(vaultUrl, credentials);
-   * let keyVaultKey = await keyClient.getKey("MyKey");
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
-   * let client = new CryptographyClient(keyVaultKey.id, credentials);
-   * // or
-   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * const client = new KeyClient(url, credential);
+   *
+   * // Create or retrieve a key from the keyvault
+   * const myKey = await client.createKey("MyKey", "RSA");
+   *
+   * // Lastly, create our cryptography client and connect to the service
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
    * ```
    * @param key - The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -83,17 +86,28 @@ export class CryptographyClient {
   constructor(
     key: string | KeyVaultKey,
     credential: TokenCredential,
-    pipelineOptions?: CryptographyClientOptions
+    pipelineOptions?: CryptographyClientOptions,
   );
   /**
    * Constructs a new instance of the Cryptography client for the given key in local mode.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateCryptographyClientLocal
    * import { CryptographyClient } from "@azure/keyvault-keys";
    *
-   * const jsonWebKey: JsonWebKey = {
-   *   // ...
+   * const jsonWebKey = {
+   *   kty: "RSA",
+   *   kid: "test-key-123",
+   *   use: "sig",
+   *   alg: "RS256",
+   *   n: new Uint8Array([112, 34, 56, 98, 123, 244, 200, 99]),
+   *   e: new Uint8Array([1, 0, 1]),
+   *   d: new Uint8Array([45, 67, 89, 23, 144, 200, 76, 233]),
+   *   p: new Uint8Array([34, 89, 100, 77, 204, 56, 29, 77]),
+   *   q: new Uint8Array([78, 99, 201, 45, 188, 34, 67, 90]),
+   *   dp: new Uint8Array([23, 45, 78, 56, 200, 144, 32, 67]),
+   *   dq: new Uint8Array([12, 67, 89, 144, 99, 56, 23, 45]),
+   *   qi: new Uint8Array([78, 90, 45, 201, 34, 67, 120, 55]),
    * };
    * const client = new CryptographyClient(jsonWebKey);
    * ```
@@ -108,7 +122,7 @@ export class CryptographyClient {
   constructor(
     key: string | KeyVaultKey | JsonWebKey,
     credential?: TokenCredential,
-    pipelineOptions: CryptographyClientOptions = {}
+    pipelineOptions: CryptographyClientOptions = {},
   ) {
     if (typeof key === "string") {
       // Key URL for remote-local operations.
@@ -158,25 +172,56 @@ export class CryptographyClient {
    * Depending on the algorithm set in the encryption parameters, the set of possible encryption parameters will change.
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.encrypt({ algorithm: "RSA1_5", plaintext: Buffer.from("My Message")});
-   * let result = await client.encrypt({ algorithm: "A256GCM", plaintext: Buffer.from("My Message"), additionalAuthenticatedData: Buffer.from("My authenticated data")});
+   * ```ts snippet:ReadmeSampleEncrypt
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
+   *
+   * const encryptResult = await cryptographyClient.encrypt({
+   *   algorithm: "RSA1_5",
+   *   plaintext: Buffer.from("My Message"),
+   * });
+   * console.log("encrypt result: ", encryptResult.result);
    * ```
    * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
    * @param options - Additional options.
    */
   public encrypt(
     encryptParameters: EncryptParameters,
-    options?: EncryptOptions
+    options?: EncryptOptions,
   ): Promise<EncryptResult>;
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
+   * ```ts snippet:ReadmeSampleEncrypt
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
+   *
+   * const encryptResult = await cryptographyClient.encrypt({
+   *   algorithm: "RSA1_5",
+   *   plaintext: Buffer.from("My Message"),
+   * });
+   * console.log("encrypt result: ", encryptResult.result);
    * ```
    * @param algorithm - The algorithm to use.
    * @param plaintext - The text to encrypt.
@@ -186,7 +231,7 @@ export class CryptographyClient {
   public encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
-    options?: EncryptOptions
+    options?: EncryptOptions,
   ): Promise<EncryptResult>;
   public encrypt(
     ...args:
@@ -228,7 +273,7 @@ export class CryptographyClient {
         }
       } catch (e: any) {
         throw new Error(
-          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
+          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`,
         );
       }
     }
@@ -239,7 +284,7 @@ export class CryptographyClient {
    * @param args - The encrypt arguments
    */
   private disambiguateEncryptArguments(
-    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
+    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?],
   ): [EncryptParameters, EncryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", buffer, options]
@@ -260,31 +305,74 @@ export class CryptographyClient {
    * Decrypts the given ciphertext with the specified decryption parameters.
    * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.decrypt({ algorithm: "RSA1_5", ciphertext: encryptedBuffer });
-   * let result = await client.decrypt({ algorithm: "A256GCM", iv: ivFromEncryptResult, authenticationTag: tagFromEncryptResult });
+   * ```ts snippet:ReadmeSampleDecrypt
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
+   *
+   * const encryptResult = await cryptographyClient.encrypt({
+   *   algorithm: "RSA1_5",
+   *   plaintext: Buffer.from("My Message"),
+   * });
+   * console.log("encrypt result: ", encryptResult.result);
+   *
+   * const decryptResult = await cryptographyClient.decrypt({
+   *   algorithm: "RSA1_5",
+   *   ciphertext: encryptResult.result,
+   * });
+   * console.log("decrypt result: ", decryptResult.result.toString());
    * ```
    * @param decryptParameters - The decryption parameters.
    * @param options - Additional options.
    */
   public async decrypt(
     decryptParameters: DecryptParameters,
-    options?: DecryptOptions
+    options?: DecryptOptions,
   ): Promise<DecryptResult>;
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.decrypt("RSA1_5", encryptedBuffer);
+   * ```ts snippet:ReadmeSampleDecrypt
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey.id, credential);
+   *
+   * const encryptResult = await cryptographyClient.encrypt({
+   *   algorithm: "RSA1_5",
+   *   plaintext: Buffer.from("My Message"),
+   * });
+   * console.log("encrypt result: ", encryptResult.result);
+   *
+   * const decryptResult = await cryptographyClient.decrypt({
+   *   algorithm: "RSA1_5",
+   *   ciphertext: encryptResult.result,
+   * });
+   * console.log("decrypt result: ", decryptResult.result.toString());
    * ```
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.
@@ -294,7 +382,7 @@ export class CryptographyClient {
   public decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options?: DecryptOptions
+    options?: DecryptOptions,
   ): Promise<DecryptResult>;
   public decrypt(
     ...args:
@@ -322,7 +410,7 @@ export class CryptographyClient {
    * @param args - The decrypt arguments
    */
   private disambiguateDecryptArguments(
-    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
+    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?],
   ): [DecryptParameters, DecryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", encryptedBuffer, options]
@@ -343,9 +431,22 @@ export class CryptographyClient {
    * Wraps the given key using the specified cryptography algorithm
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.wrapKey("RSA1_5", keyToWrap);
+   * ```ts snippet:ReadmeSampleWrapKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * console.log("wrap result:", wrapResult.result);
    * ```
    * @param algorithm - The encryption algorithm to use to wrap the given key.
    * @param key - The key to wrap.
@@ -354,7 +455,7 @@ export class CryptographyClient {
   public wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
-    options: WrapKeyOptions = {}
+    options: WrapKeyOptions = {},
   ): Promise<WrapResult> {
     return tracingClient.withSpan("CryptographyClient.wrapKey", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.WrapKey);
@@ -374,9 +475,25 @@ export class CryptographyClient {
    * Unwraps the given wrapped key using the specified cryptography algorithm
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
+   * ```ts snippet:ReadmeSampleUnwrapKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+   * console.log("wrap result:", wrapResult.result);
+   *
+   * const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
+   * console.log("unwrap result: ", unwrapResult.result);
    * ```
    * @param algorithm - The decryption algorithm to use to unwrap the key.
    * @param encryptedKey - The encrypted key to unwrap.
@@ -385,7 +502,7 @@ export class CryptographyClient {
   public unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options: UnwrapKeyOptions = {}
+    options: UnwrapKeyOptions = {},
   ): Promise<UnwrapResult> {
     return tracingClient.withSpan(
       "CryptographyClient.unwrapKey",
@@ -401,7 +518,7 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
@@ -409,9 +526,29 @@ export class CryptographyClient {
    * Cryptographically sign the digest of a message
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.sign("RS256", digest);
+   * ```ts snippet:ReadmeSampleSign
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * import { createHash } from "node:crypto";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * let myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const signatureValue = "MySignature";
+   * const hash = createHash("sha256");
+   *
+   * const digest = hash.update(signatureValue).digest();
+   * console.log("digest: ", digest);
+   *
+   * const signResult = await cryptographyClient.sign("RS256", digest);
+   * console.log("sign result: ", signResult.result);
    * ```
    * @param algorithm - The signing algorithm to use.
    * @param digest - The digest of the data to sign.
@@ -420,7 +557,7 @@ export class CryptographyClient {
   public sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
-    options: SignOptions = {}
+    options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan("CryptographyClient.sign", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
@@ -440,9 +577,30 @@ export class CryptographyClient {
    * Verify the signed message digest
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.verify("RS256", signedDigest, signature);
+   * ```ts snippet:ReadmeSampleVerify
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * import { createHash } from "node:crypto";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const hash = createHash("sha256");
+   * hash.update("My Message");
+   * const digest = hash.digest();
+   *
+   * const signResult = await cryptographyClient.sign("RS256", digest);
+   * console.log("sign result: ", signResult.result);
+   *
+   * const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);
+   * console.log("verify result: ", verifyResult.result);
    * ```
    * @param algorithm - The signing algorithm to use to verify with.
    * @param digest - The digest to verify.
@@ -453,7 +611,7 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan("CryptographyClient.verify", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
@@ -473,9 +631,22 @@ export class CryptographyClient {
    * Cryptographically sign a block of data
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.signData("RS256", message);
+   * ```ts snippet:ReadmeSampleSignData
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
+   * console.log("sign result: ", signResult.result);
    * ```
    * @param algorithm - The signing algorithm to use.
    * @param data - The data to sign.
@@ -484,7 +655,8 @@ export class CryptographyClient {
   public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    options: SignOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan(
       "CryptographyClient.signData",
@@ -500,7 +672,7 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
@@ -508,9 +680,27 @@ export class CryptographyClient {
    * Verify the signed block of data
    *
    * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.verifyData("RS256", signedMessage, signature);
+   * ```ts snippet:ReadmeSampleVerifyData
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const myKey = await client.createKey("MyKey", "RSA");
+   * const cryptographyClient = new CryptographyClient(myKey, credential);
+   *
+   * const buffer = Buffer.from("My Message");
+   *
+   * const signResult = await cryptographyClient.signData("RS256", buffer);
+   * console.log("sign result: ", signResult.result);
+   *
+   * const verifyResult = await cryptographyClient.verifyData("RS256", buffer, signResult.result);
+   * console.log("verify result: ", verifyResult.result);
    * ```
    * @param algorithm - The algorithm to use to verify with.
    * @param data - The signed block of data to verify.
@@ -521,7 +711,8 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(
       "CryptographyClient.verifyData",
@@ -537,18 +728,13 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
   /**
    * Retrieves the {@link JsonWebKey} from the Key Vault, if possible. Returns undefined if the key could not be retrieved due to insufficient permissions.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * let result = await client.getKeyMaterial();
-   * ```
+   * @param options - The additional options.
    */
   private async getKeyMaterial(options: GetKeyOptions): Promise<JsonWebKey | undefined> {
     const key = await this.fetchKey(options);
@@ -579,7 +765,7 @@ export class CryptographyClient {
           // If we don't have permission to get the key, we'll fall back to using the remote provider.
           // Marking the key as a remoteOnlyIdentifier will ensure that we don't attempt to fetch the key again.
           logger.verbose(
-            `Permission denied to get key ${this.key.value}. Falling back to remote operation.`
+            `Permission denied to get key ${this.key.value}. Falling back to remote operation.`,
           );
           this.key = { kind: "remoteOnlyIdentifier", value: this.key.value };
         } else {
@@ -606,7 +792,7 @@ export class CryptographyClient {
   private async getProvider<T extends OperationOptions>(
     operation: CryptographyProviderOperation,
     algorithm: string,
-    options: T
+    options: T,
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial(options);
@@ -616,7 +802,7 @@ export class CryptographyClient {
       if (keyMaterial) {
         this.providers.push(
           new RsaCryptographyProvider(keyMaterial),
-          new AesCryptographyProvider(keyMaterial)
+          new AesCryptographyProvider(keyMaterial),
         );
       }
 
@@ -633,7 +819,7 @@ export class CryptographyClient {
       throw new Error(
         `Unable to support operation: "${operation}" with algorithm: "${algorithm}" ${
           this.key.kind === "JsonWebKey" ? "using a local JsonWebKey" : ""
-        }`
+        }`,
       );
     }
 

@@ -6,21 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MaintenanceWindowsOperations } from "../operationsInterfaces";
+import { MaintenanceWindowsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   MaintenanceWindowsGetOptionalParams,
   MaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  MaintenanceWindowsCreateOrUpdateOptionalParams
-} from "../models";
+  MaintenanceWindowsCreateOrUpdateOptionalParams,
+} from "../models/index.js";
 
 /** Class containing MaintenanceWindowsOperations operations. */
 export class MaintenanceWindowsOperationsImpl
-  implements MaintenanceWindowsOperations {
+  implements MaintenanceWindowsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -45,7 +46,7 @@ export class MaintenanceWindowsOperationsImpl
     serverName: string,
     databaseName: string,
     maintenanceWindowName: string,
-    options?: MaintenanceWindowsGetOptionalParams
+    options?: MaintenanceWindowsGetOptionalParams,
   ): Promise<MaintenanceWindowsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -53,9 +54,9 @@ export class MaintenanceWindowsOperationsImpl
         serverName,
         databaseName,
         maintenanceWindowName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -75,7 +76,7 @@ export class MaintenanceWindowsOperationsImpl
     databaseName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: MaintenanceWindowsCreateOrUpdateOptionalParams
+    options?: MaintenanceWindowsCreateOrUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -84,9 +85,9 @@ export class MaintenanceWindowsOperationsImpl
         databaseName,
         maintenanceWindowName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -94,14 +95,13 @@ export class MaintenanceWindowsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceWindows
+      bodyMapper: Mappers.MaintenanceWindows,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowName],
   urlParameters: [
@@ -109,26 +109,25 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

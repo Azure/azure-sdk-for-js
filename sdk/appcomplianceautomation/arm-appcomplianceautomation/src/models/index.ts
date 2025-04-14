@@ -8,6 +8,141 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Get collection count's request object. */
+export interface GetCollectionCountRequest {
+  /** The resource type. */
+  type?: string;
+}
+
+/** The get collection count response. */
+export interface GetCollectionCountResponse {
+  /** The count of the specified resource. */
+  count?: number;
+}
+
+/** Get overview status request object. */
+export interface GetOverviewStatusRequest {
+  /** The resource type. */
+  type?: string;
+}
+
+/** The get overview status response. */
+export interface GetOverviewStatusResponse {
+  /** List of different status items. */
+  statusList?: StatusItem[];
+}
+
+/** Single status. */
+export interface StatusItem {
+  /** Status name - e.g. "Active", "Failed". */
+  statusName?: string;
+  /** Status value. e.g. "100", or "100%". */
+  statusValue?: string;
+}
+
+/** Parameters for listing in use storage accounts operation. If subscription list is null, it will check the user's all subscriptions. */
+export interface ListInUseStorageAccountsRequest {
+  /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
+  subscriptionIds?: string[];
+}
+
+/** Parameters for listing in use storage accounts operation. If subscription list is null, it will check the user's all subscriptions. */
+export interface ListInUseStorageAccountsResponse {
+  /** The storage account list which in use in related reports. */
+  storageAccountList?: StorageInfo[];
+}
+
+/** The information of 'bring your own storage' account binding to the report */
+export interface StorageInfo {
+  /** The subscription id which 'bring your own storage' account belongs to */
+  subscriptionId?: string;
+  /** The resourceGroup which 'bring your own storage' account belongs to */
+  resourceGroup?: string;
+  /** 'bring your own storage' account name */
+  accountName?: string;
+  /** The region of 'bring your own storage' account */
+  location?: string;
+}
+
+/** Parameters for onboard operation */
+export interface OnboardRequest {
+  /** List of subscription ids to be onboarded */
+  subscriptionIds: string[];
+}
+
+/** Success. The response indicates given subscriptions has been onboarded. */
+export interface OnboardResponse {
+  /** List of subscription ids that are onboarded */
+  subscriptionIds?: string[];
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -72,100 +207,42 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Object that includes an array of resources and a possible link for next set. */
-export interface ReportResourceList {
-  /**
-   * List of the reports
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ReportResource[];
-  /**
-   * The URL the client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
+/** The response of a ReportResource list operation. */
+export interface ReportResourceListResult {
+  /** The ReportResource items on this page */
+  value: ReportResource[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Report's properties. */
+/** Create Report's properties. */
 export interface ReportProperties {
+  /** Report collection trigger time. */
+  triggerTime: Date;
   /**
-   * Report id in database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell.
+   * An example of valid timezone id is "Pacific Standard Time".
    */
-  readonly id?: string;
+  timeZone: string;
+  /** List of resource data. */
+  resources: ResourceMetadata[];
   /**
    * Report status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ReportStatus;
   /**
+   * List of report error codes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: string[];
+  /**
    * Report's tenant id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /**
-   * Report name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportName?: string;
-  /** Report offer Guid. */
+  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
   offerGuid?: string;
-  /**
-   * Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell.
-   * An example of valid timezone id is "Pacific Standard Time".
-   */
-  timeZone: string;
-  /** Report collection trigger time. */
-  triggerTime: Date;
   /**
    * Report next collection trigger time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -181,13 +258,18 @@ export interface ReportProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptions?: string[];
-  /** List of resource data. */
-  resources: ResourceMetadata[];
   /**
    * Report compliance status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly complianceStatus?: ReportComplianceStatus;
+  /** The information of 'bring your own storage' binding to the report */
+  storageInfo?: StorageInfo;
+  /**
+   * List of synchronized certification records.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certRecords?: CertSyncRecord[];
   /**
    * Azure lifecycle management
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -199,30 +281,72 @@ export interface ReportProperties {
 export interface ResourceMetadata {
   /** Resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1". */
   resourceId: string;
-  /** Resource type. */
+  /** Resource type. e.g. "Microsoft.Compute/virtualMachines" */
   resourceType?: string;
   /** Resource kind. */
   resourceKind?: string;
-  /** Resource name. */
-  resourceName?: string;
-  /** Resource's tag type. */
-  tags?: { [propertyName: string]: string };
+  /** Resource Origin. */
+  resourceOrigin?: ResourceOrigin;
+  /** Account Id. For example - the AWS account id. */
+  accountId?: string;
 }
 
 /** A list which includes all the compliance result for one report. */
 export interface ReportComplianceStatus {
-  /** The Microsoft 365 certification name. */
-  m365?: OverviewStatus;
+  /**
+   * The Microsoft 365 certification name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly m365?: OverviewStatus;
 }
 
 /** The overview of the compliance result for one report. */
 export interface OverviewStatus {
-  /** The count of all passed full automation control. */
-  passedCount?: number;
-  /** The count of all failed full automation control. */
-  failedCount?: number;
-  /** The count of all manual control. */
-  manualCount?: number;
+  /**
+   * The count of all passed control.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly passedCount?: number;
+  /**
+   * The count of all failed control.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedCount?: number;
+  /**
+   * The count of all manual control.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly manualCount?: number;
+  /**
+   * The count of all not applicable control.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notApplicableCount?: number;
+  /**
+   * The count of all pending for approval control.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCount?: number;
+}
+
+/** A class represent the certification record synchronized from app compliance. */
+export interface CertSyncRecord {
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** Indicates the status of certification process. */
+  certificationStatus?: string;
+  /** Indicates the status of compliance process. */
+  ingestionStatus?: string;
+  /** The control records list to be synchronized. */
+  controls?: ControlSyncRecord[];
+}
+
+/** A class represent the control record synchronized from app compliance. */
+export interface ControlSyncRecord {
+  /** The Id of the control. e.g. "Operational_Security_10" */
+  controlId?: string;
+  /** Control status synchronized from app compliance. */
+  controlStatus?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -268,30 +392,215 @@ export interface SystemData {
 /** A class represent a AppComplianceAutomation report resource update properties. */
 export interface ReportResourcePatch {
   /** Report property. */
-  properties?: ReportProperties;
+  properties?: ReportPatchProperties;
 }
 
-/** Object that includes an array of resources and a possible link for next set. */
-export interface SnapshotResourceList {
+/** Patch Report's properties. */
+export interface ReportPatchProperties {
+  /** Report collection trigger time. */
+  triggerTime?: Date;
   /**
-   * List of the snapshots
+   * Report collection trigger time's time zone, the available list can be obtained by executing "Get-TimeZone -ListAvailable" in PowerShell.
+   * An example of valid timezone id is "Pacific Standard Time".
+   */
+  timeZone?: string;
+  /** List of resource data. */
+  resources?: ResourceMetadata[];
+  /**
+   * Report status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: SnapshotResource[];
+  readonly status?: ReportStatus;
   /**
-   * The URL the client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
+   * List of report error codes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly errors?: string[];
+  /**
+   * Report's tenant id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** A list of comma-separated offerGuids indicates a series of offerGuids that map to the report. For example, "00000000-0000-0000-0000-000000000001,00000000-0000-0000-0000-000000000002" and "00000000-0000-0000-0000-000000000003". */
+  offerGuid?: string;
+  /**
+   * Report next collection trigger time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextTriggerTime?: Date;
+  /**
+   * Report last collection trigger time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerTime?: Date;
+  /**
+   * List of subscription Ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptions?: string[];
+  /**
+   * Report compliance status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly complianceStatus?: ReportComplianceStatus;
+  /** The information of 'bring your own storage' binding to the report */
+  storageInfo?: StorageInfo;
+  /**
+   * List of synchronized certification records.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly certRecords?: CertSyncRecord[];
+  /**
+   * Azure lifecycle management
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The response of a EvidenceResource list operation. */
+export interface EvidenceResourceListResult {
+  /** The EvidenceResource items on this page */
+  value: EvidenceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Evidence's properties. */
+export interface EvidenceProperties {
+  /** Evidence type. */
+  evidenceType?: EvidenceType;
+  /** The path of the file in storage. */
+  filePath: string;
+  /** Extra data considered as evidence. */
+  extraData?: string;
+  /** Control id. */
+  controlId?: string;
+  /** Responsibility id. */
+  responsibilityId?: string;
+  /**
+   * Azure lifecycle management
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Evidence file's download request. */
+export interface EvidenceFileDownloadRequest {
+  /** Tenant id. */
+  reportCreatorTenantId?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+}
+
+/** Object that includes all the possible response for the evidence file download operation. */
+export interface EvidenceFileDownloadResponse {
+  /**
+   * The uri of evidence file
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly evidenceFile?: EvidenceFileDownloadResponseEvidenceFile;
+}
+
+/** The uri of evidence file */
+export interface EvidenceFileDownloadResponseEvidenceFile {
+  /**
+   * The url of evidence file
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+}
+
+/** Report fix result. */
+export interface ReportFixResult {
+  /**
+   * Indicates whether the fix action is Succeeded or Failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly result?: Result;
+  /**
+   * If the report fix action failed, to indicate the detailed failed reason.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** Scoping question list. */
+export interface ScopingQuestions {
+  /** List of scoping questions. */
+  questions?: ScopingQuestion[];
+}
+
+/** The definition of a scoping question. */
+export interface ScopingQuestion {
+  /**
+   * Question id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly questionId: string;
+  /**
+   * Superior question id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly superiorQuestionId?: string;
+  /**
+   * Input type of the question answer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputType: InputType;
+  /**
+   * Option id list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly optionIds: string[];
+  /**
+   * The rule of the question.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rules: Rule[];
+  /**
+   * The answer value to show the sub questions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly showSubQuestionsValue?: string;
+}
+
+/** The response of a ScopingConfigurationResource list operation. */
+export interface ScopingConfigurationResourceListResult {
+  /** The ScopingConfigurationResource items on this page */
+  value: ScopingConfigurationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** ScopingConfiguration's properties. */
+export interface ScopingConfigurationProperties {
+  /** List of scoping question answers. */
+  answers?: ScopingAnswer[];
+  /**
+   * Azure lifecycle management
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Scoping answer. */
+export interface ScopingAnswer {
+  /** Question id. */
+  questionId: string;
+  /** Question answer value list. */
+  answers: string[];
+}
+
+/** The response of a SnapshotResource list operation. */
+export interface SnapshotResourceListResult {
+  /** The SnapshotResource items on this page */
+  value: SnapshotResource[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
 /** Snapshot's properties. */
 export interface SnapshotProperties {
-  /**
-   * Snapshot id in the database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
   /**
    * Snapshot name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -346,11 +655,6 @@ export interface Category {
    */
   readonly categoryName?: string;
   /**
-   * The category type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly categoryType?: CategoryType;
-  /**
    * Category status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -368,17 +672,12 @@ export interface ControlFamily {
    * The name of the control family. e.g. "Malware Protection - Anti-Virus"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly familyName?: string;
+  readonly controlFamilyName?: string;
   /**
-   * The control family type
+   * The control family status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly familyType?: ControlFamilyType;
-  /**
-   * Control family status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly familyStatus?: ControlFamilyStatus;
+  readonly controlFamilyStatus?: ControlFamilyStatus;
   /**
    * List of controls.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -389,25 +688,20 @@ export interface ControlFamily {
 /** A class represent the control. */
 export interface Control {
   /**
-   * The Id of the control. e.g. "Operational Security#10"
+   * The Id of the control. e.g. "Operational_Security_10"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly controlId?: string;
   /**
-   * The short name of the control. e.g. "Unsupported OS and Software."
+   * The name of the control. e.g. "Unsupported OS and Software."
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly controlShortName?: string;
+  readonly controlName?: string;
   /**
    * The full name of the control. e.g. "Validate that unsupported operating systems and software components are not in use."
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly controlFullName?: string;
-  /**
-   * The control type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly controlType?: ControlType;
   /**
    * The control's description
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -424,73 +718,149 @@ export interface Control {
    */
   readonly controlStatus?: ControlStatus;
   /**
-   * List of assessments.
+   * List of customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly assessments?: Assessment[];
+  readonly responsibilities?: Responsibility[];
 }
 
-/** A class represent the assessment. */
-export interface Assessment {
+/** A class represent the customer responsibility. */
+export interface Responsibility {
   /**
-   * The name of the assessment.
+   * The id of the customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly responsibilityId?: string;
   /**
-   * The severity level of this assessment.
+   * The title of the customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly severity?: AssessmentSeverity;
+  readonly responsibilityTitle?: string;
   /**
-   * The description of the assessment.
+   * The description of the customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
+  readonly responsibilityDescription?: string;
   /**
-   * The remediation of the assessment.
+   * The type of customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly remediation?: string;
+  readonly responsibilityType?: ResponsibilityType;
   /**
-   * Indicates whether all the resource(s) are compliant.
+   * The severity level of this customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isPass?: IsPass;
+  readonly responsibilitySeverity?: ResponsibilitySeverity;
   /**
-   * The policy id mapping to this assessment.
+   * The status of this customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly policyId?: string;
+  readonly responsibilityStatus?: ResponsibilityStatus;
   /**
-   * List of resource assessments.
+   * The supported cloud environment of this customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceList?: AssessmentResource[];
+  readonly responsibilityEnvironment?: ResponsibilityEnvironment;
+  /** The count of all failed resources. */
+  failedResourceCount?: number;
+  /** The count of all resources. */
+  totalResourceCount?: number;
+  /**
+   * List of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceList?: ResponsibilityResource[];
+  /**
+   * List of recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationList?: Recommendation[];
+  /**
+   * The evidence upload guidance description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guidance?: string;
+  /**
+   * The justification given by the user to clarify the reason.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly justification?: string;
+  /** List of evidence file url. */
+  evidenceFiles?: string[];
 }
 
-/** A class represent the assessment resource. */
-export interface AssessmentResource {
+/** A class represent the resource. */
+export interface ResponsibilityResource {
   /**
    * The Id of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
   /**
+   * Account Id. For example - AWS account Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * The type of the resource. e.g. "Microsoft.SignalRService/SignalR"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * Resource origin.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOrigin?: ResourceOrigin;
+  /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceStatus?: ResourceStatus;
   /**
-   * The reason for the N/A resource.
+   * The status change date for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly reason?: string;
+  readonly resourceStatusChangeDate?: Date;
+  /** List of recommendation id. */
+  recommendationIds?: string[];
+}
+
+/** A class represent the recommendation. */
+export interface Recommendation {
   /**
-   * The status change date for the resource. For unavailable date, set it as N/A.
+   * The Id of the recommendation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly statusChangeDate?: string;
+  readonly recommendationId?: string;
+  /**
+   * The short name of the recommendation. e.g. "Invalid TLS config"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationShortName?: string;
+  /**
+   * List of recommendation solutions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationSolutions?: RecommendationSolution[];
+}
+
+/** A class represent the recommendation solution. */
+export interface RecommendationSolution {
+  /**
+   * The index of the recommendation solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationSolutionIndex?: string;
+  /**
+   * The detail steps of the recommendation solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationSolutionContent?: string;
+  /**
+   * Indicates whether this solution is the recommended.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isRecommendSolution?: IsRecommendSolution;
 }
 
 /** Snapshot's download request. */
@@ -506,7 +876,7 @@ export interface SnapshotDownloadRequest {
 /** Object that includes all the possible response for the download operation. */
 export interface DownloadResponse {
   /**
-   * List of the reports
+   * Resource list of the report
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceList?: ResourceItem[];
@@ -516,12 +886,12 @@ export interface DownloadResponse {
    */
   readonly complianceReport?: ComplianceReportItem[];
   /**
-   * compliance pdf report
+   * Compliance pdf report
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly compliancePdfReport?: DownloadResponseCompliancePdfReport;
   /**
-   * compliance detailed pdf report
+   * The detailed compliance pdf report
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReport;
@@ -540,7 +910,7 @@ export interface ResourceItem {
    */
   readonly resourceGroup?: string;
   /**
-   * The resource type of this resource.
+   * The resource type of this resource. e.g. "Microsoft.SignalRService/SignalR"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceType?: string;
@@ -559,6 +929,11 @@ export interface ComplianceReportItem {
    */
   readonly categoryName?: string;
   /**
+   * The control family name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly controlFamilyName?: string;
+  /**
    * The control Id - e.g. "1".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -569,73 +944,217 @@ export interface ComplianceReportItem {
    */
   readonly controlName?: string;
   /**
-   * The control type.
+   * Control status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly controlType?: ControlType;
+  readonly controlStatus?: ControlStatus;
   /**
-   * The compliance result's status.
+   * The title of the customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly complianceState?: ComplianceState;
+  readonly responsibilityTitle?: string;
   /**
-   * The compliance result mapped policy Id.
+   * The description of the customer responsibility.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly policyId?: string;
+  readonly responsibilityDescription?: string;
   /**
-   * The policy's display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policyDisplayName?: string;
-  /**
-   * The policy's detail description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policyDescription?: string;
-  /**
-   * The compliance result mapped subscription Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The compliance result mapped resource group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGroup?: string;
-  /**
-   * The compliance result mapped resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * The compliance result mapped resource Id - e.g. "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".
+   * The Id of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
   /**
-   * The compliance result last changed date - e.g. "2022-10-24T02:55:16.3274379Z". For unavailable date, set it as "N/A".
+   * The type of the resource.  e.g. "Microsoft.SignalRService/SignalR"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly statusChangeDate?: string;
+  readonly resourceType?: string;
+  /**
+   * Resource origin.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceOrigin?: ResourceOrigin;
+  /**
+   * Resource status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceStatus?: ResourceStatus;
+  /**
+   * The status change date for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceStatusChangeDate?: Date;
 }
 
-/** compliance pdf report */
+/** Compliance pdf report */
 export interface DownloadResponseCompliancePdfReport {
   /**
-   * uri of compliance pdf report
+   * The uri of compliance pdf report
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sasUri?: string;
 }
 
-/** compliance detailed pdf report */
+/** The detailed compliance pdf report */
 export interface DownloadResponseComplianceDetailedPdfReport {
   /**
-   * uri of compliance detailed pdf report
+   * The uri of detailed compliance pdf report
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sasUri?: string;
+}
+
+/** Synchronize certification record request. */
+export interface SyncCertRecordRequest {
+  /** certification record to be synchronized. */
+  certRecord: CertSyncRecord;
+}
+
+/** Synchronize certification record response. */
+export interface SyncCertRecordResponse {
+  /** certification record synchronized. */
+  certRecord?: CertSyncRecord;
+}
+
+/** Report health status verification result. */
+export interface ReportVerificationResult {
+  /**
+   * Indicates whether the report verification action is Succeeded or Failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly result?: Result;
+  /**
+   * If the report verification action failed, to indicate the detailed failed reason.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** The response of a WebhookResource list operation. */
+export interface WebhookResourceListResult {
+  /** The WebhookResource items on this page */
+  value: WebhookResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Webhook properties. */
+export interface WebhookProperties {
+  /**
+   * Webhook id in database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webhookId?: string;
+  /** Webhook status. */
+  status?: WebhookStatus;
+  /**
+   * Tenant id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** whether to send notification under any event. */
+  sendAllEvents?: SendAllEvents;
+  /** under which event notification should be sent. */
+  events?: NotificationEvent[];
+  /** webhook payload url */
+  payloadUrl?: string;
+  /** content type */
+  contentType?: ContentType;
+  /** webhook secret token. If not set, this field value is null; otherwise, please set a string value. */
+  webhookKey?: string;
+  /** whether to update webhookKey. */
+  updateWebhookKey?: UpdateWebhookKey;
+  /**
+   * whether webhookKey is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webhookKeyEnabled?: WebhookKeyEnabled;
+  /** whether to enable ssl verification */
+  enableSslVerification?: EnableSslVerification;
+  /**
+   * webhook deliveryStatus
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deliveryStatus?: DeliveryStatus;
+  /**
+   * Azure Resource Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** A class represent a AppComplianceAutomation webhook resource update properties. */
+export interface WebhookResourcePatch {
+  /** Webhook property. */
+  properties?: WebhookProperties;
+}
+
+/** Trigger evaluation request. */
+export interface TriggerEvaluationRequest {
+  /** List of resource ids to be evaluated */
+  resourceIds: string[];
+}
+
+/** Trigger evaluation response. */
+export interface TriggerEvaluationResponse {
+  /** trigger evaluation property. */
+  properties?: TriggerEvaluationProperty;
+}
+
+/** Trigger evaluation response. */
+export interface TriggerEvaluationProperty {
+  /**
+   * The time when the evaluation is triggered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly triggerTime?: Date;
+  /**
+   * The time when the evaluation is end.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly evaluationEndTime?: Date;
+  /** List of resource ids to be evaluated */
+  resourceIds?: string[];
+  /** List of quick assessments */
+  quickAssessments?: QuickAssessment[];
+}
+
+/** A class represent the quick assessment. */
+export interface QuickAssessment {
+  /**
+   * Resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * Responsibility id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly responsibilityId?: string;
+  /**
+   * The timestamp of resource creation (UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * Quick assessment status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceStatus?: ResourceStatus;
+  /**
+   * Quick assessment display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Quick assessment display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Link to remediation steps for this quick assessment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remediationLink?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -647,14 +1166,117 @@ export interface ReportResource extends ProxyResource {
   properties: ReportProperties;
 }
 
+/** A class represent an AppComplianceAutomation evidence resource. */
+export interface EvidenceResource extends ProxyResource {
+  /** Evidence property. */
+  properties: EvidenceProperties;
+}
+
+/** A class represent an AppComplianceAutomation scoping configuration resource. */
+export interface ScopingConfigurationResource extends ProxyResource {
+  /** ScopingConfiguration property. */
+  properties: ScopingConfigurationProperties;
+}
+
 /** A class represent a AppComplianceAutomation snapshot resource. */
 export interface SnapshotResource extends ProxyResource {
-  /**
-   * Snapshot's property'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: SnapshotProperties;
+  /** Snapshot's property. */
+  properties?: SnapshotProperties;
 }
+
+/** A class represent an AppComplianceAutomation webhook resource. */
+export interface WebhookResource extends ProxyResource {
+  /** Webhook property. */
+  properties: WebhookProperties;
+}
+
+/** Defines headers for ProviderActions_onboard operation. */
+export interface ProviderActionsOnboardHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ProviderActions_triggerEvaluation operation. */
+export interface ProviderActionsTriggerEvaluationHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_createOrUpdate operation. */
+export interface ReportCreateOrUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_update operation. */
+export interface ReportUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_delete operation. */
+export interface ReportDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_fix operation. */
+export interface ReportFixHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_syncCertRecord operation. */
+export interface ReportSyncCertRecordHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Report_verify operation. */
+export interface ReportVerifyHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Snapshot_download operation. */
+export interface SnapshotDownloadHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -663,7 +1285,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -680,7 +1302,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -692,14 +1314,37 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link ResourceOrigin} that the service accepts. */
+export enum KnownResourceOrigin {
+  /** The resource is from Azure. */
+  Azure = "Azure",
+  /** The resource is from AWS. */
+  AWS = "AWS",
+  /** The resource is from GCP. */
+  GCP = "GCP",
+}
+
+/**
+ * Defines values for ResourceOrigin. \
+ * {@link KnownResourceOrigin} can be used interchangeably with ResourceOrigin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure**: The resource is from Azure. \
+ * **AWS**: The resource is from AWS. \
+ * **GCP**: The resource is from GCP.
+ */
+export type ResourceOrigin = string;
+
 /** Known values of {@link ReportStatus} that the service accepts. */
 export enum KnownReportStatus {
-  /** Active */
+  /** The report is active. */
   Active = "Active",
-  /** Failed */
+  /** The report is failed. */
   Failed = "Failed",
-  /** Disabled */
-  Disabled = "Disabled"
+  /** The report is under reviewing. */
+  Reviewing = "Reviewing",
+  /** The report is disabled. */
+  Disabled = "Disabled",
 }
 
 /**
@@ -707,26 +1352,31 @@ export enum KnownReportStatus {
  * {@link KnownReportStatus} can be used interchangeably with ReportStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Failed** \
- * **Disabled**
+ * **Active**: The report is active. \
+ * **Failed**: The report is failed. \
+ * **Reviewing**: The report is under reviewing. \
+ * **Disabled**: The report is disabled.
  */
 export type ReportStatus = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** The provision is succeeded. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** The provision is failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** The provision is canceled. */
   Canceled = "Canceled",
-  /** Creating */
+  /** The creation is in progress. */
   Creating = "Creating",
-  /** Deleting */
+  /** The deletion is in progress. */
   Deleting = "Deleting",
-  /** Updating */
-  Updating = "Updating"
+  /** The fix of the resource in progress. */
+  Fixing = "Fixing",
+  /** The verification of the resource in progress. */
+  Verifying = "Verifying",
+  /** The update of the resource in progress. */
+  Updating = "Updating",
 }
 
 /**
@@ -734,12 +1384,14 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Deleting** \
- * **Updating**
+ * **Succeeded**: The provision is succeeded. \
+ * **Failed**: The provision is failed. \
+ * **Canceled**: The provision is canceled. \
+ * **Creating**: The creation is in progress. \
+ * **Deleting**: The deletion is in progress. \
+ * **Fixing**: The fix of the resource in progress. \
+ * **Verifying**: The verification of the resource in progress. \
+ * **Updating**: The update of the resource in progress.
  */
 export type ProvisioningState = string;
 
@@ -752,7 +1404,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -767,33 +1419,175 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link CategoryType} that the service accepts. */
-export enum KnownCategoryType {
-  /** FullyAutomated */
-  FullyAutomated = "FullyAutomated",
-  /** PartiallyAutomated */
-  PartiallyAutomated = "PartiallyAutomated",
-  /** Manual */
-  Manual = "Manual"
+/** Known values of {@link EvidenceType} that the service accepts. */
+export enum KnownEvidenceType {
+  /** The evidence is a file. */
+  File = "File",
+  /** The evidence auto collected by App Compliance Automation. */
+  AutoCollectedEvidence = "AutoCollectedEvidence",
+  /** The evidence is data. */
+  Data = "Data",
 }
 
 /**
- * Defines values for CategoryType. \
- * {@link KnownCategoryType} can be used interchangeably with CategoryType,
+ * Defines values for EvidenceType. \
+ * {@link KnownEvidenceType} can be used interchangeably with EvidenceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **FullyAutomated** \
- * **PartiallyAutomated** \
- * **Manual**
+ * **File**: The evidence is a file. \
+ * **AutoCollectedEvidence**: The evidence auto collected by App Compliance Automation. \
+ * **Data**: The evidence is data.
  */
-export type CategoryType = string;
+export type EvidenceType = string;
+
+/** Known values of {@link Result} that the service accepts. */
+export enum KnownResult {
+  /** The result is succeeded. */
+  Succeeded = "Succeeded",
+  /** The result is failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for Result. \
+ * {@link KnownResult} can be used interchangeably with Result,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The result is succeeded. \
+ * **Failed**: The result is failed.
+ */
+export type Result = string;
+
+/** Known values of {@link InputType} that the service accepts. */
+export enum KnownInputType {
+  /** The input type is a text box. */
+  None = "None",
+  /** The input content is text string. */
+  Text = "Text",
+  /** The input content should be an email address. */
+  Email = "Email",
+  /** The input content should be multiline text. */
+  MultilineText = "MultilineText",
+  /** The input content should be a URL. */
+  Url = "Url",
+  /** The input content should be a number. */
+  Number = "Number",
+  /** The input content should be a boolean. */
+  Boolean = "Boolean",
+  /** The input content should be a telephone number. */
+  Telephone = "Telephone",
+  /** The input content should be Yes, No or Na. */
+  YesNoNa = "YesNoNa",
+  /** The input content should be a date. */
+  Date = "Date",
+  /** The input content is a Year, pick from the dropdown list. */
+  YearPicker = "YearPicker",
+  /** The input content is a single result seleted from the options. */
+  SingleSelection = "SingleSelection",
+  /** The input content is a single result seleted from the dropdown options. */
+  SingleSelectDropdown = "SingleSelectDropdown",
+  /** The input content are multiple results seleted from the checkboxes. */
+  MultiSelectCheckbox = "MultiSelectCheckbox",
+  /** The input content are multiple results seleted from the dropdown options. */
+  MultiSelectDropdown = "MultiSelectDropdown",
+  /** The input content are result seleted from the custom dropdown options. */
+  MultiSelectDropdownCustom = "MultiSelectDropdownCustom",
+  /** The input content is a group of answers. */
+  Group = "Group",
+  /** The input content is a uploaded file. */
+  Upload = "Upload",
+}
+
+/**
+ * Defines values for InputType. \
+ * {@link KnownInputType} can be used interchangeably with InputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The input type is a text box. \
+ * **Text**: The input content is text string. \
+ * **Email**: The input content should be an email address. \
+ * **MultilineText**: The input content should be multiline text. \
+ * **Url**: The input content should be a URL. \
+ * **Number**: The input content should be a number. \
+ * **Boolean**: The input content should be a boolean. \
+ * **Telephone**: The input content should be a telephone number. \
+ * **YesNoNa**: The input content should be Yes, No or Na. \
+ * **Date**: The input content should be a date. \
+ * **YearPicker**: The input content is a Year, pick from the dropdown list. \
+ * **SingleSelection**: The input content is a single result seleted from the options. \
+ * **SingleSelectDropdown**: The input content is a single result seleted from the dropdown options. \
+ * **MultiSelectCheckbox**: The input content are multiple results seleted from the checkboxes. \
+ * **MultiSelectDropdown**: The input content are multiple results seleted from the dropdown options. \
+ * **MultiSelectDropdownCustom**: The input content are result seleted from the custom dropdown options. \
+ * **Group**: The input content is a group of answers. \
+ * **Upload**: The input content is a uploaded file.
+ */
+export type InputType = string;
+
+/** Known values of {@link Rule} that the service accepts. */
+export enum KnownRule {
+  /** The question is required to answer. */
+  Required = "Required",
+  /** The question answer length is limited. */
+  CharLength = "CharLength",
+  /** The question answer should be an Url. */
+  Url = "Url",
+  /** The question answer should be Urls. */
+  Urls = "Urls",
+  /** The question answer should be domains. */
+  Domains = "Domains",
+  /** The question answer should be a UsPrivacyShield. */
+  USPrivacyShield = "USPrivacyShield",
+  /** The question answer should be a PublicSOX. */
+  PublicSOX = "PublicSOX",
+  /** The question answer should be a CreditCardPCI. */
+  CreditCardPCI = "CreditCardPCI",
+  /** The question answer should be an AzureApplication. */
+  AzureApplication = "AzureApplication",
+  /** The question answer should be a valid guid. */
+  ValidGuid = "ValidGuid",
+  /** The question answer should be publisher verification. */
+  PublisherVerification = "PublisherVerification",
+  /** The question answer should be dynamic dropdown. */
+  DynamicDropdown = "DynamicDropdown",
+  /** The question answer should prevent non-english char. */
+  PreventNonEnglishChar = "PreventNonEnglishChar",
+  /** The question answer should be a valid email. */
+  ValidEmail = "ValidEmail",
+}
+
+/**
+ * Defines values for Rule. \
+ * {@link KnownRule} can be used interchangeably with Rule,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Required**: The question is required to answer. \
+ * **CharLength**: The question answer length is limited. \
+ * **Url**: The question answer should be an Url. \
+ * **Urls**: The question answer should be Urls. \
+ * **Domains**: The question answer should be domains. \
+ * **USPrivacyShield**: The question answer should be a UsPrivacyShield. \
+ * **PublicSOX**: The question answer should be a PublicSOX. \
+ * **CreditCardPCI**: The question answer should be a CreditCardPCI. \
+ * **AzureApplication**: The question answer should be an AzureApplication. \
+ * **ValidGuid**: The question answer should be a valid guid. \
+ * **PublisherVerification**: The question answer should be publisher verification. \
+ * **DynamicDropdown**: The question answer should be dynamic dropdown. \
+ * **PreventNonEnglishChar**: The question answer should prevent non-english char. \
+ * **ValidEmail**: The question answer should be a valid email.
+ */
+export type Rule = string;
 
 /** Known values of {@link CategoryStatus} that the service accepts. */
 export enum KnownCategoryStatus {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  /** The category is passed. */
+  Passed = "Passed",
+  /** The category is failed. */
+  Failed = "Failed",
+  /** The category is not applicable. */
+  NotApplicable = "NotApplicable",
+  /** The category is pending for approval. */
+  PendingApproval = "PendingApproval",
 }
 
 /**
@@ -801,38 +1595,23 @@ export enum KnownCategoryStatus {
  * {@link KnownCategoryStatus} can be used interchangeably with CategoryStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy**
+ * **Passed**: The category is passed. \
+ * **Failed**: The category is failed. \
+ * **NotApplicable**: The category is not applicable. \
+ * **PendingApproval**: The category is pending for approval.
  */
 export type CategoryStatus = string;
 
-/** Known values of {@link ControlFamilyType} that the service accepts. */
-export enum KnownControlFamilyType {
-  /** FullyAutomated */
-  FullyAutomated = "FullyAutomated",
-  /** PartiallyAutomated */
-  PartiallyAutomated = "PartiallyAutomated",
-  /** Manual */
-  Manual = "Manual"
-}
-
-/**
- * Defines values for ControlFamilyType. \
- * {@link KnownControlFamilyType} can be used interchangeably with ControlFamilyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FullyAutomated** \
- * **PartiallyAutomated** \
- * **Manual**
- */
-export type ControlFamilyType = string;
-
 /** Known values of {@link ControlFamilyStatus} that the service accepts. */
 export enum KnownControlFamilyStatus {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  /** The control family is passed. */
+  Passed = "Passed",
+  /** The control family is failed. */
+  Failed = "Failed",
+  /** The control family is not applicable. */
+  NotApplicable = "NotApplicable",
+  /** The control family is pending for approval. */
+  PendingApproval = "PendingApproval",
 }
 
 /**
@@ -840,40 +1619,23 @@ export enum KnownControlFamilyStatus {
  * {@link KnownControlFamilyStatus} can be used interchangeably with ControlFamilyStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy**
+ * **Passed**: The control family is passed. \
+ * **Failed**: The control family is failed. \
+ * **NotApplicable**: The control family is not applicable. \
+ * **PendingApproval**: The control family is pending for approval.
  */
 export type ControlFamilyStatus = string;
 
-/** Known values of {@link ControlType} that the service accepts. */
-export enum KnownControlType {
-  /** FullyAutomated */
-  FullyAutomated = "FullyAutomated",
-  /** PartiallyAutomated */
-  PartiallyAutomated = "PartiallyAutomated",
-  /** Manual */
-  Manual = "Manual"
-}
-
-/**
- * Defines values for ControlType. \
- * {@link KnownControlType} can be used interchangeably with ControlType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FullyAutomated** \
- * **PartiallyAutomated** \
- * **Manual**
- */
-export type ControlType = string;
-
 /** Known values of {@link ControlStatus} that the service accepts. */
 export enum KnownControlStatus {
-  /** Passed */
+  /** The control is passed. */
   Passed = "Passed",
-  /** Failed */
+  /** The control is failed. */
   Failed = "Failed",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  /** The control is not applicable. */
+  NotApplicable = "NotApplicable",
+  /** The control is pending for approval. */
+  PendingApproval = "PendingApproval",
 }
 
 /**
@@ -881,59 +1643,109 @@ export enum KnownControlStatus {
  * {@link KnownControlStatus} can be used interchangeably with ControlStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Passed** \
- * **Failed** \
- * **NotApplicable**
+ * **Passed**: The control is passed. \
+ * **Failed**: The control is failed. \
+ * **NotApplicable**: The control is not applicable. \
+ * **PendingApproval**: The control is pending for approval.
  */
 export type ControlStatus = string;
 
-/** Known values of {@link AssessmentSeverity} that the service accepts. */
-export enum KnownAssessmentSeverity {
-  /** High */
+/** Known values of {@link ResponsibilityType} that the service accepts. */
+export enum KnownResponsibilityType {
+  /** The responsibility is automated. */
+  Automated = "Automated",
+  /** The responsibility is scoped manual. */
+  ScopedManual = "ScopedManual",
+  /** The responsibility is manual. */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for ResponsibilityType. \
+ * {@link KnownResponsibilityType} can be used interchangeably with ResponsibilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automated**: The responsibility is automated. \
+ * **ScopedManual**: The responsibility is scoped manual. \
+ * **Manual**: The responsibility is manual.
+ */
+export type ResponsibilityType = string;
+
+/** Known values of {@link ResponsibilitySeverity} that the service accepts. */
+export enum KnownResponsibilitySeverity {
+  /** The responsibility is high severity. */
   High = "High",
-  /** Medium */
+  /** The responsibility is medium severity. */
   Medium = "Medium",
-  /** Low */
-  Low = "Low"
+  /** The responsibility is low severity. */
+  Low = "Low",
 }
 
 /**
- * Defines values for AssessmentSeverity. \
- * {@link KnownAssessmentSeverity} can be used interchangeably with AssessmentSeverity,
+ * Defines values for ResponsibilitySeverity. \
+ * {@link KnownResponsibilitySeverity} can be used interchangeably with ResponsibilitySeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **High** \
- * **Medium** \
- * **Low**
+ * **High**: The responsibility is high severity. \
+ * **Medium**: The responsibility is medium severity. \
+ * **Low**: The responsibility is low severity.
  */
-export type AssessmentSeverity = string;
+export type ResponsibilitySeverity = string;
 
-/** Known values of {@link IsPass} that the service accepts. */
-export enum KnownIsPass {
-  /** True */
-  True = "True",
-  /** False */
-  False = "False"
+/** Known values of {@link ResponsibilityStatus} that the service accepts. */
+export enum KnownResponsibilityStatus {
+  /** The responsibility is passed. */
+  Passed = "Passed",
+  /** The responsibility is failed. */
+  Failed = "Failed",
+  /** The responsibility is not applicable. */
+  NotApplicable = "NotApplicable",
+  /** The responsibility is pending for approval. */
+  PendingApproval = "PendingApproval",
 }
 
 /**
- * Defines values for IsPass. \
- * {@link KnownIsPass} can be used interchangeably with IsPass,
+ * Defines values for ResponsibilityStatus. \
+ * {@link KnownResponsibilityStatus} can be used interchangeably with ResponsibilityStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **Passed**: The responsibility is passed. \
+ * **Failed**: The responsibility is failed. \
+ * **NotApplicable**: The responsibility is not applicable. \
+ * **PendingApproval**: The responsibility is pending for approval.
  */
-export type IsPass = string;
+export type ResponsibilityStatus = string;
+
+/** Known values of {@link ResponsibilityEnvironment} that the service accepts. */
+export enum KnownResponsibilityEnvironment {
+  /** The responsibility is supported in Azure. */
+  Azure = "Azure",
+  /** The responsibility is supported in AWS. */
+  AWS = "AWS",
+  /** The responsibility is supported in GCP. */
+  GCP = "GCP",
+  /** The responsibility is general requirement of all environment. */
+  General = "General",
+}
+
+/**
+ * Defines values for ResponsibilityEnvironment. \
+ * {@link KnownResponsibilityEnvironment} can be used interchangeably with ResponsibilityEnvironment,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure**: The responsibility is supported in Azure. \
+ * **AWS**: The responsibility is supported in AWS. \
+ * **GCP**: The responsibility is supported in GCP. \
+ * **General**: The responsibility is general requirement of all environment.
+ */
+export type ResponsibilityEnvironment = string;
 
 /** Known values of {@link ResourceStatus} that the service accepts. */
 export enum KnownResourceStatus {
-  /** Healthy */
+  /** The resource is healthy. */
   Healthy = "Healthy",
-  /** Unhealthy */
+  /** The resource is unhealthy. */
   Unhealthy = "Unhealthy",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable"
 }
 
 /**
@@ -941,22 +1753,39 @@ export enum KnownResourceStatus {
  * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy** \
- * **NotApplicable**
+ * **Healthy**: The resource is healthy. \
+ * **Unhealthy**: The resource is unhealthy.
  */
 export type ResourceStatus = string;
 
+/** Known values of {@link IsRecommendSolution} that the service accepts. */
+export enum KnownIsRecommendSolution {
+  /** This solution is the recommended. */
+  True = "true",
+  /** This solution is not the recommended. */
+  False = "false",
+}
+
+/**
+ * Defines values for IsRecommendSolution. \
+ * {@link KnownIsRecommendSolution} can be used interchangeably with IsRecommendSolution,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: This solution is the recommended. \
+ * **false**: This solution is not the recommended.
+ */
+export type IsRecommendSolution = string;
+
 /** Known values of {@link DownloadType} that the service accepts. */
 export enum KnownDownloadType {
-  /** ComplianceReport */
+  /** Download the compliance report. */
   ComplianceReport = "ComplianceReport",
-  /** CompliancePdfReport */
+  /** Download the compliance pdf report. */
   CompliancePdfReport = "CompliancePdfReport",
-  /** ComplianceDetailedPdfReport */
+  /** Download the detailed compliance pdf report. */
   ComplianceDetailedPdfReport = "ComplianceDetailedPdfReport",
-  /** ResourceList */
-  ResourceList = "ResourceList"
+  /** Download the resource list of the report. */
+  ResourceList = "ResourceList",
 }
 
 /**
@@ -964,30 +1793,222 @@ export enum KnownDownloadType {
  * {@link KnownDownloadType} can be used interchangeably with DownloadType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ComplianceReport** \
- * **CompliancePdfReport** \
- * **ComplianceDetailedPdfReport** \
- * **ResourceList**
+ * **ComplianceReport**: Download the compliance report. \
+ * **CompliancePdfReport**: Download the compliance pdf report. \
+ * **ComplianceDetailedPdfReport**: Download the detailed compliance pdf report. \
+ * **ResourceList**: Download the resource list of the report.
  */
 export type DownloadType = string;
 
-/** Known values of {@link ComplianceState} that the service accepts. */
-export enum KnownComplianceState {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy"
+/** Known values of {@link WebhookStatus} that the service accepts. */
+export enum KnownWebhookStatus {
+  /** The webhook is enabled. */
+  Enabled = "Enabled",
+  /** The webhook is disabled. */
+  Disabled = "Disabled",
 }
 
 /**
- * Defines values for ComplianceState. \
- * {@link KnownComplianceState} can be used interchangeably with ComplianceState,
+ * Defines values for WebhookStatus. \
+ * {@link KnownWebhookStatus} can be used interchangeably with WebhookStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy**
+ * **Enabled**: The webhook is enabled. \
+ * **Disabled**: The webhook is disabled.
  */
-export type ComplianceState = string;
+export type WebhookStatus = string;
+
+/** Known values of {@link SendAllEvents} that the service accepts. */
+export enum KnownSendAllEvents {
+  /** Need send notification under any event. */
+  True = "true",
+  /** No need to send notification under any event. */
+  False = "false",
+}
+
+/**
+ * Defines values for SendAllEvents. \
+ * {@link KnownSendAllEvents} can be used interchangeably with SendAllEvents,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: Need send notification under any event. \
+ * **false**: No need to send notification under any event.
+ */
+export type SendAllEvents = string;
+
+/** Known values of {@link NotificationEvent} that the service accepts. */
+export enum KnownNotificationEvent {
+  /** The subscribed report's snapshot is successfully generated. */
+  GenerateSnapshotSuccess = "generate_snapshot_success",
+  /** The subscribed report's snapshot is failed to generate. */
+  GenerateSnapshotFailed = "generate_snapshot_failed",
+  /** The subscribed report failed while collecting the assessments. */
+  AssessmentFailure = "assessment_failure",
+  /** The subscribed report's configuration is changed. */
+  ReportConfigurationChanges = "report_configuration_changes",
+  /** The subscribed report is deleted. */
+  ReportDeletion = "report_deletion",
+}
+
+/**
+ * Defines values for NotificationEvent. \
+ * {@link KnownNotificationEvent} can be used interchangeably with NotificationEvent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **generate_snapshot_success**: The subscribed report's snapshot is successfully generated. \
+ * **generate_snapshot_failed**: The subscribed report's snapshot is failed to generate. \
+ * **assessment_failure**: The subscribed report failed while collecting the assessments. \
+ * **report_configuration_changes**: The subscribed report's configuration is changed. \
+ * **report_deletion**: The subscribed report is deleted.
+ */
+export type NotificationEvent = string;
+
+/** Known values of {@link ContentType} that the service accepts. */
+export enum KnownContentType {
+  /** The content type is application\/json. */
+  ApplicationJson = "application/json",
+}
+
+/**
+ * Defines values for ContentType. \
+ * {@link KnownContentType} can be used interchangeably with ContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **application\/json**: The content type is application\/json.
+ */
+export type ContentType = string;
+
+/** Known values of {@link UpdateWebhookKey} that the service accepts. */
+export enum KnownUpdateWebhookKey {
+  /** Need update the webhook key. */
+  True = "true",
+  /** No need to update the webhook key. */
+  False = "false",
+}
+
+/**
+ * Defines values for UpdateWebhookKey. \
+ * {@link KnownUpdateWebhookKey} can be used interchangeably with UpdateWebhookKey,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: Need update the webhook key. \
+ * **false**: No need to update the webhook key.
+ */
+export type UpdateWebhookKey = string;
+
+/** Known values of {@link WebhookKeyEnabled} that the service accepts. */
+export enum KnownWebhookKeyEnabled {
+  /** The webhookKey is enabled. */
+  True = "true",
+  /** The webhookKey is not enabled. */
+  False = "false",
+}
+
+/**
+ * Defines values for WebhookKeyEnabled. \
+ * {@link KnownWebhookKeyEnabled} can be used interchangeably with WebhookKeyEnabled,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: The webhookKey is enabled. \
+ * **false**: The webhookKey is not enabled.
+ */
+export type WebhookKeyEnabled = string;
+
+/** Known values of {@link EnableSslVerification} that the service accepts. */
+export enum KnownEnableSslVerification {
+  /** The ssl verification is enabled. */
+  True = "true",
+  /** The ssl verification is not enabled. */
+  False = "false",
+}
+
+/**
+ * Defines values for EnableSslVerification. \
+ * {@link KnownEnableSslVerification} can be used interchangeably with EnableSslVerification,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true**: The ssl verification is enabled. \
+ * **false**: The ssl verification is not enabled.
+ */
+export type EnableSslVerification = string;
+
+/** Known values of {@link DeliveryStatus} that the service accepts. */
+export enum KnownDeliveryStatus {
+  /** The webhook is delivered successfully. */
+  Succeeded = "Succeeded",
+  /** The webhook is failed to deliver. */
+  Failed = "Failed",
+  /** The webhook is not delivered. */
+  NotStarted = "NotStarted",
+}
+
+/**
+ * Defines values for DeliveryStatus. \
+ * {@link KnownDeliveryStatus} can be used interchangeably with DeliveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The webhook is delivered successfully. \
+ * **Failed**: The webhook is failed to deliver. \
+ * **NotStarted**: The webhook is not delivered.
+ */
+export type DeliveryStatus = string;
+
+/** Optional parameters. */
+export interface ProviderActionsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ProviderActionsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface ProviderActionsGetCollectionCountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCollectionCount operation. */
+export type ProviderActionsGetCollectionCountResponse =
+  GetCollectionCountResponse;
+
+/** Optional parameters. */
+export interface ProviderActionsGetOverviewStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOverviewStatus operation. */
+export type ProviderActionsGetOverviewStatusResponse =
+  GetOverviewStatusResponse;
+
+/** Optional parameters. */
+export interface ProviderActionsListInUseStorageAccountsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listInUseStorageAccounts operation. */
+export type ProviderActionsListInUseStorageAccountsResponse =
+  ListInUseStorageAccountsResponse;
+
+/** Optional parameters. */
+export interface ProviderActionsOnboardOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the onboard operation. */
+export type ProviderActionsOnboardResponse = OnboardResponse;
+
+/** Optional parameters. */
+export interface ProviderActionsTriggerEvaluationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the triggerEvaluation operation. */
+export type ProviderActionsTriggerEvaluationResponse =
+  TriggerEvaluationResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1004,13 +2025,17 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ReportsListOptionalParams extends coreClient.OperationOptions {
+export interface ReportListOptionalParams extends coreClient.OperationOptions {
   /** Skip over when retrieving results. */
   skipToken?: string;
   /** Number of elements to return when retrieving results. */
   top?: number;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
   select?: string;
+  /** The filter to apply on the operation. */
+  filter?: string;
+  /** OData order by query option. */
+  orderby?: string;
   /** The offerGuid which mapping to the reports. */
   offerGuid?: string;
   /** The tenant id of the report creator. */
@@ -1018,25 +2043,7 @@ export interface ReportsListOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type ReportsListResponse = ReportResourceList;
-
-/** Optional parameters. */
-export interface ReportsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ReportsListNextResponse = ReportResourceList;
+export type ReportListResponse = ReportResourceListResult;
 
 /** Optional parameters. */
 export interface ReportGetOptionalParams extends coreClient.OperationOptions {}
@@ -1077,8 +2084,68 @@ export interface ReportDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ReportDeleteResponse = ReportDeleteHeaders;
+
 /** Optional parameters. */
-export interface SnapshotsListOptionalParams
+export interface ReportNestedResourceCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the nestedResourceCheckNameAvailability operation. */
+export type ReportNestedResourceCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface ReportFixOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the fix operation. */
+export type ReportFixResponse = ReportFixResult;
+
+/** Optional parameters. */
+export interface ReportGetScopingQuestionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getScopingQuestions operation. */
+export type ReportGetScopingQuestionsResponse = ScopingQuestions;
+
+/** Optional parameters. */
+export interface ReportSyncCertRecordOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the syncCertRecord operation. */
+export type ReportSyncCertRecordResponse = SyncCertRecordResponse;
+
+/** Optional parameters. */
+export interface ReportVerifyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the verify operation. */
+export type ReportVerifyResponse = ReportVerificationResult;
+
+/** Optional parameters. */
+export interface ReportListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReportListNextResponse = ReportResourceListResult;
+
+/** Optional parameters. */
+export interface EvidenceListByReportOptionalParams
   extends coreClient.OperationOptions {
   /** Skip over when retrieving results. */
   skipToken?: string;
@@ -1086,6 +2153,104 @@ export interface SnapshotsListOptionalParams
   top?: number;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
   select?: string;
+  /** The filter to apply on the operation. */
+  filter?: string;
+  /** OData order by query option. */
+  orderby?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+
+/** Contains response data for the listByReport operation. */
+export type EvidenceListByReportResponse = EvidenceResourceListResult;
+
+/** Optional parameters. */
+export interface EvidenceGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EvidenceGetResponse = EvidenceResource;
+
+/** Optional parameters. */
+export interface EvidenceCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EvidenceCreateOrUpdateResponse = EvidenceResource;
+
+/** Optional parameters. */
+export interface EvidenceDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EvidenceDownloadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the download operation. */
+export type EvidenceDownloadResponse = EvidenceFileDownloadResponse;
+
+/** Optional parameters. */
+export interface EvidenceListByReportNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByReportNext operation. */
+export type EvidenceListByReportNextResponse = EvidenceResourceListResult;
+
+/** Optional parameters. */
+export interface ScopingConfigurationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ScopingConfigurationListResponse =
+  ScopingConfigurationResourceListResult;
+
+/** Optional parameters. */
+export interface ScopingConfigurationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ScopingConfigurationGetResponse = ScopingConfigurationResource;
+
+/** Optional parameters. */
+export interface ScopingConfigurationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ScopingConfigurationCreateOrUpdateResponse =
+  ScopingConfigurationResource;
+
+/** Optional parameters. */
+export interface ScopingConfigurationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScopingConfigurationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ScopingConfigurationListNextResponse =
+  ScopingConfigurationResourceListResult;
+
+/** Optional parameters. */
+export interface SnapshotListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip over when retrieving results. */
+  skipToken?: string;
+  /** Number of elements to return when retrieving results. */
+  top?: number;
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
+  select?: string;
+  /** The filter to apply on the operation. */
+  filter?: string;
+  /** OData order by query option. */
+  orderby?: string;
   /** The offerGuid which mapping to the reports. */
   offerGuid?: string;
   /** The tenant id of the report creator. */
@@ -1093,25 +2258,7 @@ export interface SnapshotsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SnapshotsListResponse = SnapshotResourceList;
-
-/** Optional parameters. */
-export interface SnapshotsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type SnapshotsListNextResponse = SnapshotResourceList;
+export type SnapshotListResponse = SnapshotResourceListResult;
 
 /** Optional parameters. */
 export interface SnapshotGetOptionalParams
@@ -1131,6 +2278,65 @@ export interface SnapshotDownloadOptionalParams
 
 /** Contains response data for the download operation. */
 export type SnapshotDownloadResponse = DownloadResponse;
+
+/** Optional parameters. */
+export interface SnapshotListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SnapshotListNextResponse = SnapshotResourceListResult;
+
+/** Optional parameters. */
+export interface WebhookListOptionalParams extends coreClient.OperationOptions {
+  /** Skip over when retrieving results. */
+  skipToken?: string;
+  /** Number of elements to return when retrieving results. */
+  top?: number;
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
+  select?: string;
+  /** The filter to apply on the operation. */
+  filter?: string;
+  /** OData order by query option. */
+  orderby?: string;
+  /** The offerGuid which mapping to the reports. */
+  offerGuid?: string;
+  /** The tenant id of the report creator. */
+  reportCreatorTenantId?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WebhookListResponse = WebhookResourceListResult;
+
+/** Optional parameters. */
+export interface WebhookGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebhookGetResponse = WebhookResource;
+
+/** Optional parameters. */
+export interface WebhookCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WebhookCreateOrUpdateResponse = WebhookResource;
+
+/** Optional parameters. */
+export interface WebhookUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WebhookUpdateResponse = WebhookResource;
+
+/** Optional parameters. */
+export interface WebhookDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WebhookListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WebhookListNextResponse = WebhookResourceListResult;
 
 /** Optional parameters. */
 export interface AppComplianceAutomationToolForMicrosoft365OptionalParams

@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encoding/number";
-import { writeStringForBinaryEncoding } from "./encoding/string";
-import { BytePrefix } from "./encoding/prefix";
-import MurmurHash from "./murmurHash";
+import { doubleToByteArrayBigInt, writeNumberForBinaryEncodingBigInt } from "./encoding/number.js";
+import { writeStringForBinaryEncoding } from "./encoding/string.js";
+import { BytePrefix } from "./encoding/prefix.js";
+import MurmurHash from "./murmurHash.js";
+import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
 
 const MAX_STRING_CHARS = 100;
 
-type v1Key = string | number | boolean | null | Record<string, unknown> | undefined;
-
-export function hashV1PartitionKey(partitionKey: v1Key): string {
-  const toHash = prefixKeyByType(partitionKey);
+export function hashV1PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
+  const key = partitionKey[0];
+  const toHash = prefixKeyByType(key);
   const hash = MurmurHash.x86.hash32(toHash);
-  const encodedJSBI = writeNumberForBinaryEncodingJSBI(hash);
-  const encodedValue = encodeByType(partitionKey);
-  return Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
+  const encodedJSBI = writeNumberForBinaryEncodingBigInt(hash);
+  const encodedValue = encodeByType(key);
+  const finalHash = Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
+  return finalHash;
 }
 
-function prefixKeyByType(key: v1Key): Buffer {
+function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
   let bytes: Buffer;
   switch (typeof key) {
     case "string": {
@@ -31,7 +32,7 @@ function prefixKeyByType(key: v1Key): Buffer {
       return bytes;
     }
     case "number": {
-      const numberBytes = doubleToByteArrayJSBI(key);
+      const numberBytes = doubleToByteArrayBigInt(key);
       bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
     }
@@ -53,15 +54,14 @@ function prefixKeyByType(key: v1Key): Buffer {
   }
 }
 
-function encodeByType(key: v1Key): Buffer {
+function encodeByType(key: PrimitivePartitionKeyValue): Buffer {
   switch (typeof key) {
     case "string": {
-      const truncated = key.substr(0, MAX_STRING_CHARS);
+      const truncated = key.substring(0, MAX_STRING_CHARS);
       return writeStringForBinaryEncoding(truncated);
     }
     case "number": {
-      const encodedJSBI = writeNumberForBinaryEncodingJSBI(key);
-      return encodedJSBI;
+      return writeNumberForBinaryEncodingBigInt(key);
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;

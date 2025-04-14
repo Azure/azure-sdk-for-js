@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Instrumenter, TracingSpan } from "../src/interfaces";
+import type { Instrumenter, TracingSpan } from "../src/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
-} from "../src/instrumenter";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext";
-import { assert } from "chai";
+} from "../src/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {
@@ -59,8 +59,8 @@ describe("Instrumenter", () => {
         assert.isEmpty(instrumenter.createRequestHeaders(createTracingContext()));
         assert.isEmpty(
           instrumenter.createRequestHeaders(
-            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan())
-          )
+            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan()),
+          ),
         );
       });
     });
@@ -72,6 +72,8 @@ describe("Instrumenter", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.recordException(new Error("test"));
+      assert.exists(span.addEvent);
+      span.addEvent?.("I said span not Spren!", { startTime: new Date() });
       span.end();
       assert.isFalse(span.isRecording());
     });

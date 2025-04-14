@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingStrategy";
-import { PartitionOwnership } from "../eventProcessor";
+import type { LoadBalancingStrategy } from "./loadBalancingStrategy.js";
+import { listAvailablePartitions } from "./loadBalancingStrategy.js";
+import type { PartitionOwnership } from "../eventProcessor.js";
 
 /**
  * The BalancedLoadBalancerStrategy is meant to be used when the user
@@ -32,13 +33,13 @@ export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
   public getPartitionsToClaim(
     ourOwnerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIds: string[]
+    partitionIds: string[],
   ): string[] {
     const claimablePartitions = listAvailablePartitions(
       ourOwnerId,
       claimedPartitionOwnershipMap,
       partitionIds,
-      this._partitionOwnershipExpirationIntervalInMs
+      this._partitionOwnershipExpirationIntervalInMs,
     );
 
     if (!claimablePartitions.length) {

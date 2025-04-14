@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { configureBlobStorageClient, SimpleTokenCredential } from "./testutils.common";
-import {
-  StorageSharedKeyCredential,
-  BlobServiceClient,
-  StoragePipelineOptions,
-} from "@azure/storage-blob";
-import { BlobChangeFeedClient } from "../../src";
-import { TokenCredential } from "@azure/core-auth";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { configureBlobStorageClient, SimpleTokenCredential } from "./testutils.common.js";
+import type { StoragePipelineOptions } from "@azure/storage-blob";
+import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
+import { BlobChangeFeedClient } from "../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -21,7 +19,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountKey = env[accountKeyEnvVar];
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
@@ -30,7 +28,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -91,7 +89,7 @@ export function getBlobChangeFeedClient(
   recorder: Recorder,
   accountType: string = "",
   accountNameSuffix: string = "",
-  options: StoragePipelineOptions = {}
+  options: StoragePipelineOptions = {},
 ): BlobChangeFeedClient {
   let client: BlobChangeFeedClient;
   if (

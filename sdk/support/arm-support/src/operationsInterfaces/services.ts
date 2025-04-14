@@ -11,8 +11,8 @@ import {
   Service,
   ServicesListOptionalParams,
   ServicesGetOptionalParams,
-  ServicesGetResponse
-} from "../models";
+  ServicesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
@@ -28,7 +28,7 @@ export interface Services {
    * @param options The options parameters.
    */
   list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): PagedAsyncIterableIterator<Service>;
   /**
    * Gets a specific Azure service for support ticket creation.
@@ -37,6 +37,6 @@ export interface Services {
    */
   get(
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
 }

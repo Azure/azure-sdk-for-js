@@ -7,15 +7,22 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Clusters } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Clusters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
+  FollowerDatabaseDefinitionGet,
+  ClustersListFollowerDatabasesGetOptionalParams,
+  ClustersListFollowerDatabasesGetResponse,
   FollowerDatabaseDefinition,
   ClustersListFollowerDatabasesOptionalParams,
   ClustersListFollowerDatabasesResponse,
@@ -34,6 +41,9 @@ import {
   ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ClustersListOutboundNetworkDependenciesEndpointsResponse,
+  CalloutPolicy,
+  ClustersListCalloutPoliciesOptionalParams,
+  ClustersListCalloutPoliciesResponse,
   LanguageExtension,
   ClustersListLanguageExtensionsOptionalParams,
   ClustersListLanguageExtensionsResponse,
@@ -47,17 +57,23 @@ import {
   ClustersDeleteOptionalParams,
   ClustersStopOptionalParams,
   ClustersStartOptionalParams,
+  ClusterMigrateRequest,
+  ClustersMigrateOptionalParams,
   ClustersDetachFollowerDatabasesOptionalParams,
   ClustersDiagnoseVirtualNetworkOptionalParams,
   ClustersDiagnoseVirtualNetworkResponse,
   ClusterCheckNameRequest,
   ClustersCheckNameAvailabilityOptionalParams,
   ClustersCheckNameAvailabilityResponse,
+  CalloutPoliciesList,
+  ClustersAddCalloutPoliciesOptionalParams,
+  CalloutPolicyToRemove,
+  ClustersRemoveCalloutPolicyOptionalParams,
   LanguageExtensionsList,
   ClustersAddLanguageExtensionsOptionalParams,
   ClustersRemoveLanguageExtensionsOptionalParams,
-  ClustersListOutboundNetworkDependenciesEndpointsNextResponse
-} from "../models";
+  ClustersListOutboundNetworkDependenciesEndpointsNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Clusters operations. */
@@ -74,19 +90,85 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Returns a list of databases that are owned by this cluster and were followed by another cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
+  public listFollowerDatabasesGet(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListFollowerDatabasesGetOptionalParams,
+  ): PagedAsyncIterableIterator<FollowerDatabaseDefinitionGet> {
+    const iter = this.listFollowerDatabasesGetPagingAll(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listFollowerDatabasesGetPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listFollowerDatabasesGetPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListFollowerDatabasesGetOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<FollowerDatabaseDefinitionGet[]> {
+    let result: ClustersListFollowerDatabasesGetResponse;
+    result = await this._listFollowerDatabasesGet(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    yield result.value || [];
+  }
+
+  private async *listFollowerDatabasesGetPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListFollowerDatabasesGetOptionalParams,
+  ): AsyncIterableIterator<FollowerDatabaseDefinitionGet> {
+    for await (const page of this.listFollowerDatabasesGetPagingPage(
+      resourceGroupName,
+      clusterName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns a list of databases that are owned by this cluster and were followed by another cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   public listFollowerDatabases(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListFollowerDatabasesOptionalParams
+    options?: ClustersListFollowerDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<FollowerDatabaseDefinition> {
     const iter = this.listFollowerDatabasesPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -103,9 +185,9 @@ export class ClustersImpl implements Clusters {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -113,13 +195,13 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersListFollowerDatabasesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<FollowerDatabaseDefinition[]> {
     let result: ClustersListFollowerDatabasesResponse;
     result = await this._listFollowerDatabases(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -127,12 +209,12 @@ export class ClustersImpl implements Clusters {
   private async *listFollowerDatabasesPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListFollowerDatabasesOptionalParams
+    options?: ClustersListFollowerDatabasesOptionalParams,
   ): AsyncIterableIterator<FollowerDatabaseDefinition> {
     for await (const page of this.listFollowerDatabasesPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,12 +222,12 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Lists all Kusto clusters within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -162,16 +244,16 @@ export class ClustersImpl implements Clusters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ClustersListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Cluster[]> {
     let result: ClustersListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -180,11 +262,11 @@ export class ClustersImpl implements Clusters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Cluster> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -195,7 +277,7 @@ export class ClustersImpl implements Clusters {
    * @param options The options parameters.
    */
   public list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster> {
     const iter = this.listPagingAll(options);
     return {
@@ -210,13 +292,13 @@ export class ClustersImpl implements Clusters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ClustersListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Cluster[]> {
     let result: ClustersListResponse;
     result = await this._list(options);
@@ -224,7 +306,7 @@ export class ClustersImpl implements Clusters {
   }
 
   private async *listPagingAll(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): AsyncIterableIterator<Cluster> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -236,7 +318,7 @@ export class ClustersImpl implements Clusters {
    * @param options The options parameters.
    */
   public listSkus(
-    options?: ClustersListSkusOptionalParams
+    options?: ClustersListSkusOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription> {
     const iter = this.listSkusPagingAll(options);
     return {
@@ -251,13 +333,13 @@ export class ClustersImpl implements Clusters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listSkusPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listSkusPagingPage(
     options?: ClustersListSkusOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SkuDescription[]> {
     let result: ClustersListSkusResponse;
     result = await this._listSkus(options);
@@ -265,7 +347,7 @@ export class ClustersImpl implements Clusters {
   }
 
   private async *listSkusPagingAll(
-    options?: ClustersListSkusOptionalParams
+    options?: ClustersListSkusOptionalParams,
   ): AsyncIterableIterator<SkuDescription> {
     for await (const page of this.listSkusPagingPage(options)) {
       yield* page;
@@ -274,19 +356,19 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Returns the SKUs available for the provided resource.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   public listSkusByResource(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListSkusByResourceOptionalParams
+    options?: ClustersListSkusByResourceOptionalParams,
   ): PagedAsyncIterableIterator<AzureResourceSku> {
     const iter = this.listSkusByResourcePagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -303,9 +385,9 @@ export class ClustersImpl implements Clusters {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -313,13 +395,13 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersListSkusByResourceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AzureResourceSku[]> {
     let result: ClustersListSkusByResourceResponse;
     result = await this._listSkusByResource(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -327,12 +409,12 @@ export class ClustersImpl implements Clusters {
   private async *listSkusByResourcePagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListSkusByResourceOptionalParams
+    options?: ClustersListSkusByResourceOptionalParams,
   ): AsyncIterableIterator<AzureResourceSku> {
     for await (const page of this.listSkusByResourcePagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -340,19 +422,19 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Gets the network endpoints of all outbound dependencies of a Kusto cluster
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   public listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint> {
     const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -369,9 +451,9 @@ export class ClustersImpl implements Clusters {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -379,7 +461,7 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundNetworkDependenciesEndpoint[]> {
     let result: ClustersListOutboundNetworkDependenciesEndpointsResponse;
     let continuationToken = settings?.continuationToken;
@@ -387,7 +469,7 @@ export class ClustersImpl implements Clusters {
       result = await this._listOutboundNetworkDependenciesEndpoints(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -399,7 +481,7 @@ export class ClustersImpl implements Clusters {
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -411,12 +493,78 @@ export class ClustersImpl implements Clusters {
   private async *listOutboundNetworkDependenciesEndpointsPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): AsyncIterableIterator<OutboundNetworkDependenciesEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Returns the allowed callout policies for the specified service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
+  public listCalloutPolicies(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListCalloutPoliciesOptionalParams,
+  ): PagedAsyncIterableIterator<CalloutPolicy> {
+    const iter = this.listCalloutPoliciesPagingAll(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCalloutPoliciesPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listCalloutPoliciesPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListCalloutPoliciesOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<CalloutPolicy[]> {
+    let result: ClustersListCalloutPoliciesResponse;
+    result = await this._listCalloutPolicies(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    yield result.value || [];
+  }
+
+  private async *listCalloutPoliciesPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListCalloutPoliciesOptionalParams,
+  ): AsyncIterableIterator<CalloutPolicy> {
+    for await (const page of this.listCalloutPoliciesPagingPage(
+      resourceGroupName,
+      clusterName,
+      options,
     )) {
       yield* page;
     }
@@ -424,19 +572,19 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Returns a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   public listLanguageExtensions(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListLanguageExtensionsOptionalParams
+    options?: ClustersListLanguageExtensionsOptionalParams,
   ): PagedAsyncIterableIterator<LanguageExtension> {
     const iter = this.listLanguageExtensionsPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -453,9 +601,9 @@ export class ClustersImpl implements Clusters {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -463,13 +611,13 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersListLanguageExtensionsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LanguageExtension[]> {
     let result: ClustersListLanguageExtensionsResponse;
     result = await this._listLanguageExtensions(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -477,12 +625,12 @@ export class ClustersImpl implements Clusters {
   private async *listLanguageExtensionsPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListLanguageExtensionsOptionalParams
+    options?: ClustersListLanguageExtensionsOptionalParams,
   ): AsyncIterableIterator<LanguageExtension> {
     for await (const page of this.listLanguageExtensionsPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -490,24 +638,24 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Gets a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param parameters The Kusto cluster parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -516,30 +664,29 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -548,8 +695,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -557,19 +704,22 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ClustersCreateOrUpdateResponse,
+      OperationState<ClustersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -577,7 +727,7 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Create or update a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param parameters The Kusto cluster parameters supplied to the CreateOrUpdate operation.
    * @param options The options parameters.
@@ -586,20 +736,20 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Update a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param parameters The Kusto cluster parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -608,30 +758,29 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -640,8 +789,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -649,19 +798,22 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ClustersUpdateResponse,
+      OperationState<ClustersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -669,7 +821,7 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Update a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param parameters The Kusto cluster parameters supplied to the Update operation.
    * @param options The options parameters.
@@ -678,45 +830,44 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deletes a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -725,8 +876,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -734,19 +885,19 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -754,51 +905,50 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Deletes a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Stops a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginStop(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -807,8 +957,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -816,19 +966,19 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: stopOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -836,51 +986,50 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Stops a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginStopAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
+    options?: ClustersStopOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Starts a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginStart(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -889,8 +1038,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -898,19 +1047,19 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -918,43 +1067,146 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Starts a Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginStartAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
+    options?: ClustersStartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
       clusterName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate data from a Kusto cluster to another cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param clusterMigrateRequest The cluster migrate request parameters.
+   * @param options The options parameters.
+   */
+  async beginMigrate(
+    resourceGroupName: string,
+    clusterName: string,
+    clusterMigrateRequest: ClusterMigrateRequest,
+    options?: ClustersMigrateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, clusterMigrateRequest, options },
+      spec: migrateOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate data from a Kusto cluster to another cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param clusterMigrateRequest The cluster migrate request parameters.
+   * @param options The options parameters.
+   */
+  async beginMigrateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    clusterMigrateRequest: ClusterMigrateRequest,
+    options?: ClustersMigrateOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginMigrate(
+      resourceGroupName,
+      clusterName,
+      clusterMigrateRequest,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Returns a list of databases that are owned by this cluster and were followed by another cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
+  private _listFollowerDatabasesGet(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListFollowerDatabasesGetOptionalParams,
+  ): Promise<ClustersListFollowerDatabasesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listFollowerDatabasesGetOperationSpec,
+    );
+  }
+
+  /**
+   * Returns a list of databases that are owned by this cluster and were followed by another cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   private _listFollowerDatabases(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListFollowerDatabasesOptionalParams
+    options?: ClustersListFollowerDatabasesOptionalParams,
   ): Promise<ClustersListFollowerDatabasesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listFollowerDatabasesOperationSpec
+      listFollowerDatabasesOperationSpec,
     );
   }
 
   /**
    * Detaches all followers of a database owned by this cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param followerDatabaseToRemove The follower databases properties to remove.
    * @param options The options parameters.
@@ -963,25 +1215,24 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
-    options?: ClustersDetachFollowerDatabasesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersDetachFollowerDatabasesOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -990,8 +1241,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -999,19 +1250,24 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, followerDatabaseToRemove, options },
-      detachFollowerDatabasesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        followerDatabaseToRemove,
+        options,
+      },
+      spec: detachFollowerDatabasesOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1019,7 +1275,7 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Detaches all followers of a database owned by this cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param followerDatabaseToRemove The follower databases properties to remove.
    * @param options The options parameters.
@@ -1028,50 +1284,49 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
-    options?: ClustersDetachFollowerDatabasesOptionalParams
+    options?: ClustersDetachFollowerDatabasesOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDetachFollowerDatabases(
       resourceGroupName,
       clusterName,
       followerDatabaseToRemove,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Diagnoses network connectivity status for external resources on which the service is dependent on.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginDiagnoseVirtualNetwork(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDiagnoseVirtualNetworkOptionalParams
+    options?: ClustersDiagnoseVirtualNetworkOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersDiagnoseVirtualNetworkResponse>,
+    SimplePollerLike<
+      OperationState<ClustersDiagnoseVirtualNetworkResponse>,
       ClustersDiagnoseVirtualNetworkResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ClustersDiagnoseVirtualNetworkResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1080,8 +1335,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1089,20 +1344,22 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, options },
-      diagnoseVirtualNetworkOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, options },
+      spec: diagnoseVirtualNetworkOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ClustersDiagnoseVirtualNetworkResponse,
+      OperationState<ClustersDiagnoseVirtualNetworkResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1110,35 +1367,35 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Diagnoses network connectivity status for external resources on which the service is dependent on.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   async beginDiagnoseVirtualNetworkAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDiagnoseVirtualNetworkOptionalParams
+    options?: ClustersDiagnoseVirtualNetworkOptionalParams,
   ): Promise<ClustersDiagnoseVirtualNetworkResponse> {
     const poller = await this.beginDiagnoseVirtualNetwork(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Lists all Kusto clusters within a resource group.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): Promise<ClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -1147,7 +1404,7 @@ export class ClustersImpl implements Clusters {
    * @param options The options parameters.
    */
   private _list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): Promise<ClustersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -1157,82 +1414,271 @@ export class ClustersImpl implements Clusters {
    * @param options The options parameters.
    */
   private _listSkus(
-    options?: ClustersListSkusOptionalParams
+    options?: ClustersListSkusOptionalParams,
   ): Promise<ClustersListSkusResponse> {
     return this.client.sendOperationRequest({ options }, listSkusOperationSpec);
   }
 
   /**
    * Checks that the cluster name is valid and is not already in use.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     clusterName: ClusterCheckNameRequest,
-    options?: ClustersCheckNameAvailabilityOptionalParams
+    options?: ClustersCheckNameAvailabilityOptionalParams,
   ): Promise<ClustersCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, clusterName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
   /**
    * Returns the SKUs available for the provided resource.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   private _listSkusByResource(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListSkusByResourceOptionalParams
+    options?: ClustersListSkusByResourceOptionalParams,
   ): Promise<ClustersListSkusByResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listSkusByResourceOperationSpec
+      listSkusByResourceOperationSpec,
     );
   }
 
   /**
    * Gets the network endpoints of all outbound dependencies of a Kusto cluster
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   private _listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<ClustersListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
+    );
+  }
+
+  /**
+   * Adds a list of callout policies for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicies The callout policies to add.
+   * @param options The options parameters.
+   */
+  async beginAddCalloutPolicies(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicies: CalloutPoliciesList,
+    options?: ClustersAddCalloutPoliciesOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, calloutPolicies, options },
+      spec: addCalloutPoliciesOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Adds a list of callout policies for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicies The callout policies to add.
+   * @param options The options parameters.
+   */
+  async beginAddCalloutPoliciesAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicies: CalloutPoliciesList,
+    options?: ClustersAddCalloutPoliciesOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginAddCalloutPolicies(
+      resourceGroupName,
+      clusterName,
+      calloutPolicies,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Removes callout policy for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicy The callout policies to remove.
+   * @param options The options parameters.
+   */
+  async beginRemoveCalloutPolicy(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicy: CalloutPolicyToRemove,
+    options?: ClustersRemoveCalloutPolicyOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, calloutPolicy, options },
+      spec: removeCalloutPolicyOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Removes callout policy for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicy The callout policies to remove.
+   * @param options The options parameters.
+   */
+  async beginRemoveCalloutPolicyAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicy: CalloutPolicyToRemove,
+    options?: ClustersRemoveCalloutPolicyOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginRemoveCalloutPolicy(
+      resourceGroupName,
+      clusterName,
+      calloutPolicy,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns the allowed callout policies for the specified service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
+  private _listCalloutPolicies(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListCalloutPoliciesOptionalParams,
+  ): Promise<ClustersListCalloutPoliciesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listCalloutPoliciesOperationSpec,
     );
   }
 
   /**
    * Returns a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   private _listLanguageExtensions(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListLanguageExtensionsOptionalParams
+    options?: ClustersListLanguageExtensionsOptionalParams,
   ): Promise<ClustersListLanguageExtensionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listLanguageExtensionsOperationSpec
+      listLanguageExtensionsOperationSpec,
     );
   }
 
   /**
    * Add a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param languageExtensionsToAdd The language extensions to add.
    * @param options The options parameters.
@@ -1241,25 +1687,24 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
-    options?: ClustersAddLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersAddLanguageExtensionsOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1268,8 +1713,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1277,19 +1722,24 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, languageExtensionsToAdd, options },
-      addLanguageExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToAdd,
+        options,
+      },
+      spec: addLanguageExtensionsOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1297,7 +1747,7 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Add a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param languageExtensionsToAdd The language extensions to add.
    * @param options The options parameters.
@@ -1306,20 +1756,20 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
-    options?: ClustersAddLanguageExtensionsOptionalParams
+    options?: ClustersAddLanguageExtensionsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginAddLanguageExtensions(
       resourceGroupName,
       clusterName,
       languageExtensionsToAdd,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Remove a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param languageExtensionsToRemove The language extensions to remove.
    * @param options The options parameters.
@@ -1328,25 +1778,24 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
-    options?: ClustersRemoveLanguageExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ClustersRemoveLanguageExtensionsOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1355,8 +1804,8 @@ export class ClustersImpl implements Clusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1364,19 +1813,24 @@ export class ClustersImpl implements Clusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, languageExtensionsToRemove, options },
-      removeLanguageExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToRemove,
+        options,
+      },
+      spec: removeLanguageExtensionsOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1384,7 +1838,7 @@ export class ClustersImpl implements Clusters {
 
   /**
    * Remove a list of language extensions that can run within KQL queries.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param languageExtensionsToRemove The language extensions to remove.
    * @param options The options parameters.
@@ -1393,20 +1847,20 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
-    options?: ClustersRemoveLanguageExtensionsOptionalParams
+    options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRemoveLanguageExtensions(
       resourceGroupName,
       clusterName,
       languageExtensionsToRemove,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * ListOutboundNetworkDependenciesEndpointsNext
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListOutboundNetworkDependenciesEndpoints method.
@@ -1416,11 +1870,11 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ): Promise<ClustersListOutboundNetworkDependenciesEndpointsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
     );
   }
 }
@@ -1428,47 +1882,45 @@ export class ClustersImpl implements Clusters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -1476,37 +1928,36 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.Cluster,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -1514,19 +1965,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1534,22 +1984,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1557,22 +2006,21 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1580,44 +2028,87 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const migrateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/migrate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.clusterMigrateRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listFollowerDatabasesGetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FollowerDatabaseListResultGet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listFollowerDatabasesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FollowerDatabaseListResult
+      bodyMapper: Mappers.FollowerDatabaseListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const detachFollowerDatabasesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1625,8 +2116,8 @@ const detachFollowerDatabasesOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.followerDatabaseToRemove,
   queryParameters: [Parameters.apiVersion],
@@ -1634,188 +2125,161 @@ const detachFollowerDatabasesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const diagnoseVirtualNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/diagnoseVirtualNetwork",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/diagnoseVirtualNetwork",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnoseVirtualNetworkResult
+      bodyMapper: Mappers.DiagnoseVirtualNetworkResult,
     },
     201: {
-      bodyMapper: Mappers.DiagnoseVirtualNetworkResult
+      bodyMapper: Mappers.DiagnoseVirtualNetworkResult,
     },
     202: {
-      bodyMapper: Mappers.DiagnoseVirtualNetworkResult
+      bodyMapper: Mappers.DiagnoseVirtualNetworkResult,
     },
     204: {
-      bodyMapper: Mappers.DiagnoseVirtualNetworkResult
+      bodyMapper: Mappers.DiagnoseVirtualNetworkResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterListResult
+      bodyMapper: Mappers.ClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/clusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterListResult
+      bodyMapper: Mappers.ClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuDescriptionList
+      bodyMapper: Mappers.SkuDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.clusterName1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSkusByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListResourceSkusResult
+      bodyMapper: Mappers.ListResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LanguageExtensionsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const addLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions",
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.clusterName,
+      Parameters.subscriptionId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const addCalloutPoliciesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addCalloutPolicies",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1823,8 +2287,98 @@ const addLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.calloutPolicies,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const removeCalloutPolicyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeCalloutPolicy",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.calloutPolicy,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listCalloutPoliciesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listCalloutPolicies",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CalloutPoliciesList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LanguageExtensionsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const addLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.languageExtensionsToAdd,
   queryParameters: [Parameters.apiVersion],
@@ -1832,15 +2386,14 @@ const addLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const removeLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1848,8 +2401,8 @@ const removeLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.languageExtensionsToRemove,
   queryParameters: [Parameters.apiVersion],
@@ -1857,30 +2410,31 @@ const removeLanguageExtensionsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.clusterName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

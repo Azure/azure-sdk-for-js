@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { CosmosClient, PermissionMode } from "../../../src";
-import { PermissionDefinition } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+// Licensed under the MIT License.
+
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { PermissionDefinition } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   createOrUpsertPermission,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  describe("Validate Authorization", function () {
-    it("should handle all the key options", async function () {
+  describe("Validate Authorization", () => {
+    it("should handle all the key options", async () => {
       const clientOptionsKey = new CosmosClient({
         endpoint,
         key: masterKey,
@@ -28,7 +27,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
 
       const clientOptionsAuthKey = new CosmosClient({
@@ -38,7 +37,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsAuthKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
 
       const clientOptionsAuthMasterKey = new CosmosClient({
@@ -48,7 +47,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsAuthMasterKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
     });
 
@@ -87,7 +86,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user1.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert((permissionOnColl1 as any)._token !== undefined, "permission token is invalid");
       permission = {
@@ -100,7 +99,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user1.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert((permissionOnDoc2 as any)._token !== undefined, "permission token is invalid"); // TODO: any rid
 
@@ -116,7 +115,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user2.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       const entities = {
         database,
@@ -193,7 +192,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         successDoc.id,
         entities.doc1.id,
-        "Expected to read children using parent permissions"
+        "Expected to read children using parent permissions",
       );
       // TODO: Permission Feed uses RID right now
       /*
@@ -223,7 +222,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       const container = await getTestContainer(
         "authorization CRUD multiple partitons",
         undefined,
-        containerDefinition
+        containerDefinition,
       );
       // create user
       const { resource: userDef } = await container.database.users.create({ id: "user1" });
@@ -264,19 +263,19 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     };
 
-    it("Should do authorization successfully name based", async function () {
+    it("Should do authorization successfully name based", async () => {
       await authorizationCRUDTest(false);
     });
 
-    it("Should do authorization successfully name based with upsert", async function () {
+    it("Should do authorization successfully name based with upsert", async () => {
       await authorizationCRUDTest(true);
     });
 
-    it("Should do authorization over multiple partitions successfully name based", async function () {
+    it("Should do authorization over multiple partitions successfully name based", async () => {
       await authorizationCRUDOverMultiplePartitionsTest();
     });
 
-    it("should allow deletion of a doc with container token", async function () {
+    it("should allow deletion of a doc with container token", async () => {
       const container = await getTestContainer("Validate Authorization container");
 
       const { resource: item } = await container.items.create({
@@ -297,7 +296,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           resource: (await container.read()).resource._self,
         },
         undefined,
-        false
+        false,
       );
 
       const resourceTokens = {

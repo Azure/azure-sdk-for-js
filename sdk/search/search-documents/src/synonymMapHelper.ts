@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SynonymMap } from "./serviceModels";
-import { promisify } from "util";
-import * as fs from "fs";
+import * as fs from "node:fs";
+import { promisify } from "node:util";
+import type { SynonymMap } from "./serviceModels.js";
 const readFileAsync = promisify(fs.readFile);
 
 /**
@@ -15,7 +15,7 @@ const readFileAsync = promisify(fs.readFile);
  */
 export async function createSynonymMapFromFile(
   name: string,
-  filePath: string
+  filePath: string,
 ): Promise<SynonymMap> {
   const synonyms: string[] = (await readFileAsync(filePath, "utf-8"))
     .replace(/\r/g, "")

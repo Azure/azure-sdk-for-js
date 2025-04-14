@@ -6,16 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
  *
  * @summary Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getQuotaRequestStatusFailed.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getQuotaRequestStatusFailed.json
  */
 async function quotaRequestFailed() {
   const id = "2B5C8515-37D8-4B6A-879B-CD641A2CF605";
@@ -27,13 +26,11 @@ async function quotaRequestFailed() {
   console.log(result);
 }
 
-quotaRequestFailed().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
  *
  * @summary Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getQuotaRequestStatusInProgress.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getQuotaRequestStatusInProgress.json
  */
 async function quotaRequestInProgress() {
   const id = "2B5C8515-37D8-4B6A-879B-CD641A2CF605";
@@ -45,13 +42,11 @@ async function quotaRequestInProgress() {
   console.log(result);
 }
 
-quotaRequestInProgress().catch(console.error);
-
 /**
  * This sample demonstrates how to Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
  *
  * @summary Get the quota request details and status by quota request ID for the resources of the resource provider at a specific location. The quota request ID **id** is returned in the response of the PUT operation.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/getQuotaRequestStatusById.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getQuotaRequestStatusById.json
  */
 async function quotaRequestStatus() {
   const id = "2B5C8515-37D8-4B6A-879B-CD641A2CF605";
@@ -63,4 +58,10 @@ async function quotaRequestStatus() {
   console.log(result);
 }
 
-quotaRequestStatus().catch(console.error);
+async function main() {
+  await quotaRequestFailed();
+  await quotaRequestInProgress();
+  await quotaRequestStatus();
+}
+
+main().catch(console.error);

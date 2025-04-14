@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { StatisticsOperations } from "../operationsInterfaces";
+import { StatisticsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AutomationClient } from "../automationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AutomationClient } from "../automationClient.js";
 import {
   Statistics,
   StatisticsListByAutomationAccountOptionalParams,
   StatisticsListByAutomationAccountResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StatisticsOperations operations. */

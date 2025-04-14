@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineExtensionImagesListTypesParameters,
-} from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import type { VirtualMachineExtensionImagesListTypesParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets a list of virtual machine extension image types.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
+async function virtualMachineExtensionImagesListTypesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -31,7 +26,7 @@ async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);
@@ -44,7 +39,7 @@ virtualMachineExtensionImagesListTypesMaximumSetGen().catch(console.error);
  * @summary Gets a list of virtual machine extension image types.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
+async function virtualMachineExtensionImagesListTypesMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -58,7 +53,7 @@ async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);

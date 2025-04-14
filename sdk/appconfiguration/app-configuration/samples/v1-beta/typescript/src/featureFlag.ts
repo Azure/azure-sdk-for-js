@@ -28,14 +28,14 @@ export async function main() {
       description: "I'm a description",
       conditions: {
         clientFilters: [
-          // {
-          // // Time window filter - Use this filter to activate the feature for a time period
-          //   name: "Microsoft.TimeWindow",
-          //   parameters: {
-          //     Start: "Wed, 01 May 2021 13:59:59 GMT",
-          //     End: "Mon, 01 July 2022 00:00:00 GMT"
-          //   }
-          // },
+          {
+            // Time window filter - Use this filter to activate the feature for a time period
+            name: "Microsoft.TimeWindow",
+            parameters: {
+              Start: "Wed, 01 May 2021 13:59:59 GMT",
+              End: "Mon, 01 July 2022 00:00:00 GMT",
+            },
+          },
           {
             // Targeting filter - you can target users/groups of users using this filter
             name: "Microsoft.Targeting",
@@ -94,10 +94,12 @@ export async function main() {
             clientFilter.parameters.Audience.Users.concat("test2@contoso.com");
         }
         break;
-      // case "Microsoft.TimeWindow":
-      // // Changes the start time
-      //   clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
-      //   break;
+      case "Microsoft.TimeWindow":
+        // Changes the start time
+        if (isTimeWindowClientFilter(clientFilter)) {
+          clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
+        }
+        break;
       // case "Microsoft.Percentage":
       // // Changes the percentage value from 50 to 75 - to enable the feature flag for 75% of requests
       //   clientFilter.parameters.Value = 75;
@@ -163,6 +165,22 @@ function isTargetingClientFilter(clientFilter: any): clientFilter is {
     Array.isArray(clientFilter.parameters["Audience"]["Groups"]) &&
     Array.isArray(clientFilter.parameters["Audience"]["Users"]) &&
     typeof clientFilter.parameters["Audience"]["DefaultRolloutPercentage"] === "number"
+  );
+}
+
+/**
+ * typeguard - for timewindow client filter
+ */
+export function isTimeWindowClientFilter(
+  clientFilter: any
+): clientFilter is { parameters: { Start: string; End: string } } {
+  return (
+    clientFilter.name === "Microsoft.TimeWindow" &&
+    clientFilter.parameters &&
+    clientFilter.parameters["Start"] &&
+    clientFilter.parameters["End"] &&
+    typeof clientFilter.parameters["Start"] === "string" &&
+    typeof clientFilter.parameters["End"] === "string"
   );
 }
 

@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PrivateEndpointsGetParameters,
-} from "@azure-rest/arm-network";
+import type { PrivateEndpointsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGet.json
  */
-async function getPrivateEndpoint() {
+async function getPrivateEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -31,7 +25,7 @@ async function getPrivateEndpoint() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);
@@ -44,7 +38,7 @@ getPrivateEndpoint().catch(console.error);
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetWithASG.json
  */
-async function getPrivateEndpointWithApplicationSecurityGroups() {
+async function getPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -58,7 +52,7 @@ async function getPrivateEndpointWithApplicationSecurityGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);
@@ -71,7 +65,7 @@ getPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetForManualApproval.json
  */
-async function getPrivateEndpointWithManualApprovalConnection() {
+async function getPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -85,7 +79,7 @@ async function getPrivateEndpointWithManualApprovalConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);

@@ -42,7 +42,7 @@ node marketplaceAgreementsCancelSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MARKETPLACEORDERING_SUBSCRIPTION_ID="<marketplaceordering subscription id>" node marketplaceAgreementsCancelSample.js
+npx dev-tool run vendored cross-env MARKETPLACEORDERING_SUBSCRIPTION_ID="<marketplaceordering subscription id>" node marketplaceAgreementsCancelSample.js
 ```
 
 ## Next Steps
@@ -55,6 +55,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [marketplaceagreementsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/javascript/marketplaceAgreementsGetSample.js
 [marketplaceagreementslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/javascript/marketplaceAgreementsListSample.js
 [marketplaceagreementssignsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/javascript/marketplaceAgreementsSignSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-marketplaceordering?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-marketplaceordering?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/marketplaceordering/arm-marketplaceordering/README.md

@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FrontDoorNameAvailability } from "../operationsInterfaces";
+import { FrontDoorNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityCheckOptionalParams,
-  FrontDoorNameAvailabilityCheckResponse
-} from "../models";
+  FrontDoorNameAvailabilityCheckResponse,
+} from "../models/index.js";
 
 /** Class containing FrontDoorNameAvailability operations. */
 export class FrontDoorNameAvailabilityImpl
-  implements FrontDoorNameAvailability {
+  implements FrontDoorNameAvailability
+{
   private readonly client: FrontDoorManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class FrontDoorNameAvailabilityImpl
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityCheckOptionalParams
+    options?: FrontDoorNameAvailabilityCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityCheckResponse> {
     return this.client.sendOperationRequest(
       { checkFrontDoorNameAvailabilityInput, options },
-      checkOperationSpec
+      checkOperationSpec,
     );
   }
 }
@@ -53,16 +54,16 @@ const checkOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkFrontDoorNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

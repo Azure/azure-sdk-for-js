@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { RoleEligibilitySchedules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { RoleEligibilitySchedules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClient } from "../authorizationManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
 import {
   RoleEligibilitySchedule,
   RoleEligibilitySchedulesListForScopeNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   RoleEligibilitySchedulesGetOptionalParams,
   RoleEligibilitySchedulesGetResponse,
   RoleEligibilitySchedulesListForScopeNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleEligibilitySchedules operations. */
@@ -158,7 +158,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -178,7 +178,7 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer

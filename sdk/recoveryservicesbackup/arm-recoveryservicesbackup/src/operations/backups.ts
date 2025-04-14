@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Backups } from "../operationsInterfaces";
+import { Backups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
-import { BackupRequestResource, BackupsTriggerOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import { BackupRequestResource, BackupsTriggerOptionalParams } from "../models/index.js";
 
 /** Class containing Backups operations. */
 export class BackupsImpl implements Backups {
@@ -45,7 +45,7 @@ export class BackupsImpl implements Backups {
     containerName: string,
     protectedItemName: string,
     parameters: BackupRequestResource,
-    options?: BackupsTriggerOptionalParams
+    options?: BackupsTriggerOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +55,9 @@ export class BackupsImpl implements Backups {
         containerName,
         protectedItemName,
         parameters,
-        options
+        options,
       },
-      triggerOperationSpec
+      triggerOperationSpec,
     );
   }
 }
@@ -65,14 +65,13 @@ export class BackupsImpl implements Backups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const triggerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup",
   httpMethod: "POST",
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
@@ -83,9 +82,9 @@ const triggerOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.fabricName,
     Parameters.containerName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -12,7 +12,7 @@ import {
   ImagesGetUploadUrlForEntityTypeResponse,
   ImagesGetUploadUrlForDataOptionalParams,
   ImagesGetUploadUrlForDataResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Images. */
 export interface Images {

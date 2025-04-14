@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   WorkloadProtectableItemResource,
-  BackupProtectableItemsListOptionalParams
-} from "../models";
+  BackupProtectableItemsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BackupProtectableItems. */
@@ -27,6 +27,6 @@ export interface BackupProtectableItems {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupProtectableItemsListOptionalParams
+    options?: BackupProtectableItemsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadProtectableItemResource>;
 }

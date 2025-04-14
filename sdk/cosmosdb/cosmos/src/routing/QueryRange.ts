@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
-import { Constants } from "../common";
-import { QueryRange as ResponseQueryRange } from "../request/ErrorResponse";
+// Licensed under the MIT License.
+import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange.js";
+import { Constants } from "../common/index.js";
+import type { QueryRange as ResponseQueryRange } from "../request/ErrorResponse.js";
 
 /** @hidden */
 export class QueryRange {
@@ -24,7 +24,7 @@ export class QueryRange {
     rangeMin: string,
     rangeMax: string,
     isMinInclusive: boolean,
-    isMaxInclusive: boolean
+    isMaxInclusive: boolean,
   ) {
     this.min = rangeMin;
     this.max = rangeMax;
@@ -75,7 +75,7 @@ export class QueryRange {
       partitionKeyRange[Constants.PartitionKeyRange.MinInclusive],
       partitionKeyRange[Constants.PartitionKeyRange.MaxExclusive],
       true,
-      false
+      false,
     );
   }
   /**
@@ -88,7 +88,7 @@ export class QueryRange {
       queryRangeDict.min,
       queryRangeDict.max,
       queryRangeDict.isMinInclusive,
-      queryRangeDict.isMaxInclusive
+      queryRangeDict.isMaxInclusive,
     );
   }
 }

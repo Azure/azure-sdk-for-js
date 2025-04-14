@@ -11,8 +11,8 @@ import {
   SecuritySolution,
   SecuritySolutionsListOptionalParams,
   SecuritySolutionsGetOptionalParams,
-  SecuritySolutionsGetResponse
-} from "../models";
+  SecuritySolutionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecuritySolutions. */
@@ -22,7 +22,7 @@ export interface SecuritySolutions {
    * @param options The options parameters.
    */
   list(
-    options?: SecuritySolutionsListOptionalParams
+    options?: SecuritySolutionsListOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySolution>;
   /**
    * Gets a specific Security Solution.
@@ -37,6 +37,6 @@ export interface SecuritySolutions {
     resourceGroupName: string,
     ascLocation: string,
     securitySolutionName: string,
-    options?: SecuritySolutionsGetOptionalParams
+    options?: SecuritySolutionsGetOptionalParams,
   ): Promise<SecuritySolutionsGetResponse>;
 }

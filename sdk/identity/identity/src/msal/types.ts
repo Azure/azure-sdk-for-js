@@ -1,5 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
+/**
+ * @internal
+ */
+export type AppType = "public" | "confidential" | "publicFirst" | "confidentialFirst";
 
 /**
  * The shape we use return the token (and the expiration date).
@@ -9,6 +14,11 @@ export interface MsalToken {
   accessToken?: string;
   expiresOn: Date | null;
 }
+
+/**
+ * Represents a valid (i.e. complete) MSAL token.
+ */
+export type ValidMsalToken = { [P in keyof MsalToken]-?: NonNullable<MsalToken[P]> };
 
 /**
  * Internal representation of MSAL's Account information.
@@ -23,7 +33,6 @@ export interface MsalAccountInfo {
   localAccountId: string;
   name?: string;
   // Leaving idTokenClaims as object since that's how MSAL has this assigned.
-  /* eslint-disable-next-line @typescript-eslint/ban-types */
   idTokenClaims?: object;
 }
 
@@ -36,6 +45,7 @@ export interface MsalResult {
   account: MsalAccountInfo | null;
   accessToken: string;
   expiresOn: Date | null;
+  refreshOn?: Date | null;
 }
 
 /**
@@ -43,7 +53,7 @@ export interface MsalResult {
  */
 export interface AuthenticationRecord {
   /**
-   * The associated authority, if used.
+   * Entity which issued the token represented by the domain of the issuer (e.g. login.microsoftonline.com)
    */
   authority: string;
   /**
@@ -62,4 +72,24 @@ export interface AuthenticationRecord {
    * The username of the logged in account.
    */
   username: string;
+}
+
+/**
+ * Represents a parsed certificate
+ * @internal
+ */
+export interface CertificateParts {
+  /**
+   * Hex encoded X.509 SHA-1 thumbprint of the certificate.
+   */
+  thumbprint: string;
+
+  /**
+   * The PEM encoded private key.
+   */
+  privateKey: string;
+  /**
+   * x5c header.
+   */
+  x5c?: string;
 }

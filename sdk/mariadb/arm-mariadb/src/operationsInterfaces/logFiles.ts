@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { LogFile, LogFilesListByServerOptionalParams } from "../models";
+import { LogFile, LogFilesListByServerOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LogFiles. */

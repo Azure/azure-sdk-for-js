@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import {
+import type {
   ServiceBusReceivedMessage,
-  delay,
   ProcessErrorArgs,
   ServiceBusReceiver,
   ServiceBusSender,
-} from "../../src";
-import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors";
-import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils";
-import { DispositionType, ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+} from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors.js";
+import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils.js";
+import type { ServiceBusMessageImpl } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   drainReceiveAndDeleteReceiver,
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { getDeliveryProperty } from "./utils/misc";
-import { verifyMessageCount } from "../public/utils/managementUtils";
-import sinon from "sinon";
-import { isNode } from "@azure/core-util";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+} from "../public/utils/testutils2.js";
+import { getDeliveryProperty } from "./utils/misc.js";
+import { verifyMessageCount } from "../public/utils/managementUtils.js";
+import { isNodeLike } from "@azure/core-util";
+import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { expect, should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
@@ -45,11 +41,11 @@ describe("Streaming Receiver Tests", () => {
   let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -62,7 +58,7 @@ describe("Streaming Receiver Tests", () => {
       receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     }
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -92,7 +88,7 @@ describe("Streaming Receiver Tests", () => {
           should.equal(
             msg.messageId,
             testMessage.messageId,
-            "MessageId is different than expected"
+            "MessageId is different than expected",
           );
 
           return Promise.resolve();
@@ -103,7 +99,7 @@ describe("Streaming Receiver Tests", () => {
       const msgsCheck = await checkWithTimeout(
         () =>
           receivedMsgs.length === 1 &&
-          (receivedMsgs[0] as ServiceBusMessageImpl).delivery.remote_settled === true
+          (receivedMsgs[0] as ServiceBusMessageImpl).delivery.remote_settled === true,
       );
 
       should.equal(
@@ -111,7 +107,7 @@ describe("Streaming Receiver Tests", () => {
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time"
+          : "Message didn't get auto-completed in time",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -132,13 +128,13 @@ describe("Streaming Receiver Tests", () => {
             should.equal(
               msg.messageId,
               testMessage.messageId,
-              "MessageId is different than expected"
+              "MessageId is different than expected",
             );
             return Promise.resolve();
           },
           processError,
         },
-        { autoCompleteMessages: false }
+        { autoCompleteMessages: false },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -155,7 +151,7 @@ describe("Streaming Receiver Tests", () => {
 
     it("can stop and start a subscription", async () => {
       const entities = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedQueue
+        TestClientType.UnpartitionedQueue,
       );
 
       const sender2 = await serviceBusClient.test.createSender(entities);
@@ -226,14 +222,14 @@ describe("Streaming Receiver Tests", () => {
             should.equal(
               msg.messageId,
               testMessage.messageId,
-              "MessageId is different than expected"
+              "MessageId is different than expected",
             );
             await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -273,18 +269,18 @@ describe("Streaming Receiver Tests", () => {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
-              "DeliveryCount is different than expected"
+              "DeliveryCount is different than expected",
             );
             await receiver.abandonMessage(msg);
             checkDeliveryCount++;
           },
           processError,
         },
-        { autoCompleteMessages: false }
+        { autoCompleteMessages: false },
       );
 
       const deliveryCountFlag = await checkWithTimeout(
-        () => checkDeliveryCount === maxDeliveryCount
+        () => checkDeliveryCount === maxDeliveryCount,
       );
       should.equal(deliveryCountFlag, true, "DeliveryCount is different than expected");
 
@@ -298,12 +294,12 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         deadLetterMsgs[0].deliveryCount,
         maxDeliveryCount,
-        "DeliveryCount is different than expected"
+        "DeliveryCount is different than expected",
       );
       should.equal(
         deadLetterMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgs[0]);
@@ -334,13 +330,13 @@ describe("Streaming Receiver Tests", () => {
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
       should.equal(
         sequenceNumCheck,
         true,
-        "Either the message is not received or observed an unexpected SequenceNumber."
+        "Either the message is not received or observed an unexpected SequenceNumber.",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -352,12 +348,12 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         deferredMsgs[0].body,
         testMessage.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deferredMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
 
@@ -397,7 +393,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
@@ -413,7 +409,7 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         deadLetterMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgs[0]);
@@ -458,7 +454,7 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         errorMessage,
         expectedErrorMessage,
-        "Unexpected error message for registerMessageHandler"
+        "Unexpected error message for registerMessageHandler",
       );
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -471,7 +467,7 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         errorMessage,
         expectedErrorMessage,
-        "Unexpected error message for receiveMessages"
+        "Unexpected error message for receiveMessages",
       );
     }
 
@@ -491,7 +487,11 @@ describe("Streaming Receiver Tests", () => {
     });
 
     const testError = (err: Error): void => {
-      should.equal(err.message, MessageAlreadySettled, "ErrorMessage is different than expected");
+      expect(
+        err.message,
+
+        "ErrorMessage is different than expected",
+      ).includes(MessageAlreadySettled);
       errorWasThrown = true;
     };
 
@@ -509,14 +509,14 @@ describe("Streaming Receiver Tests", () => {
 
       const msgsCheck = await checkWithTimeout(
         () =>
-          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true,
       );
       should.equal(
         msgsCheck,
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time"
+          : "Message didn't get auto-completed in time",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -525,12 +525,12 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         receivedMsgs[0].body,
         testMessage.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         receivedMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await testPeekMsgsLength(receiver, 0);
@@ -591,13 +591,13 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         !!(receiver as any)._context.messageReceivers[streamingReceiverName!],
         true,
-        "Expected streaming receiver not to be cached."
+        "Expected streaming receiver not to be cached.",
       );
 
       should.equal(
         unexpectedError && unexpectedError.message,
         errorMessage,
-        "User error did not surface."
+        "User error did not surface.",
       );
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     }
@@ -607,7 +607,7 @@ describe("Streaming Receiver Tests", () => {
       async function (): Promise<void> {
         await beforeEachTest();
         await testUserError();
-      }
+      },
     );
   });
 
@@ -710,13 +710,13 @@ describe("Streaming Receiver Tests", () => {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
-                  "onMessage for the second message should not have been called before the first message got settled"
+                  "onMessage for the second message should not have been called before the first message got settled",
                 );
               }
             } else {
               if (maxConcurrentCalls && maxConcurrentCalls > 1 && settledMsgs.length !== 0) {
                 throw new Error(
-                  "onMessage for the second message should have been called before the first message got settled"
+                  "onMessage for the second message should have been called before the first message got settled",
                 );
               }
             }
@@ -728,7 +728,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError,
         },
-        maxConcurrentCalls ? { maxConcurrentCalls } : {}
+        maxConcurrentCalls ? { maxConcurrentCalls } : {},
       );
 
       await checkWithTimeout(() => settledMsgs.length === 2);
@@ -780,7 +780,7 @@ describe("Streaming Receiver Tests", () => {
         },
         {
           autoCompleteMessages: false,
-        }
+        },
       );
       await receiver.close();
 
@@ -788,14 +788,14 @@ describe("Streaming Receiver Tests", () => {
       should.equal(
         receivedMsgs.length,
         0,
-        `Expected 0 messages, but received ${receivedMsgs.length}`
+        `Expected 0 messages, but received ${receivedMsgs.length}`,
       );
       receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
       await verifyMessageCount(
         totalNumOfMessages,
         entityNames.queue,
         entityNames.topic,
-        entityNames.subscription
+        entityNames.subscription,
       );
       await drainReceiveAndDeleteReceiver(receiver);
       await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
@@ -806,7 +806,7 @@ describe("Streaming Receiver Tests", () => {
       async function (): Promise<void> {
         await beforeEachTest();
         await testReceiveMessages();
-      }
+      },
     );
 
     it(
@@ -814,7 +814,7 @@ describe("Streaming Receiver Tests", () => {
       async function (): Promise<void> {
         await beforeEachTest("receiveAndDelete");
         await testReceiveMessages();
-      }
+      },
     );
   });
 
@@ -855,7 +855,7 @@ describe("Streaming Receiver Tests", () => {
       finalMessage.body.should.equal(".close test - second message, after closing");
 
       await serviceBusClient.test.afterEach();
-    }
+    },
   );
 });
 
@@ -864,11 +864,11 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -876,7 +876,7 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
 
@@ -932,7 +932,8 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    processErrorFake.called.should.equal(false);
+
+    expect(processErrorFake).not.toHaveBeenCalled();
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
@@ -964,21 +965,21 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
  *
  * @param receivedErrors - Errors received while detaching
  */
-export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
+export function createOnDetachedProcessErrorFake(): any & {
   /**
    * Validates the errors that have been reported and makes sure they're consistent
    * with the platform we're running on.
    */
   assertErrors: () => void;
 } {
-  const processErrorFake = sinon.fake() as sinon.SinonSpy & {
+  const processErrorFake = vi.fn() as any & {
     assertErrors: () => void;
   };
 
   const assertErrors = (): void => {
     const errors: string[] = [];
 
-    for (const callArgs of processErrorFake.args) {
+    for (const callArgs of processErrorFake.mock.calls) {
       const processErrorArgs: ProcessErrorArgs = callArgs[0];
 
       if (processErrorArgs.error.message == null) {
@@ -994,7 +995,7 @@ export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
     // websocket platforms this can manifest as a CloseEvent).
     const expectedErrors = [];
 
-    if (isNode) {
+    if (isNodeLike) {
       if (errors.length > 0) {
         expectedErrors.push("read ECONNRESET");
       }
@@ -1006,7 +1007,7 @@ export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
 
     errors.should.deep.equal(
       expectedErrors,
-      "Errors were incorrect (or outside of expected errors)."
+      "Errors were incorrect (or outside of expected errors).",
     );
   };
 
@@ -1036,7 +1037,7 @@ export function singleMessagePromise(receiver: ServiceBusReceiver): Promise<{
       },
       {
         autoCompleteMessages: false,
-      }
+      },
     );
   });
 }

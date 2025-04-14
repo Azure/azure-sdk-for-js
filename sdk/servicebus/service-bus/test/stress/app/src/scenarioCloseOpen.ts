@@ -52,7 +52,7 @@ export async function scenarioClose() {
       await stressBase.receiveMessages(
         receiver,
         receiveBatchMaxMessageCount,
-        receiveBatchMaxWaitTimeInMs
+        receiveBatchMaxWaitTimeInMs,
       );
       await delay(delayBeforeCallingCloseInMs);
       await stressBase.callClose(sender, "sender");

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isRestError } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
-
-import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
+import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/index.js";
+import { assert } from "vitest";
 
 export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
-  results: (TextAnalyticsErrorResult | TSuccess)[]
+  results: (TextAnalyticsErrorResult | TSuccess)[],
 ): void {
   for (const result of results) {
     assert.ok(isSuccess(result));
@@ -15,7 +14,7 @@ export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
 }
 
 export function isSuccess<TSuccess extends TextAnalyticsSuccessResult>(
-  res: TextAnalyticsErrorResult | TSuccess
+  res: TextAnalyticsErrorResult | TSuccess,
 ): res is TSuccess {
   return res.error === undefined;
 }
@@ -26,7 +25,7 @@ export async function assertRestError(
     statusCode?: number;
     code?: string;
     messagePattern?: RegExp;
-  } = {}
+  } = {},
 ): Promise<void> {
   const { code, statusCode, messagePattern } = options;
   try {

@@ -5,19 +5,18 @@
  * @summary Perform room operations using the RoomsClient.
  */
 
-import {
-  RoomsClient,
+import type {
   CommunicationRoom,
   CreateRoomOptions,
   UpdateRoomOptions,
 } from "@azure/communication-rooms";
+import { RoomsClient } from "@azure/communication-rooms";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("Room Operations JavaScript Sample");
   console.log("_________________________________\n\n");
 
@@ -33,14 +32,16 @@ export async function main() {
   // create RoomsClient
   const roomsClient: RoomsClient = new RoomsClient(connectionString);
 
-  var validFrom = new Date(Date.now());
-  var validForDays = 10;
-  var validUntil = addDays(validFrom, validForDays);
+  const validFrom = new Date(Date.now());
+  const validForDays = 10;
+  const validUntil = addDays(validFrom, validForDays);
+  const pstnDialOutEnabled = true;
 
   // options payload to create a room
   const createRoomOptions: CreateRoomOptions = {
     validFrom: validFrom,
     validUntil: validUntil,
+    pstnDialOutEnabled: pstnDialOutEnabled,
     participants: [
       {
         id: user1.user,
@@ -53,14 +54,14 @@ export async function main() {
   const createRoom = await roomsClient.createRoom(createRoomOptions);
   const roomId = createRoom.id;
   console.log("Successfully created room with following properties:");
-  printRoom(createRoom);
+  await printRoom(createRoom);
 
   console.log(`Fetching room with id: ${roomId}...`);
 
   // retrieves the room with corresponding ID
   const getRoom = await roomsClient.getRoom(roomId);
   console.log(`Successfully fetched room with id: ${roomId}. Room details:`);
-  printRoom(getRoom);
+  await printRoom(getRoom);
 
   console.log(`Updating room with id: ${roomId}...`);
 
@@ -68,12 +69,13 @@ export async function main() {
   const updateRoomOptions: UpdateRoomOptions = {
     validFrom,
     validUntil: addDays(validUntil, 10),
+    pstnDialOutEnabled: pstnDialOutEnabled,
   };
 
   // updates the specified room with the request payload
   const updateRoom = await roomsClient.updateRoom(roomId, updateRoomOptions);
   console.log(`Successfully updated room with id: ${roomId}. Room details:`);
-  printRoom(updateRoom);
+  await printRoom(updateRoom);
 
   console.log(`Deleting room with id: ${roomId}...`);
 
@@ -99,7 +101,8 @@ export async function main() {
 function printRoom(room: CommunicationRoom): void {
   console.log(`Room ID: ${room.id}`);
   console.log(`Valid From: ${room.validFrom}`);
-  console.log(`Valid Until: ${room.validUntil}\n\n`);
+  console.log(`Valid Until: ${room.validUntil}`);
+  console.log(`PstnDialOutEnabled: ${room.pstnDialOutEnabled}\n\n`);
 }
 
 /**

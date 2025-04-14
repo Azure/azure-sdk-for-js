@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
 
 /**
  * This sample illustrates the lifecycle of a component using a scenario that shows how to:
@@ -18,11 +18,11 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { v4 } from "uuid";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
-async function main() {
+async function main(): Promise<void> {
   const modelId = `dtmi:model_${v4()
     .split("-")
     .join("")};1`;

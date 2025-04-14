@@ -10,29 +10,28 @@
 // Licensed under the MIT License.
 import {
   VirtualNetworkLink,
-  PrivateDnsManagementClient
+  PrivateDnsManagementClient,
 } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a virtual network link to the specified Private DNS zone.
  *
  * @summary Updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkPatch.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkPatch.json
  */
-async function patchPrivateDnsZoneVirtualNetworkLink() {
+async function patchPrivateDnsZoneVirtualNetworkLink(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
     process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
-  const privateZoneName = "privatezone1.com";
+  const privateZoneName = "privatelink.contoso.com";
   const virtualNetworkLinkName = "virtualNetworkLink1";
   const parameters: VirtualNetworkLink = {
     registrationEnabled: true,
-    tags: { key2: "value2" }
+    resolutionPolicy: "NxDomainRedirect",
+    tags: { key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
@@ -40,12 +39,12 @@ async function patchPrivateDnsZoneVirtualNetworkLink() {
     resourceGroupName,
     privateZoneName,
     virtualNetworkLinkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchPrivateDnsZoneVirtualNetworkLink();
 }
 

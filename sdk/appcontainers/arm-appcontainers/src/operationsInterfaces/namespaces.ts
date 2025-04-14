@@ -9,8 +9,8 @@
 import {
   CheckNameAvailabilityRequest,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse
-} from "../models";
+  NamespacesCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /** Interface representing a Namespaces. */
 export interface Namespaces {
@@ -25,6 +25,6 @@ export interface Namespaces {
     resourceGroupName: string,
     environmentName: string,
     checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
+    options?: NamespacesCheckNameAvailabilityOptionalParams,
   ): Promise<NamespacesCheckNameAvailabilityResponse>;
 }

@@ -14,8 +14,8 @@ import {
   ScriptActionsGetExecutionDetailOptionalParams,
   ScriptActionsGetExecutionDetailResponse,
   ScriptActionsGetExecutionAsyncOperationStatusOptionalParams,
-  ScriptActionsGetExecutionAsyncOperationStatusResponse
-} from "../models";
+  ScriptActionsGetExecutionAsyncOperationStatusResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptActions. */
@@ -29,7 +29,7 @@ export interface ScriptActions {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ScriptActionsListByClusterOptionalParams
+    options?: ScriptActionsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
   /**
    * Deletes a specified persisted script action of the cluster.
@@ -42,7 +42,7 @@ export interface ScriptActions {
     resourceGroupName: string,
     clusterName: string,
     scriptName: string,
-    options?: ScriptActionsDeleteOptionalParams
+    options?: ScriptActionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the script execution detail for the given script execution ID.
@@ -55,7 +55,7 @@ export interface ScriptActions {
     resourceGroupName: string,
     clusterName: string,
     scriptExecutionId: string,
-    options?: ScriptActionsGetExecutionDetailOptionalParams
+    options?: ScriptActionsGetExecutionDetailOptionalParams,
   ): Promise<ScriptActionsGetExecutionDetailResponse>;
   /**
    * Gets the async operation status of execution operation.
@@ -68,6 +68,6 @@ export interface ScriptActions {
     resourceGroupName: string,
     clusterName: string,
     operationId: string,
-    options?: ScriptActionsGetExecutionAsyncOperationStatusOptionalParams
+    options?: ScriptActionsGetExecutionAsyncOperationStatusOptionalParams,
   ): Promise<ScriptActionsGetExecutionAsyncOperationStatusResponse>;
 }

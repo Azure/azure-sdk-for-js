@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as stream from "stream";
-import * as util from "util";
+import * as fs from "node:fs";
+import * as stream from "node:stream";
+import * as util from "node:util";
 const pipeline = util.promisify(stream.pipeline);
 
 /**
@@ -18,7 +18,7 @@ const pipeline = util.promisify(stream.pipeline);
  */
 export async function readStreamToLocalFileWithLogs(
   rs: NodeJS.ReadableStream,
-  file: string
+  file: string,
 ): Promise<void> {
   const ws = fs.createWriteStream(file);
 

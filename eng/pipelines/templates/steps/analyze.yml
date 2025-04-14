@@ -4,32 +4,39 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/check-spelling.yml
-
-  - task: PowerShell@2
-    inputs:
-      targetType: 'filePath'
-      filePath: eng/scripts/spell-check-public-api.ps1
-      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
-      pwsh: true
-    displayName: Spell check public API
-
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: package-diffs
-      path: $(Build.ArtifactStagingDirectory)
-
-  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
-      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
+      Artifacts: ${{ parameters.Artifacts }}
+
+  - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: eng/scripts/spell-check-public-apis.ps1
+      arguments: -ChangedServices "$(ChangedServices)"
+      pwsh: true
+    displayName: Spell check public API
+
+  - task: UsePythonVersion@0
+    displayName: 'Use Python 3.11'
+    inputs:
+      versionSpec: '3.11'
+
+  - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
+    parameters:
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
@@ -46,7 +53,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      ServiceDirectories: $(ChangedServicesCsv)
 
   - script: |
       npm ci
@@ -58,29 +65,22 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - template: /eng/pipelines/templates/steps/run-eslint.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
-
-  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
-    parameters:
-      Artifacts: ${{ parameters.Artifacts }}
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
+    displayName: "Build ESLint Plugin and Lint Libraries"
+
+  - pwsh: |
+      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
-  - script: |
-      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)"
-    condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-    displayName: "Audit libraries"
-
-  - ${{ each artifact in parameters.Artifacts }}:
-      - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
-        parameters:
-          PackageName: ${{artifact.name}}
-          ServiceName: ${{parameters.ServiceDirectory}}
-          ForRelease: false
+  - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
+    parameters:
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
     # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -91,7 +91,7 @@ steps:
     # Unlink node_modules folders to significantly improve performance of subsequent tasks
     # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner.js unlink
+      node eng/tools/rush-runner/index.js unlink
     displayName: "Unlink dependencies"
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
@@ -104,9 +104,16 @@ steps:
       flattenFolders: true
     displayName: "Copy lint reports"
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'reports'
+      SbomEnabled: false
+
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'package-diffs'
+      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

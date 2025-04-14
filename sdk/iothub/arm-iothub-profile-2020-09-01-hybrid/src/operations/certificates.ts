@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Certificates } from "../operationsInterfaces";
+import { Certificates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { IotHubClient } from "../iotHubClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { IotHubClient } from "../iotHubClient.js";
 import {
   CertificatesListByIotHubOptionalParams,
   CertificatesListByIotHubResponse,
@@ -25,7 +25,7 @@ import {
   CertificateVerificationDescription,
   CertificatesVerifyOptionalParams,
   CertificatesVerifyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Certificates operations. */
 export class CertificatesImpl implements Certificates {

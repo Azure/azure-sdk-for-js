@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ReceivedShareOutput,
   PurviewShareErrorOutput,
   OperationResponseOutput,
@@ -13,7 +13,8 @@ import {
   SentShareOutput,
   SentShareInvitationListOutput,
   SentShareInvitationOutput,
-} from "./outputModels";
+  ShareResourceListOutput,
+} from "./outputModels.js";
 
 /** Get a received share */
 export interface ReceivedSharesGetReceivedShare200Response extends HttpResponse {
@@ -355,4 +356,22 @@ export interface SentSharesNotifyUserSentShareInvitationDefaultResponse extends 
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesNotifyUserSentShareInvitationDefaultHeaders;
+}
+
+/** List share resources */
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
+  status: "200";
+  body: ShareResourceListOutput;
+}
+
+export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
+  /** The error code */
+  "x-ms-error-code"?: string;
+}
+
+/** List share resources */
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
+  status: string;
+  body: PurviewShareErrorOutput;
+  headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
 }

@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AzureFirewallsGetParameters,
-} from "@azure-rest/arm-network";
+import type { AzureFirewallsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Azure Firewall.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Gets the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallGet.json
  */
-async function getAzureFirewall() {
+async function getAzureFirewall(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -31,7 +25,7 @@ async function getAzureFirewall() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -44,7 +38,7 @@ getAzureFirewall().catch(console.error);
  * @summary Gets the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallGetWithAdditionalProperties.json
  */
-async function getAzureFirewallWithAdditionalProperties() {
+async function getAzureFirewallWithAdditionalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -58,7 +52,7 @@ async function getAzureFirewallWithAdditionalProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -71,7 +65,7 @@ getAzureFirewallWithAdditionalProperties().catch(console.error);
  * @summary Gets the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallGetWithIpGroups.json
  */
-async function getAzureFirewallWithIPGroups() {
+async function getAzureFirewallWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -85,7 +79,7 @@ async function getAzureFirewallWithIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -98,7 +92,7 @@ getAzureFirewallWithIPGroups().catch(console.error);
  * @summary Gets the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallGetWithZones.json
  */
-async function getAzureFirewallWithZones() {
+async function getAzureFirewallWithZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -112,7 +106,7 @@ async function getAzureFirewallWithZones() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -125,7 +119,7 @@ getAzureFirewallWithZones().catch(console.error);
  * @summary Gets the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallGetWithMgmtSubnet.json
  */
-async function getAzureFirewallWithManagementSubnet() {
+async function getAzureFirewallWithManagementSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -139,7 +133,7 @@ async function getAzureFirewallWithManagementSubnet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);

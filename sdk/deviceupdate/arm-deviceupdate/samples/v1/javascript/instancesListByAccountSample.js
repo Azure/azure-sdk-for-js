@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns instances for the given account name.
  *
  * @summary Returns instances for the given account name.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_ListByAccount.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_ListByAccount.json
  */
 async function getsListOfInstancesByAccount() {
   const subscriptionId =

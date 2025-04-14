@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isAggregateLogsUploadError, LogsIngestionClient, LogsUploadFailure } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
-import { AdditionalPolicyConfig } from "@azure/core-client";
+import type { LogsUploadFailure } from "../../src/index.js";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
+import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {
-  RecorderAndLogsClient,
   createClientAndStartRecorder,
   getDcrId,
   getLogsIngestionEndpoint,
   loggerForTest,
-} from "./shared/testShared";
+} from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AbortController } from "@azure/abort-controller";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -38,24 +37,24 @@ describe("LogsIngestionClient live tests", function () {
   let recorder: Recorder;
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     recordedClient = await createClientAndStartRecorder(recorder);
     client = recordedClient.client;
   });
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       loggerForTest.verbose("Recorder: stopping");
       await recorder.stop();
     }
   });
 
-  it("sends empty data", async function () {
+  it("sends empty data", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", []);
   });
 
-  it("sends basic data", async function () {
+  it("sends basic data", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -76,13 +75,13 @@ describe("LogsIngestionClient live tests", function () {
     ]);
   });
 
-  it("Success Test - divides huge data into chunks", async function () {
+  it("Success Test - divides huge data into chunks", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
   });
 
-  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
+  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -91,7 +90,7 @@ describe("LogsIngestionClient live tests", function () {
       createTestCredential(),
       recorder.configureClientOptions({
         additionalPolicies,
-      })
+      }),
     );
     recordedClient.client = client;
     try {
@@ -104,7 +103,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'fake-id' not found.`
+            `Data collection rule with immutable Id 'fake-id' not found.`,
           );
         });
 
@@ -120,7 +119,7 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("Throws error when all logs fail", async function () {
+  it("Throws error when all logs fail", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     try {
@@ -133,7 +132,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`,
           );
         });
         const chunkArraySize = getChunkArraylength(noOfElements);
@@ -142,7 +141,7 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
   });
-  it("Calls the error callback function when all logs fail", async function () {
+  it("Calls the error callback function when all logs fail", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const concurrency = 3;
@@ -152,7 +151,7 @@ describe("LogsIngestionClient live tests", function () {
 
     function errorCallback(uploadLogsError: LogsUploadFailure): void {
       if (
-        (uploadLogsError.cause as Error).message ===
+        uploadLogsError.cause.message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
       ) {
         ++errorCallbackCount;
@@ -171,7 +170,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`,
           );
         });
       }
@@ -188,7 +187,7 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("User abort additional processing early if they handle the error", async function () {
+  it("User abort additional processing early if they handle the error", async () => {
     const abortController = new AbortController();
     let errorCallbackCount = 0;
     function errorCallback(): void {
@@ -213,7 +212,7 @@ describe("LogsIngestionClient live tests", function () {
       assert.equal(error?.cause.name, "RestError");
       assert.equal(
         error?.cause.message,
-        "Data collection rule with immutable Id 'immutable-id-123' not found."
+        "Data collection rule with immutable Id 'immutable-id-123' not found.",
       );
       while (result.length > 0) {
         error = result.shift();
@@ -237,7 +236,7 @@ export function getObjects(logsCount: number): LogData[] {
 }
 /**
  * The data fields should match the column names exactly even with the
- * captilization in order for the data to show up in the logs
+ * capitalization in order for the data to show up in the logs
  */
 export type LogData = {
   Time: Date;

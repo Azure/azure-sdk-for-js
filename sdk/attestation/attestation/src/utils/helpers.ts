@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { base64EncodeByteArray, hexToByteArray } from "./base64";
+import { base64EncodeByteArray, hexToByteArray } from "./base64.js";
 
 /** Create an AttestationSigningKey from the provided private key and certificate.
  *
@@ -13,7 +13,7 @@ import { base64EncodeByteArray, hexToByteArray } from "./base64";
  */
 export function verifyAttestationSigningKey(
   privateKey: string,
-  certificate: string
+  certificate: string,
 ): { certificate: string; privateKey: string } {
   //
   // Ensure that the key and certificate are associated with each other.

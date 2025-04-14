@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-package-json-files-required rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-files-required";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-package-json-files-required.js";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -57,7 +57,6 @@ const examplePackageGood = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -167,7 +166,6 @@ const examplePackageBad = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -275,7 +273,6 @@ const examplePackageBadFixed = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -340,13 +337,7 @@ const examplePackageBadFixed = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-files-required", rule, {
   valid: [
@@ -410,7 +401,8 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "src is included in files and dist-esm/src is not included in files",
+          message:
+            "Issue with files: src is included in files and dist-esm/src is not included in files",
         },
       ],
       output: '{"files": ["dist", "dist-esm/src"]}',
@@ -420,7 +412,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "src is included in files and dist is not included in files",
+          message: "Issue with files: src is included in files and dist is not included in files",
         },
       ],
       output: '{"files": ["dist-esm/src", "dist"]}',
@@ -430,7 +422,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist-esm/src is not included in files",
+          message: "Issue with files: dist-esm/src is not included in files",
         },
       ],
       output: '{"files": ["dist", "dist-esm/src"]}',
@@ -440,7 +432,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist is not included in files",
+          message: "Issue with files: dist is not included in files",
         },
       ],
       output: '{"files": ["dist-esm/src", "dist"]}',
@@ -450,7 +442,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist,dist-esm/src are not included in files",
+          message: "Issue with files: dist,dist-esm/src are not included in files",
         },
       ],
       output: '{"files": ["dist", "dist-esm/src"]}',
@@ -461,7 +453,7 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist,dist-esm/src are not included in files",
+          message: "Issue with files: dist,dist-esm/src are not included in files",
         },
       ],
       output: examplePackageBadFixed,

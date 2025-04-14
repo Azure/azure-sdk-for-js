@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Network Connections resource
  *
  * @summary Deletes a Network Connections resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_Delete.json
  */
 async function networkConnectionsDelete() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function networkConnectionsDelete() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.networkConnections.beginDeleteAndWait(
     resourceGroupName,
-    networkConnectionName
+    networkConnectionName,
   );
   console.log(result);
 }

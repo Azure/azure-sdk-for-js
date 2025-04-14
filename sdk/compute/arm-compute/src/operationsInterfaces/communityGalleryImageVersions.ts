@@ -11,8 +11,8 @@ import {
   CommunityGalleryImageVersion,
   CommunityGalleryImageVersionsListOptionalParams,
   CommunityGalleryImageVersionsGetOptionalParams,
-  CommunityGalleryImageVersionsGetResponse
-} from "../models";
+  CommunityGalleryImageVersionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunityGalleryImageVersions. */
@@ -28,7 +28,7 @@ export interface CommunityGalleryImageVersions {
     location: string,
     publicGalleryName: string,
     galleryImageName: string,
-    options?: CommunityGalleryImageVersionsListOptionalParams
+    options?: CommunityGalleryImageVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
   /**
    * Get a community gallery image version.
@@ -45,6 +45,6 @@ export interface CommunityGalleryImageVersions {
     publicGalleryName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
-    options?: CommunityGalleryImageVersionsGetOptionalParams
+    options?: CommunityGalleryImageVersionsGetOptionalParams,
   ): Promise<CommunityGalleryImageVersionsGetResponse>;
 }

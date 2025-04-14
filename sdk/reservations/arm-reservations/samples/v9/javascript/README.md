@@ -64,7 +64,7 @@ node calculateExchangePostSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node calculateExchangePostSample.js
+npx dev-tool run vendored cross-env  node calculateExchangePostSample.js
 ```
 
 ## Next Steps
@@ -99,6 +99,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [reservationunarchivesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/reservations/arm-reservations/samples/v9/javascript/reservationUnarchiveSample.js
 [reservationupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/reservations/arm-reservations/samples/v9/javascript/reservationUpdateSample.js
 [returnpostsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/reservations/arm-reservations/samples/v9/javascript/returnPostSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-reservations?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-reservations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/reservations/arm-reservations/README.md

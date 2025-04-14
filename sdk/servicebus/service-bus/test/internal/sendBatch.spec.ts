@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-const should = chai.should();
-const assert = chai.assert;
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import type { OperationOptions, ServiceBusMessage } from "../../src/index.js";
+import { ServiceBusAdministrationClient, ServiceBusClient } from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  OperationOptions,
-  ServiceBusAdministrationClient,
-  ServiceBusClient,
-  ServiceBusMessage,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
-import { getEnvVarValue } from "../public/utils/envVarUtils";
+} from "../public/utils/testutils2.js";
+import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
 import { delay } from "@azure/core-util";
+import { createLiveCredential, createTestCredential } from "@azure-tools/test-credential";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { assert, should } from "../public/utils/chai.js";
+import { getFullyQualifiedNamespacePremium } from "../utils/injectables.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -32,11 +25,11 @@ describe("Send Batch", () => {
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
   const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -44,7 +37,7 @@ describe("Send Batch", () => {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
 
@@ -71,7 +64,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
@@ -109,7 +102,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const sentMessages: ServiceBusMessage[] = [];
@@ -189,7 +182,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
@@ -298,7 +291,7 @@ describe("Send Batch", () => {
     async function testSendBatch(
       useSessions: boolean,
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
@@ -361,7 +354,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(entityNames.usesSessions);
@@ -370,22 +363,22 @@ describe("Send Batch", () => {
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[0]),
         true,
-        "tryAdd should not have failed for the first message"
+        "tryAdd should not have failed for the first message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[1]),
         false,
-        "tryAdd should have failed for the second message"
+        "tryAdd should have failed for the second message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[2]),
         false,
-        "tryAdd should have failed for the third message"
+        "tryAdd should have failed for the third message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[3]),
         false,
-        "tryAdd should have failed for the fourth message"
+        "tryAdd should have failed for the fourth message",
       );
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
@@ -418,14 +411,14 @@ describe("Send Batch", () => {
         should.equal(
           error.message,
           `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
-          "Unexpected error message when tried to create a batch of size > maximum message size."
+          "Unexpected error message when tried to create a batch of size > maximum message size.",
         );
         errorIsThrown = true;
       }
       should.equal(
         errorIsThrown,
         true,
-        "Error is not thrown when tried to create a batch of size > maximum message size."
+        "Error is not thrown when tried to create a batch of size > maximum message size.",
       );
     }
 
@@ -449,13 +442,13 @@ describe("Send Batch", () => {
           // this isn't a documented option for send(batch) but we do pass it through to the underlying
           // createBatch call.
           maxSizeInBytes: 1,
-        } as OperationOptions
+        } as OperationOptions,
       );
       should.fail("Should have thrown - the batch is too big");
     } catch (err: any) {
       should.equal(
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
-        err.message
+        err.message,
       );
       should.equal(err.code, "MessageSizeExceeded");
       should.equal(err.name, "ServiceBusError");
@@ -516,20 +509,17 @@ describe("Send Batch", () => {
           undefinedProperty: null, // NOTE, undefined just gets squashed to null,
           canary: "hello",
         },
-      }
+      },
     );
   });
 });
 
 describe("Premium namespaces - Sending", () => {
-  const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
+  const premiumNamespaceFQNS = getFullyQualifiedNamespacePremium();
   let atomClient: ServiceBusAdministrationClient;
 
-  before(function (this: Mocha.Context) {
-    if (!premiumConnectionString) {
-      this.skip();
-    }
-    atomClient = new ServiceBusAdministrationClient(premiumConnectionString);
+  beforeAll(function () {
+    atomClient = new ServiceBusAdministrationClient(premiumNamespaceFQNS, createLiveCredential());
   });
   let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClient;
@@ -545,17 +535,17 @@ describe("Premium namespaces - Sending", () => {
       ? TestClientType.UnpartitionedQueueWithSessions
       : TestClientType.UnpartitionedTopicWithSessions;
 
-  before(() => {
-    serviceBusClient = new ServiceBusClient(premiumConnectionString || "");
+  beforeAll(() => {
+    serviceBusClient = new ServiceBusClient(premiumNamespaceFQNS, createLiveCredential());
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    atomClient = new ServiceBusAdministrationClient(premiumConnectionString || "");
-    withSessions = !entityType.includes("WithSessions");
+    atomClient = new ServiceBusAdministrationClient(premiumNamespaceFQNS, createTestCredential());
+    withSessions = entityType.includes("WithSessions");
     const randomSeed = Math.ceil(Math.random() * 10000 + 1000);
     const isQueue = entityType.includes("Queue");
     if (isQueue) {
@@ -610,7 +600,7 @@ describe("Premium namespaces - Sending", () => {
           : (await atomClient.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
               .totalMessageCount,
         1,
-        `Unexpected number of messages are present in the entity.`
+        `Unexpected number of messages are present in the entity.`,
       );
     }
 

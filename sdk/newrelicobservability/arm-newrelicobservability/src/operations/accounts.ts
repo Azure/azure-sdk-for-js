@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Accounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Accounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NewRelicObservability } from "../newRelicObservability";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NewRelicObservability } from "../newRelicObservability.js";
 import {
   AccountResource,
   AccountsListNextOptionalParams,
   AccountsListOptionalParams,
   AccountsListOperationResponse,
-  AccountsListNextResponse
-} from "../models";
+  AccountsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Accounts operations. */
@@ -43,7 +43,7 @@ export class AccountsImpl implements Accounts {
   public list(
     userEmail: string,
     location: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): PagedAsyncIterableIterator<AccountResource> {
     const iter = this.listPagingAll(userEmail, location, options);
     return {
@@ -58,7 +58,7 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(userEmail, location, options, settings);
-      }
+      },
     };
   }
 
@@ -66,7 +66,7 @@ export class AccountsImpl implements Accounts {
     userEmail: string,
     location: string,
     options?: AccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccountResource[]> {
     let result: AccountsListOperationResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,12 +89,12 @@ export class AccountsImpl implements Accounts {
   private async *listPagingAll(
     userEmail: string,
     location: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): AsyncIterableIterator<AccountResource> {
     for await (const page of this.listPagingPage(
       userEmail,
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -109,11 +109,11 @@ export class AccountsImpl implements Accounts {
   private _list(
     userEmail: string,
     location: string,
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): Promise<AccountsListOperationResponse> {
     return this.client.sendOperationRequest(
       { userEmail, location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listNext(
     nextLink: string,
-    options?: AccountsListNextOptionalParams
+    options?: AccountsListNextOptionalParams,
   ): Promise<AccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -136,42 +136,41 @@ export class AccountsImpl implements Accounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/accounts",
+  path: "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountsListResponse
+      bodyMapper: Mappers.AccountsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.userEmail,
-    Parameters.location
+    Parameters.location,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountsListResponse
+      bodyMapper: Mappers.AccountsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

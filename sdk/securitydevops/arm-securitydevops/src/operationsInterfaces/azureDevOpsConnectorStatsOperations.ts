@@ -9,7 +9,7 @@
 import {
   AzureDevOpsConnectorStatsGetOptionalParams,
   AzureDevOpsConnectorStatsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AzureDevOpsConnectorStatsOperations. */
 export interface AzureDevOpsConnectorStatsOperations {

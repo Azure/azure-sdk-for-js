@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure/test-utils";
-import { TextDecoder, TextEncoder } from "util";
-import {
+// Licensed under the MIT License.
+import type {
   AckMessage,
   ConnectedMessage,
   DisconnectedMessage,
@@ -15,8 +12,9 @@ import {
   SequenceAckMessage,
   ServerDataMessage,
   WebPubSubMessage,
-} from "../src/models";
-import { WebPubSubJsonReliableProtocol } from "../src/protocols";
+} from "../src/models/index.js";
+import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("JsonProtocol", function () {
   const protocol = WebPubSubJsonReliableProtocol();
@@ -383,7 +381,11 @@ describe("JsonProtocol", function () {
     tests.forEach(({ testName, message, assertFunc }) => {
       it(`parse message test ${testName}`, () => {
         const parsedMsg = protocol.parseMessages(JSON.stringify(message));
-        assertFunc(parsedMsg!);
+        if (!Array.isArray(parsedMsg)) {
+          assertFunc(parsedMsg!);
+        } else {
+          throw new Error("should not be an array");
+        }
       });
     });
   });

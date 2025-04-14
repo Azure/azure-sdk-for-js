@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the client secret details of the Identity Provider.
  *
  * @summary Gets the client secret details of the Identity Provider.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementIdentityProviderListSecrets.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementIdentityProviderListSecrets.json
  */
 async function apiManagementIdentityProviderListSecrets() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

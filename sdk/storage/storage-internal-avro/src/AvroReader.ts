@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // TODO: Do a review of non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import "@azure/core-paging";
 import {
   AVRO_CODEC_KEY,
   AVRO_INIT_BYTES,
   AVRO_SCHEMA_KEY,
   AVRO_SYNC_MARKER_SIZE,
-} from "./AvroConstants";
-import { AvroParser, AvroType } from "./AvroParser";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AvroReadable } from "./AvroReadable";
-import { arraysEqual } from "./utils/utils.common";
+} from "./AvroConstants.js";
+import { AvroParser, AvroType } from "./AvroParser.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AvroReadable } from "./AvroReadable.js";
+import { arraysEqual } from "./utils/utils.common.js";
 
 /**
  * Options to configure the {@link AvroReader.parseObjects} operation.
@@ -63,14 +62,14 @@ export class AvroReader {
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     currentBlockOffset: number,
-    indexWithinCurrentBlock: number
+    indexWithinCurrentBlock: number,
   );
 
   constructor(
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     currentBlockOffset?: number,
-    indexWithinCurrentBlock?: number
+    indexWithinCurrentBlock?: number,
   ) {
     this._dataStream = dataStream;
     this._headerStream = headerStream || dataStream;
@@ -133,7 +132,7 @@ export class AvroReader {
   }
 
   public async *parseObjects(
-    options: AvroParseOptions = {}
+    options: AvroParseOptions = {},
   ): AsyncIterableIterator<Record<string, any> | null> {
     if (!this._initialized) {
       await this.initialize(options);
@@ -163,7 +162,7 @@ export class AvroReader {
           this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream, {
             abortSignal: options.abortSignal,
           });
-        } catch (err: any) {
+        } catch {
           // We hit the end of the stream.
           this._itemsRemainingInBlock = 0;
         }

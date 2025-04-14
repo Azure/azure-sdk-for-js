@@ -1,43 +1,42 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import {
+// Licensed under the MIT License.
+
+import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
-  isUnexpected,
   LedgerEntry,
-} from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-
-describe("Get Collections", function () {
+describe("Get Collections", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
-    client = await createClient();
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
-    const modulus = 5;
-
-    // we want to send 2001 messages total
-    for (let i = 0; i < modulus; i++) {
+  it("should list collections created by entries", async () => {
+    const knownCollections: string[] = [];
+    for (let i = 0; i < 5; i++) {
+      const collectionId = getRecorderUniqueVariable(recorder, `collection${i}`);
+      knownCollections.push(collectionId);
       const entry: LedgerEntry = {
-        contents: "add collection number " + i,
+        contents: `entry for collection ${i}`,
       };
 
       const ledgerEntry: CreateLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
-        queryParameters: { collectionId: "" + i },
+        queryParameters: { collectionId },
       };
 
       const postResult = await client.path("/app/transactions").post(ledgerEntry);
@@ -55,13 +54,8 @@ describe("Get Collections", function () {
       throw result.body;
     }
 
-    let collections = result.body.collections;
+    const collections = result.body.collections.map((item) => item.collectionId);
 
-    // the range query adds collections [0..4]
-    const collectionVals = ["0", "1", "2", "3", "4"];
-
-    collections = collections.filter((col: any) => collectionVals.includes(col.collectionId));
-
-    assert.equal(collections.length, 5);
+    assert.includeMembers(collections, knownCollections);
   });
 });

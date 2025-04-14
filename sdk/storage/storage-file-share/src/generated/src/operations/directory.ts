@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Directory } from "../operationsInterfaces";
+import { Directory } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageClient } from "../storageClient.js";
 import {
   DirectoryCreateOptionalParams,
   DirectoryCreateResponse,
@@ -30,7 +30,7 @@ import {
   DirectoryForceCloseHandlesResponse,
   DirectoryRenameOptionalParams,
   DirectoryRenameResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Directory operations. */
 export class DirectoryImpl implements Directory {
@@ -46,18 +46,12 @@ export class DirectoryImpl implements Directory {
 
   /**
    * Creates a new directory under the specified share or parent directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   create(
-    fileAttributes: string,
     options?: DirectoryCreateOptionalParams
   ): Promise<DirectoryCreateResponse> {
-    return this.client.sendOperationRequest(
-      { fileAttributes, options },
-      createOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -88,16 +82,13 @@ export class DirectoryImpl implements Directory {
 
   /**
    * Sets properties on the directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   setProperties(
-    fileAttributes: string,
     options?: DirectorySetPropertiesOptionalParams
   ): Promise<DirectorySetPropertiesResponse> {
     return this.client.sendOperationRequest(
-      { fileAttributes, options },
+      { options },
       setPropertiesOperationSpec
     );
   }
@@ -192,14 +183,20 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
-    Parameters.fileChangeOn
+    Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -222,7 +219,12 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.restype2
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -240,7 +242,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.restype2],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -264,13 +271,19 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
-    Parameters.fileChangeOn
+    Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -295,8 +308,10 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -328,7 +343,9 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.allowTrailingDot,
     Parameters.includeExtendedInfo
   ],
   isXML: true,
@@ -357,7 +374,9 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.allowTrailingDot,
     Parameters.recursive
   ],
   isXML: true,
@@ -384,7 +403,9 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.allowTrailingDot,
     Parameters.recursive,
     Parameters.handleId
   ],
@@ -411,8 +432,11 @@ const renameOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -423,7 +447,8 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
-    Parameters.fileChangeTime
+    Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer

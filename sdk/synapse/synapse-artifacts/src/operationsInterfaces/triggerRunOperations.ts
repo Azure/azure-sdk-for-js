@@ -6,45 +6,45 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   TriggerRunRerunTriggerInstanceOptionalParams,
   TriggerRunCancelTriggerInstanceOptionalParams,
   RunFilterParameters,
   TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse
-} from "../models";
+  TriggerRunQueryTriggerRunsByWorkspaceResponse,
+} from "../models/index.js";
 
 /** Interface representing a TriggerRunOperations. */
 export interface TriggerRunOperations {
   /**
    * Rerun single trigger instance by runId.
-   * @param triggerName The trigger name.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   rerunTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunRerunTriggerInstanceOptionalParams
+    options?: TriggerRunRerunTriggerInstanceOptionalParams,
   ): Promise<void>;
   /**
    * Cancel single trigger instance by runId.
-   * @param triggerName The trigger name.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   cancelTriggerInstance(
     triggerName: string,
     runId: string,
-    options?: TriggerRunCancelTriggerInstanceOptionalParams
+    options?: TriggerRunCancelTriggerInstanceOptionalParams,
   ): Promise<void>;
   /**
    * Query trigger runs.
-   * @param filterParameters Parameters to filter the pipeline run.
-   * @param options The options parameters.
+   * @param filterParameters - Parameters to filter the pipeline run.
+   * @param options - The options parameters.
    */
   queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
+    options?: TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
 }

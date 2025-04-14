@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of specified private endpoint connection
  *
  * @summary Update the state of specified private endpoint connection
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubPrivateEndpointConnections_Update.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubPrivateEndpointConnections_Update.json
  */
 async function webPubSubPrivateEndpointConnectionsUpdate() {
   const subscriptionId =
@@ -25,9 +25,7 @@ async function webPubSubPrivateEndpointConnectionsUpdate() {
   const resourceGroupName = process.env["WEB-PUBSUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "myWebPubSubService";
   const parameters = {
-    privateEndpoint: {
-      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint",
-    },
+    privateEndpoint: {},
     privateLinkServiceConnectionState: {
       actionsRequired: "None",
       status: "Approved",
@@ -39,7 +37,7 @@ async function webPubSubPrivateEndpointConnectionsUpdate() {
     privateEndpointConnectionName,
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

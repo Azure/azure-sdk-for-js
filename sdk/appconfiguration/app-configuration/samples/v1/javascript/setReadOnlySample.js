@@ -5,17 +5,19 @@
  * @summary Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log("Running setReadOnly sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const readOnlySampleKey = "readOnlySampleKey";
   await cleanupSampleValues([readOnlySampleKey], client);
@@ -24,7 +26,7 @@ async function main() {
   await client.addConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "Initial value"
+    value: "Initial value",
   });
 
   // now we'd like to prevent future modifications - let's set the key/label to read-only
@@ -37,7 +39,7 @@ async function main() {
     await client.setConfigurationSetting({
       key: readOnlySampleKey,
       label: "a label",
-      value: "new value"
+      value: "new value",
     });
   } catch (err) {
     console.log(`Error gets thrown - can't modify a read-only setting`);
@@ -54,7 +56,7 @@ async function main() {
   const updatedSetting = await client.setConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "new value"
+    value: "new value",
   });
   console.log(`Updated value is ${updatedSetting.value}`);
 
@@ -63,7 +65,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -76,3 +78,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

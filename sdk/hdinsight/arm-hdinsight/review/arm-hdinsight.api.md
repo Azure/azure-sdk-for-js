@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AaddsResourceDetails {
@@ -74,9 +74,9 @@ export interface ApplicationProperties {
 
 // @public
 export interface Applications {
-    beginCreate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationsCreateResponse>, ApplicationsCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateResponse>, ApplicationsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Application, options?: ApplicationsCreateOptionalParams): Promise<ApplicationsCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
     getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams): Promise<ApplicationsGetAzureAsyncOperationStatusResponse>;
@@ -384,6 +384,7 @@ export interface ClusterMonitoringResponse {
 
 // @public
 export interface ClusterPatchParameters {
+    identity?: ClusterIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -396,21 +397,21 @@ export interface ClusterResizeParameters {
 
 // @public
 export interface Clusters {
-    beginCreate(resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateResponse>, ClustersCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateResponse>, ClustersCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterCreateParametersExtended, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginExecuteScriptActions(resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginExecuteScriptActions(resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginExecuteScriptActionsAndWait(resourceGroupName: string, clusterName: string, parameters: ExecuteScriptActionParameters, options?: ClustersExecuteScriptActionsOptionalParams): Promise<void>;
-    beginResize(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResize(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResizeAndWait(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: ClusterResizeParameters, options?: ClustersResizeOptionalParams): Promise<void>;
-    beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRotateDiskEncryptionKeyAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterDiskEncryptionParameters, options?: ClustersRotateDiskEncryptionKeyOptionalParams): Promise<void>;
-    beginUpdateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAutoScaleConfigurationAndWait(resourceGroupName: string, clusterName: string, roleName: RoleName, parameters: AutoscaleConfigurationUpdateParameter, options?: ClustersUpdateAutoScaleConfigurationOptionalParams): Promise<void>;
-    beginUpdateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateGatewaySettingsAndWait(resourceGroupName: string, clusterName: string, parameters: UpdateGatewaySettingsParameters, options?: ClustersUpdateGatewaySettingsOptionalParams): Promise<void>;
-    beginUpdateIdentityCertificate(resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdateIdentityCertificate(resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateIdentityCertificateAndWait(resourceGroupName: string, clusterName: string, parameters: UpdateClusterIdentityCertificateParameters, options?: ClustersUpdateIdentityCertificateOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: ClustersGetAzureAsyncOperationStatusOptionalParams): Promise<ClustersGetAzureAsyncOperationStatusResponse>;
@@ -542,7 +543,7 @@ export interface ComputeProfile {
 export interface Configurations {
     beginUpdate(resourceGroupName: string, clusterName: string, configurationName: string, parameters: {
         [propertyName: string]: string;
-    }, options?: ConfigurationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    }, options?: ConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, configurationName: string, parameters: {
         [propertyName: string]: string;
     }, options?: ConfigurationsUpdateOptionalParams): Promise<void>;
@@ -659,20 +660,25 @@ export interface Extension {
 
 // @public
 export interface Extensions {
-    beginCreate(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreate(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateAndWait(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Extension, options?: ExtensionsCreateOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    beginDisableAzureMonitor(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableAzureMonitor(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDisableAzureMonitorAgent(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDisableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<void>;
     beginDisableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<void>;
-    beginDisableMonitoring(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableMonitoring(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDisableMonitoringAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<void>;
-    beginEnableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginEnableAzureMonitorAgent(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginEnableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<void>;
     beginEnableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<void>;
-    beginEnableMonitoring(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableMonitoring(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnableMonitoringAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams): Promise<ExtensionsGetAzureAsyncOperationStatusResponse>;
+    getAzureMonitorAgentStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorAgentStatusOptionalParams): Promise<ExtensionsGetAzureMonitorAgentStatusResponse>;
     getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorStatusOptionalParams): Promise<ExtensionsGetAzureMonitorStatusResponse>;
     getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetMonitoringStatusOptionalParams): Promise<ExtensionsGetMonitoringStatusResponse>;
 }
@@ -690,6 +696,12 @@ export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export interface ExtensionsDisableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ExtensionsDisableAzureMonitorOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -697,6 +709,12 @@ export interface ExtensionsDisableAzureMonitorOptionalParams extends coreClient.
 
 // @public
 export interface ExtensionsDisableMonitoringOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExtensionsEnableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -719,6 +737,13 @@ export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams extends co
 
 // @public
 export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+// @public
+export interface ExtensionsGetAzureMonitorAgentStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtensionsGetAzureMonitorAgentStatusResponse = AzureMonitorResponse;
 
 // @public
 export interface ExtensionsGetAzureMonitorStatusOptionalParams extends coreClient.OperationOptions {
@@ -822,6 +847,12 @@ export interface IPConfiguration {
 }
 
 // @public
+export interface IpTag {
+    ipTagType: string;
+    tag: string;
+}
+
+// @public
 export type JsonWebKeyEncryptionAlgorithm = string;
 
 // @public
@@ -891,6 +922,12 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
 export enum KnownOSType {
     Linux = "Linux",
     Windows = "Windows"
+}
+
+// @public
+export enum KnownOutboundDependenciesManagedType {
+    External = "External",
+    Managed = "Managed"
 }
 
 // @public
@@ -1058,7 +1095,9 @@ export interface NameAvailabilityCheckResult {
 
 // @public
 export interface NetworkProperties {
+    outboundDependenciesManagedType?: OutboundDependenciesManagedType;
     privateLink?: PrivateLink;
+    publicIpTag?: IpTag;
     resourceProviderConnection?: ResourceProviderConnection;
 }
 
@@ -1116,6 +1155,9 @@ export interface OsProfile {
 export type OSType = string;
 
 // @public
+export type OutboundDependenciesManagedType = string;
+
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
@@ -1140,9 +1182,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListByClusterOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1466,6 +1508,7 @@ export interface SshPublicKey {
 // @public
 export interface StorageAccount {
     container?: string;
+    enableSecureChannel?: boolean;
     fileshare?: string;
     fileSystem?: string;
     isDefault?: boolean;
@@ -1561,7 +1604,7 @@ export interface VersionSpec {
 
 // @public
 export interface VirtualMachines {
-    beginRestartHosts(resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestartHosts(resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartHostsAndWait(resourceGroupName: string, clusterName: string, hosts: string[], options?: VirtualMachinesRestartHostsOptionalParams): Promise<void>;
     getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: VirtualMachinesGetAsyncOperationStatusOptionalParams): Promise<VirtualMachinesGetAsyncOperationStatusResponse>;
     listHosts(resourceGroupName: string, clusterName: string, options?: VirtualMachinesListHostsOptionalParams): Promise<VirtualMachinesListHostsResponse>;

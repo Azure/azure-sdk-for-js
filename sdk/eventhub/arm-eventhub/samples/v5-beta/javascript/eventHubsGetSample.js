@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets an Event Hubs description for the specified Event Hub.
  *
  * @summary Gets an Event Hubs description for the specified Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EventHubs/EHEventHubGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubGet.json
  */
 async function eventHubGet() {
   const subscriptionId =
@@ -32,7 +30,7 @@ async function eventHubGet() {
 }
 
 async function main() {
-  eventHubGet();
+  await eventHubGet();
 }
 
 main().catch(console.error);

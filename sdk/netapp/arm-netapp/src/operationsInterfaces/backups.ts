@@ -10,11 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Backup,
-  BackupsListOptionalParams,
-  BackupsGetStatusOptionalParams,
-  BackupsGetStatusResponse,
-  BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse,
+  BackupsListByVaultOptionalParams,
+  BackupsGetLatestStatusOptionalParams,
+  BackupsGetLatestStatusResponse,
+  BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  BackupsGetVolumeLatestRestoreStatusResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
   BackupsCreateOptionalParams,
@@ -22,81 +22,75 @@ import {
   BackupsUpdateOptionalParams,
   BackupsUpdateResponse,
   BackupsDeleteOptionalParams,
-  BackupRestoreFiles,
-  BackupsRestoreFilesOptionalParams
-} from "../models";
+  BackupsDeleteResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Backups. */
 export interface Backups {
   /**
-   * List all backups for a volume
+   * List all backups Under a Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param options The options parameters.
    */
-  list(
+  listByVault(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: BackupsListOptionalParams
+    backupVaultName: string,
+    options?: BackupsListByVaultOptionalParams,
   ): PagedAsyncIterableIterator<Backup>;
   /**
-   * Get the status of the backup for a volume
+   * Get the latest status of the backup for a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getStatus(
+  getLatestStatus(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetStatusOptionalParams
-  ): Promise<BackupsGetStatusResponse>;
+    options?: BackupsGetLatestStatusOptionalParams,
+  ): Promise<BackupsGetLatestStatusResponse>;
   /**
-   * Get the status of the restore for a volume
+   * Get the latest status of the restore for a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getVolumeRestoreStatus(
+  getVolumeLatestRestoreStatus(
     resourceGroupName: string,
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams
-  ): Promise<BackupsGetVolumeRestoreStatusResponse>;
+    options?: BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  ): Promise<BackupsGetVolumeLatestRestoreStatusResponse>;
   /**
-   * Gets the specified backup of the volume
+   * Get the specified Backup under Backup Vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
-    options?: BackupsGetOptionalParams
+    options?: BackupsGetOptionalParams,
   ): Promise<BackupsGetResponse>;
   /**
-   * Create a backup for the volume
+   * Create a backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param body Backup object supplied in the body of the operation.
    * @param options The options parameters.
@@ -104,11 +98,10 @@ export interface Backups {
   beginCreate(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
     body: Backup,
-    options?: BackupsCreateOptionalParams
+    options?: BackupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsCreateResponse>,
@@ -116,11 +109,10 @@ export interface Backups {
     >
   >;
   /**
-   * Create a backup for the volume
+   * Create a backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param body Backup object supplied in the body of the operation.
    * @param options The options parameters.
@@ -128,28 +120,25 @@ export interface Backups {
   beginCreateAndWait(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
     body: Backup,
-    options?: BackupsCreateOptionalParams
+    options?: BackupsCreateOptionalParams,
   ): Promise<BackupsCreateResponse>;
   /**
-   * Patch a backup for the volume
+   * Patch a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
-    options?: BackupsUpdateOptionalParams
+    options?: BackupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupsUpdateResponse>,
@@ -157,92 +146,53 @@ export interface Backups {
     >
   >;
   /**
-   * Patch a backup for the volume
+   * Patch a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
-    options?: BackupsUpdateOptionalParams
+    options?: BackupsUpdateOptionalParams,
   ): Promise<BackupsUpdateResponse>;
   /**
-   * Delete a backup of the volume
+   * Delete a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
-    options?: BackupsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsDeleteResponse>,
+      BackupsDeleteResponse
+    >
+  >;
   /**
-   * Delete a backup of the volume
+   * Delete a Backup under the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
+   * @param backupVaultName The name of the Backup Vault
    * @param backupName The name of the backup
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
+    backupVaultName: string,
     backupName: string,
-    options?: BackupsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Restore the specified files from the specified backup to the active filesystem
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param body Restore payload supplied in the body of the operation.
-   * @param options The options parameters.
-   */
-  beginRestoreFiles(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    backupName: string,
-    body: BackupRestoreFiles,
-    options?: BackupsRestoreFilesOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Restore the specified files from the specified backup to the active filesystem
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param body Restore payload supplied in the body of the operation.
-   * @param options The options parameters.
-   */
-  beginRestoreFilesAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    backupName: string,
-    body: BackupRestoreFiles,
-    options?: BackupsRestoreFilesOptionalParams
-  ): Promise<void>;
+    options?: BackupsDeleteOptionalParams,
+  ): Promise<BackupsDeleteResponse>;
 }

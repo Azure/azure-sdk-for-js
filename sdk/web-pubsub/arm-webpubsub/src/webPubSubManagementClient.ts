@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -23,8 +23,10 @@ import {
   WebPubSubHubsImpl,
   WebPubSubPrivateEndpointConnectionsImpl,
   WebPubSubPrivateLinkResourcesImpl,
-  WebPubSubSharedPrivateLinkResourcesImpl
-} from "./operations";
+  WebPubSubReplicasImpl,
+  WebPubSubReplicaSharedPrivateLinkResourcesImpl,
+  WebPubSubSharedPrivateLinkResourcesImpl,
+} from "./operations/index.js";
 import {
   Operations,
   WebPubSub,
@@ -34,9 +36,11 @@ import {
   WebPubSubHubs,
   WebPubSubPrivateEndpointConnections,
   WebPubSubPrivateLinkResources,
-  WebPubSubSharedPrivateLinkResources
-} from "./operationsInterfaces";
-import { WebPubSubManagementClientOptionalParams } from "./models";
+  WebPubSubReplicas,
+  WebPubSubReplicaSharedPrivateLinkResources,
+  WebPubSubSharedPrivateLinkResources,
+} from "./operationsInterfaces/index.js";
+import { WebPubSubManagementClientOptionalParams } from "./models/index.js";
 
 export class WebPubSubManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -46,14 +50,13 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the WebPubSubManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription Id which uniquely identify the Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: WebPubSubManagementClientOptionalParams
+    options?: WebPubSubManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -68,10 +71,10 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
     }
     const defaults: WebPubSubManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-webpubsub/1.1.1`;
+    const packageDetails = `azsdk-js-arm-webpubsub/1.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,20 +84,21 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -104,7 +108,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -114,9 +118,9 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -124,24 +128,25 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.usages = new UsagesImpl(this);
     this.webPubSubCustomCertificates = new WebPubSubCustomCertificatesImpl(
-      this
+      this,
     );
     this.webPubSubCustomDomains = new WebPubSubCustomDomainsImpl(this);
     this.webPubSubHubs = new WebPubSubHubsImpl(this);
-    this.webPubSubPrivateEndpointConnections = new WebPubSubPrivateEndpointConnectionsImpl(
-      this
-    );
+    this.webPubSubPrivateEndpointConnections =
+      new WebPubSubPrivateEndpointConnectionsImpl(this);
     this.webPubSubPrivateLinkResources = new WebPubSubPrivateLinkResourcesImpl(
-      this
+      this,
     );
-    this.webPubSubSharedPrivateLinkResources = new WebPubSubSharedPrivateLinkResourcesImpl(
-      this
-    );
+    this.webPubSubReplicas = new WebPubSubReplicasImpl(this);
+    this.webPubSubReplicaSharedPrivateLinkResources =
+      new WebPubSubReplicaSharedPrivateLinkResourcesImpl(this);
+    this.webPubSubSharedPrivateLinkResources =
+      new WebPubSubSharedPrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -154,7 +159,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -168,7 +173,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -181,5 +186,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
   webPubSubHubs: WebPubSubHubs;
   webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnections;
   webPubSubPrivateLinkResources: WebPubSubPrivateLinkResources;
+  webPubSubReplicas: WebPubSubReplicas;
+  webPubSubReplicaSharedPrivateLinkResources: WebPubSubReplicaSharedPrivateLinkResources;
   webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }

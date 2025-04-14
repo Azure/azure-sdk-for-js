@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CheckNameAvailabilityWithoutLocation } from "../operationsInterfaces";
+import { CheckNameAvailabilityWithoutLocation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient.js";
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
-  CheckNameAvailabilityWithoutLocationExecuteResponse
-} from "../models";
+  CheckNameAvailabilityWithoutLocationExecuteResponse,
+} from "../models/index.js";
 
 /** Class containing CheckNameAvailabilityWithoutLocation operations. */
 export class CheckNameAvailabilityWithoutLocationImpl
-  implements CheckNameAvailabilityWithoutLocation {
+  implements CheckNameAvailabilityWithoutLocation
+{
   private readonly client: MySQLManagementFlexibleServerClient;
 
   /**
@@ -37,11 +38,11 @@ export class CheckNameAvailabilityWithoutLocationImpl
    */
   execute(
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams
+    options?: CheckNameAvailabilityWithoutLocationExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityWithoutLocationExecuteResponse> {
     return this.client.sendOperationRequest(
       { nameAvailabilityRequest, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class CheckNameAvailabilityWithoutLocationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

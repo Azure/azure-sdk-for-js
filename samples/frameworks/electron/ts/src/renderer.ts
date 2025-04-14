@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how we can integrate with
   various Azure SDKs in an electron application.
@@ -28,7 +28,7 @@ let authCredential: AuthorizationCodeCredential;
 // The renderer process will receive this code and construct an AuthorizationCodeCredential
 // object to be used when making service calls.
 // For more information about the AuthorizationCodeCredential and the authorization
-// code flow please see https://docs.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
+// code flow please see https://learn.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
 const onLoginSuccess = (_e: Electron.IpcRendererEvent, authCode: string) => {
   authCredential = new AuthorizationCodeCredential(
     MSAL_CONFIG.tenantId,

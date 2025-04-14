@@ -7,15 +7,14 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { AlphaIdsImpl } from "./operations";
-import { AlphaIds } from "./operationsInterfaces";
-import { AlphaIDsClientOptionalParams } from "./models";
+import { AlphaIdsImpl } from "./operations/index.js";
+import { AlphaIds } from "./operationsInterfaces/index.js";
+import { AlphaIDsClientOptionalParams } from "./models/index.js";
 
 export class AlphaIDsClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -51,37 +50,14 @@ export class AlphaIDsClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-09-26-preview";
+    this.apiVersion = options.apiVersion || "2023-07-12";
     this.alphaIds = new AlphaIdsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

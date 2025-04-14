@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the BitLocker Keys for all drives in the specified job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns the BitLocker Keys for all drives in the specified job.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/ListBitLockerKeys.json
  */
-async function listBitLockerKeysForDrivesInAJob() {
+async function listBitLockerKeysForDrivesInAJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -39,7 +37,7 @@ async function listBitLockerKeysForDrivesInAJob() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBitLockerKeysForDrivesInAJob();
 }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzureKeyCredential, KeyCredential } from "@azure/core-auth";
+import { AzureKeyCredential, type KeyCredential } from "@azure/core-auth";
 /**
  * Represents different properties of connection string
  * using format "/endpoint=(.*);accesskey=(.*)".

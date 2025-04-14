@@ -6,12 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./batchAccountOperations";
-export * from "./applicationPackageOperations";
-export * from "./applicationOperations";
-export * from "./location";
-export * from "./operations";
-export * from "./certificateOperations";
-export * from "./privateLinkResourceOperations";
-export * from "./privateEndpointConnectionOperations";
-export * from "./poolOperations";
+export * from "./batchAccountOperations.js";
+export * from "./applicationPackageOperations.js";
+export * from "./applicationOperations.js";
+export * from "./location.js";
+export * from "./operations.js";
+export * from "./certificateOperations.js";
+export * from "./privateLinkResourceOperations.js";
+export * from "./privateEndpointConnectionOperations.js";
+export * from "./poolOperations.js";
+export * from "./networkSecurityPerimeterOperations.js";

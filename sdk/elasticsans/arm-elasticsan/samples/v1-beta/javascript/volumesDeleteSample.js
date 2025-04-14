@@ -16,21 +16,28 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an Volume.
  *
  * @summary Delete an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Delete_MaximumSet_Gen.json
  */
 async function volumesDeleteMaximumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
-  const volumeName = "9132y";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
+  const volumeName = "volumename";
+  const xMsDeleteSnapshots = "true";
+  const xMsForceDelete = "true";
+  const options = {
+    xMsDeleteSnapshots,
+    xMsForceDelete,
+  };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    volumeName
+    volumeName,
+    options,
   );
   console.log(result);
 }
@@ -39,21 +46,21 @@ async function volumesDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete an Volume.
  *
  * @summary Delete an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Delete_MinimumSet_Gen.json
  */
 async function volumesDeleteMinimumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
-  const volumeName = "9132y";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
+  const volumeName = "volumename";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }

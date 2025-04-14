@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
@@ -7,7 +7,7 @@
  *
  * Setup: To run this sample, you would need session enabled Queue/Subscription.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
  * sessions in Service Bus.
  *
  * @summary Demonstrates how to send/receive messages to/from session enabled queues/subscriptions

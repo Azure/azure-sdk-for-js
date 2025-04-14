@@ -11,8 +11,8 @@ import {
   DatabaseTable,
   DatabaseTablesListBySchemaOptionalParams,
   DatabaseTablesGetOptionalParams,
-  DatabaseTablesGetResponse
-} from "../models";
+  DatabaseTablesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseTables. */
@@ -31,7 +31,7 @@ export interface DatabaseTables {
     serverName: string,
     databaseName: string,
     schemaName: string,
-    options?: DatabaseTablesListBySchemaOptionalParams
+    options?: DatabaseTablesListBySchemaOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseTable>;
   /**
    * Get database table
@@ -49,6 +49,6 @@ export interface DatabaseTables {
     databaseName: string,
     schemaName: string,
     tableName: string,
-    options?: DatabaseTablesGetOptionalParams
+    options?: DatabaseTablesGetOptionalParams,
   ): Promise<DatabaseTablesGetResponse>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { JsonWebKey } from "../keysModels";
+import type { JsonWebKey } from "../keysModels.js";
 
 /**
  * @internal

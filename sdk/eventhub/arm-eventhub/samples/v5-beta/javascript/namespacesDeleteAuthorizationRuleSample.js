@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an AuthorizationRule for a Namespace.
  *
  * @summary Deletes an AuthorizationRule for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
  */
 async function nameSpaceAuthorizationRuleDelete() {
   const subscriptionId =
@@ -29,13 +27,13 @@ async function nameSpaceAuthorizationRuleDelete() {
   const result = await client.namespaces.deleteAuthorizationRule(
     resourceGroupName,
     namespaceName,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleDelete();
+  await nameSpaceAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

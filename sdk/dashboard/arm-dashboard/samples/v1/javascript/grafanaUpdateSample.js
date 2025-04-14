@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a workspace for Grafana resource.
  *
  * @summary Update a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Update.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Update.json
  */
 async function grafanaUpdate() {
   const subscriptionId =
@@ -27,6 +27,22 @@ async function grafanaUpdate() {
     properties: {
       apiKey: "Enabled",
       deterministicOutboundIP: "Enabled",
+      enterpriseConfigurations: {
+        marketplaceAutoRenew: "Enabled",
+        marketplacePlanId: "myPlanId",
+      },
+      grafanaConfigurations: {
+        smtp: {
+          enabled: true,
+          fromAddress: "test@sendemail.com",
+          fromName: "emailsender",
+          host: "smtp.sendemail.com:587",
+          password: "<password>",
+          skipVerify: true,
+          startTLSPolicy: "OpportunisticStartTLS",
+          user: "username",
+        },
+      },
       grafanaIntegrations: {
         azureMonitorWorkspaceIntegrations: [
           {
@@ -35,7 +51,10 @@ async function grafanaUpdate() {
           },
         ],
       },
+      grafanaMajorVersion: "9",
+      grafanaPlugins: { samplePluginId: {} },
     },
+    sku: { name: "Standard" },
     tags: { environment: "Dev 2" },
   };
   const credential = new DefaultAzureCredential();

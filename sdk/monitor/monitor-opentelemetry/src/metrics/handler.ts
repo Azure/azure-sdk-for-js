@@ -1,107 +1,112 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Meter } from "@opentelemetry/api";
-import {
-  MeterProvider,
-  MeterProviderOptions,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
-import { _PerformanceCounterMetrics } from "./performanceCounters";
-import { _StandardMetrics } from "./standardMetrics";
-import { _NativeMetrics } from "./nativeMetrics";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader, View } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../shared/config.js";
+import { StandardMetrics } from "./standardMetrics.js";
+import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
+import { LiveMetrics } from "./quickpulse/liveMetrics.js";
+import { PerformanceCounterMetrics } from "./performanceCounters.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
   private _collectionInterval = 60000; // 60 seconds
-  private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
-  private _meter: Meter;
-  private _perfCounterMetrics?: _PerformanceCounterMetrics;
-  private _standardMetrics?: _StandardMetrics;
-  private _nativeMetrics?: _NativeMetrics;
+  private _standardMetrics?: StandardMetrics;
+  private _performanceCounters?: PerformanceCounterMetrics;
+  private _liveMetrics?: LiveMetrics;
+  private _config: InternalConfig;
+  private _views: View[];
 
   /**
    * Initializes a new instance of the MetricHandler class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Metric Handler options.
    */
-  constructor(private _config: AzureMonitorOpenTelemetryConfig) {
-    if (this._config.enableAutoCollectStandardMetrics) {
-      this._standardMetrics = new _StandardMetrics(this._config);
+  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
+    this._config = config;
+    // Adding Views of instrumentations will allow customer to add Metric Readers after, and get access to previously created metrics using the views shared state
+    this._views = [];
+    if (config.instrumentationOptions.azureSdk?.enabled) {
+      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-azure-sdk" }));
     }
-    if (this._config.enableAutoCollectPerformance) {
-      this._perfCounterMetrics = new _PerformanceCounterMetrics(this._config);
+    if (config.instrumentationOptions.http?.enabled) {
+      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-http" }));
     }
-    if (this._config.enableAutoCollectNativeMetrics) {
-      this._nativeMetrics = new _NativeMetrics(this._config);
+    if (config.instrumentationOptions.mongoDb?.enabled) {
+      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-mongodb" }));
     }
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this._config.resource,
-    };
-    this._meterProvider = new MeterProvider(meterProviderConfig);
-    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
+    if (config.instrumentationOptions.mySql?.enabled) {
+      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-mysql" }));
+    }
+    if (config.instrumentationOptions.postgreSql?.enabled) {
+      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-pg" }));
+    }
+    if (config.instrumentationOptions.redis4?.enabled) {
+      this._views.push(new View({ meterName: "@opentelemetry/instrumentation-redis-4" }));
+    }
+    if (config.instrumentationOptions.redis?.enabled) {
+      this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
+    }
+    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: this._collectionInterval,
+      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this._meterProvider.addMetricReader(this._metricReader);
-    this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
+
+    if (
+      this._config.enableStandardMetrics &&
+      !process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]
+    ) {
+      this._standardMetrics = new StandardMetrics(this._config);
+    }
+    if (this._config.enableLiveMetrics) {
+      this._liveMetrics = new LiveMetrics(this._config);
+    }
+    if (this._config.enablePerformanceCounters) {
+      this._performanceCounters = new PerformanceCounterMetrics(this._config);
+    }
+  }
+
+  public getMetricReader(): PeriodicExportingMetricReader {
+    return this._metricReader;
+  }
+
+  public getViews(): View[] {
+    return this._views;
+  }
+
+  public markSpanAsProcessed(span: Span): void {
+    this._standardMetrics?.markSpanAsProcessed(span);
+  }
+
+  public recordSpan(span: ReadableSpan): void {
+    this._standardMetrics?.recordSpan(span);
+    this._liveMetrics?.recordSpan(span);
+    this._performanceCounters?.recordSpan(span);
+  }
+
+  public recordLog(logRecord: LogRecord): void {
+    this._standardMetrics?.recordLog(logRecord);
+    this._liveMetrics?.recordLog(logRecord);
+    this._performanceCounters?.recordLog(logRecord);
   }
 
   /**
-   *Get OpenTelemetry MeterProvider
+   * Shutdown handler
    */
-  public getMeterProvider(): MeterProvider {
-    return this._meterProvider;
-  }
-
-  /**
-   *Get OpenTelemetry Meter
-   */
-  public getMeter(): Meter {
-    return this._meter;
-  }
-
-  /**
-   *Get StandardMetric handler
-   * @internal
-   */
-  public _getStandardMetrics(): _StandardMetrics | undefined {
-    return this._standardMetrics;
-  }
-
-  /**
-   *Get PerformanceCounter handler
-   * @internal
-   */
-  public _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
-    return this._perfCounterMetrics;
-  }
-
-  /**
-   * Shutdown handler, all Meter providers will return no-op Meters
-   */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
-    this._meterProvider.shutdown();
-    this._perfCounterMetrics?.shutdown();
     this._standardMetrics?.shutdown();
-    this._nativeMetrics?.shutdown();
-  }
-
-  /**
-   * Force flush all Meter Providers
-   */
-  public async flush(): Promise<void> {
-    await this._meterProvider.forceFlush();
-    await this._perfCounterMetrics?.flush();
-    await this._standardMetrics?.flush();
-    await this._nativeMetrics?.flush();
+    this._liveMetrics?.shutdown();
+    this._performanceCounters?.shutdown();
   }
 }

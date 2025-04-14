@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the use of ModelsRepositoryClient to get models from an endpoint.
@@ -12,7 +12,7 @@ const dtmi = "dtmi:azure:DeviceManagement:DeviceInformation;1";
 
 console.log(repositoryEndpoint, dtmi);
 
-async function main() {
+async function main(): Promise<void> {
   // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
   // https://devicemodels.azure.com/ is used and the model dependency resolution
   // configuration is set to TryFromExpanded.

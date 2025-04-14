@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Handles requests to list all Domains resources under the parent EmailServices resource.
  *
  * @summary Handles requests to list all Domains resources under the parent EmailServices resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/listByEmailService.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/listByEmailService.json
  */
 async function listDomainsResourcesByEmailServiceName() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listDomainsResourcesByEmailServiceName() {
   const resArray = new Array();
   for await (let item of client.domains.listByEmailServiceResource(
     resourceGroupName,
-    emailServiceName
+    emailServiceName,
   )) {
     resArray.push(item);
   }

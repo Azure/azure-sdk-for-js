@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** root of the blob storage folder */
 export const BLOB_ROOT = "custom-widgets";

@@ -1,37 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  RestError,
-} from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "../generated";
-import { ChallengeHandler } from "../containerRegistryChallengeHandler";
-import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential";
-import { logger } from "../logger";
-import { calculateDigest } from "../utils/digest";
-import {
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, RestError } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import { GeneratedClient } from "../generated/index.js";
+import { ChallengeHandler } from "../containerRegistryChallengeHandler.js";
+import { ContainerRegistryRefreshTokenCredential } from "../containerRegistryTokenCredential.js";
+import { logger } from "../logger.js";
+import { calculateDigest } from "../utils/digest.js";
+import type {
   DeleteBlobOptions,
   DeleteManifestOptions,
   DownloadBlobOptions,
   DownloadBlobResult,
   GetManifestOptions,
   GetManifestResult,
-  KnownManifestMediaType,
   UploadBlobOptions,
   UploadBlobResult,
   SetManifestOptions,
   SetManifestResult,
   OciImageManifest,
-} from "./models";
-import { CommonClientOptions } from "@azure/core-client";
-import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
-import { Readable } from "stream";
-import { tracingClient } from "../tracing";
-import crypto from "crypto";
-import { RetriableReadableStream } from "../utils/retriableReadableStream";
+} from "./models.js";
+import { KnownManifestMediaType } from "./models.js";
+import type { CommonClientOptions } from "@azure/core-client";
+import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers.js";
+import { Readable } from "node:stream";
+import { tracingClient } from "../tracing.js";
+import crypto from "node:crypto";
+import { RetriableReadableStream } from "../utils/retriableReadableStream.js";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -52,7 +49,7 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 
 function assertHasProperty<T, U extends keyof T>(
   obj: T,
-  property: U
+  property: U,
 ): asserts obj is T & Required<Pick<T, U>> {
   if (!Object.prototype.hasOwnProperty.call(obj, property)) {
     throw new RestError(`Expected property ${String(property)} to be defined.`);
@@ -106,14 +103,16 @@ export class ContainerRegistryContentClient {
    * Creates an instance of a ContainerRegistryContentClient for managing container images and artifacts.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:SampleReadmeCreateContainerRegistryContentClient
    * import { ContainerRegistryContentClient } from "@azure/container-registry";
-   * import { DefaultAzureCredential} from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repository = "library/hello-world";
    * const client = new ContainerRegistryContentClient(
-   *    "<container registry API endpoint>",
-   *    "<repository name>",
-   *    new DefaultAzureCredential()
+   *   endpoint,
+   *   repository,
+   *   new DefaultAzureCredential(),
    * );
    * ```
    * @param endpoint - the URL endpoint of the container registry
@@ -125,7 +124,7 @@ export class ContainerRegistryContentClient {
     endpoint: string,
     repositoryName: string,
     credential: TokenCredential,
-    options: ContainerRegistryContentClientOptions = {}
+    options: ContainerRegistryContentClientOptions = {},
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -160,9 +159,9 @@ export class ContainerRegistryContentClient {
         credential,
         scopes: [defaultScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential),
         ),
-      })
+      }),
     );
   }
 
@@ -179,9 +178,9 @@ export class ContainerRegistryContentClient {
         await this.client.containerRegistryBlob.deleteBlob(
           this.repositoryName,
           digest,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -192,7 +191,7 @@ export class ContainerRegistryContentClient {
    */
   public async setManifest(
     manifest: Buffer | NodeJS.ReadableStream | OciImageManifest | Record<string, unknown>,
-    options: SetManifestOptions = {}
+    options: SetManifestOptions = {},
   ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.uploadManifest",
@@ -219,13 +218,13 @@ export class ContainerRegistryContentClient {
           {
             contentType: options?.mediaType ?? KnownManifestMediaType.OciImageManifest,
             ...updatedOptions,
-          }
+          },
         );
 
         assertHasProperty(createManifestResult, "dockerContentDigest");
 
         return { digest: createManifestResult.dockerContentDigest };
-      }
+      },
     );
   }
 
@@ -237,7 +236,7 @@ export class ContainerRegistryContentClient {
    */
   public async getManifest(
     tagOrDigest: string,
-    options: GetManifestOptions = {}
+    options: GetManifestOptions = {},
   ): Promise<GetManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.downloadManifest",
@@ -249,7 +248,7 @@ export class ContainerRegistryContentClient {
           {
             accept: ACCEPTED_MANIFEST_MEDIA_TYPES.join(", "),
             ...updatedOptions,
-          }
+          },
         );
 
         assertHasProperty(response, "mediaType");
@@ -262,13 +261,13 @@ export class ContainerRegistryContentClient {
 
         if (isDigest(tagOrDigest) && expectedDigest !== tagOrDigest) {
           throw new DigestMismatchError(
-            "Digest of downloaded manifest does not match the input digest"
+            "Digest of downloaded manifest does not match the input digest",
           );
         }
 
         if (response.dockerContentDigest !== expectedDigest) {
           throw new DigestMismatchError(
-            "Computed digest of downloaded manifest does not match the value of the Docker-Content-Digest header"
+            "Computed digest of downloaded manifest does not match the value of the Docker-Content-Digest header",
           );
         }
 
@@ -278,7 +277,7 @@ export class ContainerRegistryContentClient {
           content,
           manifest: JSON.parse(content.toString("utf-8")),
         };
-      }
+      },
     );
   }
 
@@ -296,9 +295,9 @@ export class ContainerRegistryContentClient {
         await this.client.containerRegistry.deleteManifest(
           this.repositoryName,
           digest,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -309,7 +308,7 @@ export class ContainerRegistryContentClient {
    */
   public async uploadBlob(
     blob: NodeJS.ReadableStream | Buffer,
-    options: UploadBlobOptions = {}
+    options: UploadBlobOptions = {},
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.uploadBlob",
@@ -319,7 +318,7 @@ export class ContainerRegistryContentClient {
 
         const startUploadResult = await this.client.containerRegistryBlob.startUpload(
           this.repositoryName,
-          updatedOptions
+          updatedOptions,
         );
 
         assertHasProperty(startUploadResult, "location");
@@ -335,7 +334,7 @@ export class ContainerRegistryContentClient {
           const result = await this.client.containerRegistryBlob.uploadChunk(
             location,
             chunk,
-            updatedOptions
+            updatedOptions,
           );
 
           bytesUploaded += chunk.byteLength;
@@ -352,12 +351,12 @@ export class ContainerRegistryContentClient {
 
         if (digest !== digestFromResponse) {
           throw new DigestMismatchError(
-            "Digest of blob to upload does not match the digest from the server."
+            "Digest of blob to upload does not match the digest from the server.",
           );
         }
 
         return { digest, sizeInBytes: bytesUploaded };
-      }
+      },
     );
   }
 
@@ -370,7 +369,7 @@ export class ContainerRegistryContentClient {
    */
   public async downloadBlob(
     digest: string,
-    options: DownloadBlobOptions = {}
+    options: DownloadBlobOptions = {},
   ): Promise<DownloadBlobResult> {
     return tracingClient.withSpan(
       "ContainerRegistryContentClient.downloadBlob",
@@ -379,7 +378,7 @@ export class ContainerRegistryContentClient {
         const initialResponse = await this.client.containerRegistryBlob.getBlob(
           this.repositoryName,
           digest,
-          updatedOptions
+          updatedOptions,
         );
 
         assertHasProperty(initialResponse, "readableStreamBody");
@@ -396,7 +395,7 @@ export class ContainerRegistryContentClient {
                 this.repositoryName,
                 digest,
                 `${pos}-`,
-                updatedOptions
+                updatedOptions,
               );
 
               assertHasProperty(retryResponse, "readableStreamBody");
@@ -412,14 +411,14 @@ export class ContainerRegistryContentClient {
 
                 if (digest !== calculatedDigest) {
                   throw new DigestMismatchError(
-                    "Digest calculated from downloaded blob content does not match digest requested."
+                    "Digest calculated from downloaded blob content does not match digest requested.",
                   );
                 }
               },
-            }
+            },
           ),
         };
-      }
+      },
     );
   }
 }

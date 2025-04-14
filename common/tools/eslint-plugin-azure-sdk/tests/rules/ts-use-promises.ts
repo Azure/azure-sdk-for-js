@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-use-promises rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-use-promises";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-use-promises.js";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -23,18 +23,7 @@ const promise = (): Promise<string> => {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    ecmaFeatures: {
-      modules: true,
-    },
-    ecmaVersion: 6,
-    project: "./tsconfig.json",
-    sourceType: "module",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-use-promises", rule, {
   valid: [

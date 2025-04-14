@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -29,7 +29,7 @@ async function getACommunityGalleryImage() {
       subscriptionId,
       location,
       publicGalleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

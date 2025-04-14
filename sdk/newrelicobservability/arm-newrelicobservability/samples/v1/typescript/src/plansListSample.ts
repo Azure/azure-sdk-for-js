@@ -10,22 +10,21 @@
 // Licensed under the MIT License.
 import {
   PlansListOptionalParams,
-  NewRelicObservability
+  NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List plans data
  *
  * @summary List plans data
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Plans_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Plans_List_MaximumSet_Gen.json
  */
-async function plansListMaximumSetGen() {
+async function plansListMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const accountId = "pwuxgvrmkk";
   const organizationId = "hilawwjz";
   const options: PlansListOptionalParams = { accountId, organizationId };
@@ -42,21 +41,24 @@ async function plansListMaximumSetGen() {
  * This sample demonstrates how to List plans data
  *
  * @summary List plans data
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Plans_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Plans_List_MinimumSet_Gen.json
  */
-async function plansListMinimumSetGen() {
+async function plansListMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const organizationId = "hilawwjz";
+  const options: PlansListOptionalParams = { organizationId };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.plans.list()) {
+  for await (let item of client.plans.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   plansListMaximumSetGen();
   plansListMinimumSetGen();
 }

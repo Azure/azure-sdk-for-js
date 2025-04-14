@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTracingClient } from "@azure/core-tracing";
 
@@ -7,7 +7,7 @@ import { createTracingClient } from "@azure/core-tracing";
  * Creates a tracing client using the global tracer.
  * @internal
  */
-export const tracingClient = createTracingClient({
+const tracingClient = createTracingClient({
   namespace: "Microsoft.Search",
   packageName: "Azure.Search",
 });

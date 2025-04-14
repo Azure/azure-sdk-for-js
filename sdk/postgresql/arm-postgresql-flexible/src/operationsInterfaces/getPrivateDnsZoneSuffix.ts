@@ -8,8 +8,8 @@
 
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
-  GetPrivateDnsZoneSuffixExecuteResponse
-} from "../models";
+  GetPrivateDnsZoneSuffixExecuteResponse,
+} from "../models/index.js";
 
 /** Interface representing a GetPrivateDnsZoneSuffix. */
 export interface GetPrivateDnsZoneSuffix {
@@ -18,6 +18,6 @@ export interface GetPrivateDnsZoneSuffix {
    * @param options The options parameters.
    */
   execute(
-    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams
+    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams,
   ): Promise<GetPrivateDnsZoneSuffixExecuteResponse>;
 }

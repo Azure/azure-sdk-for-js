@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
-
-import { SecretClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
+import type { SecretClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
+expect.extend({ toSupportTracing });
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -20,8 +19,8 @@ describe("Secret client - create, read, update and delete operations", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -34,10 +33,8 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // The tests follow
 
-  it("can add a secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can add a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
@@ -45,81 +42,47 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // If this test is not skipped in the browser's playback, no other test will be played back.
   // This is a bug related to the browser features of the recorder.
-  it("can abort adding a secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can abort adding a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const controller = new AbortController();
     controller.abort();
-    await assertThrowsAbortError(async () => {
-      await client.setSecret(secretName, secretValue, {
-        abortSignal: controller.signal,
-      });
-    });
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can timeout adding a secret", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    await expect(client.getSecret(secretName, { abortSignal: controller.signal })).rejects.toThrow(
+      /The operation was aborted/,
     );
-    await assertThrowsAbortError(async () => {
-      await client.setSecret(secretName, secretValue, {
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
   });
 
-  it("cannot create a secret with an empty name", async function () {
-    const secretName = "";
-    try {
-      await client.setSecret(secretName, secretValue);
-      assert.fail("Expected an error");
-    } catch (e) {
-      // Ignore expected error
-    }
+  it("cannot create a secret with an empty name", async () => {
+    await expect(client.setSecret("", secretValue)).rejects.toThrowError();
   });
 
-  it("can set a secret with Empty Value", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can set a secret with Empty Value", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const emptySecretValue = "";
     const result = await client.setSecret(secretName, emptySecretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(
       result.value,
       emptySecretValue,
-      "Unexpected secret value in result from setSecret()."
+      "Unexpected secret value in result from setSecret().",
     );
   });
 
-  it("can set a secret with attributes", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    const expiryDate = new Date("3000-01-01");
+  it("can set a secret with attributes", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
     await client.setSecret(secretName, secretValue, { expiresOn: expiryDate });
     const updated = await client.getSecret(secretName);
     assert.equal(
       expiryDate.getDate(),
       updated!.properties.expiresOn!.getDate(),
-      "Expect attribute 'expiresOn' to be defined."
+      "Expect attribute 'expiresOn' to be defined.",
     );
   });
 
-  it("can update a secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    const expiryDate = new Date("3000-01-01");
+  it("can update a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue);
@@ -131,38 +94,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       updated!.properties.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expiresOn' to be updated."
+      "Expect attribute 'expiresOn' to be updated.",
     );
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can timeout updating a secret", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    const expiryDate = new Date("3000-01-01");
-    expiryDate.setMilliseconds(0);
-
-    await client.setSecret(secretName, secretValue);
-    await assertThrowsAbortError(async () => {
-      await client.updateSecretProperties(secretName, "", {
-        expiresOn: expiryDate,
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
-  });
-
-  it("can update a disabled secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    const expiryDate = new Date("3000-01-01");
+  it("can update a disabled secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue, {
@@ -174,56 +112,31 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       updatedProperties!.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expiresOn' to be updated."
+      "Expect attribute 'expiresOn' to be updated.",
     );
   });
 
-  it("can get a secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can get a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can timeout getting a secret", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, secretValue);
-    await assertThrowsAbortError(async () => {
-      await client.getSecret(secretName, {
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
-  });
-
-  it("can't get a disabled secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    const expiryDate = new Date("3000-01-01");
+  it("can't get a disabled secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue, {
       enabled: false,
     });
-    await assert.isRejected(client.getSecret(secretName), /not allowed on a disabled secret/);
+    await expect(client.getSecret(secretName)).rejects.toThrow(/not allowed on a disabled secret/);
   });
 
-  it("can retrieve the latest version of a secret value", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can retrieve the latest version of a secret value", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
 
     const result = await client.getSecret(secretName);
@@ -232,10 +145,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
-  it("can get a secret (Non Existing)", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can get a secret (Non Existing)", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {
       await client.getSecret(secretName);
@@ -247,10 +158,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can delete a secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can delete a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
 
@@ -284,30 +193,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     }
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can timeout deleting a secret", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, secretValue);
-    await assertThrowsAbortError(async () => {
-      await client.beginDeleteSecret(secretName, {
-        requestOptions: {
-          timeout: 1,
-        },
-        ...testPollerProperties,
-      });
-    });
-  });
-
-  it("can delete a secret (Non Existing)", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can delete a secret (Non Existing)", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {
       await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -319,10 +206,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can get a deleted secret", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can get a deleted secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
 
@@ -330,7 +215,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       deletedSecret!.name,
       secretName,
-      "Unexpected secret name in result from getSecret()."
+      "Unexpected secret name in result from getSecret().",
     );
 
     await deletePoller.pollUntilDone();
@@ -338,17 +223,15 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       deletedSecret!.name,
       secretName,
-      "Unexpected secret name in result from getSecret()."
+      "Unexpected secret name in result from getSecret().",
     );
 
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });
 
-  it("can get a deleted secret (Non Existing)", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can get a deleted secret (Non Existing)", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {
       const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -364,31 +247,27 @@ describe("Secret client - create, read, update and delete operations", () => {
   it("traces through the various operations", async () => {
     const secretName = recorder.variable(
       "secrettrace",
-      `secrettrace${Math.floor(Math.random() * 1000)}`
+      `secrettrace${Math.floor(Math.random() * 1000)}`,
     );
-
-    await assert.supportsTracing(
-      async (options) => {
-        const secret = await client.setSecret(secretName, "someValue", options);
-        await client.getSecret(secretName, options);
-        await client.updateSecretProperties(secretName, secret.properties.version!, options);
-        await client.backupSecret(secretName, options);
-        const poller = await client.beginDeleteSecret(secretName, {
-          ...options,
-          ...testPollerProperties,
-        });
-        await poller.pollUntilDone();
-        await client.purgeDeletedSecret(secretName, options);
-      },
-      [
-        "SecretClient.setSecret",
-        "SecretClient.getSecret",
-        "SecretClient.updateSecretProperties",
-        "SecretClient.backupSecret",
-        "DeleteSecretPoller.deleteSecret",
-        "DeleteSecretPoller.getDeletedSecret",
-        "SecretClient.purgeDeletedSecret",
-      ]
-    );
+    await expect(async (options: any) => {
+      const secret = await client.setSecret(secretName, "someValue", options);
+      await client.getSecret(secretName, options);
+      await client.updateSecretProperties(secretName, secret.properties.version!, options);
+      await client.backupSecret(secretName, options);
+      const poller = await client.beginDeleteSecret(secretName, {
+        ...options,
+        ...testPollerProperties,
+      });
+      await poller.pollUntilDone();
+      await client.purgeDeletedSecret(secretName, options);
+    }).toSupportTracing([
+      "SecretClient.setSecret",
+      "SecretClient.getSecret",
+      "SecretClient.updateSecretProperties",
+      "SecretClient.backupSecret",
+      "DeleteSecretPoller.deleteSecret",
+      "DeleteSecretPoller.getDeletedSecret",
+      "SecretClient.purgeDeletedSecret",
+    ]);
   });
 });

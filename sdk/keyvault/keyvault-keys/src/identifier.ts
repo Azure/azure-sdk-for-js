@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { parseKeyVaultIdentifier } from "../../keyvault-common/src";
+import { parseKeyVaultIdentifier } from "@azure/keyvault-common";
 
 /**
  * Represents the segments that compose a Key Vault Key Id.
@@ -37,7 +37,7 @@ export interface KeyVaultKeyIdentifier {
  *   https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>
  *
  * On parsing the above Id, this function returns:
- *```ts
+ *```ts snippet:ignore
  *   {
  *      sourceId: "https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>",
  *      vaultUrl: "https://<keyvault-name>.vault.azure.net",

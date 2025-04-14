@@ -9,101 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  NginxDeploymentApiKeyRequest as NginxDeploymentApiKeyRequestMapper,
   NginxCertificate as NginxCertificateMapper,
-  NginxConfiguration as NginxConfigurationMapper,
+  NginxConfigurationRequest as NginxConfigurationRequestMapper,
+  AnalysisCreate as AnalysisCreateMapper,
   NginxDeployment as NginxDeploymentMapper,
-  NginxDeploymentUpdateParameters as NginxDeploymentUpdateParametersMapper
-} from "../models/mappers";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const deploymentName: OperationURLParameter = {
-  parameterPath: "deploymentName",
-  mapper: {
-    serializedName: "deploymentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-08-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
+  NginxDeploymentUpdateParameters as NginxDeploymentUpdateParametersMapper,
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -112,14 +27,108 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: NginxCertificateMapper
+  mapper: NginxDeploymentApiKeyRequestMapper,
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deploymentName: OperationURLParameter = {
+  parameterPath: "deploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
+      ),
+    },
+    serializedName: "deploymentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiKeyName: OperationURLParameter = {
+  parameterPath: "apiKeyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
+      ),
+    },
+    serializedName: "apiKeyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-11-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -128,10 +137,26 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: NginxCertificateMapper,
 };
 
 export const configurationName: OperationURLParameter = {
@@ -140,22 +165,41 @@ export const configurationName: OperationURLParameter = {
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: NginxConfigurationMapper
+      name: "String",
+    },
+  },
 };
 
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: NginxDeploymentMapper
+  mapper: NginxConfigurationRequestMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: NginxDeploymentUpdateParametersMapper
+  mapper: AnalysisCreateMapper,
+};
+
+export const configurationName1: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "configurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: NginxDeploymentMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: NginxDeploymentUpdateParametersMapper,
 };

@@ -1,24 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CorrelationRuleFilter,
   RuleProperties,
   ServiceBusMessage,
   ServiceBusSender,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { recreateSubscription } from "./utils/managementUtils";
-chai.use(chaiAsPromised);
-const assert = chai.assert;
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { recreateSubscription } from "./utils/managementUtils.js";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const defaultRuleName = "$Default";
 interface Order {
@@ -54,11 +49,11 @@ async function getRules(ruleManager: any): Promise<RuleProperties[]> {
 describe("RuleManager tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
   describe("subscriptions", () => {
@@ -66,9 +61,9 @@ describe("RuleManager tests", () => {
     let topic: string;
     let subscription: string;
 
-    before(async () => {
+    beforeAll(async () => {
       const entity = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedSubscription
+        TestClientType.UnpartitionedSubscription,
       );
 
       topic = entity.topic!;
@@ -288,7 +283,7 @@ describe("RuleManager tests", () => {
 
       await assert.isRejected(
         ruleManager.createRule(ruleName, filter2),
-        /The messaging entity '.*ruleName' already exists./
+        /The messaging entity '.*ruleName' already exists./,
       );
     });
 
@@ -323,7 +318,7 @@ describe("RuleManager tests", () => {
       await sendMessages(sender);
 
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription)
+        serviceBusClient.createReceiver(topic, subscription),
       );
 
       const received = await receiver.receiveMessages(orders.length, {
@@ -380,7 +375,7 @@ describe("RuleManager tests", () => {
       await ruleManager.createRule(
         ruleName,
         { applicationProperties: { color: "blue" } },
-        { sqlExpression: "Set priority = 'high'" }
+        { sqlExpression: "Set priority = 'high'" },
       );
 
       await sendMessages(sender);
@@ -389,10 +384,10 @@ describe("RuleManager tests", () => {
         serviceBusClient,
         topic,
         subscription,
-        expectedOrders
+        expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message")
+        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
       );
       received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
     });
@@ -444,7 +439,7 @@ describe("RuleManager tests", () => {
       await ruleManager.createRule(
         ruleName,
         { sqlExpression: "Color = 'blue'" },
-        { sqlExpression: "Set priority = 'high'" }
+        { sqlExpression: "Set priority = 'high'" },
       );
 
       await sendMessages(sender);
@@ -453,10 +448,10 @@ describe("RuleManager tests", () => {
         serviceBusClient,
         topic,
         subscription,
-        expectedOrders
+        expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message")
+        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
       );
       received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
     });
@@ -474,7 +469,7 @@ describe("RuleManager tests", () => {
       await ruleManager.createRule(
         ruleName,
         { sqlExpression: "Color = 'blue'" },
-        { abortSignal: undefined }
+        { abortSignal: undefined },
       );
 
       await sendMessages(sender);
@@ -483,10 +478,10 @@ describe("RuleManager tests", () => {
         serviceBusClient,
         topic,
         subscription,
-        expectedOrders
+        expectedOrders,
       );
       received.every((m) =>
-        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message")
+        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message"),
       );
     });
   });
@@ -499,7 +494,7 @@ async function sendMessages(sender: ServiceBusSender): Promise<void> {
       correlationId: order.priority,
       subject: order.color,
       applicationProperties: order as unknown as Record<string, string | number>,
-    }))
+    })),
   );
 }
 
@@ -507,10 +502,10 @@ async function receiveAndValidate(
   serviceBusClient: ServiceBusClientForTests,
   topicName: string,
   subscriptionName: string,
-  expectedOrders: Order[]
-) {
+  expectedOrders: Order[],
+): Promise<ServiceBusMessage[]> {
   const receiver = serviceBusClient.test.addToCleanup(
-    serviceBusClient.createReceiver(topicName, subscriptionName)
+    serviceBusClient.createReceiver(topicName, subscriptionName),
   );
 
   const received: ServiceBusMessage[] = [];

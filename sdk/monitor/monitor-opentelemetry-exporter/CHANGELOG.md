@@ -1,5 +1,199 @@
 # Release History
 
+## 1.0.0-beta.30 (2025-04-09)
+
+### Features Added
+
+- Support setting the AiLocationIp on logs and events.
+- Add support for performance counters.
+
+### Other Changes
+
+- Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+- Do not filter out `_MS.ProcessedByMetricExtractors` value on envelopes.
+
+## 1.0.0-beta.29 (2025-03-04)
+
+### Features Added
+
+- Support the AMW de-duping flag in AKS auto-attach scenarios.
+- Support sending custom events via specifying `microsoft.custom_event.name` on logs.
+- Support the stable OpenTelemetry HTTP semantic conventions.
+
+### Other Changes
+
+- Removed faulty span exception exporting logic.
+- Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
+
+## 1.0.0-beta.28 (2025-01-28)
+
+### Features Added
+
+- Added support for operation name on dependencies and logs.
+
+### Bugs Fixed
+
+- Fixed usage of environment variable to disable resource metric creation.
+
+### Other Changes
+
+- Fix setting statsbeat custom dimensions.
+- EAI_AGAIN REST errors are considered retriable.
+- Add 15 second warmup before export of long interval statsbeat.
+
+## 1.0.0-beta.27 (2024-10-23)
+
+### Other Changes
+
+- Update Statsbeat shutdown logic to include more status codes for shutdown.
+- Add non-essential statsbeat metrics.
+- Update logic for when to emit exceptions.
+
+## 1.0.0-beta.26 (2024-09-13)
+
+### Other Changes
+
+- Enforce property length limits on telemetry using truncation.
+- Updated OTel dependencies.
+
+## 1.0.0-beta.25 (2024-08-14)
+
+### Other Changes
+
+- Added APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED environment variable.
+- Update value used to send sample rate to ingestion.
+- Update to the latest OpenTelemetry dependencies.
+
+## 1.0.0-beta.24 (2024-06-13)
+
+### Bugs Fixed
+
+- Fix issue with `disableOfflineStorage` being set sending error messages to customer apps.
+- Fix issue with `disableOfflineStorage` not applying to Statsbeat senders.
+
+### Other Changes
+
+- Client generated Span event exceptions no longer generate trace telemetry.
+- Sever spans with http status codes within 4xx range should count as request failures.
+- Update to the latest OpenTelemetry dependencies.
+
+## 1.0.0-beta.23 (2024-05-10)
+
+### Features Added
+
+- Capture and export measurements when creating log records from the Application Insights 3.X SDK.
+
+### Other Changes
+
+- Add live metrics activation tracking to statsbeat.
+- Update OpenTelemetry dependencies.
+- Convert OTel-valid performance counter names to appropriate breeze names.
+
+## 1.0.0-beta.22 (2024-04-16)
+
+### Features Added
+
+- Add support for more Azure Monitor part A/tags.
+
+### Other Changes
+
+- Update README Code Snippets.
+
+## 1.0.0-beta.21 (2024-03-08)
+
+### Bugs Fixed
+
+- Fix issue with duration calculation for Spans.
+
+## 1.0.0-beta.20 (2024-02-13)
+
+### Bugs Fixed
+
+- Added exception handling for reading files to avoid concurrency errors.
+- Fixed issues with formatting for the duration field.
+
+### Other Changes
+
+- Changed the environment variable used to pass the sdk prefix.
+- Errors are no longer thrown upon failed statsbeat export.
+- Added exception handling for file creation and lookup used for telemetry caching.
+- Update OpenTelemetry depdendencies.
+- Change time precision to nanoseconds.
+
+## 1.0.0-beta.19 (2024-01-23)
+
+### Features Added
+
+- Capture WCF as an RPC dependency type.
+
+### Other Changes
+
+- Statsbeat will stop being exported when user iKey is invalid.
+- Statsbeat attach type name updated to follow spec.
+- Update OpenTelemetry dependencies.
+- Update generated files.
+
+## 1.0.0-beta.18 (2023-11-09)
+
+### Bugs Fixed
+
+- Fix Feature and Instrumentation Statsbeat type value.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
+
+## 1.0.0-beta.17 (2023-10-09)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+- Add support for aadAudience configuration using connection string.
+
+### Bugs Fixed
+
+- Fix issue with credentialScopes setup not being passed to core-client.
+- Fix Statsbeat metric names.
+
+### Other Changes
+
+- Add performance tests.
+- Add metric and span util tests.
+
+## 1.0.0-beta.16 (2023-08-30)
+
+### Bugs Fixed
+
+- Avoid dependency telemetry for ingestion endpoint calls.
+
+## 1.0.0-beta.15 (2023-08-24)
+
+### Breaking Changes
+
+- `AzureMonitorExporterOptions.aadTokenCredential` is now `AzureMonitorExporterOptions.credential`.
+- No longer expose the `MonitorBase`, `MonitorDomain`, or `TelemetryItem` interfaces.
+
+### Bugs Fixed
+
+- Fix issue with wrong name for _OTELRESOURCE_ metric.
+- Fix an issue with serializing nested log messages.
+
+## 1.0.0-beta.14 (2023-06-15)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+
+### Bugs Fixed
+
+- Fix issues with Breeze events format for new Resource attributes telemetry event
+  and legacy Application Insights events.
+- Metrics Exporter use delta aggregation temporality.
+
 ## 1.0.0-beta.13 (2023-06-06)
 
 ### Features Added

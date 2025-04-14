@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   UnivariateDetectionOptions,
   UnivariateChangePointDetectionOptions,
   ModelInfo,
   MultivariateBatchDetectionOptions,
   MultivariateLastDetectionOptions,
-} from "./models";
+} from "./models.js";
 
 export interface DetectUnivariateEntireSeriesBodyParam {
   /** Method of univariate anomaly detection. */

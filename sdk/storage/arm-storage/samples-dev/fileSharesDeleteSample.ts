@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes specified share under its account.
  *
  * @summary Deletes specified share under its account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesDelete.json
  */
-async function deleteShares() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4079";
+async function deleteShares(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4079";
   const accountName = "sto4506";
   const shareName = "share9689";
   const credential = new DefaultAzureCredential();
@@ -27,9 +27,13 @@ async function deleteShares() {
   const result = await client.fileShares.delete(
     resourceGroupName,
     accountName,
-    shareName
+    shareName,
   );
   console.log(result);
 }
 
-deleteShares().catch(console.error);
+async function main(): Promise<void> {
+  await deleteShares();
+}
+
+main().catch(console.error);

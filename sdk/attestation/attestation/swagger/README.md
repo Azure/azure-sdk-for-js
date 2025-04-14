@@ -24,22 +24,21 @@ output-folder: ../src/generated
 source-code-folder-path: .
 clear-output-folder: true
 require: 
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/attestation/data-plane/readme.md
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/attestation/data-plane/readme.md
 add-credentials: false
 override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true
 use-extension:
-  "@autorest/typescript": "latest"
-
+  "@autorest/typescript": "6.0.34"
 tracing-info:
   namespace: "Azure.Security.Attestation"
   packagePrefix: "Azure.Security.Attestation"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator

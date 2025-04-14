@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
-import { Readable } from "stream";
+import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import { Readable } from "node:stream";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
@@ -75,7 +75,7 @@ export class RetriableReadableStream extends Readable {
     private getter: ReadableStreamGetter,
     private offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     super({ highWaterMark: options.highWaterMark });
     this.getter = getter;
@@ -95,7 +95,7 @@ export class RetriableReadableStream extends Readable {
     this.source.resume();
   }
 
-  private setSourceEventHandlers() {
+  private setSourceEventHandlers(): void {
     this.source.on("data", this.sourceDataHandler);
     this.source.on("end", this.sourceErrorOrEndHandler);
     this.source.on("error", this.sourceErrorOrEndHandler);
@@ -103,14 +103,14 @@ export class RetriableReadableStream extends Readable {
     this.source.on("aborted", this.sourceAbortedHandler);
   }
 
-  private removeSourceEventHandlers() {
+  private removeSourceEventHandlers(): void {
     this.source.removeListener("data", this.sourceDataHandler);
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);
     this.source.removeListener("aborted", this.sourceAbortedHandler);
   }
 
-  private sourceDataHandler = (data: Buffer) => {
+  private sourceDataHandler = (data: Buffer): void => {
     if (this.options.doInjectErrorOnce) {
       this.options.doInjectErrorOnce = undefined;
       this.source.pause();
@@ -126,8 +126,8 @@ export class RetriableReadableStream extends Readable {
         new Error(
           `Data corruption failure: Received more data than original request, data needed offset is ${
             this.end
-          }, received offset: ${this.offset - 1}`
-        )
+          }, received offset: ${this.offset - 1}`,
+        ),
       );
     }
 
@@ -139,12 +139,12 @@ export class RetriableReadableStream extends Readable {
     }
   };
 
-  private sourceAbortedHandler = () => {
+  private sourceAbortedHandler = (): void => {
     const abortError = new AbortError("The operation was aborted.");
     this.destroy(abortError);
   };
 
-  private sourceErrorOrEndHandler = (err?: Error) => {
+  private sourceErrorOrEndHandler = (err?: Error): void => {
     if (err && err.name === "AbortError") {
       this.destroy(err);
       return;
@@ -173,8 +173,8 @@ export class RetriableReadableStream extends Readable {
               this.offset - 1
             }, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${
               this.maxRetryRequests
-            }`
-          )
+            }`,
+          ),
         );
       }
     } else {
@@ -182,8 +182,8 @@ export class RetriableReadableStream extends Readable {
         new Error(
           `Data corruption failure: Received more data than original request, data needed offset is ${
             this.end
-          }, received offset: ${this.offset - 1}`
-        )
+          }, received offset: ${this.offset - 1}`,
+        ),
       );
     }
   };

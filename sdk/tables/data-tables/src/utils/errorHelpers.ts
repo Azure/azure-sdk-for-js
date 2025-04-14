@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions, OperationRequest } from "@azure/core-client";
-import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
-import { AzureLogger } from "@azure/logger";
-import { TableServiceError } from "../generated";
+import type { OperationOptions, OperationRequest } from "@azure/core-client";
+import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import type { AzureLogger } from "@azure/logger";
+import type { TableServiceError } from "../generated/index.js";
 
 export type TableServiceErrorResponse = PipelineResponse & {
   /**
@@ -23,7 +23,7 @@ export type TableServiceErrorResponse = PipelineResponse & {
 
 export function handleTableAlreadyExists(
   error: unknown,
-  options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {}
+  options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {},
 ): void {
   const responseError = getErrorResponse(error);
   if (
@@ -60,7 +60,7 @@ function isRestError(error: unknown): error is RestError {
 }
 
 function isTableServiceErrorResponse(
-  errorResponseBody: any
+  errorResponseBody: any,
 ): errorResponseBody is TableServiceError {
   return Boolean(errorResponseBody?.odataError);
 }

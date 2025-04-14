@@ -6,9 +6,254 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface Access {
+    createRoleBinding(resourceGroupName: string, organizationName: string, body: AccessCreateRoleBindingRequestModel, options?: AccessCreateRoleBindingOptionalParams): Promise<AccessCreateRoleBindingResponse>;
+    deleteRoleBinding(resourceGroupName: string, organizationName: string, roleBindingId: string, options?: AccessDeleteRoleBindingOptionalParams): Promise<void>;
+    inviteUser(resourceGroupName: string, organizationName: string, body: AccessInviteUserAccountModel, options?: AccessInviteUserOptionalParams): Promise<AccessInviteUserResponse>;
+    listClusters(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListClustersOptionalParams): Promise<AccessListClustersResponse>;
+    listEnvironments(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListEnvironmentsOptionalParams): Promise<AccessListEnvironmentsResponse>;
+    listInvitations(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListInvitationsOptionalParams): Promise<AccessListInvitationsResponse>;
+    listRoleBindingNameList(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingNameListOptionalParams): Promise<AccessListRoleBindingNameListResponse>;
+    listRoleBindings(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingsOptionalParams): Promise<AccessListRoleBindingsResponse>;
+    listServiceAccounts(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListServiceAccountsOptionalParams): Promise<AccessListServiceAccountsResponse>;
+    listUsers(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListUsersOptionalParams): Promise<AccessListUsersResponse>;
+}
+
+// @public
+export interface AccessCreateRoleBindingOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessCreateRoleBindingRequestModel {
+    crnPattern?: string;
+    principal?: string;
+    roleName?: string;
+}
+
+// @public
+export type AccessCreateRoleBindingResponse = RoleBindingRecord;
+
+// @public
+export interface AccessDeleteRoleBindingOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessInvitedUserDetails {
+    authType?: string;
+    invitedEmail?: string;
+}
+
+// @public
+export interface AccessInviteUserAccountModel {
+    email?: string;
+    invitedUserDetails?: AccessInvitedUserDetails;
+    organizationId?: string;
+    upn?: string;
+}
+
+// @public
+export interface AccessInviteUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessInviteUserResponse = InvitationRecord;
+
+// @public
+export interface AccessListClustersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListClustersResponse = AccessListClusterSuccessResponse;
+
+// @public
+export interface AccessListClusterSuccessResponse {
+    data?: ClusterRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListEnvironmentsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListEnvironmentsResponse = AccessListEnvironmentsSuccessResponse;
+
+// @public
+export interface AccessListEnvironmentsSuccessResponse {
+    data?: EnvironmentRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListInvitationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListInvitationsResponse = AccessListInvitationsSuccessResponse;
+
+// @public
+export interface AccessListInvitationsSuccessResponse {
+    data?: InvitationRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListRoleBindingNameListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListRoleBindingNameListResponse = AccessRoleBindingNameListSuccessResponse;
+
+// @public
+export interface AccessListRoleBindingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListRoleBindingsResponse = AccessListRoleBindingsSuccessResponse;
+
+// @public
+export interface AccessListRoleBindingsSuccessResponse {
+    data?: RoleBindingRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListServiceAccountsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListServiceAccountsResponse = AccessListServiceAccountsSuccessResponse;
+
+// @public
+export interface AccessListServiceAccountsSuccessResponse {
+    data?: ServiceAccountRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListUsersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListUsersResponse = AccessListUsersSuccessResponse;
+
+// @public
+export interface AccessListUsersSuccessResponse {
+    data?: UserRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessRoleBindingNameListSuccessResponse {
+    data?: string[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface APIKeyOwnerEntity {
+    id?: string;
+    kind?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface APIKeyRecord {
+    id?: string;
+    kind?: string;
+    metadata?: SCMetadataEntity;
+    spec?: APIKeySpecEntity;
+}
+
+// @public
+export interface APIKeyResourceEntity {
+    environment?: string;
+    id?: string;
+    kind?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface APIKeySpecEntity {
+    description?: string;
+    name?: string;
+    owner?: APIKeyOwnerEntity;
+    resource?: APIKeyResourceEntity;
+    secret?: string;
+}
+
+// @public
+export interface ClusterByokEntity {
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterConfigEntity {
+    kind?: string;
+}
+
+// @public
+export interface ClusterEnvironmentEntity {
+    environment?: string;
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterNetworkEntity {
+    environment?: string;
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterRecord {
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    spec?: ClusterSpecEntity;
+    status?: ClusterStatusEntity;
+}
+
+// @public
+export interface ClusterSpecEntity {
+    apiEndpoint?: string;
+    availability?: string;
+    byok?: ClusterByokEntity;
+    cloud?: string;
+    config?: ClusterConfigEntity;
+    displayName?: string;
+    environment?: ClusterEnvironmentEntity;
+    httpEndpoint?: string;
+    kafkaBootstrapEndpoint?: string;
+    network?: ClusterNetworkEntity;
+    region?: string;
+    zone?: string;
+}
+
+// @public
+export interface ClusterStatusEntity {
+    cku?: number;
+    phase?: string;
+}
 
 // @public
 export interface ConfluentAgreementResource {
@@ -32,11 +277,23 @@ export interface ConfluentAgreementResourceListResponse {
     value?: ConfluentAgreementResource[];
 }
 
+// @public
+export interface ConfluentListMetadata {
+    first?: string;
+    last?: string;
+    next?: string;
+    prev?: string;
+    totalSize?: number;
+}
+
 // @public (undocumented)
 export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConfluentManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ConfluentManagementClientOptionalParams);
+    // (undocumented)
+    access: Access;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -46,7 +303,7 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     organizationOperations: OrganizationOperations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     validations: Validations;
 }
@@ -59,7 +316,21 @@ export interface ConfluentManagementClientOptionalParams extends coreClient.Serv
 }
 
 // @public
+export interface CreateAPIKeyModel {
+    description?: string;
+    name?: string;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface EnvironmentRecord {
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
 
 // @public
 export interface ErrorResponseBody {
@@ -71,6 +342,24 @@ export interface ErrorResponseBody {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GetEnvironmentsResponse {
+    nextLink?: string;
+    value?: SCEnvironmentRecord[];
+}
+
+// @public
+export interface InvitationRecord {
+    acceptedAt?: string;
+    authType?: string;
+    email?: string;
+    expiresAt?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    status?: string;
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -108,6 +397,35 @@ export enum KnownSaaSOfferStatus {
 }
 
 // @public
+export interface LinkOrganization {
+    token: string;
+}
+
+// @public
+export interface ListAccessRequestModel {
+    searchFilters?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ListClustersSuccessResponse {
+    nextLink?: string;
+    value?: SCClusterRecord[];
+}
+
+// @public
+export interface ListRegionsSuccessResponse {
+    data?: RegionRecord[];
+}
+
+// @public
+export interface ListSchemaRegistryClustersResponse {
+    nextLink?: string;
+    value?: SchemaRegistryClusterRecord[];
+}
+
+// @public
 export interface MarketplaceAgreements {
     create(options?: MarketplaceAgreementsCreateOptionalParams): Promise<MarketplaceAgreementsCreateResponse>;
     list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<ConfluentAgreementResource>;
@@ -136,12 +454,24 @@ export interface MarketplaceAgreementsListOptionalParams extends coreClient.Oper
 export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
 
 // @public
+export interface MetadataEntity {
+    createdAt?: string;
+    deletedAt?: string;
+    resourceName?: string;
+    self?: string;
+    updatedAt?: string;
+}
+
+// @public
 export interface OfferDetail {
     id: string;
     planId: string;
     planName: string;
+    privateOfferId?: string;
+    privateOfferIds?: string[];
     publisherId: string;
-    readonly status?: SaaSOfferStatus;
+    status?: SaaSOfferStatus;
+    termId?: string;
     termUnit: string;
 }
 
@@ -168,15 +498,32 @@ export interface OperationResult {
 
 // @public
 export interface Organization {
-    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<PollerLike<PollOperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
+    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<OrganizationCreateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<void>;
+    createAPIKey(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: OrganizationCreateAPIKeyOptionalParams): Promise<OrganizationCreateAPIKeyResponse>;
+    deleteClusterAPIKey(resourceGroupName: string, organizationName: string, apiKeyId: string, options?: OrganizationDeleteClusterAPIKeyOptionalParams): Promise<void>;
     get(resourceGroupName: string, organizationName: string, options?: OrganizationGetOptionalParams): Promise<OrganizationGetResponse>;
+    getClusterAPIKey(resourceGroupName: string, organizationName: string, apiKeyId: string, options?: OrganizationGetClusterAPIKeyOptionalParams): Promise<OrganizationGetClusterAPIKeyResponse>;
+    getClusterById(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: OrganizationGetClusterByIdOptionalParams): Promise<OrganizationGetClusterByIdResponse>;
+    getEnvironmentById(resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationGetEnvironmentByIdOptionalParams): Promise<OrganizationGetEnvironmentByIdResponse>;
+    getSchemaRegistryClusterById(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: OrganizationGetSchemaRegistryClusterByIdOptionalParams): Promise<OrganizationGetSchemaRegistryClusterByIdResponse>;
     listByResourceGroup(resourceGroupName: string, options?: OrganizationListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
     listBySubscription(options?: OrganizationListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
+    listClusters(resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationListClustersOptionalParams): PagedAsyncIterableIterator<SCClusterRecord>;
+    listEnvironments(resourceGroupName: string, organizationName: string, options?: OrganizationListEnvironmentsOptionalParams): PagedAsyncIterableIterator<SCEnvironmentRecord>;
+    listRegions(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: OrganizationListRegionsOptionalParams): Promise<OrganizationListRegionsResponse>;
+    listSchemaRegistryClusters(resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationListSchemaRegistryClustersOptionalParams): PagedAsyncIterableIterator<SchemaRegistryClusterRecord>;
     update(resourceGroupName: string, organizationName: string, options?: OrganizationUpdateOptionalParams): Promise<OrganizationUpdateResponse>;
 }
+
+// @public
+export interface OrganizationCreateAPIKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationCreateAPIKeyResponse = APIKeyRecord;
 
 // @public
 export interface OrganizationCreateOptionalParams extends coreClient.OperationOptions {
@@ -189,10 +536,35 @@ export interface OrganizationCreateOptionalParams extends coreClient.OperationOp
 export type OrganizationCreateResponse = OrganizationResource;
 
 // @public
+export interface OrganizationDeleteClusterAPIKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface OrganizationDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface OrganizationGetClusterAPIKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationGetClusterAPIKeyResponse = APIKeyRecord;
+
+// @public
+export interface OrganizationGetClusterByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationGetClusterByIdResponse = SCClusterRecord;
+
+// @public
+export interface OrganizationGetEnvironmentByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationGetEnvironmentByIdResponse = SCEnvironmentRecord;
 
 // @public
 export interface OrganizationGetOptionalParams extends coreClient.OperationOptions {
@@ -200,6 +572,13 @@ export interface OrganizationGetOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type OrganizationGetResponse = OrganizationResource;
+
+// @public
+export interface OrganizationGetSchemaRegistryClusterByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationGetSchemaRegistryClusterByIdResponse = SchemaRegistryClusterRecord;
 
 // @public
 export interface OrganizationListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -230,6 +609,61 @@ export interface OrganizationListBySubscriptionOptionalParams extends coreClient
 export type OrganizationListBySubscriptionResponse = OrganizationResourceListResult;
 
 // @public
+export interface OrganizationListClustersNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationListClustersNextResponse = ListClustersSuccessResponse;
+
+// @public
+export interface OrganizationListClustersOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type OrganizationListClustersResponse = ListClustersSuccessResponse;
+
+// @public
+export interface OrganizationListEnvironmentsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationListEnvironmentsNextResponse = GetEnvironmentsResponse;
+
+// @public
+export interface OrganizationListEnvironmentsOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type OrganizationListEnvironmentsResponse = GetEnvironmentsResponse;
+
+// @public
+export interface OrganizationListRegionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationListRegionsResponse = ListRegionsSuccessResponse;
+
+// @public
+export interface OrganizationListSchemaRegistryClustersNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationListSchemaRegistryClustersNextResponse = ListSchemaRegistryClustersResponse;
+
+// @public
+export interface OrganizationListSchemaRegistryClustersOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type OrganizationListSchemaRegistryClustersResponse = ListSchemaRegistryClustersResponse;
+
+// @public
 export interface OrganizationOperations {
     list(options?: OrganizationOperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
 }
@@ -252,6 +686,7 @@ export type OrganizationOperationsListResponse = OperationListResult;
 export interface OrganizationResource {
     readonly createdTime?: Date;
     readonly id?: string;
+    linkOrganization?: LinkOrganization;
     location?: string;
     readonly name?: string;
     offerDetail: OfferDetail;
@@ -291,12 +726,146 @@ export type OrganizationUpdateResponse = OrganizationResource;
 export type ProvisionState = string;
 
 // @public
+export interface RegionRecord {
+    id?: string;
+    kind?: string;
+    metadata?: SCMetadataEntity;
+    spec?: RegionSpecEntity;
+}
+
+// @public
+export interface RegionSpecEntity {
+    cloud?: string;
+    name?: string;
+    // (undocumented)
+    packages?: string[];
+    regionName?: string;
+}
+
+// @public
 export interface ResourceProviderDefaultErrorResponse {
     readonly error?: ErrorResponseBody;
 }
 
 // @public
+export interface RoleBindingRecord {
+    crnPattern?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    principal?: string;
+    roleName?: string;
+}
+
+// @public
 export type SaaSOfferStatus = string;
+
+// @public
+export interface SCClusterByokEntity {
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface SCClusterNetworkEnvironmentEntity {
+    environment?: string;
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface SCClusterRecord {
+    id?: string;
+    kind?: string;
+    metadata?: SCMetadataEntity;
+    name?: string;
+    spec?: SCClusterSpecEntity;
+    status?: ClusterStatusEntity;
+}
+
+// @public
+export interface SCClusterSpecEntity {
+    apiEndpoint?: string;
+    availability?: string;
+    byok?: SCClusterByokEntity;
+    cloud?: string;
+    config?: ClusterConfigEntity;
+    environment?: SCClusterNetworkEnvironmentEntity;
+    httpEndpoint?: string;
+    kafkaBootstrapEndpoint?: string;
+    name?: string;
+    network?: SCClusterNetworkEnvironmentEntity;
+    region?: string;
+    zone?: string;
+}
+
+// @public
+export interface SCConfluentListMetadata {
+    first?: string;
+    last?: string;
+    next?: string;
+    prev?: string;
+    totalSize?: number;
+}
+
+// @public
+export interface SCEnvironmentRecord {
+    id?: string;
+    kind?: string;
+    metadata?: SCMetadataEntity;
+    name?: string;
+}
+
+// @public
+export interface SchemaRegistryClusterEnvironmentRegionEntity {
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface SchemaRegistryClusterRecord {
+    id?: string;
+    kind?: string;
+    metadata?: SCMetadataEntity;
+    spec?: SchemaRegistryClusterSpecEntity;
+    status?: SchemaRegistryClusterStatusEntity;
+}
+
+// @public
+export interface SchemaRegistryClusterSpecEntity {
+    cloud?: string;
+    environment?: SchemaRegistryClusterEnvironmentRegionEntity;
+    httpEndpoint?: string;
+    name?: string;
+    package?: string;
+    region?: SchemaRegistryClusterEnvironmentRegionEntity;
+}
+
+// @public
+export interface SchemaRegistryClusterStatusEntity {
+    phase?: string;
+}
+
+// @public
+export interface SCMetadataEntity {
+    createdTimestamp?: string;
+    deletedTimestamp?: string;
+    resourceName?: string;
+    self?: string;
+    updatedTimestamp?: string;
+}
+
+// @public
+export interface ServiceAccountRecord {
+    description?: string;
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
 
 // @public
 export interface SystemData {
@@ -310,14 +879,34 @@ export interface SystemData {
 
 // @public
 export interface UserDetail {
+    aadEmail?: string;
     emailAddress: string;
     firstName?: string;
     lastName?: string;
+    userPrincipalName?: string;
+}
+
+// @public
+export interface UserRecord {
+    authType?: string;
+    email?: string;
+    fullName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
+
+// @public
+export interface ValidationResponse {
+    info?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface Validations {
     validateOrganization(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationOptionalParams): Promise<ValidationsValidateOrganizationResponse>;
+    validateOrganizationV2(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationV2OptionalParams): Promise<ValidationsValidateOrganizationV2Response>;
 }
 
 // @public
@@ -326,6 +915,13 @@ export interface ValidationsValidateOrganizationOptionalParams extends coreClien
 
 // @public
 export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+// @public
+export interface ValidationsValidateOrganizationV2OptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidationsValidateOrganizationV2Response = ValidationResponse;
 
 // (No @packageDocumentation comment for this package)
 

@@ -6,23 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   TagsResource,
-  ApplicationInsightsManagementClient
+  ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an Application Insights web test definition.
+ * This sample demonstrates how to Updates the tags associated with an Application Insights web test.
  *
- * @summary Creates or updates an Application Insights web test definition.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestUpdateTagsOnly.json
+ * @summary Updates the tags associated with an Application Insights web test.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestUpdateTagsOnly.json
  */
-async function webTestUpdateTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+async function webTestUpdateTags(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const webTestName = "my-webtest-my-component";
   const webTestTags: TagsResource = {
     tags: {
@@ -31,21 +32,23 @@ async function webTestUpdateTags() {
       systemType: "A08",
       "hiddenLink:/subscriptions/subid/resourceGroups/myResourceGroup/providers/MicrosoftInsights/components/myComponent":
         "Resource",
-      "hiddenLink:/subscriptions/subid/resourceGroups/myResourceGroup/providers/MicrosoftWeb/sites/mytestwebapp":
-        "Resource"
-    }
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.webTests.updateTags(
     resourceGroupName,
     webTestName,
-    webTestTags
+    webTestTags,
   );
   console.log(result);
 }
 
-webTestUpdateTags().catch(console.error);
+async function main(): Promise<void> {
+  await webTestUpdateTags();
+}
+
+main().catch(console.error);

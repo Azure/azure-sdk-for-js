@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./extensions";
-export * from "./farmBeatsExtensions";
-export * from "./farmBeatsModels";
-export * from "./locations";
-export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
+export * from "./extensions.js";
+export * from "./farmBeatsExtensions.js";
+export * from "./farmBeatsModels.js";
+export * from "./locations.js";
+export * from "./operations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

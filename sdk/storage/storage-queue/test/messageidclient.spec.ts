@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { QueueClient } from "../src/QueueClient";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { recorderEnvSetup } from "./utils/index.browser";
-import { Context } from "mocha";
+import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
+import { QueueClient } from "../src/QueueClient.js";
+import { delay, Recorder } from "@azure-tools/test-recorder";
+import { extractConnectionStringParts } from "../src/utils/utils.common.js";
+import { getUniqueName, recorderEnvSetup } from "./utils/index-browser.mjs";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods", () => {
   let queueName: string;
@@ -16,15 +15,17 @@ describe("QueueClient messageId methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -45,7 +46,7 @@ describe("QueueClient messageId methods", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -83,7 +84,7 @@ describe("QueueClient messageId methods", () => {
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
-      10
+      10,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -117,7 +118,7 @@ describe("QueueClient messageId methods", () => {
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
-      10
+      10,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -150,7 +151,7 @@ describe("QueueClient messageId methods", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -185,8 +186,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
@@ -204,7 +205,9 @@ describe("QueueClient messageId methods", () => {
 
   it("verify messageID and queueName passed to the client", async () => {
     const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
+        "/" +
+        queueName,
     );
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });

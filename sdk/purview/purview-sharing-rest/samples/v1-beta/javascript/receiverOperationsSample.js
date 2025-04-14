@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const createPurviewSharingClient = require("@azure-rest/purview-sharing").default,
   { getLongRunningPoller, paginate, isUnexpected } = require("@azure-rest/purview-sharing");
@@ -18,12 +18,15 @@ async function getAllDetachedReceivedShares() {
   const client = createPurviewSharingClient(endpoint, credential);
 
   const initialResponse = await client.path("/receivedShares/detached").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
 
   const result = [];
   for await (const item of pageData) {
-    const receivedShare = item;
-    receivedShare && result.push(receivedShare);
+    result.push(item);
   }
   console.log(result);
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a project.
  *
  * @summary Partially updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Patch.json
  */
 async function projectsUpdate() {
   const subscriptionId =
@@ -25,6 +25,8 @@ async function projectsUpdate() {
   const projectName = "DevProject";
   const body = {
     description: "This is my first project.",
+    catalogSettings: { catalogItemSyncTypes: ["EnvironmentDefinition"] },
+    displayName: "Dev",
     tags: { costCenter: "R&D" },
   };
   const credential = new DefaultAzureCredential();

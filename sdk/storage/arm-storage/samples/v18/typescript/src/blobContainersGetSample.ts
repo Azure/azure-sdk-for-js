@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
-async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9871";
+async function getBlobContainersGetWithAllowProtectedAppendWritesAll(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
   const accountName = "sto6217";
   const containerName = "container1634";
   const credential = new DefaultAzureCredential();
@@ -27,22 +27,21 @@ async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
   const result = await client.blobContainers.get(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }
-
-getBlobContainersGetWithAllowProtectedAppendWritesAll().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobContainersGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGet.json
  */
-async function getContainers() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9871";
+async function getContainers(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
   const accountName = "sto6217";
   const containerName = "container1634";
   const credential = new DefaultAzureCredential();
@@ -50,9 +49,14 @@ async function getContainers() {
   const result = await client.blobContainers.get(
     resourceGroupName,
     accountName,
-    containerName
+    containerName,
   );
   console.log(result);
 }
 
-getContainers().catch(console.error);
+async function main(): Promise<void> {
+  await getBlobContainersGetWithAllowProtectedAppendWritesAll();
+  await getContainers();
+}
+
+main().catch(console.error);

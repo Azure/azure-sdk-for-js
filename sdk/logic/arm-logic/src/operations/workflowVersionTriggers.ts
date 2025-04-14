@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WorkflowVersionTriggers } from "../operationsInterfaces";
+import { WorkflowVersionTriggers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { LogicManagementClient } from "../logicManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   WorkflowVersionTriggersListCallbackUrlOptionalParams,
   WorkflowVersionTriggersListCallbackUrlResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing WorkflowVersionTriggers operations. */
 export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {

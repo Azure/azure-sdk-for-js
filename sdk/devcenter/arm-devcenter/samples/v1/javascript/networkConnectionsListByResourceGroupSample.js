@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists network connections in a resource group
  *
  * @summary Lists network connections in a resource group
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_ListByResourceGroup.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_ListByResourceGroup.json
  */
 async function networkConnectionsListByResourceGroup() {
   const subscriptionId =

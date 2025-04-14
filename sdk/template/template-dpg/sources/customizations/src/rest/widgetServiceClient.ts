@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ClientOptions, addCredentialPipelinePolicy } from "@azure-rest/core-client";
 import { WidgetServiceContext } from "../../../generated/src/rest/clientDefinitions.js";
@@ -12,18 +12,18 @@ import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 export default function createClient(
   endpoint: string,
   credential: TokenCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 
 export default function createClient(
   endpoint: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 
 export default function createClient(
   endpoint: string,
   credentialOrOptions?: TokenCredential | ClientOptions,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): WidgetServiceContext {
   let credential: TokenCredential | undefined;
   if (isTokenCredential(credentialOrOptions)) {

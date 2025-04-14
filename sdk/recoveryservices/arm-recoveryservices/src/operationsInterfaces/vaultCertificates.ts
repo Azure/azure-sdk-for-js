@@ -9,8 +9,8 @@
 import {
   CertificateRequest,
   VaultCertificatesCreateOptionalParams,
-  VaultCertificatesCreateResponse
-} from "../models";
+  VaultCertificatesCreateResponse,
+} from "../models/index.js";
 
 /** Interface representing a VaultCertificates. */
 export interface VaultCertificates {
@@ -27,6 +27,6 @@ export interface VaultCertificates {
     vaultName: string,
     certificateName: string,
     certificateRequest: CertificateRequest,
-    options?: VaultCertificatesCreateOptionalParams
+    options?: VaultCertificatesCreateOptionalParams,
   ): Promise<VaultCertificatesCreateResponse>;
 }

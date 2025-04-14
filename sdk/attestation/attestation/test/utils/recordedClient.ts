@@ -1,26 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  AttestationAdministrationClient,
-  AttestationClient,
-  AttestationClientOptions,
-} from "../../src/";
-import "./env";
-import { pemFromBase64 } from "../utils/helpers";
+import type { AttestationClientOptions } from "../../src/index.js";
+import { AttestationAdministrationClient, AttestationClient } from "../../src/index.js";
+import { pemFromBase64 } from "../utils/helpers.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
   ATTESTATION_ISOLATED_URL: "https://isolated_attestation_url.wus.attest.azure.net",
   ATTESTATION_AAD_URL: "https://aad_attestation_url.wus.attest.azure.net",
@@ -33,6 +21,8 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  // token is not a secret
+  removeCentralSanitizers: ["AZSDK3431"],
 };
 
 export type EndpointType = "AAD" | "Isolated" | "Shared";
@@ -76,7 +66,7 @@ export function createRecordedClient(
   recorder: Recorder,
   endpointType: EndpointType,
   authenticatedClient?: boolean,
-  options?: AttestationClientOptions
+  options?: AttestationClientOptions,
 ): AttestationClient {
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
@@ -96,13 +86,13 @@ export function createRecordedClient(
     const attClient = new AttestationClient(
       getAttestationUri(endpointType),
       createTestCredential(),
-      recorder.configureClientOptions(options)
+      recorder.configureClientOptions(options),
     );
     return attClient;
   }
   const attClient = new AttestationClient(
     getAttestationUri(endpointType),
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return attClient;
 }
@@ -110,7 +100,7 @@ export function createRecordedClient(
 export function createRecordedAdminClient(
   recorder: Recorder,
   endpointType: EndpointType,
-  options?: AttestationClientOptions
+  options?: AttestationClientOptions,
 ): AttestationAdministrationClient {
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
@@ -129,7 +119,7 @@ export function createRecordedAdminClient(
   const adminClient = new AttestationAdministrationClient(
     getAttestationUri(endpointType),
     createTestCredential(),
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return adminClient;
 }

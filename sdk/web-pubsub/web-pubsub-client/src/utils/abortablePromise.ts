@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 
 export async function abortablePromise<T>(
   promise: Promise<T>,
-  signal: AbortSignalLike
+  signal: AbortSignalLike,
 ): Promise<T> {
   if (signal.aborted) {
     throw new AbortError("The operation was aborted.");

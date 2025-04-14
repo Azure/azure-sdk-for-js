@@ -11,8 +11,8 @@ import {
   SharedGalleryImageVersion,
   SharedGalleryImageVersionsListOptionalParams,
   SharedGalleryImageVersionsGetOptionalParams,
-  SharedGalleryImageVersionsGetResponse
-} from "../models";
+  SharedGalleryImageVersionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SharedGalleryImageVersions. */
@@ -29,7 +29,7 @@ export interface SharedGalleryImageVersions {
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImageVersionsListOptionalParams
+    options?: SharedGalleryImageVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGalleryImageVersion>;
   /**
    * Get a shared gallery image version by subscription id or tenant id.
@@ -47,6 +47,6 @@ export interface SharedGalleryImageVersions {
     galleryUniqueName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
-    options?: SharedGalleryImageVersionsGetOptionalParams
+    options?: SharedGalleryImageVersionsGetOptionalParams,
   ): Promise<SharedGalleryImageVersionsGetResponse>;
 }

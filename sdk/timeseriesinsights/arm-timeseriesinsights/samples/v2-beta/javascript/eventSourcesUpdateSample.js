@@ -33,7 +33,7 @@ async function updateEventSource() {
     resourceGroupName,
     environmentName,
     eventSourceName,
-    eventSourceUpdateParameters
+    eventSourceUpdateParameters,
   );
   console.log(result);
 }

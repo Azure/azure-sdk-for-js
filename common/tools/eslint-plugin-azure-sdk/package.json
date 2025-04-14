@@ -14,13 +14,6 @@
     "eslint-plugin-azure-sdk"
   ],
   "author": "Microsoft Corporation",
-  "contributors": [
-    {
-      "name": "Arpan Laha",
-      "email": "arpanlaha99@gmail.com",
-      "url": "https://github.com/arpanlaha"
-    }
-  ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/",
   "repository": {
@@ -31,68 +24,125 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "dist/index.js",
+  "type": "module",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./prettier.json": "./prettier.json"
+  },
   "files": [
-    "prettier.json",
-    "dist/"
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && tshy",
     "build:samples": "echo Skipped.",
-    "build:test": "npm run clean && tsc -p tsconfig.json",
-    "clean": "rimraf dist/",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "build:test": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint src tests --ext .ts",
-    "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
+    "clean": "rimraf --glob dist* types",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
-    "unit-test:browser": "echo skipped",
+    "lint": "eslint src tests/rules",
+    "lint:fix": "eslint src tests/rules --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "vitest",
+    "update-snippets": "echo skipped"
   },
   "engines": {
-    "node": "^10.12.0 || >=14.0.0"
+    "node": ">=18.0.0"
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
-    "eslint": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-no-only-tests": "^3.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-tsdoc": "^0.2.10"
+    "@eslint/eslintrc": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-markdown": "^5.0.0",
+    "eslint-plugin-n": "^17.15.0",
+    "eslint-plugin-no-only-tests": "^3.3.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-tsdoc": "^0.4.0"
   },
   "dependencies": {
-    "@typescript-eslint/typescript-estree": "~5.57.0",
-    "@types/eslint": "~8.4.0",
+    "@eslint/compat": "^1.2.4",
+    "@eslint/js": "^9.9.0",
+    "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
-    "eslint-config-prettier": "^8.0.0",
-    "glob": "^9.0.0",
-    "json-schema": "^0.4.0",
-    "typescript": "~5.0.0",
-    "tslib": "^2.2.0"
+    "@typescript-eslint/typescript-estree": "~8.26.0",
+    "eslint-config-prettier": "^10.0.1",
+    "glob": "^10.3.10",
+    "tslib": "^2.6.2",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "~8.26.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
-    "@types/json-schema": "^7.0.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@typescript-eslint/eslint-plugin": "~5.57.0",
-    "@typescript-eslint/experimental-utils": "~5.57.0",
-    "@typescript-eslint/parser": "~5.57.0",
-    "chai": "^4.2.0",
-    "eslint": "^8.0.0",
-    "mocha": "^7.1.1",
-    "prettier": "^2.5.1",
-    "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.9",
-    "mocha-junit-reporter": "^2.0.0",
-    "typescript": "~5.0.0",
-    "eslint-plugin-markdown": "~3.0.0"
-  }
+    "@types/eslint": "^9.6.0",
+    "@types/eslint-config-prettier": "6.11.3",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "~8.26.0",
+    "@typescript-eslint/parser": "~8.26.0",
+    "@typescript-eslint/rule-tester": "~8.26.0",
+    "@typescript-eslint/utils": "~8.26.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "eslint": "^9.9.0",
+    "eslint-plugin-markdown": "^5.0.0",
+    "playwright": "^1.49.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^5.0.5",
+    "tshy": "^2.0.0",
+    "vitest": "^3.0.9"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./prettier.json": "./prettier.json"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "browser": "./dist/browser/index.js",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

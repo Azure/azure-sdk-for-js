@@ -1,95 +1,147 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { diag, DiagLogger, DiagLogLevel } from "@opentelemetry/api";
-import { InternalAzureLogger } from "./internal";
+import type { AzureLogLevel } from "@azure/logger";
+import { AzureLogger, createClientLogger, setLogLevel } from "@azure/logger";
+import type { DiagLogger } from "@opentelemetry/api";
+import { diag, DiagLogLevel } from "@opentelemetry/api";
+import { DiagFileConsoleLogger } from "./diagFileConsoleLogger.js";
 
-export class Logger implements DiagLogger {
-  private static _instance: Logger;
+export class Logger {
+  private static instance: Logger;
+  private diagLevel: DiagLogLevel;
+  private azureLogger: AzureLogger;
+  private openTelemetryLogger: DiagLogger;
+  private logToAzureLogger: boolean;
+  private logToOpenTelemetry: boolean;
 
-  private _TAG = "ApplicationInsights:";
-  private _diagLevel: DiagLogLevel;
-  private _internalLogger: InternalAzureLogger;
-
-  static getInstance() {
-    if (!Logger._instance) {
-      Logger._instance = new Logger();
+  static getInstance(): Logger {
+    if (!Logger.instance) {
+      Logger.instance = new Logger();
     }
-    return Logger._instance;
+    return Logger.instance;
   }
 
   constructor() {
-    this._internalLogger = new InternalAzureLogger();
-    const envLogLevel = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
-    this._diagLevel = DiagLogLevel.WARN; // Default
-    switch (envLogLevel) {
+    this.azureLogger = createClientLogger("@azure/monitor-opentelemetry");
+    this.openTelemetryLogger = diag.createComponentLogger({
+      namespace: "@azure/monitor-opentelemetry",
+    });
+    this.logToOpenTelemetry = true;
+    this.logToAzureLogger = false;
+    const otelLogLevelEnv =
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.OTEL_LOG_LEVEL;
+    this.diagLevel = DiagLogLevel.WARN; // Default
+    switch (otelLogLevelEnv) {
       case "ALL":
-        this._diagLevel = DiagLogLevel.ALL;
+        this.diagLevel = DiagLogLevel.ALL;
         break;
       case "DEBUG":
-        this._diagLevel = DiagLogLevel.DEBUG;
+        this.diagLevel = DiagLogLevel.DEBUG;
         break;
       case "ERROR":
-        this._diagLevel = DiagLogLevel.ERROR;
+        this.diagLevel = DiagLogLevel.ERROR;
         break;
       case "INFO":
-        this._diagLevel = DiagLogLevel.INFO;
+        this.diagLevel = DiagLogLevel.INFO;
         break;
       case "NONE":
-        this._diagLevel = DiagLogLevel.NONE;
+        this.diagLevel = DiagLogLevel.NONE;
         break;
       case "VERBOSE":
-        this._diagLevel = DiagLogLevel.VERBOSE;
+        this.diagLevel = DiagLogLevel.VERBOSE;
         break;
       case "WARN":
-        this._diagLevel = DiagLogLevel.WARN;
+        this.diagLevel = DiagLogLevel.WARN;
         break;
     }
-    this.updateLogLevel(this._diagLevel);
-  }
-
-  /**
-   * Set the global LogLevel. If a global diag logger is already set, this will override it.
-   * @param logLevel - The DiagLogLevel used to filter logs sent to the logger.
-   * @param suppressOverrideMessage - Setting that suppress the warning message normally emitted when registering a logger when another logger is already registered.
-   */
-  public updateLogLevel(logLevel: DiagLogLevel, suppressOverrideMessage = true) {
-    this._diagLevel = logLevel;
-
     // Set OpenTelemetry Logger
-    diag.setLogger(this, {
-      logLevel: this._diagLevel,
-      suppressOverrideMessage,
+    const fileConsoleLogger = new DiagFileConsoleLogger();
+    diag.setLogger(fileConsoleLogger, {
+      logLevel: this.diagLevel,
+      suppressOverrideMessage: true,
     });
+
+    const azureLogLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    switch (azureLogLevelEnv) {
+      // Application Insights levels
+      case "VERBOSE":
+        setLogLevel("verbose");
+        break;
+      case "INFO":
+        setLogLevel("info");
+        break;
+      case "WARN":
+        setLogLevel("warning");
+        break;
+      case "ERROR":
+        setLogLevel("error");
+        break;
+      default:
+        setLogLevel((process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "warning");
+        break;
+    }
+    // Override Azure logger
+    AzureLogger.log = (...args) => {
+      fileConsoleLogger.logMessage(...args);
+    };
   }
 
-  public error(message?: any, ...optionalParams: any[]) {
-    if (this._diagLevel >= DiagLogLevel.ERROR) {
-      this._internalLogger.logMessage(this._TAG + message, optionalParams);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public error(message?: any, ...args: any[]): void {
+    if (this.logToAzureLogger) {
+      this.azureLogger.error(message, args);
+    }
+    if (this.logToOpenTelemetry) {
+      this.openTelemetryLogger.error(message, args);
     }
   }
 
-  public warn(message?: any, ...optionalParams: any[]) {
-    if (this._diagLevel >= DiagLogLevel.WARN) {
-      this._internalLogger.logMessage(this._TAG + message, optionalParams);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public warn(message?: any, ...args: any[]): void {
+    if (this.logToAzureLogger) {
+      this.azureLogger.warning(message, args);
+    }
+    if (this.logToOpenTelemetry) {
+      this.openTelemetryLogger.warn(message, args);
     }
   }
 
-  public info(message?: any, ...optionalParams: any[]) {
-    if (this._diagLevel >= DiagLogLevel.INFO) {
-      this._internalLogger.logMessage(this._TAG + message, optionalParams);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public info(message?: any, ...args: any[]): void {
+    if (this.logToAzureLogger) {
+      this.azureLogger.info(message, args);
+    }
+    if (this.logToOpenTelemetry) {
+      this.openTelemetryLogger.info(message, args);
     }
   }
 
-  public debug(message?: any, ...optionalParams: any[]) {
-    if (this._diagLevel >= DiagLogLevel.DEBUG) {
-      this._internalLogger.logMessage(this._TAG + message, optionalParams);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public debug(message?: any, ...args: any[]): void {
+    if (this.logToAzureLogger) {
+      this.azureLogger.verbose(message, args);
+    }
+    if (this.logToOpenTelemetry) {
+      this.openTelemetryLogger.debug(message, args);
     }
   }
 
-  public verbose(message?: any, ...optionalParams: any[]) {
-    if (this._diagLevel >= DiagLogLevel.VERBOSE) {
-      this._internalLogger.logMessage(this._TAG + message, optionalParams);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public verbose(message?: any, ...args: any[]): void {
+    if (this.logToAzureLogger) {
+      this.azureLogger.verbose(message, args);
     }
+    if (this.logToOpenTelemetry) {
+      this.openTelemetryLogger.verbose(message, args);
+    }
+  }
+
+  public setLogToAzureLogger(value: boolean): void {
+    this.logToAzureLogger = value;
+  }
+
+  public setLogToOpenTelemetry(value: boolean): void {
+    this.logToOpenTelemetry = value;
   }
 }

@@ -1,41 +1,42 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context, Test } from "mocha";
-import { Recorder, SanitizerOptions, env } from "@azure-tools/test-recorder";
-import { EmailClient } from "../../../src";
+// Licensed under the MIT License.
+import type { SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { EmailClient } from "../../../src/index.js";
+import {
+  getConnectionString,
+  getEndpoint,
+  getRecipientAddress,
+  getSecondRecipientAddress,
+  getSenderAddress,
+} from "../../utils/injectables.js";
+import * as MOCKS from "../../utils/constants.js";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedEmailClient {
   client: EmailClient;
   recorder: Recorder;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING_EMAIL:
-    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
-  SENDER_ADDRESS: "someSender@contoso.com",
-  RECIPIENT_ADDRESS: "someRecipient@domain.com",
-};
-
 const sanitizerOptions: SanitizerOptions = {
-  connectionStringSanitizers: [
-    {
-      actualConnString: env.COMMUNICATION_CONNECTION_STRING_EMAIL,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_CONNECTION_STRING_EMAIL"],
-    },
-  ],
   headerSanitizers: [
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
-      key: "Operation-Location",
-      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
+      key: "operation-location",
+      value: MOCKS.ENDPOINT,
+      target: getEndpoint(),
     },
   ],
   uriSanitizers: [
     {
-      regex: true,
-      target: `emails/operations/.*?api`,
-      value: "emails/operations/someId?api",
+      target: getEndpoint(),
+      value: MOCKS.ENDPOINT,
+    },
+  ],
+  connectionStringSanitizers: [
+    {
+      actualConnString: getConnectionString(),
+      fakeConnString: MOCKS.CONNECTION_STRING,
     },
   ],
   bodySanitizers: [
@@ -44,12 +45,27 @@ const sanitizerOptions: SanitizerOptions = {
       target: `"id"\\s?:\\s?"[^"]*"`,
       value: `"id":"someId"`,
     },
+    {
+      target: getSenderAddress(),
+      value: MOCKS.SENDER_ADDRESS,
+    },
+    {
+      target: getRecipientAddress(),
+      value: MOCKS.RECIPIENT_ADDRESS,
+    },
+    {
+      target: getSecondRecipientAddress(),
+      value: MOCKS.SECOND_RECIPIENT_ADDRESS,
+    },
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
-  await recorder.start({ envSetupForPlayback });
+  await recorder.start({
+    envSetupForPlayback: {},
+    removeCentralSanitizers: ["AZSDK4001", "AZSDK2030"],
+  });
   await recorder.addSanitizers(sanitizerOptions, ["record", "playback"]);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
@@ -60,14 +76,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
   return recorder;
 }
 
-export async function createRecordedEmailClientWithConnectionString(
-  context: Context
-): Promise<RecordedEmailClient> {
-  const recorder = await createRecorder(context.currentTest);
+export async function createClient(context: TestInfo): Promise<RecordedEmailClient> {
+  const recorder = await createRecorder(context);
 
   const client = new EmailClient(
-    env.COMMUNICATION_CONNECTION_STRING_EMAIL ?? "",
-    recorder.configureClientOptions({})
+    getEndpoint(),
+    createTestCredential(),
+    recorder.configureClientOptions({}),
   );
   return {
     client: client,

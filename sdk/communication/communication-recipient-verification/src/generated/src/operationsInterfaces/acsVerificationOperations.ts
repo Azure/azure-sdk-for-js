@@ -16,7 +16,7 @@ import {
   AcsVerificationDeleteVerificationOptionalParams,
   AcsVerificationGetVerificationConstantsOptionalParams,
   AcsVerificationGetVerificationConstantsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AcsVerificationOperations. */
 export interface AcsVerificationOperations {

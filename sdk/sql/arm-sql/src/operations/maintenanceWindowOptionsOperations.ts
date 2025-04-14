@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MaintenanceWindowOptionsOperations } from "../operationsInterfaces";
+import { MaintenanceWindowOptionsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   MaintenanceWindowOptionsGetOptionalParams,
-  MaintenanceWindowOptionsGetResponse
-} from "../models";
+  MaintenanceWindowOptionsGetResponse,
+} from "../models/index.js";
 
 /** Class containing MaintenanceWindowOptionsOperations operations. */
 export class MaintenanceWindowOptionsOperationsImpl
-  implements MaintenanceWindowOptionsOperations {
+  implements MaintenanceWindowOptionsOperations
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class MaintenanceWindowOptionsOperationsImpl
     serverName: string,
     databaseName: string,
     maintenanceWindowOptionsName: string,
-    options?: MaintenanceWindowOptionsGetOptionalParams
+    options?: MaintenanceWindowOptionsGetOptionalParams,
   ): Promise<MaintenanceWindowOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class MaintenanceWindowOptionsOperationsImpl
         serverName,
         databaseName,
         maintenanceWindowOptionsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -61,26 +62,25 @@ export class MaintenanceWindowOptionsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindowOptions/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindowOptions/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceWindowOptions
+      bodyMapper: Mappers.MaintenanceWindowOptions,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion3,
-    Parameters.maintenanceWindowOptionsName
+    Parameters.maintenanceWindowOptionsName,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

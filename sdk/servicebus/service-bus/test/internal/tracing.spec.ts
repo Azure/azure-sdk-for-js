@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ServiceBusSender, ServiceBusMessage } from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import {
-  ServiceBusClientForTests,
-  EntityName,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { assert } from "@azure/test-utils";
+import type { ServiceBusSender, ServiceBusMessage } from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     sbClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return sbClient.test.after();
   });
 
@@ -27,7 +25,7 @@ describe(`Tracing for send`, function (): void {
     entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
 
     sender = sbClient.test.addToCleanup(
-      sbClient.createSender(entityName.queue ?? entityName.topic!)
+      sbClient.createSender(entityName.queue ?? entityName.topic!),
     );
   });
 
@@ -43,7 +41,7 @@ describe(`Tracing for send`, function (): void {
         }
         return sender.sendMessages(batch, options);
       },
-      ["message", "ServiceBusSender.send"]
+      ["message", "ServiceBusSender.send"],
     );
   });
 
@@ -59,7 +57,7 @@ describe(`Tracing for send`, function (): void {
           tracingOptions: options.tracingOptions,
         });
       },
-      ["message", "ServiceBusSender.send"]
+      ["message", "ServiceBusSender.send"],
     );
   });
 });

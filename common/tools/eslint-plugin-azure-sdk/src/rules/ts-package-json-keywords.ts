@@ -1,40 +1,46 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force package.json's keywords value to contain at least "Azure" and "cloud".
- * @author Arpan Laha
+ *
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-keywords",
-    "force package.json's keywords value to contain at least 'Azure' and 'cloud'",
-    "code"
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-keywords",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "force package.json's keywords value to contain at least 'Azure' and 'cloud'",
+    },
+    messages: {
+      ...VerifierMessages,
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "keywords",
       expected: ["azure", "cloud"],
     });
-    return stripPath(context.getFilename()) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    return {
+      // check to see if keywords exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if keywords exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
-
-          // check the node corresponding to keywords to see if its value contains "Azure" and "cloud"
-          "ExpressionStatement > ObjectExpression > Property[key.value='keywords']":
-            verifiers.outerContainsExpected,
-        } as Rule.RuleListener)
-      : {};
+      // check the node corresponding to keywords to see if its value contains "Azure" and "cloud"
+      "ExpressionStatement > ObjectExpression > Property[key.value='keywords']":
+        verifiers.outerContainsExpected,
+    };
   },
-};
+});

@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./documentModels";
-export * from "./miscellaneous";
-export * from "./documentClassifiers";
+export * from "./documentModels.js";
+export * from "./miscellaneous.js";
+export * from "./documentClassifiers.js";

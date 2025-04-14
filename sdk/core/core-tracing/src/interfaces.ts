@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * A narrower version of TypeScript 4.5's Awaited type which Recursively
@@ -26,8 +26,25 @@ export interface TracingClient {
    *
    * Example:
    *
-   * ```ts
-   * const myOperationResult = await tracingClient.withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
+   * ```ts snippet:ReadmeSampleWithSpanExample
+   * import { createTracingClient } from "@azure/core-tracing";
+   *
+   * const tracingClient = createTracingClient({
+   *   namespace: "test.namespace",
+   *   packageName: "test-package",
+   *   packageVersion: "1.0.0",
+   * });
+   *
+   * const options = {};
+   *
+   * const myOperationResult = await tracingClient.withSpan(
+   *   "myClassName.myOperationName",
+   *   options,
+   *   (updatedOptions) => {
+   *     // Do something with the updated options.
+   *     return "myOperationResult";
+   *   },
+   * );
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
@@ -37,13 +54,13 @@ export interface TracingClient {
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
-      span: Omit<TracingSpan, "end">
-    ) => ReturnType<Callback>
+      span: Omit<TracingSpan, "end">,
+    ) => ReturnType<Callback>,
   >(
     name: string,
     operationOptions: Options,
     callback: Callback,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): Promise<Resolved<ReturnType<Callback>>>;
   /**
    * Starts a given span but does not set it as the active span.
@@ -61,7 +78,7 @@ export interface TracingClient {
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     operationOptions?: Options,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): {
     span: TracingSpan;
     updatedOptions: OptionsWithTracingContext<Options>;
@@ -78,7 +95,7 @@ export interface TracingClient {
    */
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,
@@ -148,7 +165,7 @@ export interface Instrumenter {
    */
   startSpan(
     name: string,
-    spanOptions: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions,
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -160,7 +177,7 @@ export interface Instrumenter {
    */
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,
@@ -209,6 +226,20 @@ export type SpanStatusError = { status: "error"; error?: Error | string };
 export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 /**
+ * Represents options you can pass to {@link TracingSpan.addEvent}.
+ */
+export interface AddEventOptions {
+  /**
+   * A set of attributes to attach to the event.
+   */
+  attributes?: Record<string, unknown>;
+  /**
+   * The start time of the event.
+   */
+  startTime?: Date;
+}
+
+/**
  * Represents an implementation agnostic tracing span.
  */
 export interface TracingSpan {
@@ -248,6 +279,11 @@ export interface TracingSpan {
    * Depending on the span implementation, this may return false if the span is not being sampled.
    */
   isRecording(): boolean;
+
+  /**
+   * Adds an event to the span.
+   */
+  addEvent?(name: string, options?: AddEventOptions): void;
 }
 
 /** An immutable context bag of tracing values for the current operation. */
@@ -287,7 +323,7 @@ export interface OperationTracingOptions {
  * as part of an operation's options.
  */
 export type OptionsWithTracingContext<
-  Options extends { tracingOptions?: OperationTracingOptions }
+  Options extends { tracingOptions?: OperationTracingOptions },
 > = Options & {
   tracingOptions: {
     tracingContext: TracingContext;

@@ -2,9 +2,9 @@
   "name": "@azure-samples/load-testing-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Load Testing rest client library samples for TypeScript (Beta)",
+  "description": "Azure Load Testing client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -32,14 +32,11 @@
   "dependencies": {
     "@azure-rest/load-testing": "next",
     "dotenv": "latest",
-    "@azure/abort-controller": "^1.1.1",
-    "@azure/identity": "^2.0.1",
-    "uuid": "^9.0.0"
+    "@azure/identity": "^4.6.0"
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.4",
-    "@types/node": "^14.0.0",
-    "typescript": "~5.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.8.2",
     "rimraf": "latest"
   }
 }

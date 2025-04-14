@@ -11,8 +11,8 @@ import {
   LocationGetResult,
   LocationsListOptionalParams,
   LocationsGetOptionalParams,
-  LocationsGetResponse
-} from "../models";
+  LocationsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Locations. */
@@ -22,7 +22,7 @@ export interface Locations {
    * @param options The options parameters.
    */
   list(
-    options?: LocationsListOptionalParams
+    options?: LocationsListOptionalParams,
   ): PagedAsyncIterableIterator<LocationGetResult>;
   /**
    * Get the properties of an existing Cosmos DB location
@@ -31,6 +31,6 @@ export interface Locations {
    */
   get(
     location: string,
-    options?: LocationsGetOptionalParams
+    options?: LocationsGetOptionalParams,
   ): Promise<LocationsGetResponse>;
 }

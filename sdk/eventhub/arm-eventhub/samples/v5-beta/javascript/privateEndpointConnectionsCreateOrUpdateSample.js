@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
  *
  * @summary Creates or updates PrivateEndpointConnections of service namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
  */
 async function nameSpacePrivateEndPointConnectionCreate() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
@@ -39,13 +37,13 @@ async function nameSpacePrivateEndPointConnectionCreate() {
     resourceGroupName,
     namespaceName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  nameSpacePrivateEndPointConnectionCreate();
+  await nameSpacePrivateEndPointConnectionCreate();
 }
 
 main().catch(console.error);

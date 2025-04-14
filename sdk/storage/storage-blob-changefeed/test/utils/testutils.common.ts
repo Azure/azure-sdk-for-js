@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Readable } from "stream";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient";
+import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Readable } from "node:stream";
+import type { FindReplaceSanitizer } from "@azure-tools/test-recorder";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient.js";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -21,7 +22,12 @@ export function configureBlobStorageClient(recorder: Recorder, client: BlobChang
   }
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): {
+  regex: boolean;
+  target: string;
+  groupForReplace: string;
+  value: string;
+} {
   return {
     regex: true,
     target: `http.+?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
@@ -95,7 +101,7 @@ export class SimpleTokenCredential implements TokenCredential {
    */
   async getToken(
     _scopes: string | string[],
-    _options?: GetTokenOptions
+    _options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     return {
       token: this.token,

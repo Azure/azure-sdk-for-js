@@ -8,8 +8,8 @@
 
 import {
   VpnSiteLinkConnectionsGetOptionalParams,
-  VpnSiteLinkConnectionsGetResponse
-} from "../models";
+  VpnSiteLinkConnectionsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a VpnSiteLinkConnections. */
 export interface VpnSiteLinkConnections {
@@ -26,6 +26,6 @@ export interface VpnSiteLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnSiteLinkConnectionsGetOptionalParams
+    options?: VpnSiteLinkConnectionsGetOptionalParams,
   ): Promise<VpnSiteLinkConnectionsGetResponse>;
 }

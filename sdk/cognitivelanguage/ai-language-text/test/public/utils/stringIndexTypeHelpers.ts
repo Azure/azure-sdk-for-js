@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Entity, StringIndexType, TextAnalysisClient } from "../../../src";
-import { assert } from "chai";
+import type { Entity, StringIndexType, TextAnalysisClient } from "../../../src/index.js";
+import { assert } from "vitest";
 
 /**
  * calls the recognizePiiEntities on the input document and checks wether the
@@ -21,14 +21,14 @@ export async function checkOffsetAndLength(
   stringIndexType: StringIndexType,
   offset: number,
   length: number,
-  callback?: (doc: string, entity: Entity, offset: number, length: number) => unknown
+  callback?: (doc: string, entity: Entity, offset: number, length: number) => unknown,
 ): Promise<unknown> {
   const [result] = await client.analyze(
     "PiiEntityRecognition",
     [{ id: "0", text: doc, language: "en" }],
     {
       stringIndexType: stringIndexType,
-    }
+    },
   );
   if (!result.error) {
     const entity = result.entities[0];
@@ -51,7 +51,7 @@ export function checkEntityTextOffset(
   doc: string,
   entity: Entity,
   offset: number,
-  length: number
+  length: number,
 ): void {
   assert.equal(doc.substr(offset, length), entity.text);
 }

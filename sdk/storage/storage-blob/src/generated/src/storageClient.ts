@@ -13,17 +13,17 @@ import {
   BlobImpl,
   PageBlobImpl,
   AppendBlobImpl,
-  BlockBlobImpl
-} from "./operations";
+  BlockBlobImpl,
+} from "./operations/index.js";
 import {
   Service,
   Container,
   Blob,
   PageBlob,
   AppendBlob,
-  BlockBlob
-} from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+  BlockBlob,
+} from "./operationsInterfaces/index.js";
+import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;
@@ -45,10 +45,10 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: StorageClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-azure-storage-blob/12.12.1`;
+    const packageDetails = `azsdk-js-azure-storage-blob/12.27.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -58,16 +58,16 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2021-12-02";
+    this.version = options.version || "2025-05-05";
     this.service = new ServiceImpl(this);
     this.container = new ContainerImpl(this);
     this.blob = new BlobImpl(this);

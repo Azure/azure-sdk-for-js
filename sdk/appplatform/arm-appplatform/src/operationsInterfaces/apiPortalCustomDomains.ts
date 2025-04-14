@@ -16,7 +16,7 @@ import {
   ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ApiPortalCustomDomainsCreateOrUpdateResponse,
   ApiPortalCustomDomainsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiPortalCustomDomains. */

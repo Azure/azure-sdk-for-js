@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of authorization rules for a Namespace.
  *
  * @summary Gets a list of authorization rules for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListAll.json
  */
-async function listAuthorizationRules() {
+async function listAuthorizationRules(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -33,15 +29,15 @@ async function listAuthorizationRules() {
   for await (let item of client.disasterRecoveryConfigs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listAuthorizationRules();
+async function main(): Promise<void> {
+  await listAuthorizationRules();
 }
 
 main().catch(console.error);

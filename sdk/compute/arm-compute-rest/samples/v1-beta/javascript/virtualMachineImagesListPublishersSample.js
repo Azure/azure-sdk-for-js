@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -25,7 +25,7 @@ async function virtualMachineImagesListPublishersMaximumSetGen() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);
@@ -50,7 +50,7 @@ async function virtualMachineImagesListPublishersMinimumSetGen() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);

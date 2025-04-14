@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Network Connections resource
  *
  * @summary Creates or updates a Network Connections resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_Put.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_Put.json
  */
 async function networkConnectionsCreateOrUpdate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function networkConnectionsCreateOrUpdate() {
   const result = await client.networkConnections.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkConnectionName,
-    body
+    body,
   );
   console.log(result);
 }

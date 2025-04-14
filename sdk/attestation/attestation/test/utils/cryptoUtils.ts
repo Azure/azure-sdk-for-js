@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-
-import { hexToByteArray } from "../../src/utils/base64";
+import { hexToByteArray } from "../../src/utils/base64.js";
 
 export function createECDSKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("EC", "secp256r1");
@@ -52,7 +51,7 @@ function formatDateString(dateObject: Date): string {
 export function createX509Certificate(
   privKeyPEM: string,
   pubKeyPEM: string,
-  subject_name: string
+  subject_name: string,
 ): string {
   const pubKey = jsrsasign.KEYUTIL.getKey(pubKeyPEM);
   const privKey = jsrsasign.KEYUTIL.getKey(privKeyPEM);

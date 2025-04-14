@@ -19,7 +19,7 @@ import {
   ConnectionSetting as ConnectionSettingMapper,
   QnAMakerEndpointKeysRequestBody as QnAMakerEndpointKeysRequestBodyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

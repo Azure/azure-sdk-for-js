@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Readable } from "stream";
-
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
-
-import { AvroReadableFromStream, AvroReader } from "../../../storage-internal-avro/src";
-import { BlobQueryError } from "../Clients";
+import { Readable } from "node:stream";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import { AvroReadableFromStream, AvroReader } from "@azure/storage-internal-avro";
+import type { BlobQueryError } from "../Clients.js";
 
 export interface BlobQuickQueryStreamOptions {
   /**
@@ -63,7 +61,7 @@ export class BlobQuickQueryStream extends Readable {
     }
   }
 
-  private async readInternal() {
+  private async readInternal(): Promise<void> {
     this.avroPaused = false;
     let avroNext;
     do {

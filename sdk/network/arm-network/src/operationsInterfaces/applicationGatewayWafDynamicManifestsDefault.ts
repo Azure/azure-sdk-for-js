@@ -8,8 +8,8 @@
 
 import {
   ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
-  ApplicationGatewayWafDynamicManifestsDefaultGetResponse
-} from "../models";
+  ApplicationGatewayWafDynamicManifestsDefaultGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ApplicationGatewayWafDynamicManifestsDefault. */
 export interface ApplicationGatewayWafDynamicManifestsDefault {
@@ -20,6 +20,6 @@ export interface ApplicationGatewayWafDynamicManifestsDefault {
    */
   get(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse>;
 }

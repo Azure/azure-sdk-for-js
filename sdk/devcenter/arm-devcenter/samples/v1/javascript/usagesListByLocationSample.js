@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the current usages and limits in this location for the provided subscription.
  *
  * @summary Lists the current usages and limits in this location for the provided subscription.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Usages_ListByLocation.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Usages_ListByLocation.json
  */
 async function listUsages() {
   const subscriptionId =

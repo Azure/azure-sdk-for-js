@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   EntityLinkingResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
+} from "./generated/models/index.js";
+import type { RecognizeLinkedEntitiesResult } from "./recognizeLinkedEntitiesResult.js";
 import {
-  RecognizeLinkedEntitiesResult,
   makeRecognizeLinkedEntitiesErrorResult,
   makeRecognizeLinkedEntitiesResult,
-} from "./recognizeLinkedEntitiesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./recognizeLinkedEntitiesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
@@ -36,12 +36,12 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
  */
 export function makeRecognizeLinkedEntitiesResultArray(
   input: TextDocumentInput[],
-  response: EntityLinkingResult
+  response: EntityLinkingResult,
 ): RecognizeLinkedEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeRecognizeLinkedEntitiesResult,
-    makeRecognizeLinkedEntitiesErrorResult
+    makeRecognizeLinkedEntitiesErrorResult,
   );
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+/** Check access request details */
 export interface CheckPrincipalAccessRequest {
   /** Subject details */
   subject: SubjectInfo;
@@ -10,6 +11,7 @@ export interface CheckPrincipalAccessRequest {
   scope: string;
 }
 
+/** Subject details */
 export interface SubjectInfo {
   /**
    * Principal Id
@@ -21,6 +23,7 @@ export interface SubjectInfo {
   groupIds?: Array<string>;
 }
 
+/** Action Info */
 export interface RequiredAction {
   /** Action Id. */
   id: string;
@@ -28,6 +31,7 @@ export interface RequiredAction {
   isDataAction: boolean;
 }
 
+/** Role Assignment request details */
 export interface RoleAssignmentRequest {
   /**
    * Role ID of the Synapse Built-In Role

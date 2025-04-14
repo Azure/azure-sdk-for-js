@@ -9,9 +9,15 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  Diagnostics,
+  JobsListDetectorsOptionalParams,
   Job,
   JobsListBySubscriptionOptionalParams,
   JobsListByResourceGroupOptionalParams,
+  JobsGetDetectorOptionalParams,
+  JobsGetDetectorResponse,
+  JobsProxyGetOptionalParams,
+  JobsProxyGetResponse,
   JobsGetOptionalParams,
   JobsGetResponse,
   JobsCreateOrUpdateOptionalParams,
@@ -20,26 +26,39 @@ import {
   JobPatchProperties,
   JobsUpdateOptionalParams,
   JobsUpdateResponse,
-  JobExecutionTemplate,
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
-  JobExecutionNamesCollection,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
-  JobsListSecretsResponse
-} from "../models";
+  JobsListSecretsResponse,
+  JobsResumeOptionalParams,
+  JobsResumeResponse,
+  JobsSuspendOptionalParams,
+  JobsSuspendResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */
 export interface Jobs {
   /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): PagedAsyncIterableIterator<Diagnostics>;
+  /**
    * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: JobsListBySubscriptionOptionalParams
+    options?: JobsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Get the Container Apps Jobs in a given resource group.
@@ -48,23 +67,49 @@ export interface Jobs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: JobsListByResourceGroupOptionalParams
+    options?: JobsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
+  /**
+   * Get the diagnostics data for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param detectorName Name of the Container App Job detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    jobName: string,
+    detectorName: string,
+    options?: JobsGetDetectorOptionalParams,
+  ): Promise<JobsGetDetectorResponse>;
+  /**
+   * Get the properties of a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param apiName Proxy API Name for Container App Job.
+   * @param options The options parameters.
+   */
+  proxyGet(
+    resourceGroupName: string,
+    jobName: string,
+    apiName: string,
+    options?: JobsProxyGetOptionalParams,
+  ): Promise<JobsProxyGetResponse>;
   /**
    * Get the properties of a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -72,7 +117,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: Job,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobsCreateOrUpdateResponse>,
@@ -82,7 +127,7 @@ export interface Jobs {
   /**
    * Create or Update a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -90,34 +135,34 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: Job,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<JobsCreateOrUpdateResponse>;
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container Apps Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -125,14 +170,14 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: JobPatchProperties,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   >;
   /**
    * Patches a Container Apps Job using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobEnvelope Properties used to create a container apps job
    * @param options The options parameters.
    */
@@ -140,40 +185,36 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: JobPatchProperties,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<JobsUpdateResponse>;
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param template Properties used to start a job instance.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginStart(
     resourceGroupName: string,
     jobName: string,
-    template: JobExecutionTemplate,
-    options?: JobsStartOptionalParams
+    options?: JobsStartOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
   >;
   /**
    * Start a Container Apps Job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param template Properties used to start a job instance.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginStartAndWait(
     resourceGroupName: string,
     jobName: string,
-    template: JobExecutionTemplate,
-    options?: JobsStartOptionalParams
+    options?: JobsStartOptionalParams,
   ): Promise<JobsStartResponse>;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
@@ -181,12 +222,12 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobExecutionName: string,
-    options?: JobsStopExecutionOptionalParams
+    options?: JobsStopExecutionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param jobExecutionName Job execution name.
    * @param options The options parameters.
    */
@@ -194,20 +235,18 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobExecutionName: string,
-    options?: JobsStopExecutionOptionalParams
+    options?: JobsStopExecutionOptionalParams,
   ): Promise<void>;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginStopMultipleExecutions(
     resourceGroupName: string,
     jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
-    options?: JobsStopMultipleExecutionsOptionalParams
+    options?: JobsStopMultipleExecutionsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobsStopMultipleExecutionsResponse>,
@@ -217,25 +256,71 @@ export interface Jobs {
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
-   * @param jobExecutionName List of all job executions that should be stopped.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   beginStopMultipleExecutionsAndWait(
     resourceGroupName: string,
     jobName: string,
-    jobExecutionName: JobExecutionNamesCollection,
-    options?: JobsStopMultipleExecutionsOptionalParams
+    options?: JobsStopMultipleExecutionsOptionalParams,
   ): Promise<JobsStopMultipleExecutionsResponse>;
   /**
    * List secrets for a container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Name of the Container Apps Job.
+   * @param jobName Job Name
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsListSecretsOptionalParams
+    options?: JobsListSecretsOptionalParams,
   ): Promise<JobsListSecretsResponse>;
+  /**
+   * Resumes a suspended job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  beginResume(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsResumeOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobsResumeResponse>, JobsResumeResponse>
+  >;
+  /**
+   * Resumes a suspended job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  beginResumeAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsResumeOptionalParams,
+  ): Promise<JobsResumeResponse>;
+  /**
+   * Suspends a job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  beginSuspend(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsSuspendOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobsSuspendResponse>, JobsSuspendResponse>
+  >;
+  /**
+   * Suspends a job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Name of the Job.
+   * @param options The options parameters.
+   */
+  beginSuspendAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsSuspendOptionalParams,
+  ): Promise<JobsSuspendResponse>;
 }

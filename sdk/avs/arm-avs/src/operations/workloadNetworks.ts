@@ -7,43 +7,27 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WorkloadNetworks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WorkloadNetworks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   WorkloadNetwork,
   WorkloadNetworksListNextOptionalParams,
   WorkloadNetworksListOptionalParams,
   WorkloadNetworksListResponse,
-  WorkloadNetworkSegment,
-  WorkloadNetworksListSegmentsNextOptionalParams,
-  WorkloadNetworksListSegmentsOptionalParams,
-  WorkloadNetworksListSegmentsResponse,
   WorkloadNetworkDhcp,
   WorkloadNetworksListDhcpNextOptionalParams,
   WorkloadNetworksListDhcpOptionalParams,
   WorkloadNetworksListDhcpResponse,
-  WorkloadNetworkGateway,
-  WorkloadNetworksListGatewaysNextOptionalParams,
-  WorkloadNetworksListGatewaysOptionalParams,
-  WorkloadNetworksListGatewaysResponse,
-  WorkloadNetworkPortMirroring,
-  WorkloadNetworksListPortMirroringNextOptionalParams,
-  WorkloadNetworksListPortMirroringOptionalParams,
-  WorkloadNetworksListPortMirroringResponse,
-  WorkloadNetworkVMGroup,
-  WorkloadNetworksListVMGroupsNextOptionalParams,
-  WorkloadNetworksListVMGroupsOptionalParams,
-  WorkloadNetworksListVMGroupsResponse,
-  WorkloadNetworkVirtualMachine,
-  WorkloadNetworksListVirtualMachinesNextOptionalParams,
-  WorkloadNetworksListVirtualMachinesOptionalParams,
-  WorkloadNetworksListVirtualMachinesResponse,
   WorkloadNetworkDnsService,
   WorkloadNetworksListDnsServicesNextOptionalParams,
   WorkloadNetworksListDnsServicesOptionalParams,
@@ -52,20 +36,32 @@ import {
   WorkloadNetworksListDnsZonesNextOptionalParams,
   WorkloadNetworksListDnsZonesOptionalParams,
   WorkloadNetworksListDnsZonesResponse,
+  WorkloadNetworkGateway,
+  WorkloadNetworksListGatewaysNextOptionalParams,
+  WorkloadNetworksListGatewaysOptionalParams,
+  WorkloadNetworksListGatewaysResponse,
+  WorkloadNetworkPortMirroring,
+  WorkloadNetworksListPortMirroringNextOptionalParams,
+  WorkloadNetworksListPortMirroringOptionalParams,
+  WorkloadNetworksListPortMirroringResponse,
   WorkloadNetworkPublicIP,
   WorkloadNetworksListPublicIPsNextOptionalParams,
   WorkloadNetworksListPublicIPsOptionalParams,
   WorkloadNetworksListPublicIPsResponse,
-  WorkloadNetworkName,
+  WorkloadNetworkSegment,
+  WorkloadNetworksListSegmentsNextOptionalParams,
+  WorkloadNetworksListSegmentsOptionalParams,
+  WorkloadNetworksListSegmentsResponse,
+  WorkloadNetworkVirtualMachine,
+  WorkloadNetworksListVirtualMachinesNextOptionalParams,
+  WorkloadNetworksListVirtualMachinesOptionalParams,
+  WorkloadNetworksListVirtualMachinesResponse,
+  WorkloadNetworkVMGroup,
+  WorkloadNetworksListVMGroupsNextOptionalParams,
+  WorkloadNetworksListVMGroupsOptionalParams,
+  WorkloadNetworksListVMGroupsResponse,
   WorkloadNetworksGetOptionalParams,
   WorkloadNetworksGetResponse,
-  WorkloadNetworksGetSegmentOptionalParams,
-  WorkloadNetworksGetSegmentResponse,
-  WorkloadNetworksCreateSegmentsOptionalParams,
-  WorkloadNetworksCreateSegmentsResponse,
-  WorkloadNetworksUpdateSegmentsOptionalParams,
-  WorkloadNetworksUpdateSegmentsResponse,
-  WorkloadNetworksDeleteSegmentOptionalParams,
   WorkloadNetworksGetDhcpOptionalParams,
   WorkloadNetworksGetDhcpResponse,
   WorkloadNetworksCreateDhcpOptionalParams,
@@ -73,24 +69,6 @@ import {
   WorkloadNetworksUpdateDhcpOptionalParams,
   WorkloadNetworksUpdateDhcpResponse,
   WorkloadNetworksDeleteDhcpOptionalParams,
-  WorkloadNetworksGetGatewayOptionalParams,
-  WorkloadNetworksGetGatewayResponse,
-  WorkloadNetworksGetPortMirroringOptionalParams,
-  WorkloadNetworksGetPortMirroringResponse,
-  WorkloadNetworksCreatePortMirroringOptionalParams,
-  WorkloadNetworksCreatePortMirroringResponse,
-  WorkloadNetworksUpdatePortMirroringOptionalParams,
-  WorkloadNetworksUpdatePortMirroringResponse,
-  WorkloadNetworksDeletePortMirroringOptionalParams,
-  WorkloadNetworksGetVMGroupOptionalParams,
-  WorkloadNetworksGetVMGroupResponse,
-  WorkloadNetworksCreateVMGroupOptionalParams,
-  WorkloadNetworksCreateVMGroupResponse,
-  WorkloadNetworksUpdateVMGroupOptionalParams,
-  WorkloadNetworksUpdateVMGroupResponse,
-  WorkloadNetworksDeleteVMGroupOptionalParams,
-  WorkloadNetworksGetVirtualMachineOptionalParams,
-  WorkloadNetworksGetVirtualMachineResponse,
   WorkloadNetworksGetDnsServiceOptionalParams,
   WorkloadNetworksGetDnsServiceResponse,
   WorkloadNetworksCreateDnsServiceOptionalParams,
@@ -105,22 +83,47 @@ import {
   WorkloadNetworksUpdateDnsZoneOptionalParams,
   WorkloadNetworksUpdateDnsZoneResponse,
   WorkloadNetworksDeleteDnsZoneOptionalParams,
+  WorkloadNetworksGetGatewayOptionalParams,
+  WorkloadNetworksGetGatewayResponse,
+  WorkloadNetworksGetPortMirroringOptionalParams,
+  WorkloadNetworksGetPortMirroringResponse,
+  WorkloadNetworksCreatePortMirroringOptionalParams,
+  WorkloadNetworksCreatePortMirroringResponse,
+  WorkloadNetworksUpdatePortMirroringOptionalParams,
+  WorkloadNetworksUpdatePortMirroringResponse,
+  WorkloadNetworksDeletePortMirroringOptionalParams,
   WorkloadNetworksGetPublicIPOptionalParams,
   WorkloadNetworksGetPublicIPResponse,
   WorkloadNetworksCreatePublicIPOptionalParams,
   WorkloadNetworksCreatePublicIPResponse,
   WorkloadNetworksDeletePublicIPOptionalParams,
+  WorkloadNetworksGetSegmentOptionalParams,
+  WorkloadNetworksGetSegmentResponse,
+  WorkloadNetworksCreateSegmentsOptionalParams,
+  WorkloadNetworksCreateSegmentsResponse,
+  WorkloadNetworksUpdateSegmentsOptionalParams,
+  WorkloadNetworksUpdateSegmentsResponse,
+  WorkloadNetworksDeleteSegmentOptionalParams,
+  WorkloadNetworksGetVirtualMachineOptionalParams,
+  WorkloadNetworksGetVirtualMachineResponse,
+  WorkloadNetworksGetVMGroupOptionalParams,
+  WorkloadNetworksGetVMGroupResponse,
+  WorkloadNetworksCreateVMGroupOptionalParams,
+  WorkloadNetworksCreateVMGroupResponse,
+  WorkloadNetworksUpdateVMGroupOptionalParams,
+  WorkloadNetworksUpdateVMGroupResponse,
+  WorkloadNetworksDeleteVMGroupOptionalParams,
   WorkloadNetworksListNextResponse,
-  WorkloadNetworksListSegmentsNextResponse,
   WorkloadNetworksListDhcpNextResponse,
-  WorkloadNetworksListGatewaysNextResponse,
-  WorkloadNetworksListPortMirroringNextResponse,
-  WorkloadNetworksListVMGroupsNextResponse,
-  WorkloadNetworksListVirtualMachinesNextResponse,
   WorkloadNetworksListDnsServicesNextResponse,
   WorkloadNetworksListDnsZonesNextResponse,
-  WorkloadNetworksListPublicIPsNextResponse
-} from "../models";
+  WorkloadNetworksListGatewaysNextResponse,
+  WorkloadNetworksListPortMirroringNextResponse,
+  WorkloadNetworksListPublicIPsNextResponse,
+  WorkloadNetworksListSegmentsNextResponse,
+  WorkloadNetworksListVirtualMachinesNextResponse,
+  WorkloadNetworksListVMGroupsNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkloadNetworks operations. */
@@ -136,7 +139,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   }
 
   /**
-   * List of workload networks in a private cloud.
+   * List WorkloadNetwork resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -144,12 +147,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListOptionalParams
+    options?: WorkloadNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetwork> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -166,9 +169,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -176,7 +179,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadNetwork[]> {
     let result: WorkloadNetworksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -192,7 +195,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -204,103 +207,19 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListOptionalParams
+    options?: WorkloadNetworksListOptionalParams,
   ): AsyncIterableIterator<WorkloadNetwork> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List of segments in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  public listSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkSegment> {
-    const iter = this.listSegmentsPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSegmentsPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listSegmentsPagingPage(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadNetworkSegment[]> {
-    let result: WorkloadNetworksListSegmentsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSegments(
-        resourceGroupName,
-        privateCloudName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listSegmentsNext(
-        resourceGroupName,
-        privateCloudName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listSegmentsPagingAll(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams
-  ): AsyncIterableIterator<WorkloadNetworkSegment> {
-    for await (const page of this.listSegmentsPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List dhcp in a private cloud workload network.
+   * List WorkloadNetworkDhcp resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -308,12 +227,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   public listDhcp(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDhcpOptionalParams
+    options?: WorkloadNetworksListDhcpOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDhcp> {
     const iter = this.listDhcpPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -330,9 +249,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -340,7 +259,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListDhcpOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadNetworkDhcp[]> {
     let result: WorkloadNetworksListDhcpResponse;
     let continuationToken = settings?.continuationToken;
@@ -348,7 +267,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       result = await this._listDhcp(
         resourceGroupName,
         privateCloudName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -360,7 +279,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -372,355 +291,19 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDhcpPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDhcpOptionalParams
+    options?: WorkloadNetworksListDhcpOptionalParams,
   ): AsyncIterableIterator<WorkloadNetworkDhcp> {
     for await (const page of this.listDhcpPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List of gateways in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  public listGateways(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkGateway> {
-    const iter = this.listGatewaysPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listGatewaysPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listGatewaysPagingPage(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadNetworkGateway[]> {
-    let result: WorkloadNetworksListGatewaysResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listGateways(
-        resourceGroupName,
-        privateCloudName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listGatewaysNext(
-        resourceGroupName,
-        privateCloudName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listGatewaysPagingAll(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams
-  ): AsyncIterableIterator<WorkloadNetworkGateway> {
-    for await (const page of this.listGatewaysPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List of port mirroring profiles in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  public listPortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring> {
-    const iter = this.listPortMirroringPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPortMirroringPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listPortMirroringPagingPage(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadNetworkPortMirroring[]> {
-    let result: WorkloadNetworksListPortMirroringResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPortMirroring(
-        resourceGroupName,
-        privateCloudName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listPortMirroringNext(
-        resourceGroupName,
-        privateCloudName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPortMirroringPagingAll(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams
-  ): AsyncIterableIterator<WorkloadNetworkPortMirroring> {
-    for await (const page of this.listPortMirroringPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List of vm groups in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  public listVMGroups(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup> {
-    const iter = this.listVMGroupsPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listVMGroupsPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listVMGroupsPagingPage(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadNetworkVMGroup[]> {
-    let result: WorkloadNetworksListVMGroupsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listVMGroups(
-        resourceGroupName,
-        privateCloudName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listVMGroupsNext(
-        resourceGroupName,
-        privateCloudName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listVMGroupsPagingAll(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams
-  ): AsyncIterableIterator<WorkloadNetworkVMGroup> {
-    for await (const page of this.listVMGroupsPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List of virtual machines in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  public listVirtualMachines(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams
-  ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine> {
-    const iter = this.listVirtualMachinesPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listVirtualMachinesPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listVirtualMachinesPagingPage(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<WorkloadNetworkVirtualMachine[]> {
-    let result: WorkloadNetworksListVirtualMachinesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listVirtualMachines(
-        resourceGroupName,
-        privateCloudName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listVirtualMachinesNext(
-        resourceGroupName,
-        privateCloudName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listVirtualMachinesPagingAll(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams
-  ): AsyncIterableIterator<WorkloadNetworkVirtualMachine> {
-    for await (const page of this.listVirtualMachinesPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List of DNS services in a private cloud workload network.
+   * List WorkloadNetworkDnsService resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -728,12 +311,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   public listDnsServices(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsServicesOptionalParams
+    options?: WorkloadNetworksListDnsServicesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsService> {
     const iter = this.listDnsServicesPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -750,9 +333,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -760,7 +343,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListDnsServicesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadNetworkDnsService[]> {
     let result: WorkloadNetworksListDnsServicesResponse;
     let continuationToken = settings?.continuationToken;
@@ -768,7 +351,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       result = await this._listDnsServices(
         resourceGroupName,
         privateCloudName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -780,7 +363,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -792,19 +375,19 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDnsServicesPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsServicesOptionalParams
+    options?: WorkloadNetworksListDnsServicesOptionalParams,
   ): AsyncIterableIterator<WorkloadNetworkDnsService> {
     for await (const page of this.listDnsServicesPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List of DNS zones in a private cloud workload network.
+   * List WorkloadNetworkDnsZone resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -812,12 +395,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   public listDnsZones(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsZonesOptionalParams
+    options?: WorkloadNetworksListDnsZonesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsZone> {
     const iter = this.listDnsZonesPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -834,9 +417,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -844,7 +427,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListDnsZonesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadNetworkDnsZone[]> {
     let result: WorkloadNetworksListDnsZonesResponse;
     let continuationToken = settings?.continuationToken;
@@ -852,7 +435,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       result = await this._listDnsZones(
         resourceGroupName,
         privateCloudName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -864,7 +447,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -876,19 +459,187 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDnsZonesPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsZonesOptionalParams
+    options?: WorkloadNetworksListDnsZonesOptionalParams,
   ): AsyncIterableIterator<WorkloadNetworkDnsZone> {
     for await (const page of this.listDnsZonesPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List of Public IP Blocks in a private cloud workload network.
+   * List WorkloadNetworkGateway resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  public listGateways(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkGateway> {
+    const iter = this.listGatewaysPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGatewaysPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listGatewaysPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WorkloadNetworkGateway[]> {
+    let result: WorkloadNetworksListGatewaysResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGateways(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listGatewaysNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listGatewaysPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+  ): AsyncIterableIterator<WorkloadNetworkGateway> {
+    for await (const page of this.listGatewaysPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List WorkloadNetworkPortMirroring resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  public listPortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring> {
+    const iter = this.listPortMirroringPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPortMirroringPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listPortMirroringPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WorkloadNetworkPortMirroring[]> {
+    let result: WorkloadNetworksListPortMirroringResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPortMirroring(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listPortMirroringNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPortMirroringPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+  ): AsyncIterableIterator<WorkloadNetworkPortMirroring> {
+    for await (const page of this.listPortMirroringPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List WorkloadNetworkPublicIP resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -896,12 +647,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   public listPublicIPs(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPublicIPsOptionalParams
+    options?: WorkloadNetworksListPublicIPsOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP> {
     const iter = this.listPublicIPsPagingAll(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     );
     return {
       next() {
@@ -918,9 +669,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
           resourceGroupName,
           privateCloudName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -928,7 +679,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     options?: WorkloadNetworksListPublicIPsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadNetworkPublicIP[]> {
     let result: WorkloadNetworksListPublicIPsResponse;
     let continuationToken = settings?.continuationToken;
@@ -936,7 +687,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       result = await this._listPublicIPs(
         resourceGroupName,
         privateCloudName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -948,7 +699,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         resourceGroupName,
         privateCloudName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -960,38 +711,271 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listPublicIPsPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPublicIPsOptionalParams
+    options?: WorkloadNetworksListPublicIPsOptionalParams,
   ): AsyncIterableIterator<WorkloadNetworkPublicIP> {
     for await (const page of this.listPublicIPsPagingPage(
       resourceGroupName,
       privateCloudName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get a private cloud workload network.
+   * List WorkloadNetworkSegment resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param workloadNetworkName Name for the workload network in the private cloud
    * @param options The options parameters.
    */
-  get(
+  public listSegments(
     resourceGroupName: string,
     privateCloudName: string,
-    workloadNetworkName: WorkloadNetworkName,
-    options?: WorkloadNetworksGetOptionalParams
-  ): Promise<WorkloadNetworksGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, workloadNetworkName, options },
-      getOperationSpec
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkSegment> {
+    const iter = this.listSegmentsPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options,
     );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSegmentsPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listSegmentsPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WorkloadNetworkSegment[]> {
+    let result: WorkloadNetworksListSegmentsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSegments(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSegmentsNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSegmentsPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+  ): AsyncIterableIterator<WorkloadNetworkSegment> {
+    for await (const page of this.listSegmentsPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
-   * List of workload networks in a private cloud.
+   * List WorkloadNetworkVirtualMachine resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  public listVirtualMachines(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine> {
+    const iter = this.listVirtualMachinesPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listVirtualMachinesPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listVirtualMachinesPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WorkloadNetworkVirtualMachine[]> {
+    let result: WorkloadNetworksListVirtualMachinesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVirtualMachines(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listVirtualMachinesNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listVirtualMachinesPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+  ): AsyncIterableIterator<WorkloadNetworkVirtualMachine> {
+    for await (const page of this.listVirtualMachinesPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List WorkloadNetworkVMGroup resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  public listVMGroups(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+  ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup> {
+    const iter = this.listVMGroupsPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listVMGroupsPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listVMGroupsPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<WorkloadNetworkVMGroup[]> {
+    let result: WorkloadNetworksListVMGroupsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVMGroups(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listVMGroupsNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listVMGroupsPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+  ): AsyncIterableIterator<WorkloadNetworkVMGroup> {
+    for await (const page of this.listVMGroupsPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List WorkloadNetwork resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -999,345 +983,33 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListOptionalParams
+    options?: WorkloadNetworksListOptionalParams,
   ): Promise<WorkloadNetworksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * List of segments in a private cloud workload network.
+   * Get a WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  private _listSegments(
+  get(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams
-  ): Promise<WorkloadNetworksListSegmentsResponse> {
+    options?: WorkloadNetworksGetOptionalParams,
+  ): Promise<WorkloadNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listSegmentsOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Get a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  getSegment(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksGetSegmentOptionalParams
-  ): Promise<WorkloadNetworksGetSegmentResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, segmentId, options },
-      getSegmentOperationSpec
-    );
-  }
-
-  /**
-   * Create a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  async beginCreateSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksCreateSegmentsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateSegmentsResponse>,
-      WorkloadNetworksCreateSegmentsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksCreateSegmentsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        workloadNetworkSegment,
-        options
-      },
-      createSegmentsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  async beginCreateSegmentsAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksCreateSegmentsOptionalParams
-  ): Promise<WorkloadNetworksCreateSegmentsResponse> {
-    const poller = await this.beginCreateSegments(
-      resourceGroupName,
-      privateCloudName,
-      segmentId,
-      workloadNetworkSegment,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Create or update a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  async beginUpdateSegments(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksUpdateSegmentsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateSegmentsResponse>,
-      WorkloadNetworksUpdateSegmentsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksUpdateSegmentsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        segmentId,
-        workloadNetworkSegment,
-        options
-      },
-      updateSegmentsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or update a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param workloadNetworkSegment NSX Segment
-   * @param options The options parameters.
-   */
-  async beginUpdateSegmentsAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegment,
-    options?: WorkloadNetworksUpdateSegmentsOptionalParams
-  ): Promise<WorkloadNetworksUpdateSegmentsResponse> {
-    const poller = await this.beginUpdateSegments(
-      resourceGroupName,
-      privateCloudName,
-      segmentId,
-      workloadNetworkSegment,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  async beginDeleteSegment(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, segmentId, options },
-      deleteSegmentOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a segment by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param segmentId NSX Segment identifier. Generally the same as the Segment's display name
-   * @param options The options parameters.
-   */
-  async beginDeleteSegmentAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    segmentId: string,
-    options?: WorkloadNetworksDeleteSegmentOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDeleteSegment(
-      resourceGroupName,
-      privateCloudName,
-      segmentId,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List dhcp in a private cloud workload network.
+   * List WorkloadNetworkDhcp resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -1345,18 +1017,18 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private _listDhcp(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDhcpOptionalParams
+    options?: WorkloadNetworksListDhcpOptionalParams,
   ): Promise<WorkloadNetworksListDhcpResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listDhcpOperationSpec
+      listDhcpOperationSpec,
     );
   }
 
   /**
-   * Get dhcp by id in a private cloud workload network.
+   * Get a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -1364,20 +1036,20 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     dhcpId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksGetDhcpOptionalParams
+    options?: WorkloadNetworksGetDhcpOptionalParams,
   ): Promise<WorkloadNetworksGetDhcpResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dhcpId, privateCloudName, options },
-      getDhcpOperationSpec
+      getDhcpOperationSpec,
     );
   }
 
   /**
-   * Create dhcp by id in a private cloud workload network.
+   * Create a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDhcp(
@@ -1385,30 +1057,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksCreateDhcpOptionalParams
+    options?: WorkloadNetworksCreateDhcpOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDhcpResponse>,
       WorkloadNetworksCreateDhcpResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksCreateDhcpResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1417,8 +1088,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1426,36 +1097,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dhcpId,
         workloadNetworkDhcp,
-        options
+        options,
       },
-      createDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createDhcpOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDhcpResponse,
+      OperationState<WorkloadNetworksCreateDhcpResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create dhcp by id in a private cloud workload network.
+   * Create a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDhcpAndWait(
@@ -1463,24 +1138,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksCreateDhcpOptionalParams
+    options?: WorkloadNetworksCreateDhcpOptionalParams,
   ): Promise<WorkloadNetworksCreateDhcpResponse> {
     const poller = await this.beginCreateDhcp(
       resourceGroupName,
       privateCloudName,
       dhcpId,
       workloadNetworkDhcp,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Create or update dhcp by id in a private cloud workload network.
+   * Update a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDhcp(
@@ -1488,30 +1163,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksUpdateDhcpOptionalParams
+    options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDhcpResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDhcpResponse>,
       WorkloadNetworksUpdateDhcpResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksUpdateDhcpResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1520,8 +1194,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1529,36 +1203,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dhcpId,
         workloadNetworkDhcp,
-        options
+        options,
       },
-      updateDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateDhcpOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDhcpResponse,
+      OperationState<WorkloadNetworksUpdateDhcpResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update dhcp by id in a private cloud workload network.
+   * Update a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
-   * @param workloadNetworkDhcp NSX DHCP
+   * @param dhcpId The ID of the DHCP configuration
+   * @param workloadNetworkDhcp The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDhcpAndWait(
@@ -1566,48 +1244,47 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dhcpId: string,
     workloadNetworkDhcp: WorkloadNetworkDhcp,
-    options?: WorkloadNetworksUpdateDhcpOptionalParams
+    options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<WorkloadNetworksUpdateDhcpResponse> {
     const poller = await this.beginUpdateDhcp(
       resourceGroupName,
       privateCloudName,
       dhcpId,
       workloadNetworkDhcp,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete dhcp by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param options The options parameters.
    */
   async beginDeleteDhcp(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    options?: WorkloadNetworksDeleteDhcpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkloadNetworksDeleteDhcpOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1616,8 +1293,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1625,785 +1302,49 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, dhcpId, options },
-      deleteDhcpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, dhcpId, options },
+      spec: deleteDhcpOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete dhcp by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDhcp
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dhcpId NSX DHCP identifier. Generally the same as the DHCP display name
+   * @param dhcpId The ID of the DHCP configuration
    * @param options The options parameters.
    */
   async beginDeleteDhcpAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    options?: WorkloadNetworksDeleteDhcpOptionalParams
+    options?: WorkloadNetworksDeleteDhcpOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteDhcp(
       resourceGroupName,
       privateCloudName,
       dhcpId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List of gateways in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  private _listGateways(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams
-  ): Promise<WorkloadNetworksListGatewaysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
-      listGatewaysOperationSpec
-    );
-  }
-
-  /**
-   * Get a gateway by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param gatewayId NSX Gateway identifier. Generally the same as the Gateway's display name
-   * @param options The options parameters.
-   */
-  getGateway(
-    resourceGroupName: string,
-    privateCloudName: string,
-    gatewayId: string,
-    options?: WorkloadNetworksGetGatewayOptionalParams
-  ): Promise<WorkloadNetworksGetGatewayResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, gatewayId, options },
-      getGatewayOperationSpec
-    );
-  }
-
-  /**
-   * List of port mirroring profiles in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  private _listPortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams
-  ): Promise<WorkloadNetworksListPortMirroringResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
-      listPortMirroringOperationSpec
-    );
-  }
-
-  /**
-   * Get a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param options The options parameters.
-   */
-  getPortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    options?: WorkloadNetworksGetPortMirroringOptionalParams
-  ): Promise<WorkloadNetworksGetPortMirroringResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, portMirroringId, options },
-      getPortMirroringOperationSpec
-    );
-  }
-
-  /**
-   * Create a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  async beginCreatePortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksCreatePortMirroringOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePortMirroringResponse>,
-      WorkloadNetworksCreatePortMirroringResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksCreatePortMirroringResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        portMirroringId,
-        workloadNetworkPortMirroring,
-        options
-      },
-      createPortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  async beginCreatePortMirroringAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksCreatePortMirroringOptionalParams
-  ): Promise<WorkloadNetworksCreatePortMirroringResponse> {
-    const poller = await this.beginCreatePortMirroring(
-      resourceGroupName,
-      privateCloudName,
-      portMirroringId,
-      workloadNetworkPortMirroring,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Create or update a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  async beginUpdatePortMirroring(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksUpdatePortMirroringOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdatePortMirroringResponse>,
-      WorkloadNetworksUpdatePortMirroringResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksUpdatePortMirroringResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        portMirroringId,
-        workloadNetworkPortMirroring,
-        options
-      },
-      updatePortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or update a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param workloadNetworkPortMirroring NSX port mirroring
-   * @param options The options parameters.
-   */
-  async beginUpdatePortMirroringAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
-    options?: WorkloadNetworksUpdatePortMirroringOptionalParams
-  ): Promise<WorkloadNetworksUpdatePortMirroringResponse> {
-    const poller = await this.beginUpdatePortMirroring(
-      resourceGroupName,
-      privateCloudName,
-      portMirroringId,
-      workloadNetworkPortMirroring,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  async beginDeletePortMirroring(
-    resourceGroupName: string,
-    portMirroringId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, portMirroringId, privateCloudName, options },
-      deletePortMirroringOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a port mirroring profile by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param portMirroringId NSX Port Mirroring identifier. Generally the same as the Port Mirroring
-   *                        display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  async beginDeletePortMirroringAndWait(
-    resourceGroupName: string,
-    portMirroringId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeletePortMirroringOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDeletePortMirroring(
-      resourceGroupName,
-      portMirroringId,
-      privateCloudName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List of vm groups in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  private _listVMGroups(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams
-  ): Promise<WorkloadNetworksListVMGroupsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
-      listVMGroupsOperationSpec
-    );
-  }
-
-  /**
-   * Get a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param options The options parameters.
-   */
-  getVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    options?: WorkloadNetworksGetVMGroupOptionalParams
-  ): Promise<WorkloadNetworksGetVMGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, vmGroupId, options },
-      getVMGroupOperationSpec
-    );
-  }
-
-  /**
-   * Create a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  async beginCreateVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksCreateVMGroupOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateVMGroupResponse>,
-      WorkloadNetworksCreateVMGroupResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksCreateVMGroupResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        vmGroupId,
-        workloadNetworkVMGroup,
-        options
-      },
-      createVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  async beginCreateVMGroupAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksCreateVMGroupOptionalParams
-  ): Promise<WorkloadNetworksCreateVMGroupResponse> {
-    const poller = await this.beginCreateVMGroup(
-      resourceGroupName,
-      privateCloudName,
-      vmGroupId,
-      workloadNetworkVMGroup,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Create or update a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  async beginUpdateVMGroup(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksUpdateVMGroupOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateVMGroupResponse>,
-      WorkloadNetworksUpdateVMGroupResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<WorkloadNetworksUpdateVMGroupResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        vmGroupId,
-        workloadNetworkVMGroup,
-        options
-      },
-      updateVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create or update a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param workloadNetworkVMGroup NSX VM Group
-   * @param options The options parameters.
-   */
-  async beginUpdateVMGroupAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
-    options?: WorkloadNetworksUpdateVMGroupOptionalParams
-  ): Promise<WorkloadNetworksUpdateVMGroupResponse> {
-    const poller = await this.beginUpdateVMGroup(
-      resourceGroupName,
-      privateCloudName,
-      vmGroupId,
-      workloadNetworkVMGroup,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  async beginDeleteVMGroup(
-    resourceGroupName: string,
-    vmGroupId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmGroupId, privateCloudName, options },
-      deleteVMGroupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a vm group by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vmGroupId NSX VM Group identifier. Generally the same as the VM Group's display name
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  async beginDeleteVMGroupAndWait(
-    resourceGroupName: string,
-    vmGroupId: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksDeleteVMGroupOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDeleteVMGroup(
-      resourceGroupName,
-      vmGroupId,
-      privateCloudName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List of virtual machines in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param options The options parameters.
-   */
-  private _listVirtualMachines(
-    resourceGroupName: string,
-    privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams
-  ): Promise<WorkloadNetworksListVirtualMachinesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
-      listVirtualMachinesOperationSpec
-    );
-  }
-
-  /**
-   * Get a virtual machine by id in a private cloud workload network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param virtualMachineId Virtual Machine identifier
-   * @param options The options parameters.
-   */
-  getVirtualMachine(
-    resourceGroupName: string,
-    privateCloudName: string,
-    virtualMachineId: string,
-    options?: WorkloadNetworksGetVirtualMachineOptionalParams
-  ): Promise<WorkloadNetworksGetVirtualMachineResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, virtualMachineId, options },
-      getVirtualMachineOperationSpec
-    );
-  }
-
-  /**
-   * List of DNS services in a private cloud workload network.
+   * List WorkloadNetworkDnsService resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -2411,39 +1352,39 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private _listDnsServices(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsServicesOptionalParams
+    options?: WorkloadNetworksListDnsServicesOptionalParams,
   ): Promise<WorkloadNetworksListDnsServicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listDnsServicesOperationSpec
+      listDnsServicesOperationSpec,
     );
   }
 
   /**
-   * Get a DNS service by id in a private cloud workload network.
+   * Get a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param options The options parameters.
    */
   getDnsService(
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    options?: WorkloadNetworksGetDnsServiceOptionalParams
+    options?: WorkloadNetworksGetDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksGetDnsServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, dnsServiceId, options },
-      getDnsServiceOperationSpec
+      getDnsServiceOperationSpec,
     );
   }
 
   /**
-   * Create a DNS service by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDnsService(
@@ -2451,30 +1392,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksCreateDnsServiceOptionalParams
+    options?: WorkloadNetworksCreateDnsServiceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsServiceResponse>,
       WorkloadNetworksCreateDnsServiceResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksCreateDnsServiceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2483,8 +1423,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2492,36 +1432,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
         workloadNetworkDnsService,
-        options
+        options,
       },
-      createDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createDnsServiceOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDnsServiceResponse,
+      OperationState<WorkloadNetworksCreateDnsServiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a DNS service by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDnsServiceAndWait(
@@ -2529,24 +1473,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksCreateDnsServiceOptionalParams
+    options?: WorkloadNetworksCreateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksCreateDnsServiceResponse> {
     const poller = await this.beginCreateDnsService(
       resourceGroupName,
       privateCloudName,
       dnsServiceId,
       workloadNetworkDnsService,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Create or update a DNS service by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDnsService(
@@ -2554,30 +1498,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksUpdateDnsServiceOptionalParams
+    options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsServiceResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsServiceResponse>,
       WorkloadNetworksUpdateDnsServiceResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksUpdateDnsServiceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2586,8 +1529,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2595,36 +1538,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsServiceId,
         workloadNetworkDnsService,
-        options
+        options,
       },
-      updateDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateDnsServiceOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDnsServiceResponse,
+      OperationState<WorkloadNetworksUpdateDnsServiceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a DNS service by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
-   * @param workloadNetworkDnsService NSX DNS Service
+   * @param dnsServiceId ID of the DNS service.
+   * @param workloadNetworkDnsService The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDnsServiceAndWait(
@@ -2632,22 +1579,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsServiceId: string,
     workloadNetworkDnsService: WorkloadNetworkDnsService,
-    options?: WorkloadNetworksUpdateDnsServiceOptionalParams
+    options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsServiceResponse> {
     const poller = await this.beginUpdateDnsService(
       resourceGroupName,
       privateCloudName,
       dnsServiceId,
       workloadNetworkDnsService,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a DNS service by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -2655,25 +1602,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     dnsServiceId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsServiceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkloadNetworksDeleteDnsServiceOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2682,8 +1628,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2691,28 +1637,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsServiceId, privateCloudName, options },
-      deleteDnsServiceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsServiceId, privateCloudName, options },
+      spec: deleteDnsServiceOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a DNS service by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsService
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsServiceId NSX DNS Service identifier. Generally the same as the DNS Service's display name
+   * @param dnsServiceId ID of the DNS service.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -2720,19 +1667,19 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     dnsServiceId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsServiceOptionalParams
+    options?: WorkloadNetworksDeleteDnsServiceOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteDnsService(
       resourceGroupName,
       dnsServiceId,
       privateCloudName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List of DNS zones in a private cloud workload network.
+   * List WorkloadNetworkDnsZone resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -2740,39 +1687,39 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private _listDnsZones(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsZonesOptionalParams
+    options?: WorkloadNetworksListDnsZonesOptionalParams,
   ): Promise<WorkloadNetworksListDnsZonesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listDnsZonesOperationSpec
+      listDnsZonesOperationSpec,
     );
   }
 
   /**
-   * Get a DNS zone by id in a private cloud workload network.
+   * Get a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param options The options parameters.
    */
   getDnsZone(
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    options?: WorkloadNetworksGetDnsZoneOptionalParams
+    options?: WorkloadNetworksGetDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksGetDnsZoneResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, dnsZoneId, options },
-      getDnsZoneOperationSpec
+      getDnsZoneOperationSpec,
     );
   }
 
   /**
-   * Create a DNS zone by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDnsZone(
@@ -2780,30 +1727,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksCreateDnsZoneOptionalParams
+    options?: WorkloadNetworksCreateDnsZoneOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateDnsZoneResponse>,
       WorkloadNetworksCreateDnsZoneResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksCreateDnsZoneResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2812,8 +1758,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2821,36 +1767,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
         workloadNetworkDnsZone,
-        options
+        options,
       },
-      createDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createDnsZoneOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateDnsZoneResponse,
+      OperationState<WorkloadNetworksCreateDnsZoneResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a DNS zone by id in a private cloud workload network.
+   * Create a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateDnsZoneAndWait(
@@ -2858,24 +1808,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksCreateDnsZoneOptionalParams
+    options?: WorkloadNetworksCreateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksCreateDnsZoneResponse> {
     const poller = await this.beginCreateDnsZone(
       resourceGroupName,
       privateCloudName,
       dnsZoneId,
       workloadNetworkDnsZone,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Create or update a DNS zone by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDnsZone(
@@ -2883,30 +1833,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksUpdateDnsZoneOptionalParams
+    options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksUpdateDnsZoneResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateDnsZoneResponse>,
       WorkloadNetworksUpdateDnsZoneResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksUpdateDnsZoneResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2915,8 +1864,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2924,36 +1873,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         dnsZoneId,
         workloadNetworkDnsZone,
-        options
+        options,
       },
-      updateDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateDnsZoneOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateDnsZoneResponse,
+      OperationState<WorkloadNetworksUpdateDnsZoneResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update a DNS zone by id in a private cloud workload network.
+   * Update a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
-   * @param workloadNetworkDnsZone NSX DNS Zone
+   * @param dnsZoneId ID of the DNS zone.
+   * @param workloadNetworkDnsZone The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateDnsZoneAndWait(
@@ -2961,22 +1914,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     dnsZoneId: string,
     workloadNetworkDnsZone: WorkloadNetworkDnsZone,
-    options?: WorkloadNetworksUpdateDnsZoneOptionalParams
+    options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsZoneResponse> {
     const poller = await this.beginUpdateDnsZone(
       resourceGroupName,
       privateCloudName,
       dnsZoneId,
       workloadNetworkDnsZone,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a DNS zone by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -2984,25 +1937,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     dnsZoneId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsZoneOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkloadNetworksDeleteDnsZoneOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -3011,8 +1963,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -3020,28 +1972,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsZoneId, privateCloudName, options },
-      deleteDnsZoneOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsZoneId, privateCloudName, options },
+      spec: deleteDnsZoneOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a DNS zone by id in a private cloud workload network.
+   * Delete a WorkloadNetworkDnsZone
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dnsZoneId NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+   * @param dnsZoneId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -3049,19 +2002,390 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     dnsZoneId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeleteDnsZoneOptionalParams
+    options?: WorkloadNetworksDeleteDnsZoneOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteDnsZone(
       resourceGroupName,
       dnsZoneId,
       privateCloudName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List of Public IP Blocks in a private cloud workload network.
+   * List WorkloadNetworkGateway resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _listGateways(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+  ): Promise<WorkloadNetworksListGatewaysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listGatewaysOperationSpec,
+    );
+  }
+
+  /**
+   * Get a WorkloadNetworkGateway
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param gatewayId The ID of the NSX Gateway
+   * @param options The options parameters.
+   */
+  getGateway(
+    resourceGroupName: string,
+    privateCloudName: string,
+    gatewayId: string,
+    options?: WorkloadNetworksGetGatewayOptionalParams,
+  ): Promise<WorkloadNetworksGetGatewayResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, gatewayId, options },
+      getGatewayOperationSpec,
+    );
+  }
+
+  /**
+   * List WorkloadNetworkPortMirroring resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _listPortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksListPortMirroringResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listPortMirroringOperationSpec,
+    );
+  }
+
+  /**
+   * Get a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param options The options parameters.
+   */
+  getPortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    options?: WorkloadNetworksGetPortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksGetPortMirroringResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, portMirroringId, options },
+      getPortMirroringOperationSpec,
+    );
+  }
+
+  /**
+   * Create a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreatePortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksCreatePortMirroringOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>,
+      WorkloadNetworksCreatePortMirroringResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksCreatePortMirroringResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        portMirroringId,
+        workloadNetworkPortMirroring,
+        options,
+      },
+      spec: createPortMirroringOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreatePortMirroringResponse,
+      OperationState<WorkloadNetworksCreatePortMirroringResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreatePortMirroringAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksCreatePortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksCreatePortMirroringResponse> {
+    const poller = await this.beginCreatePortMirroring(
+      resourceGroupName,
+      privateCloudName,
+      portMirroringId,
+      workloadNetworkPortMirroring,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdatePortMirroring(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>,
+      WorkloadNetworksUpdatePortMirroringResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksUpdatePortMirroringResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        portMirroringId,
+        workloadNetworkPortMirroring,
+        options,
+      },
+      spec: updatePortMirroringOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdatePortMirroringResponse,
+      OperationState<WorkloadNetworksUpdatePortMirroringResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param workloadNetworkPortMirroring The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdatePortMirroringAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    portMirroringId: string,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
+    options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
+  ): Promise<WorkloadNetworksUpdatePortMirroringResponse> {
+    const poller = await this.beginUpdatePortMirroring(
+      resourceGroupName,
+      privateCloudName,
+      portMirroringId,
+      workloadNetworkPortMirroring,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginDeletePortMirroring(
+    resourceGroupName: string,
+    portMirroringId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeletePortMirroringOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, portMirroringId, privateCloudName, options },
+      spec: deletePortMirroringOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a WorkloadNetworkPortMirroring
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param portMirroringId ID of the NSX port mirroring profile.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginDeletePortMirroringAndWait(
+    resourceGroupName: string,
+    portMirroringId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeletePortMirroringOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeletePortMirroring(
+      resourceGroupName,
+      portMirroringId,
+      privateCloudName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List WorkloadNetworkPublicIP resources by WorkloadNetwork
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -3069,41 +2393,39 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private _listPublicIPs(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPublicIPsOptionalParams
+    options?: WorkloadNetworksListPublicIPsOptionalParams,
   ): Promise<WorkloadNetworksListPublicIPsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listPublicIPsOperationSpec
+      listPublicIPsOperationSpec,
     );
   }
 
   /**
-   * Get a Public IP Block by id in a private cloud workload network.
+   * Get a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param publicIPId ID of the DNS zone.
    * @param options The options parameters.
    */
   getPublicIP(
     resourceGroupName: string,
     privateCloudName: string,
     publicIPId: string,
-    options?: WorkloadNetworksGetPublicIPOptionalParams
+    options?: WorkloadNetworksGetPublicIPOptionalParams,
   ): Promise<WorkloadNetworksGetPublicIPResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, publicIPId, options },
-      getPublicIPOperationSpec
+      getPublicIPOperationSpec,
     );
   }
 
   /**
-   * Create a Public IP Block by id in a private cloud workload network.
+   * Create a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
-   * @param workloadNetworkPublicIP NSX Public IP Block
+   * @param publicIPId ID of the DNS zone.
+   * @param workloadNetworkPublicIP Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreatePublicIP(
@@ -3111,30 +2433,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     publicIPId: string,
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
-    options?: WorkloadNetworksCreatePublicIPOptionalParams
+    options?: WorkloadNetworksCreatePublicIPOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkloadNetworksCreatePublicIPResponse>,
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreatePublicIPResponse>,
       WorkloadNetworksCreatePublicIPResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkloadNetworksCreatePublicIPResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -3143,8 +2464,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -3152,37 +2473,40 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         privateCloudName,
         publicIPId,
         workloadNetworkPublicIP,
-        options
+        options,
       },
-      createPublicIPOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createPublicIPOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreatePublicIPResponse,
+      OperationState<WorkloadNetworksCreatePublicIPResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a Public IP Block by id in a private cloud workload network.
+   * Create a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
-   * @param workloadNetworkPublicIP NSX Public IP Block
+   * @param publicIPId ID of the DNS zone.
+   * @param workloadNetworkPublicIP Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreatePublicIPAndWait(
@@ -3190,23 +2514,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     publicIPId: string,
     workloadNetworkPublicIP: WorkloadNetworkPublicIP,
-    options?: WorkloadNetworksCreatePublicIPOptionalParams
+    options?: WorkloadNetworksCreatePublicIPOptionalParams,
   ): Promise<WorkloadNetworksCreatePublicIPResponse> {
     const poller = await this.beginCreatePublicIP(
       resourceGroupName,
       privateCloudName,
       publicIPId,
       workloadNetworkPublicIP,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a Public IP Block by id in a private cloud workload network.
+   * Delete a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param publicIPId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -3214,25 +2537,24 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     publicIPId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeletePublicIPOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkloadNetworksDeletePublicIPOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -3241,8 +2563,8 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -3250,29 +2572,29 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, publicIPId, privateCloudName, options },
-      deletePublicIPOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publicIPId, privateCloudName, options },
+      spec: deletePublicIPOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a Public IP Block by id in a private cloud workload network.
+   * Delete a WorkloadNetworkPublicIP
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param publicIPId NSX Public IP Block identifier. Generally the same as the Public IP Block's
-   *                   display name
+   * @param publicIPId ID of the DNS zone.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
@@ -3280,13 +2602,719 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     publicIPId: string,
     privateCloudName: string,
-    options?: WorkloadNetworksDeletePublicIPOptionalParams
+    options?: WorkloadNetworksDeletePublicIPOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeletePublicIP(
       resourceGroupName,
       publicIPId,
       privateCloudName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List WorkloadNetworkSegment resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _listSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+  ): Promise<WorkloadNetworksListSegmentsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listSegmentsOperationSpec,
+    );
+  }
+
+  /**
+   * Get a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  getSegment(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksGetSegmentOptionalParams,
+  ): Promise<WorkloadNetworksGetSegmentResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, segmentId, options },
+      getSegmentOperationSpec,
+    );
+  }
+
+  /**
+   * Create a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksCreateSegmentsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateSegmentsResponse>,
+      WorkloadNetworksCreateSegmentsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksCreateSegmentsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        segmentId,
+        workloadNetworkSegment,
+        options,
+      },
+      spec: createSegmentsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateSegmentsResponse,
+      OperationState<WorkloadNetworksCreateSegmentsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateSegmentsAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksCreateSegmentsOptionalParams,
+  ): Promise<WorkloadNetworksCreateSegmentsResponse> {
+    const poller = await this.beginCreateSegments(
+      resourceGroupName,
+      privateCloudName,
+      segmentId,
+      workloadNetworkSegment,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateSegments(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksUpdateSegmentsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>,
+      WorkloadNetworksUpdateSegmentsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksUpdateSegmentsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        segmentId,
+        workloadNetworkSegment,
+        options,
+      },
+      spec: updateSegmentsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateSegmentsResponse,
+      OperationState<WorkloadNetworksUpdateSegmentsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param workloadNetworkSegment The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateSegmentsAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    workloadNetworkSegment: WorkloadNetworkSegment,
+    options?: WorkloadNetworksUpdateSegmentsOptionalParams,
+  ): Promise<WorkloadNetworksUpdateSegmentsResponse> {
+    const poller = await this.beginUpdateSegments(
+      resourceGroupName,
+      privateCloudName,
+      segmentId,
+      workloadNetworkSegment,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  async beginDeleteSegment(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksDeleteSegmentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, segmentId, options },
+      spec: deleteSegmentOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a WorkloadNetworkSegment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param segmentId The ID of the NSX Segment
+   * @param options The options parameters.
+   */
+  async beginDeleteSegmentAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    segmentId: string,
+    options?: WorkloadNetworksDeleteSegmentOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteSegment(
+      resourceGroupName,
+      privateCloudName,
+      segmentId,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List WorkloadNetworkVirtualMachine resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _listVirtualMachines(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+  ): Promise<WorkloadNetworksListVirtualMachinesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listVirtualMachinesOperationSpec,
+    );
+  }
+
+  /**
+   * Get a WorkloadNetworkVirtualMachine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param virtualMachineId ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  getVirtualMachine(
+    resourceGroupName: string,
+    privateCloudName: string,
+    virtualMachineId: string,
+    options?: WorkloadNetworksGetVirtualMachineOptionalParams,
+  ): Promise<WorkloadNetworksGetVirtualMachineResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, virtualMachineId, options },
+      getVirtualMachineOperationSpec,
+    );
+  }
+
+  /**
+   * List WorkloadNetworkVMGroup resources by WorkloadNetwork
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _listVMGroups(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+  ): Promise<WorkloadNetworksListVMGroupsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listVMGroupsOperationSpec,
+    );
+  }
+
+  /**
+   * Get a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param options The options parameters.
+   */
+  getVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    options?: WorkloadNetworksGetVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksGetVMGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, vmGroupId, options },
+      getVMGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Create a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksCreateVMGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksCreateVMGroupResponse>,
+      WorkloadNetworksCreateVMGroupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksCreateVMGroupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        vmGroupId,
+        workloadNetworkVMGroup,
+        options,
+      },
+      spec: createVMGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksCreateVMGroupResponse,
+      OperationState<WorkloadNetworksCreateVMGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateVMGroupAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksCreateVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksCreateVMGroupResponse> {
+    const poller = await this.beginCreateVMGroup(
+      resourceGroupName,
+      privateCloudName,
+      vmGroupId,
+      workloadNetworkVMGroup,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateVMGroup(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksUpdateVMGroupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>,
+      WorkloadNetworksUpdateVMGroupResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkloadNetworksUpdateVMGroupResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        privateCloudName,
+        vmGroupId,
+        workloadNetworkVMGroup,
+        options,
+      },
+      spec: updateVMGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkloadNetworksUpdateVMGroupResponse,
+      OperationState<WorkloadNetworksUpdateVMGroupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param vmGroupId ID of the VM group.
+   * @param workloadNetworkVMGroup The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateVMGroupAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    vmGroupId: string,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
+    options?: WorkloadNetworksUpdateVMGroupOptionalParams,
+  ): Promise<WorkloadNetworksUpdateVMGroupResponse> {
+    const poller = await this.beginUpdateVMGroup(
+      resourceGroupName,
+      privateCloudName,
+      vmGroupId,
+      workloadNetworkVMGroup,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmGroupId ID of the VM group.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginDeleteVMGroup(
+    resourceGroupName: string,
+    vmGroupId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeleteVMGroupOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmGroupId, privateCloudName, options },
+      spec: deleteVMGroupOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a WorkloadNetworkVMGroup
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmGroupId ID of the VM group.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginDeleteVMGroupAndWait(
+    resourceGroupName: string,
+    vmGroupId: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksDeleteVMGroupOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeleteVMGroup(
+      resourceGroupName,
+      vmGroupId,
+      privateCloudName,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -3302,30 +3330,11 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: WorkloadNetworksListNextOptionalParams
+    options?: WorkloadNetworksListNextOptionalParams,
   ): Promise<WorkloadNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListSegmentsNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the ListSegments method.
-   * @param options The options parameters.
-   */
-  private _listSegmentsNext(
-    resourceGroupName: string,
-    privateCloudName: string,
-    nextLink: string,
-    options?: WorkloadNetworksListSegmentsNextOptionalParams
-  ): Promise<WorkloadNetworksListSegmentsNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
-      listSegmentsNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -3340,87 +3349,11 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: WorkloadNetworksListDhcpNextOptionalParams
+    options?: WorkloadNetworksListDhcpNextOptionalParams,
   ): Promise<WorkloadNetworksListDhcpNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listDhcpNextOperationSpec
-    );
-  }
-
-  /**
-   * ListGatewaysNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the ListGateways method.
-   * @param options The options parameters.
-   */
-  private _listGatewaysNext(
-    resourceGroupName: string,
-    privateCloudName: string,
-    nextLink: string,
-    options?: WorkloadNetworksListGatewaysNextOptionalParams
-  ): Promise<WorkloadNetworksListGatewaysNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
-      listGatewaysNextOperationSpec
-    );
-  }
-
-  /**
-   * ListPortMirroringNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the ListPortMirroring method.
-   * @param options The options parameters.
-   */
-  private _listPortMirroringNext(
-    resourceGroupName: string,
-    privateCloudName: string,
-    nextLink: string,
-    options?: WorkloadNetworksListPortMirroringNextOptionalParams
-  ): Promise<WorkloadNetworksListPortMirroringNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
-      listPortMirroringNextOperationSpec
-    );
-  }
-
-  /**
-   * ListVMGroupsNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the ListVMGroups method.
-   * @param options The options parameters.
-   */
-  private _listVMGroupsNext(
-    resourceGroupName: string,
-    privateCloudName: string,
-    nextLink: string,
-    options?: WorkloadNetworksListVMGroupsNextOptionalParams
-  ): Promise<WorkloadNetworksListVMGroupsNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
-      listVMGroupsNextOperationSpec
-    );
-  }
-
-  /**
-   * ListVirtualMachinesNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the ListVirtualMachines method.
-   * @param options The options parameters.
-   */
-  private _listVirtualMachinesNext(
-    resourceGroupName: string,
-    privateCloudName: string,
-    nextLink: string,
-    options?: WorkloadNetworksListVirtualMachinesNextOptionalParams
-  ): Promise<WorkloadNetworksListVirtualMachinesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
-      listVirtualMachinesNextOperationSpec
+      listDhcpNextOperationSpec,
     );
   }
 
@@ -3435,11 +3368,11 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: WorkloadNetworksListDnsServicesNextOptionalParams
+    options?: WorkloadNetworksListDnsServicesNextOptionalParams,
   ): Promise<WorkloadNetworksListDnsServicesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listDnsServicesNextOperationSpec
+      listDnsServicesNextOperationSpec,
     );
   }
 
@@ -3454,11 +3387,49 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: WorkloadNetworksListDnsZonesNextOptionalParams
+    options?: WorkloadNetworksListDnsZonesNextOptionalParams,
   ): Promise<WorkloadNetworksListDnsZonesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listDnsZonesNextOperationSpec
+      listDnsZonesNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListGatewaysNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the ListGateways method.
+   * @param options The options parameters.
+   */
+  private _listGatewaysNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListGatewaysNextOptionalParams,
+  ): Promise<WorkloadNetworksListGatewaysNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listGatewaysNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListPortMirroringNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the ListPortMirroring method.
+   * @param options The options parameters.
+   */
+  private _listPortMirroringNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListPortMirroringNextOptionalParams,
+  ): Promise<WorkloadNetworksListPortMirroringNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listPortMirroringNextOperationSpec,
     );
   }
 
@@ -3473,232 +3444,147 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: WorkloadNetworksListPublicIPsNextOptionalParams
+    options?: WorkloadNetworksListPublicIPsNextOptionalParams,
   ): Promise<WorkloadNetworksListPublicIPsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listPublicIPsNextOperationSpec
+      listPublicIPsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSegmentsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the ListSegments method.
+   * @param options The options parameters.
+   */
+  private _listSegmentsNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListSegmentsNextOptionalParams,
+  ): Promise<WorkloadNetworksListSegmentsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listSegmentsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListVirtualMachinesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the ListVirtualMachines method.
+   * @param options The options parameters.
+   */
+  private _listVirtualMachinesNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListVirtualMachinesNextOptionalParams,
+  ): Promise<WorkloadNetworksListVirtualMachinesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listVirtualMachinesNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListVMGroupsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the ListVMGroups method.
+   * @param options The options parameters.
+   */
+  private _listVMGroupsNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListVMGroupsNextOptionalParams,
+  ): Promise<WorkloadNetworksListVMGroupsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listVMGroupsNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/{workloadNetworkName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetwork
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.workloadNetworkName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkList
+      bodyMapper: Mappers.WorkloadNetworkList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listSegmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkSegmentsList
+      bodyMapper: Mappers.WorkloadNetwork,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const getSegmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.segmentId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createSegmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkSegment,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.segmentId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateSegmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkSegment
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkSegment,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.segmentId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteSegmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.segmentId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDhcpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcpList
+      bodyMapper: Mappers.WorkloadNetworkDhcpList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDhcpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -3706,31 +3592,30 @@ const getDhcpOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dhcpId
+    Parameters.dhcpId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createDhcpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDhcp,
   queryParameters: [Parameters.apiVersion],
@@ -3739,32 +3624,31 @@ const createDhcpOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dhcpId
+    Parameters.dhcpId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateDhcpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDhcp
+      bodyMapper: Mappers.WorkloadNetworkDhcp,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDhcp,
   queryParameters: [Parameters.apiVersion],
@@ -3773,15 +3657,14 @@ const updateDhcpOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dhcpId
+    Parameters.dhcpId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteDhcpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -3789,8 +3672,8 @@ const deleteDhcpOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -3798,408 +3681,42 @@ const deleteDhcpOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dhcpId
+    Parameters.dhcpId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listGatewaysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkGatewayList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getGatewayOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways/{gatewayId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkGateway
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.gatewayId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPortMirroringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroringList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getPortMirroringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.portMirroringId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createPortMirroringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkPortMirroring,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.portMirroringId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updatePortMirroringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroring
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkPortMirroring,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.portMirroringId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deletePortMirroringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.portMirroringId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVMGroupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroupsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVMGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.vmGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createVMGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkVMGroup,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.vmGroupId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateVMGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    201: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    202: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    204: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.workloadNetworkVMGroup,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.vmGroupId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteVMGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.vmGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVirtualMachinesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVirtualMachineOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines/{virtualMachineId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVirtualMachine
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.virtualMachineId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDnsServicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsServicesList
+      bodyMapper: Mappers.WorkloadNetworkDnsServicesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDnsServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4207,31 +3724,30 @@ const getDnsServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsServiceId
+    Parameters.dnsServiceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createDnsServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDnsService,
   queryParameters: [Parameters.apiVersion],
@@ -4240,32 +3756,31 @@ const createDnsServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsServiceId
+    Parameters.dnsServiceId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateDnsServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDnsService
+      bodyMapper: Mappers.WorkloadNetworkDnsService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDnsService,
   queryParameters: [Parameters.apiVersion],
@@ -4274,15 +3789,14 @@ const updateDnsServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsServiceId
+    Parameters.dnsServiceId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteDnsServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -4290,8 +3804,8 @@ const deleteDnsServiceOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4299,44 +3813,21 @@ const deleteDnsServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsServiceId
+    Parameters.dnsServiceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDnsZonesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZonesList
+      bodyMapper: Mappers.WorkloadNetworkDnsZonesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4344,31 +3835,51 @@ const getDnsZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsZoneId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getDnsZoneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.dnsZoneId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDnsZone,
   queryParameters: [Parameters.apiVersion],
@@ -4377,32 +3888,31 @@ const createDnsZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsZoneId
+    Parameters.dnsZoneId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZone
+      bodyMapper: Mappers.WorkloadNetworkDnsZone,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkDnsZone,
   queryParameters: [Parameters.apiVersion],
@@ -4411,15 +3921,14 @@ const updateDnsZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsZoneId
+    Parameters.dnsZoneId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteDnsZoneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -4427,8 +3936,8 @@ const deleteDnsZoneOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4436,44 +3945,21 @@ const deleteDnsZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.dnsZoneId
+    Parameters.dnsZoneId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listPublicIPsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs",
+const listGatewaysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIPsList
+      bodyMapper: Mappers.WorkloadNetworkGatewayList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getPublicIPOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIP
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4481,31 +3967,226 @@ const getPublicIPOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.publicIPId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createPublicIPOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
+const getGatewayOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways/{gatewayId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkGateway,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPortMirroringOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroringList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getPortMirroringOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.portMirroringId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createPortMirroringOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIP
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
     },
     201: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIP
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
     },
     202: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIP
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
     },
     204: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIP
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkPortMirroring,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.portMirroringId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updatePortMirroringOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroring,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkPortMirroring,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.portMirroringId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deletePortMirroringOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.portMirroringId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPublicIPsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIPsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getPublicIPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIP,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.publicIPId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createPublicIPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIP,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIP,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIP,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkPublicIP,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workloadNetworkPublicIP,
   queryParameters: [Parameters.apiVersion],
@@ -4514,15 +4195,14 @@ const createPublicIPOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.publicIPId
+    Parameters.publicIPId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deletePublicIPOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -4530,8 +4210,8 @@ const deletePublicIPOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -4539,218 +4219,525 @@ const deletePublicIPOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.publicIPId
+    Parameters.publicIPId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSegmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkSegmentsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSegmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.segmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createSegmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkSegment,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.segmentId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateSegmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkSegment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkSegment,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.segmentId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteSegmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.segmentId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVirtualMachinesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getVirtualMachineOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines/{virtualMachineId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVirtualMachine,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.virtualMachineId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVMGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroupsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getVMGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.vmGroupId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createVMGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkVMGroup,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.vmGroupId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateVMGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    202: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    204: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.workloadNetworkVMGroup,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.vmGroupId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteVMGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.vmGroupId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkList
+      bodyMapper: Mappers.WorkloadNetworkList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listSegmentsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkSegmentsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDhcpNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcpList
+      bodyMapper: Mappers.WorkloadNetworkDhcpList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listGatewaysNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkGatewayList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPortMirroringNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroringList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVMGroupsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroupsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVirtualMachinesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDnsServicesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsServicesList
+      bodyMapper: Mappers.WorkloadNetworkDnsServicesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDnsZonesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZonesList
+      bodyMapper: Mappers.WorkloadNetworkDnsZonesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listGatewaysNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkGatewayList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPortMirroringNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkPortMirroringList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listPublicIPsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIPsList
+      bodyMapper: Mappers.WorkloadNetworkPublicIPsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSegmentsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkSegmentsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVirtualMachinesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVMGroupsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkVMGroupsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

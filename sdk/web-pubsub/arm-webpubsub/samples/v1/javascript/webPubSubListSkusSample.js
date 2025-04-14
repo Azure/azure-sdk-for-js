@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all available skus of the resource.
  *
  * @summary List all available skus of the resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_ListSkus.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_ListSkus.json
  */
 async function webPubSubListSkus() {
   const subscriptionId =

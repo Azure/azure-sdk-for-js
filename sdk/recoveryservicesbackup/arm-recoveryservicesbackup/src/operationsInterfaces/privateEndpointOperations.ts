@@ -8,8 +8,8 @@
 
 import {
   PrivateEndpointGetOperationStatusOptionalParams,
-  PrivateEndpointGetOperationStatusResponse
-} from "../models";
+  PrivateEndpointGetOperationStatusResponse,
+} from "../models/index.js";
 
 /** Interface representing a PrivateEndpointOperations. */
 export interface PrivateEndpointOperations {
@@ -27,6 +27,6 @@ export interface PrivateEndpointOperations {
     resourceGroupName: string,
     privateEndpointConnectionName: string,
     operationId: string,
-    options?: PrivateEndpointGetOperationStatusOptionalParams
+    options?: PrivateEndpointGetOperationStatusOptionalParams,
   ): Promise<PrivateEndpointGetOperationStatusResponse>;
 }

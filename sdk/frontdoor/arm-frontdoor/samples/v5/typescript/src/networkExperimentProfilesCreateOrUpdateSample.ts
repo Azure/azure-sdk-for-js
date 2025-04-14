@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Profile, FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an NetworkExperiment Profile
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates an NetworkExperiment Profile
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentCreateProfile.json
  */
-async function createsAnNetworkExperimentProfileInAResourceGroup() {
+async function createsAnNetworkExperimentProfileInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const profileName = "MyProfile";
   const resourceGroupName =
@@ -28,15 +26,16 @@ async function createsAnNetworkExperimentProfileInAResourceGroup() {
   const parameters: Profile = { enabledState: "Enabled", location: "WestUs" };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
-  const result = await client.networkExperimentProfiles.beginCreateOrUpdateAndWait(
-    profileName,
-    resourceGroupName,
-    parameters
-  );
+  const result =
+    await client.networkExperimentProfiles.beginCreateOrUpdateAndWait(
+      profileName,
+      resourceGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAnNetworkExperimentProfileInAResourceGroup();
 }
 

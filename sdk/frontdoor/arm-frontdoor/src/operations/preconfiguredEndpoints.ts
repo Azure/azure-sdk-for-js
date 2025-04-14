@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PreconfiguredEndpoints } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PreconfiguredEndpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   PreconfiguredEndpoint,
   PreconfiguredEndpointsListNextOptionalParams,
   PreconfiguredEndpointsListOptionalParams,
   PreconfiguredEndpointsListResponse,
-  PreconfiguredEndpointsListNextResponse
-} from "../models";
+  PreconfiguredEndpointsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PreconfiguredEndpoints operations. */
@@ -43,7 +43,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
   public list(
     resourceGroupName: string,
     profileName: string,
-    options?: PreconfiguredEndpointsListOptionalParams
+    options?: PreconfiguredEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<PreconfiguredEndpoint> {
     const iter = this.listPagingAll(resourceGroupName, profileName, options);
     return {
@@ -61,9 +61,9 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -71,7 +71,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
     resourceGroupName: string,
     profileName: string,
     options?: PreconfiguredEndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PreconfiguredEndpoint[]> {
     let result: PreconfiguredEndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -99,12 +99,12 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: PreconfiguredEndpointsListOptionalParams
+    options?: PreconfiguredEndpointsListOptionalParams,
   ): AsyncIterableIterator<PreconfiguredEndpoint> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,11 +119,11 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
   private _list(
     resourceGroupName: string,
     profileName: string,
-    options?: PreconfiguredEndpointsListOptionalParams
+    options?: PreconfiguredEndpointsListOptionalParams,
   ): Promise<PreconfiguredEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: PreconfiguredEndpointsListNextOptionalParams
+    options?: PreconfiguredEndpointsListNextOptionalParams,
   ): Promise<PreconfiguredEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,45 +150,44 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/PreconfiguredEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/PreconfiguredEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PreconfiguredEndpointList
+      bodyMapper: Mappers.PreconfiguredEndpointList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PreconfiguredEndpointList
+      bodyMapper: Mappers.PreconfiguredEndpointList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

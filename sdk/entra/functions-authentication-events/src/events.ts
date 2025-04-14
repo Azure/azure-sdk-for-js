@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Abstract base event interface to house common event request attributes.
@@ -20,7 +20,7 @@ export interface AuthenticationEventRequestCommon {
  */
 export interface AuthenticationEventRequest<
   TResponse extends AuthenticationEventResponse,
-  TData extends AuthenticationEventData
+  TData extends AuthenticationEventData,
 > extends AuthenticationEventRequestCommon {
   /** Related IEventResponse */
   response: TResponse;
@@ -33,7 +33,7 @@ export interface AuthenticationEventRequest<
  */
 export interface CloudEventRequest<
   TResponse extends AuthenticationEventResponse,
-  TData extends AuthenticationEventData
+  TData extends AuthenticationEventData,
 > extends AuthenticationEventRequest<TResponse, TData> {
   /** Related Source */
   source: string;

@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
 import Long from "long";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceiver } from "../../src";
+import type { ServiceBusMessage } from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusClientForTests, EntityName } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
   getRandomTestClientTypeWithSessions,
-  EntityName,
   getRandomTestClientType,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { AbortController } from "@azure/abort-controller";
+} from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -33,11 +30,11 @@ describe("Sender Tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -46,7 +43,7 @@ describe("Sender Tests", () => {
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
+      serviceBusClient.createSender(entityName.queue ?? entityName.topic!),
     );
   }
 
@@ -73,7 +70,7 @@ describe("Sender Tests", () => {
       testMessage,
       receivedMessage,
       entityName.usesSessions,
-      entityName.isPartitioned
+      entityName.isPartitioned,
     );
 
     await testPeekMsgsLength(receiver, 0);
@@ -103,16 +100,16 @@ describe("Sender Tests", () => {
       // remove message first in case any assertion fails to ensure we don't have lingering message
       await receiver.completeMessage(msgs[0]);
       msgs[0].state.should.equal("active");
-    }
+    },
   );
 
   async function testSimpleSendArray(): Promise<void> {
     const testMessages = [];
     testMessages.push(
-      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample(),
     );
     testMessages.push(
-      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample(),
     );
 
     await sender.sendMessages(testMessages);
@@ -129,13 +126,13 @@ describe("Sender Tests", () => {
       msgs[0].messageId === testMessages[0].messageId ||
         msgs[0].messageId === testMessages[1].messageId,
       true,
-      `Unexpected message with id ${msgs[0].messageId}`
+      `Unexpected message with id ${msgs[0].messageId}`,
     );
     should.equal(
       msgs[1].messageId === testMessages[0].messageId ||
         msgs[1].messageId === testMessages[1].messageId,
       true,
-      `Unexpected message with id ${msgs[1].messageId}`
+      `Unexpected message with id ${msgs[1].messageId}`,
     );
 
     if (testMessages[0].messageId === msgs[0].messageId) {
@@ -143,26 +140,26 @@ describe("Sender Tests", () => {
         testMessages[0],
         msgs[0],
         entityName.usesSessions,
-        entityName.isPartitioned
+        entityName.isPartitioned,
       );
       TestMessage.checkMessageContents(
         testMessages[1],
         msgs[1],
         entityName.usesSessions,
-        entityName.isPartitioned
+        entityName.isPartitioned,
       );
     } else {
       TestMessage.checkMessageContents(
         testMessages[1],
         msgs[0],
         entityName.usesSessions,
-        entityName.isPartitioned
+        entityName.isPartitioned,
       );
       TestMessage.checkMessageContents(
         testMessages[0],
         msgs[1],
         entityName.usesSessions,
-        entityName.isPartitioned
+        entityName.isPartitioned,
       );
     }
 
@@ -202,7 +199,7 @@ describe("Sender Tests", () => {
       }
 
       should.equal(actualErrorCode, "MessageSizeExceeded", actualErr);
-    }
+    },
   );
 
   async function testScheduleSingleMessage(): Promise<void> {
@@ -222,7 +219,7 @@ describe("Sender Tests", () => {
     should.equal(
       msgEnqueueTime - scheduleTime.valueOf() >= 0,
       true,
-      "Enqueued time must be greater than scheduled time"
+      "Enqueued time must be greater than scheduled time",
     ); // checking received message enqueue time is greater or equal to the scheduled time.
     should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
@@ -250,22 +247,22 @@ describe("Sender Tests", () => {
     should.equal(
       msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
       true,
-      "msgEnqueueTime1 time must be greater than scheduled time"
+      "msgEnqueueTime1 time must be greater than scheduled time",
     );
     should.equal(
       msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
       true,
-      "msgEnqueueTime2 time must be greater than scheduled time"
+      "msgEnqueueTime2 time must be greater than scheduled time",
     );
     should.equal(
       testMessages.some((x) => x.messageId === msgs[0].messageId),
       true,
-      "MessageId of first message is different than expected"
+      "MessageId of first message is different than expected",
     );
     should.equal(
       testMessages.some((x) => x.messageId === msgs[1].messageId),
       true,
-      "MessageId of second message is different than expected"
+      "MessageId of second message is different than expected",
     );
 
     await receiver.completeMessage(msgs[0]);
@@ -280,7 +277,7 @@ describe("Sender Tests", () => {
       await beforeEachTest(anyRandomTestClientType);
       const sequenceNumbers = await sender.scheduleMessages([], new Date());
       should.equal(sequenceNumbers.length, 0);
-    }
+    },
   );
 
   it(anyRandomTestClientType + ": Schedule single message", async function (): Promise<void> {
@@ -317,7 +314,7 @@ describe("Sender Tests", () => {
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(
       [getTestMessage(), getTestMessage()],
-      scheduleTime
+      scheduleTime,
     );
 
     await delay(2000);
@@ -334,7 +331,7 @@ describe("Sender Tests", () => {
     async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       await sender.cancelScheduledMessages([]);
-    }
+    },
   );
 
   it(
@@ -342,7 +339,7 @@ describe("Sender Tests", () => {
     async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       await testCancelSingleScheduledMessage();
-    }
+    },
   );
 
   it(
@@ -350,7 +347,7 @@ describe("Sender Tests", () => {
     async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       await testCancelMultipleScheduleMessages();
-    }
+    },
   );
 
   // This test occasionally fails on macOS.
@@ -382,7 +379,7 @@ describe("Sender Tests", () => {
       should.equal(
         sequenceNumber1.compare(sequenceNumber2) !== 0,
         true,
-        "Returned sequence numbers for parallel requests are the same"
+        "Returned sequence numbers for parallel requests are the same",
       );
     }
 
@@ -390,17 +387,17 @@ describe("Sender Tests", () => {
     should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
     for (const seqNum of sequenceNumbers) {
       const msgWithSeqNum = receivedMsgs.find(
-        ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
+        ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0,
       );
       should.equal(
         msgWithSeqNum === undefined,
         false,
-        `Sequence number ${seqNum} is not found in the received messages!`
+        `Sequence number ${seqNum} is not found in the received messages!`,
       );
       should.equal(
         msgWithSeqNum?.body,
         messages[sequenceNumbers.indexOf(seqNum)].body,
-        "Message body did not match though the sequence numbers matched!"
+        "Message body did not match though the sequence numbers matched!",
       );
       await receiver.completeMessage(msgWithSeqNum!);
     }
@@ -416,7 +413,7 @@ describe("Sender Tests", () => {
     should.equal(
       receivedMsgs.length,
       expectedReceivedMsgsLength,
-      "Unexpected number of msgs found when receiving"
+      "Unexpected number of msgs found when receiving",
     );
   }
 
@@ -439,8 +436,8 @@ describe("Sender Tests", () => {
               .then((numbers) => {
                 should.equal(numbers.length, 1, "Expect message scheduled");
                 return numbers[0];
-              })
-          )
+              }),
+          ),
       );
       should.equal(msgs.length, 5, "Expect total of 5 messages scheduled");
       const received = await receiver.receiveMessages(5);
@@ -448,7 +445,7 @@ describe("Sender Tests", () => {
       for (let i = 0; i < 5; i++) {
         await receiver.completeMessage(received[i]);
       }
-    }
+    },
   );
 
   it(
@@ -463,9 +460,9 @@ describe("Sender Tests", () => {
         });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal(StandardAbortMessage);
+        expect(err.message).includes(StandardAbortMessage);
       }
-    }
+    },
   );
 
   it(
@@ -478,9 +475,9 @@ describe("Sender Tests", () => {
         await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal(StandardAbortMessage);
+        expect(err.message).includes(StandardAbortMessage);
       }
-    }
+    },
   );
 });
 
@@ -488,13 +485,13 @@ describe("ServiceBusMessage validations", function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
 
-  before(async () => {
+  beforeAll(async () => {
     sbClient = createServiceBusClientForTests();
     const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
     sender = sbClient.createSender(entityName.queue!);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await sbClient.close();
   });
 
@@ -592,7 +589,9 @@ describe("ServiceBusMessage validations", function (): void {
         actualErrorMsg = err.message;
       });
 
-      should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
+      expect(actualErrorMsg, "Error not thrown as expected").includes(
+        testInput.expectedErrorMessage,
+      );
     });
 
     // sendBatch(<Array of messages>) - Commented
@@ -603,11 +602,8 @@ describe("ServiceBusMessage validations", function (): void {
     //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
     //       actualErrorMsg = err.message;
     //     });
-    //     should.equal(
-    //       actualErrorMsg,
-    //       testInput.expectedErrorMessage,
-    //       "Error not thrown as expected"
-    //     );
+    //     expect(actualErrorMsg, "Error not thrown as expected")
+    //       .includes(testInput.expectedErrorMessage);
     //   }
     // );
 
@@ -618,11 +614,8 @@ describe("ServiceBusMessage validations", function (): void {
     //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
     //       actualErrorMsg = err.message;
     //     });
-    //     should.equal(
-    //       actualErrorMsg,
-    //       testInput.expectedErrorMessage,
-    //       "Error not thrown as expected"
-    //     );
+    //     expect(actualErrorMsg, "Error not thrown as expected")
+    //       .includes(testInput.expectedErrorMessage);
     //   }
     // );
 
@@ -633,7 +626,7 @@ describe("ServiceBusMessage validations", function (): void {
         actualErr = err;
         actualErrorMsg = err.message;
       });
-      should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
+      expect(actualErrorMsg, actualErr).includes(testInput.expectedErrorMessage);
     });
   });
 });

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Range for Blob Service Operations.
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-blob-service-operations
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-blob-service-operations
  */
 export interface Range {
   /**
@@ -30,7 +30,7 @@ export function rangeToString(iRange: Range): string {
   }
   if (iRange.count && iRange.count <= 0) {
     throw new RangeError(
-      `Range.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
+      `Range.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`,
     );
   }
   return iRange.count

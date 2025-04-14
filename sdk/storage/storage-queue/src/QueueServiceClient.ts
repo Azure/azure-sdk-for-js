@@ -1,43 +1,52 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import { isNodeLike } from "@azure/core-util";
+import type {
   QueueCreateResponse,
   QueueDeleteResponse,
   QueueItem,
   QueueServiceProperties,
   ServiceGetPropertiesResponse,
+  ServiceGetPropertiesHeaders,
   ServiceGetStatisticsResponse,
   ServiceListQueuesSegmentResponse,
   ServiceSetPropertiesResponse,
-} from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+  ServiceListQueuesSegmentHeaders,
+  ListQueuesSegmentResponse,
+  ServiceSetPropertiesHeaders,
+  ServiceGetStatisticsHeaders,
+  QueueServiceStatistics,
+} from "./generatedModels.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
-import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
-import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import { SASProtocol } from "./SASQueryParameters";
-import { SasIPRange } from "./SasIPRange";
+  assertResponse,
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
+import { QueueClient } from "./QueueClient.js";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./AccountSASSignatureValues.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -176,15 +185,15 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ): QueueServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
-          extractedCreds.accountKey
+          extractedCreds.accountKey,
         );
         if (!options.proxyOptions) {
           options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
@@ -199,7 +208,7 @@ export class QueueServiceClient extends StorageClient {
       return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
-        "Connection string must be either an Account connection string or a SAS connection string"
+        "Connection string must be either an Account connection string or a SAS connection string",
       );
     }
   }
@@ -220,31 +229,41 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { QueueServiceClient } from "@azure/storage-queue";
    *
+   * const account = "<account>";
    * const credential = new DefaultAzureCredential();
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
-   *   credential
-   * }
+   *   credential,
+   * );
    * ```
    *
    * Example using an account name/key:
    *
-   * ```js
-   * const account = "<account>";
+   * ```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+   * import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
    *
-   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   * // Enter your storage account name and shared key
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * // Use StorageSharedKeyCredential with storage account and account key
+   * // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
    *
    * const queueServiceClient = new QueueServiceClient(
    *   `https://${account}.queue.core.windows.net`,
    *   sharedKeyCredential,
    *   {
    *     retryOptions: { maxTries: 4 }, // Retry options
-   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
-   *   }
+   *     userAgentOptions: {
+   *       userAgentPrefix: "BasicSample V10.0.0",
+   *     }, // Customized telemetry string
+   *   },
    * );
    * ```
    */
@@ -253,7 +272,7 @@ export class QueueServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of QueueServiceClient.
@@ -274,23 +293,23 @@ export class QueueServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
-      // The second paramter is undefined. Use anonymous credential.
+      // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this.serviceContext = this.storageClientContext.service;
   }
 
   /**
@@ -301,9 +320,22 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public getQueueClient(queueName: string): QueueClient {
@@ -312,7 +344,7 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Returns a list of the queues under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
    * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
@@ -326,32 +358,29 @@ export class QueueServiceClient extends StorageClient {
    */
   private async listQueuesSegment(
     marker?: string,
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): Promise<ServiceListQueuesSegmentResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-listQueuesSegment", options);
-
     if (options.prefix === "") {
       options.prefix = undefined;
     }
 
-    try {
-      return await this.serviceContext.listQueuesSegment({
-        abortSignal: options.abortSignal,
-        marker: marker,
-        maxPageSize: options.maxPageSize,
-        prefix: options.prefix,
-        include: options.include === undefined ? undefined : [options.include],
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-listQueuesSegment",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse,
+          ServiceListQueuesSegmentHeaders,
+          ListQueuesSegmentResponse
+        >(
+          await this.serviceContext.listQueuesSegment({
+            ...updatedOptions,
+            marker,
+            include: options.include === undefined ? undefined : [options.include],
+          }),
+        );
+      },
+    );
   }
 
   /**
@@ -368,7 +397,7 @@ export class QueueServiceClient extends StorageClient {
    */
   private async *listSegments(
     marker?: string,
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -388,7 +417,7 @@ export class QueueServiceClient extends StorageClient {
    * @param options - Options to list queues operation.
    */
   private async *listItems(
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): AsyncIterableIterator<QueueItem> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -410,68 +439,93 @@ export class QueueServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * for await (const item of queueServiceClient.listQueues()) {
-   *   console.log(`Queue${i}: ${item.name}`);
-   *   i++;
+   *   console.log(`Queue${i++}: ${item.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Iterator
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * let iterator = queueServiceClient.listQueues();
-   * let item = await iterator.next();
-   * while (!item.done) {
-   *   console.log(`Queue${i}: ${item.value.name}`);
-   *   i++;
-   *   item = await iterator.next();
+   * const iterator = queueServiceClient.listQueues();
+   * let { done, value } = await iterator.next();
+   * while (!done) {
+   *   console.log(`Queue${i++}: ${value.name}`);
+   *   ({ done, value } = await iterator.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListQueues_ByPage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *   if (item2.queueItems) {
-   *     for (const queueItem of item2.queueItems) {
-   *       console.log(`Queue${i}: ${queueItem.name}`);
-   *       i++;
-   *     }
+   * for await (const page of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   for (const item of page.queueItems || []) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListQueues_Continuation
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   * let item = (await iterator.next()).value;
-   *
-   * // Prints 2 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * let response = (await iterator.next()).value;
+   * // Prints 2 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * // Gets next marker
-   * let marker = item.continuationToken;
-   *
+   * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * item = (await iterator.next()).value;
-   *
-   * // Prints 10 queue names
-   * if (item.queueItems) {
-   *   for (const queueItem of item.queueItems) {
-   *     console.log(`Queue${i}: ${queueItem.name}`);
-   *     i++;
+   * response = (await iterator.next()).value;
+   * // Prints 10 queues
+   * if (response.queueItems) {
+   *   for (const item of response.queueItems) {
+   *     console.log(`Queue${i++}: ${item.name}`);
    *   }
    * }
    * ```
@@ -480,7 +534,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
-    options: ServiceListQueuesOptions = {}
+    options: ServiceListQueuesOptions = {},
   ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -521,35 +575,31 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Queue service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
    * @param options - Options to get properties operation.
    * @returns Response data including the queue service properties.
    */
   public async getProperties(
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-getProperties", options);
-    try {
-      return await this.serviceContext.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-getProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceGetPropertiesHeaders & QueueServiceProperties,
+          ServiceGetPropertiesHeaders,
+          QueueServiceProperties
+        >(await this.serviceContext.getProperties(updatedOptions));
+      },
+    );
   }
 
   /**
    * Sets properties for a storage account’s Queue service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
    * @param properties -
    * @param options - Options to set properties operation.
@@ -557,57 +607,47 @@ export class QueueServiceClient extends StorageClient {
    */
   public async setProperties(
     properties: QueueServiceProperties,
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-setProperties", options);
-    try {
-      return await this.serviceContext.setProperties(properties, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-setProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+          await this.serviceContext.setProperties(properties, updatedOptions),
+        );
+      },
+    );
   }
 
   /**
    * Retrieves statistics related to replication for the Queue service. It is only
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
    * @param options - Options to get statistics operation.
    * @returns Response data for get statistics the operation.
    */
   public async getStatistics(
-    options: ServiceGetStatisticsOptions = {}
+    options: ServiceGetStatisticsOptions = {},
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-getStatistics", options);
-    try {
-      return await this.serviceContext.getStatistics({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-getStatistics",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceGetStatisticsHeaders & QueueServiceStatistics,
+          ServiceGetStatisticsHeaders,
+          QueueServiceStatistics
+        >(await this.serviceContext.getStatistics(updatedOptions));
+      },
+    );
   }
 
   /**
    * Creates a new queue under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param queueName - name of the queue to create
    * @param options - Options to Queue create operation.
@@ -615,25 +655,20 @@ export class QueueServiceClient extends StorageClient {
    */
   public async createQueue(
     queueName: string,
-    options: QueueCreateOptions = {}
+    options: QueueCreateOptions = {},
   ): Promise<QueueCreateResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-createQueue", options);
-    try {
-      return await this.getQueueClient(queueName).create(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-createQueue",
+      options,
+      async (updatedOptions) => {
+        return this.getQueueClient(queueName).create(updatedOptions);
+      },
+    );
   }
 
   /**
    * Deletes the specified queue permanently.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param queueName - name of the queue to delete.
    * @param options - Options to Queue delete operation.
@@ -641,20 +676,15 @@ export class QueueServiceClient extends StorageClient {
    */
   public async deleteQueue(
     queueName: string,
-    options: QueueDeleteOptions = {}
+    options: QueueDeleteOptions = {},
   ): Promise<QueueDeleteResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-deleteQueue", options);
-    try {
-      return await this.getQueueClient(queueName).delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-deleteQueue",
+      options,
+      async (updatedOptions) => {
+        return this.getQueueClient(queueName).delete(updatedOptions);
+      },
+    );
   }
 
   /**
@@ -663,7 +693,7 @@ export class QueueServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -675,11 +705,11 @@ export class QueueServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
+    options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -696,9 +726,52 @@ export class QueueServiceClient extends StorageClient {
         services: AccountSASServices.parse("q").toString(),
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for QueueServiceClient constructed with a shared key credential.
+   *
+   * Generates string to sign for an account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateSasStringToSign(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {},
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    return generateAccountSASQueryParametersInternal(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("q").toString(),
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

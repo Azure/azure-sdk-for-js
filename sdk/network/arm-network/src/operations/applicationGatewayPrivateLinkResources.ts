@@ -7,24 +7,25 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationGatewayPrivateLinkResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationGatewayPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   ApplicationGatewayPrivateLinkResource,
   ApplicationGatewayPrivateLinkResourcesListNextOptionalParams,
   ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ApplicationGatewayPrivateLinkResourcesListResponse,
-  ApplicationGatewayPrivateLinkResourcesListNextResponse
-} from "../models";
+  ApplicationGatewayPrivateLinkResourcesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGatewayPrivateLinkResources operations. */
 export class ApplicationGatewayPrivateLinkResourcesImpl
-  implements ApplicationGatewayPrivateLinkResources {
+  implements ApplicationGatewayPrivateLinkResources
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -44,12 +45,12 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
   public list(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams
+    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayPrivateLinkResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       applicationGatewayName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +67,9 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
           resourceGroupName,
           applicationGatewayName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
     resourceGroupName: string,
     applicationGatewayName: string,
     options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationGatewayPrivateLinkResource[]> {
     let result: ApplicationGatewayPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +85,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
       result = await this._list(
         resourceGroupName,
         applicationGatewayName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +97,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
         resourceGroupName,
         applicationGatewayName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +109,12 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams
+    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<ApplicationGatewayPrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       applicationGatewayName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +129,11 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
   private _list(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams
+    options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ): Promise<ApplicationGatewayPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationGatewayName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -147,11 +148,11 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
     resourceGroupName: string,
     applicationGatewayName: string,
     nextLink: string,
-    options?: ApplicationGatewayPrivateLinkResourcesListNextOptionalParams
+    options?: ApplicationGatewayPrivateLinkResourcesListNextOptionalParams,
   ): Promise<ApplicationGatewayPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationGatewayName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -159,45 +160,44 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult
+      bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult
+      bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

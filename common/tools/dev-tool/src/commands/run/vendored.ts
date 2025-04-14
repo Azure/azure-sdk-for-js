@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a special subcommand that vendors commands from dev-tool's own node_modules folder so that dependent packages
@@ -7,13 +7,13 @@
  */
 
 import fs from "fs-extra";
-import path from "path";
-import { spawn } from "child_process";
-
+import path from "node:path";
+import { spawn } from "node:child_process";
 import { makeCommandInfo, subCommand } from "../../framework/command";
 import { CommandOptions } from "../../framework/CommandInfo";
 import { CommandModule } from "../../framework/CommandModule";
 import { createPrinter } from "../../util/printer";
+import { isWindows } from "../../util/platform";
 
 const log = createPrinter("vendored");
 
@@ -26,15 +26,19 @@ const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", "
  * @returns a function that executes the command and returns a boolean status
  */
 function makeCommandExecutor(commandName: string): (...args: string[]) => Promise<boolean> {
-  const commandPath = path.join(DOT_BIN_PATH, commandName);
+  const commandPath = isWindows()
+    ? path.join(DOT_BIN_PATH, `${commandName}.CMD`)
+    : path.join(DOT_BIN_PATH, commandName);
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
       log.debug("Running vendored command:", commandPath);
-      const command = spawn(commandPath, args, { stdio: "inherit" });
+      const command = spawn(commandPath, args, { stdio: "inherit", shell: isWindows() });
 
       // If the command exited 0, then we treat that as a success
-      command.on("exit", (code) => resolve(code === 0));
+      command.on("exit", (code) => {
+        resolve(code === 0);
+      });
       command.on("error", reject);
     });
 }
@@ -56,8 +60,8 @@ export default async (...args: string[]): Promise<boolean> => {
         };
 
         return [commandName, () => Promise.resolve(moduleSham)];
-      })
-    )
+      }),
+    ),
   );
 
   return executor(...args);

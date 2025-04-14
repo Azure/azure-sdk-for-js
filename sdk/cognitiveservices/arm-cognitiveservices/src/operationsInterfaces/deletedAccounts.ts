@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Account,
   DeletedAccountsListOptionalParams,
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
-  DeletedAccountsPurgeOptionalParams
-} from "../models";
+  DeletedAccountsPurgeOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedAccounts. */
@@ -24,7 +24,7 @@ export interface DeletedAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedAccountsListOptionalParams
+    options?: DeletedAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * Returns a Cognitive Services account specified by the parameters.
@@ -37,7 +37,7 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsGetOptionalParams
+    options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse>;
   /**
    * Deletes a Cognitive Services account from the resource group.
@@ -50,8 +50,8 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DeletedAccountsPurgeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
    * @param location Resource location.
@@ -63,6 +63,6 @@ export interface DeletedAccounts {
     location: string,
     resourceGroupName: string,
     accountName: string,
-    options?: DeletedAccountsPurgeOptionalParams
+    options?: DeletedAccountsPurgeOptionalParams,
   ): Promise<void>;
 }

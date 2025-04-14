@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  Constants,
-  ErrorNameConditionMapper,
-  MessagingError,
-  RetryOptions,
-} from "@azure/core-amqp";
-import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
-import { receiverLogger as logger } from "../log";
-import { LinkEntity, ReceiverType } from "./linkEntity";
-import { ConnectionContext } from "../connectionContext";
-import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { getUniqueName } from "../util/utils";
-import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
-import { DispositionStatusOptions } from "./managementClient";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  onMessageSettled,
-  DeferredPromiseAndTimer,
-  ReceiverHandlers,
-  createReceiverOptions,
-} from "./shared";
-import { LockRenewer } from "./autoLockRenewer";
-import { translateServiceBusError } from "../serviceBusError";
+import type { MessagingError, RetryOptions } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
+import type { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
+import { receiverLogger as logger } from "../log.js";
+import type { ReceiverType } from "./linkEntity.js";
+import { LinkEntity } from "./linkEntity.js";
+import type { ConnectionContext } from "../connectionContext.js";
+import type { ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { DispositionType } from "../serviceBusMessage.js";
+import { getUniqueName } from "../util/utils.js";
+import type { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models.js";
+import type { DispositionStatusOptions } from "./managementClient.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { DeferredPromiseAndTimer, ReceiverHandlers } from "./shared.js";
+import { onMessageSettled, createReceiverOptions } from "./shared.js";
+import type { LockRenewer } from "./autoLockRenewer.js";
+import { translateServiceBusError } from "../serviceBusError.js";
 
 /**
  * @internal
@@ -90,7 +84,7 @@ export interface OnError {
    * NOTE: if this signature changes make sure you reflect those same changes in the
    * `OnErrorNoContext` definition below.
    */
-  (args: ProcessErrorArgs): void;
+  (args: ProcessErrorArgs): Promise<void>;
 }
 
 /**
@@ -145,7 +139,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     context: ConnectionContext,
     entityPath: string,
     receiverType: ReceiverType,
-    options: Omit<ReceiveOptions, "maxConcurrentCalls">
+    options: Omit<ReceiveOptions, "maxConcurrentCalls">,
   ) {
     super(entityPath, entityPath, context, receiverType, logger, {
       address: entityPath,
@@ -166,7 +160,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected _createReceiverOptions(
     useNewName: boolean,
-    handlers: ReceiverHandlers
+    handlers: ReceiverHandlers,
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       useNewName ? getUniqueName(this.baseName) : this.name,
@@ -180,7 +174,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
         },
         ...handlers,
-      }
+      },
     );
 
     return rcvrOptions;
@@ -201,7 +195,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       logger.logError(
         translatedError,
         "%s An error occured while creating the receiver",
-        this.logPrefix
+        this.logPrefix,
       );
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
@@ -216,7 +210,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   protected createRheaLink(
     options: ReceiverOptions,
-    _abortSignal?: AbortSignalLike
+    _abortSignal?: AbortSignalLike,
   ): Promise<Receiver> {
     return this._context.connection.createReceiver(options);
   }
@@ -247,7 +241,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options: DispositionStatusOptions
+    options: DispositionStatusOptions,
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
@@ -263,7 +257,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
             "Hence rejecting the promise with timeout error.",
           this.logPrefix,
           delivery.id,
-          Constants.defaultOperationTimeoutInMs
+          Constants.defaultOperationTimeoutInMs,
         );
 
         const e: AmqpError = {

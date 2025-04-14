@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ErrorResponse } from "../request";
+// Licensed under the MIT License.
+import { Constants } from "../common/constants.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { RetryOptions } from "./retryOptions.js";
 
 /**
  * This class implements the resource throttle retry policy for requests.
@@ -23,11 +26,15 @@ export class ResourceThrottleRetryPolicy {
    * @param timeoutInSeconds - Max wait time in seconds to wait for a request while the
    * retries are happening.
    */
-  constructor(
-    private maxTries: number = 9,
-    private fixedRetryIntervalInMs: number = 0,
-    timeoutInSeconds: number = 30
-  ) {
+
+  private maxTries: number;
+  private fixedRetryIntervalInMs: number;
+  constructor(options: RetryOptions) {
+    this.maxTries = options.maxRetryAttemptCount ?? Constants.ThrottledRequestMaxRetryAttemptCount;
+    this.fixedRetryIntervalInMs =
+      options.fixedRetryIntervalInMilliseconds ?? Constants.ThrottledRequestFixedRetryIntervalInMs;
+    const timeoutInSeconds =
+      options.maxWaitTimeInSeconds ?? Constants.ThrottledRequestMaxWaitTimeInSeconds;
     this.timeoutInMs = timeoutInSeconds * 1000;
     this.currentRetryAttemptCount = 0;
     this.cummulativeWaitTimeinMs = 0;
@@ -36,7 +43,10 @@ export class ResourceThrottleRetryPolicy {
    * Determines whether the request should be retried or not.
    * @param err - Error returned by the request.
    */
-  public async shouldRetry(err: ErrorResponse): Promise<boolean> {
+  public async shouldRetry(
+    err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<boolean> {
     // TODO: any custom error object
     if (err) {
       if (this.currentRetryAttemptCount < this.maxTries) {
@@ -51,6 +61,7 @@ export class ResourceThrottleRetryPolicy {
 
         if (this.cummulativeWaitTimeinMs < this.timeoutInMs) {
           this.cummulativeWaitTimeinMs += this.retryAfterInMs;
+          diagnosticNode.addData({ successfulRetryPolicy: "resourceThrottle" });
           return true;
         }
       }

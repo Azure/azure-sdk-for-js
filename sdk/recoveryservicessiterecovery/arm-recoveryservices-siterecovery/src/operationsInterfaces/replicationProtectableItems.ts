@@ -11,8 +11,8 @@ import {
   ProtectableItem,
   ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ReplicationProtectableItemsGetOptionalParams,
-  ReplicationProtectableItemsGetResponse
-} from "../models";
+  ReplicationProtectableItemsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationProtectableItems. */
@@ -31,7 +31,7 @@ export interface ReplicationProtectableItems {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectableItem>;
   /**
    * The operation to get the details of a protectable item.
@@ -49,6 +49,6 @@ export interface ReplicationProtectableItems {
     fabricName: string,
     protectionContainerName: string,
     protectableItemName: string,
-    options?: ReplicationProtectableItemsGetOptionalParams
+    options?: ReplicationProtectableItemsGetOptionalParams,
   ): Promise<ReplicationProtectableItemsGetResponse>;
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a description for the specified Private Endpoint Connection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a description for the specified Private Endpoint Connection.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionGet.json
  */
-async function nameSpacePrivateEndPointConnectionGet() {
+async function nameSpacePrivateEndPointConnectionGet(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["SERVICEBUS_RESOURCE_GROUP"] || "SDK-ServiceBus-4794";
@@ -36,7 +34,7 @@ async function nameSpacePrivateEndPointConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpacePrivateEndPointConnectionGet();
 }
 

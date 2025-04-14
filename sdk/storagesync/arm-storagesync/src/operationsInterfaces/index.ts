@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./storageSyncServices";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./syncGroups";
-export * from "./cloudEndpoints";
-export * from "./serverEndpoints";
-export * from "./registeredServers";
-export * from "./workflows";
-export * from "./operationStatusOperations";
+export * from "./operations.js";
+export * from "./storageSyncServices.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnections.js";
+export * from "./syncGroups.js";
+export * from "./cloudEndpoints.js";
+export * from "./serverEndpoints.js";
+export * from "./registeredServers.js";
+export * from "./workflows.js";
+export * from "./operationStatusOperations.js";

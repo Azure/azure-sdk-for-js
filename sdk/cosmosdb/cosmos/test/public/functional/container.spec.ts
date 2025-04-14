@@ -1,28 +1,40 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { Constants, ContainerResponse, StatusCodes } from "../../../src";
-import { ContainerDefinition, Database, Container } from "../../../src";
-import { ContainerRequest } from "../../../src";
-import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
+// Licensed under the MIT License.
+
+import type { ContainerResponse, PartitionKeyDefinition } from "../../../src/index.js";
+import {
+  Constants,
+  OperationType,
+  PartitionKeyKind,
+  ResourceType,
+  StatusCodes,
+} from "../../../src/index.js";
+import type { ContainerDefinition, Database, Container } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
+import type { IndexedPath, IndexingPolicy } from "../../../src/index.js";
+import { DataType, IndexingMode, IndexKind } from "../../../src/index.js";
 import {
   getTestDatabase,
   removeAllDatabases,
   getTestContainer,
   assertThrowsAsync,
-} from "../common/TestHelpers";
-import { SpatialType } from "../../../src";
-import { GeospatialType } from "../../../src";
+  addEntropy,
+  testForDiagnostics,
+} from "../common/TestHelpers.js";
+import { SpatialType } from "../../../src/index.js";
+import { GeospatialType } from "../../../src/index.js";
+import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
-describe("Containers", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("Containers", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  describe("Container CRUD", function () {
-    const containerCRUDTest = async function (partitionKey?: string): Promise<void> {
+  describe("Container CRUD", () => {
+    const containerCRUDTest = async function (
+      partitionKey?: PartitionKeyDefinition,
+      opts?: Partial<ContainerRequest>,
+    ): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate Container CRUD");
 
@@ -31,13 +43,29 @@ describe("Containers", function (this: Suite) {
         id: "sample container",
         indexingPolicy: { indexingMode: IndexingMode.consistent },
         throughput: 400,
+        ...opts,
       };
 
       if (partitionKey) {
         containerDefinition.partitionKey = partitionKey;
       }
 
-      const { resource: containerDef } = await database.containers.create(containerDefinition);
+      const { resource: containerDef } = await testForDiagnostics(
+        async () => {
+          return database.containers.create(containerDefinition);
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Create,
+            },
+          ],
+        },
+      );
       const container = database.container(containerDef.id);
       assert.equal(containerDefinition.id, containerDef.id);
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
@@ -46,10 +74,26 @@ describe("Containers", function (this: Suite) {
           typeof containerDefinition.partitionKey === "string"
             ? [containerDefinition.partitionKey]
             : containerDefinition.partitionKey.paths;
-        assert.deepEqual(containerDef.partitionKey.paths, comparePaths);
+        assert.deepStrictEqual(containerDef.partitionKey.paths, comparePaths);
       }
       // read containers after creation
-      const { resources: containers } = await database.containers.readAll().fetchAll();
+      const { resources: containers } = await testForDiagnostics(
+        async () => {
+          return database.containers.readAll().fetchAll();
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Query,
+            },
+          ],
+        },
+        false,
+      );
 
       assert.equal(containers.length, 1, "create should increase the number of containers");
       // query containers
@@ -83,7 +127,23 @@ describe("Containers", function (this: Suite) {
       ];
 
       containerDef.geospatialConfig.type = GeospatialType.Geometry;
-      await container.replace(containerDef);
+
+      await testForDiagnostics(
+        async () => {
+          return container.replace(containerDef);
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Replace,
+            },
+          ],
+        },
+      );
 
       // Replacing partition key is not allowed.
       try {
@@ -95,10 +155,10 @@ describe("Containers", function (this: Suite) {
         assert.equal(
           err.code,
           badRequestErrorCode,
-          "response should return error code " + badRequestErrorCode
+          "response should return error code " + badRequestErrorCode,
         );
       } finally {
-        containerDef.partitionKey = { paths: [partitionKey] }; // Resume partition key
+        containerDef.partitionKey = partitionKey; // Resume partition key
       }
       // Replacing id is not allowed.
       try {
@@ -116,11 +176,40 @@ describe("Containers", function (this: Suite) {
       assert.equal(containerDefinition.id, readcontainer.id);
 
       // delete container
-      await container.delete();
-
+      await testForDiagnostics(
+        async () => {
+          return container.delete();
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Delete,
+            },
+          ],
+        },
+      );
       // read container after deletion
       try {
-        await container.read();
+        await testForDiagnostics(
+          async () => {
+            return container.read();
+          },
+          {
+            locationEndpointsContacted: 1,
+            // metadataCallCount: 2,
+            retryCount: 0,
+            gatewayStatisticsTestSpec: [
+              {
+                resourceType: ResourceType.container,
+                operationType: OperationType.Read,
+              },
+            ],
+          },
+        );
         assert.fail("Must fail to read container after delete");
       } catch (err: any) {
         const notFoundErrorCode = 404;
@@ -128,16 +217,24 @@ describe("Containers", function (this: Suite) {
       }
     };
 
-    it("Default partition key", async function () {
+    it("Default partition key", async () => {
       await containerCRUDTest();
     });
 
-    it("Custom partition key", async function () {
-      await containerCRUDTest("/id");
+    it("Custom partition key", async () => {
+      await containerCRUDTest({ paths: ["/id"] });
     });
 
-    describe("Bad partition key definition", async function () {
-      it("Has 'paths' property as string", async function () {
+    it("Hierarchical partition key", async () => {
+      await containerCRUDTest({
+        paths: ["/id", "/id2"],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      });
+    });
+
+    describe("Bad partition key definition", async () => {
+      it("Has 'paths' property as string", async () => {
         // create database
         const database = await getTestDatabase("container CRUD bad partition key");
 
@@ -149,16 +246,55 @@ describe("Containers", function (this: Suite) {
         const containerDefinition: ContainerRequest = {
           id: "sample container",
           indexingPolicy: { indexingMode: IndexingMode.consistent },
-          partitionKey: badPartitionKeyDefinition, // This is invalid, forced using type coersion
+          partitionKey: badPartitionKeyDefinition, // This is invalid, forced using type coercion
         };
 
         try {
-          await database.containers.create(containerDefinition);
+          await testForDiagnostics(
+            async () => {
+              return database.containers.create(containerDefinition);
+            },
+            {
+              locationEndpointsContacted: 1,
+              // metadataCallCount: 2,
+              retryCount: 0,
+            },
+          );
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`,
+          );
         } catch (err: any) {
           assert.equal(err.code, 400);
         }
       });
-      it("Is missing leading '/'", async function () {
+      it("Path contains anything other than AlphaNumeric + '_'", async () => {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = "/id ds";
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: badPartitionKeyDefinition,
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`,
+          );
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "Partition key paths must contain only valid characters and not contain a trailing slash or wildcard character",
+            ),
+          );
+        }
+      });
+      it("Is missing leading '/'", async () => {
         // create database
         const database = await getTestDatabase("container CRUD bad partition key");
 
@@ -173,16 +309,49 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
-          console.log("finish");
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`,
+          );
         } catch (err: any) {
           assert.equal(err.message, "Partition key must start with '/'");
+        }
+      });
+      it("Is missing leading '/' - hierarchical partitions", async () => {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = ["id", "/id2"];
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: {
+            paths: badPartitionKeyDefinition,
+            version: 2,
+            kind: PartitionKeyKind.MultiHash,
+          },
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`,
+          );
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "The partition key component definition path 'id' could not be accepted",
+            ),
+          );
         }
       });
     });
   });
 
-  describe("Indexing policy", function () {
-    it("Create container with correct indexing policy", async function () {
+  describe("Indexing policy", () => {
+    it("Create container with correct indexing policy", async () => {
       // create database
       const database = await getTestDatabase("container test database");
 
@@ -195,7 +364,7 @@ describe("Containers", function (this: Suite) {
       assert.equal(
         containerDef.indexingPolicy.indexingMode,
         IndexingMode.consistent,
-        "default indexing mode should be consistent"
+        "default indexing mode should be consistent",
       );
       await container.delete();
 
@@ -205,11 +374,11 @@ describe("Containers", function (this: Suite) {
       };
 
       const { resource: uniqueKeysContainerDef } = await database.containers.create(
-        uniqueKeysContainerDefinition
+        uniqueKeysContainerDefinition,
       );
       const uniqueKeysContainer = database.container(uniqueKeysContainerDef.id);
 
-      assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths, "/foo");
+      assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths[0], "/foo");
 
       await uniqueKeysContainer.delete();
 
@@ -218,13 +387,13 @@ describe("Containers", function (this: Suite) {
         indexingPolicy: { indexingMode: "consistent" }, // tests the type flexibility
       };
       const { resource: consistentContainerDef } = await database.containers.create(
-        consistentcontainerDefinition
+        consistentcontainerDefinition,
       );
       const consistentContainer = database.container(consistentContainerDef.id);
       assert.equal(
         containerDef.indexingPolicy.indexingMode,
         IndexingMode.consistent,
-        "indexing mode should be consistent"
+        "indexing mode should be consistent",
       );
       await consistentContainer.delete();
 
@@ -243,18 +412,27 @@ describe("Containers", function (this: Suite) {
               path: '/"systemMetadata"/*',
             },
           ],
+          compositeIndexes: [
+            [
+              { path: "/a", order: "ascending" },
+              { path: "/b", order: "descending" },
+            ],
+            [
+              { path: "/c", order: "ascending" },
+              { path: "/d", order: "descending" },
+            ],
+          ],
         },
       };
 
-      const { resource: containerWithIndexingPolicyDef } = await database.containers.create(
-        containerDefinition
-      );
+      const { resource: containerWithIndexingPolicyDef } =
+        await database.containers.create(containerDefinition);
 
       // Two included paths.
       assert.equal(
         1,
         containerWithIndexingPolicyDef.indexingPolicy.includedPaths.length,
-        "Unexpected includedPaths length"
+        "Unexpected includedPaths length",
       );
       // The first included path is what we created.
       assert.equal("/*", containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path);
@@ -262,12 +440,17 @@ describe("Containers", function (this: Suite) {
       assert.equal(
         2,
         containerWithIndexingPolicyDef.indexingPolicy.excludedPaths.length,
-        "Unexpected excludedPaths length"
+        "Unexpected excludedPaths length",
       );
       assert.equal(
         '/"systemMetadata"/*',
-        containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path
+        containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path,
       );
+      // Check for composite Index metrics
+      assert.equal("/a", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path);
+      assert.equal("/b", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path);
+      assert.equal("/c", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path);
+      assert.equal("/d", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path);
     });
 
     const checkDefaultIndexingPolicyPaths = function (indexingPolicy: IndexingPolicy): void {
@@ -281,15 +464,14 @@ describe("Containers", function (this: Suite) {
 
       assert(rootIncludedPath); // root path should exist.
     };
-    it("Create container with default indexing policy", async function () {
+    it("Create container with default indexing policy", async () => {
       // create database
       const database = await getTestDatabase("container test database");
 
       // create container with no indexing policy specified.
       const containerDefinition01: ContainerDefinition = { id: "TestCreateDefaultPolicy01" };
-      const { resource: containerNoIndexPolicyDef } = await database.containers.create(
-        containerDefinition01
-      );
+      const { resource: containerNoIndexPolicyDef } =
+        await database.containers.create(containerDefinition01);
       checkDefaultIndexingPolicyPaths(containerNoIndexPolicyDef["indexingPolicy"]);
 
       // create container with default policy.
@@ -297,9 +479,8 @@ describe("Containers", function (this: Suite) {
         id: "TestCreateDefaultPolicy03",
         indexingPolicy: {},
       };
-      const { resource: containerDefaultPolicy } = await database.containers.create(
-        containerDefinition03
-      );
+      const { resource: containerDefaultPolicy } =
+        await database.containers.create(containerDefinition03);
       checkDefaultIndexingPolicyPaths((containerDefaultPolicy as any)["indexingPolicy"]);
 
       // create container with indexing policy missing indexes.
@@ -313,9 +494,8 @@ describe("Containers", function (this: Suite) {
           ],
         },
       };
-      const { resource: containerMissingIndexes } = await database.containers.create(
-        containerDefinition04
-      );
+      const { resource: containerMissingIndexes } =
+        await database.containers.create(containerDefinition04);
       checkDefaultIndexingPolicyPaths((containerMissingIndexes as any)["indexingPolicy"]);
 
       // create container with indexing policy missing precision.
@@ -339,17 +519,16 @@ describe("Containers", function (this: Suite) {
           ],
         },
       };
-      const { resource: containerMissingPrecision } = await database.containers.create(
-        containerDefinition05
-      );
+      const { resource: containerMissingPrecision } =
+        await database.containers.create(containerDefinition05);
       checkDefaultIndexingPolicyPaths((containerMissingPrecision as any)["indexingPolicy"]);
     });
   });
 
-  describe("Validate response headers", function () {
+  describe("Validate response headers", () => {
     const createThenReadcontainer = async function (
       database: Database,
-      definition: ContainerDefinition
+      definition: ContainerDefinition,
     ): Promise<ContainerResponse> {
       const { container: createdcontainer } = await database.containers.create(definition);
       const response = await database
@@ -372,34 +551,65 @@ describe("Containers", function (this: Suite) {
       };
       const { headers: headers3 } = await createThenReadcontainer(
         database,
-        noneContainerDefinition
+        noneContainerDefinition,
       );
       assert.notEqual(headers3[Constants.HttpHeaders.IndexTransformationProgress], undefined);
       assert.equal(headers3[Constants.HttpHeaders.LazyIndexingProgress], undefined);
     };
 
-    it("nativeApi Validate index progress headers name based", async function () {
+    it("nativeApi Validate index progress headers name based", async () => {
       await indexProgressHeadersTest();
     });
   });
 });
 
-describe("createIfNotExists", function () {
+describe("createIfNotExists", () => {
   let database: Database;
-  before(async function () {
+
+  beforeAll(async () => {
     // create database
     database = await getTestDatabase("containers.createIfNotExists");
   });
 
-  it("should handle container does not exist", async function () {
+  it("create container should work if container does not already exist", async () => {
     const def: ContainerDefinition = { id: "does not exist" };
     const { container } = await database.containers.createIfNotExists(def);
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
 
-  it("should handle container exists", async function () {
+  it("create container should work if container already exists", async () => {
     const def: ContainerDefinition = { id: "does exist" };
+    await database.containers.create(def);
+
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("create container should work if container does not exist - with hierarchical partitions", async () => {
+    const def: ContainerDefinition = {
+      id: "does not exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
+    const { container } = await database.containers.createIfNotExists(def);
+    const { resource: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("create container should work if container already exists - with hierarchical partitions", async () => {
+    const def: ContainerDefinition = {
+      id: "does exist hierarchical partitions",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        kind: PartitionKeyKind.MultiHash,
+        version: 2,
+      },
+    };
     await database.containers.create(def);
 
     const { container } = await database.containers.createIfNotExists(def);
@@ -408,7 +618,7 @@ describe("createIfNotExists", function () {
   });
 });
 
-describe("container.readOffer", function () {
+describe("container.readOffer", () => {
   let containerWithOffer: Container;
   let containerWithoutOffer: Container;
   let container2WithOffer: Container;
@@ -421,12 +631,13 @@ describe("container.readOffer", function () {
     id: "sample-offerless",
   };
   let offerDatabase: Database;
-  before(async function () {
+
+  beforeAll(async () => {
     offerDatabase = await getTestDatabase("has offer");
     containerWithOffer = await getTestContainer(
       "offerContainer",
       undefined,
-      containerRequestWithOffer
+      containerRequestWithOffer,
     );
     containerWithoutOffer = await getTestContainer("container", undefined, containerRequest);
     const response1 = await offerDatabase.containers.create(containerRequestWithOffer);
@@ -434,25 +645,29 @@ describe("container.readOffer", function () {
     container2WithOffer = response1.container;
     container2WithoutOffer = response2.container;
   });
-  describe("database does not have offer", function () {
-    it("has offer", async function () {
+
+  describe("database does not have offer", () => {
+    it("has offer", async () => {
       const offer: any = await containerWithOffer.readOffer();
       const { resource: readDef } = await containerWithOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
-    it("does not have offer so uses default", async function () {
+
+    it("does not have offer so uses default", async () => {
       const offer: any = await containerWithoutOffer.readOffer();
       const { resource: readDef } = await containerWithoutOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
   });
-  describe("database has offer", function () {
-    it("container does not have offer", async function () {
+
+  describe("database has offer", () => {
+    it("container does not have offer", async () => {
       const offer: any = await container2WithoutOffer.readOffer();
       const { resource: readDef } = await container2WithoutOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
-    it("container has offer", async function () {
+
+    it("container has offer", async () => {
       const offer: any = await container2WithOffer.readOffer();
       const { resource: readDef } = await container2WithOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
@@ -460,12 +675,14 @@ describe("container.readOffer", function () {
   });
 });
 
-describe("container.create", function () {
+describe("container.create", () => {
   let database: Database;
-  before(async () => {
+
+  beforeAll(async () => {
     database = await getTestDatabase("autoscale test");
   });
-  it("uses autoscale", async function () {
+
+  it("uses autoscale", async () => {
     const maxThroughput = 50000;
     const containerRequest: ContainerRequest = {
       id: "sample",
@@ -476,7 +693,8 @@ describe("container.create", function () {
     const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });
-  it("throws with maxThroughput and throughput", function () {
+
+  it("throws with maxThroughput and throughput", () => {
     const containerRequest: ContainerRequest = {
       id: "sample",
       throughput: 400,
@@ -486,13 +704,60 @@ describe("container.create", function () {
   });
 });
 
-describe("container.deleteAllItemsForPartitionKey", function () {
-  it("should delete all items for partition key value", async function () {
+describe("Reading items using container", () => {
+  it("should be able to read item based on partition key value", async () => {
+    const container = await getTestContainer("container", undefined, {
+      partitionKey: { paths: ["/key1", "/key2"], kind: PartitionKeyKind.MultiHash, version: 2 },
+    });
+    const itemWithNoPartitionKeySet = addEntropy("item1");
+    const itemWithOnePartitionKeySet = addEntropy("item2");
+    const itemWithBothPartitionKeySet = addEntropy("item3");
+
+    const itemWithNoPartitionKeySetDef = {
+      id: itemWithNoPartitionKeySet,
+    };
+    const itemWithOnePartitionKeySetDef = {
+      id: itemWithOnePartitionKeySet,
+      key1: "a",
+    };
+    const itemWithBothPartitionKeySetDef = {
+      id: itemWithBothPartitionKeySet,
+      key1: "a",
+      key2: "b",
+    };
+
+    await container.items.create(itemWithNoPartitionKeySetDef);
+    const { resource: itemRead1 } = await container.item(itemWithNoPartitionKeySet).read();
+    assert.strictEqual(itemRead1.id, itemWithNoPartitionKeySet);
+
+    await container.items.create(itemWithOnePartitionKeySetDef);
+    const { resource: itemRead2 } = await container
+      .item(itemWithOnePartitionKeySet, ["a", undefined])
+      .read();
+    assert.strictEqual(itemRead2.id, itemWithOnePartitionKeySet);
+
+    try {
+      await container.item(itemWithOnePartitionKeySet, ["a"]).read();
+      assert(false, "Should have thrown exception due to improper partition key passed.");
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400, "Should fail due to improper partition key given");
+    }
+
+    await container.items.create(itemWithBothPartitionKeySetDef);
+    const { resource: itemRead3 } = await container
+      .item(itemWithBothPartitionKeySet, ["a", "b"])
+      .read();
+    assert.strictEqual(itemRead3.id, itemWithBothPartitionKeySet);
+  });
+});
+
+describe("container.deleteAllItemsForPartitionKey", () => {
+  it("should delete all items for partition key value", async () => {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     await testDeleteAllItemsForPartitionKey(container);
   });
 
-  it("should delete all items for parition key value in multi partition container", async function () {
+  it("should delete all items for partition key value in multi partition container", async () => {
     //  multi partition container
     const container = await getTestContainer("container", undefined, {
       partitionKey: {
@@ -503,7 +768,8 @@ describe("container.deleteAllItemsForPartitionKey", function () {
     });
     await testDeleteAllItemsForPartitionKey(container);
   });
-  async function testDeleteAllItemsForPartitionKey(container: Container) {
+
+  async function testDeleteAllItemsForPartitionKey(container: Container): Promise<void> {
     const { resource: create1 } = await container.items.create({
       id: "1",
       key: "value",
@@ -522,6 +788,6 @@ describe("container.deleteAllItemsForPartitionKey", function () {
     await container.deleteAllItemsForPartitionKey("pk");
     assert((await container.item(create1.id).read()).statusCode === StatusCodes.NotFound);
     assert((await container.item(create2.id).read()).statusCode === StatusCodes.NotFound);
-    assert((await (await container.item(create3.id).read()).item.id) === create3.id);
+    assert((await container.item(create3.id).read()).item.id === create3.id);
   }
 });

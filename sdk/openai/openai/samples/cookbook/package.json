@@ -1,0 +1,37 @@
+{
+  "name": "@azure-samples/openai-js-cookbook",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cookbook for Azure OpenAI client library for JavaScript",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/openai/openai"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "openai",
+    "ai"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai",
+  "dependencies": {
+    "openai": "^4.42.0",
+    "@azure/identity": "^4.2.0",
+    "tiktoken-node": "~0.0.6",
+    "mathjs":"^11.0.0",
+    "dotenv": "latest"
+  }
+}

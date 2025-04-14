@@ -11,8 +11,8 @@ import {
   SubscriptionUsage,
   SubscriptionUsagesListByLocationOptionalParams,
   SubscriptionUsagesGetOptionalParams,
-  SubscriptionUsagesGetResponse
-} from "../models";
+  SubscriptionUsagesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionUsages. */
@@ -24,7 +24,7 @@ export interface SubscriptionUsages {
    */
   listByLocation(
     locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams
+    options?: SubscriptionUsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionUsage>;
   /**
    * Gets a subscription usage metric.
@@ -35,6 +35,6 @@ export interface SubscriptionUsages {
   get(
     locationName: string,
     usageName: string,
-    options?: SubscriptionUsagesGetOptionalParams
+    options?: SubscriptionUsagesGetOptionalParams,
   ): Promise<SubscriptionUsagesGetResponse>;
 }

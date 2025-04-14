@@ -14,8 +14,8 @@ import {
   ManagedEnvironmentStorage,
   ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ManagedEnvironmentsStoragesCreateOrUpdateResponse,
-  ManagedEnvironmentsStoragesDeleteOptionalParams
-} from "../models";
+  ManagedEnvironmentsStoragesDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ManagedEnvironmentsStorages. */
 export interface ManagedEnvironmentsStorages {
@@ -28,7 +28,7 @@ export interface ManagedEnvironmentsStorages {
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsStoragesListOptionalParams
+    options?: ManagedEnvironmentsStoragesListOptionalParams,
   ): Promise<ManagedEnvironmentsStoragesListResponse>;
   /**
    * Get storage for a managedEnvironment.
@@ -41,7 +41,7 @@ export interface ManagedEnvironmentsStorages {
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesGetOptionalParams
+    options?: ManagedEnvironmentsStoragesGetOptionalParams,
   ): Promise<ManagedEnvironmentsStoragesGetResponse>;
   /**
    * Create or update storage for a managedEnvironment.
@@ -56,7 +56,7 @@ export interface ManagedEnvironmentsStorages {
     environmentName: string,
     storageName: string,
     storageEnvelope: ManagedEnvironmentStorage,
-    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
+    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse>;
   /**
    * Delete storage for a managedEnvironment.
@@ -69,6 +69,6 @@ export interface ManagedEnvironmentsStorages {
     resourceGroupName: string,
     environmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesDeleteOptionalParams
+    options?: ManagedEnvironmentsStoragesDeleteOptionalParams,
   ): Promise<void>;
 }

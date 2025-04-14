@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import { describe, it, assert, beforeEach } from "vitest";
 import { SpanStatusCode, trace } from "@opentelemetry/api";
-
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { assert } from "chai";
-import { getExportedSpan } from "./util/testHelpers";
-import { inMemoryExporter } from "./util/setup";
+import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import { getExportedSpan } from "./util/testHelpers.js";
+import { inMemoryExporter } from "./util/setup.js";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("OpenTelemetrySpanWrapper", () => {
   let span: OpenTelemetrySpanWrapper;
@@ -18,10 +18,10 @@ describe("OpenTelemetrySpanWrapper", () => {
 
   describe("#setStatus", () => {
     describe("with a successful status", () => {
-      it("sets the status on the span", () => {
+      it("Maintains a span status of unset", () => {
         span.setStatus({ status: "success" });
         const otSpan = getExportedSpan(span);
-        assert.deepEqual(otSpan.status, { code: SpanStatusCode.OK });
+        assert.deepEqual(otSpan.status, { code: SpanStatusCode.UNSET });
       });
     });
 
@@ -41,6 +41,24 @@ describe("OpenTelemetrySpanWrapper", () => {
         const exception = otSpan.events[0];
         assert.equal(exception.name, "exception");
         assert.equal(exception.attributes!["exception.message"], error.message);
+      });
+    });
+
+    describe("with a non-recordable error", () => {
+      const error = new RestError("test", {
+        statusCode: 304,
+      });
+
+      it("leaves the status unset", () => {
+        span.setStatus({ status: "error", error });
+        const otSpan = getExportedSpan(span);
+        assert.equal(otSpan.status.code, SpanStatusCode.UNSET);
+      });
+
+      it("does not record an exception", () => {
+        span.setStatus({ status: "error", error });
+        const otSpan = getExportedSpan(span);
+        assert.lengthOf(otSpan.events, 0);
       });
     });
   });
@@ -66,6 +84,36 @@ describe("OpenTelemetrySpanWrapper", () => {
 
       const otSpan = getExportedSpan(span);
       assert.isEmpty(otSpan.attributes);
+    });
+  });
+
+  describe("#addEvent", () => {
+    it("records events on the span", () => {
+      span.addEvent("test", {
+        startTime: new Date(2024, 1, 1),
+        attributes: { key: "value" },
+      });
+
+      const otSpan = getExportedSpan(span);
+      assert.lengthOf(otSpan.events, 1);
+      const event = otSpan.events[0];
+      assert.equal(event.name, "test");
+      assert.deepEqual(event.attributes, { key: "value" });
+      assert.equal(
+        event.time[0],
+        new Date(2024, 1, 1).getTime() / 1000 /** Millseconds to seconds */,
+      );
+    });
+
+    it("drops invalid attributes", () => {
+      span.addEvent("test", {
+        attributes: { key: { key1: 5 } }, // objects are not valid per the spec
+      });
+
+      const otSpan = getExportedSpan(span);
+      assert.lengthOf(otSpan.events, 1);
+      const event = otSpan.events[0];
+      assert.deepEqual(event.attributes, {});
     });
   });
 

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or Updates an access control record.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/AccessControlRecordsCreateOrUpdate.json
  */
-async function accessControlRecordsCreateOrUpdate() {
+async function accessControlRecordsCreateOrUpdate(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const accessControlRecordName = "ACRForTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

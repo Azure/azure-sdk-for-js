@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a devcenter.
  *
  * @summary Gets a devcenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Get.json
  */
 async function devCentersGet() {
   const subscriptionId =

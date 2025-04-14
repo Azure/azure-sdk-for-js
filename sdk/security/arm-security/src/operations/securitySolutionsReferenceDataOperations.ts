@@ -6,21 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SecuritySolutionsReferenceDataOperations } from "../operationsInterfaces";
+import { SecuritySolutionsReferenceDataOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   SecuritySolutionsReferenceDataListOptionalParams,
   SecuritySolutionsReferenceDataListResponse,
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
-  SecuritySolutionsReferenceDataListByHomeRegionResponse
-} from "../models";
+  SecuritySolutionsReferenceDataListByHomeRegionResponse,
+} from "../models/index.js";
 
 /** Class containing SecuritySolutionsReferenceDataOperations operations. */
 export class SecuritySolutionsReferenceDataOperationsImpl
-  implements SecuritySolutionsReferenceDataOperations {
+  implements SecuritySolutionsReferenceDataOperations
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -36,7 +37,7 @@ export class SecuritySolutionsReferenceDataOperationsImpl
    * @param options The options parameters.
    */
   list(
-    options?: SecuritySolutionsReferenceDataListOptionalParams
+    options?: SecuritySolutionsReferenceDataListOptionalParams,
   ): Promise<SecuritySolutionsReferenceDataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -49,11 +50,11 @@ export class SecuritySolutionsReferenceDataOperationsImpl
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams
+    options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
   ): Promise<SecuritySolutionsReferenceDataListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       { ascLocation, options },
-      listByHomeRegionOperationSpec
+      listByHomeRegionOperationSpec,
     );
   }
 }
@@ -61,40 +62,38 @@ export class SecuritySolutionsReferenceDataOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutionsReferenceData",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutionsReferenceData",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySolutionsReferenceDataList
+      bodyMapper: Mappers.SecuritySolutionsReferenceDataList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutionsReferenceData",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutionsReferenceData",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySolutionsReferenceDataList
+      bodyMapper: Mappers.SecuritySolutionsReferenceDataList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.ascLocation
+    Parameters.ascLocation,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

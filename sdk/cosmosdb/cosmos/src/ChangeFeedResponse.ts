@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Constants } from "./common";
-import { CosmosHeaders } from "./queryExecutionContext";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "./CosmosDiagnostics.js";
+import { Constants } from "./common/index.js";
+import type { CosmosHeaders } from "./queryExecutionContext/index.js";
 
 /**
  * A single response page from the Azure Cosmos DB Change Feed
@@ -23,7 +24,8 @@ export class ChangeFeedResponse<T> {
      * Gets the status code of the response from Azure Cosmos DB
      */
     public readonly statusCode: number,
-    headers: CosmosHeaders
+    headers: CosmosHeaders,
+    public readonly diagnostics: CosmosDiagnostics,
   ) {
     this.headers = Object.freeze(headers);
   }

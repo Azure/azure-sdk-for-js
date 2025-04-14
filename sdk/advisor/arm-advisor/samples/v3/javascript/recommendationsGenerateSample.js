@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AdvisorManagementClient } = require("@azure/arm-advisor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.
@@ -18,11 +19,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GenerateRecommendations.json
  */
 async function generateRecommendations() {
-  const subscriptionId = "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential, subscriptionId);
   const result = await client.recommendations.generate();
   console.log(result);
 }
 
-generateRecommendations().catch(console.error);
+async function main() {
+  generateRecommendations();
+}
+
+main().catch(console.error);

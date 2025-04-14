@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the collection of subscriptions of the specified user.
  *
  * @summary Lists the collection of subscriptions of the specified user.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListUserSubscriptions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListUserSubscriptions.json
  */
 async function apiManagementListUserSubscriptions() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

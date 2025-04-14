@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the developer portal revision specified by its identifier.
  *
  * @summary Gets the developer portal revision specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadPortalRevision.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadPortalRevision.json
  */
 async function apiManagementHeadPortalRevision() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

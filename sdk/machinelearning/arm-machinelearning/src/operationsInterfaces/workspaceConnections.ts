@@ -14,8 +14,10 @@ import {
   WorkspaceConnectionsCreateResponse,
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams
-} from "../models";
+  WorkspaceConnectionsDeleteOptionalParams,
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceConnections. */
@@ -28,7 +30,7 @@ export interface WorkspaceConnections {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
+    options?: WorkspaceConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -42,7 +44,7 @@ export interface WorkspaceConnections {
     workspaceName: string,
     connectionName: string,
     parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
+    options?: WorkspaceConnectionsCreateOptionalParams,
   ): Promise<WorkspaceConnectionsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,7 +56,7 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
+    options?: WorkspaceConnectionsGetOptionalParams,
   ): Promise<WorkspaceConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -66,6 +68,19 @@ export interface WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
+    options?: WorkspaceConnectionsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * List all the secrets of a machine learning workspaces connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams,
+  ): Promise<WorkspaceConnectionsListSecretsResponse>;
 }

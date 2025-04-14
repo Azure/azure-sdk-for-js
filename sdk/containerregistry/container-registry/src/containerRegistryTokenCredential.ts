@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "./generated";
-import { base64decode } from "./utils/base64";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { GeneratedClient } from "./generated/index.js";
+import { base64decode } from "./utils/base64.js";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
   service: string;
@@ -15,7 +15,7 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
   constructor(
     authClient: GeneratedClient,
     private authenticationScope: string,
-    private credential?: TokenCredential
+    private credential?: TokenCredential,
   ) {
     this.tokenService = new ContainerRegistryTokenService(authClient);
     this.isAnonymousAccess = !this.credential;
@@ -23,7 +23,7 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
 
   async getToken(
     _scopes: string | string[],
-    options: ContainerRegistryGetTokenOptions
+    options: ContainerRegistryGetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.credential) {
       return null;
@@ -37,7 +37,7 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
     return this.tokenService.ExchangeAadAccessTokenForAcrRefreshTokenAsync(
       aadToken.token,
       options.service,
-      options
+      options,
     );
   }
 }
@@ -48,7 +48,7 @@ export class ContainerRegistryTokenService {
   async ExchangeAadAccessTokenForAcrRefreshTokenAsync(
     aadAccessToken: string,
     service: string,
-    options: GetTokenOptions
+    options: GetTokenOptions,
   ): Promise<AccessToken> {
     const acrRefreshToken =
       await this.authClient.authentication.exchangeAadAccessTokenForAcrRefreshToken(
@@ -57,7 +57,7 @@ export class ContainerRegistryTokenService {
         {
           ...options,
           accessToken: aadAccessToken,
-        }
+        },
       );
     if (!acrRefreshToken.refreshToken) {
       throw new Error("Failed to exchange AAD access token for an ACR refresh token.");
@@ -90,7 +90,7 @@ export class ContainerRegistryTokenService {
     service: string,
     scope: string,
     grantType: "refresh_token" | "password",
-    options: GetTokenOptions
+    options: GetTokenOptions,
   ): Promise<string> {
     const acrAccessToken =
       await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
@@ -98,7 +98,7 @@ export class ContainerRegistryTokenService {
         scope,
         acrRefreshToken,
         grantType,
-        options
+        options,
       );
 
     if (!acrAccessToken.accessToken) {

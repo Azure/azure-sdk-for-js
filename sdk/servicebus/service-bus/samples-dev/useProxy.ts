@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * @summary This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
@@ -8,23 +8,23 @@
  */
 
 import { ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
+
 import WebSocket from "ws";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string for your Service Bus instance here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
 
   if (!proxyInfo) {
     console.error(
-      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -32,7 +32,8 @@ export async function main() {
   // Create an instance of the `HttpsProxyAgent` class with the proxy server information
   const proxyAgent = new HttpsProxyAgent(proxyInfo);
 
-  const sbClient = new ServiceBusClient(connectionString, {
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential, {
     webSocketOptions: {
       // No need to pass the `WebSocket` from "ws" package if you're in the browser
       // in which case the `window.WebSocket` is used by the library.

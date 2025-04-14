@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists images for a gallery.
  *
  * @summary Lists images for a gallery.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Images_ListByGallery.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Images_ListByGallery.json
  */
 async function imagesListByGallery() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function imagesListByGallery() {
   for await (let item of client.images.listByGallery(
     resourceGroupName,
     devCenterName,
-    galleryName
+    galleryName,
   )) {
     resArray.push(item);
   }

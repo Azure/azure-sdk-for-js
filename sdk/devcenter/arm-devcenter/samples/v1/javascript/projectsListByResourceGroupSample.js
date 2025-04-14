@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all projects in the resource group.
  *
  * @summary Lists all projects in the resource group.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_ListByResourceGroup.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_ListByResourceGroup.json
  */
 async function projectsListByResourceGroup() {
   const subscriptionId =

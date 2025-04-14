@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SignalRCustomCertificates } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SignalRCustomCertificates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SignalRManagementClient } from "../signalRManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SignalRManagementClient } from "../signalRManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   CustomCertificate,
   SignalRCustomCertificatesListNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   SignalRCustomCertificatesCreateOrUpdateResponse,
   SignalRCustomCertificatesDeleteOptionalParams,
   SignalRCustomCertificatesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SignalRCustomCertificates operations. */
@@ -48,8 +48,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * List all custom certificates.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -125,8 +124,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * List all custom certificates.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -143,8 +141,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * Get a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param options The options parameters.
@@ -163,8 +160,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * Create or update a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param parameters A custom certificate.
@@ -237,7 +233,8 @@ export class SignalRCustomCertificatesImpl
       OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -245,8 +242,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * Create or update a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param parameters A custom certificate.
@@ -271,8 +267,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * Delete a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param options The options parameters.
@@ -291,8 +286,7 @@ export class SignalRCustomCertificatesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

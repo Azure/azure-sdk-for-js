@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+/** SSL certificate purchase order. */
 export interface AppServiceCertificateOrder extends Resource {
   /** AppServiceCertificateOrder resource specific properties */
   properties?: AppServiceCertificateOrderProperties;
 }
 
+/** AppServiceCertificateOrder resource specific properties */
 export interface AppServiceCertificateOrderProperties {
   /** State of the Key Vault secret. */
   certificates?: Record<string, AppServiceCertificate>;
   /** Certificate distinguished name. */
   distinguishedName?: string;
-  /** Domain verification token. */
-  domainVerificationToken?: string;
   /** Duration in years (must be 1). */
   validityInYears?: number;
   /** Certificate key size. */
@@ -21,88 +21,20 @@ export interface AppServiceCertificateOrderProperties {
   productType: "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
   autoRenew?: boolean;
-  /** Status of certificate order. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
-  /** Current order status. */
-  status?:
-    | "Pendingissuance"
-    | "Issued"
-    | "Revoked"
-    | "Canceled"
-    | "Denied"
-    | "Pendingrevocation"
-    | "PendingRekey"
-    | "Unused"
-    | "Expired"
-    | "NotSubmitted";
-  /** Signed certificate. */
-  signedCertificate?: CertificateDetails;
   /** Last CSR that was created for this order. */
   csr?: string;
-  /** Intermediate certificate. */
-  intermediate?: CertificateDetails;
-  /** Root certificate. */
-  root?: CertificateDetails;
-  /** Current serial number of the certificate. */
-  serialNumber?: string;
-  /** Certificate last issuance time. */
-  lastCertificateIssuanceTime?: Date | string;
-  /** Certificate expiration time. */
-  expirationTime?: Date | string;
-  /** <code>true</code> if private key is external; otherwise, <code>false</code>. */
-  isPrivateKeyExternal?: boolean;
-  /** Reasons why App Service Certificate is not renewable at the current moment. */
-  appServiceCertificateNotRenewableReasons?: Array<
-    | "RegistrationStatusNotSupportedForRenewal"
-    | "ExpirationNotInRenewalTimeRange"
-    | "SubscriptionNotActive"
-  >;
-  /** Time stamp when the certificate would be auto renewed next */
-  nextAutoRenewalTimeStamp?: Date | string;
-  /** Contact info */
-  contact?: CertificateOrderContact;
 }
 
+/** Key Vault container for a certificate that is purchased through Azure. */
 export interface AppServiceCertificate {
   /** Key Vault resource Id. */
   keyVaultId?: string;
   /** Key Vault secret name. */
   keyVaultSecretName?: string;
-  /** Status of the Key Vault secret. */
-  provisioningState?:
-    | "Initialized"
-    | "WaitingOnCertificateOrder"
-    | "Succeeded"
-    | "CertificateOrderFailed"
-    | "OperationNotPermittedOnKeyVault"
-    | "AzureServiceUnauthorizedToAccessKeyVault"
-    | "KeyVaultDoesNotExist"
-    | "KeyVaultSecretDoesNotExist"
-    | "UnknownError"
-    | "ExternalPrivateKey"
-    | "Unknown";
 }
 
-export interface CertificateDetails {
-  /** Certificate Version. */
-  version?: number;
-  /** Certificate Serial Number. */
-  serialNumber?: string;
-  /** Certificate Thumbprint. */
-  thumbprint?: string;
-  /** Certificate Subject. */
-  subject?: string;
-  /** Date Certificate is valid from. */
-  notBefore?: Date | string;
-  /** Date Certificate is valid to. */
-  notAfter?: Date | string;
-  /** Certificate Signature algorithm. */
-  signatureAlgorithm?: string;
-  /** Certificate Issuer. */
-  issuer?: string;
-  /** Raw certificate data. */
-  rawData?: string;
-}
+/** SSL certificate details. */
+export interface CertificateDetails {}
 
 export interface CertificateOrderContact {
   email?: string;
@@ -111,33 +43,28 @@ export interface CertificateOrderContact {
   phone?: string;
 }
 
+/** Azure resource. This resource is tracked in Azure Resource Manager */
 export interface Resource {
-  /** Resource Id. */
-  id?: string;
-  /** Resource Name. */
-  name?: string;
   /** Kind of resource. */
   kind?: string;
   /** Resource Location. */
   location: string;
-  /** Resource type. */
-  type?: string;
   /** Resource tags. */
   tags?: Record<string, string>;
 }
 
+/** ARM resource for a certificate order that is purchased through Azure. */
 export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
   /** AppServiceCertificateOrderPatchResource resource specific properties */
   properties?: AppServiceCertificateOrderPatchResourceProperties;
 }
 
+/** AppServiceCertificateOrderPatchResource resource specific properties */
 export interface AppServiceCertificateOrderPatchResourceProperties {
   /** State of the Key Vault secret. */
   certificates?: Record<string, AppServiceCertificate>;
   /** Certificate distinguished name. */
   distinguishedName?: string;
-  /** Domain verification token. */
-  domainVerificationToken?: string;
   /** Duration in years (must be 1). */
   validityInYears?: number;
   /** Certificate key size. */
@@ -146,74 +73,35 @@ export interface AppServiceCertificateOrderPatchResourceProperties {
   productType: "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
   autoRenew?: boolean;
-  /** Status of certificate order. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
-  /** Current order status. */
-  status?:
-    | "Pendingissuance"
-    | "Issued"
-    | "Revoked"
-    | "Canceled"
-    | "Denied"
-    | "Pendingrevocation"
-    | "PendingRekey"
-    | "Unused"
-    | "Expired"
-    | "NotSubmitted";
-  /** Signed certificate. */
-  signedCertificate?: CertificateDetails;
   /** Last CSR that was created for this order. */
   csr?: string;
-  /** Intermediate certificate. */
-  intermediate?: CertificateDetails;
-  /** Root certificate. */
-  root?: CertificateDetails;
-  /** Current serial number of the certificate. */
-  serialNumber?: string;
-  /** Certificate last issuance time. */
-  lastCertificateIssuanceTime?: Date | string;
-  /** Certificate expiration time. */
-  expirationTime?: Date | string;
-  /** <code>true</code> if private key is external; otherwise, <code>false</code>. */
-  isPrivateKeyExternal?: boolean;
-  /** Reasons why App Service Certificate is not renewable at the current moment. */
-  appServiceCertificateNotRenewableReasons?: Array<
-    | "RegistrationStatusNotSupportedForRenewal"
-    | "ExpirationNotInRenewalTimeRange"
-    | "SubscriptionNotActive"
-  >;
-  /** Time stamp when the certificate would be auto renewed next */
-  nextAutoRenewalTimeStamp?: Date | string;
-  /** Contact info */
-  contact?: CertificateOrderContact;
 }
 
+/** Azure proxy only resource. This resource is not tracked by Azure Resource Manager. */
 export interface ProxyOnlyResource {
-  /** Resource Id. */
-  id?: string;
-  /** Resource Name. */
-  name?: string;
   /** Kind of resource. */
   kind?: string;
-  /** Resource type. */
-  type?: string;
 }
 
+/** Key Vault container ARM resource for a certificate that is purchased through Azure. */
 export interface AppServiceCertificateResource extends Resource {
   /** Core resource properties */
   properties?: AppServiceCertificate;
 }
 
+/** Key Vault container ARM resource for a certificate that is purchased through Azure. */
 export interface AppServiceCertificatePatchResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: AppServiceCertificate;
 }
 
+/** Class representing certificate reissue request. */
 export interface ReissueCertificateOrderRequest extends ProxyOnlyResource {
   /** ReissueCertificateOrderRequest resource specific properties */
   properties?: ReissueCertificateOrderRequestProperties;
 }
 
+/** ReissueCertificateOrderRequest resource specific properties */
 export interface ReissueCertificateOrderRequestProperties {
   /** Certificate Key Size. */
   keySize?: number;
@@ -225,11 +113,13 @@ export interface ReissueCertificateOrderRequestProperties {
   isPrivateKeyExternal?: boolean;
 }
 
+/** Class representing certificate renew request. */
 export interface RenewCertificateOrderRequest extends ProxyOnlyResource {
   /** RenewCertificateOrderRequest resource specific properties */
   properties?: RenewCertificateOrderRequestProperties;
 }
 
+/** RenewCertificateOrderRequest resource specific properties */
 export interface RenewCertificateOrderRequestProperties {
   /** Certificate Key Size. */
   keySize?: number;
@@ -239,11 +129,13 @@ export interface RenewCertificateOrderRequestProperties {
   isPrivateKeyExternal?: boolean;
 }
 
+/** Identifies an object. */
 export interface NameIdentifier {
   /** Name of the object. */
   name?: string;
 }
 
+/** Site seal request. */
 export interface SiteSealRequest {
   /** If <code>true</code> use the light color theme for site seal; otherwise, use the default color theme. */
   lightTheme?: boolean;
@@ -251,37 +143,22 @@ export interface SiteSealRequest {
   locale?: string;
 }
 
+/** Certificate order action. */
 export interface CertificateOrderAction extends ProxyOnlyResource {
   /** CertificateOrderAction resource specific properties */
   properties?: CertificateOrderActionProperties;
 }
 
-export interface CertificateOrderActionProperties {
-  /** Action type. */
-  actionType?:
-    | "CertificateIssued"
-    | "CertificateOrderCanceled"
-    | "CertificateOrderCreated"
-    | "CertificateRevoked"
-    | "DomainValidationComplete"
-    | "FraudDetected"
-    | "OrgNameChange"
-    | "OrgValidationComplete"
-    | "SanDrop"
-    | "FraudCleared"
-    | "CertificateExpired"
-    | "CertificateExpirationWarning"
-    | "FraudDocumentationRequired"
-    | "Unknown";
-  /** Time at which the certificate action was performed. */
-  createdAt?: Date | string;
-}
+/** CertificateOrderAction resource specific properties */
+export interface CertificateOrderActionProperties {}
 
+/** SSL certificate email. */
 export interface CertificateEmail extends ProxyOnlyResource {
   /** CertificateEmail resource specific properties */
   properties?: CertificateEmailProperties;
 }
 
+/** CertificateEmail resource specific properties */
 export interface CertificateEmailProperties {
   /** Email id. */
   emailId?: string;
@@ -289,11 +166,13 @@ export interface CertificateEmailProperties {
   timeStamp?: Date | string;
 }
 
+/** Class representing Response from Detector */
 export interface DetectorResponse extends ProxyOnlyResource {
   /** DetectorResponse resource specific properties */
   properties?: DetectorResponseProperties;
 }
 
+/** DetectorResponse resource specific properties */
 export interface DetectorResponseProperties {
   /** metadata for the detector */
   metadata?: DetectorInfo;
@@ -307,34 +186,13 @@ export interface DetectorResponseProperties {
   suggestedUtterances?: QueryUtterancesResults;
 }
 
-export interface DetectorInfo {
-  /** Id of detector */
-  id?: string;
-  /** Name of detector */
-  name?: string;
-  /** Short description of the detector and its purpose. */
-  description?: string;
-  /** Author of the detector. */
-  author?: string;
-  /** Problem category. This serves for organizing group for detectors. */
-  category?: string;
-  /** List of Support Topics for which this detector is enabled. */
-  supportTopicList?: Array<SupportTopic>;
-  /** Analysis Types for which this detector should apply to. */
-  analysisType?: Array<string>;
-  /** Whether this detector is an Analysis Detector or not. */
-  type?: "Detector" | "Analysis" | "CategoryOverview";
-  /** Defines score of a detector to power ML based matching. */
-  score?: number;
-}
+/** Definition of Detector */
+export interface DetectorInfo {}
 
-export interface SupportTopic {
-  /** Support Topic Id */
-  id?: string;
-  /** Unique resource Id */
-  pesId?: string;
-}
+/** Defines a unique Support Topic */
+export interface SupportTopic {}
 
+/** Set of data with rendering instructions */
 export interface DiagnosticData {
   /** Data in table form */
   table?: DataTableResponseObject;
@@ -342,6 +200,7 @@ export interface DiagnosticData {
   renderingProperties?: Rendering;
 }
 
+/** Data Table which defines columns and raw row values */
 export interface DataTableResponseObject {
   /** Name of the table */
   tableName?: string;
@@ -351,6 +210,7 @@ export interface DataTableResponseObject {
   rows?: Array<Array<string>>;
 }
 
+/** Column definition */
 export interface DataTableResponseColumn {
   /** Name of the column */
   columnName?: string;
@@ -360,6 +220,7 @@ export interface DataTableResponseColumn {
   columnType?: string;
 }
 
+/** Instructions for rendering the data */
 export interface Rendering {
   /** Rendering Type */
   type?:
@@ -394,6 +255,7 @@ export interface Rendering {
   description?: string;
 }
 
+/** Identify the status of the most severe insight generated by the detector. */
 export interface Status {
   /** Descriptive message. */
   message?: string;
@@ -401,18 +263,14 @@ export interface Status {
   statusId?: "Critical" | "Warning" | "Info" | "Success" | "None";
 }
 
+/** Additional configuration for a data providers */
 export interface DataProviderMetadata {
   providerName?: string;
-  /** Settings for the data provider */
-  propertyBag?: Array<KeyValuePairStringObject>;
 }
 
-export interface KeyValuePairStringObject {
-  key?: string;
-  /** Any object */
-  value?: Record<string, unknown>;
-}
+export interface KeyValuePairStringObject {}
 
+/** Suggested utterances where the detector can be applicable */
 export interface QueryUtterancesResults {
   /** Search Query. */
   query?: string;
@@ -420,6 +278,7 @@ export interface QueryUtterancesResults {
   results?: Array<QueryUtterancesResult>;
 }
 
+/** Result for utterances query. */
 export interface QueryUtterancesResult {
   /** A sample utterance. */
   sampleUtterance?: SampleUtterance;
@@ -427,6 +286,7 @@ export interface QueryUtterancesResult {
   score?: number;
 }
 
+/** Sample utterance. */
 export interface SampleUtterance {
   /** Text attribute of sample utterance. */
   text?: string;
@@ -436,11 +296,13 @@ export interface SampleUtterance {
   qid?: string;
 }
 
+/** Information about a domain. */
 export interface Domain extends Resource {
   /** Domain resource specific properties */
   properties?: DomainProperties;
 }
 
+/** Domain resource specific properties */
 export interface DomainProperties {
   /** Administrative contact. */
   contactAdmin: Contact;
@@ -450,58 +312,12 @@ export interface DomainProperties {
   contactRegistrant: Contact;
   /** Technical contact. */
   contactTech: Contact;
-  /** Domain registration status. */
-  registrationStatus?:
-    | "Active"
-    | "Awaiting"
-    | "Cancelled"
-    | "Confiscated"
-    | "Disabled"
-    | "Excluded"
-    | "Expired"
-    | "Failed"
-    | "Held"
-    | "Locked"
-    | "Parked"
-    | "Pending"
-    | "Reserved"
-    | "Reverted"
-    | "Suspended"
-    | "Transferred"
-    | "Unknown"
-    | "Unlocked"
-    | "Unparked"
-    | "Updated"
-    | "JsonConverterFailed";
-  /** Domain provisioning state. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
-  /** Name servers. */
-  nameServers?: Array<string>;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
   privacy?: boolean;
-  /** Domain creation timestamp. */
-  createdTime?: Date | string;
-  /** Domain expiration timestamp. */
-  expirationTime?: Date | string;
-  /** Timestamp when the domain was renewed last time. */
-  lastRenewedTime?: Date | string;
   /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
   autoRenew?: boolean;
-  /**
-   * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and
-   *  it is hosted on name servers Azure has programmatic access to.
-   */
-  readyForDnsRecordManagement?: boolean;
-  /** All hostnames derived from the domain and assigned to Azure resources. */
-  managedHostNames?: Array<HostName>;
   /** Legal agreement consent. */
   consent: DomainPurchaseConsent;
-  /** Reasons why domain is not renewable. */
-  domainNotRenewableReasons?: Array<
-    | "RegistrationStatusNotSupportedForRenewal"
-    | "ExpirationNotInRenewalTimeRange"
-    | "SubscriptionNotActive"
-  >;
   /** Current DNS type */
   dnsType?: "AzureDns" | "DefaultDomainRegistrarDns";
   /** Azure DNS Zone to use */
@@ -511,6 +327,10 @@ export interface DomainProperties {
   authCode?: string;
 }
 
+/**
+ * Contact information for domain registration. If 'Domain Privacy' option is not selected then the contact information is made publicly available through the Whois
+ * directories as per ICANN requirements.
+ */
 export interface Contact {
   /** Mailing address. */
   addressMailing?: Address;
@@ -532,6 +352,7 @@ export interface Contact {
   phone: string;
 }
 
+/** Address information for domain registration. */
 export interface Address {
   /** First line of an Address. */
   address1: string;
@@ -547,6 +368,7 @@ export interface Address {
   state: string;
 }
 
+/** Details of a hostname derived from a domain. */
 export interface HostName {
   /** Name of the hostname. */
   name?: string;
@@ -562,6 +384,7 @@ export interface HostName {
   hostNameType?: "Verified" | "Managed";
 }
 
+/** Domain purchase consent object, representing acceptance of applicable legal agreements. */
 export interface DomainPurchaseConsent {
   /** List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements API under <code>TopLevelDomain</code> resource. */
   agreementKeys?: Array<string>;
@@ -571,6 +394,7 @@ export interface DomainPurchaseConsent {
   agreedAt?: Date | string;
 }
 
+/** Domain recommendation search parameters. */
 export interface DomainRecommendationSearchParameters {
   /** Keywords to be used for generating domain recommendations. */
   keywords?: string;
@@ -578,11 +402,13 @@ export interface DomainRecommendationSearchParameters {
   maxDomainRecommendations?: number;
 }
 
+/** ARM resource for a domain. */
 export interface DomainPatchResource extends ProxyOnlyResource {
   /** DomainPatchResource resource specific properties */
   properties?: DomainPatchResourceProperties;
 }
 
+/** DomainPatchResource resource specific properties */
 export interface DomainPatchResourceProperties {
   /** Administrative contact. */
   contactAdmin: Contact;
@@ -592,58 +418,12 @@ export interface DomainPatchResourceProperties {
   contactRegistrant: Contact;
   /** Technical contact. */
   contactTech: Contact;
-  /** Domain registration status. */
-  registrationStatus?:
-    | "Active"
-    | "Awaiting"
-    | "Cancelled"
-    | "Confiscated"
-    | "Disabled"
-    | "Excluded"
-    | "Expired"
-    | "Failed"
-    | "Held"
-    | "Locked"
-    | "Parked"
-    | "Pending"
-    | "Reserved"
-    | "Reverted"
-    | "Suspended"
-    | "Transferred"
-    | "Unknown"
-    | "Unlocked"
-    | "Unparked"
-    | "Updated"
-    | "JsonConverterFailed";
-  /** Domain provisioning state. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
-  /** Name servers. */
-  nameServers?: Array<string>;
   /** <code>true</code> if domain privacy is enabled for this domain; otherwise, <code>false</code>. */
   privacy?: boolean;
-  /** Domain creation timestamp. */
-  createdTime?: Date | string;
-  /** Domain expiration timestamp. */
-  expirationTime?: Date | string;
-  /** Timestamp when the domain was renewed last time. */
-  lastRenewedTime?: Date | string;
   /** <code>true</code> if the domain should be automatically renewed; otherwise, <code>false</code>. */
   autoRenew?: boolean;
-  /**
-   * <code>true</code> if Azure can assign this domain to App Service apps; otherwise, <code>false</code>. This value will be <code>true</code> if domain registration status is active and
-   *  it is hosted on name servers Azure has programmatic access to.
-   */
-  readyForDnsRecordManagement?: boolean;
-  /** All hostnames derived from the domain and assigned to Azure resources. */
-  managedHostNames?: Array<HostName>;
   /** Legal agreement consent. */
   consent: DomainPurchaseConsent;
-  /** Reasons why domain is not renewable. */
-  domainNotRenewableReasons?: Array<
-    | "RegistrationStatusNotSupportedForRenewal"
-    | "ExpirationNotInRenewalTimeRange"
-    | "SubscriptionNotActive"
-  >;
   /** Current DNS type */
   dnsType?: "AzureDns" | "DefaultDomainRegistrarDns";
   /** Azure DNS Zone to use */
@@ -653,26 +433,31 @@ export interface DomainPatchResourceProperties {
   authCode?: string;
 }
 
+/** Domain ownership Identifier. */
 export interface DomainOwnershipIdentifier extends ProxyOnlyResource {
   /** DomainOwnershipIdentifier resource specific properties */
   properties?: DomainOwnershipIdentifierProperties;
 }
 
+/** DomainOwnershipIdentifier resource specific properties */
 export interface DomainOwnershipIdentifierProperties {
   /** Ownership Id. */
   ownershipId?: string;
 }
 
+/** A top level domain object. */
 export interface TopLevelDomain extends ProxyOnlyResource {
   /** TopLevelDomain resource specific properties */
   properties?: TopLevelDomainProperties;
 }
 
+/** TopLevelDomain resource specific properties */
 export interface TopLevelDomainProperties {
   /** If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>. */
   privacy?: boolean;
 }
 
+/** Options for retrieving the list of top level domain legal agreements. */
 export interface TopLevelDomainAgreementOption {
   /** If <code>true</code>, then the list of agreements will include agreements for domain privacy as well; otherwise, <code>false</code>. */
   includePrivacy?: boolean;
@@ -680,60 +465,45 @@ export interface TopLevelDomainAgreementOption {
   forTransfer?: boolean;
 }
 
+/** App Service Environment ARM resource. */
 export interface AppServiceEnvironmentResource extends Resource {
   /** Core resource properties */
   properties?: AppServiceEnvironment;
 }
 
+/** Description of an App Service Environment. */
 export interface AppServiceEnvironment {
-  /** Provisioning state of the App Service Environment. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
-  /** Current status of the App Service Environment. */
-  status?: "Preparing" | "Ready" | "Scaling" | "Deleting";
   /** Description of the Virtual Network. */
   virtualNetwork: VirtualNetworkProfile;
   /** Specifies which endpoints to serve internally in the Virtual Network for the App Service Environment. */
   internalLoadBalancingMode?: "None" | "Web" | "Publishing" | "Web, Publishing";
   /** Front-end VM size, e.g. "Medium", "Large". */
   multiSize?: string;
-  /** Number of front-end instances. */
-  multiRoleCount?: number;
   /** Number of IP SSL addresses reserved for the App Service Environment. */
   ipsslAddressCount?: number;
   /** DNS suffix of the App Service Environment. */
   dnsSuffix?: string;
-  /** Maximum number of VMs in the App Service Environment. */
-  maximumNumberOfMachines?: number;
   /** Scale factor for front-ends. */
   frontEndScaleFactor?: number;
-  /**
-   * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>. The environment can be suspended, e.g. when the management endpoint is no longer available
-   *  (most likely because NSG blocked the incoming traffic).
-   */
-  suspended?: boolean;
   /** Custom settings for changing the behavior of the App Service Environment. */
   clusterSettings?: Array<NameValuePair>;
   /** User added ip ranges to whitelist on ASE db */
   userWhitelistedIpRanges?: Array<string>;
-  /** Flag that displays whether an ASE has linux workers or not */
-  hasLinuxWorkers?: boolean;
   /** Dedicated Host Count */
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
 }
 
+/** Specification for using a Virtual Network. */
 export interface VirtualNetworkProfile {
   /** Resource id of the Virtual Network. */
   id: string;
-  /** Name of the Virtual Network (read-only). */
-  name?: string;
-  /** Resource type of the Virtual Network (read-only). */
-  type?: string;
   /** Subnet within the Virtual Network. */
   subnet?: string;
 }
 
+/** Name value pair. */
 export interface NameValuePair {
   /** Pair name. */
   name?: string;
@@ -741,16 +511,19 @@ export interface NameValuePair {
   value?: string;
 }
 
+/** ARM resource for a app service environment. */
 export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: AppServiceEnvironment;
 }
 
+/** Describes main public IP address and any extra virtual IPs. */
 export interface AddressResponse extends ProxyOnlyResource {
   /** AddressResponse resource specific properties */
   properties?: AddressResponseProperties;
 }
 
+/** AddressResponse resource specific properties */
 export interface AddressResponseProperties {
   /** Main public virtual IP. */
   serviceIpAddress?: string;
@@ -762,6 +535,7 @@ export interface AddressResponseProperties {
   vipMappings?: Array<VirtualIPMapping>;
 }
 
+/** Virtual IP mapping. */
 export interface VirtualIPMapping {
   /** Virtual IP address. */
   virtualIP?: string;
@@ -775,6 +549,7 @@ export interface VirtualIPMapping {
   serviceName?: string;
 }
 
+/** A web app, a mobile app backend, or an API app. */
 export interface Site extends Resource {
   /** Site resource specific properties */
   properties?: SiteProperties;
@@ -784,24 +559,10 @@ export interface Site extends Resource {
   extendedLocation?: ExtendedLocation;
 }
 
+/** Site resource specific properties */
 export interface SiteProperties {
-  /** Current state of the app. */
-  state?: string;
-  /** Hostnames associated with the app. */
-  hostNames?: Array<string>;
-  /** Name of the repository site. */
-  repositorySiteName?: string;
-  /** State indicating whether the app has exceeded its quota usage. Read-only. */
-  usageState?: "Normal" | "Exceeded";
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
-  /**
-   * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
-   * the app is not served on those hostnames.
-   */
-  enabledHostNames?: Array<string>;
-  /** Management information availability state for the app. */
-  availabilityState?: "Normal" | "Limited" | "DisasterRecoveryMode";
   /** Hostname SSL states are used to manage the SSL bindings for app's hostnames. */
   hostNameSslStates?: Array<HostNameSslState>;
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
@@ -812,16 +573,10 @@ export interface SiteProperties {
   isXenon?: boolean;
   /** Hyper-V sandbox. */
   hyperV?: boolean;
-  /** Last time the app was modified, in UTC. Read-only. */
-  lastModifiedTimeUtc?: Date | string;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
-  /** Azure Traffic Manager hostnames associated with the app. Read-only. */
-  trafficManagerHostNames?: Array<string>;
   /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
   scmSiteAlsoStopped?: boolean;
-  /** Specifies which deployment slot this app will swap into. Read-only. */
-  targetSwapSlot?: string;
   /** App Service Environment to use for the app. */
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
@@ -844,31 +599,12 @@ export interface SiteProperties {
   hostNamesDisabled?: boolean;
   /** Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification. */
   customDomainVerificationId?: string;
-  /** List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only. */
-  outboundIpAddresses?: string;
-  /** List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only. */
-  possibleOutboundIpAddresses?: string;
   /** Size of the function container. */
   containerSize?: number;
   /** Maximum allowed daily memory-time quota (applicable on dynamic apps only). */
   dailyMemoryTimeQuota?: number;
-  /** App suspended till in case memory-time quota is exceeded. */
-  suspendedTill?: Date | string;
-  /**
-   * Maximum number of workers.
-   * This only applies to Functions container.
-   */
-  maxNumberOfWorkers?: number;
   /** If specified during app creation, the app is cloned from a source app. */
   cloningInfo?: CloningInfo;
-  /** Name of the resource group the app belongs to. Read-only. */
-  resourceGroup?: string;
-  /** <code>true</code> if the app is a default container; otherwise, <code>false</code>. */
-  isDefaultContainer?: boolean;
-  /** Default hostname of the app. Read-only. */
-  defaultHostName?: string;
-  /** Status of the last deployment slot swap operation. */
-  slotSwapStatus?: SlotSwapStatus;
   /**
    * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
    * http requests
@@ -876,12 +612,6 @@ export interface SiteProperties {
   httpsOnly?: boolean;
   /** Site redundancy mode */
   redundancyMode?: "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
-  /**
-   * Specifies an operation id if this site has a pending operation.
-   *
-   * Value may contain a UUID
-   */
-  inProgressOperationId?: string;
   /** Checks if Customer provided storage account is required */
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
@@ -893,6 +623,7 @@ export interface SiteProperties {
   virtualNetworkSubnetId?: string;
 }
 
+/** SSL-enabled hostname. */
 export interface HostNameSslState {
   /** Hostname. */
   name?: string;
@@ -908,6 +639,7 @@ export interface HostNameSslState {
   hostType?: "Standard" | "Repository";
 }
 
+/** Configuration of an App Service app. */
 export interface SiteConfig {
   /** Number of workers. */
   numberOfWorkers?: number;
@@ -951,8 +683,6 @@ export interface SiteConfig {
   appSettings?: Array<NameValuePair>;
   /** Connection strings. */
   connectionStrings?: Array<ConnStringInfo>;
-  /** Site MachineKey. */
-  machineKey?: SiteMachineKey;
   /** Handler mappings. */
   handlerMappings?: Array<HandlerMapping>;
   /** Document root. */
@@ -1078,6 +808,7 @@ export interface SiteConfig {
   publicNetworkAccess?: string;
 }
 
+/** Database connection string information. */
 export interface ConnStringInfo {
   /** Name of connection string. */
   name?: string;
@@ -1098,6 +829,7 @@ export interface ConnStringInfo {
     | "PostgreSQL";
 }
 
+/** MachineKey of an app. */
 export interface SiteMachineKey {
   /** MachineKey validation. */
   validation?: string;
@@ -1109,6 +841,10 @@ export interface SiteMachineKey {
   decryptionKey?: string;
 }
 
+/**
+ * The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+ * For example, it is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
+ */
 export interface HandlerMapping {
   /** Requests with this extension will be handled using the specified FastCGI application. */
   extension?: string;
@@ -1118,6 +854,7 @@ export interface HandlerMapping {
   arguments?: string;
 }
 
+/** Virtual application in an app. */
 export interface VirtualApplication {
   /** Virtual path. */
   virtualPath?: string;
@@ -1129,6 +866,7 @@ export interface VirtualApplication {
   virtualDirectories?: Array<VirtualDirectory>;
 }
 
+/** Directory for virtual application. */
 export interface VirtualDirectory {
   /** Path to virtual application. */
   virtualPath?: string;
@@ -1136,11 +874,13 @@ export interface VirtualDirectory {
   physicalPath?: string;
 }
 
+/** Routing rules in production experiments. */
 export interface Experiments {
   /** List of ramp-up rules. */
   rampUpRules?: Array<RampUpRule>;
 }
 
+/** Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change routing % based on performance. */
 export interface RampUpRule {
   /** Hostname of a slot to which the traffic will be redirected if decided to. E.g. myapp-stage.azurewebsites.net. */
   actionHostName?: string;
@@ -1167,6 +907,7 @@ export interface RampUpRule {
   name?: string;
 }
 
+/** Metric limits set on an app. */
 export interface SiteLimits {
   /** Maximum allowed CPU usage percentage. */
   maxPercentageCpu?: number;
@@ -1176,6 +917,7 @@ export interface SiteLimits {
   maxDiskSizeInMb?: number;
 }
 
+/** Rules that can be defined for auto-heal. */
 export interface AutoHealRules {
   /** Conditions that describe when to execute the auto-heal actions. */
   triggers?: AutoHealTriggers;
@@ -1183,6 +925,7 @@ export interface AutoHealRules {
   actions?: AutoHealActions;
 }
 
+/** Triggers for auto-heal. */
 export interface AutoHealTriggers {
   /** A rule based on total requests. */
   requests?: RequestsBasedTrigger;
@@ -1198,6 +941,7 @@ export interface AutoHealTriggers {
   statusCodesRange?: Array<StatusCodesRangeBasedTrigger>;
 }
 
+/** Trigger based on total requests. */
 export interface RequestsBasedTrigger {
   /** Request Count. */
   count?: number;
@@ -1205,6 +949,7 @@ export interface RequestsBasedTrigger {
   timeInterval?: string;
 }
 
+/** Trigger based on status code. */
 export interface StatusCodesBasedTrigger {
   /** HTTP status code. */
   status?: number;
@@ -1220,6 +965,7 @@ export interface StatusCodesBasedTrigger {
   path?: string;
 }
 
+/** Trigger based on request execution time. */
 export interface SlowRequestsBasedTrigger {
   /** Time taken. */
   timeTaken?: string;
@@ -1231,6 +977,7 @@ export interface SlowRequestsBasedTrigger {
   timeInterval?: string;
 }
 
+/** Trigger based on range of status codes. */
 export interface StatusCodesRangeBasedTrigger {
   /** HTTP status code. */
   statusCodes?: string;
@@ -1241,6 +988,7 @@ export interface StatusCodesRangeBasedTrigger {
   timeInterval?: string;
 }
 
+/** Actions which to take by the auto-heal module when a rule is triggered. */
 export interface AutoHealActions {
   /** Predefined action to be taken. */
   actionType?: "Recycle" | "LogEvent" | "CustomAction";
@@ -1253,6 +1001,10 @@ export interface AutoHealActions {
   minProcessExecutionTime?: string;
 }
 
+/**
+ * Custom action to be executed
+ * when an auto heal rule is triggered.
+ */
 export interface AutoHealCustomAction {
   /** Executable to be run. */
   exe?: string;
@@ -1260,6 +1012,7 @@ export interface AutoHealCustomAction {
   parameters?: string;
 }
 
+/** Cross-Origin Resource Sharing (CORS) settings for the app. */
 export interface CorsSettings {
   /**
    * Gets or sets the list of origins that should be allowed to make cross-origin
@@ -1274,11 +1027,13 @@ export interface CorsSettings {
   supportCredentials?: boolean;
 }
 
+/** Push settings for the App. */
 export interface PushSettings extends ProxyOnlyResource {
   /** PushSettings resource specific properties */
   properties?: PushSettingsProperties;
 }
 
+/** PushSettings resource specific properties */
 export interface PushSettingsProperties {
   /** Gets or sets a flag indicating whether the Push endpoint is enabled. */
   isPushEnabled: boolean;
@@ -1295,16 +1050,19 @@ export interface PushSettingsProperties {
   dynamicTagsJson?: string;
 }
 
+/** Information about the formal API definition for the app. */
 export interface ApiDefinitionInfo {
   /** The URL of the API definition. */
   url?: string;
 }
 
+/** Azure API management (APIM) configuration linked to the app. */
 export interface ApiManagementConfig {
   /** APIM-Api Identifier. */
   id?: string;
 }
 
+/** IP security restriction on an app. */
 export interface IpSecurityRestriction {
   /**
    * IP address the security restriction is valid for.
@@ -1352,6 +1110,7 @@ export interface IpSecurityRestriction {
   headers?: Record<string, Array<string>>;
 }
 
+/** Azure Files or Blob Storage access information value for dictionary storage. */
 export interface AzureStorageInfoValue {
   /** Type of storage. */
   type?: "AzureFiles" | "AzureBlob";
@@ -1363,19 +1122,15 @@ export interface AzureStorageInfoValue {
   accessKey?: string;
   /** Path to mount the storage within the site's runtime environment. */
   mountPath?: string;
-  /** State of the storage account. */
-  state?: "Ok" | "InvalidCredentials" | "InvalidShare" | "NotValidated";
 }
 
+/** Specification for an App Service Environment to use for this resource. */
 export interface HostingEnvironmentProfile {
   /** Resource ID of the App Service Environment. */
   id?: string;
-  /** Name of the App Service Environment. */
-  name?: string;
-  /** Resource type of the App Service Environment. */
-  type?: string;
 }
 
+/** Information needed for cloning operation. */
 export interface CloningInfo {
   /**
    * Correlation ID of cloning operation. This ID ties multiple cloning operations
@@ -1416,54 +1171,39 @@ export interface CloningInfo {
   trafficManagerProfileName?: string;
 }
 
-export interface SlotSwapStatus {
-  /** The time the last successful slot swap completed. */
-  timestampUtc?: Date | string;
-  /** The source slot of the last swap operation. */
-  sourceSlotName?: string;
-  /** The destination slot of the last swap operation. */
-  destinationSlotName?: string;
-}
+/** The status of the last successful slot swap operation. */
+export interface SlotSwapStatus {}
 
+/** Managed service identity. */
 export interface ManagedServiceIdentity {
   /** Type of managed service identity. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
-  /** Tenant of managed service identity. */
-  tenantId?: string;
-  /** Principal Id of managed service identity. */
-  principalId?: string;
   /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export interface UserAssignedIdentity {
-  /** Principal Id of user assigned identity */
-  principalId?: string;
-  /** Client Id of user assigned identity */
-  clientId?: string;
-}
+/** User Assigned identity. */
+export interface UserAssignedIdentity {}
 
+/** Extended Location. */
 export interface ExtendedLocation {
   /** Name of extended location. */
   name?: string;
-  /** Type of extended location. */
-  type?: string;
 }
 
+/** Full view of networking configuration for an ASE. */
 export interface AseV3NetworkingConfiguration extends ProxyOnlyResource {
   /** AseV3NetworkingConfiguration resource specific properties */
   properties?: AseV3NetworkingConfigurationProperties;
 }
 
+/** AseV3NetworkingConfiguration resource specific properties */
 export interface AseV3NetworkingConfigurationProperties {
-  windowsOutboundIpAddresses?: Array<string>;
-  linuxOutboundIpAddresses?: Array<string>;
-  externalInboundIpAddresses?: Array<string>;
-  internalInboundIpAddresses?: Array<string>;
   /** Property to enable and disable new private endpoint connection creation on ASE */
   allowNewPrivateEndpointConnections?: boolean;
 }
 
+/** Worker pool of an App Service Environment ARM resource. */
 export interface WorkerPoolResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: WorkerPool;
@@ -1471,6 +1211,7 @@ export interface WorkerPoolResource extends ProxyOnlyResource {
   sku?: SkuDescription;
 }
 
+/** Worker pool of an App Service Environment. */
 export interface WorkerPool {
   /** Worker size ID for referencing this worker pool. */
   workerSizeId?: number;
@@ -1480,10 +1221,9 @@ export interface WorkerPool {
   workerSize?: string;
   /** Number of instances in the worker pool. */
   workerCount?: number;
-  /** Names of all instances in the worker pool (read only). */
-  instanceNames?: Array<string>;
 }
 
+/** Description of a SKU for a scalable resource. */
 export interface SkuDescription {
   /** Name of the resource SKU. */
   name?: string;
@@ -1503,6 +1243,7 @@ export interface SkuDescription {
   capabilities?: Array<Capability>;
 }
 
+/** Description of the App Service plan scale options. */
 export interface SkuCapacity {
   /** Minimum number of workers for this App Service plan SKU. */
   minimum?: number;
@@ -1516,6 +1257,7 @@ export interface SkuCapacity {
   scaleType?: string;
 }
 
+/** Describes the capabilities/features allowed for a specific SKU. */
 export interface Capability {
   /** Name of the SKU capability. */
   name?: string;
@@ -1525,55 +1267,28 @@ export interface Capability {
   reason?: string;
 }
 
+/** Metadata for the metrics. */
 export interface ResourceMetricDefinition extends ProxyOnlyResource {
   /** ResourceMetricDefinition resource specific properties */
   properties?: ResourceMetricDefinitionProperties;
 }
 
-export interface ResourceMetricDefinitionProperties {
-  /** Unit of the metric. */
-  unit?: string;
-  /** Primary aggregation type. */
-  primaryAggregationType?: string;
-  /** List of time grains supported for the metric together with retention period. */
-  metricAvailabilities?: Array<ResourceMetricAvailability>;
-  /** Resource URI. */
-  resourceUri?: string;
-  /** Resource metric definition properties. */
-  properties?: Record<string, string>;
-}
+/** ResourceMetricDefinition resource specific properties */
+export interface ResourceMetricDefinitionProperties {}
 
-export interface ResourceMetricAvailability {
-  /** Time grain . */
-  timeGrain?: string;
-  /** Retention period for the current time grain. */
-  retention?: string;
-}
+/** Metrics availability and retention. */
+export interface ResourceMetricAvailability {}
 
+/** Usage of the quota resource. */
 export interface Usage extends ProxyOnlyResource {
   /** Usage resource specific properties */
   properties?: UsageProperties;
 }
 
-export interface UsageProperties {
-  /** Friendly name shown in the UI. */
-  displayName?: string;
-  /** Name of the quota resource. */
-  resourceName?: string;
-  /** Units of measurement for the quota resource. */
-  unit?: string;
-  /** The current value of the resource counter. */
-  currentValue?: number;
-  /** The resource limit. */
-  limit?: number;
-  /** Next reset time for the resource counter. */
-  nextResetTime?: Date | string;
-  /** Compute mode used for this usage. */
-  computeMode?: "Shared" | "Dedicated" | "Dynamic";
-  /** Site mode used for this usage. */
-  siteMode?: string;
-}
+/** Usage resource specific properties */
+export interface UsageProperties {}
 
+/** Body of the error response returned from the API. */
 export interface ErrorEntity {
   /** Type of error. */
   extendedCode?: string;
@@ -1593,13 +1308,14 @@ export interface ErrorEntity {
   message?: string;
 }
 
+/** Remote Private Endpoint Connection ARM resource. */
 export interface RemotePrivateEndpointConnectionARMResource extends ProxyOnlyResource {
   /** RemotePrivateEndpointConnectionARMResource resource specific properties */
   properties?: RemotePrivateEndpointConnectionARMResourceProperties;
 }
 
+/** RemotePrivateEndpointConnectionARMResource resource specific properties */
 export interface RemotePrivateEndpointConnectionARMResourceProperties {
-  provisioningState?: string;
   /** PrivateEndpoint of a remote private endpoint connection */
   privateEndpoint?: ArmIdWrapper;
   /** The state of a private link connection */
@@ -1608,10 +1324,10 @@ export interface RemotePrivateEndpointConnectionARMResourceProperties {
   ipAddresses?: Array<string>;
 }
 
-export interface ArmIdWrapper {
-  id?: string;
-}
+/** A wrapper for an ARM resource id */
+export interface ArmIdWrapper {}
 
+/** The state of a private link connection */
 export interface PrivateLinkConnectionState {
   /** Status of a private link connection */
   status?: string;
@@ -1621,16 +1337,19 @@ export interface PrivateLinkConnectionState {
   actionsRequired?: string;
 }
 
+/** Private Endpoint Connection Approval ARM resource. */
 export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: PrivateLinkConnectionApprovalRequest;
 }
 
+/** A request to approve or reject a private endpoint connection */
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
+/** App Service plan. */
 export interface AppServicePlan extends Resource {
   /** AppServicePlan resource specific properties */
   properties?: AppServicePlanProperties;
@@ -1640,19 +1359,12 @@ export interface AppServicePlan extends Resource {
   extendedLocation?: ExtendedLocation;
 }
 
+/** AppServicePlan resource specific properties */
 export interface AppServicePlanProperties {
   /** Target worker tier assigned to the App Service plan. */
   workerTierName?: string;
-  /** App Service plan status. */
-  status?: "Ready" | "Pending" | "Creating";
-  /** App Service plan subscription. */
-  subscription?: string;
   /** Specification for the App Service Environment to use for the App Service plan. */
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** Maximum number of instances that can be assigned to this App Service plan. */
-  maximumNumberOfWorkers?: number;
-  /** Geographical location for the App Service plan. */
-  geoRegion?: string;
   /**
    * If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
    * If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
@@ -1662,16 +1374,12 @@ export interface AppServicePlanProperties {
   elasticScaleEnabled?: boolean;
   /** Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan */
   maximumElasticWorkerCount?: number;
-  /** Number of apps assigned to this App Service plan. */
-  numberOfSites?: number;
   /** If <code>true</code>, this App Service Plan owns spot instances. */
   isSpot?: boolean;
   /** The time when the server farm expires. Valid only if it is a spot server farm. */
   spotExpirationTime?: Date | string;
   /** The time when the server farm free offer expires. */
   freeOfferExpirationTime?: Date | string;
-  /** Resource group of the App Service plan. */
-  resourceGroup?: string;
   /** If Linux app service plan <code>true</code>, <code>false</code> otherwise. */
   reserved?: boolean;
   /** Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
@@ -1682,8 +1390,6 @@ export interface AppServicePlanProperties {
   targetWorkerCount?: number;
   /** Scaling worker size ID. */
   targetWorkerSizeId?: number;
-  /** Provisioning state of the App Service Plan. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfile;
   /**
@@ -1693,33 +1399,24 @@ export interface AppServicePlanProperties {
   zoneRedundant?: boolean;
 }
 
+/** Specification for a Kubernetes Environment to use for this resource. */
 export interface KubeEnvironmentProfile {
   /** Resource ID of the Kubernetes Environment. */
   id?: string;
-  /** Name of the Kubernetes Environment. */
-  name?: string;
-  /** Resource type of the Kubernetes Environment. */
-  type?: string;
 }
 
+/** ARM resource for a app service plan. */
 export interface AppServicePlanPatchResource extends ProxyOnlyResource {
   /** AppServicePlanPatchResource resource specific properties */
   properties?: AppServicePlanPatchResourceProperties;
 }
 
+/** AppServicePlanPatchResource resource specific properties */
 export interface AppServicePlanPatchResourceProperties {
   /** Target worker tier assigned to the App Service plan. */
   workerTierName?: string;
-  /** App Service plan status. */
-  status?: "Ready" | "Pending" | "Creating";
-  /** App Service plan subscription. */
-  subscription?: string;
   /** Specification for the App Service Environment to use for the App Service plan. */
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** Maximum number of instances that can be assigned to this App Service plan. */
-  maximumNumberOfWorkers?: number;
-  /** Geographical location for the App Service plan. */
-  geoRegion?: string;
   /**
    * If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
    * If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
@@ -1729,16 +1426,12 @@ export interface AppServicePlanPatchResourceProperties {
   elasticScaleEnabled?: boolean;
   /** Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan */
   maximumElasticWorkerCount?: number;
-  /** Number of apps assigned to this App Service plan. */
-  numberOfSites?: number;
   /** If <code>true</code>, this App Service Plan owns spot instances. */
   isSpot?: boolean;
   /** The time when the server farm expires. Valid only if it is a spot server farm. */
   spotExpirationTime?: Date | string;
   /** The time when the server farm free offer expires. */
   freeOfferExpirationTime?: Date | string;
-  /** Resource group of the App Service plan. */
-  resourceGroup?: string;
   /** If Linux app service plan <code>true</code>, <code>false</code> otherwise. */
   reserved?: boolean;
   /** Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise. */
@@ -1749,8 +1442,6 @@ export interface AppServicePlanPatchResourceProperties {
   targetWorkerCount?: number;
   /** Scaling worker size ID. */
   targetWorkerSizeId?: number;
-  /** Provisioning state of the App Service Plan. */
-  provisioningState?: "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
   /** Specification for the Kubernetes Environment to use for the App Service plan. */
   kubeEnvironmentProfile?: KubeEnvironmentProfile;
   /**
@@ -1760,11 +1451,13 @@ export interface AppServicePlanPatchResourceProperties {
   zoneRedundant?: boolean;
 }
 
+/** Hybrid Connection contract. This is used to configure a Hybrid Connection. */
 export interface HybridConnection extends ProxyOnlyResource {
   /** HybridConnection resource specific properties */
   properties?: HybridConnectionProperties;
 }
 
+/** HybridConnection resource specific properties */
 export interface HybridConnectionProperties {
   /** The name of the Service Bus namespace. */
   serviceBusNamespace?: string;
@@ -1787,60 +1480,52 @@ export interface HybridConnectionProperties {
   serviceBusSuffix?: string;
 }
 
+/** Hybrid Connection key contract. This has the send key name and value for a Hybrid Connection. */
 export interface HybridConnectionKey extends ProxyOnlyResource {
   /** HybridConnectionKey resource specific properties */
   properties?: HybridConnectionKeyProperties;
 }
 
-export interface HybridConnectionKeyProperties {
-  /** The name of the send key. */
-  sendKeyName?: string;
-  /** The value of the send key. */
-  sendKeyValue?: string;
-}
+/** HybridConnectionKey resource specific properties */
+export interface HybridConnectionKeyProperties {}
 
+/** Hybrid Connection limits contract. This is used to return the plan limits of Hybrid Connections. */
 export interface HybridConnectionLimits extends ProxyOnlyResource {
   /** HybridConnectionLimits resource specific properties */
   properties?: HybridConnectionLimitsProperties;
 }
 
-export interface HybridConnectionLimitsProperties {
-  /** The current number of Hybrid Connections. */
-  current?: number;
-  /** The maximum number of Hybrid Connections allowed. */
-  maximum?: number;
-}
+/** HybridConnectionLimits resource specific properties */
+export interface HybridConnectionLimitsProperties {}
 
+/** Virtual Network information ARM resource. */
 export interface VnetInfoResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: VnetInfo;
 }
 
+/** Virtual Network information contract. */
 export interface VnetInfo {
   /** The Virtual Network's resource ID. */
   vnetResourceId?: string;
-  /** The client certificate thumbprint. */
-  certThumbprint?: string;
   /**
    * A certificate file (.cer) blob containing the public key of the private key used to authenticate a
    * Point-To-Site VPN connection.
    */
   certBlob?: string;
-  /** The routes that this Virtual Network connection uses. */
-  routes?: Array<VnetRoute>;
-  /** <code>true</code> if a resync is required; otherwise, <code>false</code>. */
-  resyncRequired?: boolean;
   /** DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses. */
   dnsServers?: string;
   /** Flag that is used to denote if this is VNET injection */
   isSwift?: boolean;
 }
 
+/** Virtual Network route contract used to pass routing information for a Virtual Network. */
 export interface VnetRoute extends ProxyOnlyResource {
   /** VnetRoute resource specific properties */
   properties?: VnetRouteProperties;
 }
 
+/** VnetRoute resource specific properties */
 export interface VnetRouteProperties {
   /** The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified. */
   startAddress?: string;
@@ -1857,11 +1542,13 @@ export interface VnetRouteProperties {
   routeType?: "DEFAULT" | "INHERITED" | "STATIC";
 }
 
+/** The Virtual Network gateway contract. This is used to give the Virtual Network gateway access to the VPN package. */
 export interface VnetGateway extends ProxyOnlyResource {
   /** VnetGateway resource specific properties */
   properties?: VnetGatewayProperties;
 }
 
+/** VnetGateway resource specific properties */
 export interface VnetGatewayProperties {
   /** The Virtual Network name. */
   vnetName?: string;
@@ -1869,18 +1556,16 @@ export interface VnetGatewayProperties {
   vpnPackageUri: string;
 }
 
+/** SSL certificate for an app. */
 export interface Certificate extends Resource {
   /** Certificate resource specific properties */
   properties?: CertificateProperties;
 }
 
+/** Certificate resource specific properties */
 export interface CertificateProperties {
   /** Certificate password. */
   password?: string;
-  /** Friendly name of the certificate. */
-  friendlyName?: string;
-  /** Subject name of the certificate. */
-  subjectName?: string;
   /** Host names the certificate applies to. */
   hostNames?: Array<string>;
   /**
@@ -1889,47 +1574,10 @@ export interface CertificateProperties {
    * Value may contain base64 encoded characters
    */
   pfxBlob?: string;
-  /** App name. */
-  siteName?: string;
-  /** Self link. */
-  selfLink?: string;
-  /** Certificate issuer. */
-  issuer?: string;
-  /** Certificate issue Date. */
-  issueDate?: Date | string;
-  /** Certificate expiration date. */
-  expirationDate?: Date | string;
-  /** Certificate thumbprint. */
-  thumbprint?: string;
-  /** Is the certificate valid?. */
-  valid?: boolean;
-  /**
-   * Raw bytes of .cer file
-   *
-   * Value may contain base64 encoded characters
-   */
-  cerBlob?: string;
-  /** Public key hash. */
-  publicKeyHash?: string;
-  /** Specification for the App Service Environment to use for the certificate. */
-  hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** Key Vault Csm resource Id. */
   keyVaultId?: string;
   /** Key Vault secret name. */
   keyVaultSecretName?: string;
-  /** Status of the Key Vault secret. */
-  keyVaultSecretStatus?:
-    | "Initialized"
-    | "WaitingOnCertificateOrder"
-    | "Succeeded"
-    | "CertificateOrderFailed"
-    | "OperationNotPermittedOnKeyVault"
-    | "AzureServiceUnauthorizedToAccessKeyVault"
-    | "KeyVaultDoesNotExist"
-    | "KeyVaultSecretDoesNotExist"
-    | "UnknownError"
-    | "ExternalPrivateKey"
-    | "Unknown";
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
   serverFarmId?: string;
   /** CNAME of the certificate to be issued via free certificate */
@@ -1938,18 +1586,16 @@ export interface CertificateProperties {
   domainValidationMethod?: string;
 }
 
+/** ARM resource for a certificate. */
 export interface CertificatePatchResource extends ProxyOnlyResource {
   /** CertificatePatchResource resource specific properties */
   properties?: CertificatePatchResourceProperties;
 }
 
+/** CertificatePatchResource resource specific properties */
 export interface CertificatePatchResourceProperties {
   /** Certificate password. */
   password?: string;
-  /** Friendly name of the certificate. */
-  friendlyName?: string;
-  /** Subject name of the certificate. */
-  subjectName?: string;
   /** Host names the certificate applies to. */
   hostNames?: Array<string>;
   /**
@@ -1958,47 +1604,10 @@ export interface CertificatePatchResourceProperties {
    * Value may contain base64 encoded characters
    */
   pfxBlob?: string;
-  /** App name. */
-  siteName?: string;
-  /** Self link. */
-  selfLink?: string;
-  /** Certificate issuer. */
-  issuer?: string;
-  /** Certificate issue Date. */
-  issueDate?: Date | string;
-  /** Certificate expiration date. */
-  expirationDate?: Date | string;
-  /** Certificate thumbprint. */
-  thumbprint?: string;
-  /** Is the certificate valid?. */
-  valid?: boolean;
-  /**
-   * Raw bytes of .cer file
-   *
-   * Value may contain base64 encoded characters
-   */
-  cerBlob?: string;
-  /** Public key hash. */
-  publicKeyHash?: string;
-  /** Specification for the App Service Environment to use for the certificate. */
-  hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** Key Vault Csm resource Id. */
   keyVaultId?: string;
   /** Key Vault secret name. */
   keyVaultSecretName?: string;
-  /** Status of the Key Vault secret. */
-  keyVaultSecretStatus?:
-    | "Initialized"
-    | "WaitingOnCertificateOrder"
-    | "Succeeded"
-    | "CertificateOrderFailed"
-    | "OperationNotPermittedOnKeyVault"
-    | "AzureServiceUnauthorizedToAccessKeyVault"
-    | "KeyVaultDoesNotExist"
-    | "KeyVaultSecretDoesNotExist"
-    | "UnknownError"
-    | "ExternalPrivateKey"
-    | "Unknown";
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
   serverFarmId?: string;
   /** CNAME of the certificate to be issued via free certificate */
@@ -2007,26 +1616,23 @@ export interface CertificatePatchResourceProperties {
   domainValidationMethod?: string;
 }
 
+/** Container App. */
 export interface ContainerApp extends Resource {
   /** ContainerApp resource specific properties */
   properties?: ContainerAppProperties;
 }
 
+/** ContainerApp resource specific properties */
 export interface ContainerAppProperties {
-  /** Provisioning state of the Container App. */
-  provisioningState?: "InProgress" | "Succeeded" | "Failed" | "Canceled";
   /** Resource ID of the Container App's KubeEnvironment. */
   kubeEnvironmentId?: string;
-  /** Name of the latest revision of the Container App. */
-  latestRevisionName?: string;
-  /** Fully Qualified Domain Name of the latest revision of the Container App. */
-  latestRevisionFqdn?: string;
   /** Non versioned Container App configuration properties. */
   configuration?: Configuration;
   /** Container App versioned application definition. */
   template?: Template;
 }
 
+/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
 export interface Configuration {
   /** Collection of secrets used by a Container app */
   secrets?: Array<Secret>;
@@ -2041,6 +1647,7 @@ export interface Configuration {
   registries?: Array<RegistryCredentials>;
 }
 
+/** Container App Secret. */
 export interface Secret {
   /** Secret Name. */
   name?: string;
@@ -2048,9 +1655,8 @@ export interface Secret {
   value?: string;
 }
 
+/** Container App Ingress configuration. */
 export interface Ingress {
-  /** Hostname. */
-  fqdn?: string;
   /** Bool indicating if app exposes an external http endpoint */
   external?: boolean;
   /** Target Port in containers for traffic from ingress */
@@ -2062,6 +1668,7 @@ export interface Ingress {
   allowInsecure?: boolean;
 }
 
+/** Traffic weight assigned to a revision */
 export interface TrafficWeight {
   /** Name of a revision */
   revisionName?: string;
@@ -2071,6 +1678,7 @@ export interface TrafficWeight {
   latestRevision?: boolean;
 }
 
+/** Container App Private Registry */
 export interface RegistryCredentials {
   /** Container Registry Server */
   server?: string;
@@ -2080,6 +1688,11 @@ export interface RegistryCredentials {
   passwordSecretRef?: string;
 }
 
+/**
+ * Container App versioned application definition.
+ * Defines the desired state of an immutable revision.
+ * Any changes to this section Will result in a new revision being created
+ */
 export interface Template {
   /** User friendly suffix that is appended to the revision name */
   revisionSuffix?: string;
@@ -2091,6 +1704,7 @@ export interface Template {
   dapr?: Dapr;
 }
 
+/** Container App container definition. */
 export interface Container {
   /** Container image tag. */
   image?: string;
@@ -2106,6 +1720,7 @@ export interface Container {
   resources?: ContainerResources;
 }
 
+/** Container App container environment variable. */
 export interface EnvironmentVar {
   /** Environment variable name. */
   name?: string;
@@ -2115,6 +1730,7 @@ export interface EnvironmentVar {
   secretRef?: string;
 }
 
+/** Container App container resource requirements. */
 export interface ContainerResources {
   /** Required CPU in cores, e.g. 0.5 */
   cpu?: number;
@@ -2122,6 +1738,7 @@ export interface ContainerResources {
   memory?: string;
 }
 
+/** Container App scaling configurations. */
 export interface Scale {
   /** Optional. Minimum number of container replicas. */
   minReplicas?: number;
@@ -2131,6 +1748,7 @@ export interface Scale {
   rules?: Array<ScaleRule>;
 }
 
+/** Container App container scaling rule. */
 export interface ScaleRule {
   /** Scale Rule Name */
   name?: string;
@@ -2142,6 +1760,7 @@ export interface ScaleRule {
   http?: HttpScaleRule;
 }
 
+/** Container App container Azure Queue based scaling rule. */
 export interface QueueScaleRule {
   /** Queue name. */
   queueName?: string;
@@ -2151,6 +1770,7 @@ export interface QueueScaleRule {
   auth?: Array<ScaleRuleAuth>;
 }
 
+/** Auth Secrets for Container App Scale Rule */
 export interface ScaleRuleAuth {
   /** Name of the Container App secret from which to pull the auth params. */
   secretRef?: string;
@@ -2158,6 +1778,7 @@ export interface ScaleRuleAuth {
   triggerParameter?: string;
 }
 
+/** Container App container Custom scaling rule. */
 export interface CustomScaleRule {
   /**
    * Type of the custom scale rule
@@ -2170,6 +1791,7 @@ export interface CustomScaleRule {
   auth?: Array<ScaleRuleAuth>;
 }
 
+/** Container App container Custom scaling rule. */
 export interface HttpScaleRule {
   /** Metadata properties to describe http scale rule. */
   metadata?: Record<string, string>;
@@ -2177,6 +1799,7 @@ export interface HttpScaleRule {
   auth?: Array<ScaleRuleAuth>;
 }
 
+/** Container App Dapr configuration. */
 export interface Dapr {
   /** Boolean indicating if the Dapr side car is enabled */
   enabled?: boolean;
@@ -2188,6 +1811,7 @@ export interface Dapr {
   components?: Array<DaprComponent>;
 }
 
+/** Dapr component configuration */
 export interface DaprComponent {
   /** Component name */
   name?: string;
@@ -2199,6 +1823,7 @@ export interface DaprComponent {
   metadata?: Array<DaprMetadata>;
 }
 
+/** Container App Dapr component metadata. */
 export interface DaprMetadata {
   /** Metadata property name. */
   name?: string;
@@ -2208,93 +1833,49 @@ export interface DaprMetadata {
   secretRef?: string;
 }
 
+/** Container App Revision. */
 export interface Revision extends Resource {
   /** Revision resource specific properties */
   properties?: RevisionProperties;
 }
 
-export interface RevisionProperties {
-  /**
-   * Timestamp describing when the revision was created
-   * by controller
-   */
-  createdTime?: Date | string;
-  /** Fully qualified domain name of the revision */
-  fqdn?: string;
-  /**
-   * Container App Revision Template with all possible settings and the
-   * defaults if user did not provide them. The defaults are populated
-   * as they were at the creation time
-   */
-  template?: Template;
-  /** Boolean describing if the Revision is Active */
-  active?: boolean;
-  /** Number of pods currently running for this revision */
-  replicas?: number;
-  /** Traffic weight assigned to this revision */
-  trafficWeight?: number;
-  /** Optional Field - Platform Error Message */
-  provisioningError?: string;
-  /** Current health State of the revision */
-  healthState?: "Healthy" | "Unhealthy" | "None";
-  /** Current provisioning State of the revision */
-  provisioningState?:
-    | "Provisioning"
-    | "Provisioned"
-    | "Failed"
-    | "Deprovisioning"
-    | "Deprovisioned";
-}
+/** Revision resource specific properties */
+export interface RevisionProperties {}
 
+/** A deleted app. */
 export interface DeletedSite extends ProxyOnlyResource {
   /** DeletedSite resource specific properties */
   properties?: DeletedSiteProperties;
 }
 
-export interface DeletedSiteProperties {
-  /** Numeric id for the deleted site */
-  deletedSiteId?: number;
-  /** Time in UTC when the app was deleted. */
-  deletedTimestamp?: string;
-  /** Subscription containing the deleted site */
-  subscription?: string;
-  /** ResourceGroup that contained the deleted site */
-  resourceGroup?: string;
-  /** Name of the deleted site */
-  deletedSiteName?: string;
-  /** Slot of the deleted site */
-  slot?: string;
-  /** Kind of site that was deleted */
-  kind?: string;
-  /** Geo Region of the deleted site */
-  geoRegionName?: string;
-}
+/** DeletedSite resource specific properties */
+export interface DeletedSiteProperties {}
 
+/** Class representing detector definition */
 export interface DiagnosticCategory extends ProxyOnlyResource {
   /** DiagnosticCategory resource specific properties */
   properties?: DiagnosticCategoryProperties;
 }
 
-export interface DiagnosticCategoryProperties {
-  /** Description of the diagnostic category */
-  description?: string;
-}
+/** DiagnosticCategory resource specific properties */
+export interface DiagnosticCategoryProperties {}
 
+/** Definition of Analysis */
 export interface AnalysisDefinition extends ProxyOnlyResource {
   /** AnalysisDefinition resource specific properties */
   properties?: AnalysisDefinitionProperties;
 }
 
-export interface AnalysisDefinitionProperties {
-  /** Description of the Analysis */
-  description?: string;
-}
+/** AnalysisDefinition resource specific properties */
+export interface AnalysisDefinitionProperties {}
 
+/** Class representing a diagnostic analysis done on an application */
 export interface DiagnosticAnalysis extends ProxyOnlyResource {
   /** DiagnosticAnalysis resource specific properties */
   properties?: DiagnosticAnalysisProperties;
 }
 
+/** DiagnosticAnalysis resource specific properties */
 export interface DiagnosticAnalysisProperties {
   /** Start time of the period */
   startTime?: Date | string;
@@ -2308,6 +1889,7 @@ export interface DiagnosticAnalysisProperties {
   nonCorrelatedDetectors?: Array<DetectorDefinition>;
 }
 
+/** Class representing Abnormal Time Period identified in diagnosis */
 export interface AbnormalTimePeriod {
   /** Start time of the downtime */
   startTime?: Date | string;
@@ -2319,6 +1901,7 @@ export interface AbnormalTimePeriod {
   solutions?: Array<Solution>;
 }
 
+/** Class representing Abnormal Time Period detected. */
 export interface DetectorAbnormalTimePeriod {
   /** Start time of the correlated event */
   startTime?: Date | string;
@@ -2346,6 +1929,7 @@ export interface DetectorAbnormalTimePeriod {
   solutions?: Array<Solution>;
 }
 
+/** Class Representing Solution for problems detected. */
 export interface Solution {
   /** Solution Id. */
   id?: number;
@@ -2363,6 +1947,7 @@ export interface Solution {
   metadata?: Array<Array<NameValuePair>>;
 }
 
+/** Class Representing Detector Evidence used for analysis */
 export interface AnalysisData {
   /** Name of the Detector */
   source?: string;
@@ -2376,17 +1961,10 @@ export interface AnalysisData {
   detectorMetaData?: ResponseMetaData;
 }
 
-export interface DetectorDefinition {
-  /** Display name of the detector */
-  displayName?: string;
-  /** Description of the detector */
-  description?: string;
-  /** Detector Rank */
-  rank?: number;
-  /** Flag representing whether detector is enabled or not. */
-  isEnabled?: boolean;
-}
+/** Class representing detector definition */
+export interface DetectorDefinition {}
 
+/** Class representing Diagnostic Metric information */
 export interface DiagnosticMetricSet {
   /** Name of the metric */
   name?: string;
@@ -2402,6 +1980,7 @@ export interface DiagnosticMetricSet {
   values?: Array<DiagnosticMetricSample>;
 }
 
+/** Class representing Diagnostic Metric */
 export interface DiagnosticMetricSample {
   /** Time at which metric is measured */
   timestamp?: Date | string;
@@ -2427,6 +2006,7 @@ export interface ResponseMetaData {
   dataSource?: DataSource;
 }
 
+/** Class representing data source used by the detectors */
 export interface DataSource {
   /** Instructions if any for the data source */
   instructions?: Array<string>;
@@ -2434,16 +2014,19 @@ export interface DataSource {
   dataSourceUri?: Array<NameValuePair>;
 }
 
+/** ARM resource for a detector definition */
 export interface DetectorDefinitionResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: DetectorDefinition;
 }
 
+/** Class representing Response from Diagnostic Detectors */
 export interface DiagnosticDetectorResponse extends ProxyOnlyResource {
   /** DiagnosticDetectorResponse resource specific properties */
   properties?: DiagnosticDetectorResponseProperties;
 }
 
+/** DiagnosticDetectorResponse resource specific properties */
 export interface DiagnosticDetectorResponseProperties {
   /** Start time of the period */
   startTime?: Date | string;
@@ -2463,16 +2046,16 @@ export interface DiagnosticDetectorResponseProperties {
   responseMetaData?: ResponseMetaData;
 }
 
+/** A snapshot of an app. */
 export interface Snapshot extends ProxyOnlyResource {
   /** Snapshot resource specific properties */
   properties?: SnapshotProperties;
 }
 
-export interface SnapshotProperties {
-  /** The time the snapshot was taken. */
-  time?: string;
-}
+/** Snapshot resource specific properties */
+export interface SnapshotProperties {}
 
+/** A Kubernetes cluster specialized for web workloads by Azure App Service */
 export interface KubeEnvironment extends Resource {
   /** KubeEnvironment resource specific properties */
   properties?: KubeEnvironmentProperties;
@@ -2480,25 +2063,10 @@ export interface KubeEnvironment extends Resource {
   extendedLocation?: ExtendedLocation;
 }
 
+/** KubeEnvironment resource specific properties */
 export interface KubeEnvironmentProperties {
-  /** Provisioning state of the Kubernetes Environment. */
-  provisioningState?:
-    | "Succeeded"
-    | "Failed"
-    | "Canceled"
-    | "Waiting"
-    | "InitializationInProgress"
-    | "InfrastructureSetupInProgress"
-    | "InfrastructureSetupComplete"
-    | "ScheduledForDelete"
-    | "UpgradeRequested"
-    | "UpgradeFailed";
-  /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
   /** Only visible within Vnet/Subnet */
   internalLoadBalancerEnabled?: boolean;
-  /** Default Domain Name for the cluster */
-  defaultDomain?: string;
   /** Static IP of the KubeEnvironment */
   staticIp?: string;
   /** Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed */
@@ -2559,30 +2127,16 @@ export interface ContainerAppsConfiguration {
   dockerBridgeCidr?: string;
 }
 
+/** ARM resource for a KubeEnvironment when patching */
 export interface KubeEnvironmentPatchResource extends ProxyOnlyResource {
   /** KubeEnvironmentPatchResource resource specific properties */
   properties?: KubeEnvironmentPatchResourceProperties;
 }
 
+/** KubeEnvironmentPatchResource resource specific properties */
 export interface KubeEnvironmentPatchResourceProperties {
-  /** Provisioning state of the Kubernetes Environment. */
-  provisioningState?:
-    | "Succeeded"
-    | "Failed"
-    | "Canceled"
-    | "Waiting"
-    | "InitializationInProgress"
-    | "InfrastructureSetupInProgress"
-    | "InfrastructureSetupComplete"
-    | "ScheduledForDelete"
-    | "UpgradeRequested"
-    | "UpgradeFailed";
-  /** Any errors that occurred during deployment or deployment validation */
-  deploymentErrors?: string;
   /** Only visible within Vnet/Subnet */
   internalLoadBalancerEnabled?: boolean;
-  /** Default Domain Name for the cluster */
-  defaultDomain?: string;
   /** Static IP of the KubeEnvironment */
   staticIp?: string;
   /**
@@ -2602,11 +2156,13 @@ export interface KubeEnvironmentPatchResourceProperties {
   aksResourceID?: string;
 }
 
+/** ARM resource for a ApplicationStack. */
 export interface ApplicationStackResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: ApplicationStack;
 }
 
+/** Application stack. */
 export interface ApplicationStack {
   /** Application stack name. */
   name?: string;
@@ -2622,6 +2178,7 @@ export interface ApplicationStack {
   isDeprecated?: Array<ApplicationStack>;
 }
 
+/** Application stack major version. */
 export interface StackMajorVersion {
   /** Application stack major version (display only). */
   displayVersion?: string;
@@ -2655,6 +2212,7 @@ export interface StackMajorVersion {
   siteConfigPropertiesDictionary?: Record<string, Record<string, unknown>>;
 }
 
+/** Application stack minor version. */
 export interface StackMinorVersion {
   /** Application stack minor version (display only). */
   displayVersion?: string;
@@ -2666,218 +2224,70 @@ export interface StackMinorVersion {
   isRemoteDebuggingEnabled?: boolean;
 }
 
+/** Function App Stack. */
 export interface FunctionAppStack extends ProxyOnlyResource {
-  /** Function App stack location. */
-  location?: string;
   /** FunctionAppStack resource specific properties */
   properties?: FunctionAppStackProperties;
 }
 
-export interface FunctionAppStackProperties {
-  /** Function App stack (display only). */
-  displayText?: string;
-  /** Function App stack name. */
-  value?: string;
-  /** List of major versions available. */
-  majorVersions?: Array<FunctionAppMajorVersion>;
-  /** Function App stack preferred OS. */
-  preferredOs?: "Windows" | "Linux";
-}
+/** FunctionAppStack resource specific properties */
+export interface FunctionAppStackProperties {}
 
-export interface FunctionAppMajorVersion {
-  /** Function App stack major version (display only). */
-  displayText?: string;
-  /** Function App stack major version name. */
-  value?: string;
-  /** Minor versions associated with the major version. */
-  minorVersions?: Array<FunctionAppMinorVersion>;
-}
+/** Function App stack major version. */
+export interface FunctionAppMajorVersion {}
 
-export interface FunctionAppMinorVersion {
-  /** Function App stack (display only). */
-  displayText?: string;
-  /** Function App stack name. */
-  value?: string;
-  /** Settings associated with the minor version. */
-  stackSettings?: FunctionAppRuntimes;
-}
+/** Function App stack minor version. */
+export interface FunctionAppMinorVersion {}
 
-export interface FunctionAppRuntimes {
-  /** Linux-specific settings associated with the minor version. */
-  linuxRuntimeSettings?: FunctionAppRuntimeSettings;
-  /** Windows-specific settings associated with the minor version. */
-  windowsRuntimeSettings?: FunctionAppRuntimeSettings;
-}
+/** Function App stack runtimes. */
+export interface FunctionAppRuntimes {}
 
-export interface FunctionAppRuntimeSettings {
-  /** Function App stack minor version (runtime only). */
-  runtimeVersion?: string;
-  /** <code>true</code> if remote debugging is supported for the stack; otherwise, <code>false</code>. */
-  remoteDebuggingSupported?: boolean;
-  /** Application Insights settings associated with the minor version. */
-  appInsightsSettings?: AppInsightsWebAppStackSettings;
-  /** GitHub Actions settings associated with the minor version. */
-  gitHubActionSettings?: GitHubActionWebAppStackSettings;
-  /** Application settings associated with the minor version. */
-  appSettingsDictionary?: Record<string, string>;
-  /** Configuration settings associated with the minor version. */
-  siteConfigPropertiesDictionary?: SiteConfigPropertiesDictionary;
-  /** List of supported Functions extension versions. */
-  supportedFunctionsExtensionVersions?: Array<string>;
-  /** <code>true</code> if the stack is in preview; otherwise, <code>false</code>. */
-  isPreview?: boolean;
-  /** <code>true</code> if the stack is deprecated; otherwise, <code>false</code>. */
-  isDeprecated?: boolean;
-  /** <code>true</code> if the stack should be hidden; otherwise, <code>false</code>. */
-  isHidden?: boolean;
-  /** End-of-life date for the minor version. */
-  endOfLifeDate?: Date | string;
-  /** <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>. */
-  isAutoUpdate?: boolean;
-  /** <code>true</code> if the minor version is early-access; otherwise, <code>false</code>. */
-  isEarlyAccess?: boolean;
-  /** <code>true</code> if the minor version the default; otherwise, <code>false</code>. */
-  isDefault?: boolean;
-}
+/** Function App runtime settings. */
+export interface FunctionAppRuntimeSettings {}
 
-export interface AppInsightsWebAppStackSettings {
-  /** <code>true</code> if remote Application Insights is supported for the stack; otherwise, <code>false</code>. */
-  isSupported?: boolean;
-  /** <code>true</code> if Application Insights is disabled by default for the stack; otherwise, <code>false</code>. */
-  isDefaultOff?: boolean;
-}
+/** App Insights Web App stack settings. */
+export interface AppInsightsWebAppStackSettings {}
 
-export interface GitHubActionWebAppStackSettings {
-  /** <code>true</code> if GitHub Actions is supported for the stack; otherwise, <code>false</code>. */
-  isSupported?: boolean;
-  /** The minor version that is supported for GitHub Actions. */
-  supportedVersion?: string;
-}
+/** GitHub Actions Web App stack settings. */
+export interface GitHubActionWebAppStackSettings {}
 
-export interface SiteConfigPropertiesDictionary {
-  /** <code>true</code> if use32BitWorkerProcess should be set to true for the stack; otherwise, <code>false</code>. */
-  use32BitWorkerProcess?: boolean;
-  /** LinuxFxVersion configuration setting. */
-  linuxFxVersion?: string;
-  /** JavaVersion configuration setting. */
-  javaVersion?: string;
-  /** PowerShellVersion configuration setting. */
-  powerShellVersion?: string;
-}
+/** Site config properties dictionary. */
+export interface SiteConfigPropertiesDictionary {}
 
+/** Web App stack. */
 export interface WebAppStack extends ProxyOnlyResource {
-  /** Web App stack location. */
-  location?: string;
   /** WebAppStack resource specific properties */
   properties?: WebAppStackProperties;
 }
 
-export interface WebAppStackProperties {
-  /** Web App stack (display only). */
-  displayText?: string;
-  /** Web App stack name. */
-  value?: string;
-  /** List of major versions available. */
-  majorVersions?: Array<WebAppMajorVersion>;
-  /** Web App stack preferred OS. */
-  preferredOs?: "Windows" | "Linux";
-}
+/** WebAppStack resource specific properties */
+export interface WebAppStackProperties {}
 
-export interface WebAppMajorVersion {
-  /** Web App stack major version (display only). */
-  displayText?: string;
-  /** Web App stack major version name. */
-  value?: string;
-  /** Minor versions associated with the major version. */
-  minorVersions?: Array<WebAppMinorVersion>;
-}
+/** Web App stack major version. */
+export interface WebAppMajorVersion {}
 
-export interface WebAppMinorVersion {
-  /** Web App stack minor version (display only). */
-  displayText?: string;
-  /** Web App stack major version name. */
-  value?: string;
-  /** Settings associated with the minor version. */
-  stackSettings?: WebAppRuntimes;
-}
+/** Web App stack minor version. */
+export interface WebAppMinorVersion {}
 
-export interface WebAppRuntimes {
-  /** Linux-specific settings associated with the minor version. */
-  linuxRuntimeSettings?: WebAppRuntimeSettings;
-  /** Windows-specific settings associated with the minor version. */
-  windowsRuntimeSettings?: WebAppRuntimeSettings;
-  /** Linux-specific settings associated with the Java container minor version. */
-  linuxContainerSettings?: LinuxJavaContainerSettings;
-  /** Windows-specific settings associated with the Java container minor version. */
-  windowsContainerSettings?: WindowsJavaContainerSettings;
-}
+/** Web App stack runtimes. */
+export interface WebAppRuntimes {}
 
-export interface WebAppRuntimeSettings {
-  /** Web App stack minor version (runtime only). */
-  runtimeVersion?: string;
-  /** <code>true</code> if remote debugging is supported for the stack; otherwise, <code>false</code>. */
-  remoteDebuggingSupported?: boolean;
-  /** Application Insights settings associated with the minor version. */
-  appInsightsSettings?: AppInsightsWebAppStackSettings;
-  /** GitHub Actions settings associated with the minor version. */
-  gitHubActionSettings?: GitHubActionWebAppStackSettings;
-  /** <code>true</code> if the stack is in preview; otherwise, <code>false</code>. */
-  isPreview?: boolean;
-  /** <code>true</code> if the stack is deprecated; otherwise, <code>false</code>. */
-  isDeprecated?: boolean;
-  /** <code>true</code> if the stack should be hidden; otherwise, <code>false</code>. */
-  isHidden?: boolean;
-  /** End-of-life date for the minor version. */
-  endOfLifeDate?: Date | string;
-  /** <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>. */
-  isAutoUpdate?: boolean;
-  /** <code>true</code> if the minor version is early-access; otherwise, <code>false</code>. */
-  isEarlyAccess?: boolean;
-}
+/** Web App runtime settings. */
+export interface WebAppRuntimeSettings {}
 
-export interface LinuxJavaContainerSettings {
-  /** Java 11 version (runtime only). */
-  java11Runtime?: string;
-  /** Java 8 version (runtime only). */
-  java8Runtime?: string;
-  /** <code>true</code> if the stack is in preview; otherwise, <code>false</code>. */
-  isPreview?: boolean;
-  /** <code>true</code> if the stack is deprecated; otherwise, <code>false</code>. */
-  isDeprecated?: boolean;
-  /** <code>true</code> if the stack should be hidden; otherwise, <code>false</code>. */
-  isHidden?: boolean;
-  /** End-of-life date for the minor version. */
-  endOfLifeDate?: Date | string;
-  /** <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>. */
-  isAutoUpdate?: boolean;
-  /** <code>true</code> if the minor version is early-access; otherwise, <code>false</code>. */
-  isEarlyAccess?: boolean;
-}
+/** Linux Java Container settings. */
+export interface LinuxJavaContainerSettings {}
 
-export interface WindowsJavaContainerSettings {
-  /** Java container (runtime only). */
-  javaContainer?: string;
-  /** Java container version (runtime only). */
-  javaContainerVersion?: string;
-  /** <code>true</code> if the stack is in preview; otherwise, <code>false</code>. */
-  isPreview?: boolean;
-  /** <code>true</code> if the stack is deprecated; otherwise, <code>false</code>. */
-  isDeprecated?: boolean;
-  /** <code>true</code> if the stack should be hidden; otherwise, <code>false</code>. */
-  isHidden?: boolean;
-  /** End-of-life date for the minor version. */
-  endOfLifeDate?: Date | string;
-  /** <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>. */
-  isAutoUpdate?: boolean;
-  /** <code>true</code> if the minor version is early-access; otherwise, <code>false</code>. */
-  isEarlyAccess?: boolean;
-}
+/** Windows Java Container settings. */
+export interface WindowsJavaContainerSettings {}
 
+/** Represents a recommendation result generated by the recommendation engine. */
 export interface Recommendation extends ProxyOnlyResource {
   /** Recommendation resource specific properties */
   properties?: RecommendationProperties;
 }
 
+/** Recommendation resource specific properties */
 export interface RecommendationProperties {
   /** Timestamp when this instance was created. */
   creationTime?: Date | string;
@@ -2901,8 +2311,6 @@ export interface RecommendationProperties {
   level?: "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
   /** List of channels that this recommendation can apply. */
   channels?: "Notification" | "Api" | "Email" | "Webhook" | "All";
-  /** The list of category tags that this recommendation belongs to. */
-  categoryTags?: Array<string>;
   /** Name of action recommended by this object. */
   actionName?: string;
   /** True if this recommendation is still valid (i.e. "actionable"). False if it is invalid. */
@@ -2931,11 +2339,13 @@ export interface RecommendationProperties {
   forwardLink?: string;
 }
 
+/** Represents a recommendation rule that the recommendation engine can perform. */
 export interface RecommendationRule extends ProxyOnlyResource {
   /** RecommendationRule resource specific properties */
   properties?: RecommendationRuleProperties;
 }
 
+/** RecommendationRule resource specific properties */
 export interface RecommendationRuleProperties {
   /** Unique name of the rule. */
   recommendationName?: string;
@@ -2958,8 +2368,6 @@ export interface RecommendationRuleProperties {
   level?: "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
   /** List of available channels that this rule applies. */
   channels?: "Notification" | "Api" | "Email" | "Webhook" | "All";
-  /** The list of category tags that this recommendation rule belongs to. */
-  categoryTags?: Array<string>;
   /** True if this is associated with a dynamically added rule */
   isDynamic?: boolean;
   /** Extension name of the portal if exists. Applicable to dynamic rule only. */
@@ -2970,11 +2378,13 @@ export interface RecommendationRuleProperties {
   forwardLink?: string;
 }
 
+/** Used for getting ResourceHealthCheck settings. */
 export interface ResourceHealthMetadata extends ProxyOnlyResource {
   /** ResourceHealthMetadata resource specific properties */
   properties?: ResourceHealthMetadataProperties;
 }
 
+/** ResourceHealthMetadata resource specific properties */
 export interface ResourceHealthMetadataProperties {
   /** The category that the resource matches in the RHC Policy File */
   category?: string;
@@ -2982,11 +2392,13 @@ export interface ResourceHealthMetadataProperties {
   signalAvailability?: boolean;
 }
 
+/** User credentials used for publishing activity. */
 export interface User extends ProxyOnlyResource {
   /** User resource specific properties */
   properties?: UserProperties;
 }
 
+/** User resource specific properties */
 export interface UserProperties {
   /** Username used for publishing. */
   publishingUserName: string;
@@ -3012,11 +2424,13 @@ export interface UserProperties {
   scmUri?: string;
 }
 
+/** The source control OAuth token. */
 export interface SourceControl extends ProxyOnlyResource {
   /** SourceControl resource specific properties */
   properties?: SourceControlProperties;
 }
 
+/** SourceControl resource specific properties */
 export interface SourceControlProperties {
   /** OAuth access token. */
   token?: string;
@@ -3028,11 +2442,13 @@ export interface SourceControlProperties {
   expirationTime?: Date | string;
 }
 
+/** App Service billing entity that contains information about meter which the Azure billing system utilizes to charge users for services. */
 export interface BillingMeter extends ProxyOnlyResource {
   /** BillingMeter resource specific properties */
   properties?: BillingMeterProperties;
 }
 
+/** BillingMeter resource specific properties */
 export interface BillingMeterProperties {
   /** Meter GUID onboarded in Commerce */
   meterId?: string;
@@ -3050,6 +2466,7 @@ export interface BillingMeterProperties {
   multiplier?: number;
 }
 
+/** Resource name availability request content. */
 export interface ResourceNameAvailabilityRequest {
   /** Resource name to verify. */
   name: string;
@@ -3067,46 +2484,47 @@ export interface ResourceNameAvailabilityRequest {
   isFqdn?: boolean;
 }
 
+/** A hostname and its assigned sites */
 export interface CustomHostnameSites extends ProxyOnlyResource {
   /** CustomHostnameSites resource specific properties */
   properties?: CustomHostnameSitesProperties;
 }
 
+/** CustomHostnameSites resource specific properties */
 export interface CustomHostnameSitesProperties {
   customHostname?: string;
   region?: string;
   siteResourceIds?: Array<Identifier>;
 }
 
+/** A domain specific resource identifier. */
 export interface Identifier extends ProxyOnlyResource {
   /** Identifier resource specific properties */
   properties?: IdentifierProperties;
 }
 
+/** Identifier resource specific properties */
 export interface IdentifierProperties {
   /** String representation of the identity. */
   id?: string;
 }
 
+/** Geographical region. */
 export interface GeoRegion extends ProxyOnlyResource {
   /** GeoRegion resource specific properties */
   properties?: GeoRegionProperties;
 }
 
-export interface GeoRegionProperties {
-  /** Region description. */
-  description?: string;
-  /** Display name for region. */
-  displayName?: string;
-  /** Display name for region. */
-  orgDomain?: string;
-}
+/** GeoRegion resource specific properties */
+export interface GeoRegionProperties {}
 
+/** Premier add-on offer. */
 export interface PremierAddOnOffer extends ProxyOnlyResource {
   /** PremierAddOnOffer resource specific properties */
   properties?: PremierAddOnOfferProperties;
 }
 
+/** PremierAddOnOffer resource specific properties */
 export interface PremierAddOnOfferProperties {
   /** Premier add on SKU. */
   sku?: string;
@@ -3130,11 +2548,13 @@ export interface PremierAddOnOfferProperties {
   marketplaceOffer?: string;
 }
 
+/** The required set of inputs to validate a VNET */
 export interface VnetParameters extends ProxyOnlyResource {
   /** VnetParameters resource specific properties */
   properties?: VnetParametersProperties;
 }
 
+/** VnetParameters resource specific properties */
 export interface VnetParametersProperties {
   /** The Resource Group of the VNET to be validated */
   vnetResourceGroup?: string;
@@ -3146,11 +2566,13 @@ export interface VnetParametersProperties {
   subnetResourceId?: string;
 }
 
+/** A class that describes the reason for a validation failure. */
 export interface VnetValidationFailureDetails extends ProxyOnlyResource {
   /** VnetValidationFailureDetails resource specific properties */
   properties?: VnetValidationFailureDetailsProperties;
 }
 
+/** VnetValidationFailureDetails resource specific properties */
 export interface VnetValidationFailureDetailsProperties {
   /** Text describing the validation outcome. */
   message?: string;
@@ -3162,11 +2584,13 @@ export interface VnetValidationFailureDetailsProperties {
   warnings?: Array<VnetValidationTestFailure>;
 }
 
+/** A class that describes a test that failed during NSG and UDR validation. */
 export interface VnetValidationTestFailure extends ProxyOnlyResource {
   /** VnetValidationTestFailure resource specific properties */
   properties?: VnetValidationTestFailureProperties;
 }
 
+/** VnetValidationTestFailure resource specific properties */
 export interface VnetValidationTestFailureProperties {
   /** The name of the test that failed. */
   testName?: string;
@@ -3174,11 +2598,13 @@ export interface VnetValidationTestFailureProperties {
   details?: string;
 }
 
+/** Object with a list of the resources that need to be moved and the resource group they should be moved to. */
 export interface CsmMoveResourceEnvelope {
   targetResourceGroup?: string;
   resources?: Array<string>;
 }
 
+/** Resource validation request content. */
 export interface ValidateRequest {
   /** Resource name to verify. */
   name: string;
@@ -3190,6 +2616,7 @@ export interface ValidateRequest {
   properties: ValidateProperties;
 }
 
+/** App properties used for validation. */
 export interface ValidateProperties {
   /** ARM resource ID of an App Service plan that would host the app. */
   serverFarmId?: string;
@@ -3221,11 +2648,13 @@ export interface ValidateProperties {
   appServiceEnvironment?: AppServiceEnvironment;
 }
 
+/** Request entity for previewing the Static Site workflow */
 export interface StaticSitesWorkflowPreviewRequest extends ProxyOnlyResource {
   /** StaticSitesWorkflowPreviewRequest resource specific properties */
   properties?: StaticSitesWorkflowPreviewRequestProperties;
 }
 
+/** StaticSitesWorkflowPreviewRequest resource specific properties */
 export interface StaticSitesWorkflowPreviewRequestProperties {
   /** URL for the repository of the static site. */
   repositoryUrl?: string;
@@ -3235,6 +2664,7 @@ export interface StaticSitesWorkflowPreviewRequestProperties {
   buildProperties?: StaticSiteBuildProperties;
 }
 
+/** Build properties for the static site. */
 export interface StaticSiteBuildProperties {
   /** The path to the app code within the repository. */
   appLocation?: string;
@@ -3254,18 +2684,16 @@ export interface StaticSiteBuildProperties {
   githubActionSecretNameOverride?: string;
 }
 
+/** Preview for the Static Site Workflow to be generated */
 export interface StaticSitesWorkflowPreview extends ProxyOnlyResource {
   /** StaticSitesWorkflowPreview resource specific properties */
   properties?: StaticSitesWorkflowPreviewProperties;
 }
 
-export interface StaticSitesWorkflowPreviewProperties {
-  /** The path for the workflow file to be generated */
-  path?: string;
-  /** The contents for the workflow file to be generated */
-  contents?: string;
-}
+/** StaticSitesWorkflowPreview resource specific properties */
+export interface StaticSitesWorkflowPreviewProperties {}
 
+/** Static Site ARM resource. */
 export interface StaticSiteARMResource extends Resource {
   /** Core resource properties */
   properties?: StaticSite;
@@ -3275,39 +2703,29 @@ export interface StaticSiteARMResource extends Resource {
   identity?: ManagedServiceIdentity;
 }
 
+/** A static site. */
 export interface StaticSite {
-  /** The default autogenerated hostname for the static site. */
-  defaultHostname?: string;
   /** URL for the repository of the static site. */
   repositoryUrl?: string;
   /** The target branch in the repository. */
   branch?: string;
-  /** The custom domains associated with this static site. */
-  customDomains?: Array<string>;
   /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
   repositoryToken?: string;
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildProperties;
-  /** Private endpoint connections */
-  privateEndpointConnections?: Array<ResponseMessageEnvelopeRemotePrivateEndpointConnection>;
   /** State indicating whether staging environments are allowed or not allowed for a static web app. */
   stagingEnvironmentPolicy?: "Enabled" | "Disabled";
   /** <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>. */
   allowConfigFileUpdates?: boolean;
   /** Template options for generating a new repository. */
   templateProperties?: StaticSiteTemplateOptions;
-  /** The content distribution endpoint for the static site. */
-  contentDistributionEndpoint?: string;
-  /** Identity to use for Key Vault Reference authentication. */
-  keyVaultReferenceIdentity?: string;
-  /** User provided function apps registered with the static site */
-  userProvidedFunctionApps?: Array<StaticSiteUserProvidedFunctionApp>;
   /** The provider that submitted the last deployment to the primary environment of the static site. */
   provider?: string;
   /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
   enterpriseGradeCdnStatus?: "Enabled" | "Enabling" | "Disabled" | "Disabling";
 }
 
+/** Message envelope that contains the common Azure resource manager properties and the resource provider specific content. */
 export interface ResponseMessageEnvelopeRemotePrivateEndpointConnection {
   /**
    * Resource Id. Typically ID is populated only for responses to GET requests. Caller is responsible for passing in this
@@ -3339,6 +2757,7 @@ export interface ResponseMessageEnvelopeRemotePrivateEndpointConnection {
   zones?: Array<string>;
 }
 
+/** The plan object in Azure Resource Manager, represents a marketplace plan. */
 export interface ArmPlan {
   /** The name. */
   name?: string;
@@ -3352,13 +2771,14 @@ export interface ArmPlan {
   version?: string;
 }
 
+/** A remote private endpoint connection */
 export interface RemotePrivateEndpointConnection extends ProxyOnlyResource {
   /** RemotePrivateEndpointConnection resource specific properties */
   properties?: RemotePrivateEndpointConnectionProperties;
 }
 
+/** RemotePrivateEndpointConnection resource specific properties */
 export interface RemotePrivateEndpointConnectionProperties {
-  provisioningState?: string;
   /** PrivateEndpoint of a remote private endpoint connection */
   privateEndpoint?: ArmIdWrapper;
   /** The state of a private link connection */
@@ -3367,6 +2787,7 @@ export interface RemotePrivateEndpointConnectionProperties {
   ipAddresses?: Array<string>;
 }
 
+/** Template Options for the static site. */
 export interface StaticSiteTemplateOptions {
   /** URL of the template repository. The newly generated repository will be based on this one. */
   templateRepositoryUrl?: string;
@@ -3380,108 +2801,83 @@ export interface StaticSiteTemplateOptions {
   isPrivate?: boolean;
 }
 
+/** A static site user provided function. */
 export interface StaticSiteUserProvidedFunctionApp extends ProxyOnlyResource {
   /** StaticSiteUserProvidedFunctionApp resource specific properties */
   properties?: StaticSiteUserProvidedFunctionAppProperties;
 }
 
+/** StaticSiteUserProvidedFunctionApp resource specific properties */
 export interface StaticSiteUserProvidedFunctionAppProperties {
   /** The resource id of the function app registered with the static site */
   functionAppResourceId?: string;
   /** The region of the function app registered with the static site */
   functionAppRegion?: string;
-  /** The date and time on which the function app was registered with the static site. */
-  createdOn?: Date | string;
 }
 
+/** ARM resource for a static site when patching */
 export interface StaticSitePatchResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: StaticSite;
 }
 
+/** Static Site User ARM resource. */
 export interface StaticSiteUserARMResource extends ProxyOnlyResource {
   /** StaticSiteUserARMResource resource specific properties */
   properties?: StaticSiteUserARMResourceProperties;
 }
 
+/** StaticSiteUserARMResource resource specific properties */
 export interface StaticSiteUserARMResourceProperties {
-  /** The identity provider for the static site user. */
-  provider?: string;
-  /** The user id for the static site user. */
-  userId?: string;
-  /** The display name for the static site user. */
-  displayName?: string;
   /** The roles for the static site user, in free-form string format */
   roles?: string;
 }
 
+/** Static Site Build ARM resource. */
 export interface StaticSiteBuildARMResource extends ProxyOnlyResource {
   /** StaticSiteBuildARMResource resource specific properties */
   properties?: StaticSiteBuildARMResourceProperties;
 }
 
-export interface StaticSiteBuildARMResourceProperties {
-  /** An identifier for the static site build. */
-  buildId?: string;
-  /** The source branch. */
-  sourceBranch?: string;
-  /** The title of a pull request that a static site build is related to. */
-  pullRequestTitle?: string;
-  /** The hostname for a static site build. */
-  hostname?: string;
-  /** When this build was created. */
-  createdTimeUtc?: Date | string;
-  /** When this build was updated. */
-  lastUpdatedOn?: Date | string;
-  /** The status of the static site build. */
-  status?:
-    | "WaitingForDeployment"
-    | "Uploading"
-    | "Deploying"
-    | "Ready"
-    | "Failed"
-    | "Deleting"
-    | "Detached";
-  /** User provided function apps registered with the static site build */
-  userProvidedFunctionApps?: Array<StaticSiteUserProvidedFunctionApp>;
-}
+/** StaticSiteBuildARMResource resource specific properties */
+export interface StaticSiteBuildARMResourceProperties {}
 
+/** String dictionary resource. */
 export interface StringDictionary extends ProxyOnlyResource {
   /** Settings. */
   properties?: Record<string, string>;
 }
 
+/** Static Site Function Overview ARM resource. */
 export interface StaticSiteFunctionOverviewARMResource extends ProxyOnlyResource {
   /** StaticSiteFunctionOverviewARMResource resource specific properties */
   properties?: StaticSiteFunctionOverviewARMResourceProperties;
 }
 
-export interface StaticSiteFunctionOverviewARMResourceProperties {
-  /** The name for the function */
-  functionName?: string;
-  /** The trigger type of the function */
-  triggerType?: "HttpTrigger" | "Unknown";
-}
+/** StaticSiteFunctionOverviewARMResource resource specific properties */
+export interface StaticSiteFunctionOverviewARMResourceProperties {}
 
+/** Static Site User Provided Function App ARM resource. */
 export interface StaticSiteUserProvidedFunctionAppARMResource extends ProxyOnlyResource {
   /** StaticSiteUserProvidedFunctionAppARMResource resource specific properties */
   properties?: StaticSiteUserProvidedFunctionAppARMResourceProperties;
 }
 
+/** StaticSiteUserProvidedFunctionAppARMResource resource specific properties */
 export interface StaticSiteUserProvidedFunctionAppARMResourceProperties {
   /** The resource id of the function app registered with the static site */
   functionAppResourceId?: string;
   /** The region of the function app registered with the static site */
   functionAppRegion?: string;
-  /** The date and time on which the function app was registered with the static site. */
-  createdOn?: Date | string;
 }
 
+/** Static site zip deployment ARM resource. */
 export interface StaticSiteZipDeploymentARMResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: StaticSiteZipDeployment;
 }
 
+/** A static site zip deployment. */
 export interface StaticSiteZipDeployment {
   /** URL for the zipped app content */
   appZipUrl?: string;
@@ -3495,11 +2891,13 @@ export interface StaticSiteZipDeployment {
   functionLanguage?: string;
 }
 
+/** Static sites user roles invitation resource. */
 export interface StaticSiteUserInvitationRequestResource extends ProxyOnlyResource {
   /** StaticSiteUserInvitationRequestResource resource specific properties */
   properties?: StaticSiteUserInvitationRequestResourceProperties;
 }
 
+/** StaticSiteUserInvitationRequestResource resource specific properties */
 export interface StaticSiteUserInvitationRequestResourceProperties {
   /** The domain name for the static site custom domain. */
   domain?: string;
@@ -3513,55 +2911,49 @@ export interface StaticSiteUserInvitationRequestResourceProperties {
   numHoursToExpiration?: number;
 }
 
+/** Static sites user roles invitation link resource. */
 export interface StaticSiteUserInvitationResponseResource extends ProxyOnlyResource {
   /** StaticSiteUserInvitationResponseResource resource specific properties */
   properties?: StaticSiteUserInvitationResponseResourceProperties;
 }
 
-export interface StaticSiteUserInvitationResponseResourceProperties {
-  /** The expiration time of the invitation */
-  expiresOn?: Date | string;
-  /** The url for the invitation link */
-  invitationUrl?: string;
-}
+/** StaticSiteUserInvitationResponseResource resource specific properties */
+export interface StaticSiteUserInvitationResponseResourceProperties {}
 
+/** Static Site Custom Domain Overview ARM resource. */
 export interface StaticSiteCustomDomainOverviewARMResource extends ProxyOnlyResource {
   /** StaticSiteCustomDomainOverviewARMResource resource specific properties */
   properties?: StaticSiteCustomDomainOverviewARMResourceProperties;
 }
 
-export interface StaticSiteCustomDomainOverviewARMResourceProperties {
-  /** The domain name for the static site custom domain. */
-  domainName?: string;
-  /** The date and time on which the custom domain was created for the static site. */
-  createdOn?: Date | string;
-  /** The status of the custom domain */
-  status?: "RetrievingValidationToken" | "Validating" | "Adding" | "Ready" | "Failed" | "Deleting";
-  /** The TXT record validation token */
-  validationToken?: string;
-  errorMessage?: string;
-}
+/** StaticSiteCustomDomainOverviewARMResource resource specific properties */
+export interface StaticSiteCustomDomainOverviewARMResourceProperties {}
 
+/** Static Site Custom Domain Request Properties ARM resource. */
 export interface StaticSiteCustomDomainRequestPropertiesARMResource extends ProxyOnlyResource {
   /** StaticSiteCustomDomainRequestPropertiesARMResource resource specific properties */
   properties?: StaticSiteCustomDomainRequestPropertiesARMResourceProperties;
 }
 
+/** StaticSiteCustomDomainRequestPropertiesARMResource resource specific properties */
 export interface StaticSiteCustomDomainRequestPropertiesARMResourceProperties {
   /** Validation method for adding a custom domain */
   validationMethod?: string;
 }
 
+/** String list resource. */
 export interface StringList extends ProxyOnlyResource {
   /** List of string resources. */
   properties?: Array<string>;
 }
 
+/** Static Site Reset Properties ARM resource. */
 export interface StaticSiteResetPropertiesARMResource extends ProxyOnlyResource {
   /** StaticSiteResetPropertiesARMResource resource specific properties */
   properties?: StaticSiteResetPropertiesARMResourceProperties;
 }
 
+/** StaticSiteResetPropertiesARMResource resource specific properties */
 export interface StaticSiteResetPropertiesARMResourceProperties {
   /** The token which proves admin privileges to the repository. */
   repositoryToken?: string;
@@ -3569,6 +2961,7 @@ export interface StaticSiteResetPropertiesARMResourceProperties {
   shouldUpdateRepository?: boolean;
 }
 
+/** ARM resource for a site. */
 export interface SitePatchResource extends ProxyOnlyResource {
   /** SitePatchResource resource specific properties */
   properties?: SitePatchResourceProperties;
@@ -3576,24 +2969,10 @@ export interface SitePatchResource extends ProxyOnlyResource {
   identity?: ManagedServiceIdentity;
 }
 
+/** SitePatchResource resource specific properties */
 export interface SitePatchResourceProperties {
-  /** Current state of the app. */
-  state?: string;
-  /** Hostnames associated with the app. */
-  hostNames?: Array<string>;
-  /** Name of the repository site. */
-  repositorySiteName?: string;
-  /** State indicating whether the app has exceeded its quota usage. Read-only. */
-  usageState?: "Normal" | "Exceeded";
   /** <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables the app (takes the app offline). */
   enabled?: boolean;
-  /**
-   * Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
-   * the app is not served on those hostnames.
-   */
-  enabledHostNames?: Array<string>;
-  /** Management information availability state for the app. */
-  availabilityState?: "Normal" | "Limited" | "DisasterRecoveryMode";
   /** Hostname SSL states are used to manage the SSL bindings for app's hostnames. */
   hostNameSslStates?: Array<HostNameSslState>;
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
@@ -3604,16 +2983,10 @@ export interface SitePatchResourceProperties {
   isXenon?: boolean;
   /** Hyper-V sandbox. */
   hyperV?: boolean;
-  /** Last time the app was modified, in UTC. Read-only. */
-  lastModifiedTimeUtc?: Date | string;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
-  /** Azure Traffic Manager hostnames associated with the app. Read-only. */
-  trafficManagerHostNames?: Array<string>;
   /** <code>true</code> to stop SCM (KUDU) site when the app is stopped; otherwise, <code>false</code>. The default is <code>false</code>. */
   scmSiteAlsoStopped?: boolean;
-  /** Specifies which deployment slot this app will swap into. Read-only. */
-  targetSwapSlot?: string;
   /** App Service Environment to use for the app. */
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   /** <code>true</code> to enable client affinity; <code>false</code> to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is <code>true</code>. */
@@ -3636,31 +3009,12 @@ export interface SitePatchResourceProperties {
   hostNamesDisabled?: boolean;
   /** Unique identifier that verifies the custom domains assigned to the app. Customer will add this id to a txt record for verification. */
   customDomainVerificationId?: string;
-  /** List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from tenants that site can be hosted with current settings. Read-only. */
-  outboundIpAddresses?: string;
-  /** List of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only. */
-  possibleOutboundIpAddresses?: string;
   /** Size of the function container. */
   containerSize?: number;
   /** Maximum allowed daily memory-time quota (applicable on dynamic apps only). */
   dailyMemoryTimeQuota?: number;
-  /** App suspended till in case memory-time quota is exceeded. */
-  suspendedTill?: Date | string;
-  /**
-   * Maximum number of workers.
-   * This only applies to Functions container.
-   */
-  maxNumberOfWorkers?: number;
   /** If specified during app creation, the app is cloned from a source app. */
   cloningInfo?: CloningInfo;
-  /** Name of the resource group the app belongs to. Read-only. */
-  resourceGroup?: string;
-  /** <code>true</code> if the app is a default container; otherwise, <code>false</code>. */
-  isDefaultContainer?: boolean;
-  /** Default hostname of the app. Read-only. */
-  defaultHostName?: string;
-  /** Status of the last deployment slot swap operation. */
-  slotSwapStatus?: SlotSwapStatus;
   /**
    * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
    * http requests
@@ -3668,12 +3022,6 @@ export interface SitePatchResourceProperties {
   httpsOnly?: boolean;
   /** Site redundancy mode */
   redundancyMode?: "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
-  /**
-   * Specifies an operation id if this site has a pending operation.
-   *
-   * Value may contain a UUID
-   */
-  inProgressOperationId?: string;
   /** Checks if Customer provided storage account is required */
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
@@ -3685,24 +3033,14 @@ export interface SitePatchResourceProperties {
   virtualNetworkSubnetId?: string;
 }
 
+/** Custom domain analysis. */
 export interface CustomHostnameAnalysisResult extends ProxyOnlyResource {
   /** CustomHostnameAnalysisResult resource specific properties */
   properties?: CustomHostnameAnalysisResultProperties;
 }
 
+/** CustomHostnameAnalysisResult resource specific properties */
 export interface CustomHostnameAnalysisResultProperties {
-  /** <code>true</code> if hostname is already verified; otherwise, <code>false</code>. */
-  isHostnameAlreadyVerified?: boolean;
-  /** DNS verification test result. */
-  customDomainVerificationTest?: "Passed" | "Failed" | "Skipped";
-  /** Raw failure information if DNS verification fails. */
-  customDomainVerificationFailureInfo?: ErrorEntity;
-  /** <code>true</code> if there is a conflict on a scale unit; otherwise, <code>false</code>. */
-  hasConflictOnScaleUnit?: boolean;
-  /** <code>true</code> if there is a conflict across subscriptions; otherwise, <code>false</code>. */
-  hasConflictAcrossSubscription?: boolean;
-  /** Name of the conflicting app on scale unit if it's within the same subscription. */
-  conflictingAppResourceId?: string;
   /** CName records controller can see for this hostname. */
   cNameRecords?: Array<string>;
   /** TXT records controller can see for this hostname. */
@@ -3715,6 +3053,7 @@ export interface CustomHostnameAnalysisResultProperties {
   alternateTxtRecords?: Array<string>;
 }
 
+/** Deployment slot parameters. */
 export interface CsmSlotEntity {
   /** Destination deployment slot during swap operation. */
   targetSlot: string;
@@ -3722,11 +3061,13 @@ export interface CsmSlotEntity {
   preserveVnet: boolean;
 }
 
+/** Description of a backup which will be performed. */
 export interface BackupRequest extends ProxyOnlyResource {
   /** BackupRequest resource specific properties */
   properties?: BackupRequestProperties;
 }
 
+/** BackupRequest resource specific properties */
 export interface BackupRequestProperties {
   /** Name of the backup. */
   backupName?: string;
@@ -3740,6 +3081,7 @@ export interface BackupRequestProperties {
   databases?: Array<DatabaseBackupSetting>;
 }
 
+/** Description of a backup schedule. Describes how often should be the backup performed and what should be the retention policy. */
 export interface BackupSchedule {
   /** How often the backup should be executed (e.g. for weekly backup, this should be set to 7 and FrequencyUnit should be set to Day) */
   frequencyInterval: number;
@@ -3751,10 +3093,9 @@ export interface BackupSchedule {
   retentionPeriodInDays: number;
   /** When the schedule should start working. */
   startTime?: Date | string;
-  /** Last time when this schedule was triggered. */
-  lastExecutionTime?: Date | string;
 }
 
+/** Database backup settings. */
 export interface DatabaseBackupSetting {
   /** Database type (e.g. SqlAzure / MySql). */
   databaseType: "SqlAzure" | "MySql" | "LocalMySql" | "PostgreSql";
@@ -3768,57 +3109,22 @@ export interface DatabaseBackupSetting {
   connectionString?: string;
 }
 
+/** Backup description. */
 export interface BackupItem extends ProxyOnlyResource {
   /** BackupItem resource specific properties */
   properties?: BackupItemProperties;
 }
 
-export interface BackupItemProperties {
-  /** Id of the backup. */
-  id?: number;
-  /** SAS URL for the storage account container which contains this backup. */
-  storageAccountUrl?: string;
-  /** Name of the blob which contains data for this backup. */
-  blobName?: string;
-  /** Name of this backup. */
-  name?: string;
-  /** Backup status. */
-  status?:
-    | "InProgress"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Created"
-    | "Skipped"
-    | "PartiallySucceeded"
-    | "DeleteInProgress"
-    | "DeleteFailed"
-    | "Deleted";
-  /** Size of the backup in bytes. */
-  sizeInBytes?: number;
-  /** Timestamp of the backup creation. */
-  created?: Date | string;
-  /** Details regarding this backup. Might contain an error message. */
-  log?: string;
-  /** List of databases included in the backup. */
-  databases?: Array<DatabaseBackupSetting>;
-  /** True if this backup has been created due to a schedule being triggered. */
-  scheduled?: boolean;
-  /** Timestamp of a last restore operation which used this backup. */
-  lastRestoreTimeStamp?: Date | string;
-  /** Timestamp when this backup finished. */
-  finishedTimeStamp?: Date | string;
-  /** Unique correlation identifier. Please use this along with the timestamp while communicating with Azure support. */
-  correlationId?: string;
-  /** Size of the original web app which has been backed up. */
-  websiteSizeInBytes?: number;
-}
+/** BackupItem resource specific properties */
+export interface BackupItemProperties {}
 
+/** Description of a restore request. */
 export interface RestoreRequest extends ProxyOnlyResource {
   /** RestoreRequest resource specific properties */
   properties?: RestoreRequestProperties;
 }
 
+/** RestoreRequest resource specific properties */
 export interface RestoreRequestProperties {
   /** SAS URL to the container. */
   storageAccountUrl: string;
@@ -3847,26 +3153,31 @@ export interface RestoreRequestProperties {
   hostingEnvironment?: string;
 }
 
+/** Publishing Credentials Policies parameters. */
 export interface CsmPublishingCredentialsPoliciesEntity extends ProxyOnlyResource {
   /** CsmPublishingCredentialsPoliciesEntity resource specific properties */
   properties?: CsmPublishingCredentialsPoliciesEntityProperties;
 }
 
+/** CsmPublishingCredentialsPoliciesEntity resource specific properties */
 export interface CsmPublishingCredentialsPoliciesEntityProperties {
   /** <code>true</code> to allow access to a publishing method; otherwise, <code>false</code>. */
   allow: boolean;
 }
 
+/** Web app configuration ARM resource. */
 export interface SiteConfigResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: SiteConfig;
 }
 
+/** Configuration settings for the Azure App Service Authentication / Authorization feature. */
 export interface SiteAuthSettings extends ProxyOnlyResource {
   /** SiteAuthSettings resource specific properties */
   properties?: SiteAuthSettingsProperties;
 }
 
+/** SiteAuthSettings resource specific properties */
 export interface SiteAuthSettingsProperties {
   /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
   enabled?: boolean;
@@ -4068,11 +3379,13 @@ export interface SiteAuthSettingsProperties {
   configVersion?: string;
 }
 
+/** Configuration settings for the Azure App Service Authentication / Authorization V2 feature. */
 export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
   /** SiteAuthSettingsV2 resource specific properties */
   properties?: SiteAuthSettingsV2Properties;
 }
 
+/** SiteAuthSettingsV2 resource specific properties */
 export interface SiteAuthSettingsV2Properties {
   /** The configuration settings of the platform of App Service Authentication/Authorization. */
   platform?: AuthPlatform;
@@ -4086,6 +3399,7 @@ export interface SiteAuthSettingsV2Properties {
   httpSettings?: HttpSettings;
 }
 
+/** The configuration settings of the platform of App Service Authentication/Authorization. */
 export interface AuthPlatform {
   /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
   enabled?: boolean;
@@ -4101,6 +3415,7 @@ export interface AuthPlatform {
   configFilePath?: string;
 }
 
+/** The configuration settings that determines the validation flow of users using App Service Authentication/Authorization. */
 export interface GlobalValidation {
   /** <code>true</code> if the authentication flow is required any request is made; otherwise, <code>false</code>. */
   requireAuthentication?: boolean;
@@ -4120,6 +3435,7 @@ export interface GlobalValidation {
   excludedPaths?: Array<string>;
 }
 
+/** The configuration settings of each of the identity providers used to configure App Service Authentication/Authorization. */
 export interface IdentityProviders {
   /** The configuration settings of the Azure Active directory provider. */
   azureActiveDirectory?: AzureActiveDirectory;
@@ -4144,6 +3460,7 @@ export interface IdentityProviders {
   customOpenIdConnectProviders?: Record<string, CustomOpenIdConnectProvider>;
 }
 
+/** The configuration settings of the Azure Active directory provider. */
 export interface AzureActiveDirectory {
   /** <code>false</code> if the Azure Active Directory provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4161,6 +3478,7 @@ export interface AzureActiveDirectory {
   isAutoProvisioned?: boolean;
 }
 
+/** The configuration settings of the Azure Active Directory app registration. */
 export interface AzureActiveDirectoryRegistration {
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
@@ -4195,6 +3513,7 @@ export interface AzureActiveDirectoryRegistration {
   clientSecretCertificateIssuer?: string;
 }
 
+/** The configuration settings of the Azure Active Directory login flow. */
 export interface AzureActiveDirectoryLogin {
   /**
    * Login parameters to send to the OpenID Connect authorization endpoint when
@@ -4205,6 +3524,7 @@ export interface AzureActiveDirectoryLogin {
   disableWWWAuthenticate?: boolean;
 }
 
+/** The configuration settings of the Azure Active Directory token validation flow. */
 export interface AzureActiveDirectoryValidation {
   /** The configuration settings of the checks that should be made while validating the JWT Claims. */
   jwtClaimChecks?: JwtClaimChecks;
@@ -4214,6 +3534,7 @@ export interface AzureActiveDirectoryValidation {
   defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
 }
 
+/** The configuration settings of the checks that should be made while validating the JWT Claims. */
 export interface JwtClaimChecks {
   /** The list of the allowed groups. */
   allowedGroups?: Array<string>;
@@ -4221,6 +3542,7 @@ export interface JwtClaimChecks {
   allowedClientApplications?: Array<string>;
 }
 
+/** The configuration settings of the Azure Active Directory default authorization policy. */
 export interface DefaultAuthorizationPolicy {
   /** The configuration settings of the Azure Active Directory allowed principals. */
   allowedPrincipals?: AllowedPrincipals;
@@ -4228,6 +3550,7 @@ export interface DefaultAuthorizationPolicy {
   allowedApplications?: Array<string>;
 }
 
+/** The configuration settings of the Azure Active Directory allowed principals. */
 export interface AllowedPrincipals {
   /** The list of the allowed groups. */
   groups?: Array<string>;
@@ -4235,6 +3558,7 @@ export interface AllowedPrincipals {
   identities?: Array<string>;
 }
 
+/** The configuration settings of the Facebook provider. */
 export interface Facebook {
   /** <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4246,6 +3570,7 @@ export interface Facebook {
   login?: LoginScopes;
 }
 
+/** The configuration settings of the app registration for providers that have app ids and app secrets */
 export interface AppRegistration {
   /** The App ID of the app used for login. */
   appId?: string;
@@ -4253,11 +3578,13 @@ export interface AppRegistration {
   appSecretSettingName?: string;
 }
 
+/** The configuration settings of the login flow, including the scopes that should be requested. */
 export interface LoginScopes {
   /** A list of the scopes that should be requested while authenticating. */
   scopes?: Array<string>;
 }
 
+/** The configuration settings of the GitHub provider. */
 export interface GitHub {
   /** <code>false</code> if the GitHub provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4267,6 +3594,7 @@ export interface GitHub {
   login?: LoginScopes;
 }
 
+/** The configuration settings of the app registration for providers that have client ids and client secrets */
 export interface ClientRegistration {
   /** The Client ID of the app used for login. */
   clientId?: string;
@@ -4274,6 +3602,7 @@ export interface ClientRegistration {
   clientSecretSettingName?: string;
 }
 
+/** The configuration settings of the Google provider. */
 export interface Google {
   /** <code>false</code> if the Google provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4285,11 +3614,13 @@ export interface Google {
   validation?: AllowedAudiencesValidation;
 }
 
+/** The configuration settings of the Allowed Audiences validation flow. */
 export interface AllowedAudiencesValidation {
   /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
   allowedAudiences?: Array<string>;
 }
 
+/** The configuration settings of the legacy Microsoft Account provider. */
 export interface LegacyMicrosoftAccount {
   /** <code>false</code> if the legacy Microsoft Account provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4301,6 +3632,7 @@ export interface LegacyMicrosoftAccount {
   validation?: AllowedAudiencesValidation;
 }
 
+/** The configuration settings of the Twitter provider. */
 export interface Twitter {
   /** <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4308,6 +3640,7 @@ export interface Twitter {
   registration?: TwitterRegistration;
 }
 
+/** The configuration settings of the app registration for the Twitter provider. */
 export interface TwitterRegistration {
   /**
    * The OAuth 1.0a consumer key of the Twitter application used for sign-in.
@@ -4322,6 +3655,7 @@ export interface TwitterRegistration {
   consumerSecretSettingName?: string;
 }
 
+/** The configuration settings of the Apple provider. */
 export interface Apple {
   /** <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4331,6 +3665,7 @@ export interface Apple {
   login?: LoginScopes;
 }
 
+/** The configuration settings of the registration for the Apple provider */
 export interface AppleRegistration {
   /** The Client ID of the app used for login. */
   clientId?: string;
@@ -4338,6 +3673,7 @@ export interface AppleRegistration {
   clientSecretSettingName?: string;
 }
 
+/** The configuration settings of the Azure Static Web Apps provider. */
 export interface AzureStaticWebApps {
   /** <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4345,11 +3681,13 @@ export interface AzureStaticWebApps {
   registration?: AzureStaticWebAppsRegistration;
 }
 
+/** The configuration settings of the registration for the Azure Static Web Apps provider */
 export interface AzureStaticWebAppsRegistration {
   /** The Client ID of the app used for login. */
   clientId?: string;
 }
 
+/** The configuration settings of the custom Open ID Connect provider. */
 export interface CustomOpenIdConnectProvider {
   /** <code>false</code> if the custom Open ID provider provider should not be enabled; otherwise, <code>true</code>. */
   enabled?: boolean;
@@ -4359,6 +3697,7 @@ export interface CustomOpenIdConnectProvider {
   login?: OpenIdConnectLogin;
 }
 
+/** The configuration settings of the app registration for the custom Open ID Connect provider. */
 export interface OpenIdConnectRegistration {
   /** The client id of the custom Open ID Connect provider. */
   clientId?: string;
@@ -4368,6 +3707,7 @@ export interface OpenIdConnectRegistration {
   openIdConnectConfiguration?: OpenIdConnectConfig;
 }
 
+/** The authentication client credentials of the custom Open ID Connect provider. */
 export interface OpenIdConnectClientCredential {
   /** The method that should be used to authenticate the user. */
   method?: "ClientSecretPost";
@@ -4375,6 +3715,7 @@ export interface OpenIdConnectClientCredential {
   clientSecretSettingName?: string;
 }
 
+/** The configuration settings of the endpoints used for the custom Open ID Connect provider. */
 export interface OpenIdConnectConfig {
   /** The endpoint to be used to make an authorization request. */
   authorizationEndpoint?: string;
@@ -4388,6 +3729,7 @@ export interface OpenIdConnectConfig {
   wellKnownOpenIdConfiguration?: string;
 }
 
+/** The configuration settings of the login flow of the custom Open ID Connect provider. */
 export interface OpenIdConnectLogin {
   /** The name of the claim that contains the users name. */
   nameClaimType?: string;
@@ -4395,6 +3737,7 @@ export interface OpenIdConnectLogin {
   scopes?: Array<string>;
 }
 
+/** The configuration settings of the login flow of users using App Service Authentication/Authorization. */
 export interface Login {
   /** The routes that specify the endpoints used for login and logout requests. */
   routes?: LoginRoutes;
@@ -4414,11 +3757,13 @@ export interface Login {
   nonce?: Nonce;
 }
 
+/** The routes that specify the endpoints used for login and logout requests. */
 export interface LoginRoutes {
   /** The endpoint at which a logout request should be made. */
   logoutEndpoint?: string;
 }
 
+/** The configuration settings of the token store. */
 export interface TokenStore {
   /**
    * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
@@ -4436,16 +3781,19 @@ export interface TokenStore {
   azureBlobStorage?: BlobStorageTokenStore;
 }
 
+/** The configuration settings of the storage of the tokens if a file system is used. */
 export interface FileSystemTokenStore {
   /** The directory in which the tokens will be stored. */
   directory?: string;
 }
 
+/** The configuration settings of the storage of the tokens if blob storage is used. */
 export interface BlobStorageTokenStore {
   /** The name of the app setting containing the SAS URL of the blob storage containing the tokens. */
   sasUrlSettingName?: string;
 }
 
+/** The configuration settings of the session cookie's expiration. */
 export interface CookieExpiration {
   /** The convention used when determining the session cookie's expiration. */
   convention?: "FixedTime" | "IdentityProviderDerived";
@@ -4453,6 +3801,7 @@ export interface CookieExpiration {
   timeToExpiration?: string;
 }
 
+/** The configuration settings of the nonce used in the login flow. */
 export interface Nonce {
   /** <code>false</code> if the nonce should not be validated while completing the login flow; otherwise, <code>true</code>. */
   validateNonce?: boolean;
@@ -4460,6 +3809,7 @@ export interface Nonce {
   nonceExpirationInterval?: string;
 }
 
+/** The configuration settings of the HTTP requests for authentication and authorization requests made against App Service Authentication/Authorization. */
 export interface HttpSettings {
   /** <code>false</code> if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, <code>true</code>. */
   requireHttps?: boolean;
@@ -4469,11 +3819,13 @@ export interface HttpSettings {
   forwardProxy?: ForwardProxy;
 }
 
+/** The configuration settings of the paths HTTP requests. */
 export interface HttpSettingsRoutes {
   /** The prefix that should precede all the authentication/authorization paths. */
   apiPrefix?: string;
 }
 
+/** The configuration settings of a forward proxy used to make the requests. */
 export interface ForwardProxy {
   /** The convention used to determine the url of the request made. */
   convention?: "NoProxy" | "Standard" | "Custom";
@@ -4483,16 +3835,19 @@ export interface ForwardProxy {
   customProtoHeaderName?: string;
 }
 
+/** AzureStorageInfo dictionary resource. */
 export interface AzureStoragePropertyDictionaryResource extends ProxyOnlyResource {
   /** Azure storage accounts. */
   properties?: Record<string, AzureStorageInfoValue>;
 }
 
+/** Description of site key vault references. */
 export interface ApiKVReference extends ProxyOnlyResource {
   /** ApiKVReference resource specific properties */
   properties?: ApiKVReferenceProperties;
 }
 
+/** ApiKVReference resource specific properties */
 export interface ApiKVReferenceProperties {
   reference?: string;
   status?:
@@ -4517,11 +3872,13 @@ export interface ApiKVReferenceProperties {
   activeVersion?: string;
 }
 
+/** String dictionary resource. */
 export interface ConnectionStringDictionary extends ProxyOnlyResource {
   /** Connection strings. */
   properties?: Record<string, ConnStringValueTypePair>;
 }
 
+/** Database connection string value to type pair. */
 export interface ConnStringValueTypePair {
   /** Value of pair. */
   value: string;
@@ -4540,11 +3897,13 @@ export interface ConnStringValueTypePair {
     | "PostgreSQL";
 }
 
+/** Configuration of App Service site logs. */
 export interface SiteLogsConfig extends ProxyOnlyResource {
   /** SiteLogsConfig resource specific properties */
   properties?: SiteLogsConfigProperties;
 }
 
+/** SiteLogsConfig resource specific properties */
 export interface SiteLogsConfigProperties {
   /** Application logs configuration. */
   applicationLogs?: ApplicationLogsConfig;
@@ -4556,6 +3915,7 @@ export interface SiteLogsConfigProperties {
   detailedErrorMessages?: EnabledConfig;
 }
 
+/** Application logs configuration. */
 export interface ApplicationLogsConfig {
   /** Application logs to file system configuration. */
   fileSystem?: FileSystemApplicationLogsConfig;
@@ -4565,11 +3925,13 @@ export interface ApplicationLogsConfig {
   azureBlobStorage?: AzureBlobStorageApplicationLogsConfig;
 }
 
+/** Application logs to file system configuration. */
 export interface FileSystemApplicationLogsConfig {
   /** Log level. */
   level?: "Off" | "Verbose" | "Information" | "Warning" | "Error";
 }
 
+/** Application logs to Azure table storage configuration. */
 export interface AzureTableStorageApplicationLogsConfig {
   /** Log level. */
   level?: "Off" | "Verbose" | "Information" | "Warning" | "Error";
@@ -4577,6 +3939,7 @@ export interface AzureTableStorageApplicationLogsConfig {
   sasUrl: string;
 }
 
+/** Application logs azure blob storage configuration. */
 export interface AzureBlobStorageApplicationLogsConfig {
   /** Log level. */
   level?: "Off" | "Verbose" | "Information" | "Warning" | "Error";
@@ -4590,6 +3953,7 @@ export interface AzureBlobStorageApplicationLogsConfig {
   retentionInDays?: number;
 }
 
+/** Http logs configuration. */
 export interface HttpLogsConfig {
   /** Http logs to file system configuration. */
   fileSystem?: FileSystemHttpLogsConfig;
@@ -4597,6 +3961,7 @@ export interface HttpLogsConfig {
   azureBlobStorage?: AzureBlobStorageHttpLogsConfig;
 }
 
+/** Http logs to file system configuration. */
 export interface FileSystemHttpLogsConfig {
   /**
    * Maximum size in megabytes that http log files can use.
@@ -4614,6 +3979,7 @@ export interface FileSystemHttpLogsConfig {
   enabled?: boolean;
 }
 
+/** Http logs to azure blob storage configuration. */
 export interface AzureBlobStorageHttpLogsConfig {
   /** SAS url to a azure blob container with read/write/list/delete permissions. */
   sasUrl?: string;
@@ -4627,16 +3993,23 @@ export interface AzureBlobStorageHttpLogsConfig {
   enabled?: boolean;
 }
 
+/** Enabled configuration. */
 export interface EnabledConfig {
   /** True if configuration is enabled, false if it is disabled and null if configuration is not set. */
   enabled?: boolean;
 }
 
+/** Slot Config names azure resource. */
 export interface SlotConfigNamesResource extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: SlotConfigNames;
 }
 
+/**
+ * Names for connection strings, application settings, and external Azure storage account configuration
+ * identifiers to be marked as sticky to the deployment slot and not moved during a swap operation.
+ * This is valid for all deployment slots in an app.
+ */
 export interface SlotConfigNames {
   /** List of connection string names. */
   connectionStringNames?: Array<string>;
@@ -4646,23 +4019,22 @@ export interface SlotConfigNames {
   azureStorageConfigNames?: Array<string>;
 }
 
+/** A snapshot of a web app configuration. */
 export interface SiteConfigurationSnapshotInfo extends ProxyOnlyResource {
   /** SiteConfigurationSnapshotInfo resource specific properties */
   properties?: SiteConfigurationSnapshotInfoProperties;
 }
 
-export interface SiteConfigurationSnapshotInfoProperties {
-  /** The time the snapshot was taken. */
-  time?: Date | string;
-  /** The id of the snapshot */
-  snapshotId?: number;
-}
+/** SiteConfigurationSnapshotInfo resource specific properties */
+export interface SiteConfigurationSnapshotInfoProperties {}
 
+/** Continuous Web Job Information. */
 export interface ContinuousWebJob extends ProxyOnlyResource {
   /** ContinuousWebJob resource specific properties */
   properties?: ContinuousWebJobProperties;
 }
 
+/** ContinuousWebJob resource specific properties */
 export interface ContinuousWebJobProperties {
   /** Job status. */
   status?: "Initializing" | "Starting" | "Running" | "PendingRestart" | "Stopped";
@@ -4686,11 +4058,13 @@ export interface ContinuousWebJobProperties {
   settings?: Record<string, Record<string, unknown>>;
 }
 
+/** User credentials used for publishing activity. */
 export interface Deployment extends ProxyOnlyResource {
   /** Deployment resource specific properties */
   properties?: DeploymentProperties;
 }
 
+/** Deployment resource specific properties */
 export interface DeploymentProperties {
   /** Deployment status. */
   status?: number;
@@ -4712,29 +4086,22 @@ export interface DeploymentProperties {
   details?: string;
 }
 
+/** MSDeploy ARM response */
 export interface MSDeployStatus extends ProxyOnlyResource {
   /** MSDeployStatus resource specific properties */
   properties?: MSDeployStatusProperties;
 }
 
-export interface MSDeployStatusProperties {
-  /** Username of deployer */
-  deployer?: string;
-  /** Provisioning state */
-  provisioningState?: "accepted" | "running" | "succeeded" | "failed" | "canceled";
-  /** Start time of deploy operation */
-  startTime?: Date | string;
-  /** End time of deploy operation */
-  endTime?: Date | string;
-  /** Whether the deployment operation has completed */
-  complete?: boolean;
-}
+/** MSDeployStatus resource specific properties */
+export interface MSDeployStatusProperties {}
 
+/** MSDeploy ARM PUT information */
 export interface MSDeploy extends ProxyOnlyResource {
   /** Core resource properties */
   properties?: MSDeployCore;
 }
 
+/** MSDeploy ARM PUT core information */
 export interface MSDeployCore {
   /** Package URI */
   packageUri?: string;
@@ -4760,30 +4127,25 @@ export interface MSDeployCore {
   appOffline?: boolean;
 }
 
+/** MSDeploy log */
 export interface MSDeployLog extends ProxyOnlyResource {
   /** MSDeployLog resource specific properties */
   properties?: MSDeployLogProperties;
 }
 
-export interface MSDeployLogProperties {
-  /** List of log entry messages */
-  entries?: Array<MSDeployLogEntry>;
-}
+/** MSDeployLog resource specific properties */
+export interface MSDeployLogProperties {}
 
-export interface MSDeployLogEntry {
-  /** Timestamp of log entry */
-  time?: Date | string;
-  /** Log entry type */
-  type?: "Message" | "Warning" | "Error";
-  /** Log entry message */
-  message?: string;
-}
+/** MSDeploy log entry */
+export interface MSDeployLogEntry {}
 
+/** Function information. */
 export interface FunctionEnvelope extends ProxyOnlyResource {
   /** FunctionEnvelope resource specific properties */
   properties?: FunctionEnvelopeProperties;
 }
 
+/** FunctionEnvelope resource specific properties */
 export interface FunctionEnvelopeProperties {
   /** Function App ID. */
   function_app_id?: string;
@@ -4813,6 +4175,7 @@ export interface FunctionEnvelopeProperties {
   isDisabled?: boolean;
 }
 
+/** Function key info. */
 export interface KeyInfo {
   /** Key name */
   name?: string;
@@ -4820,11 +4183,13 @@ export interface KeyInfo {
   value?: string;
 }
 
+/** A hostname binding object. */
 export interface HostNameBinding extends ProxyOnlyResource {
   /** HostNameBinding resource specific properties */
   properties?: HostNameBindingProperties;
 }
 
+/** HostNameBinding resource specific properties */
 export interface HostNameBindingProperties {
   /** App Service app name. */
   siteName?: string;
@@ -4842,15 +4207,15 @@ export interface HostNameBindingProperties {
   sslState?: "Disabled" | "SniEnabled" | "IpBasedEnabled";
   /** SSL certificate thumbprint */
   thumbprint?: string;
-  /** Virtual IP address assigned to the hostname if IP based SSL is enabled. */
-  virtualIP?: string;
 }
 
+/** Hybrid Connection for an App Service app. */
 export interface RelayServiceConnectionEntity extends ProxyOnlyResource {
   /** RelayServiceConnectionEntity resource specific properties */
   properties?: RelayServiceConnectionEntityProperties;
 }
 
+/** RelayServiceConnectionEntity resource specific properties */
 export interface RelayServiceConnectionEntityProperties {
   entityName?: string;
   entityConnectionString?: string;
@@ -4866,6 +4231,7 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
   properties?: WebSiteInstanceStatusProperties;
 }
 
+/** WebSiteInstanceStatus resource specific properties */
 export interface WebSiteInstanceStatusProperties {
   state?: "READY" | "STOPPED" | "UNKNOWN";
   /** Link to the GetStatusApi in Kudu */
@@ -4928,14 +4294,14 @@ export interface ContainerNetworkInterfaceStatistics {
   txDropped?: number;
 }
 
+/** Process Information. */
 export interface ProcessInfo extends ProxyOnlyResource {
   /** ProcessInfo resource specific properties */
   properties?: ProcessInfoProperties;
 }
 
+/** ProcessInfo resource specific properties */
 export interface ProcessInfoProperties {
-  /** ARM Identifier for deployment. */
-  identifier?: number;
   /** Deployment name. */
   deployment_name?: string;
   /** HRef URI. */
@@ -5008,14 +4374,14 @@ export interface ProcessInfoProperties {
   description?: string;
 }
 
+/** Process Thread Information. */
 export interface ProcessThreadInfo extends ProxyOnlyResource {
   /** ProcessThreadInfo resource specific properties */
   properties?: ProcessThreadInfoProperties;
 }
 
+/** ProcessThreadInfo resource specific properties */
 export interface ProcessThreadInfoProperties {
-  /** Site extension ID. */
-  identifier?: number;
   /** HRef URI. */
   href?: string;
   /** Process URI. */
@@ -5040,11 +4406,13 @@ export interface ProcessThreadInfoProperties {
   wait_reason?: string;
 }
 
+/** Process Module Information. */
 export interface ProcessModuleInfo extends ProxyOnlyResource {
   /** ProcessModuleInfo resource specific properties */
   properties?: ProcessModuleInfoProperties;
 }
 
+/** ProcessModuleInfo resource specific properties */
 export interface ProcessModuleInfoProperties {
   /** Base address. Used as module identifier in ARM resource URI. */
   base_address?: string;
@@ -5070,11 +4438,13 @@ export interface ProcessModuleInfoProperties {
   language?: string;
 }
 
+/** Options for app content migration. */
 export interface StorageMigrationOptions extends ProxyOnlyResource {
   /** StorageMigrationOptions resource specific properties */
   properties?: StorageMigrationOptionsProperties;
 }
 
+/** StorageMigrationOptions resource specific properties */
 export interface StorageMigrationOptionsProperties {
   /** AzureFiles connection string. */
   azurefilesConnectionString: string;
@@ -5086,21 +4456,22 @@ export interface StorageMigrationOptionsProperties {
   blockWriteAccessToSite?: boolean;
 }
 
+/** Response for a migration of app content request. */
 export interface StorageMigrationResponse extends ProxyOnlyResource {
   /** StorageMigrationResponse resource specific properties */
   properties?: StorageMigrationResponseProperties;
 }
 
-export interface StorageMigrationResponseProperties {
-  /** When server starts the migration process, it will return an operation ID identifying that particular migration operation. */
-  operationId?: string;
-}
+/** StorageMigrationResponse resource specific properties */
+export interface StorageMigrationResponseProperties {}
 
+/** MySQL migration request. */
 export interface MigrateMySqlRequest extends ProxyOnlyResource {
   /** MigrateMySqlRequest resource specific properties */
   properties?: MigrateMySqlRequestProperties;
 }
 
+/** MigrateMySqlRequest resource specific properties */
 export interface MigrateMySqlRequestProperties {
   /** Connection string to the remote MySQL database. */
   connectionString: string;
@@ -5108,25 +4479,22 @@ export interface MigrateMySqlRequestProperties {
   migrationType: "LocalToRemote" | "RemoteToLocal";
 }
 
+/** MySQL migration status. */
 export interface MigrateMySqlStatus extends ProxyOnlyResource {
   /** MigrateMySqlStatus resource specific properties */
   properties?: MigrateMySqlStatusProperties;
 }
 
-export interface MigrateMySqlStatusProperties {
-  /** Status of the migration task. */
-  migrationOperationStatus?: "InProgress" | "Failed" | "Succeeded" | "TimedOut" | "Created";
-  /** Operation ID for the migration task. */
-  operationId?: string;
-  /** True if the web app has in app MySql enabled */
-  localMySqlEnabled?: boolean;
-}
+/** MigrateMySqlStatus resource specific properties */
+export interface MigrateMySqlStatusProperties {}
 
+/** Swift Virtual Network Contract. This is used to enable the new Swift way of doing virtual network integration. */
 export interface SwiftVirtualNetwork extends ProxyOnlyResource {
   /** SwiftVirtualNetwork resource specific properties */
   properties?: SwiftVirtualNetworkProperties;
 }
 
+/** SwiftVirtualNetwork resource specific properties */
 export interface SwiftVirtualNetworkProperties {
   /** The Virtual Network subnet's resource ID. This is the subnet that this Web App will join. This subnet must have a delegation to Microsoft.Web/serverFarms defined first. */
   subnetResourceId?: string;
@@ -5134,27 +4502,22 @@ export interface SwiftVirtualNetworkProperties {
   swiftSupported?: boolean;
 }
 
+/** Full view of network features for an app (presently VNET integration and Hybrid Connections). */
 export interface NetworkFeatures extends ProxyOnlyResource {
   /** NetworkFeatures resource specific properties */
   properties?: NetworkFeaturesProperties;
 }
 
-export interface NetworkFeaturesProperties {
-  /** The Virtual Network name. */
-  virtualNetworkName?: string;
-  /** The Virtual Network summary view. */
-  virtualNetworkConnection?: VnetInfo;
-  /** The Hybrid Connections summary view. */
-  hybridConnections?: Array<RelayServiceConnectionEntity>;
-  /** The Hybrid Connection V2 (Service Bus) view. */
-  hybridConnectionsV2?: Array<HybridConnection>;
-}
+/** NetworkFeatures resource specific properties */
+export interface NetworkFeaturesProperties {}
 
+/** Used for getting PHP error logging flag. */
 export interface SitePhpErrorLogFlag extends ProxyOnlyResource {
   /** SitePhpErrorLogFlag resource specific properties */
   properties?: SitePhpErrorLogFlagProperties;
 }
 
+/** SitePhpErrorLogFlag resource specific properties */
 export interface SitePhpErrorLogFlagProperties {
   /** Local log_errors setting. */
   localLogErrors?: string;
@@ -5166,11 +4529,13 @@ export interface SitePhpErrorLogFlagProperties {
   masterLogErrorsMaxLength?: string;
 }
 
+/** Premier add-on. */
 export interface PremierAddOn extends Resource {
   /** PremierAddOn resource specific properties */
   properties?: PremierAddOnProperties;
 }
 
+/** PremierAddOn resource specific properties */
 export interface PremierAddOnProperties {
   /** Premier add on SKU. */
   sku?: string;
@@ -5184,11 +4549,13 @@ export interface PremierAddOnProperties {
   marketplaceOffer?: string;
 }
 
+/** ARM resource for a PremierAddOn. */
 export interface PremierAddOnPatchResource extends ProxyOnlyResource {
   /** PremierAddOnPatchResource resource specific properties */
   properties?: PremierAddOnPatchResourceProperties;
 }
 
+/** PremierAddOnPatchResource resource specific properties */
 export interface PremierAddOnPatchResourceProperties {
   /** Premier add on SKU. */
   sku?: string;
@@ -5202,11 +4569,13 @@ export interface PremierAddOnPatchResourceProperties {
   marketplaceOffer?: string;
 }
 
+/** Description of the parameters of Private Access for a Web Site. */
 export interface PrivateAccess extends ProxyOnlyResource {
   /** PrivateAccess resource specific properties */
   properties?: PrivateAccessProperties;
 }
 
+/** PrivateAccess resource specific properties */
 export interface PrivateAccessProperties {
   /** Whether private access is enabled or not. */
   enabled?: boolean;
@@ -5214,6 +4583,7 @@ export interface PrivateAccessProperties {
   virtualNetworks?: Array<PrivateAccessVirtualNetwork>;
 }
 
+/** Description of a Virtual Network that is useable for private site access. */
 export interface PrivateAccessVirtualNetwork {
   /** The name of the Virtual Network. */
   name?: string;
@@ -5225,6 +4595,7 @@ export interface PrivateAccessVirtualNetwork {
   subnets?: Array<PrivateAccessSubnet>;
 }
 
+/** Description of a Virtual Network subnet that is useable for private site access. */
 export interface PrivateAccessSubnet {
   /** The name of the subnet. */
   name?: string;
@@ -5232,11 +4603,13 @@ export interface PrivateAccessSubnet {
   key?: number;
 }
 
+/** Public certificate object */
 export interface PublicCertificate extends ProxyOnlyResource {
   /** PublicCertificate resource specific properties */
   properties?: PublicCertificateProperties;
 }
 
+/** PublicCertificate resource specific properties */
 export interface PublicCertificateProperties {
   /**
    * Public Certificate byte array
@@ -5246,10 +4619,9 @@ export interface PublicCertificateProperties {
   blob?: string;
   /** Public Certificate Location */
   publicCertificateLocation?: "CurrentUserMy" | "LocalMachineMy" | "Unknown";
-  /** Certificate Thumbprint */
-  thumbprint?: string;
 }
 
+/** Publishing options for requested profile. */
 export interface CsmPublishingProfileOptions {
   /**
    * Name of the format. Valid values are:
@@ -5262,11 +4634,13 @@ export interface CsmPublishingProfileOptions {
   includeDisasterRecoveryEndpoints?: boolean;
 }
 
+/** Details about restoring a deleted app. */
 export interface DeletedAppRestoreRequest extends ProxyOnlyResource {
   /** DeletedAppRestoreRequest resource specific properties */
   properties?: DeletedAppRestoreRequestProperties;
 }
 
+/** DeletedAppRestoreRequest resource specific properties */
 export interface DeletedAppRestoreRequestProperties {
   /**
    * ARM resource ID of the deleted app. Example:
@@ -5284,11 +4658,13 @@ export interface DeletedAppRestoreRequestProperties {
   useDRSecondary?: boolean;
 }
 
+/** Details about app recovery operation. */
 export interface SnapshotRestoreRequest extends ProxyOnlyResource {
   /** SnapshotRestoreRequest resource specific properties */
   properties?: SnapshotRestoreRequestProperties;
 }
 
+/** SnapshotRestoreRequest resource specific properties */
 export interface SnapshotRestoreRequestProperties {
   /** Point in time in which the app restore should be done, formatted as a DateTime string. */
   snapshotTime?: string;
@@ -5310,6 +4686,7 @@ export interface SnapshotRestoreRequestProperties {
   useDRSecondary?: boolean;
 }
 
+/** Specifies the web app that snapshot contents will be retrieved from. */
 export interface SnapshotRecoverySource {
   /** Geographical location of the source web app, e.g. SouthEastAsia, SouthCentralUS */
   location?: string;
@@ -5321,11 +4698,13 @@ export interface SnapshotRecoverySource {
   id?: string;
 }
 
+/** Site Extension Information. */
 export interface SiteExtensionInfo extends ProxyOnlyResource {
   /** SiteExtensionInfo resource specific properties */
   properties?: SiteExtensionInfoProperties;
 }
 
+/** SiteExtensionInfo resource specific properties */
 export interface SiteExtensionInfoProperties {
   /** Site extension ID. */
   extension_id?: string;
@@ -5368,33 +4747,22 @@ export interface SiteExtensionInfoProperties {
   comment?: string;
 }
 
+/** A setting difference between two deployment slots of an app. */
 export interface SlotDifference extends ProxyOnlyResource {
   /** SlotDifference resource specific properties */
   properties?: SlotDifferenceProperties;
 }
 
-export interface SlotDifferenceProperties {
-  /** Level of the difference: Information, Warning or Error. */
-  level?: string;
-  /** The type of the setting: General, AppSetting or ConnectionString. */
-  settingType?: string;
-  /** Rule that describes how to process the setting difference during a slot swap. */
-  diffRule?: string;
-  /** Name of the setting. */
-  settingName?: string;
-  /** Value of the setting in the current slot. */
-  valueInCurrentSlot?: string;
-  /** Value of the setting in the target slot. */
-  valueInTargetSlot?: string;
-  /** Description of the setting difference. */
-  description?: string;
-}
+/** SlotDifference resource specific properties */
+export interface SlotDifferenceProperties {}
 
+/** Source control configuration for an app. */
 export interface SiteSourceControl extends ProxyOnlyResource {
   /** SiteSourceControl resource specific properties */
   properties?: SiteSourceControlProperties;
 }
 
+/** SiteSourceControl resource specific properties */
 export interface SiteSourceControlProperties {
   /** Repository or source control URL. */
   repoUrl?: string;
@@ -5412,6 +4780,7 @@ export interface SiteSourceControlProperties {
   gitHubActionConfiguration?: GitHubActionConfiguration;
 }
 
+/** The GitHub action configuration. */
 export interface GitHubActionConfiguration {
   /** GitHub Action code configuration. */
   codeConfiguration?: GitHubActionCodeConfiguration;
@@ -5423,6 +4792,7 @@ export interface GitHubActionConfiguration {
   generateWorkflowFile?: boolean;
 }
 
+/** The GitHub action code configuration. */
 export interface GitHubActionCodeConfiguration {
   /** Runtime stack is used to determine the workflow file content for code base apps. */
   runtimeStack?: string;
@@ -5430,6 +4800,7 @@ export interface GitHubActionCodeConfiguration {
   runtimeVersion?: string;
 }
 
+/** The GitHub action container configuration. */
 export interface GitHubActionContainerConfiguration {
   /** The server URL for the container registry where the build will be hosted. */
   serverUrl?: string;
@@ -5441,11 +4812,13 @@ export interface GitHubActionContainerConfiguration {
   password?: string;
 }
 
+/** Triggered Web Job Information. */
 export interface TriggeredWebJob extends ProxyOnlyResource {
   /** TriggeredWebJob resource specific properties */
   properties?: TriggeredWebJobProperties;
 }
 
+/** TriggeredWebJob resource specific properties */
 export interface TriggeredWebJobProperties {
   /** Latest job run information. */
   latest_run?: TriggeredJobRun;
@@ -5469,6 +4842,7 @@ export interface TriggeredWebJobProperties {
   settings?: Record<string, Record<string, unknown>>;
 }
 
+/** Triggered Web Job Run Information. */
 export interface TriggeredJobRun {
   /** Job ID. */
   web_job_id?: string;
@@ -5494,21 +4868,25 @@ export interface TriggeredJobRun {
   trigger?: string;
 }
 
+/** Triggered Web Job History. List of Triggered Web Job Run Information elements. */
 export interface TriggeredJobHistory extends ProxyOnlyResource {
   /** TriggeredJobHistory resource specific properties */
   properties?: TriggeredJobHistoryProperties;
 }
 
+/** TriggeredJobHistory resource specific properties */
 export interface TriggeredJobHistoryProperties {
   /** List of triggered web job runs. */
   runs?: Array<TriggeredJobRun>;
 }
 
+/** Web Job Information. */
 export interface WebJob extends ProxyOnlyResource {
   /** WebJob resource specific properties */
   properties?: WebJobProperties;
 }
 
+/** WebJob resource specific properties */
 export interface WebJobProperties {
   /** Run command. */
   run_command?: string;

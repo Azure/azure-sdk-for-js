@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeerAsn.json
  */
-async function createAPeerAsn() {
+async function createAPeerAsn(): Promise<void> {
   const subscriptionId = "subId";
   const peerAsnName = "peerAsnName";
   const peerAsn: PeerAsn = {

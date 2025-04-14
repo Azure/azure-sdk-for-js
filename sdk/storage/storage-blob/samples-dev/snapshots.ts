@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * If you use BlobClient.download() to download an append-blob which is being actively appended, you may get an HTTP 412
@@ -23,13 +23,12 @@
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
-import { streamToBuffer } from "./utils/stream";
+import { streamToBuffer } from "./utils/stream.js";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountKey = process.env.ACCOUNT_KEY || "<account key>";
@@ -42,7 +41,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -63,12 +62,12 @@ async function main() {
   const response = await blobSnapshotClient.download(0);
   console.log(
     "Reading response to string...",
-    (await blobSnapshotClient.getProperties()).contentLength
+    (await blobSnapshotClient.getProperties()).contentLength,
   );
 
   console.log(
     "Downloaded blob content",
-    (await streamToBuffer(response.readableStreamBody!)).toString()
+    (await streamToBuffer(response.readableStreamBody!)).toString(),
   );
 
   // Delete container

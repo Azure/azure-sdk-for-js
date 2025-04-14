@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EncryptionScopes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EncryptionScopes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   EncryptionScope,
   EncryptionScopesListNextOptionalParams,
@@ -24,8 +24,8 @@ import {
   EncryptionScopesPatchResponse,
   EncryptionScopesGetOptionalParams,
   EncryptionScopesGetResponse,
-  EncryptionScopesListNextResponse
-} from "../models";
+  EncryptionScopesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EncryptionScopes operations. */
@@ -52,7 +52,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: EncryptionScopesListOptionalParams
+    options?: EncryptionScopesListOptionalParams,
   ): PagedAsyncIterableIterator<EncryptionScope> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -70,9 +70,9 @@ export class EncryptionScopesImpl implements EncryptionScopes {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     resourceGroupName: string,
     accountName: string,
     options?: EncryptionScopesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EncryptionScope[]> {
     let result: EncryptionScopesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: EncryptionScopesListOptionalParams
+    options?: EncryptionScopesListOptionalParams,
   ): AsyncIterableIterator<EncryptionScope> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,7 +140,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     accountName: string,
     encryptionScopeName: string,
     encryptionScope: EncryptionScope,
-    options?: EncryptionScopesPutOptionalParams
+    options?: EncryptionScopesPutOptionalParams,
   ): Promise<EncryptionScopesPutResponse> {
     return this.client.sendOperationRequest(
       {
@@ -148,9 +148,9 @@ export class EncryptionScopesImpl implements EncryptionScopes {
         accountName,
         encryptionScopeName,
         encryptionScope,
-        options
+        options,
       },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     accountName: string,
     encryptionScopeName: string,
     encryptionScope: EncryptionScope,
-    options?: EncryptionScopesPatchOptionalParams
+    options?: EncryptionScopesPatchOptionalParams,
   ): Promise<EncryptionScopesPatchResponse> {
     return this.client.sendOperationRequest(
       {
@@ -182,9 +182,9 @@ export class EncryptionScopesImpl implements EncryptionScopes {
         accountName,
         encryptionScopeName,
         encryptionScope,
-        options
+        options,
       },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -205,11 +205,11 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     resourceGroupName: string,
     accountName: string,
     encryptionScopeName: string,
-    options?: EncryptionScopesGetOptionalParams
+    options?: EncryptionScopesGetOptionalParams,
   ): Promise<EncryptionScopesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, encryptionScopeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class EncryptionScopesImpl implements EncryptionScopes {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: EncryptionScopesListOptionalParams
+    options?: EncryptionScopesListOptionalParams,
   ): Promise<EncryptionScopesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -247,11 +247,11 @@ export class EncryptionScopesImpl implements EncryptionScopes {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: EncryptionScopesListNextOptionalParams
+    options?: EncryptionScopesListNextOptionalParams,
   ): Promise<EncryptionScopesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -259,126 +259,116 @@ export class EncryptionScopesImpl implements EncryptionScopes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionScope
+      bodyMapper: Mappers.EncryptionScope,
     },
     201: {
-      bodyMapper: Mappers.EncryptionScope
+      bodyMapper: Mappers.EncryptionScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.encryptionScope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.encryptionScopeName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.encryptionScopeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionScope
+      bodyMapper: Mappers.EncryptionScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.encryptionScope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.encryptionScopeName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.encryptionScopeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionScope
+      bodyMapper: Mappers.EncryptionScope,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.encryptionScopeName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.encryptionScopeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionScopeListResult
-    }
+      bodyMapper: Mappers.EncryptionScopeListResult,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxpagesize,
     Parameters.filter,
-    Parameters.include
+    Parameters.maxpagesize2,
+    Parameters.include3,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EncryptionScopeListResult
-    }
+      bodyMapper: Mappers.EncryptionScopeListResult,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter,
-    Parameters.include
-  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

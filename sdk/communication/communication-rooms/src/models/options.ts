@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { RoomParticipantPatch } from "./models";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { RoomParticipantPatch } from "./models.js";
 
 /**
  * Options to create rooms client.
@@ -17,6 +17,8 @@ export interface CreateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
   /** Collection of participants invited to the room. */
   participants?: RoomParticipantPatch[];
 }
@@ -29,6 +31,8 @@ export interface UpdateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
 }
 
 /**

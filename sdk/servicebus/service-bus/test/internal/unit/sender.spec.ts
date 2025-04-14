@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { ServiceBusMessage } from "../../../src";
-import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender";
-import { createConnectionContextForTests } from "./unittestUtils";
+// Licensed under the MIT License.
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type { ServiceBusMessage } from "../../../src/index.js";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender.js";
+import { createConnectionContextForTests } from "./unittestUtils.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
-} from "../../../src/util/errors";
-
-const assert = chai.assert;
+} from "../../../src/util/errors.js";
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {
     assert.isTrue(
-      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100))
+      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100)),
     );
 
     assert.isFalse(isServiceBusMessageBatch(undefined));
@@ -35,7 +33,7 @@ describe("sender unit tests", () => {
   };
 
   const partitionKeySessionIdMismatchMsg = {
-    body: "boooo",
+    body: "some body text",
     sessionId: "my-sessionId",
     partitionKey: "my-partitionKey",
   };
@@ -62,7 +60,7 @@ describe("sender unit tests", () => {
       try {
         await sender.sendMessages(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
-          invalidValue
+          invalidValue,
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -86,7 +84,7 @@ describe("sender unit tests", () => {
       try {
         batch.tryAddMessage(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
-          invalidValue
+          invalidValue,
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -110,7 +108,7 @@ describe("sender unit tests", () => {
         await sender.scheduleMessages(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           invalidValue,
-          new Date()
+          new Date(),
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -118,6 +116,23 @@ describe("sender unit tests", () => {
         assert.equal(err.message, expectedErrorMsg);
       }
     });
+  });
+
+  it("doesn't allow invalid enqueue time", async function () {
+    try {
+      await sender.scheduleMessages(
+        { body: "message" },
+        // @ts-expect-error We are trying invalid types on purpose to test the error thrown
+        "invalid date",
+      );
+      assert.fail("You should not be seeing this.");
+    } catch (err: any) {
+      assert.equal(err.name, "TypeError");
+      assert.equal(
+        err.message,
+        `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`,
+      );
+    }
   });
 
   it("should set source in created sender options", () => {

@@ -13,8 +13,8 @@ import {
   ExpressionRoot,
   WorkflowRunActionsListExpressionTracesOptionalParams,
   WorkflowRunActionsGetOptionalParams,
-  WorkflowRunActionsGetResponse
-} from "../models";
+  WorkflowRunActionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRunActions. */
@@ -32,7 +32,7 @@ export interface WorkflowRunActions {
     name: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams
+    options?: WorkflowRunActionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunAction>;
   /**
    * Lists a workflow run expression trace.
@@ -49,7 +49,7 @@ export interface WorkflowRunActions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionsListExpressionTracesOptionalParams,
   ): PagedAsyncIterableIterator<ExpressionRoot>;
   /**
    * Gets a workflow run action.
@@ -66,6 +66,6 @@ export interface WorkflowRunActions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsGetOptionalParams
+    options?: WorkflowRunActionsGetOptionalParams,
   ): Promise<WorkflowRunActionsGetResponse>;
 }

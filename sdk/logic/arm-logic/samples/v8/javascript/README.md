@@ -142,7 +142,7 @@ node integrationAccountAgreementsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOGIC_SUBSCRIPTION_ID="<logic subscription id>" LOGIC_RESOURCE_GROUP="<logic resource group>" node integrationAccountAgreementsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env LOGIC_SUBSCRIPTION_ID="<logic subscription id>" LOGIC_RESOURCE_GROUP="<logic resource group>" node integrationAccountAgreementsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -255,6 +255,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsUpdateSample.js
 [workflowsvalidatebylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsValidateByLocationSample.js
 [workflowsvalidatebyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsValidateByResourceGroupSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-logic?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-logic?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/logic/arm-logic/README.md

@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EHNamespace, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
  *
  * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceCreate.json
  */
-async function namespaceCreate() {
+async function namespaceCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -35,34 +31,77 @@ async function namespaceCreate() {
         {
           identity: {
             userAssignedIdentity:
-              "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1"
+              "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1",
           },
           keyName: "Samplekey",
-          keyVaultUri: "https://aprao-keyvault-user.vault-int.azure-int.net/"
-        }
-      ]
+          keyVaultUri: "https://aprao-keyvault-user.vault-int.azure-int.net/",
+        },
+      ],
+    },
+    geoDataReplication: {
+      locations: [
+        { locationName: "eastus", roleType: "Primary" },
+        { locationName: "southcentralus", roleType: "Secondary" },
+      ],
+      maxReplicationLagDurationInSeconds: 300,
     },
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud1": {},
-        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud2": {}
-      }
+        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud1":
+          {},
+        "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud2":
+          {},
+      },
     },
-    location: "East US"
+    location: "East US",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const result = await client.namespaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     namespaceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  namespaceCreate();
+/**
+ * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+ *
+ * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/NamespaceWithGeoDRCreate.json
+ */
+async function namespaceWithGeoDrCreate(): Promise<void> {
+  const subscriptionId =
+    process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
+  const resourceGroupName =
+    process.env["EVENTHUB_RESOURCE_GROUP"] || "ResurceGroupSample";
+  const namespaceName = "NamespaceGeoDRCreateSample";
+  const parameters: EHNamespace = {
+    geoDataReplication: {
+      locations: [
+        { locationName: "eastus", roleType: "Primary" },
+        { locationName: "westus", roleType: "Secondary" },
+        { locationName: "centralus", roleType: "Secondary" },
+      ],
+      maxReplicationLagDurationInSeconds: 60,
+    },
+    location: "East US",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new EventHubManagementClient(credential, subscriptionId);
+  const result = await client.namespaces.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    namespaceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await namespaceCreate();
+  await namespaceWithGeoDrCreate();
 }
 
 main().catch(console.error);

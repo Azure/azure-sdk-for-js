@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import * as sinon from "sinon";
-
-import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
-
-import { Context } from "mocha";
-import { Uuid } from "../../src/utils/uuid";
-import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+// Licensed under the MIT License.
+import { Recorder } from "@azure-tools/test-recorder";
+import type { TableClient, TransactionAction } from "../../src/index.js";
+import { TableTransaction, odata } from "../../src/index.js";
+import { Uuid } from "../../src/utils/uuid.js";
+import { createTableClient } from "./utils/recordedClient.js";
+import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { isLiveMode, isPlaybackMode } from "../utils/injectables.js";
 
 const partitionKey = "batchTest";
 const testEntities = [
@@ -19,37 +16,36 @@ const testEntities = [
   { partitionKey, rowKey: "3", name: "third" },
 ];
 
-const suffix = isNode ? "node" : "browser";
+const suffix = isNodeLike ? "node" : "browser";
 
-describe("concurrent batch operations", function () {
+describe("concurrent batch operations", () => {
   const concurrentTableName = `concurrentBatchTableTest${suffix}`;
   let unRecordedClient: TableClient;
-  before(async function () {
+
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(concurrentTableName, "TokenCredential");
       await unRecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       await unRecordedClient.deleteTable();
     }
   });
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+
+  beforeEach(async () => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
+    unRecordedClient = await createTableClient(concurrentTableName, "TokenCredential");
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
   });
 
-  it("should send concurrent transactions", async function () {
-    // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
-    if (!isLiveMode()) {
-      this.skip();
-    }
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send concurrent transactions", async () => {
     await Promise.all([
       unRecordedClient.submitTransaction([
         ["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }],
@@ -67,50 +63,55 @@ describe("concurrent batch operations", function () {
   });
 });
 
-describe(`batch operations`, function () {
+describe(`batch operations`, () => {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
   const tableName = `batchTableTest${suffix}`;
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+  beforeEach(async (ctx) => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
+    recorder = new Recorder(ctx);
+    client = await createTableClient(tableName, "TokenCredential", recorder);
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName, "TokenCredential");
       await unRecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       await unRecordedClient.deleteTable();
     }
   });
 
-  it("should send a set of create actions when using TableTransaction Helper", async function () {
-    const transaction = new TableTransaction();
-    transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
-    transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())(
+    "should send a set of create actions when using TableTransaction Helper",
+    async () => {
+      const transaction = new TableTransaction();
+      transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+      transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
 
-    const result = await client.submitTransaction(transaction.actions);
+      const result = await client.submitTransaction(transaction.actions);
 
-    assert.equal(result.status, 202);
-    assert.lengthOf(result.subResponses, 2);
-    assert.equal(result.getResponseForEntity("1")?.status, 204);
-    assert.equal(result.getResponseForEntity("2")?.status, 204);
-  });
+      assert.equal(result.status, 202);
+      assert.lengthOf(result.subResponses, 2);
+      assert.equal(result.getResponseForEntity("1")?.status, 204);
+      assert.equal(result.getResponseForEntity("2")?.status, 204);
+    },
+  );
 
-  it("should send a set of create batch operations", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send a set of create batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -128,7 +129,8 @@ describe(`batch operations`, function () {
     });
   });
 
-  it("should send a set of update batch operations", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send a set of update batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -152,7 +154,8 @@ describe(`batch operations`, function () {
     }
   });
 
-  it("should send a set of update batch operations with options", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send a set of update batch operations with options", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -185,7 +188,8 @@ describe(`batch operations`, function () {
     }
   });
 
-  it("should send a set of upsert batch operations", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send a set of upsert batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -218,7 +222,8 @@ describe(`batch operations`, function () {
     assert.equal(inserted?.rowKey, "4");
   });
 
-  it("should send a set of delete batch operations", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should send a set of delete batch operations", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
@@ -233,43 +238,48 @@ describe(`batch operations`, function () {
     });
   });
 
-  it("should send multiple transactions with the same partition key", async function () {
-    const multiBatchPartitionKey = "multiBatch1";
-    const actions1: TransactionAction[] = [
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }],
-    ];
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())(
+    "should send multiple transactions with the same partition key",
+    async () => {
+      const multiBatchPartitionKey = "multiBatch1";
+      const actions1: TransactionAction[] = [
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }],
+      ];
 
-    await client.submitTransaction(actions1);
+      await client.submitTransaction(actions1);
 
-    const actions2: TransactionAction[] = [
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
-      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }],
-    ];
+      const actions2: TransactionAction[] = [
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }],
+      ];
 
-    await client.submitTransaction(actions2);
+      await client.submitTransaction(actions2);
 
-    const entities = client.listEntities<{ name: string }>({
-      queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` },
-    });
+      const entities = client.listEntities<{ name: string }>({
+        queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` },
+      });
 
-    let entityCount = 0;
-    for await (const entity of entities) {
-      if (entity.partitionKey !== multiBatchPartitionKey) {
-        throw new Error(
-          `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`
-        );
+      let entityCount = 0;
+      for await (const entity of entities) {
+        if (entity.partitionKey !== multiBatchPartitionKey) {
+          throw new Error(
+            `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`,
+          );
+        }
+
+        entityCount++;
       }
 
-      entityCount++;
-    }
+      assert.equal(entityCount, 6);
+    },
+  );
 
-    assert.equal(entityCount, 6);
-  });
-
-  it("should support empty partition and row keys", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should support empty partition and row keys", async () => {
     const actions1: TransactionAction[] = [["create", { partitionKey: "", rowKey: "", value: "" }]];
 
     await client.submitTransaction(actions1);
@@ -289,23 +299,24 @@ describe(`batch operations`, function () {
   });
 });
 
-describe("Handle suberror", function () {
+describe("Handle suberror", () => {
   let client: TableClient;
   let recorder: Recorder;
   const tableName = "noExistingTableError";
 
-  beforeEach(async function (this: Context) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+  beforeEach(async (ctx) => {
+    vi.spyOn(Uuid, "generateUuid").mockReturnValue("fakeId");
+    recorder = new Recorder(ctx);
+    client = await createTableClient(tableName, "TokenCredential", recorder);
   });
 
-  afterEach(async function () {
-    sinon.restore();
+  afterEach(async () => {
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
-  it("should handle sub request error", async function () {
+  // https://github.com/Azure/azure-sdk-tools/issues/10197
+  it.runIf(isLiveMode())("should handle sub request error", async () => {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {

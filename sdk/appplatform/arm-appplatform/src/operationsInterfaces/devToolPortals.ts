@@ -15,8 +15,9 @@ import {
   DevToolPortalsGetResponse,
   DevToolPortalsCreateOrUpdateOptionalParams,
   DevToolPortalsCreateOrUpdateResponse,
-  DevToolPortalsDeleteOptionalParams
-} from "../models";
+  DevToolPortalsDeleteOptionalParams,
+  DevToolPortalsDeleteResponse
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DevToolPortals. */
@@ -97,7 +98,12 @@ export interface DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevToolPortalsDeleteResponse>,
+      DevToolPortalsDeleteResponse
+    >
+  >;
   /**
    * Disable the default Dev Tool Portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -111,5 +117,5 @@ export interface DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<DevToolPortalsDeleteResponse>;
 }

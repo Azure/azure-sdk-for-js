@@ -33,7 +33,7 @@ import {
   VirtualNetwork as VirtualNetworkMapper,
   Subnet as SubnetMapper,
   VirtualNetworkPeering as VirtualNetworkPeeringMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

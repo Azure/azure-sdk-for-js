@@ -16,8 +16,8 @@ import {
   SynonymMapsListOptionalParams,
   SynonymMapsListResponse,
   SynonymMapsCreateOptionalParams,
-  SynonymMapsCreateResponse
-} from "../models";
+  SynonymMapsCreateResponse,
+} from "../models/index.js";
 
 /** Interface representing a SynonymMaps. */
 export interface SynonymMaps {
@@ -30,7 +30,7 @@ export interface SynonymMaps {
   createOrUpdate(
     synonymMapName: string,
     synonymMap: SynonymMap,
-    options?: SynonymMapsCreateOrUpdateOptionalParams
+    options?: SynonymMapsCreateOrUpdateOptionalParams,
   ): Promise<SynonymMapsCreateOrUpdateResponse>;
   /**
    * Deletes a synonym map.
@@ -39,7 +39,7 @@ export interface SynonymMaps {
    */
   delete(
     synonymMapName: string,
-    options?: SynonymMapsDeleteOptionalParams
+    options?: SynonymMapsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves a synonym map definition.
@@ -48,14 +48,14 @@ export interface SynonymMaps {
    */
   get(
     synonymMapName: string,
-    options?: SynonymMapsGetOptionalParams
+    options?: SynonymMapsGetOptionalParams,
   ): Promise<SynonymMapsGetResponse>;
   /**
    * Lists all synonym maps available for a search service.
    * @param options The options parameters.
    */
   list(
-    options?: SynonymMapsListOptionalParams
+    options?: SynonymMapsListOptionalParams,
   ): Promise<SynonymMapsListResponse>;
   /**
    * Creates a new synonym map.
@@ -64,6 +64,6 @@ export interface SynonymMaps {
    */
   create(
     synonymMap: SynonymMap,
-    options?: SynonymMapsCreateOptionalParams
+    options?: SynonymMapsCreateOptionalParams,
   ): Promise<SynonymMapsCreateResponse>;
 }

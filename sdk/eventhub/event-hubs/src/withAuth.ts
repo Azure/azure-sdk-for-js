@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  Constants,
-  TokenType,
-  defaultCancellableLock,
-  isSasTokenProvider,
-  SasTokenProvider,
-  CbsClient,
-  CbsResponse,
-} from "@azure/core-amqp";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext";
-import { createTimerLoop, TimerLoop } from "./util/timerLoop";
-import { SimpleLogger, logObj } from "./logger";
+import type { SasTokenProvider, CbsClient, CbsResponse } from "@azure/core-amqp";
+import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { TimerLoop } from "./util/timerLoop.js";
+import { createTimerLoop } from "./util/timerLoop.js";
+import type { SimpleLogger } from "./logger.js";
+import { logObj } from "./logger.js";
 
 /**
  *
@@ -34,24 +29,25 @@ export async function withAuth(
   logger: SimpleLogger,
   options: {
     abortSignal?: AbortSignalLike;
-  }
+  },
 ): Promise<TimerLoop> {
   const info = await getTokenInfo(context.tokenCredential, audience);
   await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
   await callback();
-  async function createTask() {
+  async function createTask(): Promise<void> {
     try {
-      await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
+      const info2 = await getTokenInfo(context.tokenCredential, audience);
+      await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, options);
       logger.verbose(
-        `next token renewal is in ${info.timeoutInMs} milliseconds @(${new Date(
-          Date.now() + info.timeoutInMs
-        ).toString()}).`
+        `next token renewal is in ${info2.timeToLiveInMs} milliseconds @(${new Date(
+          Date.now() + info2.timeToLiveInMs,
+        ).toString()}).`,
       );
     } catch (err) {
       logger.verbose(`an error occurred while renewing the token: ${logObj(err)}`);
     }
   }
-  const loop = createTimerLoop(info.timeoutInMs, createTask);
+  const loop = createTimerLoop(info.timeToLiveInMs, createTask);
   loop.start();
   return loop;
 }
@@ -62,7 +58,7 @@ export async function withAuth(
 export async function openCbsSession(
   client: CbsClient,
   timeoutAfterStartTime: number,
-  { abortSignal }: { abortSignal?: AbortSignalLike } = {}
+  { abortSignal }: { abortSignal?: AbortSignalLike } = {},
 ): Promise<void> {
   return defaultCancellableLock.acquire(
     client.cbsLock,
@@ -74,7 +70,7 @@ export async function openCbsSession(
     {
       abortSignal,
       timeoutInMs: timeoutAfterStartTime - Date.now(),
-    }
+    },
   );
 }
 
@@ -88,7 +84,7 @@ interface TokenInfo {
   /** The type of the token */
   type: TokenType;
   /** The time duration after which the token should be refreshed */
-  timeoutInMs: number;
+  timeToLiveInMs: number;
 }
 
 async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
@@ -99,21 +95,24 @@ async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
   return {
     token,
     type: TokenType.CbsTokenTypeJwt,
-    timeoutInMs: token.expiresOnTimestamp - Date.now() - 2 * 60 * 1000,
+    timeToLiveInMs: token.expiresOnTimestamp - Date.now() - 2 * 60 * 1000,
   };
 }
 
-function getSharedKeyBasedToken(cred: SasTokenProvider, audience: string): TokenInfo {
+async function getSharedKeyBasedToken(
+  cred: SasTokenProvider,
+  audience: string,
+): Promise<TokenInfo> {
   return {
-    token: cred.getToken(audience),
+    token: await cred.getToken(audience),
     type: TokenType.CbsTokenTypeSas,
-    timeoutInMs: 45 * 60 * 1000,
+    timeToLiveInMs: 45 * 60 * 1000,
   };
 }
 
 async function getTokenInfo(
   cred: SasTokenProvider | TokenCredential,
-  audience: string
+  audience: string,
 ): Promise<TokenInfo> {
   return isSasTokenProvider(cred) ? getSharedKeyBasedToken(cred, audience) : getAadToken(cred);
 }
@@ -124,7 +123,7 @@ function negotiateClaim(
   cbsSession: CbsClient,
   timeoutAfterStartTime: number,
   lock: string,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<CbsResponse> {
   return defaultCancellableLock.acquire(
     lock,
@@ -136,7 +135,7 @@ function negotiateClaim(
     {
       abortSignal,
       timeoutInMs: timeoutAfterStartTime - Date.now(),
-    }
+    },
   );
 }
 
@@ -150,11 +149,11 @@ async function setupClaimNegotiation(
     abortSignal,
   }: {
     abortSignal?: AbortSignalLike;
-  }
+  },
 ): Promise<void> {
   const startTime = Date.now();
   logger.verbose(
-    `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`
+    `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`,
   );
 
   await openCbsSession(context.cbsSession, timeoutInMs + startTime, { abortSignal });
@@ -165,7 +164,7 @@ async function setupClaimNegotiation(
     context.cbsSession,
     timeoutInMs + startTime,
     context.negotiateClaimLock,
-    abortSignal
+    abortSignal,
   );
   logger.verbose("claim negotiation succeeded");
 }

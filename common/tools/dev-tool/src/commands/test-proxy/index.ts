@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { subCommand, makeCommandInfo } from "../../framework/command";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "runs the proxy-tool using the .NET standalone executable"
+  "runs the proxy-tool using the .NET standalone executable",
 );
 
 export default subCommand(commandInfo, {

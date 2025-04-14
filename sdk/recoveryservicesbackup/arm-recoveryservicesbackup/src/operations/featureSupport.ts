@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FeatureSupport } from "../operationsInterfaces";
+import { FeatureSupport } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   FeatureSupportRequestUnion,
   FeatureSupportValidateOptionalParams,
-  FeatureSupportValidateResponse
-} from "../models";
+  FeatureSupportValidateResponse,
+} from "../models/index.js";
 
 /** Class containing FeatureSupport operations. */
 export class FeatureSupportImpl implements FeatureSupport {
@@ -38,11 +38,11 @@ export class FeatureSupportImpl implements FeatureSupport {
   validate(
     azureRegion: string,
     parameters: FeatureSupportRequestUnion,
-    options?: FeatureSupportValidateOptionalParams
+    options?: FeatureSupportValidateOptionalParams,
   ): Promise<FeatureSupportValidateResponse> {
     return this.client.sendOperationRequest(
       { azureRegion, parameters, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 }
@@ -50,22 +50,21 @@ export class FeatureSupportImpl implements FeatureSupport {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
+  path: "/Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureVMResourceFeatureSupportResponse
-    }
+      bodyMapper: Mappers.AzureVMResourceFeatureSupportResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.azureRegion
+    Parameters.azureRegion,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

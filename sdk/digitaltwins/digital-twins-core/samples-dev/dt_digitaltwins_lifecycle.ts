@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample illustrates the lifecycle of a digital twin using a scenario that shows how to:
@@ -14,14 +14,14 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
-import { v4 } from "uuid";
+import { inspect } from "node:util";
+import { randomUUID } from "node:crypto";
 import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
 import building from "./dtdl/models/building.json";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {
@@ -44,7 +44,7 @@ async function main() {
   console.log(inspect(model));
 
   // Create digital twin based on the created model
-  const digitalTwinId = `digitalTwin-${v4()}`;
+  const digitalTwinId = `digitalTwin-${randomUUID()}`;
   const newTwin = JSON.stringify(buildingTwin);
   const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin);
   console.log(`Created Digital Twin:`);

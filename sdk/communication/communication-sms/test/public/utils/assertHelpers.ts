@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { SmsSendResult } from "../../../src";
+import type { SmsSendResult } from "../../../src/index.js";
+import { assert } from "vitest";
 
 export const assertIsSuccessResult = (
   actualSmsResult: SmsSendResult,
-  expectedRecipient: string
+  expectedRecipient: string,
 ): void => {
   assert.equal(actualSmsResult.httpStatusCode, 202);
   assert.equal(actualSmsResult.to, expectedRecipient);
@@ -19,7 +19,7 @@ export const assertIsSuccessResult = (
 export const assertIsFailureResult = (
   actualSmsResult: SmsSendResult,
   expectedRecipient: string,
-  expectedErrorMessage: string
+  expectedErrorMessage: string,
 ): void => {
   assert.equal(actualSmsResult.httpStatusCode, 400);
   assert.equal(actualSmsResult.to, expectedRecipient);

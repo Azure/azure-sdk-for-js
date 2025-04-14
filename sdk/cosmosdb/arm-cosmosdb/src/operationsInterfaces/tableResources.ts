@@ -11,6 +11,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TableGetResults,
   TableResourcesListTablesOptionalParams,
+  TableRoleDefinitionResource,
+  TableResourcesListTableRoleDefinitionsOptionalParams,
+  TableRoleAssignmentResource,
+  TableResourcesListTableRoleAssignmentsOptionalParams,
   TableResourcesGetTableOptionalParams,
   TableResourcesGetTableResponse,
   TableCreateUpdateParameters,
@@ -29,8 +33,18 @@ import {
   TableResourcesMigrateTableToManualThroughputResponse,
   ContinuousBackupRestoreLocation,
   TableResourcesRetrieveContinuousBackupInformationOptionalParams,
-  TableResourcesRetrieveContinuousBackupInformationResponse
-} from "../models";
+  TableResourcesRetrieveContinuousBackupInformationResponse,
+  TableResourcesGetTableRoleDefinitionOptionalParams,
+  TableResourcesGetTableRoleDefinitionResponse,
+  TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  TableResourcesCreateUpdateTableRoleDefinitionResponse,
+  TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  TableResourcesGetTableRoleAssignmentOptionalParams,
+  TableResourcesGetTableRoleAssignmentResponse,
+  TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  TableResourcesCreateUpdateTableRoleAssignmentResponse,
+  TableResourcesDeleteTableRoleAssignmentOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TableResources. */
@@ -44,8 +58,30 @@ export interface TableResources {
   listTables(
     resourceGroupName: string,
     accountName: string,
-    options?: TableResourcesListTablesOptionalParams
+    options?: TableResourcesListTablesOptionalParams,
   ): PagedAsyncIterableIterator<TableGetResults>;
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  listTableRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleDefinitionsOptionalParams,
+  ): PagedAsyncIterableIterator<TableRoleDefinitionResource>;
+  /**
+   * Retrieves the list of all Azure Cosmos DB Table Role Assignments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  listTableRoleAssignments(
+    resourceGroupName: string,
+    accountName: string,
+    options?: TableResourcesListTableRoleAssignmentsOptionalParams,
+  ): PagedAsyncIterableIterator<TableRoleAssignmentResource>;
   /**
    * Gets the Tables under an existing Azure Cosmos DB database account with the provided name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -57,7 +93,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesGetTableOptionalParams
+    options?: TableResourcesGetTableOptionalParams,
   ): Promise<TableResourcesGetTableResponse>;
   /**
    * Create or update an Azure Cosmos DB Table
@@ -72,7 +108,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     createUpdateTableParameters: TableCreateUpdateParameters,
-    options?: TableResourcesCreateUpdateTableOptionalParams
+    options?: TableResourcesCreateUpdateTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesCreateUpdateTableResponse>,
@@ -92,7 +128,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     createUpdateTableParameters: TableCreateUpdateParameters,
-    options?: TableResourcesCreateUpdateTableOptionalParams
+    options?: TableResourcesCreateUpdateTableOptionalParams,
   ): Promise<TableResourcesCreateUpdateTableResponse>;
   /**
    * Deletes an existing Azure Cosmos DB Table.
@@ -105,7 +141,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesDeleteTableOptionalParams
+    options?: TableResourcesDeleteTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesDeleteTableResponse>,
@@ -123,7 +159,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesDeleteTableOptionalParams
+    options?: TableResourcesDeleteTableOptionalParams,
   ): Promise<TableResourcesDeleteTableResponse>;
   /**
    * Gets the RUs per second of the Table under an existing Azure Cosmos DB database account with the
@@ -137,7 +173,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesGetTableThroughputOptionalParams
+    options?: TableResourcesGetTableThroughputOptionalParams,
   ): Promise<TableResourcesGetTableThroughputResponse>;
   /**
    * Update RUs per second of an Azure Cosmos DB Table
@@ -153,7 +189,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: TableResourcesUpdateTableThroughputOptionalParams
+    options?: TableResourcesUpdateTableThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesUpdateTableThroughputResponse>,
@@ -174,7 +210,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: TableResourcesUpdateTableThroughputOptionalParams
+    options?: TableResourcesUpdateTableThroughputOptionalParams,
   ): Promise<TableResourcesUpdateTableThroughputResponse>;
   /**
    * Migrate an Azure Cosmos DB Table from manual throughput to autoscale
@@ -187,7 +223,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToAutoscaleOptionalParams
+    options?: TableResourcesMigrateTableToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesMigrateTableToAutoscaleResponse>,
@@ -205,7 +241,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToAutoscaleOptionalParams
+    options?: TableResourcesMigrateTableToAutoscaleOptionalParams,
   ): Promise<TableResourcesMigrateTableToAutoscaleResponse>;
   /**
    * Migrate an Azure Cosmos DB Table from autoscale to manual throughput
@@ -218,7 +254,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToManualThroughputOptionalParams
+    options?: TableResourcesMigrateTableToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesMigrateTableToManualThroughputResponse>,
@@ -236,7 +272,7 @@ export interface TableResources {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableResourcesMigrateTableToManualThroughputOptionalParams
+    options?: TableResourcesMigrateTableToManualThroughputOptionalParams,
   ): Promise<TableResourcesMigrateTableToManualThroughputResponse>;
   /**
    * Retrieves continuous backup information for a table.
@@ -251,7 +287,7 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TableResourcesRetrieveContinuousBackupInformationResponse>,
@@ -271,6 +307,158 @@ export interface TableResources {
     accountName: string,
     tableName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: TableResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<TableResourcesRetrieveContinuousBackupInformationResponse>;
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Table Role Definition with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  getTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesGetTableRoleDefinitionOptionalParams,
+  ): Promise<TableResourcesGetTableRoleDefinitionResponse>;
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateTableRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateTableRoleDefinitionParameters: TableRoleDefinitionResource,
+    options?: TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesCreateUpdateTableRoleDefinitionResponse>,
+      TableResourcesCreateUpdateTableRoleDefinitionResponse
+    >
+  >;
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateTableRoleDefinitionParameters The properties required to create or update a Role
+   *                                                  Definition.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateTableRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateTableRoleDefinitionParameters: TableRoleDefinitionResource,
+    options?: TableResourcesCreateUpdateTableRoleDefinitionOptionalParams,
+  ): Promise<TableResourcesCreateUpdateTableRoleDefinitionResponse>;
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  beginDeleteTableRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  beginDeleteTableRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: TableResourcesDeleteTableRoleDefinitionOptionalParams,
+  ): Promise<void>;
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Table Role Assignment with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  getTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesGetTableRoleAssignmentOptionalParams,
+  ): Promise<TableResourcesGetTableRoleAssignmentResponse>;
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateTableRoleAssignmentParameters The properties required to create or update a Role
+   *                                                  Assignment.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateTableRoleAssignmentParameters: TableRoleAssignmentResource,
+    options?: TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TableResourcesCreateUpdateTableRoleAssignmentResponse>,
+      TableResourcesCreateUpdateTableRoleAssignmentResponse
+    >
+  >;
+  /**
+   * Creates or updates an Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateTableRoleAssignmentParameters The properties required to create or update a Role
+   *                                                  Assignment.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateTableRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateTableRoleAssignmentParameters: TableRoleAssignmentResource,
+    options?: TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
+  ): Promise<TableResourcesCreateUpdateTableRoleAssignmentResponse>;
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  beginDeleteTableRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesDeleteTableRoleAssignmentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes an existing Azure Cosmos DB Table Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  beginDeleteTableRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: TableResourcesDeleteTableRoleAssignmentOptionalParams,
+  ): Promise<void>;
 }

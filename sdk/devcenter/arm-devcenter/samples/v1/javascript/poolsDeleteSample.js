@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a machine pool
  *
  * @summary Deletes a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Delete.json
  */
 async function poolsDelete() {
   const subscriptionId =

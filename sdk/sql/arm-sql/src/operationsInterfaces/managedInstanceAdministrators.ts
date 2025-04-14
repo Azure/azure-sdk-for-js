@@ -16,8 +16,8 @@ import {
   ManagedInstanceAdministratorsGetResponse,
   ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ManagedInstanceAdministratorsCreateOrUpdateResponse,
-  ManagedInstanceAdministratorsDeleteOptionalParams
-} from "../models";
+  ManagedInstanceAdministratorsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceAdministrators. */
@@ -32,7 +32,7 @@ export interface ManagedInstanceAdministrators {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams
+    options?: ManagedInstanceAdministratorsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAdministrator>;
   /**
    * Gets a managed instance administrator.
@@ -46,7 +46,7 @@ export interface ManagedInstanceAdministrators {
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsGetOptionalParams
+    options?: ManagedInstanceAdministratorsGetOptionalParams,
   ): Promise<ManagedInstanceAdministratorsGetResponse>;
   /**
    * Creates or updates a managed instance administrator.
@@ -62,7 +62,7 @@ export interface ManagedInstanceAdministrators {
     managedInstanceName: string,
     administratorName: AdministratorName,
     parameters: ManagedInstanceAdministrator,
-    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedInstanceAdministratorsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface ManagedInstanceAdministrators {
     managedInstanceName: string,
     administratorName: AdministratorName,
     parameters: ManagedInstanceAdministrator,
-    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams
+    options?: ManagedInstanceAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<ManagedInstanceAdministratorsCreateOrUpdateResponse>;
   /**
    * Deletes a managed instance administrator.
@@ -97,7 +97,7 @@ export interface ManagedInstanceAdministrators {
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsDeleteOptionalParams
+    options?: ManagedInstanceAdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed instance administrator.
@@ -111,6 +111,6 @@ export interface ManagedInstanceAdministrators {
     resourceGroupName: string,
     managedInstanceName: string,
     administratorName: AdministratorName,
-    options?: ManagedInstanceAdministratorsDeleteOptionalParams
+    options?: ManagedInstanceAdministratorsDeleteOptionalParams,
   ): Promise<void>;
 }

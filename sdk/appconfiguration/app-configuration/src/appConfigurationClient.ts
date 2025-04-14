@@ -1,67 +1,96 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  AddConfigurationSettingOptions,
-  AddConfigurationSettingParam,
-  AddConfigurationSettingResponse,
-  ConfigurationSetting,
-  ConfigurationSettingId,
-  DeleteConfigurationSettingOptions,
-  DeleteConfigurationSettingResponse,
-  GetConfigurationSettingOptions,
-  GetConfigurationSettingResponse,
-  HttpResponseField,
-  ListConfigurationSettingPage,
-  ListConfigurationSettingsOptions,
-  ListRevisionsOptions,
-  ListRevisionsPage,
-  PageSettings,
-  SetConfigurationSettingOptions,
-  SetConfigurationSettingParam,
-  SetConfigurationSettingResponse,
-  SetReadOnlyOptions,
-  SetReadOnlyResponse,
-} from "./models";
-import {
+  type AddConfigurationSettingOptions,
+  type AddConfigurationSettingParam,
+  type AddConfigurationSettingResponse,
+  type AppConfigurationClientOptions,
+  type ConfigurationSetting,
+  type ConfigurationSettingId,
+  type CreateSnapshotOptions,
+  type CreateSnapshotResponse,
+  type DeleteConfigurationSettingOptions,
+  type DeleteConfigurationSettingResponse,
+  type GetConfigurationSettingOptions,
+  type GetConfigurationSettingResponse,
+  type GetSnapshotOptions,
+  type GetSnapshotResponse,
+  type HttpResponseField,
+  type ListConfigurationSettingPage,
+  type ListConfigurationSettingsForSnapshotOptions,
+  type ListConfigurationSettingsOptions,
+  type ListLabelsOptions,
+  type ListLabelsPage,
+  type ListRevisionsOptions,
+  type ListRevisionsPage,
+  type ListSnapshotsOptions,
+  type ListSnapshotsPage,
+  type PageSettings,
+  type SetConfigurationSettingOptions,
+  type SetConfigurationSettingParam,
+  type SetConfigurationSettingResponse,
+  type SetReadOnlyOptions,
+  type SetReadOnlyResponse,
+  type SettingLabel,
+  type SnapshotInfo,
+  type UpdateSnapshotOptions,
+  type UpdateSnapshotResponse,
+} from "./models.js";
+import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
+  AppConfigurationGetSnapshotsHeaders,
   GetKeyValuesResponse,
   GetRevisionsResponse,
-} from "./generated/src/models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import {
-  PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
-  RestError,
-} from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+  GetSnapshotsResponse,
+  ConfigurationSnapshot,
+  GetLabelsResponse,
+  AppConfigurationGetLabelsHeaders,
+} from "./generated/src/models/index.js";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type {
+  SendConfigurationSettingsOptions,
+  SendLabelsRequestOptions,
+} from "./internal/helpers.js";
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
+  formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
+  formatLabelsFiltersAndSelect,
+  formatSnapshotFiltersAndSelect,
+  getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-} from "./internal/helpers";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { FeatureFlagValue } from "./featureFlag";
-import { SecretReferenceValue } from "./secretReference";
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { tracingClient } from "./internal/tracing";
-import { logger } from "./logger";
+  transformSnapshotResponse,
+} from "./internal/helpers.js";
+import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import type { FeatureFlagValue } from "./featureFlag.js";
+import type { SecretReferenceValue } from "./secretReference.js";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
+import { tracingClient } from "./internal/tracing.js";
+import { logger } from "./logger.js";
+import type { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { appConfigurationApiVersion } from "./internal/constants.js";
 
-const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
   json: [
@@ -70,13 +99,12 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.kvs+json",
     "application/vnd.microsoft.appconfig.keyset+json",
     "application/vnd.microsoft.appconfig.revs+json",
+    "application/vnd.microsoft.appconfig.snapshotset+json",
+    "application/vnd.microsoft.appconfig.snapshot+json",
+    "application/vnd.microsoft.appconfig.labelset+json",
+    "application/json",
   ],
 };
-
-/**
- * Provides configuration options for AppConfigurationClient.
- */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -99,7 +127,6 @@ export class AppConfigurationClient {
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
-   * @param connectionString - Connection string needed for a client to connect to Azure.
    * @param options - Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
@@ -113,17 +140,18 @@ export class AppConfigurationClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   );
   constructor(
     connectionStringOrEndpoint: string,
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
     let appConfigCredential: TokenCredential;
     let appConfigEndpoint: string;
     let authPolicy: PipelinePolicy;
+    let scope: string;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
@@ -131,8 +159,9 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
+      scope = getScope(appConfigEndpoint, appConfigOptions.audience);
       authPolicy = bearerTokenAuthenticationPolicy({
-        scopes: `${appConfigEndpoint}/.default`,
+        scopes: scope,
         credential: appConfigCredential,
       });
     } else {
@@ -143,7 +172,8 @@ export class AppConfigurationClient {
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
-          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
+          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -161,8 +191,8 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      apiVersion,
-      internalClientPipelineOptions
+      options?.apiVersion ?? appConfigurationApiVersion,
+      internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
@@ -173,8 +203,20 @@ export class AppConfigurationClient {
    * already exists.
    *
    * Example usage:
-   * ```ts
-   * const result = await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
+   * ```ts snippet:AddConfigurationSetting
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const result = await client.addConfigurationSetting({
+   *   key: "MyKey",
+   *   label: "MyLabel",
+   *   value: "MyValue",
+   * });
    * ```
    * @param configurationSetting - A configuration setting.
    * @param options - Optional parameters for the request.
@@ -184,7 +226,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
       | AddConfigurationSettingParam<SecretReferenceValue>,
-    options: AddConfigurationSettingOptions = {}
+    options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.addConfigurationSetting",
@@ -211,7 +253,7 @@ export class AppConfigurationClient {
           throw err;
         }
         throw new Error("Unreachable code");
-      }
+      },
     );
   }
 
@@ -219,15 +261,26 @@ export class AppConfigurationClient {
    * Delete a setting from the Azure App Configuration service
    *
    * Example usage:
-   * ```ts
-   * const deletedSetting = await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
+   * ```ts snippet:DeleteConfigurationSetting
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const deletedSetting = await client.deleteConfigurationSetting({
+   *   key: "MyKey",
+   *   label: "MyLabel",
+   * });
    * ```
    * @param id - The id of the configuration setting to delete.
    * @param options - Optional parameters for the request (ex: etag, label)
    */
   deleteConfigurationSetting(
     id: ConfigurationSettingId,
-    options: DeleteConfigurationSettingOptions = {}
+    options: DeleteConfigurationSettingOptions = {},
   ): Promise<DeleteConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.deleteConfigurationSetting",
@@ -247,7 +300,7 @@ export class AppConfigurationClient {
         const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -255,7 +308,15 @@ export class AppConfigurationClient {
    * Gets a setting from the Azure App Configuration service.
    *
    * Example code:
-   * ```ts
+   * ```ts snippet:GetConfigurationSetting
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
    * const setting = await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
    * ```
    * @param id - The id of the configuration setting to get.
@@ -263,7 +324,7 @@ export class AppConfigurationClient {
    */
   async getConfigurationSetting(
     id: ConfigurationSettingId,
-    options: GetConfigurationSettingOptions = {}
+    options: GetConfigurationSettingOptions = {},
   ): Promise<GetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.getConfigurationSetting",
@@ -296,7 +357,7 @@ export class AppConfigurationClient {
         }
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -305,19 +366,107 @@ export class AppConfigurationClient {
    * filtered by key names, labels and accept datetime.
    *
    * Example code:
-   * ```ts
+   * ```ts snippet:ListConfigurationSettings
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
    * const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
    * ```
    * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.sendConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: response.items != null ? response.items?.map(transformKeyValue) : [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
+
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
+   * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
+   * filtered by key names, labels and accept datetime.
+   *
+   * Example code:
+   * ```ts snippet:ListConfigurationSettingsForSnashots
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const allSettingsWithLabel = client.listConfigurationSettingsForSnashots({
+   *   snapshotName: "MySnapshot",
+   * });
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listConfigurationSettingsForSnapshot(
+    snapshotName: string,
+    options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+          const response = await this.sendConfigurationSettingsRequest(
+            { snapshotName, ...options },
+            pageLink,
+          );
           const currentResponse = {
             ...response,
             items: response.items != null ? response.items?.map(transformKeyValue) : [],
@@ -335,9 +484,71 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  /**
+   * Get a list of labels from the Azure App Configuration service
+   *
+   * Example code:
+   * ```ts snippet:ListLabels
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const allSettingsWithLabel = client.listLabels({ nameFilter: "prod*" });
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listLabels(
+    options: ListLabelsOptions = {},
+  ): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings> {
+    const pagedResult: PagedResult<ListLabelsPage, PageSettings, string | undefined> = {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendLabelsRequest(options, pageLink);
+        const currentResponse: ListLabelsPage = {
+          ...response,
+          items: response.items ?? [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+          _response: response._response,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  private async sendLabelsRequest(
+    options: SendLabelsRequestOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.listConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getLabels({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatLabelsFiltersAndSelect(options),
+          after: pageLink,
+        });
+
+        return response as GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>;
+      },
+    );
+  }
+
   private async sendConfigurationSettingsRequest(
-    options: ListConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    options: SendConfigurationSettingsOptions & PageSettings = {},
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
@@ -346,13 +557,14 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
 
         return response as GetKeyValuesResponse &
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
-      }
+      },
     );
   }
 
@@ -361,13 +573,21 @@ export class AppConfigurationClient {
    * labels and accept datetime.
    *
    * Example code:
-   * ```ts
+   * ```ts snippet:ListRevisions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
    * const revisionsIterator = client.listRevisions({ keys: ["MyKey"] });
    * ```
    * @param options - Optional parameters for the request.
    */
   listRevisions(
-    options?: ListRevisionsOptions
+    options?: ListRevisionsOptions,
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const pagedResult: PagedResult<ListRevisionsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
@@ -393,7 +613,7 @@ export class AppConfigurationClient {
 
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
@@ -408,7 +628,7 @@ export class AppConfigurationClient {
 
         return response as GetRevisionsResponse &
           HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-      }
+      },
     );
   }
 
@@ -419,7 +639,15 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    *
    * Example code:
-   * ```ts
+   * ```ts snippet:SetConfigurationSetting
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
    * await client.setConfigurationSetting({ key: "MyKey", value: "MyValue" });
    * ```
    */
@@ -428,7 +656,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
       | SetConfigurationSettingParam<SecretReferenceValue>,
-    options: SetConfigurationSettingOptions = {}
+    options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setConfigurationSetting",
@@ -442,11 +670,11 @@ export class AppConfigurationClient {
             label: configurationSetting.label,
             entity: keyValue,
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-          })
+          }),
         );
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -457,7 +685,7 @@ export class AppConfigurationClient {
   async setReadOnly(
     id: ConfigurationSettingId,
     readOnly: boolean,
-    options: SetReadOnlyOptions = {}
+    options: SetReadOnlyOptions = {},
   ): Promise<SetReadOnlyResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setReadOnly",
@@ -482,7 +710,7 @@ export class AppConfigurationClient {
         response = transformKeyValueResponse(response);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -493,5 +721,230 @@ export class AppConfigurationClient {
    */
   updateSyncToken(syncToken: string): void {
     this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
+  }
+
+  /**
+   * Begins creating a snapshot for Azure App Configuration service, fails if it
+   * already exists.
+   */
+  beginCreateSnapshot(
+    snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: CreateSnapshotOptions = {},
+  ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
+    return tracingClient.withSpan(
+      `${AppConfigurationClient.name}.beginCreateSnapshot`,
+      options,
+      (updatedOptions) =>
+        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions }),
+    );
+  }
+
+  /**
+   * Begins creating a snapshot for Azure App Configuration service, waits until it is done,
+   * fails if it already exists.
+   */
+  beginCreateSnapshotAndWait(
+    snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: CreateSnapshotOptions = {},
+  ): Promise<CreateSnapshotResponse> {
+    return tracingClient.withSpan(
+      `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
+      options,
+      (updatedOptions) =>
+        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions }),
+    );
+  }
+
+  /**
+   * Get a snapshot from Azure App Configuration service
+   *
+   * Example usage:
+   * ```ts snippet:GetSnapshot
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const retrievedSnapshot = await client.getSnapshot("testsnapshot");
+   * console.log("Retrieved snapshot:", retrievedSnapshot);
+   * ```
+   * @param name - The name of the snapshot.
+   * @param options - Optional parameters for the request.
+   */
+  getSnapshot(name: string, options: GetSnapshotOptions = {}): Promise<GetSnapshotResponse> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.getSnapshot",
+      options,
+      async (updatedOptions) => {
+        logger.info("[getSnapshot] Get a snapshot");
+        const originalResponse = await this.client.getSnapshot(name, {
+          ...updatedOptions,
+        });
+        const response = transformSnapshotResponse(originalResponse);
+        assertResponse(response);
+        return response;
+      },
+    );
+  }
+
+  /**
+   * Recover an archived snapshot back to ready status
+   *
+   * Example usage:
+   * ```ts snippet:RecoverSnapshot
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const result = await client.recoverSnapshot("MySnapshot");
+   * ```
+   * @param name - The name of the snapshot.
+   * @param options - Optional parameters for the request.
+   */
+  recoverSnapshot(
+    name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: UpdateSnapshotOptions = {},
+  ): Promise<UpdateSnapshotResponse> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.recoverSnapshot",
+      options,
+      async (updatedOptions) => {
+        logger.info("[recoverSnapshot] Recover a snapshot");
+        const originalResponse = await this.client.updateSnapshot(
+          name,
+          { status: "ready" },
+          {
+            ...updatedOptions,
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options },
+            ),
+          },
+        );
+        const response = transformSnapshotResponse(originalResponse);
+        assertResponse(response);
+        return response;
+      },
+    );
+  }
+  /**
+   * Archive a ready snapshot
+   *
+   * Example usage:
+   * ```ts snippet:ArchiveSnapshot
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const result = await client.archiveSnapshot({ name: "MySnapshot" });
+   * ```
+   * @param name - The name of the snapshot.
+   * @param options - Optional parameters for the request.
+   */
+  archiveSnapshot(
+    name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: UpdateSnapshotOptions = {},
+  ): Promise<UpdateSnapshotResponse> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.archiveSnapshot",
+      options,
+      async (updatedOptions) => {
+        logger.info("[archiveSnapshot] Archive a snapshot");
+        const originalResponse = await this.client.updateSnapshot(
+          name,
+          { status: "archived" },
+          {
+            ...updatedOptions,
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options },
+            ),
+          },
+        );
+        const response = transformSnapshotResponse(originalResponse);
+        assertResponse(response);
+        return response;
+      },
+    );
+  }
+
+  /**
+   * List all snapshots from Azure App Configuration service
+   *
+   * Example usage:
+   * ```ts snippet:ListSnapshots
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * // The endpoint for your App Configuration resource
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const snapshots = await client.listSnapshots();
+   *
+   * for await (const snapshot of snapshots) {
+   *   console.log(`Found snapshot: ${snapshot.name}`);
+   * }
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listSnapshots(
+    options: ListSnapshotsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings> {
+    const pagedResult: PagedResult<ListSnapshotsPage, PageSettings, string | undefined> = {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendSnapShotsRequest(options, pageLink);
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  private async sendSnapShotsRequest(
+    options: ListSnapshotsOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.listSnapshots",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getSnapshots({
+          ...updatedOptions,
+          ...formatSnapshotFiltersAndSelect(options),
+          after: pageLink,
+        });
+
+        return response as GetSnapshotsResponse &
+          HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
+      },
+    );
   }
 }

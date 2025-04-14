@@ -8,8 +8,8 @@
 
 import {
   SecurityPINsGetOptionalParams,
-  SecurityPINsGetResponse
-} from "../models";
+  SecurityPINsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a SecurityPINs. */
 export interface SecurityPINs {
@@ -23,6 +23,6 @@ export interface SecurityPINs {
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: SecurityPINsGetOptionalParams
+    options?: SecurityPINsGetOptionalParams,
   ): Promise<SecurityPINsGetResponse>;
 }

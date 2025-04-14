@@ -14,8 +14,8 @@ import {
   DatabaseExtensionsGetOptionalParams,
   DatabaseExtensions,
   DatabaseExtensionsCreateOrUpdateOptionalParams,
-  DatabaseExtensionsCreateOrUpdateResponse
-} from "../models";
+  DatabaseExtensionsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseExtensionsOperations. */
@@ -32,7 +32,7 @@ export interface DatabaseExtensionsOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ImportExportExtensionsOperationResult>;
   /**
    * Gets a database extension. This will return resource not found as it is not supported.
@@ -48,7 +48,7 @@ export interface DatabaseExtensionsOperations {
     serverName: string,
     databaseName: string,
     extensionName: string,
-    options?: DatabaseExtensionsGetOptionalParams
+    options?: DatabaseExtensionsGetOptionalParams,
   ): Promise<void>;
   /**
    * Perform a database extension operation, like polybase import
@@ -66,7 +66,7 @@ export interface DatabaseExtensionsOperations {
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabaseExtensionsCreateOrUpdateResponse>,
@@ -89,6 +89,6 @@ export interface DatabaseExtensionsOperations {
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams,
   ): Promise<DatabaseExtensionsCreateOrUpdateResponse>;
 }

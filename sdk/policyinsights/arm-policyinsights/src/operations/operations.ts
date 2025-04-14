@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Operations } from "../operationsInterfaces";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PolicyInsightsClient } from "../policyInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PolicyInsightsClient } from "../policyInsightsClient.js";
 import {
   OperationsListOptionalParams,
-  OperationsListResponse
-} from "../models";
+  OperationsListResponse,
+} from "../models/index.js";
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
@@ -33,7 +33,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -46,14 +46,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsListResults
+      bodyMapper: Mappers.OperationsListResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

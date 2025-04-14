@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to restart a resource.
  *
  * @summary Operation to restart a resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_Restart.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_Restart.json
  */
 async function webPubSubRestart() {
   const subscriptionId =

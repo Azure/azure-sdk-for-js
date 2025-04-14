@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as childProcess from "child_process";
 
@@ -15,7 +15,7 @@ export const processUtils = {
   execFile(
     file: string,
     params: string[],
-    options?: childProcess.ExecFileOptionsWithStringEncoding
+    options?: childProcess.ExecFileOptionsWithStringEncoding,
   ): Promise<string | Buffer> {
     return new Promise((resolve, reject) => {
       childProcess.execFile(file, params, options, (error, stdout, stderr) => {

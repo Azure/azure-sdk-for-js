@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./sparkBatch";
-export * from "./sparkSessionOperations";
+export * from "./sparkBatch.js";
+export * from "./sparkSessionOperations.js";

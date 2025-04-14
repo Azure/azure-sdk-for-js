@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BackupVaultOperationResults } from "../operationsInterfaces";
+import { BackupVaultOperationResults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   BackupVaultOperationResultsGetOptionalParams,
-  BackupVaultOperationResultsGetResponse
-} from "../models";
+  BackupVaultOperationResultsGetResponse,
+} from "../models/index.js";
 
 /** Class containing BackupVaultOperationResults operations. */
 export class BackupVaultOperationResultsImpl
-  implements BackupVaultOperationResults {
+  implements BackupVaultOperationResults
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -39,11 +40,11 @@ export class BackupVaultOperationResultsImpl
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: BackupVaultOperationResultsGetOptionalParams
+    options?: BackupVaultOperationResultsGetOptionalParams,
   ): Promise<BackupVaultOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,19 +52,18 @@ export class BackupVaultOperationResultsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupVaultResource
+      bodyMapper: Mappers.BackupVaultResource,
     },
     202: {
-      headersMapper: Mappers.BackupVaultOperationResultsGetHeaders
+      headersMapper: Mappers.BackupVaultOperationResultsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -71,8 +71,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

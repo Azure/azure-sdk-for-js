@@ -15,6 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                                   | **Description**                                                                                                                                                                                                                                                                                                                                                                                                   |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [helloworld.ts][helloworld]                                     | Demonstrates the CRUD operations on the configuration settings.                                                                                                                                                                                                                                                                                                                                                   |
+| [snapshot.ts][snapshot]                                         | Demonstrates the CRUD operations on the snapshot.                                                                                                                                                                                                                                                                                                                                                                 |
 | [helloworldWithLabels.ts][helloworldwithlabels]                 | This sample builds on concepts in helloworld.ts and shows you how to use labels.                                                                                                                                                                                                                                                                                                                                  |
 | [optimisticConcurrencyViaEtag.ts][optimisticconcurrencyviaetag] | Demonstrates implementing optimistic concurrency using App Configuration and etags.                                                                                                                                                                                                                                                                                                                               |
 | [setReadOnlySample.ts][setreadonlysample]                       | Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.                                                                                                                                                                                                                                                                                    |
@@ -70,7 +71,7 @@ node dist/helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node dist/helloworld.js
+npx dev-tool run vendored cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node dist/helloworld.js
 ```
 
 ## Next Steps
@@ -78,6 +79,7 @@ npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node d
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/helloworld.ts
+[snapshot]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/snapshot.ts
 [helloworldwithlabels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/helloworldWithLabels.ts
 [optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/optimisticConcurrencyViaEtag.ts
 [setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/setReadOnlySample.ts
@@ -87,8 +89,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/listRevisions.ts
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/secretReference.ts
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/featureFlag.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
+[createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

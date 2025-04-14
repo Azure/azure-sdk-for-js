@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use advanced HTTP pipeline and request options for several methods
  */
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 
-import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
@@ -21,7 +18,7 @@ dotenv.config();
 import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
-async function main() {
+async function main(): Promise<void> {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -38,7 +35,7 @@ async function main() {
   });
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.blob.core.windows.net?${accountSas}`,
     pipeline
   );
 
@@ -76,7 +73,7 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
@@ -103,7 +100,7 @@ async function main() {
   const buffer = Buffer.alloc(fileSize);
   try {
     await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
       onProgress: (ev) => console.log(ev),

@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import "@azure/core-paging";
-import { logger } from "./logger";
-import {
-  MetricsAdvisorKeyCredential,
-  createMetricsAdvisorKeyCredentialPolicy,
-} from "./metricsAdvisorKeyCredentialPolicy";
-import { GeneratedClient } from "./generated/generatedClient";
-import {
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { logger } from "./logger.js";
+import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type {
   AlertConfigurationsPageResponse,
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
@@ -42,8 +38,8 @@ import {
   RestResponse,
   WebNotificationHook,
   WebNotificationHookPatch,
-} from "./models";
-import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
+} from "./models.js";
+import type { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models/index.js";
 import {
   fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
@@ -60,14 +56,14 @@ import {
   toServiceDataFeedSourcePatch,
   toServiceGranularity,
   toServiceRollupSettings,
-} from "./transforms";
+} from "./transforms.js";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
-} from "./constants";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { tracingClient } from "./tracing";
+} from "./constants.js";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { tracingClient } from "./tracing.js";
 
 /**
  * Client options used to configure API requests.
@@ -164,13 +160,14 @@ export class MetricsAdvisorAdministrationClient {
    * Creates an instance of MetricsAdvisorAdministrationClient.
    *
    * Example usage:
-   * ```ts
-   * import { MetricsAdvisorAdministrationClient, MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
+   * ```ts snippet:MetricsAdvisorAdministrationClientConstructor
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
    *
-   * const client = new MetricsAdvisorAdministrationClient(
-   *    "<service endpoint>",
-   *    new MetricsAdvisorKeyCredential("<subscription key>", "<api key>")
-   * );
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
    * ```
    * @param endpointUrl - Url to an Azure Metrics Advisor service endpoint
    * @param credential - Used to authenticate requests to the service.
@@ -179,7 +176,7 @@ export class MetricsAdvisorAdministrationClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | MetricsAdvisorKeyCredential,
-    options: MetricsAdvisorAdministrationClientOptions = {}
+    options: MetricsAdvisorAdministrationClientOptions = {},
   ) {
     this.endpointUrl = endpointUrl;
     const internalPipelineOptions: InternalPipelineOptions = {
@@ -205,7 +202,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async createDataFeed(
     feed: DataFeedDescriptor,
-    operationOptions: CreateDataFeedOptions = {}
+    operationOptions: CreateDataFeedOptions = {},
   ): Promise<MetricsAdvisorDataFeed> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
@@ -233,10 +230,10 @@ export class MetricsAdvisorAdministrationClient {
           rollupSettings?.rollupType === "AutoRollup"
             ? "NeedRollup"
             : rollupSettings?.rollupType === "AlreadyRollup"
-            ? "AlreadyRollup"
-            : rollupSettings?.rollupType === "NoRollup"
-            ? "NoRollup"
-            : undefined;
+              ? "AlreadyRollup"
+              : rollupSettings?.rollupType === "NoRollup"
+                ? "NoRollup"
+                : undefined;
         const rollUpColumns: string[] | undefined =
           rollupSettings?.rollupType === "AutoRollup"
             ? rollupSettings.autoRollupGroupByColumnNames
@@ -285,7 +282,7 @@ export class MetricsAdvisorAdministrationClient {
         const lastSlashIndex = result.location.lastIndexOf("/");
         const feedId = result.location.substring(lastSlashIndex + 1);
         return this.getDataFeed(feedId);
-      }
+      },
     );
   }
 
@@ -296,7 +293,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async getDataFeed(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<MetricsAdvisorDataFeed> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataFeed",
@@ -305,7 +302,7 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.getDataFeedById(id, finalOptions);
         const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
         return resultDataFeed;
-      }
+      },
     );
   }
 
@@ -316,53 +313,46 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const dataFeedList = client.listDataFeeds({
-   * filter: { // filter
-   *  dataFeedName: "js-blob-datafeed"
-   *  }
+   * ```ts snippet:MetricsAdvisorAdministrationClientListDataFeeds
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const dataFeedList = adminClient.listDataFeeds({
+   *   filter: {
+   *     dataFeedName: "js-blob-datafeed",
+   *   },
    * });
-   * let i = 1;
-   * for await (const datafeed of dataFeedList){
-   *  console.log(`datafeed ${i++}:`);
-   *  console.log(datafeed);
+   *
+   * // Iterate via for-await-of
+   * for await (const dataFeed of dataFeedList) {
+   *   console.log(dataFeed.name);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = dataFeedList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.name);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of dataFeedList.byPage()) {
+   *   for (const dataFeed of page) {
+   *     console.log(dataFeed.name);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listDataFeeds();
-   * let dataFeedItem = await iter.next();
-   * while (!dataFeedItem.done) {
-   *   console.log(`id :${dataFeedItem.value.id}, name: ${dataFeedItem.value.name}`);
-   *   dataFeedItem = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listDataFeeds().byPage({ maxPageSize: 10 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const feed of page.value) {
-   *      console.log(`  ${feed.id} - ${feed.name}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param options - The options parameter.
    */
   public listDataFeeds(
-    options: ListDataFeedsOptions = {}
+    options: ListDataFeedsOptions = {},
   ): PagedAsyncIterableIterator<MetricsAdvisorDataFeed, DataFeedsPageResponse> {
     const iter = this.listItemsOfDataFeeds(options);
     return {
@@ -384,14 +374,14 @@ export class MetricsAdvisorAdministrationClient {
             ...options,
             maxPageSize: settings.maxPageSize,
           },
-          settings.continuationToken
+          settings.continuationToken,
         );
       },
     };
   }
 
   private async *listItemsOfDataFeeds(
-    options: ListDataFeedsOptions
+    options: ListDataFeedsOptions,
   ): AsyncIterableIterator<MetricsAdvisorDataFeed> {
     for await (const segment of this.listSegmentsOfDataFeeds(options)) {
       if (segment) {
@@ -402,7 +392,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
-    continuationToken?: string
+    continuationToken?: string,
   ): AsyncIterableIterator<DataFeedsPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
@@ -454,7 +444,7 @@ export class MetricsAdvisorAdministrationClient {
   public async updateDataFeed(
     dataFeedId: string,
     patch: DataFeedPatch,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<MetricsAdvisorDataFeed> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDataFeed",
@@ -496,7 +486,7 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
         const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
         return resultDataFeed;
-      }
+      },
     );
   }
 
@@ -515,7 +505,7 @@ export class MetricsAdvisorAdministrationClient {
           ...options,
         });
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 
@@ -527,7 +517,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyDetectionConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDetectionConfig",
@@ -536,7 +526,7 @@ export class MetricsAdvisorAdministrationClient {
         const transformed = toServiceAnomalyDetectionConfiguration(config);
         const result = await this.client.createAnomalyDetectionConfiguration(
           transformed,
-          finalOptions
+          finalOptions,
         );
         if (!result.location) {
           throw new Error("Expected a valid location to retrieve the created configuration");
@@ -544,7 +534,7 @@ export class MetricsAdvisorAdministrationClient {
         const lastSlashIndex = result.location.lastIndexOf("/");
         const configId = result.location.substring(lastSlashIndex + 1);
         return this.getDetectionConfig(configId);
-      }
+      },
     );
   }
 
@@ -556,7 +546,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async getDetectionConfig(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyDetectionConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDetectionConfig",
@@ -564,7 +554,7 @@ export class MetricsAdvisorAdministrationClient {
       async (finalOptions) => {
         const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
         return fromServiceAnomalyDetectionConfiguration(result);
-      }
+      },
     );
   }
 
@@ -578,7 +568,7 @@ export class MetricsAdvisorAdministrationClient {
   public async updateDetectionConfig(
     id: string,
     patch: AnomalyDetectionConfigurationPatch,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyDetectionConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDetectionConfig",
@@ -588,10 +578,10 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.updateAnomalyDetectionConfiguration(
           id,
           transformed,
-          finalOptions
+          finalOptions,
         );
         return fromServiceAnomalyDetectionConfiguration(result);
-      }
+      },
     );
   }
 
@@ -603,7 +593,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async deleteDetectionConfig(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RestResponse> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteDetectionConfig",
@@ -613,10 +603,10 @@ export class MetricsAdvisorAdministrationClient {
           () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
           {
             ...options,
-          }
+          },
         );
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 
@@ -627,7 +617,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyAlertConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
@@ -636,7 +626,7 @@ export class MetricsAdvisorAdministrationClient {
         const transformed = toServiceAlertConfiguration(config);
         const result = await this.client.createAnomalyAlertingConfiguration(
           transformed,
-          finalOptions
+          finalOptions,
         );
         if (!result.location) {
           throw new Error("Expected a valid location to retrieve the created configuration");
@@ -644,7 +634,7 @@ export class MetricsAdvisorAdministrationClient {
         const lastSlashIndex = result.location.lastIndexOf("/");
         const configId = result.location.substring(lastSlashIndex + 1);
         return this.getAlertConfig(configId);
-      }
+      },
     );
   }
 
@@ -657,7 +647,7 @@ export class MetricsAdvisorAdministrationClient {
   public async updateAlertConfig(
     id: string,
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyAlertConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateAlertConfig",
@@ -667,10 +657,10 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.updateAnomalyAlertingConfiguration(
           id,
           transformed,
-          finalOptions
+          finalOptions,
         );
         return fromServiceAlertConfiguration(result);
-      }
+      },
     );
   }
 
@@ -682,7 +672,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async getAlertConfig(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AnomalyAlertConfiguration> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getAlertConfig",
@@ -690,7 +680,7 @@ export class MetricsAdvisorAdministrationClient {
       async (finalOptions) => {
         const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
         return fromServiceAlertConfiguration(result);
-      }
+      },
     );
   }
 
@@ -702,7 +692,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async deleteAlertConfig(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RestResponse> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteAlertConfig",
@@ -712,22 +702,22 @@ export class MetricsAdvisorAdministrationClient {
           () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
           {
             ...options,
-          }
+          },
         );
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
-    options: OperationOptions & { maxPageSize?: number } = {}
+    options: OperationOptions & { maxPageSize?: number } = {},
   ): AsyncIterableIterator<AlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment =
       await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
         detectionConfigId,
-        options
+        options,
       );
 
     const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
@@ -736,11 +726,11 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<AnomalyAlertConfiguration> {
     for await (const segment of this.listSegmentsOfAlertingConfigurations(
       detectionConfigId,
-      options
+      options,
     )) {
       if (segment) {
         yield* segment;
@@ -755,53 +745,45 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const alertConfigurations = client.listAlertConfigs(detectionConfigurationId);
-   * let i = 1;
-   * for await (const alertConfiguration of alertConfigurations){
-   *  console.log(`alertConfiguration ${i++}:`);
-   *  console.log(alertConfiguration);
+   * ```ts snippet:MetricsAdvisorAdministrationClientListAlertConfigs
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const alertConfigurations = adminClient.listAlertConfigs("<detection config id>");
+   *
+   * // Iterate via for-await-of
+   * for await (const alertConfig of alertConfigurations) {
+   *   console.log(alertConfig.id);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = alertConfigurations[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.id);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of alertConfigurations.byPage()) {
+   *   for (const alertConfig of page) {
+   *     console.log(alertConfig.id);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listAlertConfigs(detectionConfigurationId);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` alert - ${result.value.id}, ${result.value.name}`);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listAlertConfigs(detectionConfigurationId)
-   *   .byPage();
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value.alertConfigurations) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const alert of page.value) {
-   *      console.log(`${alert}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param detectionConfigId - anomaly detection configuration unique id
    * @param options - The options parameter.
    */
 
   public listAlertConfigs(
     detectionConfigId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): PagedAsyncIterableIterator<
     AnomalyAlertConfiguration,
     AlertConfigurationsPageResponse,
@@ -841,7 +823,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHookUnion> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createHook",
@@ -857,7 +839,7 @@ export class MetricsAdvisorAdministrationClient {
             admins,
             hookParameter,
           } as HookInfoUnion,
-          finalOptions
+          finalOptions,
         );
         if (!result.location) {
           throw new Error("Expected a valid location to retrieve the created configuration");
@@ -865,7 +847,7 @@ export class MetricsAdvisorAdministrationClient {
         const lastSlashIndex = result.location.lastIndexOf("/");
         const hookId = result.location.substring(lastSlashIndex + 1);
         return this.getHook(hookId);
-      }
+      },
     );
   }
 
@@ -883,14 +865,14 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.getHook(id, finalOptions);
         const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
         return resultHookResponse;
-      }
+      },
     );
   }
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListHooksOptions = {}
+    options: ListHooksOptions = {},
   ): AsyncIterableIterator<HooksPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
@@ -922,7 +904,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   private async *listItemsOfHooks(
-    options: ListHooksOptions = {}
+    options: ListHooksOptions = {},
   ): AsyncIterableIterator<NotificationHookUnion> {
     for await (const segment of this.listSegmentOfHooks(undefined, undefined, options)) {
       yield* segment;
@@ -936,51 +918,43 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const hookList = client.listHooks();
-   * let i = 1;
-   * for await (const hook of hookList){
-   *  console.log(`hook ${i++}:`);
-   *  console.log(hook);
+   * ```ts snippet:MetricsAdvisorAdministrationClientListHooks
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const hookList = adminClient.listHooks();
+   *
+   * // Iterate via for-await-of
+   * for await (const hook of hookList) {
+   *   console.log(hook.id);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = hookList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.id);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of hookList.byPage()) {
+   *   for (const hook of page) {
+   *     console.log(hook.id);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listHooks();
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` hook - ${result.value.id}`);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listHooks().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const hook of page.value) {
-   *      console.log("hook-");
-   *      console.dir(hook);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param options - The options parameter.
    */
 
   public listHooks(
-    options: ListHooksOptions = {}
+    options: ListHooksOptions = {},
   ): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse> {
     const iter = this.listItemsOfHooks(options);
     return {
@@ -1014,7 +988,7 @@ export class MetricsAdvisorAdministrationClient {
   public async updateHook(
     id: string,
     patch: EmailNotificationHookPatch | WebNotificationHookPatch,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHookUnion> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateHook",
@@ -1023,7 +997,7 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.updateHook(id, patch, finalOptions);
         const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
         return resultHookResponse;
-      }
+      },
     );
   }
 
@@ -1041,13 +1015,13 @@ export class MetricsAdvisorAdministrationClient {
           ...options,
         });
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
-    options: OperationOptions & { maxPageSize?: number } = {}
+    options: OperationOptions & { maxPageSize?: number } = {},
   ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
@@ -1058,11 +1032,11 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<AnomalyDetectionConfiguration> {
     for await (const segment of this.listSegmentsOfDetectionConfigurations(
       detectionConfigId,
-      options
+      options,
     )) {
       if (segment) {
         yield* segment;
@@ -1077,54 +1051,45 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anomalyDetectionList = client.listDetectionConfigs(metricId);
-   * let i = 1;
-   * for await (const anomaly of anomalyDetectionList){
-   *  console.log(`anomaly ${i++}:`);
-   *  console.log(anomaly);
+   * ```ts snippet:MetricsAdvisorAdministrationClientListDetectionConfigs
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const anomalyDetectionList = adminClient.listDetectionConfigs("<metric id>");
+   *
+   * // Iterate via for-await-of
+   * for await (const detectionConfig of anomalyDetectionList) {
+   *   console.log(detectionConfig.id);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = anomalyDetectionList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.id);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of anomalyDetectionList.byPage()) {
+   *   for (const detectionConfig of page) {
+   *     console.log(detectionConfig.id);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listDetectionConfigs(metricId);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anomaly - ${result.value.id}, ${result.value.name}`);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listDetectionConfigs(metricId)
-   *   .byPage();
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const detectionConfiguration of page.value) {
-   *      console.log("detection configuration-");
-   *      console.dir(detectionConfiguration);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param metricId - metric id for list of anomaly detection configurations
    * @param options - The options parameter.
    */
 
   public listDetectionConfigs(
     metricId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): PagedAsyncIterableIterator<
     AnomalyDetectionConfiguration,
     DetectionConfigurationsPageResponse,
@@ -1164,7 +1129,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async getDataFeedIngestionProgress(
     dataFeedId: string,
-    options = {}
+    options = {},
   ): Promise<GetIngestionProgressResponse> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
@@ -1175,7 +1140,7 @@ export class MetricsAdvisorAdministrationClient {
           latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
           latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
         };
-      }
+      },
     );
   }
 
@@ -1184,7 +1149,7 @@ export class MetricsAdvisorAdministrationClient {
     startTime: Date,
     endTime: Date,
     continuationToken?: string,
-    options: ListDataFeedIngestionStatusOptions & { maxPageSize?: number } = {}
+    options: ListDataFeedIngestionStatusOptions & { maxPageSize?: number } = {},
   ): AsyncIterableIterator<IngestionStatusPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
@@ -1197,7 +1162,7 @@ export class MetricsAdvisorAdministrationClient {
         {
           ...options,
           maxpagesize: options?.maxPageSize,
-        }
+        },
       );
       const resultArray = Object.defineProperty(
         segmentResponse.value?.map((s) => {
@@ -1211,7 +1176,7 @@ export class MetricsAdvisorAdministrationClient {
         {
           enumerable: true,
           value: segmentResponse.nextLink,
-        }
+        },
       );
       yield resultArray;
 
@@ -1227,7 +1192,7 @@ export class MetricsAdvisorAdministrationClient {
           startTime,
           endTime,
         },
-        options
+        options,
       );
 
       const resultArray = Object.defineProperty(
@@ -1242,7 +1207,7 @@ export class MetricsAdvisorAdministrationClient {
         {
           enumerable: true,
           value: segmentResponse.nextLink,
-        }
+        },
       );
       yield resultArray;
 
@@ -1254,14 +1219,14 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     startTime: Date,
     endTime: Date,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<IngestionStatus> {
     for await (const segment of this.listSegmentOfIngestionStatus(
       dataFeedId,
       startTime,
       endTime,
       undefined,
-      options
+      options,
     )) {
       if (segment) {
         yield* segment;
@@ -1276,46 +1241,42 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const ingestionStatusList = client.listDataFeedIngestionStatus(dataFeedId);
-   * let i = 1;
-   * for await (const ingestionStatus of ingestionStatusList){
-   *  console.log(`ingestionStatus ${i++}:`);
-   *  console.log(ingestionStatus);
+   * ```ts snippet:MetricsAdvisorAdministrationClientListDataFeedIngestionStatus
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const ingestionStatusList = adminClient.listDataFeedIngestionStatus(
+   *   "<data feed id>",
+   *   new Date(Date.UTC(2020, 8, 1)),
+   *   new Date(Date.UTC(2020, 8, 12)),
+   * );
+   *
+   * // Iterate via for-await-of
+   * for await (const status of ingestionStatusList) {
+   *   console.log(status.status);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = ingestionStatusList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.status);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of ingestionStatusList.byPage()) {
+   *   for (const status of page) {
+   *     console.log(status.status);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listDataFeedIngestionStatus(dataFeedId);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` anomaly - ${result.value.timestamp}, ${result.value.status}, ${result.value.mesage}`);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listDataFeedIngestionStatus(dataFeedId).byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const status of page.value) {
-   *      console.log("ingestion status-");
-   *      console.dir(status);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   *
-   * ```
    * @param dataFeedId - data feed id for list of data feed ingestion status
    * @param startTime - The start point of time range to query data ingestion status
    * @param endTime - The end point of time range to query data ingestion status
@@ -1326,13 +1287,13 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     startTime: Date | string,
     endTime: Date | string,
-    options: ListDataFeedIngestionStatusOptions = {}
+    options: ListDataFeedIngestionStatusOptions = {},
   ): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse> {
     const iter = this.listItemsOfIngestionStatus(
       dataFeedId,
       typeof startTime === "string" ? new Date(startTime) : startTime,
       typeof endTime === "string" ? new Date(endTime) : endTime,
-      options
+      options,
     );
     return {
       /**
@@ -1359,7 +1320,7 @@ export class MetricsAdvisorAdministrationClient {
           {
             ...options,
             maxPageSize: settings.maxPageSize,
-          }
+          },
         );
       },
     };
@@ -1377,7 +1338,7 @@ export class MetricsAdvisorAdministrationClient {
     dataFeedId: string,
     startTime: Date | string,
     endTime: Date | string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RestResponse> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-refreshDataFeedIngestion",
@@ -1391,15 +1352,15 @@ export class MetricsAdvisorAdministrationClient {
                 startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
                 endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
               },
-              finalOptions
+              finalOptions,
             ),
           {
             ...options,
-          }
+          },
         );
         logger.info(response);
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 
@@ -1410,7 +1371,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async createDataSourceCredential(
     dataSourceCredential: DataSourceCredentialEntityUnion,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DataSourceCredentialEntityUnion> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-createDataSourceCredential",
@@ -1425,7 +1386,7 @@ export class MetricsAdvisorAdministrationClient {
         const lastSlashIndex = result.location.lastIndexOf("/");
         const credEntityId = result.location.substring(lastSlashIndex + 1);
         return this.getDataSourceCredential(credEntityId);
-      }
+      },
     );
   }
 
@@ -1437,7 +1398,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async getDataSourceCredential(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DataSourceCredentialEntityUnion> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-getDataSourceCredential",
@@ -1446,7 +1407,7 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.getCredential(id, finalOptions);
         const resultCred = fromServiceCredential(result);
         return resultCred;
-      }
+      },
     );
   }
 
@@ -1457,48 +1418,42 @@ export class MetricsAdvisorAdministrationClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * const client = new MetricsAdvisorAdministrationClient(endpoint,
-   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const dataSourceCredentialList = client.listDataSourceCredential();
-   * let i = 1;
-   * for await (const dataSourceCredential of dataSourceCredentialList){
-   *  console.log(`dataSourceCredential ${i++}:`);
-   *  console.log(dataSourceCredential);
+   * ```ts snippet:MetricsAdvisorAdministrationClientListDataSourceCredentials
+   * import {
+   *   MetricsAdvisorKeyCredential,
+   *   MetricsAdvisorAdministrationClient,
+   * } from "@azure/ai-metrics-advisor";
+   *
+   * const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
+   * const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+   *
+   * const dataSourceCredentialList = adminClient.listDataSourceCredential();
+   *
+   * // Iterate via for-await-of
+   * for await (const credential of dataSourceCredentialList) {
+   *   console.log(credential.id);
+   * }
+   *
+   * // Iterate via generator
+   * const iter = dataSourceCredentialList[Symbol.asyncIterator]();
+   * let { done, value } = await iter.next();
+   * while (!done) {
+   *   console.log(value.id);
+   *   ({ done, value } = await iter.next());
+   * }
+   *
+   * // Iterate by page
+   * for await (const page of dataSourceCredentialList.byPage()) {
+   *   for (const credential of page) {
+   *     console.log(credential.id);
+   *   }
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listDataSourceCredential();
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.dir(result);
-   *   result = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   * const pages = client.listDataSourceCredential().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const credential of page.value) {
-   *      console.log("dataSource credential-");
-   *      console.dir(credential);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
    */
   public listDataSourceCredential(
-    options: ListDataSourceCredentialsOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: ListDataSourceCredentialsOptions = {},
   ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     const iter = this.listItemsOfDataSourceCredentials(options);
     return {
@@ -1520,14 +1475,14 @@ export class MetricsAdvisorAdministrationClient {
             ...options,
             maxPageSize: settings.maxPageSize,
           },
-          settings.continuationToken
+          settings.continuationToken,
         );
       },
     };
   }
 
   private async *listItemsOfDataSourceCredentials(
-    options: ListDataSourceCredentialsOptions
+    options: ListDataSourceCredentialsOptions,
   ): AsyncIterableIterator<DataSourceCredentialEntityUnion> {
     for await (const segment of this.listSegmentsOfCredentialEntities(options)) {
       if (segment) {
@@ -1538,7 +1493,7 @@ export class MetricsAdvisorAdministrationClient {
 
   private async *listSegmentsOfCredentialEntities(
     options: ListDataSourceCredentialsOptions & { maxPageSize?: number },
-    continuationToken?: string
+    continuationToken?: string,
   ): AsyncIterableIterator<CredentialsPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
@@ -1586,7 +1541,7 @@ export class MetricsAdvisorAdministrationClient {
   public async updateDataSourceCredential(
     id: string,
     patch: DataSourceCredentialPatch,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DataSourceCredentialEntityUnion> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
@@ -1595,11 +1550,11 @@ export class MetricsAdvisorAdministrationClient {
         const result = await this.client.updateCredential(
           id,
           toServiceCredentialPatch(patch),
-          finalOptions
+          finalOptions,
         );
         const resultCred = fromServiceCredential(result);
         return resultCred;
-      }
+      },
     );
   }
 
@@ -1610,7 +1565,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async deleteDataSourceCredential(
     id: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RestResponse> {
     return tracingClient.withSpan(
       "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
@@ -1620,10 +1575,10 @@ export class MetricsAdvisorAdministrationClient {
           () => this.client.deleteCredential(id, finalOptions),
           {
             ...options,
-          }
+          },
         );
         return { _response: response.rawResponse };
-      }
+      },
     );
   }
 }
@@ -1633,7 +1588,7 @@ interface ReturnType<T> {
 }
 async function getRawResponse<TOptions extends OperationOptions, TResult>(
   f: (options: TOptions) => Promise<TResult>,
-  options: TOptions
+  options: TOptions,
 ): Promise<ReturnType<TResult>> {
   // renaming onResponse received from customer to customerProvidedCallback
   const { onResponse: customerProvidedCallback } = options || {};

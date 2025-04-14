@@ -8,8 +8,8 @@
 
 import {
   ServiceTagsListOptionalParams,
-  ServiceTagsListResponse
-} from "../models";
+  ServiceTagsListResponse,
+} from "../models/index.js";
 
 /** Interface representing a ServiceTags. */
 export interface ServiceTags {
@@ -22,6 +22,6 @@ export interface ServiceTags {
    */
   list(
     location: string,
-    options?: ServiceTagsListOptionalParams
+    options?: ServiceTagsListOptionalParams,
   ): Promise<ServiceTagsListResponse>;
 }

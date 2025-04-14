@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Constants, OperationType, ResourceType } from "../../../src/common";
-import { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";
-import { SessionContainer } from "../../../src/session/sessionContainer";
-import { SessionContext } from "../../../src/session/SessionContext";
+// Licensed under the MIT License.
 
-describe("SessionContainer", function () {
+import { Constants, OperationType, ResourceType } from "../../../src/common/index.js";
+import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
+import { SessionContainer } from "../../../src/session/sessionContainer.js";
+import type { SessionContext } from "../../../src/session/SessionContext.js";
+import { describe, it, assert } from "vitest";
+
+describe("SessionContainer", () => {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
   const collectionRid = "-EdBAKsiRLM=";
 
-  it("set/get/delete", function () {
+  it("set/get/delete", () => {
     const sc = new SessionContainer();
 
     const tokenString = "1:1#100#1=20#2=5#3=30";
@@ -34,7 +35,7 @@ describe("SessionContainer", function () {
     assert.equal(
       tokenString,
       originalTokenString,
-      "Session token string must be equal to original header on initial set"
+      "Session token string must be equal to original header on initial set",
     );
 
     // Add an older token, should still equal original token
@@ -45,7 +46,7 @@ describe("SessionContainer", function () {
     assert.equal(
       tokenString,
       sameTokenString,
-      "Session token string must be equal to the original higher version header"
+      "Session token string must be equal to the original higher version header",
     );
 
     // Add a newer version token, should equal new token
@@ -56,7 +57,7 @@ describe("SessionContainer", function () {
     assert.equal(
       tokenStringWithNewerVersion,
       updatedTokenString,
-      "Session token string must be equal to the new higher version header"
+      "Session token string must be equal to the new higher version header",
     );
 
     // Add a new partition's token, should container new and old token
@@ -66,11 +67,11 @@ describe("SessionContainer", function () {
     const multiplePartitions = sc.get(nameBasedRequest);
     assert(
       multiplePartitions.includes(tokenStringWithNewerVersion),
-      "Token string must contain token from updated request"
+      "Token string must contain token from updated request",
     );
     assert(
       multiplePartitions.includes(tokenFromAnotherPartition),
-      "Token string must contain from new partition"
+      "Token string must contain from new partition",
     );
 
     // Add a token with has multiple partitions in it, 1 old, and 1 new. Should only keep the new one, but still contain tokens for both
@@ -81,11 +82,11 @@ describe("SessionContainer", function () {
     const multiplePartitions2 = sc.get(nameBasedRequest);
     assert(
       multiplePartitions2.includes(tokenStringWithNewerVersion),
-      "Token string must contain token from previous request for first partition"
+      "Token string must contain token from previous request for first partition",
     );
     assert(
       multiplePartitions2.includes(p2TokenWithNewerVersion),
-      "Token string must contain from updated token for second partition"
+      "Token string must contain from updated token for second partition",
     );
 
     // Remove tokens and get new token, should be empty

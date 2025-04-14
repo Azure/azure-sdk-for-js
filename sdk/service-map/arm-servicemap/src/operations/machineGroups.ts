@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MachineGroups } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MachineGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ServiceMap } from "../serviceMap";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ServiceMap } from "../serviceMap.js";
 import {
   MachineGroup,
   MachineGroupsListByWorkspaceNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   MachineGroupsUpdateResponse,
   MachineGroupsDeleteOptionalParams,
   MachineGroupsListByWorkspaceNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MachineGroups operations. */

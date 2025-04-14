@@ -11,20 +11,18 @@
 import {
   ResourceForUpdate,
   DataCollectionEndpointsUpdateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates part of a data collection endpoint.
  *
  * @summary Updates part of a data collection endpoint.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsUpdate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionEndpointsUpdate.json
  */
-async function updateDataCollectionEndpoint() {
+async function updateDataCollectionEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "703362b3-f278-4e4b-9179-c76eaf41ffc2";
@@ -38,12 +36,12 @@ async function updateDataCollectionEndpoint() {
   const result = await client.dataCollectionEndpoints.update(
     resourceGroupName,
     dataCollectionEndpointName,
-    options
+    options,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateDataCollectionEndpoint();
 }
 

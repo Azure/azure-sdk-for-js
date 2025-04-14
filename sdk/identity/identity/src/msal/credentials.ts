@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord } from "./types";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AuthenticationRecord } from "./types.js";
 
 /**
  * The MSAL clients `getToken` requests can receive a `correlationId` and `disableAutomaticAuthentication`.
@@ -26,7 +26,10 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
    * Claims received from challenges.
    */
   claims?: string;
-
+  /**
+   * Indicates to allow Continuous Access Evaluation or not
+   */
+  enableCae?: boolean;
   /**
    * Client Assertion
    */

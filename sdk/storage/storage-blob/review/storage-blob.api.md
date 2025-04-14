@@ -4,32 +4,31 @@
 
 ```ts
 
-/// <reference types="node" />
-
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CancelOnProgress } from '@azure/core-lro';
+import type { CancelOnProgress } from '@azure/core-lro';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
-import { KeepAliveOptions } from '@azure/core-http-compat';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { ProxySettings } from '@azure/core-rest-pipeline';
-import { Readable } from 'stream';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
+import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-rest-pipeline';
-import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -266,7 +265,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
 
 // @public
 export abstract class BaseRequestPolicy implements RequestPolicy {
@@ -408,7 +407,11 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
+    generateSasStringToSign(options: BlobGenerateSasUrlOptions): string;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: BlobGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: BlobGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
+    getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -433,7 +436,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: "success";
+    copyStatus?: SyncCopyStatusType;
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -541,6 +544,7 @@ export interface BlobDownloadHeaders {
     copySource?: string;
     copyStatus?: CopyStatusType;
     copyStatusDescription?: string;
+    createdOn?: Date;
     date?: Date;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -646,6 +650,25 @@ export interface BlobFlatListSegmentModel {
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
     permissions?: BlobSASPermissions;
 }
+
+// @public
+export interface BlobGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface BlobGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobGetAccountInfoResponse = WithResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>;
 
 // @public
 export interface BlobGetPropertiesHeaders {
@@ -1102,6 +1125,7 @@ export class BlobServiceClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
     getContainerClient(containerName: string): ContainerClient;
@@ -1592,6 +1616,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: {
         [propertyName: string]: string;
@@ -1680,8 +1705,12 @@ export class ContainerClient extends StorageClient {
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
+    generateSasStringToSign(options: ContainerGenerateSasUrlOptions): string;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: ContainerGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: ContainerGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
+    getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1818,6 +1847,25 @@ export type ContainerGetAccessPolicyResponse = WithResponse<{
 
 // @public
 export type ContainerGetAccessPolicyResponseModel = ContainerGetAccessPolicyHeaders & SignedIdentifierModel[];
+
+// @public
+export interface ContainerGetAccountInfoHeaders {
+    accountKind?: AccountKind;
+    clientRequestId?: string;
+    date?: Date;
+    isHierarchicalNamespaceEnabled?: boolean;
+    requestId?: string;
+    skuName?: SkuName;
+    version?: string;
+}
+
+// @public
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ContainerGetAccountInfoResponse = WithResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>;
 
 // @public
 export interface ContainerGetPropertiesHeaders {
@@ -2160,6 +2208,9 @@ export interface GeoReplication {
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 // @public
+export function getBlobServiceAccountAudience(storageAccountName: string): string;
+
+// @public
 export interface HttpAuthorization {
     scheme: string;
     value: string;
@@ -2180,6 +2231,12 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+// @public
+export enum KnownEncryptionAlgorithmType {
+    // (undocumented)
+    AES256 = "AES256"
+}
 
 // @public
 export interface Lease {
@@ -2360,6 +2417,9 @@ export interface ModifiedAccessConditionsModel {
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
 // @public
 export interface ObjectReplicationPolicy {
@@ -3115,9 +3175,21 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
 }
 
 // @public
+export function storageBrowserPolicy(): PipelinePolicy;
+
+// @public
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
 }
+
+// @public
+export const storageBrowserPolicyName = "storageBrowserPolicy";
+
+// @public
+export function storageCorrectContentLengthPolicy(): PipelinePolicy;
+
+// @public
+export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
 // @public
 export const StorageOAuthScopes: string | string[];
@@ -3151,10 +3223,16 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 }
 
 // @public
+export function storageRetryPolicy(options?: StorageRetryOptions): PipelinePolicy;
+
+// @public
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
 }
+
+// @public
+export const storageRetryPolicyName = "storageRetryPolicy";
 
 // @public
 export enum StorageRetryPolicyType {
@@ -3175,6 +3253,23 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
+
+// @public
+export function storageSharedKeyCredentialPolicy(options: StorageSharedKeyCredentialPolicyOptions): PipelinePolicy;
+
+// @public
+export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
+
+// @public
+export interface StorageSharedKeyCredentialPolicyOptions {
+    // (undocumented)
+    accountKey: Buffer;
+    // (undocumented)
+    accountName: string;
+}
+
+// @public
+export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {

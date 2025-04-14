@@ -13,17 +13,15 @@ import {
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch an existing Kubernetes Cluster Extension.
  *
  * @summary Patch an existing Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/PatchExtension.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/PatchExtension.json
  */
-async function updateExtension() {
+async function updateExtension(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function updateExtension() {
     configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
     configurationSettings: {
       omsagentEnvClusterName: "clusterName1",
-      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b"
+      omsagentSecretWsid: "fakeTokenPlaceholder"
     },
     releaseTrain: "Preview"
   };
@@ -57,7 +55,7 @@ async function updateExtension() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateExtension();
 }
 

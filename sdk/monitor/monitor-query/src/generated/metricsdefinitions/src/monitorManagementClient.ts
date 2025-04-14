@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricDefinitionsImpl } from "./operations";
-import { MetricDefinitions } from "./operationsInterfaces";
-import { MonitorManagementClientContext } from "./monitorManagementClientContext";
+import { MetricDefinitionsImpl } from "./operations/index.js";
+import { MetricDefinitions } from "./operationsInterfaces/index.js";
+import { MonitorManagementClientContext } from "./monitorManagementClientContext.js";
 import {
   MonitorManagementClientOptionalParams,
-  ApiVersion201801
-} from "./models";
+  ApiVersion20240201
+} from "./models/index.js";
 
 /** @internal */
 export class MonitorManagementClient extends MonitorManagementClientContext {
@@ -22,7 +22,7 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion201801,
+    apiVersion: ApiVersion20240201,
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);

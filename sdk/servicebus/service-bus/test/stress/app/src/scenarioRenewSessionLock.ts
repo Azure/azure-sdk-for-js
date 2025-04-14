@@ -84,7 +84,7 @@ export async function scenarioRenewSessionLock() {
           numberOfMessagesPerSend,
           useSessions,
           useScheduleApi,
-          numberOfSessions
+          numberOfSessions,
         );
         elapsedTime = new Date().valueOf() - startedAt.valueOf();
         await delay(delayBetweenSendsInMs);
@@ -109,7 +109,7 @@ export async function scenarioRenewSessionLock() {
             receiver,
             receiveBatchMaxMessageCount,
             receiveBatchMaxWaitTimeInMs,
-            settleMessageOnReceive
+            settleMessageOnReceive,
           );
           receivers.push(receiver);
           if (!autoLockRenewal) {

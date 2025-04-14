@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Sms } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { Sms } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SmsApiClient } from "../smsApiClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SmsApiClient } from "../smsApiClient.js";
 import {
   SendMessageRequest,
   SmsSendOptionalParams,
-  SmsSendOperationResponse
-} from "../models";
+  SmsSendOperationResponse,
+} from "../models/index.js";
 
 /** Class containing Sms operations. */
 export class SmsImpl implements Sms {
@@ -37,7 +37,7 @@ export class SmsImpl implements Sms {
    */
   async send(
     sendMessageRequest: SendMessageRequest,
-    options?: SmsSendOptionalParams
+    options?: SmsSendOptionalParams,
   ): Promise<SmsSendOperationResponse> {
     return tracingClient.withSpan(
       "SmsApiClient.send",
@@ -45,9 +45,9 @@ export class SmsImpl implements Sms {
       async (options) => {
         return this.client.sendOperationRequest(
           { sendMessageRequest, options },
-          sendOperationSpec
+          sendOperationSpec,
         ) as Promise<SmsSendOperationResponse>;
-      }
+      },
     );
   }
 }
@@ -59,13 +59,13 @@ const sendOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SmsSendResponse
-    }
+      bodyMapper: Mappers.SmsSendResponse,
+    },
   },
   requestBody: Parameters.sendMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

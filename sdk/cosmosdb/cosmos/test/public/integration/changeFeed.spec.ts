@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { RequestOptions } from "../../../src";
-import { Container, ContainerDefinition } from "../../../src";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+// Licensed under the MIT License.
 
-describe("Change Feed Iterator", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+import type { RequestOptions } from "../../../src/index.js";
+import type { Container, ContainerDefinition } from "../../../src/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
+describe("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
   });
 
-  describe("Newly updated items should be fetched incrementally", function () {
+  describe("Newly updated items should be fetched incrementally", () => {
     let container: Container;
 
     // create container and two items
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"],
+          paths: ["/key1", "/key2"],
+          kind: PartitionKeyKind.MultiHash,
+          version: PartitionKeyDefinitionVersion.V2,
         },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
@@ -29,15 +30,15 @@ describe("Change Feed Iterator", function (this: Suite) {
         "Newly updated items should be fetched incrementally",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
-      await container.items.create({ id: "item1", key: "0" });
-      await container.items.create({ id: "item2", key: "0" });
-      await container.items.create({ id: "item1", key: "1" });
-      await container.items.create({ id: "item2", key: "1" });
+      await container.items.create({ id: "item1", key1: "0", key2: 0 });
+      await container.items.create({ id: "item2", key1: "0", key2: 0 });
+      await container.items.create({ id: "item1", key1: "1", key2: 1 });
+      await container.items.create({ id: "item2", key1: "1", key2: 1 });
     });
 
-    it("should throw if used with no partition key or partition key range id", async function () {
+    it("should throw if used with no partition key or partition key range id", async () => {
       const iterator = container.items.changeFeed({ startFromBeginning: true });
 
       try {
@@ -45,15 +46,15 @@ describe("Change Feed Iterator", function (this: Suite) {
       } catch (err: any) {
         assert.equal(
           err.message,
-          "Container is partitioned, but no partition key or partition key range id was specified."
+          "Container is partitioned, but no partition key or partition key range id was specified.",
         );
         return;
       }
       assert.fail("Should have failed");
     });
 
-    it("should fetch updated items only", async function () {
-      const iterator = container.items.changeFeed("0", { startFromBeginning: true });
+    it("should fetch updated items only", async () => {
+      const iterator = container.items.changeFeed(["0", 0], { startFromBeginning: true });
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
@@ -77,19 +78,21 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.equal(
         hasMoreResults,
         false,
-        "hasMoreResults should be false when we read the whole page"
+        "hasMoreResults should be false when we read the whole page",
       );
     });
   });
 
-  describe("Newly created items should be fetched incrementally", async function () {
+  describe("Newly created items should be fetched incrementally", async () => {
     let container: Container;
 
     // create container and one item
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"],
+          paths: ["/key1", "/key2"],
+          kind: PartitionKeyKind.MultiHash,
+          version: PartitionKeyDefinitionVersion.V2,
         },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
@@ -97,18 +100,18 @@ describe("Change Feed Iterator", function (this: Suite) {
         "Newly updated items should be fetched incrementally",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
-      await container.items.create({ id: "item1", key: "0" });
-      await container.items.create({ id: "item1", key: "1" });
+      await container.items.create({ id: "item1", key1: "0", key2: 0 });
+      await container.items.create({ id: "item1", key1: "1", key2: 1 });
     });
 
-    after(async function () {
+    afterAll(async () => {
       await container.delete();
     });
 
-    it("should fetch new items only", async function () {
-      const iterator = container.items.changeFeed("0");
+    it("should fetch new items only", async () => {
+      const iterator = container.items.changeFeed(["0", 0]);
 
       const { result: items, headers } = await iterator.fetchNext();
       assert(headers.etag, "change feed response should have etag header");
@@ -117,7 +120,8 @@ describe("Change Feed Iterator", function (this: Suite) {
       const { resource: itemThatWasCreated } = await container.items.create({
         id: "item2",
         prop: 1,
-        key: "0",
+        key1: "0",
+        key2: 0,
       });
 
       const { result: itemsAfterCreate } = await iterator.fetchNext();
@@ -127,23 +131,23 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.notDeepEqual(
         itemThatWasFound,
         itemThatWasCreated,
-        "actual should not match with expected value."
+        "actual should not match with expected value.",
       );
       delete itemThatWasFound._lsn;
       delete itemThatWasFound._metadata;
       assert.deepEqual(
         itemThatWasFound,
         itemThatWasCreated,
-        "actual value doesn't match with expected value."
+        "actual value doesn't match with expected value.",
       );
 
       const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.fetchNext();
       assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
 
-      await container.items.create({ id: "item3", key: "0" });
-      await container.items.create({ id: "item4", key: "0" });
-      await container.items.create({ id: "item3", key: "1" });
-      await container.items.create({ id: "item4", key: "1" });
+      await container.items.create({ id: "item3", key1: "0", key2: 0 });
+      await container.items.create({ id: "item4", key1: "0", key2: 0 });
+      await container.items.create({ id: "item3", key1: "1", key2: 1 });
+      await container.items.create({ id: "item4", key1: "1", key2: 1 });
       const { result: itemsShouldHave2NewItems } = await iterator.fetchNext();
       assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
       const { result: shouldHaveNoItems } = await iterator.fetchNext();
@@ -152,7 +156,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.equal(
         hasMoreResults,
         false,
-        "hasMoreResults should be false when we read the whole page"
+        "hasMoreResults should be false when we read the whole page",
       );
     });
   });

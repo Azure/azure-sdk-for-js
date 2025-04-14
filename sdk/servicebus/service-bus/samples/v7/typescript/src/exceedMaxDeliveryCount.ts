@@ -1,30 +1,30 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates exceeding the max delivery count for a service bus queue so that
  * excess messages are sent to a dead letter queue. The sample then goes through the dead letter
  * queue and processes the extra messages.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates exceeding the max delivery count, then processing the messages sent to the
  * dead letter queue
  */
 
 import { ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
+const credential = new DefaultAzureCredential();
+const sbClient: ServiceBusClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     await exceedMaxDelivery();
   } finally {
@@ -32,7 +32,7 @@ export async function main() {
   }
 }
 
-async function exceedMaxDelivery() {
+async function exceedMaxDelivery(): Promise<void> {
   const receiver = sbClient.createReceiver(queueName);
 
   while (true) {

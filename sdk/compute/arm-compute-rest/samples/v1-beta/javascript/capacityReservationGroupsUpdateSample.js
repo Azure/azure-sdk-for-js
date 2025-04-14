@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -28,7 +28,7 @@ async function capacityReservationGroupsUpdateMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
       subscriptionId,
       resourceGroupName,
-      capacityReservationGroupName
+      capacityReservationGroupName,
     )
     .patch(options);
   console.log(result);
@@ -56,7 +56,7 @@ async function capacityReservationGroupsUpdateMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
       subscriptionId,
       resourceGroupName,
-      capacityReservationGroupName
+      capacityReservationGroupName,
     )
     .patch(options);
   console.log(result);

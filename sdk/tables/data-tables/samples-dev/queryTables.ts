@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to query tables
  *
@@ -8,18 +8,14 @@
  */
 
 import { odata, TableServiceClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-
-async function queryTables() {
+const endpoint = process.env.TABLES_URL || "";
+async function queryTables(): Promise<void> {
   console.log("== Query tables Sample ==");
 
-  // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
+  const serviceClient = new TableServiceClient(endpoint, new DefaultAzureCredential());
 
   // Create a new table
   const tableName = `queryTables`;
@@ -41,7 +37,7 @@ async function queryTables() {
   await serviceClient.deleteTable(tableName);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await queryTables();
 }
 

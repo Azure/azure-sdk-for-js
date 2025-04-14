@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   ConnectedCluster,
   ConnectedClusterListByResourceGroupOptionalParams,
   ConnectedClusterListBySubscriptionOptionalParams,
-  ConnectedClusterCreateOptionalParams,
-  ConnectedClusterCreateResponse,
+  ConnectedClusterCreateOrReplaceOptionalParams,
+  ConnectedClusterCreateOrReplaceResponse,
   ConnectedClusterPatch,
   ConnectedClusterUpdateOptionalParams,
   ConnectedClusterUpdateResponse,
@@ -22,8 +22,8 @@ import {
   ConnectedClusterDeleteOptionalParams,
   ListClusterUserCredentialProperties,
   ConnectedClusterListClusterUserCredentialOptionalParams,
-  ConnectedClusterListClusterUserCredentialResponse
-} from "../models";
+  ConnectedClusterListClusterUserCredentialResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConnectedClusterOperations. */
@@ -35,48 +35,48 @@ export interface ConnectedClusterOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedClusterListByResourceGroupOptionalParams
+    options?: ConnectedClusterListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedCluster>;
   /**
    * API to enumerate registered connected K8s clusters under a Subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConnectedClusterListBySubscriptionOptionalParams
+    options?: ConnectedClusterListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedCluster>;
   /**
-   * API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager
-   * (ARM).
+   * API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource
+   * in Azure Resource Manager (ARM).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kubernetes cluster on which get is called.
    * @param connectedCluster Parameters supplied to Create a Connected Cluster.
    * @param options The options parameters.
    */
-  beginCreate(
+  beginCreateOrReplace(
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOptionalParams
+    options?: ConnectedClusterCreateOrReplaceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectedClusterCreateResponse>,
-      ConnectedClusterCreateResponse
+    SimplePollerLike<
+      OperationState<ConnectedClusterCreateOrReplaceResponse>,
+      ConnectedClusterCreateOrReplaceResponse
     >
   >;
   /**
-   * API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager
-   * (ARM).
+   * API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource
+   * in Azure Resource Manager (ARM).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kubernetes cluster on which get is called.
    * @param connectedCluster Parameters supplied to Create a Connected Cluster.
    * @param options The options parameters.
    */
-  beginCreateAndWait(
+  beginCreateOrReplaceAndWait(
     resourceGroupName: string,
     clusterName: string,
     connectedCluster: ConnectedCluster,
-    options?: ConnectedClusterCreateOptionalParams
-  ): Promise<ConnectedClusterCreateResponse>;
+    options?: ConnectedClusterCreateOrReplaceOptionalParams,
+  ): Promise<ConnectedClusterCreateOrReplaceResponse>;
   /**
    * API to update certain properties of the connected cluster resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -88,7 +88,7 @@ export interface ConnectedClusterOperations {
     resourceGroupName: string,
     clusterName: string,
     connectedClusterPatch: ConnectedClusterPatch,
-    options?: ConnectedClusterUpdateOptionalParams
+    options?: ConnectedClusterUpdateOptionalParams,
   ): Promise<ConnectedClusterUpdateResponse>;
   /**
    * Returns the properties of the specified connected cluster, including name, identity, properties, and
@@ -100,7 +100,7 @@ export interface ConnectedClusterOperations {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterGetOptionalParams
+    options?: ConnectedClusterGetOptionalParams,
   ): Promise<ConnectedClusterGetResponse>;
   /**
    * Delete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM).
@@ -111,8 +111,8 @@ export interface ConnectedClusterOperations {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ConnectedClusterDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -122,7 +122,7 @@ export interface ConnectedClusterOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConnectedClusterDeleteOptionalParams
+    options?: ConnectedClusterDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets cluster user credentials of the connected cluster with a specified resource group and name.
@@ -135,6 +135,6 @@ export interface ConnectedClusterOperations {
     resourceGroupName: string,
     clusterName: string,
     properties: ListClusterUserCredentialProperties,
-    options?: ConnectedClusterListClusterUserCredentialOptionalParams
+    options?: ConnectedClusterListClusterUserCredentialOptionalParams,
   ): Promise<ConnectedClusterListClusterUserCredentialResponse>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a custom certificate.
  *
  * @summary Create or update a custom certificate.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubCustomCertificates_CreateOrUpdate.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomCertificates_CreateOrUpdate.json
  */
 async function webPubSubCustomCertificatesCreateOrUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function webPubSubCustomCertificatesCreateOrUpdate() {
     resourceGroupName,
     resourceName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

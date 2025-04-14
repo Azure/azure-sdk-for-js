@@ -17,8 +17,8 @@ import {
   MigrationResourceForPatch,
   MigrationsUpdateOptionalParams,
   MigrationsUpdateResponse,
-  MigrationsDeleteOptionalParams
-} from "../models";
+  MigrationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Migrations. */
@@ -34,7 +34,7 @@ export interface Migrations {
     subscriptionId: string,
     resourceGroupName: string,
     targetDbServerName: string,
-    options?: MigrationsListByTargetServerOptionalParams
+    options?: MigrationsListByTargetServerOptionalParams,
   ): PagedAsyncIterableIterator<MigrationResource>;
   /**
    * Creates a new migration.
@@ -51,7 +51,7 @@ export interface Migrations {
     targetDbServerName: string,
     migrationName: string,
     parameters: MigrationResource,
-    options?: MigrationsCreateOptionalParams
+    options?: MigrationsCreateOptionalParams,
   ): Promise<MigrationsCreateResponse>;
   /**
    * Gets details of a migration.
@@ -66,7 +66,7 @@ export interface Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     migrationName: string,
-    options?: MigrationsGetOptionalParams
+    options?: MigrationsGetOptionalParams,
   ): Promise<MigrationsGetResponse>;
   /**
    * Updates an existing migration. The request body can contain one to many of the mutable properties
@@ -84,7 +84,7 @@ export interface Migrations {
     targetDbServerName: string,
     migrationName: string,
     parameters: MigrationResourceForPatch,
-    options?: MigrationsUpdateOptionalParams
+    options?: MigrationsUpdateOptionalParams,
   ): Promise<MigrationsUpdateResponse>;
   /**
    * Deletes a migration.
@@ -99,6 +99,6 @@ export interface Migrations {
     resourceGroupName: string,
     targetDbServerName: string,
     migrationName: string,
-    options?: MigrationsDeleteOptionalParams
+    options?: MigrationsDeleteOptionalParams,
   ): Promise<void>;
 }

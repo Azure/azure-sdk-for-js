@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
   DocumentPhoneNumberField,
@@ -19,7 +19,7 @@ export {
   DocumentCurrencyField,
   DocumentAddressField,
   DocumentField,
-} from "./fields";
+} from "./fields.js";
 export {
   BoundingRegion,
   DocumentKeyValueElement,
@@ -37,5 +37,14 @@ export {
   DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
-  DocumentImage,
-} from "./documentElements";
+} from "./documentElements.js";
+
+export {
+  DocumentModelSource,
+  DocumentClassifierSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+  AzureBlobSourceDetails,
+  AzureBlobFileListSource,
+  AzureBlobFileListSourceDetails,
+} from "./contentSource.js";

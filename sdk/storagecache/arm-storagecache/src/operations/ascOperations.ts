@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AscOperations } from "../operationsInterfaces";
+import { AscOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageCacheManagementClient } from "../storageCacheManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageCacheManagementClient } from "../storageCacheManagementClient.js";
 import {
   AscOperationsGetOptionalParams,
-  AscOperationsGetResponse
-} from "../models";
+  AscOperationsGetResponse,
+} from "../models/index.js";
 
 /** Class containing AscOperations operations. */
 export class AscOperationsImpl implements AscOperations {
@@ -37,11 +37,11 @@ export class AscOperationsImpl implements AscOperations {
   get(
     location: string,
     operationId: string,
-    options?: AscOperationsGetOptionalParams
+    options?: AscOperationsGetOptionalParams,
   ): Promise<AscOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class AscOperationsImpl implements AscOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/ascOperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/ascOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AscOperation
+      bodyMapper: Mappers.AscOperation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

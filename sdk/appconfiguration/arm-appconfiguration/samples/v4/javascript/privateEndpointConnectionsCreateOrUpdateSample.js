@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of the specified private endpoint connection associated with the configuration store. This operation cannot be used to create a private endpoint connection. Private endpoint connections must be created with the Network resource provider.
  *
  * @summary Update the state of the specified private endpoint connection associated with the configuration store. This operation cannot be used to create a private endpoint connection. Private endpoint connections must be created with the Network resource provider.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function privateEndpointConnectionUpdate() {
     resourceGroupName,
     configStoreName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

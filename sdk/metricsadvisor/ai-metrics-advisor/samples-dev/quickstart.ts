@@ -8,22 +8,23 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient,
+import "dotenv/config";
+import type {
   AnomalyAlert,
   MetricsAdvisorDataFeed,
-  MetricsAdvisorClient,
   WebNotificationHook,
   DataFeedDescriptor,
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
+  NotificationHookUnion,
+} from "@azure/ai-metrics-advisor";
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorAdministrationClient,
+  MetricsAdvisorClient,
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -52,7 +53,7 @@ export async function main() {
       adminClient,
       created.id,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     const metricId = created.schema.metrics[0].id!;
@@ -72,7 +73,7 @@ export async function main() {
       client,
       alertConfig.id!,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     if (alerts.length > 1) {
@@ -90,7 +91,7 @@ export async function main() {
 async function createDataFeed(
   adminClient: MetricsAdvisorAdministrationClient,
   sqlServerConnectionString: string,
-  sqlServerQuery: string
+  sqlServerQuery: string,
 ): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const dataFeed: DataFeedDescriptor = {
@@ -150,8 +151,8 @@ async function checkIngestionStatus(
   adminClient: MetricsAdvisorAdministrationClient,
   datafeedId: string,
   startTime: Date,
-  endTime: Date
-) {
+  endTime: Date,
+): Promise<void> {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
   const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
@@ -162,8 +163,8 @@ async function checkIngestionStatus(
 
 async function configureAnomalyDetectionConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
-) {
+  metricId: string,
+): Promise<AnomalyDetectionConfiguration> {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
   const anomalyConfig: Omit<AnomalyDetectionConfiguration, "id"> = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
@@ -180,10 +181,12 @@ async function configureAnomalyDetectionConfiguration(
     },
     description: "Detection configuration description",
   };
-  return await adminClient.createDetectionConfig(anomalyConfig);
+  return adminClient.createDetectionConfig(anomalyConfig);
 }
 
-async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
+async function createWebhookHook(
+  adminClient: MetricsAdvisorAdministrationClient,
+): Promise<NotificationHookUnion> {
   console.log("Creating a webhook hook");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
@@ -198,14 +201,14 @@ async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient
     },
   };
 
-  return await adminClient.createHook(hook);
+  return adminClient.createHook(hook);
 }
 
 async function configureAlertConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-  hookIds: string[]
-) {
+  hookIds: string[],
+): Promise<AnomalyAlertConfiguration> {
   console.log("Creating a new alerting configuration...");
   const anomalyAlert: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "test_alert_config_" + new Date().getTime().toString(),
@@ -232,19 +235,19 @@ async function configureAlertConfiguration(
     hookIds,
     description: "Alerting config description",
   };
-  return await adminClient.createAlertConfig(anomalyAlert);
+  return adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(
   client: MetricsAdvisorClient,
   alertConfigId: string,
   startTime: Date,
-  endTime: Date
-) {
+  endTime: Date,
+): Promise<AnomalyAlert[]> {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
-  let alerts: AnomalyAlert[] = [];
+  const alerts: AnomalyAlert[] = [];
   const listIterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
   for await (const alert of listIterator) {
     alerts.push(alert);
@@ -273,27 +276,26 @@ async function queryAlerts(
   return alerts;
 }
 
-async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: AnomalyAlert) {
+async function queryAnomaliesByAlert(
+  client: MetricsAdvisorClient,
+  alert: AnomalyAlert,
+): Promise<void> {
   console.log(
-    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`,
   );
   const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`,
     );
   }
 }
 
-async function delay(milliseconds: number) {
+async function delay(milliseconds: number): Promise<unknown> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { URL, URLSearchParams } from "./utils/url";
-import { logger } from "./logger";
-import {
+import { logger } from "./logger.js";
+import type {
   ErrorResponse,
   StringIndexType as GeneratedStringIndexType,
   InnerError,
   TextAnalyticsError,
-} from "./generated";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+} from "./generated/index.js";
+import type { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
 /**
  * @internal
@@ -29,7 +28,7 @@ interface IdObject {
  */
 export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
   sortedArray: T[],
-  unsortedArray: U[]
+  unsortedArray: U[],
 ): U[] {
   const unsortedMap = new Map<string, U>();
   for (const item of unsortedArray) {
@@ -39,7 +38,7 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
   if (unsortedArray.length !== sortedArray.length) {
     const ordinal = unsortedArray.length > sortedArray.length ? "more" : "fewer";
     logger.warning(
-      `The service returned ${ordinal} responses than inputs. Some errors may be treated as fatal.`
+      `The service returned ${ordinal} responses than inputs. Some errors may be treated as fatal.`,
     );
   }
 
@@ -106,7 +105,7 @@ export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16Code
  * @internal
  */
 export function addStrEncodingParam<Options extends { stringIndexType?: StringIndexType }>(
-  options: Options
+  options: Options,
 ): Options & { stringIndexType: StringIndexType } {
   return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
 }
@@ -117,13 +116,13 @@ export function addStrEncodingParam<Options extends { stringIndexType?: StringIn
  * @internal
  */
 export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStringIndexType }>(
-  x: X
+  x: X,
 ): X & { stringIndexType: GeneratedStringIndexType } {
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
 export function setStrEncodingParamValue(
-  stringIndexType?: GeneratedStringIndexType
+  stringIndexType?: GeneratedStringIndexType,
 ): GeneratedStringIndexType {
   return stringIndexType || jsEncodingUnit;
 }
@@ -133,7 +132,7 @@ export function setStrEncodingParamValue(
  * @internal
  */
 export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
-  x: X
+  x: X,
 ): X & { opinionMining?: boolean } {
   return { ...x, opinionMining: x.includeOpinionMining };
 }
@@ -143,7 +142,7 @@ export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
  * @internal
  */
 export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
-  x: X
+  x: X,
 ): X & { piiCategories?: string[] } {
   return { ...x, piiCategories: x.categoriesFilter };
 }
@@ -152,7 +151,7 @@ export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
  * @internal
  */
 export function addParamsToTask<X extends TextAnalyticsAction>(
-  action: X
+  action: X,
 ): { parameters?: Omit<X, "actionName">; taskName?: string } {
   const { actionName, ...params } = action;
   return { parameters: params, taskName: actionName };

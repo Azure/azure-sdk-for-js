@@ -1,34 +1,31 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as Mappers from "./generated/models/mappers";
-import * as Parameters from "./generated/models/parameters";
-import {
+import * as Mappers from "./generated/models/mappers.js";
+import * as Parameters from "./generated/models/parameters.js";
+import type {
   AnalyzeBatchActionUnion,
   AnalyzeTextJobStatusOptionalParams,
   AnalyzeTextJobStatusResponse,
   GeneratedClient,
   TextDocumentInput,
-} from "./generated";
-import {
+} from "./generated/index.js";
+import type {
   AnalyzeBatchOperationState,
   AnalyzeBatchResult,
   PagedAnalyzeBatchResult,
   PollerLike,
-} from "./models";
-import {
-  FullOperationResponse,
-  OperationOptions,
-  OperationSpec,
-  createSerializer,
-} from "@azure/core-client";
-import { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
-import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { throwError, transformAnalyzeBatchResults } from "./transforms";
-import { HttpMethods } from "@azure/core-rest-pipeline";
-import { TracingClient } from "@azure/core-tracing";
-import { clientName } from "./constants";
-import { logger } from "./logger";
+} from "./models.js";
+import type { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
+import type { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
+import type { PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import { throwError, transformAnalyzeBatchResults } from "./transforms.js";
+import type { HttpMethods } from "@azure/core-rest-pipeline";
+import type { TracingClient } from "@azure/core-tracing";
+import { clientName } from "./constants.js";
+import { logger } from "./logger.js";
 
 const serializer = createSerializer(Mappers, /* isXml */ false);
 
@@ -49,7 +46,7 @@ const jobStatusOperationSpec: OperationSpec = {
 
 function addOnResponse<TOptions extends OperationOptions>(
   options: TOptions,
-  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void
+  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void,
 ): TOptions {
   return {
     ...options,
@@ -60,7 +57,7 @@ function addOnResponse<TOptions extends OperationOptions>(
   };
 }
 
-function logWarnHeader(rawResponse: FullOperationResponse) {
+function logWarnHeader(rawResponse: FullOperationResponse): void {
   const warnHeader = rawResponse.headers.get("warn-text");
   if (warnHeader) {
     warnHeader.split(";").map((x) => logger.warning(x));
@@ -69,13 +66,13 @@ function logWarnHeader(rawResponse: FullOperationResponse) {
 
 async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   getResponse: (options: TOptions) => Promise<TResponse>,
-  options: TOptions
+  options: TOptions,
 ): Promise<LroResponse<TResponse>> {
   let rawResponse: FullOperationResponse;
   const flatResponse = await getResponse(
     addOnResponse(options, (response) => {
       rawResponse = response;
-    })
+    }),
   );
   return {
     flatResponse,
@@ -107,11 +104,11 @@ async function sendRequest<TOptions extends OperationOptions>(settings: {
               ...spec,
               path,
               httpMethod,
-            }
+            },
           ),
-        finalOptions
-      )
-    )
+        finalOptions,
+      ),
+    ),
   );
 }
 
@@ -139,7 +136,7 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
         spanStr,
         spec: jobStatusOperationSpec,
         tracing,
-      })
+      }),
     );
   };
 }
@@ -178,7 +175,7 @@ export function createAnalyzeBatchLro(settings: {
             ...commonOptions,
             ...initialRequestOptions,
           },
-          logWarnHeader
+          logWarnHeader,
         ),
         async (finalOptions) =>
           throwError(
@@ -192,11 +189,11 @@ export function createAnalyzeBatchLro(settings: {
                     },
                     displayName: initialRequestOptions.displayName,
                   },
-                  paramOptions
+                  paramOptions,
                 ),
-              finalOptions
-            )
-          )
+              finalOptions,
+            ),
+          ),
       );
     },
     sendPollRequest: createSendPollRequest({
@@ -217,7 +214,7 @@ export function getDocIDsFromState(serializedState: string): string[] {
     return docIds;
   } catch (e) {
     logger.error(
-      `Document IDs are not found in the LRO's state. The results may not be ordered correctly.`
+      `Document IDs are not found in the LRO's state. The results may not be ordered correctly.`,
     );
     return [];
   }
@@ -329,9 +326,9 @@ export function createPollerWithCancellation(settings: {
         throwError(
           getRawResponse(
             (paramOptions) => client.analyzeText.cancelJob(id, paramOptions),
-            finalOptions
-          )
-        )
+            finalOptions,
+          ),
+        ),
       );
     },
   };

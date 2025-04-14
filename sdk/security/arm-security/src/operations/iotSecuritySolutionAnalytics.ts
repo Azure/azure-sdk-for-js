@@ -6,21 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IotSecuritySolutionAnalytics } from "../operationsInterfaces";
+import { IotSecuritySolutionAnalytics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   IotSecuritySolutionAnalyticsListOptionalParams,
   IotSecuritySolutionAnalyticsListResponse,
   IotSecuritySolutionAnalyticsGetOptionalParams,
-  IotSecuritySolutionAnalyticsGetResponse
-} from "../models";
+  IotSecuritySolutionAnalyticsGetResponse,
+} from "../models/index.js";
 
 /** Class containing IotSecuritySolutionAnalytics operations. */
 export class IotSecuritySolutionAnalyticsImpl
-  implements IotSecuritySolutionAnalytics {
+  implements IotSecuritySolutionAnalytics
+{
   private readonly client: SecurityCenter;
 
   /**
@@ -41,11 +42,11 @@ export class IotSecuritySolutionAnalyticsImpl
   list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionAnalyticsListOptionalParams
+    options?: IotSecuritySolutionAnalyticsListOptionalParams,
   ): Promise<IotSecuritySolutionAnalyticsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -59,11 +60,11 @@ export class IotSecuritySolutionAnalyticsImpl
   get(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionAnalyticsGetOptionalParams
+    options?: IotSecuritySolutionAnalyticsGetOptionalParams,
   ): Promise<IotSecuritySolutionAnalyticsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, solutionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -71,46 +72,44 @@ export class IotSecuritySolutionAnalyticsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModelList
+      bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModelList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.solutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModel
+      bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.solutionName
+    Parameters.solutionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

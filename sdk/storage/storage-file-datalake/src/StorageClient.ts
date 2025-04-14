@@ -1,19 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
-import { StorageContextClient } from "./StorageContextClient";
-import { StorageClient as StorageClientContext } from "./generated/src";
+// Licensed under the MIT License.
+
+import type { TokenCredential } from "@azure/core-auth";
+import { StorageContextClient } from "./StorageContextClient.js";
+import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
+import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import type { AnonymousCredential } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms.js";
 import {
-  AnonymousCredential,
-  Pipeline,
-  StoragePipelineOptions,
-  BlobServiceClient,
-} from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
-import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
-import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
-import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+  escapeURLPath,
+  getAccountNameFromUrl,
+  getURLScheme,
+  iEqual,
+} from "./utils/utils.common.js";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  tracingOptions?: OperationTracingOptions;
+}
 
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
@@ -29,6 +40,7 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   }
   return {
     ...restOptions,
+    allowInsecureConnection: true,
     httpClient,
     pipeline: corePipeline,
   };
@@ -89,7 +101,7 @@ export abstract class StorageClient {
    * @param url - url to resource
    * @param pipeline - request policy pipeline.
    */
-  protected constructor(url: string, pipeline: Pipeline) {
+  protected constructor(url: string, pipeline: PipelineLike) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.blobEndpointUrl = toBlobEndpointUrl(this.url);
@@ -100,17 +112,17 @@ export abstract class StorageClient {
     const blobClient = new BlobServiceClient(url, pipeline);
     this.storageClientContext = new StorageContextClient(
       this.dfsEndpointUrl,
-      getCoreClientOptions(pipeline)
+      getCoreClientOptions(pipeline),
     );
 
     this.storageClientContextToBlobEndpoint = new StorageContextClient(
       this.blobEndpointUrl,
-      getCoreClientOptions(pipeline)
+      getCoreClientOptions(pipeline),
     );
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = blobClient.credential;
+    this.credential = (blobClient as any).credential;
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.3 (2023-01-10)
     
-**Features**
+### Features Added
 
   - Interface GrantsListAllNextOptionalParams no longer has parameter includeAllocatedBudget
   - Interface GrantsListNextOptionalParams no longer has parameter includeAllocatedBudget
@@ -25,7 +25,7 @@
     
 ## 1.0.0-beta.2 (2022-07-04)
     
-**Features**
+### Features Added
 
   - Added Interface GrantDetails
   - Added Interface JoinRequestDetails
@@ -37,4 +37,4 @@
     
 ## 1.0.0-beta.1 (2022-05-24)
 
-The package of @azure/arm-education is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-education is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

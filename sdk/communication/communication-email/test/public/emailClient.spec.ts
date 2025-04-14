@@ -1,33 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EmailClient, EmailMessage, KnownEmailSendStatus } from "../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { assert } from "chai";
-import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient";
+import type { EmailClient, EmailMessage } from "../../src/index.js";
+import { KnownEmailSendStatus } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getRecipientAddress, getSenderAddress, isPlaybackMode } from "../utils/injectables.js";
 
-describe(`EmailClient [Playback/Live]`, function () {
+const options = { updateIntervalInMs: isPlaybackMode() ? 0 : 3000 };
+
+describe(`EmailClient [Playback/Live]`, () => {
   let recorder: Recorder;
   let client: EmailClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedEmailClientWithConnectionString(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("successfully sends an email to a single recipient", async function () {
+  it("successfully sends an email to a single recipient", async () => {
     const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS || "",
+      senderAddress: getSenderAddress(),
       recipients: {
         to: [
           {
-            address: env.RECIPIENT_ADDRESS || "",
+            address: getRecipientAddress(),
             displayName: "someRecipient",
           },
         ],
@@ -39,59 +40,63 @@ describe(`EmailClient [Playback/Live]`, function () {
       },
     };
 
-    const poller = await client.beginSend(emailMessage);
+    const poller = await client.beginSend(emailMessage, options);
     const response = await poller.pollUntilDone();
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
-  }).timeout(120000);
+  });
 
-  it("successfully sends an email to multiple types of recipients", async function () {
+  it(
+    "successfully sends an email to multiple types of recipients",
+    { timeout: 120000 },
+    async () => {
+      const emailMessage: EmailMessage = {
+        senderAddress: getSenderAddress(),
+        recipients: {
+          to: [
+            {
+              address: getRecipientAddress(),
+              displayName: "someRecipient",
+            },
+            {
+              address: getRecipientAddress(),
+              displayName: "someRecipient",
+            },
+          ],
+          cc: [
+            {
+              address: getRecipientAddress(),
+              displayName: "someRecipient",
+            },
+          ],
+          bcc: [
+            {
+              address: getRecipientAddress(),
+              displayName: "someRecipient",
+            },
+          ],
+        },
+        content: {
+          subject: "someSubject",
+          plainText: "somePlainTextBody",
+          html: "<html><h1>someHtmlBody</html>",
+        },
+      };
+
+      const poller = await client.beginSend(emailMessage, options);
+      const response = await poller.pollUntilDone();
+
+      assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
+    },
+  );
+
+  it("successfully sends an email with an attachment", async () => {
     const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS ?? "",
+      senderAddress: getSenderAddress(),
       recipients: {
         to: [
           {
-            address: env.RECIPIENT_ADDRESS ?? "",
-            displayName: "someRecipient",
-          },
-          {
-            address: env.RECIPIENT_ADDRESS ?? "",
-            displayName: "someRecipient",
-          },
-        ],
-        cc: [
-          {
-            address: env.RECIPIENT_ADDRESS ?? "",
-            displayName: "someRecipient",
-          },
-        ],
-        bcc: [
-          {
-            address: env.RECIPIENT_ADDRESS ?? "",
-            displayName: "someRecipient",
-          },
-        ],
-      },
-      content: {
-        subject: "someSubject",
-        plainText: "somePlainTextBody",
-        html: "<html><h1>someHtmlBody</html>",
-      },
-    };
-
-    const poller = await client.beginSend(emailMessage);
-    const response = await poller.pollUntilDone();
-
-    assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
-  }).timeout(120000);
-
-  it("successfully sends an email with an attachment", async function () {
-    const emailMessage: EmailMessage = {
-      senderAddress: env.SENDER_ADDRESS ?? "",
-      recipients: {
-        to: [
-          {
-            address: env.RECIPIENT_ADDRESS ?? "",
+            address: getRecipientAddress(),
             displayName: "someRecipient",
           },
         ],
@@ -110,9 +115,41 @@ describe(`EmailClient [Playback/Live]`, function () {
       ],
     };
 
-    const poller = await client.beginSend(emailMessage);
+    const poller = await client.beginSend(emailMessage, options);
     const response = await poller.pollUntilDone();
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
-  }).timeout(120000);
+  });
+
+  it("successfully sends an email with an inline attachment", async () => {
+    const emailMessage: EmailMessage = {
+      senderAddress: getSenderAddress(),
+      recipients: {
+        to: [
+          {
+            address: getRecipientAddress(),
+            displayName: "someRecipient",
+          },
+        ],
+      },
+      content: {
+        subject: "someSubject",
+        plainText: "somePlainTextBody",
+        html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
+      },
+      attachments: [
+        {
+          name: "myinlineimage.jpg",
+          contentType: "image/jpeg",
+          contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
+          contentId: "inline_image",
+        },
+      ],
+    };
+
+    const poller = await client.beginSend(emailMessage, options);
+    const response = await poller.pollUntilDone();
+
+    assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
+  });
 });

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary authenticate anonymously using a SAS-encoded URL
@@ -9,10 +9,9 @@
 import { ShareServiceClient, AnonymousCredential } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -24,7 +23,7 @@ export async function main() {
   const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net${accountSas}`,
-    anonymousCredential
+    anonymousCredential,
   );
 
   console.log("Shares:");

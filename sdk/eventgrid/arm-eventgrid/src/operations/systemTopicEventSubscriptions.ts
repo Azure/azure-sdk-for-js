@@ -7,25 +7,23 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SystemTopicEventSubscriptions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SystemTopicEventSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EventGridManagementClient } from "../eventGridManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EventGridManagementClient } from "../eventGridManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   EventSubscription,
   SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams,
   SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   SystemTopicEventSubscriptionsListBySystemTopicResponse,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsGetOptionalParams,
   SystemTopicEventSubscriptionsGetResponse,
   SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -36,13 +34,16 @@ import {
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   SystemTopicEventSubscriptionsGetFullUrlResponse,
-  SystemTopicEventSubscriptionsListBySystemTopicNextResponse
-} from "../models";
+  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
+  SystemTopicEventSubscriptionsListBySystemTopicNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SystemTopicEventSubscriptions operations. */
 export class SystemTopicEventSubscriptionsImpl
-  implements SystemTopicEventSubscriptions {
+  implements SystemTopicEventSubscriptions
+{
   private readonly client: EventGridManagementClient;
 
   /**
@@ -62,12 +63,12 @@ export class SystemTopicEventSubscriptionsImpl
   public listBySystemTopic(
     resourceGroupName: string,
     systemTopicName: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription> {
     const iter = this.listBySystemTopicPagingAll(
       resourceGroupName,
       systemTopicName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class SystemTopicEventSubscriptionsImpl
           resourceGroupName,
           systemTopicName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class SystemTopicEventSubscriptionsImpl
     resourceGroupName: string,
     systemTopicName: string,
     options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventSubscription[]> {
     let result: SystemTopicEventSubscriptionsListBySystemTopicResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +103,7 @@ export class SystemTopicEventSubscriptionsImpl
       result = await this._listBySystemTopic(
         resourceGroupName,
         systemTopicName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +115,7 @@ export class SystemTopicEventSubscriptionsImpl
         resourceGroupName,
         systemTopicName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,54 +127,33 @@ export class SystemTopicEventSubscriptionsImpl
   private async *listBySystemTopicPagingAll(
     resourceGroupName: string,
     systemTopicName: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   ): AsyncIterableIterator<EventSubscription> {
     for await (const page of this.listBySystemTopicPagingPage(
       resourceGroupName,
       systemTopicName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get all delivery attributes for an event subscription.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    systemTopicName: string,
-    eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
-  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, systemTopicName, eventSubscriptionName, options },
-      getDeliveryAttributesOperationSpec
-    );
-  }
-
-  /**
    * Get an event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetOptionalParams
+    options?: SystemTopicEventSubscriptionsGetOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, systemTopicName, eventSubscriptionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,7 +163,7 @@ export class SystemTopicEventSubscriptionsImpl
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -193,7 +173,7 @@ export class SystemTopicEventSubscriptionsImpl
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -202,21 +182,20 @@ export class SystemTopicEventSubscriptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -225,8 +204,8 @@ export class SystemTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -234,8 +213,8 @@ export class SystemTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -246,16 +225,16 @@ export class SystemTopicEventSubscriptionsImpl
         systemTopicName,
         eventSubscriptionName,
         eventSubscriptionInfo,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SystemTopicEventSubscriptionsCreateOrUpdateResponse,
       OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -267,7 +246,7 @@ export class SystemTopicEventSubscriptionsImpl
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -277,14 +256,14 @@ export class SystemTopicEventSubscriptionsImpl
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       systemTopicName,
       eventSubscriptionName,
       eventSubscriptionInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -293,33 +272,31 @@ export class SystemTopicEventSubscriptionsImpl
    * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsDeleteOptionalParams
+    options?: SystemTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -328,8 +305,8 @@ export class SystemTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -337,8 +314,8 @@ export class SystemTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -348,13 +325,13 @@ export class SystemTopicEventSubscriptionsImpl
         resourceGroupName,
         systemTopicName,
         eventSubscriptionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -364,21 +341,20 @@ export class SystemTopicEventSubscriptionsImpl
    * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsDeleteOptionalParams
+    options?: SystemTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       systemTopicName,
       eventSubscriptionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,8 +363,7 @@ export class SystemTopicEventSubscriptionsImpl
    * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -397,7 +372,7 @@ export class SystemTopicEventSubscriptionsImpl
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: SystemTopicEventSubscriptionsUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SystemTopicEventSubscriptionsUpdateResponse>,
@@ -406,21 +381,20 @@ export class SystemTopicEventSubscriptionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SystemTopicEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -429,8 +403,8 @@ export class SystemTopicEventSubscriptionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -438,8 +412,8 @@ export class SystemTopicEventSubscriptionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -450,16 +424,16 @@ export class SystemTopicEventSubscriptionsImpl
         systemTopicName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SystemTopicEventSubscriptionsUpdateResponse,
       OperationState<SystemTopicEventSubscriptionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -469,8 +443,7 @@ export class SystemTopicEventSubscriptionsImpl
    * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -479,14 +452,14 @@ export class SystemTopicEventSubscriptionsImpl
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: SystemTopicEventSubscriptionsUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       systemTopicName,
       eventSubscriptionName,
       eventSubscriptionUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -495,19 +468,18 @@ export class SystemTopicEventSubscriptionsImpl
    * Get the full endpoint URL for an event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
   getFullUrl(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetFullUrlOptionalParams
+    options?: SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsGetFullUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, systemTopicName, eventSubscriptionName, options },
-      getFullUrlOperationSpec
+      getFullUrlOperationSpec,
     );
   }
 
@@ -520,11 +492,30 @@ export class SystemTopicEventSubscriptionsImpl
   private _listBySystemTopic(
     resourceGroupName: string,
     systemTopicName: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsListBySystemTopicResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, systemTopicName, options },
-      listBySystemTopicOperationSpec
+      listBySystemTopicOperationSpec,
+    );
+  }
+
+  /**
+   * Get all delivery attributes for an event subscription.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param systemTopicName Name of the system topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    systemTopicName: string,
+    eventSubscriptionName: string,
+    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, systemTopicName, eventSubscriptionName, options },
+      getDeliveryAttributesOperationSpec,
     );
   }
 
@@ -539,47 +530,25 @@ export class SystemTopicEventSubscriptionsImpl
     resourceGroupName: string,
     systemTopicName: string,
     nextLink: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsListBySystemTopicNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, systemTopicName, nextLink, options },
-      listBySystemTopicNextOperationSpec
+      listBySystemTopicNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -587,29 +556,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     201: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     202: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     204: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.eventSubscriptionInfo,
   queryParameters: [Parameters.apiVersion],
@@ -618,15 +586,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -635,28 +602,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     201: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     202: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
     204: {
-      bodyMapper: Mappers.EventSubscription
+      bodyMapper: Mappers.EventSubscription,
     },
-    default: {}
+    default: {},
   },
   requestBody: Parameters.eventSubscriptionUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -665,21 +631,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getFullUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionFullUrl
+      bodyMapper: Mappers.EventSubscriptionFullUrl,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -687,47 +652,66 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.eventSubscriptionName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySystemTopicOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionsListResult
+      bodyMapper: Mappers.EventSubscriptionsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/systemTopics/{systemTopicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.eventSubscriptionName,
+    Parameters.systemTopicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySystemTopicNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventSubscriptionsListResult
+      bodyMapper: Mappers.EventSubscriptionsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.systemTopicName
+    Parameters.systemTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

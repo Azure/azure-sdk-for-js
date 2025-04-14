@@ -22,8 +22,10 @@ import {
   FailoverGroupsFailoverOptionalParams,
   FailoverGroupsFailoverResponse,
   FailoverGroupsForceFailoverAllowDataLossOptionalParams,
-  FailoverGroupsForceFailoverAllowDataLossResponse
-} from "../models";
+  FailoverGroupsForceFailoverAllowDataLossResponse,
+  FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams,
+  FailoverGroupsTryPlannedBeforeForcedFailoverResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FailoverGroups. */
@@ -38,7 +40,7 @@ export interface FailoverGroups {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: FailoverGroupsListByServerOptionalParams
+    options?: FailoverGroupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<FailoverGroup>;
   /**
    * Gets a failover group.
@@ -52,7 +54,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsGetOptionalParams
+    options?: FailoverGroupsGetOptionalParams,
   ): Promise<FailoverGroupsGetResponse>;
   /**
    * Creates or updates a failover group.
@@ -68,7 +70,7 @@ export interface FailoverGroups {
     serverName: string,
     failoverGroupName: string,
     parameters: FailoverGroup,
-    options?: FailoverGroupsCreateOrUpdateOptionalParams
+    options?: FailoverGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FailoverGroupsCreateOrUpdateResponse>,
@@ -89,7 +91,7 @@ export interface FailoverGroups {
     serverName: string,
     failoverGroupName: string,
     parameters: FailoverGroup,
-    options?: FailoverGroupsCreateOrUpdateOptionalParams
+    options?: FailoverGroupsCreateOrUpdateOptionalParams,
   ): Promise<FailoverGroupsCreateOrUpdateResponse>;
   /**
    * Deletes a failover group.
@@ -103,7 +105,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsDeleteOptionalParams
+    options?: FailoverGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a failover group.
@@ -117,7 +119,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsDeleteOptionalParams
+    options?: FailoverGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a failover group.
@@ -133,7 +135,7 @@ export interface FailoverGroups {
     serverName: string,
     failoverGroupName: string,
     parameters: FailoverGroupUpdate,
-    options?: FailoverGroupsUpdateOptionalParams
+    options?: FailoverGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FailoverGroupsUpdateResponse>,
@@ -154,7 +156,7 @@ export interface FailoverGroups {
     serverName: string,
     failoverGroupName: string,
     parameters: FailoverGroupUpdate,
-    options?: FailoverGroupsUpdateOptionalParams
+    options?: FailoverGroupsUpdateOptionalParams,
   ): Promise<FailoverGroupsUpdateResponse>;
   /**
    * Fails over from the current primary server to this server.
@@ -168,7 +170,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsFailoverOptionalParams
+    options?: FailoverGroupsFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FailoverGroupsFailoverResponse>,
@@ -187,7 +189,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsFailoverOptionalParams
+    options?: FailoverGroupsFailoverOptionalParams,
   ): Promise<FailoverGroupsFailoverResponse>;
   /**
    * Fails over from the current primary server to this server. This operation might result in data loss.
@@ -201,7 +203,7 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams
+    options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FailoverGroupsForceFailoverAllowDataLossResponse>,
@@ -220,6 +222,41 @@ export interface FailoverGroups {
     resourceGroupName: string,
     serverName: string,
     failoverGroupName: string,
-    options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams
+    options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams,
   ): Promise<FailoverGroupsForceFailoverAllowDataLossResponse>;
+  /**
+   * Fails over from the current primary server to this server. This operation tries planned before
+   * forced failover but might still result in data loss.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param failoverGroupName The name of the failover group.
+   * @param options The options parameters.
+   */
+  beginTryPlannedBeforeForcedFailover(
+    resourceGroupName: string,
+    serverName: string,
+    failoverGroupName: string,
+    options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>,
+      FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+    >
+  >;
+  /**
+   * Fails over from the current primary server to this server. This operation tries planned before
+   * forced failover but might still result in data loss.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param failoverGroupName The name of the failover group.
+   * @param options The options parameters.
+   */
+  beginTryPlannedBeforeForcedFailoverAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    failoverGroupName: string,
+    options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams,
+  ): Promise<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>;
 }

@@ -53,6 +53,9 @@ export type AlwaysEncryptedEnclaveType = string;
 export type AuthenticationName = string;
 
 // @public
+export type AuthMetadataLookupModes = string;
+
+// @public
 export type AutoExecuteStatus = "Enabled" | "Disabled" | "Default";
 
 // @public
@@ -173,6 +176,9 @@ export interface BackupShortTermRetentionPolicyListResult {
 }
 
 // @public
+export type BackupStorageAccessTier = string;
+
+// @public
 export type BackupStorageRedundancy = string;
 
 // @public
@@ -222,6 +228,12 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 
 // @public
 export type CatalogCollationType = string;
+
+// @public
+export interface ChangeLongTermRetentionBackupAccessTierParameters {
+    backupStorageAccessTier: string;
+    operationMode: string;
+}
 
 // @public
 export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
@@ -290,8 +302,10 @@ export interface Database extends TrackedResource {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -326,6 +340,7 @@ export interface Database extends TrackedResource {
     sourceDatabaseId?: string;
     sourceResourceId?: string;
     readonly status?: DatabaseStatus;
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -660,6 +675,7 @@ export interface DatabaseOperation extends ProxyResource {
     readonly isUserError?: boolean;
     readonly operation?: string;
     readonly operationFriendlyName?: string;
+    readonly operationPhaseDetails?: PhaseDetails;
     readonly percentComplete?: number;
     readonly serverName?: string;
     readonly startTime?: Date;
@@ -1263,8 +1279,10 @@ export interface DatabaseUpdate {
     readonly earliestRestoreDate?: Date;
     elasticPoolId?: string;
     encryptionProtector?: string;
+    encryptionProtectorAutoRotation?: boolean;
     readonly failoverGroupId?: string;
     federatedClientId?: string;
+    freeLimitExhaustionBehavior?: FreeLimitExhaustionBehavior;
     highAvailabilityReplicaCount?: number;
     identity?: DatabaseIdentity;
     readonly isInfraEncryptionEnabled?: boolean;
@@ -1299,6 +1317,7 @@ export interface DatabaseUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+    useFreeLimit?: boolean;
     zoneRedundant?: boolean;
 }
 
@@ -1773,13 +1792,16 @@ export interface EditionCapability {
 
 // @public
 export interface ElasticPool extends TrackedResource {
+    availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     readonly state?: ElasticPoolState;
     zoneRedundant?: boolean;
@@ -2056,11 +2078,14 @@ export type ElasticPoolsUpdateResponse = ElasticPool;
 
 // @public
 export interface ElasticPoolUpdate {
+    availabilityZone?: AvailabilityZoneType;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
     maxSizeBytes?: number;
+    minCapacity?: number;
     perDatabaseSettings?: ElasticPoolPerDatabaseSettings;
+    preferredEnclaveType?: AlwaysEncryptedEnclaveType;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -2182,6 +2207,26 @@ export interface EndpointDependency {
 // @public
 export interface EndpointDetail {
     readonly port?: number;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -2323,10 +2368,14 @@ export interface FailoverGroup extends ProxyResource {
     readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
     readonly replicationRole?: FailoverGroupReplicationRole;
     readonly replicationState?: string;
+    secondaryType?: FailoverGroupDatabasesSecondaryType;
     tags?: {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type FailoverGroupDatabasesSecondaryType = string;
 
 // @public
 export interface FailoverGroupListResult {
@@ -2337,6 +2386,7 @@ export interface FailoverGroupListResult {
 // @public
 export interface FailoverGroupReadOnlyEndpoint {
     failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
+    targetServer?: string;
 }
 
 // @public
@@ -2358,6 +2408,8 @@ export interface FailoverGroups {
     beginFailoverAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsFailoverOptionalParams): Promise<FailoverGroupsFailoverResponse>;
     beginForceFailoverAllowDataLoss(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsForceFailoverAllowDataLossResponse>, FailoverGroupsForceFailoverAllowDataLossResponse>>;
     beginForceFailoverAllowDataLossAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams): Promise<FailoverGroupsForceFailoverAllowDataLossResponse>;
+    beginTryPlannedBeforeForcedFailover(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>, FailoverGroupsTryPlannedBeforeForcedFailoverResponse>>;
+    beginTryPlannedBeforeForcedFailoverAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams): Promise<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>;
     beginUpdate(resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FailoverGroupsUpdateResponse>, FailoverGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serverName: string, failoverGroupName: string, parameters: FailoverGroupUpdate, options?: FailoverGroupsUpdateOptionalParams): Promise<FailoverGroupsUpdateResponse>;
     get(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: FailoverGroupsGetOptionalParams): Promise<FailoverGroupsGetResponse>;
@@ -2419,6 +2471,21 @@ export interface FailoverGroupsListByServerOptionalParams extends coreClient.Ope
 export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
 
 // @public
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
+
+// @public
 export interface FailoverGroupsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2430,8 +2497,10 @@ export type FailoverGroupsUpdateResponse = FailoverGroup;
 // @public
 export interface FailoverGroupUpdate {
     databases?: string[];
+    partnerServers?: PartnerInfo[];
     readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
     readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+    secondaryType?: FailoverGroupDatabasesSecondaryType;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2504,6 +2573,12 @@ export interface FirewallRulesReplaceOptionalParams extends coreClient.Operation
 export type FirewallRulesReplaceResponse = FirewallRule;
 
 // @public
+export type FreeLimitExhaustionBehavior = string;
+
+// @public
+export type FreemiumType = string;
+
+// @public
 export interface GeoBackupPolicies {
     createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, parameters: GeoBackupPolicy, options?: GeoBackupPoliciesCreateOrUpdateOptionalParams): Promise<GeoBackupPoliciesCreateOrUpdateResponse>;
     get(resourceGroupName: string, serverName: string, databaseName: string, geoBackupPolicyName: GeoBackupPolicyName, options?: GeoBackupPoliciesGetOptionalParams): Promise<GeoBackupPoliciesGetResponse>;
@@ -2552,6 +2627,12 @@ export type GeoBackupPolicyState = "Disabled" | "Enabled";
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export type HybridSecondaryUsage = string;
+
+// @public
+export type HybridSecondaryUsageDetected = string;
 
 // @public
 export type IdentityType = string;
@@ -2717,7 +2798,9 @@ export type InstanceFailoverGroupsListByLocationResponse = InstanceFailoverGroup
 
 // @public
 export interface InstancePool extends TrackedResource {
+    readonly dnsZone?: string;
     licenseType?: InstancePoolLicenseType;
+    maintenanceConfigurationId?: string;
     sku?: Sku;
     subnetId?: string;
     vCores?: number;
@@ -2823,9 +2906,15 @@ export type InstancePoolsUpdateResponse = InstancePool;
 
 // @public
 export interface InstancePoolUpdate {
+    readonly dnsZone?: string;
+    licenseType?: InstancePoolLicenseType;
+    maintenanceConfigurationId?: string;
+    sku?: Sku;
+    subnetId?: string;
     tags?: {
         [propertyName: string]: string;
     };
+    vCores?: number;
 }
 
 // @public
@@ -3152,6 +3241,64 @@ export interface JobListResult {
     readonly nextLink?: string;
     readonly value?: Job[];
 }
+
+// @public
+export interface JobPrivateEndpoint extends ProxyResource {
+    readonly privateEndpointId?: string;
+    targetServerAzureResourceId?: string;
+}
+
+// @public
+export interface JobPrivateEndpointListResult {
+    readonly nextLink?: string;
+    readonly value?: JobPrivateEndpoint[];
+}
+
+// @public
+export interface JobPrivateEndpoints {
+    beginCreateOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobPrivateEndpointsCreateOrUpdateResponse>, JobPrivateEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<JobPrivateEndpointsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsGetOptionalParams): Promise<JobPrivateEndpointsGetResponse>;
+    listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobPrivateEndpointsListByAgentOptionalParams): PagedAsyncIterableIterator<JobPrivateEndpoint>;
+}
+
+// @public
+export interface JobPrivateEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type JobPrivateEndpointsCreateOrUpdateResponse = JobPrivateEndpoint;
+
+// @public
+export interface JobPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface JobPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsGetResponse = JobPrivateEndpoint;
+
+// @public
+export interface JobPrivateEndpointsListByAgentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsListByAgentNextResponse = JobPrivateEndpointListResult;
+
+// @public
+export interface JobPrivateEndpointsListByAgentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobPrivateEndpointsListByAgentResponse = JobPrivateEndpointListResult;
 
 // @public
 export interface Jobs {
@@ -3552,11 +3699,24 @@ export enum KnownAuthenticationName {
 }
 
 // @public
+export enum KnownAuthMetadataLookupModes {
+    AzureAD = "AzureAD",
+    Paired = "Paired",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownAvailabilityZoneType {
     NoPreference = "NoPreference",
     One = "1",
     Three = "3",
     Two = "2"
+}
+
+// @public
+export enum KnownBackupStorageAccessTier {
+    Archive = "Archive",
+    Hot = "Hot"
 }
 
 // @public
@@ -3774,14 +3934,44 @@ export enum KnownExternalGovernanceStatus {
 }
 
 // @public
+export enum KnownFailoverGroupDatabasesSecondaryType {
+    Geo = "Geo",
+    Standby = "Standby"
+}
+
+// @public
 export enum KnownFailoverGroupReplicationRole {
     Primary = "Primary",
     Secondary = "Secondary"
 }
 
 // @public
+export enum KnownFreeLimitExhaustionBehavior {
+    AutoPause = "AutoPause",
+    BillOverUsage = "BillOverUsage"
+}
+
+// @public
+export enum KnownFreemiumType {
+    Freemium = "Freemium",
+    Regular = "Regular"
+}
+
+// @public
 export enum KnownGeoBackupPolicyName {
     Default = "Default"
+}
+
+// @public
+export enum KnownHybridSecondaryUsage {
+    Active = "Active",
+    Passive = "Passive"
+}
+
+// @public
+export enum KnownHybridSecondaryUsageDetected {
+    Active = "Active",
+    Passive = "Passive"
 }
 
 // @public
@@ -3901,6 +4091,12 @@ export enum KnownManagedInstanceAdministratorType {
 }
 
 // @public
+export enum KnownManagedInstanceDatabaseFormat {
+    AlwaysUpToDate = "AlwaysUpToDate",
+    SQLServer2022 = "SQLServer2022"
+}
+
+// @public
 export enum KnownManagedInstanceLicenseType {
     BasePrice = "BasePrice",
     LicenseIncluded = "LicenseIncluded"
@@ -3909,25 +4105,6 @@ export enum KnownManagedInstanceLicenseType {
 // @public
 export enum KnownManagedInstanceLongTermRetentionPolicyName {
     Default = "default"
-}
-
-// @public
-export enum KnownManagedInstancePropertiesProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Creating = "Creating",
-    Deleted = "Deleted",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    NotSpecified = "NotSpecified",
-    Registering = "Registering",
-    Running = "Running",
-    Succeeded = "Succeeded",
-    TimedOut = "TimedOut",
-    Unknown = "Unknown",
-    Unrecognized = "Unrecognized",
-    Updating = "Updating"
 }
 
 // @public
@@ -3987,6 +4164,15 @@ export enum KnownMetricType {
 }
 
 // @public
+export enum KnownMinimalTlsVersion {
+    None = "None",
+    One0 = "1.0",
+    One1 = "1.1",
+    One2 = "1.2",
+    One3 = "1.3"
+}
+
+// @public
 export enum KnownMoveOperationMode {
     Copy = "Copy",
     Move = "Move"
@@ -4012,6 +4198,14 @@ export enum KnownPauseDelayTimeUnit {
 export enum KnownPerformanceLevelUnit {
     DTU = "DTU",
     VCores = "VCores"
+}
+
+// @public
+export enum KnownPhase {
+    Catchup = "Catchup",
+    Copying = "Copying",
+    CutoverInProgress = "CutoverInProgress",
+    WaitingForCutover = "WaitingForCutover"
 }
 
 // @public
@@ -4606,10 +4800,12 @@ export type LogSizeUnit = string;
 // @public
 export interface LongTermRetentionBackup extends ProxyResource {
     readonly backupExpirationTime?: Date;
+    readonly backupStorageAccessTier?: BackupStorageAccessTier;
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
     readonly backupTime?: Date;
     readonly databaseDeletionTime?: Date;
     readonly databaseName?: string;
+    isBackupImmutable?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
     readonly serverCreateTime?: Date;
     readonly serverName?: string;
@@ -4634,6 +4830,10 @@ export interface LongTermRetentionBackupOperationResult extends ProxyResource {
 
 // @public
 export interface LongTermRetentionBackups {
+    beginChangeAccessTier(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsChangeAccessTierResponse>, LongTermRetentionBackupsChangeAccessTierResponse>>;
+    beginChangeAccessTierAndWait(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): Promise<LongTermRetentionBackupsChangeAccessTierResponse>;
+    beginChangeAccessTierByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>, LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>>;
+    beginChangeAccessTierByResourceGroupAndWait(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): Promise<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>;
     beginCopy(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsCopyResponse>, LongTermRetentionBackupsCopyResponse>>;
     beginCopyAndWait(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): Promise<LongTermRetentionBackupsCopyResponse>;
     beginCopyByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>, LongTermRetentionBackupsCopyByResourceGroupResponse>>;
@@ -4655,6 +4855,24 @@ export interface LongTermRetentionBackups {
     listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
     listByServer(locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 }
+
+// @public
+export interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse = LongTermRetentionBackup;
+
+// @public
+export interface LongTermRetentionBackupsChangeAccessTierOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LongTermRetentionBackupsChangeAccessTierResponse = LongTermRetentionBackup;
 
 // @public
 export interface LongTermRetentionBackupsCopyByResourceGroupOptionalParams extends coreClient.OperationOptions {
@@ -4992,6 +5210,8 @@ export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionP
 
 // @public
 export interface LongTermRetentionPolicy extends ProxyResource {
+    backupStorageAccessTier?: BackupStorageAccessTier;
+    makeBackupsImmutable?: boolean;
     monthlyRetention?: string;
     weeklyRetention?: string;
     weekOfYear?: number;
@@ -5141,6 +5361,7 @@ export interface ManagedDatabase extends TrackedResource {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -5782,6 +6003,7 @@ export interface ManagedDatabaseUpdate {
     readonly defaultSecondaryLocation?: string;
     readonly earliestRestorePoint?: Date;
     readonly failoverGroupId?: string;
+    isLedgerOn?: boolean;
     lastBackupName?: string;
     longTermRetentionBackupResourceId?: string;
     recoverableDatabaseId?: string;
@@ -5910,21 +6132,29 @@ export interface ManagedInstance extends TrackedResource {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     administrators?: ManagedInstanceExternalAdministrator;
+    authenticationMetadata?: AuthMetadataLookupModes;
     collation?: string;
+    readonly createTime?: Date;
     readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
+    databaseFormat?: ManagedInstanceDatabaseFormat;
     readonly dnsZone?: string;
     dnsZonePartner?: string;
+    readonly externalGovernanceStatus?: ExternalGovernanceStatus;
     readonly fullyQualifiedDomainName?: string;
+    hybridSecondaryUsage?: HybridSecondaryUsage;
+    readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
     identity?: ResourceIdentity;
     instancePoolId?: string;
+    isGeneralPurposeV2?: boolean;
     keyId?: string;
     licenseType?: ManagedInstanceLicenseType;
     maintenanceConfigurationId?: string;
     managedInstanceCreateMode?: ManagedServerCreateMode;
     minimalTlsVersion?: string;
+    pricingModel?: FreemiumType;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ManagedInstancePecProperty[];
-    readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     proxyOverride?: ManagedInstanceProxyOverride;
     publicDataEndpointEnabled?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
@@ -5933,10 +6163,13 @@ export interface ManagedInstance extends TrackedResource {
     sku?: Sku;
     sourceManagedInstanceId?: string;
     readonly state?: string;
+    storageIOps?: number;
     storageSizeInGB?: number;
+    storageThroughputMBps?: number;
     subnetId?: string;
     timezoneId?: string;
     vCores?: number;
+    readonly virtualClusterId?: string;
     zoneRedundant?: boolean;
 }
 
@@ -6110,6 +6343,9 @@ export interface ManagedInstanceAzureADOnlyAuthListResult {
     readonly nextLink?: string;
     readonly value?: ManagedInstanceAzureADOnlyAuthentication[];
 }
+
+// @public
+export type ManagedInstanceDatabaseFormat = string;
 
 // @public
 export interface ManagedInstanceDtc extends ProxyResource {
@@ -6628,9 +6864,6 @@ export interface ManagedInstancePrivateLinkServiceConnectionStateProperty {
 }
 
 // @public
-export type ManagedInstancePropertiesProvisioningState = string;
-
-// @public
 export type ManagedInstanceProxyOverride = string;
 
 // @public
@@ -6652,10 +6885,12 @@ export interface ManagedInstances {
     beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesDeleteOptionalParams): Promise<void>;
     beginFailover(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFailoverAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesFailoverOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<void>;
+    beginRefreshStatus(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesRefreshStatusResponse>, ManagedInstancesRefreshStatusResponse>>;
+    beginRefreshStatusAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesRefreshStatusOptionalParams): Promise<ManagedInstancesRefreshStatusResponse>;
+    beginStart(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesStartResponse>, ManagedInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStartOptionalParams): Promise<ManagedInstancesStartResponse>;
+    beginStop(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesStopResponse>, ManagedInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesStopOptionalParams): Promise<ManagedInstancesStopResponse>;
     beginUpdate(resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedInstancesUpdateResponse>, ManagedInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, managedInstanceName: string, parameters: ManagedInstanceUpdate, options?: ManagedInstancesUpdateOptionalParams): Promise<ManagedInstancesUpdateResponse>;
     get(resourceGroupName: string, managedInstanceName: string, options?: ManagedInstancesGetOptionalParams): Promise<ManagedInstancesGetResponse>;
@@ -6777,16 +7012,31 @@ export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceResp
 export type ManagedInstancesListResponse = ManagedInstanceListResult;
 
 // @public
+export interface ManagedInstancesRefreshStatusOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedInstancesRefreshStatusResponse = RefreshExternalGovernanceStatusOperationResultMI;
+
+// @public
 export interface ManagedInstancesStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export type ManagedInstancesStartResponse = ManagedInstance;
+
+// @public
 export interface ManagedInstancesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedInstancesStopResponse = ManagedInstance;
 
 // @public
 export interface ManagedInstancesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -6814,21 +7064,29 @@ export interface ManagedInstanceUpdate {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     administrators?: ManagedInstanceExternalAdministrator;
+    authenticationMetadata?: AuthMetadataLookupModes;
     collation?: string;
+    readonly createTime?: Date;
     readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
+    databaseFormat?: ManagedInstanceDatabaseFormat;
     readonly dnsZone?: string;
     dnsZonePartner?: string;
+    readonly externalGovernanceStatus?: ExternalGovernanceStatus;
     readonly fullyQualifiedDomainName?: string;
+    hybridSecondaryUsage?: HybridSecondaryUsage;
+    readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
     identity?: ResourceIdentity;
     instancePoolId?: string;
+    isGeneralPurposeV2?: boolean;
     keyId?: string;
     licenseType?: ManagedInstanceLicenseType;
     maintenanceConfigurationId?: string;
     managedInstanceCreateMode?: ManagedServerCreateMode;
     minimalTlsVersion?: string;
+    pricingModel?: FreemiumType;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ManagedInstancePecProperty[];
-    readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     proxyOverride?: ManagedInstanceProxyOverride;
     publicDataEndpointEnabled?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
@@ -6837,13 +7095,16 @@ export interface ManagedInstanceUpdate {
     sku?: Sku;
     sourceManagedInstanceId?: string;
     readonly state?: string;
+    storageIOps?: number;
     storageSizeInGB?: number;
+    storageThroughputMBps?: number;
     subnetId?: string;
     tags?: {
         [propertyName: string]: string;
     };
     timezoneId?: string;
     vCores?: number;
+    readonly virtualClusterId?: string;
     zoneRedundant?: boolean;
 }
 
@@ -7276,6 +7537,9 @@ export interface MinCapacityCapability {
 }
 
 // @public
+export type MinimalTlsVersion = string;
+
+// @public
 export type MoveOperationMode = string;
 
 // @public
@@ -7442,6 +7706,17 @@ export interface PerformanceLevelCapability {
 export type PerformanceLevelUnit = string;
 
 // @public
+export type Phase = string;
+
+// @public
+export interface PhaseDetails {
+    readonly phase?: Phase;
+    readonly phaseInformation?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type PrimaryAggregationType = string;
 
 // @public
@@ -7449,6 +7724,7 @@ export type PrincipalType = string;
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: PrivateEndpointProvisioningState;
@@ -7614,6 +7890,14 @@ export interface QueryMetricInterval {
 }
 
 // @public
+export interface QueryMetricIntervalAutoGenerated {
+    readonly executionCount?: number;
+    readonly intervalStartTime?: string;
+    readonly intervalType?: QueryTimeGrainType;
+    metrics?: QueryMetricProperties[];
+}
+
+// @public
 export interface QueryMetricProperties {
     readonly avg?: number;
     readonly displayName?: string;
@@ -7642,7 +7926,7 @@ export interface QueryStatistics extends ProxyResource {
 export interface QueryStatisticsProperties {
     readonly databaseName?: string;
     readonly endTime?: string;
-    intervals?: QueryMetricInterval[];
+    intervals?: QueryMetricIntervalAutoGenerated[];
     readonly queryId?: string;
     readonly startTime?: string;
 }
@@ -7859,6 +8143,16 @@ export interface RefreshExternalGovernanceStatusOperationResult extends ProxyRes
 }
 
 // @public
+export interface RefreshExternalGovernanceStatusOperationResultMI extends ProxyResource {
+    readonly errorMessage?: string;
+    readonly managedInstanceName?: string;
+    readonly queuedTime?: string;
+    readonly requestId?: string;
+    readonly requestType?: string;
+    readonly status?: string;
+}
+
+// @public
 export interface Remediation {
     readonly automated?: boolean;
     readonly description?: string;
@@ -7869,8 +8163,9 @@ export interface Remediation {
 // @public
 export interface ReplicationLink extends ProxyResource {
     readonly isTerminationAllowed?: boolean;
-    readonly linkType?: ReplicationLinkType;
+    linkType?: ReplicationLinkType;
     readonly partnerDatabase?: string;
+    readonly partnerDatabaseId?: string;
     readonly partnerLocation?: string;
     readonly partnerRole?: ReplicationRole;
     readonly partnerServer?: string;
@@ -7889,16 +8184,29 @@ export interface ReplicationLinkListResult {
 
 // @public
 export interface ReplicationLinks {
+    beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLink, options?: ReplicationLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationLinksCreateOrUpdateResponse>, ReplicationLinksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLink, options?: ReplicationLinksCreateOrUpdateOptionalParams): Promise<ReplicationLinksCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksDeleteOptionalParams): Promise<void>;
     beginFailover(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationLinksFailoverResponse>, ReplicationLinksFailoverResponse>>;
     beginFailoverAllowDataLoss(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverAllowDataLossOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationLinksFailoverAllowDataLossResponse>, ReplicationLinksFailoverAllowDataLossResponse>>;
     beginFailoverAllowDataLossAndWait(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverAllowDataLossOptionalParams): Promise<ReplicationLinksFailoverAllowDataLossResponse>;
     beginFailoverAndWait(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksFailoverOptionalParams): Promise<ReplicationLinksFailoverResponse>;
+    beginUpdate(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLinkUpdate, options?: ReplicationLinksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationLinksUpdateResponse>, ReplicationLinksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: ReplicationLinkUpdate, options?: ReplicationLinksUpdateOptionalParams): Promise<ReplicationLinksUpdateResponse>;
     get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: ReplicationLinksGetOptionalParams): Promise<ReplicationLinksGetResponse>;
     listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: ReplicationLinksListByDatabaseOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
     listByServer(resourceGroupName: string, serverName: string, options?: ReplicationLinksListByServerOptionalParams): PagedAsyncIterableIterator<ReplicationLink>;
 }
+
+// @public
+export interface ReplicationLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationLinksCreateOrUpdateResponse = ReplicationLink;
 
 // @public
 export interface ReplicationLinksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -7960,7 +8268,21 @@ export interface ReplicationLinksListByServerOptionalParams extends coreClient.O
 export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
 
 // @public
+export interface ReplicationLinksUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationLinksUpdateResponse = ReplicationLink;
+
+// @public
 export type ReplicationLinkType = string;
+
+// @public
+export interface ReplicationLinkUpdate extends ProxyResource {
+    linkType?: ReplicationLinkType;
+}
 
 // @public
 export type ReplicationMode = string;
@@ -8369,9 +8691,10 @@ export interface Server extends TrackedResource {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
-    minimalTlsVersion?: string;
+    minimalTlsVersion?: MinimalTlsVersion;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9375,8 +9698,9 @@ export interface ServerUpdate {
     federatedClientId?: string;
     readonly fullyQualifiedDomainName?: string;
     identity?: ResourceIdentity;
+    isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
-    minimalTlsVersion?: string;
+    minimalTlsVersion?: MinimalTlsVersion;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9695,6 +10019,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     jobCredentials: JobCredentials;
     // (undocumented)
     jobExecutions: JobExecutions;
+    // (undocumented)
+    jobPrivateEndpoints: JobPrivateEndpoints;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -10046,6 +10372,7 @@ export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
     readonly errors?: SqlVulnerabilityAssessmentScanError[];
     readonly highSeverityFailedRulesCount?: number;
     readonly isBaselineApplied?: boolean;
+    readonly lastScanTime?: Date;
     readonly lowSeverityFailedRulesCount?: number;
     readonly mediumSeverityFailedRulesCount?: number;
     readonly scanId?: string;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CertificateContentType } from "./certificatesModels";
+import type { CertificateContentType } from "./certificatesModels.js";
 import { isNode } from "@azure/core-util";
 
 /**
@@ -62,7 +62,7 @@ export function base64ToUint8Array(value: string): Uint8Array {
  */
 export function parseCertificateBytes(
   certificateBytes: Uint8Array,
-  contentType: CertificateContentType
+  contentType: CertificateContentType,
 ): string {
   if (contentType === "application/x-pem-file") {
     // PEM files have the certificate bytes already Base64 formatted.

@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   FileServiceProperties,
-  StorageManagementClient
+  StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut.json
  */
-async function putFileServices() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+async function putFileServices(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
     cors: {
@@ -31,83 +31,81 @@ async function putFileServices() {
           allowedHeaders: [
             "x-ms-meta-abc",
             "x-ms-meta-data*",
-            "x-ms-meta-target*"
+            "x-ms-meta-target*",
           ],
           allowedMethods: ["GET", "HEAD", "POST", "OPTIONS", "MERGE", "PUT"],
           allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"],
           exposedHeaders: ["x-ms-meta-*"],
-          maxAgeInSeconds: 100
+          maxAgeInSeconds: 100,
         },
         {
           allowedHeaders: ["*"],
           allowedMethods: ["GET"],
           allowedOrigins: ["*"],
           exposedHeaders: ["*"],
-          maxAgeInSeconds: 2
+          maxAgeInSeconds: 2,
         },
         {
           allowedHeaders: ["x-ms-meta-12345675754564*"],
           allowedMethods: ["GET", "PUT"],
           allowedOrigins: [
             "http://www.abc23.com",
-            "https://www.fabrikam.com/*"
+            "https://www.fabrikam.com/*",
           ],
           exposedHeaders: [
             "x-ms-meta-abc",
             "x-ms-meta-data*",
-            "x-ms-meta-target*"
+            "x-ms-meta-target*",
           ],
-          maxAgeInSeconds: 2000
-        }
-      ]
-    }
+          maxAgeInSeconds: 2000,
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.fileServices.setServiceProperties(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-putFileServices().catch(console.error);
 
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut_EnableSMBMultichannel.json
  */
-async function putFileServicesEnableSmbMultichannel() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+async function putFileServicesEnableSmbMultichannel(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
-    protocolSettings: { smb: { multichannel: { enabled: true } } }
+    protocolSettings: { smb: { multichannel: { enabled: true } } },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.fileServices.setServiceProperties(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-putFileServicesEnableSmbMultichannel().catch(console.error);
 
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
  */
-async function putFileServicesEnableSecureSmbFeatures() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+async function putFileServicesEnableSecureSmbFeatures(): Promise<void> {
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
     protocolSettings: {
@@ -115,18 +113,24 @@ async function putFileServicesEnableSecureSmbFeatures() {
         authenticationMethods: "NTLMv2;Kerberos",
         channelEncryption: "AES-128-CCM;AES-128-GCM;AES-256-GCM",
         kerberosTicketEncryption: "RC4-HMAC;AES-256",
-        versions: "SMB2.1;SMB3.0;SMB3.1.1"
-      }
-    }
+        versions: "SMB2.1;SMB3.0;SMB3.1.1",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.fileServices.setServiceProperties(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-putFileServicesEnableSecureSmbFeatures().catch(console.error);
+async function main(): Promise<void> {
+  await putFileServices();
+  await putFileServicesEnableSmbMultichannel();
+  await putFileServicesEnableSecureSmbFeatures();
+}
+
+main().catch(console.error);

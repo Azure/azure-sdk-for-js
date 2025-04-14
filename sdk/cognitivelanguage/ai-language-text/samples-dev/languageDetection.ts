@@ -11,15 +11,14 @@
  * @azsdk-weight 100
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "This document is written in English.",
@@ -29,10 +28,10 @@ const documents = [
   "Detta är ett dokument skrivet på engelska.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Detect Language Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const result = await client.analyze("LanguageDetection", documents, "us", {
     modelVersion: "2022-04-10-preview",
@@ -41,7 +40,7 @@ export async function main() {
   for (const doc of result) {
     if (!doc.error) {
       console.log(
-        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`
+        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
       );
     }
   }

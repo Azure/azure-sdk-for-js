@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** A received share data transfer object. */
 export interface ReceivedShareParent extends ProxyResource {
@@ -17,6 +17,26 @@ export interface SentShareParent extends ProxyResource {
 /** A sent share invitation data transfer object. */
 export interface SentShareInvitationParent extends ProxyResource {
   invitationKind: "SentShareInvitation" | "Service" | "User";
+}
+
+/** A share resource. */
+export interface ShareResource extends ProxyResource {
+  /** A count of Received Shares associated with the Microsoft.Azure.Purview.Share.ApiService.V3.DataTransferObjects.ShareResource. */
+  receivedSharesCount?: number;
+  /** A count of Sent Shares associated with the Microsoft.Azure.Purview.Share.ApiService.V3.DataTransferObjects.ShareResource. */
+  sentSharesCount?: number;
+  /** The types of asset. */
+  storeKind?: "AdlsGen2Account" | "BlobAccount";
+  /** A Store Reference for an artifact or sink. */
+  storeReference?: StoreReference;
+}
+
+/** A Store Reference for an artifact or sink. */
+export interface StoreReference {
+  /** Reference name for resource associated with the sink or artifact. */
+  referenceName?: string;
+  /** Defines the type of resource being shared */
+  type?: "ArmResourceReference";
 }
 
 /** A tenant email registration data transfer object. */
@@ -53,14 +73,6 @@ export interface SinkParent {
   /** A Store Reference for an artifact or sink. */
   storeReference: StoreReference;
   storeKind: "Sink" | "AdlsGen2Account" | "BlobAccount";
-}
-
-/** A Store Reference for an artifact or sink. */
-export interface StoreReference {
-  /** Reference name for resource associated with the sink or artifact. */
-  referenceName?: string;
-  /** Defines the type of resource being shared */
-  type?: "ArmResourceReference";
 }
 
 /** An Adls Gen2 storage account artifact. */

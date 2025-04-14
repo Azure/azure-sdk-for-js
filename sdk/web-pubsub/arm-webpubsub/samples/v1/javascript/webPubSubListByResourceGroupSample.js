@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Handles requests to list all resources in a resource group.
  *
  * @summary Handles requests to list all resources in a resource group.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_ListByResourceGroup.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_ListByResourceGroup.json
  */
 async function webPubSubListByResourceGroup() {
   const subscriptionId =

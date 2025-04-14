@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./images";
-export * from "./labPlans";
-export * from "./operations";
-export * from "./labs";
-export * from "./operationResults";
-export * from "./schedules";
-export * from "./skus";
-export * from "./usages";
-export * from "./users";
-export * from "./virtualMachines";
+export * from "./images.js";
+export * from "./labPlans.js";
+export * from "./operations.js";
+export * from "./labs.js";
+export * from "./operationResults.js";
+export * from "./schedules.js";
+export * from "./skus.js";
+export * from "./usages.js";
+export * from "./users.js";
+export * from "./virtualMachines.js";

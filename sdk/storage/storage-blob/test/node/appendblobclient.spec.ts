@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-
+// Licensed under the MIT License.
+import type {
+  StorageSharedKeyCredential,
+  ContainerClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,
-  StorageSharedKeyCredential,
-  ContainerClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient,
-} from "../../src";
+} from "../../src/index.js";
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -21,12 +20,15 @@ import {
   getStorageAccessTokenWithDefaultCredential,
   getUniqueName,
   configureBlobStorageClient,
-} from "../utils";
-import { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { Recorder } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { Context } from "mocha";
+  SimpleTokenCredential,
+} from "../utils/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
+import { getBlobServiceAccountAudience } from "../../src/models.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;
@@ -37,8 +39,10 @@ describe("AppendBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -50,7 +54,7 @@ describe("AppendBlobClient Node.js only", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -60,12 +64,12 @@ describe("AppendBlobClient Node.js only", () => {
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async function () {
+  it("can be created with a url and a credential", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
     configureBlobStorageClient(recorder, newClient);
@@ -74,7 +78,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a credential and an option bag", async function () {
+  it("can be created with a url and a credential and an option bag", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
@@ -85,7 +89,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a TokenCredential", async function () {
+  it("can be created with a url and a TokenCredential", async () => {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -97,7 +101,64 @@ describe("AppendBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function () {
+  it("Default audience should work", async () => {
+    await appendBlobClient.create();
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, appendBlobClientWithOAuthToken);
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await appendBlobClient.create();
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      createTestCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      },
+    );
+    configureBlobStorageClient(recorder, appendBlobClientWithOAuthToken);
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await appendBlobClient.create();
+
+    // To validate that bad audience should fail.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const appendBlobClientWithPlainOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+    configureBlobStorageClient(recorder, appendBlobClientWithPlainOAuthToken);
+
+    try {
+      await appendBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+    const appendBlobClientWithOAuthToken = new AppendBlobClient(
+      appendBlobClient.url,
+      createTestCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      },
+    );
+    configureBlobStorageClient(recorder, appendBlobClientWithOAuthToken);
+    const exist = await appendBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("can be created with a url and a pipeline", async () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
@@ -107,11 +168,11 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string", async function () {
+  it("can be created with a connection string", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -119,7 +180,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string and an option bag", async function () {
+  it("can be created with a connection string and an option bag", async () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -128,7 +189,7 @@ describe("AppendBlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -136,7 +197,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("appendBlockFromURL", async function () {
+  it("appendBlockFromURL", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -158,7 +219,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     await appendBlobClient.appendBlock(content, content.length);
@@ -169,7 +230,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
+  it("appendBlockFromURL - source SAS and destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -190,7 +251,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
@@ -201,7 +262,7 @@ describe("AppendBlobClient Node.js only", () => {
     await tokenAppendBlobClient.appendBlockFromURL(
       `${blockBlobClient.url}?${sas}`,
       0,
-      content.length
+      content.length,
     );
 
     const downloadResponse = await appendBlobClient.download(0);
@@ -209,7 +270,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - source bear token and destination account key", async function (this: Context) {
+  it("appendBlockFromURL - source bear token and destination account key", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -233,7 +294,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlockFromURL - destination bearer token", async function (this: Context) {
+  it("appendBlockFromURL - destination bearer token", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -252,9 +313,37 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
+  // [Copy source error code] Feature is pending on service side, skip the case for now.
+  it.skip("appendBlockFromURL - should fail with source error message", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const newBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
+    );
+    await newBlobClient.create();
+
+    const sourceUrl = await appendBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("d"),
+      expiresOn: tmr,
+    });
+
+    try {
+      await newBlobClient.appendBlockFromURL(sourceUrl, 0, 512);
+    } catch (err) {
+      assert.deepEqual((err as any).details.errorCode, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceStatusCode, 403);
+      assert.deepEqual((err as any).details.copySourceErrorCode, "AuthorizationPermissionMismatch");
+      assert.deepEqual(
+        (err as any).details.copySourceErrorMessage,
+        "This request is not authorized to perform this operation using this permission.",
+      );
+    }
+  });
+
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const tags2 = {
       tag: "val",
@@ -276,7 +365,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     let exceptionCaught = false;
@@ -317,7 +406,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const aResp = await appendBlobClient.appendBlock(content, content.length, {
@@ -329,7 +418,7 @@ describe("AppendBlobClient Node.js only", () => {
       `${blobClient.url}?${sas}`,
       0,
       content.length,
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -339,4 +428,27 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
+
+  it(
+    "appendBlock - append large block",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async (ctx) => {
+      if (!isLiveMode()) {
+        // Recorder file larger than github limitation
+        ctx.skip();
+      }
+      await appendBlobClient.create();
+
+      const largeBlockSize = 100 * 1024 * 1024;
+      const content = new Uint8Array(largeBlockSize);
+      for (let i = 0; i < largeBlockSize; i = i + 1000) {
+        content[i] = i;
+      }
+      await appendBlobClient.appendBlock(content, content.length);
+
+      const downloadResponse = await appendBlobClient.downloadToBuffer(0);
+      assert.deepStrictEqual(downloadResponse, content);
+      assert.equal(downloadResponse.length, content.length);
+    },
+  );
 });

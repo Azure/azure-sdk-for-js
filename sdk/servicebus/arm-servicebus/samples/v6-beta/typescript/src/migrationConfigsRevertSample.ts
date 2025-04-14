@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation reverts Migration
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary This operation reverts Migration
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationRevert.json
  */
-async function migrationConfigurationsRevert() {
+async function migrationConfigurationsRevert(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function migrationConfigurationsRevert() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   migrationConfigurationsRevert();
 }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a machine pool
  *
  * @summary Partially updates a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Patch.json
  */
 async function poolsUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function poolsUpdate() {
     resourceGroupName,
     projectName,
     poolName,
-    body
+    body,
   );
   console.log(result);
 }

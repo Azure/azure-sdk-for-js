@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
-import { getRandomIntegerInclusive } from "@azure/core-util";
-import { RetryStrategy } from "./retryStrategy";
-import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
+import type { PipelineResponse } from "../interfaces.js";
+import type { RestError } from "../restError.js";
+import { calculateRetryDelay } from "@azure/core-util";
+import type { RetryStrategy } from "./retryStrategy.js";
+import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
 
 // intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
@@ -40,12 +40,10 @@ export function exponentialRetryStrategy(
      * If true it won't retry if it received a non-fatal HTTP status code.
      */
     ignoreHttpStatusCodes?: boolean;
-  } = {}
+  } = {},
 ): RetryStrategy {
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-
-  let retryAfterInMs = retryInterval;
 
   return {
     name: "exponentialRetryStrategy",
@@ -65,15 +63,10 @@ export function exponentialRetryStrategy(
         return { errorToThrow: responseError };
       }
 
-      // Exponentially increase the delay each time
-      const exponentialDelay = retryAfterInMs * Math.pow(2, retryCount);
-      // Don't let the delay exceed the maximum
-      const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-      // Allow the final value to have some "jitter" (within 50% of the delay size) so
-      // that retries across multiple clients don't occur simultaneously.
-      retryAfterInMs =
-        clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
-      return { retryAfterInMs };
+      return calculateRetryDelay(retryCount, {
+        retryDelayInMs: retryInterval,
+        maxRetryDelayInMs: maxRetryInterval,
+      });
     },
   };
 }
@@ -89,7 +82,7 @@ export function isExponentialRetryResponse(response?: PipelineResponse): boolean
       response.status !== undefined &&
       (response.status >= 500 || response.status === 408) &&
       response.status !== 501 &&
-      response.status !== 505
+      response.status !== 505,
   );
 }
 
@@ -105,6 +98,7 @@ export function isSystemError(err?: RestError): boolean {
     err.code === "ESOCKETTIMEDOUT" ||
     err.code === "ECONNREFUSED" ||
     err.code === "ECONNRESET" ||
-    err.code === "ENOENT"
+    err.code === "ENOENT" ||
+    err.code === "ENOTFOUND"
   );
 }

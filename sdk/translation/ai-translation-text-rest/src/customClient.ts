@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import { TextTranslationClient } from "./generated/clientDefinitions";
-import {
+import type { TextTranslationClient } from "./clientDefinitions.js";
+import type {
   TranslatorCredential,
+  TranslatorTokenCredential,
+} from "./authenticationCustomized.js";
+import {
+  DEFAULT_SCOPE,
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
-} from "./authentication";
-import { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+  TranslatorTokenCredentialAuthenticationPolicy,
+} from "./authenticationCustomized.js";
+import type { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
-const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
@@ -25,35 +30,105 @@ function isTranslatorKeyCredential(credential: any): credential is TranslatorCre
   return (credential as TranslatorCredential)?.key !== undefined;
 }
 
-/** Policy that sets the api-version (or equivalent) to reflect the library version. */
-const apiVersionPolicy = {
-  name: "MTApiVersionPolicy",
-  async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-    const param = request.url.split("?");
-    if (param.length > 1) {
-      const newParams = param[1].split("&");
-      newParams.push("api-version=3.0");
-      request.url = param[0] + "?" + newParams.join("&");
-    } else {
-      // no query parameters in request url
-      request.url = param[0] + "?api-version=3.0";
-    }
-    return next(request);
-  },
-};
+function isTokenCredential(credential: any): credential is TokenCredential {
+  return (credential as TokenCredential)?.getToken !== undefined;
+}
+
+function isTranslatorTokenCredential(credential: any): credential is TranslatorTokenCredential {
+  return (
+    (credential as TranslatorTokenCredential)?.tokenCredential !== undefined &&
+    (credential as TranslatorTokenCredential)?.azureResourceId !== undefined
+  );
+}
+
+function isCredentials(credential: any): boolean {
+  return (
+    isKeyCredential(credential) ||
+    isTranslatorKeyCredential(credential) ||
+    isTokenCredential(credential) ||
+    isTranslatorTokenCredential(credential)
+  );
+}
 
 /**
  * Initialize a new instance of `TextTranslationClient`
- * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
- *     https://api.cognitive.microsofttranslator.com).
- * @param options type: ClientOptions, the parameter for all optional parameters
+ * @param credential - type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
+ *      used to authenticate the service with.
+ * @param options - type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: undefined | string,
-  credential: undefined | TranslatorCredential | KeyCredential | TokenCredential = undefined,
-  options: ClientOptions = {}
+  credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential,
+  options?: ClientOptions,
+): TextTranslationClient;
+
+/**
+ * Initialize a new instance of `TextTranslationClient`
+ * @param endpoint - type: string, Supported Text Translation endpoints (protocol and hostname, for example:
+ *     https://api.cognitive.microsofttranslator.com).
+ * @param options - type: ClientOptions, the parameter for all optional parameters
+ */
+export default function createClient(
+  endpoint: string,
+  options?: ClientOptions,
+): TextTranslationClient;
+
+/**
+ * Initialize a new instance of `TextTranslationClient`
+ * @param endpoint - type: string, Supported Text Translation endpoints (protocol and hostname, for example:
+ *     https://api.cognitive.microsofttranslator.com).
+ * @param credential - type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
+ *      used to authenticate the service with.
+ * @param options - type: ClientOptions, the parameter for all optional parameters
+ */
+export default function createClient(
+  endpoint: string,
+  credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential,
+  options?: ClientOptions,
+): TextTranslationClient;
+
+// Implementation
+export default function createClient(
+  arg1?:
+    | string
+    | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential),
+  arg2?:
+    | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential)
+    | ClientOptions,
+  arg3?: ClientOptions,
 ): TextTranslationClient {
   let serviceEndpoint: string;
+
+  let endpoint: string | undefined;
+  let options: ClientOptions | undefined;
+  let credential:
+    | TranslatorCredential
+    | TranslatorTokenCredential
+    | KeyCredential
+    | TokenCredential
+    | undefined;
+
+  if (typeof arg1 === "string") {
+    endpoint = arg1;
+  }
+
+  if (typeof arg1 !== "string" && isCredentials(arg1)) {
+    credential = arg1;
+    options = arg2 as ClientOptions;
+  } else if (isCredentials(arg2)) {
+    credential = arg2 as
+      | TranslatorCredential
+      | TranslatorTokenCredential
+      | KeyCredential
+      | TokenCredential;
+    options = arg3;
+  }
+
+  if (!options) {
+    options = {};
+  }
+
+  options.apiVersion = options.apiVersion ?? "3.0";
+
   if (!endpoint) {
     serviceEndpoint = DEFAULT_ENPOINT;
   } else if (endpoint.toLowerCase().indexOf(PLATFORM_HOST) !== -1) {
@@ -64,7 +139,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -74,27 +149,39 @@ export default function createClient(
     userAgentOptions: {
       userAgentPrefix,
     },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
   };
 
   const client = getClient(baseUrl, options) as TextTranslationClient;
-  client.pipeline.addPolicy(apiVersionPolicy);
 
   if (isTranslatorKeyCredential(credential)) {
     const mtAuthneticationPolicy = new TranslatorAuthenticationPolicy(
-      credential as TranslatorCredential
+      credential as TranslatorCredential,
     );
     client.pipeline.addPolicy(mtAuthneticationPolicy);
   } else if (isKeyCredential(credential)) {
     const mtKeyAuthenticationPolicy = new TranslatorAzureKeyAuthenticationPolicy(
-      credential as AzureKeyCredential
+      credential as AzureKeyCredential,
     );
     client.pipeline.addPolicy(mtKeyAuthenticationPolicy);
-  } else if (credential) {
+  } else if (isTokenCredential(credential)) {
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
-        scopes: DEFAULT_SCOPE,
-      })
+        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
+      }),
+    );
+  } else if (isTranslatorTokenCredential(credential)) {
+    client.pipeline.addPolicy(
+      coreRestPipeline.bearerTokenAuthenticationPolicy({
+        credential: (credential as TranslatorTokenCredential).tokenCredential,
+        scopes: options?.credentials?.scopes ?? DEFAULT_SCOPE,
+      }),
+    );
+    client.pipeline.addPolicy(
+      new TranslatorTokenCredentialAuthenticationPolicy(credential as TranslatorTokenCredential),
     );
   }
 

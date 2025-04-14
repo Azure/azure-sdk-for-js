@@ -1,9 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import { CpkInfo, FileSystemEncryptionScope } from "../models";
+// Licensed under the MIT License.
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
+import type {
+  CpkInfo,
+  FileSystemEncryptionScope,
+  PathAccessControlItem,
+  PathPermissions,
+} from "../models.js";
 
 import {
   DevelopmentConnectionString,
@@ -11,7 +17,10 @@ import {
   HeaderConstants,
   PathStylePorts,
   UrlConstants,
-} from "./constants";
+} from "./constants.js";
+import type { HttpResponse } from "@azure/storage-blob";
+import type { HttpHeadersLike } from "@azure/core-http-compat";
+import { toAcl, toPermissions } from "../transforms.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -60,8 +69,8 @@ import {
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -88,7 +97,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
@@ -110,7 +119,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
@@ -165,7 +174,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -193,7 +202,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(blobEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(blobEndpoint);
+    }
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -209,6 +222,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"
@@ -445,7 +459,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -454,7 +468,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -544,12 +558,12 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -590,7 +604,7 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
 }
 
 export function ToBlobContainerEncryptionScope(
-  fileSystemEncryptionScope?: FileSystemEncryptionScope
+  fileSystemEncryptionScope?: FileSystemEncryptionScope,
 ): ContainerEncryptionScope | undefined {
   if (!fileSystemEncryptionScope) return undefined;
 
@@ -620,11 +634,64 @@ export function EscapePath(pathName: string): string {
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
+  acl: PathAccessControlItem[];
+  _response: HttpResponse & {
+    parsedHeaders: {
+      encryptionContext?: string;
+      owner?: string;
+      group?: string;
+      permissions?: PathPermissions;
+      acl: PathAccessControlItem[];
+    };
+  };
+}
+
+function ParseHeaderValue(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
+  headerName: string,
+): string | undefined {
+  if (rawResponse._response) {
+    const headers = rawResponse._response.headers as HttpHeadersLike;
+    if (headers) {
+      return headers.get(headerName);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Parse extra properties values from headers in raw response.
+ */
+export function ParsePathGetPropertiesExtraHeaderValues(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
+): PathGetPropertiesRawResponseWithExtraPropertiesLike {
+  const response = rawResponse;
+  response.encryptionContext = ParseHeaderValue(rawResponse, "x-ms-encryption-context");
+  response.owner = ParseHeaderValue(rawResponse, "x-ms-owner");
+  response.group = ParseHeaderValue(rawResponse, "x-ms-group");
+  response.permissions = toPermissions(ParseHeaderValue(rawResponse, "x-ms-permissions"));
+  response.acl = toAcl(ParseHeaderValue(rawResponse, "x-ms-acl"));
+  if (response._response?.parsedHeaders) {
+    response._response.parsedHeaders.encryptionContext = response.encryptionContext;
+    response._response.parsedHeaders.owner = response.owner;
+    response._response.parsedHeaders.group = response.group;
+    response._response.parsedHeaders.permissions = response.permissions;
+    response._response.parsedHeaders.acl = response.acl;
+  }
+  return response;
 }

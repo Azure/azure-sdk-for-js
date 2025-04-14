@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This module contains some types and helper values related to information
@@ -34,7 +34,7 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
     outDir: "dist",
     rootDir: "src",
   },
-  include: ["src/**.ts"],
+  include: ["src/**/*.ts"],
 };
 
 /**
@@ -51,6 +51,10 @@ export const enum OutputKind {
  * Information required for generating sample projects.
  */
 export interface SampleGenerationInfo extends SampleConfiguration {
+  /**
+   * The scope part of the package name. For example, the base part of "@azure/template" is "@azure".
+   */
+  scope?: string;
   /**
    * The base part of the package name. For example, the base part of "@azure/template" is "template".
    */
@@ -154,7 +158,7 @@ export interface ModuleInfo {
  */
 export interface SampleReadmeConfiguration extends SampleGenerationInfo {
   /**
-   * YAML frontmatter used for publication on docs.microsoft.com.
+   * YAML frontmatter used for publication on learn.microsoft.com.
    */
   frontmatter: unknown;
   /**

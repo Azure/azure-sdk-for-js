@@ -11,8 +11,8 @@ import {
   CloudServiceRole,
   CloudServiceRolesListOptionalParams,
   CloudServiceRolesGetOptionalParams,
-  CloudServiceRolesGetResponse
-} from "../models";
+  CloudServiceRolesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CloudServiceRoles. */
@@ -27,7 +27,7 @@ export interface CloudServiceRoles {
   list(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesListOptionalParams
+    options?: CloudServiceRolesListOptionalParams,
   ): PagedAsyncIterableIterator<CloudServiceRole>;
   /**
    * Gets a role from a cloud service.
@@ -40,6 +40,6 @@ export interface CloudServiceRoles {
     roleName: string,
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesGetOptionalParams
+    options?: CloudServiceRolesGetOptionalParams,
   ): Promise<CloudServiceRolesGetResponse>;
 }

@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
-import { AuthenticationRecord } from "../msal/types";
-import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
-import { MsalFlow } from "../msal/flows";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+  resolveAdditionallyAllowedTenantIds,
+  resolveTenantId,
+} from "../util/tenantIdUtils.js";
+import type {
+  DeviceCodeCredentialOptions,
+  DeviceCodeInfo,
+  DeviceCodePromptCallback,
+} from "./deviceCodeCredentialOptions.js";
+import type { AuthenticationRecord } from "../msal/types.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import { DeveloperSignOnClientId } from "../constants.js";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -25,30 +31,33 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
 }
 
 /**
- * Enables authentication to Azure Active Directory using a device code
+ * Enables authentication to Microsoft Entra ID using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
+  private msalClient: MsalClient;
+  private userPromptCallback: DeviceCodePromptCallback;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
-   * to initiate the device code authorization flow with Azure Active Directory.
+   * to initiate the device code authorization flow with Microsoft Entra ID.
    *
    * A message will be logged, giving users a code that they can use to authenticate once they go to https://microsoft.com/devicelogin
    *
    * Developers can configure how this message is shown by passing a custom `userPromptCallback`:
    *
-   * ```js
+   * ```ts snippet:device_code_credential_example
+   * import { DeviceCodeCredential } from "@azure/identity";
+   *
    * const credential = new DeviceCodeCredential({
-   *   tenantId: env.AZURE_TENANT_ID,
-   *   clientId: env.AZURE_CLIENT_ID,
+   *   tenantId: process.env.AZURE_TENANT_ID,
+   *   clientId: process.env.AZURE_CLIENT_ID,
    *   userPromptCallback: (info) => {
    *     console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
-   *   }
+   *   },
    * });
    * ```
    *
@@ -56,20 +65,22 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(options?: DeviceCodeCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
-    this.msalFlow = new MsalDeviceCode({
+    const clientId = options?.clientId ?? DeveloperSignOnClientId;
+    const tenantId = resolveTenantId(logger, options?.tenantId, clientId);
+    this.userPromptCallback = options?.userPromptCallback ?? defaultDeviceCodePromptCallback;
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
-      userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
       tokenCredentialOptions: options || {},
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
@@ -89,23 +100,23 @@ export class DeviceCodeCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
+        return this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   * If the token can't be retrieved silently, this method will always generate a challenge for the user.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -113,16 +124,19 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
       options,
       async (newOptions) => {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
-      }
+        await this.msalClient.getTokenByDeviceCode(arrayScopes, this.userPromptCallback, {
+          ...newOptions,
+          disableAutomaticAuthentication: false, // this method should always allow user interaction
+        });
+        return this.msalClient.getActiveAccount();
+      },
     );
   }
 }

@@ -14,26 +14,26 @@ import {
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
-  FirewallRulesDeleteOptionalParams
-} from "../models";
+  FirewallRulesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FirewallRules. */
 export interface FirewallRules {
   /**
    * Gets all firewall rules in the specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     cacheName: string,
-    options?: FirewallRulesListOptionalParams
+    options?: FirewallRulesListOptionalParams,
   ): PagedAsyncIterableIterator<RedisFirewallRule>;
   /**
    * Create or update a redis cache firewall rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param parameters Parameters supplied to the create or update redis firewall rule operation.
@@ -44,11 +44,11 @@ export interface FirewallRules {
     cacheName: string,
     ruleName: string,
     parameters: RedisFirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Gets a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -57,11 +57,11 @@ export interface FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
   /**
    * Deletes a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -70,6 +70,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
 }

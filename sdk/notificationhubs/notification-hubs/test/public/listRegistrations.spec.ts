@@ -1,17 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  AppleRegistrationDescription,
-  createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models";
-import {
-  NotificationHubsClientContext,
-  createRegistration,
-  deleteRegistration,
-  listRegistrations,
-} from "@azure/notification-hubs/api";
-import { assert, isNode } from "@azure/test-utils";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { AppleRegistrationDescription } from "../../src/models/index.js";
+import { createAppleRegistrationDescription } from "../../src/models/index.js";
+import type { NotificationHubsClientContext } from "../../src/api/index.js";
+import { createRegistration, deleteRegistration, listRegistrations } from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
 
@@ -21,12 +15,8 @@ describe("listRegistrations()", () => {
   const registrationIds: string[] = [];
   const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async function () {
-    if (!isNode) {
-      return;
-    }
-
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
@@ -38,17 +28,13 @@ describe("listRegistrations()", () => {
 
       registration = (await createRegistration(
         context,
-        registration
+        registration,
       )) as AppleRegistrationDescription;
       registrationIds.push(registration.registrationId!);
     }
   });
 
   afterEach(async () => {
-    if (!isNode) {
-      return;
-    }
-
     for (const registrationId of registrationIds) {
       await deleteRegistration(context, registrationId);
     }
@@ -56,11 +42,7 @@ describe("listRegistrations()", () => {
     await recorder.stop();
   });
 
-  it("should list all registrations", async function () {
-    if (!isNode) {
-      this.skip();
-    }
-
+  it("should list all registrations", async () => {
     const registrations = listRegistrations(context);
 
     let numberOfItems = 0;
@@ -72,7 +54,7 @@ describe("listRegistrations()", () => {
 
     assert.isTrue(numberOfItems > 0);
     assert.isTrue(
-      registrationIds.some((registrationId) => foundRegistrations.includes(registrationId))
+      registrationIds.some((registrationId) => foundRegistrations.includes(registrationId)),
     );
   });
 });

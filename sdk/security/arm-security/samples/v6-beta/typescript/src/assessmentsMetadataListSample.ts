@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get metadata information on all assessment types
@@ -20,12 +18,9 @@ dotenv.config();
  * @summary Get metadata information on all assessment types
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/ListAssessmentsMetadata_example.json
  */
-async function listSecurityAssessmentMetadata() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listSecurityAssessmentMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.assessmentsMetadata.list()) {
     resArray.push(item);
@@ -33,7 +28,7 @@ async function listSecurityAssessmentMetadata() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecurityAssessmentMetadata();
 }
 

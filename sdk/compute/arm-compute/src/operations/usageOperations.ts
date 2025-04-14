@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { UsageOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UsageOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   Usage,
   UsageListNextOptionalParams,
   UsageListOptionalParams,
   UsageListResponse,
-  UsageListNextResponse
-} from "../models";
+  UsageListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UsageOperations operations. */
@@ -42,7 +42,7 @@ export class UsageOperationsImpl implements UsageOperations {
    */
   public list(
     location: string,
-    options?: UsageListOptionalParams
+    options?: UsageListOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -57,14 +57,14 @@ export class UsageOperationsImpl implements UsageOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: UsageListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsageListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class UsageOperationsImpl implements UsageOperations {
 
   private async *listPagingAll(
     location: string,
-    options?: UsageListOptionalParams
+    options?: UsageListOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class UsageOperationsImpl implements UsageOperations {
    */
   private _list(
     location: string,
-    options?: UsageListOptionalParams
+    options?: UsageListOptionalParams,
   ): Promise<UsageListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class UsageOperationsImpl implements UsageOperations {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsageListNextOptionalParams
+    options?: UsageListNextOptionalParams,
   ): Promise<UsageListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -130,43 +130,42 @@ export class UsageOperationsImpl implements UsageOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.location,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

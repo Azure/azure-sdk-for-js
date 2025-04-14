@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
-import { appendToURLPath } from "../src/utils/utils.common";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type { DataLakeFileSystemClient } from "../src/index.js";
+import { DataLakeFileClient } from "../src/index.js";
+import { appendToURLPath } from "../src/utils/utils.common.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {
   let fileSystemName: string;
@@ -15,20 +19,20 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable(
       "1container-with-dash",
-      getUniqueName("1container-with-dash")
+      getUniqueName("1container-with-dash"),
     );
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -48,7 +52,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = recorder.variable("blob empty", getUniqueName("blob empty"));
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -61,7 +65,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special container and blob names uppercase", async () => {
     const fileName: string = recorder.variable(
       "Upper blob empty another",
-      getUniqueName("Upper blob empty another")
+      getUniqueName("Upper blob empty another"),
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
 
@@ -76,11 +80,11 @@ describe("Special Naming Tests", () => {
   it("Should work with special container and blob names uppercase in URL string", async () => {
     const fileName: string = recorder.variable(
       "Upper blob empty another",
-      getUniqueName("Upper blob empty another")
+      getUniqueName("Upper blob empty another"),
     );
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -94,7 +98,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob names Chinese characters", async () => {
     const fileName: string = recorder.variable(
       "Upper blob empty another 汉字",
-      getUniqueName("Upper blob empty another 汉字")
+      getUniqueName("Upper blob empty another 汉字"),
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
 
@@ -109,11 +113,11 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob names Chinese characters in URL string", async () => {
     const fileName: string = recorder.variable(
       "Upper blob empty another 汉字",
-      getUniqueName("Upper blob empty another 汉字")
+      getUniqueName("Upper blob empty another 汉字"),
     );
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -145,7 +149,7 @@ describe("Special Naming Tests", () => {
       // Escape "%" when creating XxxClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
       appendToURLPath(fileSystemClient.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -193,7 +197,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = recorder.variable("ру́сский язы́к", getUniqueName("ру́сский язы́к"));
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -233,7 +237,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = recorder.variable("عربيعربى", getUniqueName("عربيعربى"));
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();
@@ -247,7 +251,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Japanese URI encoded", async () => {
     const fileName: string = recorder.variable(
       "にっぽんごにほんご",
-      getUniqueName("にっぽんごにほんご")
+      getUniqueName("にっぽんごにほんご"),
     );
     const fileNameEncoded: string = encodeURIComponent(fileName);
     const fileClient = fileSystemClient.getFileClient(fileNameEncoded);
@@ -263,7 +267,7 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Japanese", async () => {
     const fileName: string = recorder.variable(
       "にっぽんごにほんご",
-      getUniqueName("にっぽんごにほんご")
+      getUniqueName("にっぽんごにほんご"),
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
 
@@ -278,11 +282,11 @@ describe("Special Naming Tests", () => {
   it("Should work with special blob name Japanese in URL string", async () => {
     const fileName: string = recorder.variable(
       "にっぽんごにほんご",
-      getUniqueName("にっぽんごにほんご")
+      getUniqueName("にっぽんごにほんご"),
     );
     const fileClient = new DataLakeFileClient(
       appendToURLPath(fileSystemClient.url, fileName),
-      (fileSystemClient as any).pipeline
+      (fileSystemClient as any).pipeline,
     );
 
     await fileClient.create();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   Metadata,
   BlobItem,
   ContainerListBlobFlatSegmentResponse,
@@ -12,7 +12,7 @@ import {
   BlobSetMetadataOptions,
   ContainerSetMetadataResponse,
 } from "@azure/storage-blob";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * An interface compatible with an instance of {@link BlobClient}.
@@ -37,7 +37,7 @@ export interface ContainerClientLike {
    * under the specified account.
    */
   listBlobsFlat(
-    options?: ContainerListBlobsOptions
+    options?: ContainerListBlobsOptions,
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
 }
 
@@ -51,13 +51,13 @@ export interface BlockBlobClientLike {
   upload(
     body: HttpRequestBody,
     contentLength: number,
-    options?: BlockBlobUploadOptions
+    options?: BlockBlobUploadOptions,
   ): Promise<BlockBlobUploadResponse>;
   /**
    * Sets user-defined metadata for the specified blob as one or more name-value pairs.
    */
   setMetadata(
     metadata?: Metadata,
-    options?: BlobSetMetadataOptions
+    options?: BlobSetMetadataOptions,
   ): Promise<ContainerSetMetadataResponse>;
 }

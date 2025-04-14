@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { File } from "../operationsInterfaces";
+import { File } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageClient } from "../storageClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageClient } from "../storageClient.js";
 import {
   FileCreateOptionalParams,
   FileCreateResponse,
@@ -48,8 +48,14 @@ import {
   FileForceCloseHandlesOptionalParams,
   FileForceCloseHandlesResponse,
   FileRenameOptionalParams,
-  FileRenameResponse
-} from "../models";
+  FileRenameResponse,
+  FileCreateSymbolicLinkOptionalParams,
+  FileCreateSymbolicLinkResponse,
+  FileGetSymbolicLinkOptionalParams,
+  FileGetSymbolicLinkResponse,
+  FileCreateHardLinkOptionalParams,
+  FileCreateHardLinkResponse
+} from "../models/index.js";
 
 /** Class containing File operations. */
 export class FileImpl implements File {
@@ -66,17 +72,14 @@ export class FileImpl implements File {
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   create(
     fileContentLength: number,
-    fileAttributes: string,
     options?: FileCreateOptionalParams
   ): Promise<FileCreateResponse> {
     return this.client.sendOperationRequest(
-      { fileContentLength, fileAttributes, options },
+      { fileContentLength, options },
       createOperationSpec
     );
   }
@@ -115,16 +118,13 @@ export class FileImpl implements File {
 
   /**
    * Sets HTTP headers on the file.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   setHttpHeaders(
-    fileAttributes: string,
     options?: FileSetHttpHeadersOptionalParams
   ): Promise<FileSetHttpHeadersResponse> {
     return this.client.sendOperationRequest(
-      { fileAttributes, options },
+      { options },
       setHttpHeadersOperationSpec
     );
   }
@@ -348,6 +348,50 @@ export class FileImpl implements File {
       renameOperationSpec
     );
   }
+
+  /**
+   * Creates a symbolic link.
+   * @param linkText NFS only. Required. The path to the original file, the symbolic link is pointing to.
+   *                 The path is of type string which is not resolved and is stored as is. The path can be absolute path
+   *                 or the relative path depending on the content stored in the symbolic link file.
+   * @param options The options parameters.
+   */
+  createSymbolicLink(
+    linkText: string,
+    options?: FileCreateSymbolicLinkOptionalParams
+  ): Promise<FileCreateSymbolicLinkResponse> {
+    return this.client.sendOperationRequest(
+      { linkText, options },
+      createSymbolicLinkOperationSpec
+    );
+  }
+
+  /** @param options The options parameters. */
+  getSymbolicLink(
+    options?: FileGetSymbolicLinkOptionalParams
+  ): Promise<FileGetSymbolicLinkResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getSymbolicLinkOperationSpec
+    );
+  }
+
+  /**
+   * Creates a hard link.
+   * @param targetFile NFS only. Required. Specifies the path of the target file to which the link will
+   *                   be created, up to 2 KiB in length. It should be full path of the target from the root.The target
+   *                   file must be in the same share and hence the same storage account.
+   * @param options The options parameters.
+   */
+  createHardLink(
+    targetFile: string,
+    options?: FileCreateHardLinkOptionalParams
+  ): Promise<FileCreateHardLinkResponse> {
+    return this.client.sendOperationRequest(
+      { targetFile, options },
+      createHardLinkOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
@@ -368,15 +412,21 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
     Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode,
     Parameters.fileContentLength,
     Parameters.fileTypeConstant,
     Parameters.fileContentType,
@@ -384,7 +434,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.fileContentLanguage,
     Parameters.fileCacheControl,
     Parameters.fileContentMD5,
-    Parameters.fileContentDisposition
+    Parameters.fileContentDisposition,
+    Parameters.nfsFileType
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -416,8 +467,10 @@ const downloadOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.rangeGetContentMD5
   ],
@@ -440,8 +493,10 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -462,8 +517,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -484,14 +541,20 @@ const setHttpHeadersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
     Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -519,9 +582,11 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -542,11 +607,13 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -567,10 +634,12 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
-    Parameters.leaseId1
+    Parameters.leaseId1,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -591,11 +660,13 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.proposedLeaseId,
     Parameters.requestId,
     Parameters.leaseId1,
-    Parameters.action2
+    Parameters.action2,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -616,10 +687,12 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.requestId,
-    Parameters.action4
+    Parameters.action4,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -641,7 +714,9 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
     Parameters.contentType2,
     Parameters.accept3,
     Parameters.range1,
@@ -671,8 +746,11 @@ const uploadRangeFromURLOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
+    Parameters.allowSourceTrailingDot,
     Parameters.range1,
     Parameters.contentLength,
     Parameters.fileLastWrittenMode,
@@ -709,9 +787,12 @@ const getRangeListOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.range
+    Parameters.allowTrailingDot,
+    Parameters.range,
+    Parameters.supportRename
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -732,19 +813,28 @@ const startCopyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.copySource,
     Parameters.filePermissionCopyMode,
     Parameters.ignoreReadOnly1,
-    Parameters.setArchiveAttribute
+    Parameters.setArchiveAttribute,
+    Parameters.fileModeCopyMode,
+    Parameters.fileOwnerCopyMode
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -769,8 +859,10 @@ const abortCopyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
     Parameters.copyActionAbortConstant
   ],
   isXML: true,
@@ -797,7 +889,12 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
     Parameters.comp9
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -822,7 +919,9 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.allowTrailingDot,
     Parameters.handleId
   ],
   isXML: true,
@@ -844,8 +943,11 @@ const renameOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.filePermissionFormat,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -857,7 +959,91 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.fileContentType
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const createSymbolicLinkOperationSpec: coreClient.OperationSpec = {
+  path: "/{shareName}/{directory}/{fileName}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      headersMapper: Mappers.FileCreateSymbolicLinkHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileCreateSymbolicLinkExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype3],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.metadata,
+    Parameters.leaseId,
+    Parameters.requestId,
+    Parameters.fileCreatedOn,
+    Parameters.fileLastWriteOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.linkText
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const getSymbolicLinkOperationSpec: coreClient.OperationSpec = {
+  path: "/{shareName}/{directory}/{fileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      headersMapper: Mappers.FileGetSymbolicLinkHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileGetSymbolicLinkExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
+    Parameters.restype3
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.requestId
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const createHardLinkOperationSpec: coreClient.OperationSpec = {
+  path: "/{shareName}/{directory}/{fileName}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      headersMapper: Mappers.FileCreateHardLinkHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileCreateHardLinkExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype4],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.leaseId,
+    Parameters.requestId,
+    Parameters.fileTypeConstant,
+    Parameters.targetFile
   ],
   isXML: true,
   serializer: xmlSerializer

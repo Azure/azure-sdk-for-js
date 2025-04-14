@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RestorableSqlContainerGetResult,
-  RestorableSqlContainersListOptionalParams
-} from "../models";
+  RestorableSqlContainersListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableSqlContainers. */
@@ -26,6 +26,6 @@ export interface RestorableSqlContainers {
   list(
     location: string,
     instanceId: string,
-    options?: RestorableSqlContainersListOptionalParams
+    options?: RestorableSqlContainersListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableSqlContainerGetResult>;
 }

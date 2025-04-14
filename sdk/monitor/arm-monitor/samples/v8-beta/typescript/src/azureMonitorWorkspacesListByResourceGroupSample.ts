@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all workspaces in the specified resource group
+ * This sample demonstrates how to Lists all Azure Monitor Workspaces in the specified resource group
  *
- * @summary Lists all workspaces in the specified resource group
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesListByResourceGroup.json
+ * @summary Lists all Azure Monitor Workspaces in the specified resource group
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesListByResourceGroup.json
  */
-async function listMonitorWorkspacesByResourceGroup() {
+async function listAzureMonitorWorkspacesByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "703362b3-f278-4e4b-9179-c76eaf41ffc2";
@@ -30,15 +28,15 @@ async function listMonitorWorkspacesByResourceGroup() {
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listMonitorWorkspacesByResourceGroup();
+async function main(): Promise<void> {
+  listAzureMonitorWorkspacesByResourceGroup();
 }
 
 main().catch(console.error);

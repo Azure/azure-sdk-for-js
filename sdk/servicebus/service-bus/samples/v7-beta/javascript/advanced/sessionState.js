@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates usage of SessionState.
@@ -15,7 +15,7 @@
  *
  * Setup: To run this sample, you would need session enabled Queue/Subscription.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
  * to learn about session state.
  *
  * @summary Demonstrates usage of SessionState.
@@ -135,7 +135,7 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`,
     );
     await sessionReceiver.completeMessage(messages[0]);
   } else {

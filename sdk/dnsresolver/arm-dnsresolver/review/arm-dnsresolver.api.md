@@ -6,9 +6,15 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type ActionType = string;
+
+// @public
+export type BlockResponseCode = string;
 
 // @public
 export interface CloudError {
@@ -32,7 +38,6 @@ export interface DnsForwardingRuleset extends TrackedResource {
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -51,11 +56,11 @@ export interface DnsForwardingRulesetPatch {
 
 // @public
 export interface DnsForwardingRulesets {
-    beginCreateOrUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DnsForwardingRulesetsCreateOrUpdateResponse>, DnsForwardingRulesetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsForwardingRulesetsCreateOrUpdateResponse>, DnsForwardingRulesetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRuleset, options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams): Promise<DnsForwardingRulesetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRulesetPatch, options?: DnsForwardingRulesetsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DnsForwardingRulesetsUpdateResponse>, DnsForwardingRulesetsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRulesetPatch, options?: DnsForwardingRulesetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsForwardingRulesetsUpdateResponse>, DnsForwardingRulesetsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, parameters: DnsForwardingRulesetPatch, options?: DnsForwardingRulesetsUpdateOptionalParams): Promise<DnsForwardingRulesetsUpdateResponse>;
     get(resourceGroupName: string, dnsForwardingRulesetName: string, options?: DnsForwardingRulesetsGetOptionalParams): Promise<DnsForwardingRulesetsGetResponse>;
     list(options?: DnsForwardingRulesetsListOptionalParams): PagedAsyncIterableIterator<DnsForwardingRuleset>;
@@ -149,9 +154,123 @@ export interface DnsResolver extends TrackedResource {
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-    readonly systemData?: SystemData;
     virtualNetwork: SubResource;
 }
+
+// @public
+export interface DnsResolverDomainList extends TrackedResource {
+    domains: string[];
+    readonly etag?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+}
+
+// @public
+export interface DnsResolverDomainListPatch {
+    domains?: string[];
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DnsResolverDomainListResult {
+    readonly nextLink?: string;
+    value?: DnsResolverDomainList[];
+}
+
+// @public
+export interface DnsResolverDomainLists {
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsCreateOrUpdateResponse>, DnsResolverDomainListsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainList, options?: DnsResolverDomainListsCreateOrUpdateOptionalParams): Promise<DnsResolverDomainListsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsDeleteResponse>, DnsResolverDomainListsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsDeleteOptionalParams): Promise<DnsResolverDomainListsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListPatch, options?: DnsResolverDomainListsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverDomainListsUpdateResponse>, DnsResolverDomainListsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, dnsResolverDomainListName: string, parameters: DnsResolverDomainListPatch, options?: DnsResolverDomainListsUpdateOptionalParams): Promise<DnsResolverDomainListsUpdateResponse>;
+    get(resourceGroupName: string, dnsResolverDomainListName: string, options?: DnsResolverDomainListsGetOptionalParams): Promise<DnsResolverDomainListsGetResponse>;
+    list(options?: DnsResolverDomainListsListOptionalParams): PagedAsyncIterableIterator<DnsResolverDomainList>;
+    listByResourceGroup(resourceGroupName: string, options?: DnsResolverDomainListsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DnsResolverDomainList>;
+}
+
+// @public
+export interface DnsResolverDomainListsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverDomainListsCreateOrUpdateResponse = DnsResolverDomainList;
+
+// @public
+export interface DnsResolverDomainListsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverDomainListsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverDomainListsDeleteResponse = DnsResolverDomainListsDeleteHeaders;
+
+// @public
+export interface DnsResolverDomainListsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverDomainListsGetResponse = DnsResolverDomainList;
+
+// @public
+export interface DnsResolverDomainListsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverDomainListsListByResourceGroupNextResponse = DnsResolverDomainListResult;
+
+// @public
+export interface DnsResolverDomainListsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsResolverDomainListsListByResourceGroupResponse = DnsResolverDomainListResult;
+
+// @public
+export interface DnsResolverDomainListsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverDomainListsListNextResponse = DnsResolverDomainListResult;
+
+// @public
+export interface DnsResolverDomainListsListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsResolverDomainListsListResponse = DnsResolverDomainListResult;
+
+// @public
+export interface DnsResolverDomainListsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverDomainListsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverDomainListsUpdateResponse = DnsResolverDomainList;
 
 // @public
 export interface DnsResolverListResult {
@@ -169,7 +288,15 @@ export class DnsResolverManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     dnsForwardingRulesets: DnsForwardingRulesets;
     // (undocumented)
+    dnsResolverDomainLists: DnsResolverDomainLists;
+    // (undocumented)
+    dnsResolverPolicies: DnsResolverPolicies;
+    // (undocumented)
+    dnsResolverPolicyVirtualNetworkLinks: DnsResolverPolicyVirtualNetworkLinks;
+    // (undocumented)
     dnsResolvers: DnsResolvers;
+    // (undocumented)
+    dnsSecurityRules: DnsSecurityRules;
     // (undocumented)
     forwardingRules: ForwardingRules;
     // (undocumented)
@@ -197,12 +324,237 @@ export interface DnsResolverPatch {
 }
 
 // @public
+export interface DnsResolverPolicies {
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicy, options?: DnsResolverPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPoliciesCreateOrUpdateResponse>, DnsResolverPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicy, options?: DnsResolverPoliciesCreateOrUpdateOptionalParams): Promise<DnsResolverPoliciesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPoliciesDeleteResponse>, DnsResolverPoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesDeleteOptionalParams): Promise<DnsResolverPoliciesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicyPatch, options?: DnsResolverPoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPoliciesUpdateResponse>, DnsResolverPoliciesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, parameters: DnsResolverPolicyPatch, options?: DnsResolverPoliciesUpdateOptionalParams): Promise<DnsResolverPoliciesUpdateResponse>;
+    get(resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPoliciesGetOptionalParams): Promise<DnsResolverPoliciesGetResponse>;
+    list(options?: DnsResolverPoliciesListOptionalParams): PagedAsyncIterableIterator<DnsResolverPolicy>;
+    listByResourceGroup(resourceGroupName: string, options?: DnsResolverPoliciesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DnsResolverPolicy>;
+    listByVirtualNetwork(resourceGroupName: string, virtualNetworkName: string, options?: DnsResolverPoliciesListByVirtualNetworkOptionalParams): PagedAsyncIterableIterator<SubResource>;
+}
+
+// @public
+export interface DnsResolverPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPoliciesCreateOrUpdateResponse = DnsResolverPolicy;
+
+// @public
+export interface DnsResolverPoliciesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPoliciesDeleteResponse = DnsResolverPoliciesDeleteHeaders;
+
+// @public
+export interface DnsResolverPoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPoliciesGetResponse = DnsResolverPolicy;
+
+// @public
+export interface DnsResolverPoliciesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPoliciesListByResourceGroupNextResponse = DnsResolverPolicyListResult;
+
+// @public
+export interface DnsResolverPoliciesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsResolverPoliciesListByResourceGroupResponse = DnsResolverPolicyListResult;
+
+// @public
+export interface DnsResolverPoliciesListByVirtualNetworkNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPoliciesListByVirtualNetworkNextResponse = SubResourceListResult;
+
+// @public
+export interface DnsResolverPoliciesListByVirtualNetworkOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPoliciesListByVirtualNetworkResponse = SubResourceListResult;
+
+// @public
+export interface DnsResolverPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPoliciesListNextResponse = DnsResolverPolicyListResult;
+
+// @public
+export interface DnsResolverPoliciesListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsResolverPoliciesListResponse = DnsResolverPolicyListResult;
+
+// @public
+export interface DnsResolverPoliciesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPoliciesUpdateResponse = DnsResolverPolicy;
+
+// @public
+export interface DnsResolverPolicy extends TrackedResource {
+    readonly etag?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+}
+
+// @public
+export interface DnsResolverPolicyListResult {
+    readonly nextLink?: string;
+    value?: DnsResolverPolicy[];
+}
+
+// @public
+export interface DnsResolverPolicyPatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLink extends TrackedResource {
+    readonly etag?: string;
+    readonly provisioningState?: ProvisioningState;
+    virtualNetwork: SubResource;
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinkListResult {
+    readonly nextLink?: string;
+    value?: DnsResolverPolicyVirtualNetworkLink[];
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinkPatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinks {
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLink, options?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse>, DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLink, options?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPolicyVirtualNetworkLinksDeleteResponse>, DnsResolverPolicyVirtualNetworkLinksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams): Promise<DnsResolverPolicyVirtualNetworkLinksDeleteResponse>;
+    beginUpdate(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLinkPatch, options?: DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolverPolicyVirtualNetworkLinksUpdateResponse>, DnsResolverPolicyVirtualNetworkLinksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, parameters: DnsResolverPolicyVirtualNetworkLinkPatch, options?: DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams): Promise<DnsResolverPolicyVirtualNetworkLinksUpdateResponse>;
+    get(resourceGroupName: string, dnsResolverPolicyName: string, dnsResolverPolicyVirtualNetworkLinkName: string, options?: DnsResolverPolicyVirtualNetworkLinksGetOptionalParams): Promise<DnsResolverPolicyVirtualNetworkLinksGetResponse>;
+    list(resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsResolverPolicyVirtualNetworkLinksListOptionalParams): PagedAsyncIterableIterator<DnsResolverPolicyVirtualNetworkLink>;
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse = DnsResolverPolicyVirtualNetworkLink;
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksDeleteResponse = DnsResolverPolicyVirtualNetworkLinksDeleteHeaders;
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksGetResponse = DnsResolverPolicyVirtualNetworkLink;
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksListNextResponse = DnsResolverPolicyVirtualNetworkLinkListResult;
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksListResponse = DnsResolverPolicyVirtualNetworkLinkListResult;
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsResolverPolicyVirtualNetworkLinksUpdateResponse = DnsResolverPolicyVirtualNetworkLink;
+
+// @public
 export interface DnsResolvers {
-    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DnsResolversCreateOrUpdateResponse>, DnsResolversCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolversCreateOrUpdateResponse>, DnsResolversCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolver, options?: DnsResolversCreateOrUpdateOptionalParams): Promise<DnsResolversCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dnsResolverName: string, options?: DnsResolversDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolverPatch, options?: DnsResolversUpdateOptionalParams): Promise<PollerLike<PollOperationState<DnsResolversUpdateResponse>, DnsResolversUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolverPatch, options?: DnsResolversUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsResolversUpdateResponse>, DnsResolversUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dnsResolverName: string, parameters: DnsResolverPatch, options?: DnsResolversUpdateOptionalParams): Promise<DnsResolversUpdateResponse>;
     get(resourceGroupName: string, dnsResolverName: string, options?: DnsResolversGetOptionalParams): Promise<DnsResolversGetResponse>;
     list(options?: DnsResolversListOptionalParams): PagedAsyncIterableIterator<DnsResolver>;
@@ -294,6 +646,139 @@ export interface DnsResolversUpdateOptionalParams extends coreClient.OperationOp
 export type DnsResolversUpdateResponse = DnsResolver;
 
 // @public
+export interface DnsSecurityRule extends TrackedResource {
+    action: DnsSecurityRuleAction;
+    dnsResolverDomainLists: SubResource[];
+    dnsSecurityRuleState?: DnsSecurityRuleState;
+    readonly etag?: string;
+    priority: number;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface DnsSecurityRuleAction {
+    actionType?: ActionType;
+    blockResponseCode?: BlockResponseCode;
+}
+
+// @public
+export interface DnsSecurityRuleListResult {
+    readonly nextLink?: string;
+    value?: DnsSecurityRule[];
+}
+
+// @public
+export interface DnsSecurityRulePatch {
+    action?: DnsSecurityRuleAction;
+    dnsResolverDomainLists?: SubResource[];
+    dnsSecurityRuleState?: DnsSecurityRuleState;
+    priority?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DnsSecurityRules {
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRule, options?: DnsSecurityRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsSecurityRulesCreateOrUpdateResponse>, DnsSecurityRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRule, options?: DnsSecurityRulesCreateOrUpdateOptionalParams): Promise<DnsSecurityRulesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DnsSecurityRulesDeleteResponse>, DnsSecurityRulesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesDeleteOptionalParams): Promise<DnsSecurityRulesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRulePatch, options?: DnsSecurityRulesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnsSecurityRulesUpdateResponse>, DnsSecurityRulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, parameters: DnsSecurityRulePatch, options?: DnsSecurityRulesUpdateOptionalParams): Promise<DnsSecurityRulesUpdateResponse>;
+    get(resourceGroupName: string, dnsResolverPolicyName: string, dnsSecurityRuleName: string, options?: DnsSecurityRulesGetOptionalParams): Promise<DnsSecurityRulesGetResponse>;
+    list(resourceGroupName: string, dnsResolverPolicyName: string, options?: DnsSecurityRulesListOptionalParams): PagedAsyncIterableIterator<DnsSecurityRule>;
+}
+
+// @public
+export interface DnsSecurityRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsSecurityRulesCreateOrUpdateResponse = DnsSecurityRule;
+
+// @public
+export interface DnsSecurityRulesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsSecurityRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsSecurityRulesDeleteResponse = DnsSecurityRulesDeleteHeaders;
+
+// @public
+export interface DnsSecurityRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsSecurityRulesGetResponse = DnsSecurityRule;
+
+// @public
+export interface DnsSecurityRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DnsSecurityRulesListNextResponse = DnsSecurityRuleListResult;
+
+// @public
+export interface DnsSecurityRulesListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type DnsSecurityRulesListResponse = DnsSecurityRuleListResult;
+
+// @public
+export type DnsSecurityRuleState = string;
+
+// @public
+export interface DnsSecurityRulesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DnsSecurityRulesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DnsSecurityRulesUpdateResponse = DnsSecurityRule;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ForwardingRule extends ProxyResource {
     domainName: string;
     readonly etag?: string;
@@ -302,7 +787,6 @@ export interface ForwardingRule extends ProxyResource {
         [propertyName: string]: string;
     };
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
     targetDnsServers: TargetDnsServer[];
 }
 
@@ -386,7 +870,6 @@ export interface InboundEndpoint extends TrackedResource {
     ipConfigurations: IpConfiguration[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -404,11 +887,11 @@ export interface InboundEndpointPatch {
 
 // @public
 export interface InboundEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<InboundEndpointsCreateOrUpdateResponse>, InboundEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<InboundEndpointsCreateOrUpdateResponse>, InboundEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpoint, options?: InboundEndpointsCreateOrUpdateOptionalParams): Promise<InboundEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpointPatch, options?: InboundEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<InboundEndpointsUpdateResponse>, InboundEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpointPatch, options?: InboundEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<InboundEndpointsUpdateResponse>, InboundEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, parameters: InboundEndpointPatch, options?: InboundEndpointsUpdateOptionalParams): Promise<InboundEndpointsUpdateResponse>;
     get(resourceGroupName: string, dnsResolverName: string, inboundEndpointName: string, options?: InboundEndpointsGetOptionalParams): Promise<InboundEndpointsGetResponse>;
     list(resourceGroupName: string, dnsResolverName: string, options?: InboundEndpointsListOptionalParams): PagedAsyncIterableIterator<InboundEndpoint>;
@@ -475,6 +958,18 @@ export interface IpConfiguration {
 }
 
 // @public
+export enum KnownActionType {
+    Alert = "Alert",
+    Allow = "Allow",
+    Block = "Block"
+}
+
+// @public
+export enum KnownBlockResponseCode {
+    Servfail = "SERVFAIL"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -486,6 +981,12 @@ export enum KnownCreatedByType {
 export enum KnownDnsResolverState {
     Connected = "Connected",
     Disconnected = "Disconnected"
+}
+
+// @public
+export enum KnownDnsSecurityRuleState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -516,7 +1017,6 @@ export interface OutboundEndpoint extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
     subnet: SubResource;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -534,11 +1034,11 @@ export interface OutboundEndpointPatch {
 
 // @public
 export interface OutboundEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<OutboundEndpointsCreateOrUpdateResponse>, OutboundEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OutboundEndpointsCreateOrUpdateResponse>, OutboundEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpoint, options?: OutboundEndpointsCreateOrUpdateOptionalParams): Promise<OutboundEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpointPatch, options?: OutboundEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<OutboundEndpointsUpdateResponse>, OutboundEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpointPatch, options?: OutboundEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OutboundEndpointsUpdateResponse>, OutboundEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, parameters: OutboundEndpointPatch, options?: OutboundEndpointsUpdateOptionalParams): Promise<OutboundEndpointsUpdateResponse>;
     get(resourceGroupName: string, dnsResolverName: string, outboundEndpointName: string, options?: OutboundEndpointsGetOptionalParams): Promise<OutboundEndpointsGetResponse>;
     list(resourceGroupName: string, dnsResolverName: string, options?: OutboundEndpointsListOptionalParams): PagedAsyncIterableIterator<OutboundEndpoint>;
@@ -605,6 +1105,7 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -662,7 +1163,6 @@ export interface VirtualNetworkLink extends ProxyResource {
         [propertyName: string]: string;
     };
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
     virtualNetwork: SubResource;
 }
 
@@ -681,11 +1181,11 @@ export interface VirtualNetworkLinkPatch {
 
 // @public
 export interface VirtualNetworkLinks {
-    beginCreateOrUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworkLinksCreateOrUpdateResponse>, VirtualNetworkLinksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkLinksCreateOrUpdateResponse>, VirtualNetworkLinksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLink, options?: VirtualNetworkLinksCreateOrUpdateOptionalParams): Promise<VirtualNetworkLinksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLinkPatch, options?: VirtualNetworkLinksUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualNetworkLinksUpdateResponse>, VirtualNetworkLinksUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLinkPatch, options?: VirtualNetworkLinksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualNetworkLinksUpdateResponse>, VirtualNetworkLinksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, parameters: VirtualNetworkLinkPatch, options?: VirtualNetworkLinksUpdateOptionalParams): Promise<VirtualNetworkLinksUpdateResponse>;
     get(resourceGroupName: string, dnsForwardingRulesetName: string, virtualNetworkLinkName: string, options?: VirtualNetworkLinksGetOptionalParams): Promise<VirtualNetworkLinksGetResponse>;
     list(resourceGroupName: string, dnsForwardingRulesetName: string, options?: VirtualNetworkLinksListOptionalParams): PagedAsyncIterableIterator<VirtualNetworkLink>;

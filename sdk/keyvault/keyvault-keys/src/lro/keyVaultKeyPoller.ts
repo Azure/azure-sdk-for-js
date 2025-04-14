@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { delay } from "@azure/core-util";
-import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { KeyVaultClient } from "../generated/keyVaultClient";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import type { KeyVaultClient } from "../generated/keyVaultClient.js";
 
 /**
  * Common parameters to a Key Vault Key Poller.
  */
 export interface KeyVaultKeyPollerOptions {
-  vaultUrl: string;
   client: KeyVaultClient;
   name: string;
   operationOptions?: OperationOptions;
@@ -33,7 +33,7 @@ export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationSta
  */
 export abstract class KeyVaultKeyPoller<
   TState extends KeyVaultKeyPollOperationState<TResult>,
-  TResult
+  TResult,
 > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -61,7 +61,10 @@ export interface KeyVaultKeyPollOperationOptions {
 export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
-  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions = {}) {
+  constructor(
+    public state: TState,
+    options: KeyVaultKeyPollOperationOptions = {},
+  ) {
     if (options.cancelMessage) {
       this.cancelMessage = options.cancelMessage;
     }

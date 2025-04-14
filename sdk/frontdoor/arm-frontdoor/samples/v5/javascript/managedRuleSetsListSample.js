@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all available managed rule sets.
  *
  * @summary Lists all available managed rule sets.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListManagedRuleSets.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafListManagedRuleSets.json
  */
 async function listPoliciesManagedRuleSetsInAResourceGroup() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";

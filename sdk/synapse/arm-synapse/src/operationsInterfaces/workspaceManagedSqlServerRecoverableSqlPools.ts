@@ -12,7 +12,7 @@ import {
   WorkspaceManagedSqlServerRecoverableSqlPoolsListOptionalParams,
   WorkspaceManagedSqlServerRecoverableSqlPoolsGetOptionalParams,
   WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceManagedSqlServerRecoverableSqlPools. */

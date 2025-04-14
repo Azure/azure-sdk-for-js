@@ -9,8 +9,8 @@
 import {
   RunFilterParameters,
   ActivityRunsQueryByPipelineRunOptionalParams,
-  ActivityRunsQueryByPipelineRunResponse
-} from "../models";
+  ActivityRunsQueryByPipelineRunResponse,
+} from "../models/index.js";
 
 /** Interface representing a ActivityRuns. */
 export interface ActivityRuns {
@@ -27,6 +27,6 @@ export interface ActivityRuns {
     factoryName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: ActivityRunsQueryByPipelineRunOptionalParams
+    options?: ActivityRunsQueryByPipelineRunOptionalParams,
   ): Promise<ActivityRunsQueryByPipelineRunResponse>;
 }

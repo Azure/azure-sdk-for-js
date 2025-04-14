@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResolvePrivateLinkServiceId } from "../operationsInterfaces";
+import type { ResolvePrivateLinkServiceId } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerServiceClient } from "../containerServiceClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ContainerServiceClient } from "../containerServiceClient.js";
+import type {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
-  ResolvePrivateLinkServiceIdPostResponse
-} from "../models";
+  ResolvePrivateLinkServiceIdPostResponse,
+} from "../models/index.js";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
-export class ResolvePrivateLinkServiceIdImpl
-  implements ResolvePrivateLinkServiceId {
+export class ResolvePrivateLinkServiceIdImpl implements ResolvePrivateLinkServiceId {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -41,11 +40,11 @@ export class ResolvePrivateLinkServiceIdImpl
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateLinkResource,
-    options?: ResolvePrivateLinkServiceIdPostOptionalParams
+    options?: ResolvePrivateLinkServiceIdPostOptionalParams,
   ): Promise<ResolvePrivateLinkServiceIdPostResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -53,16 +52,15 @@ export class ResolvePrivateLinkServiceIdImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -70,9 +68,9 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

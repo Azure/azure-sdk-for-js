@@ -15,6 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [basicTracerNode.ts][basictracernode] | use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.                    |
 | [httpSample.ts][httpsample]           | demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module. |
+| [logSample.ts][logsample]             | use opentelemetry logs in a Node.js application.                                                                               |
 | [metricsSample.ts][metricssample]     | Basic use of Metrics in Node.js application.                                                                                   |
 
 ## Prerequisites
@@ -62,7 +63,7 @@ node dist/basicTracerNode.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node dist/basicTracerNode.js
+npx dev-tool run vendored cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node dist/basicTracerNode.js
 ```
 
 ## Next Steps
@@ -71,9 +72,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [basictracernode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/typescript/src/basicTracerNode.ts
 [httpsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/typescript/src/httpSample.ts
+[logsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/typescript/src/logSample.ts
 [metricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1-beta/typescript/src/metricsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureapplicationinsightsworkspaceinstance]: https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview
+[createinstance_azureapplicationinsightsworkspaceinstance]: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

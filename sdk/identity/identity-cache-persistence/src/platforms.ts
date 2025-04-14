@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable tsdoc/syntax */
 
-import * as path from "path";
+import path from "node:path";
+import type { IPersistence as Persistence } from "@azure/msal-node-extensions";
 import {
   DataProtectionScope,
   FilePersistence,
   FilePersistenceWithDataProtection,
   KeychainPersistence,
   LibSecretPersistence,
-  IPersistence as Persistence,
 } from "@azure/msal-node-extensions";
-import { TokenCachePersistenceOptions } from "@azure/identity";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
 
 /**
  * Local application data folder
@@ -93,7 +93,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
   win32: ({ name = defaultMsalValues.tokenCache.name } = {}): Promise<Persistence> =>
     FilePersistenceWithDataProtection.create(
       getPersistencePath(name),
-      DataProtectionScope.CurrentUser
+      DataProtectionScope.CurrentUser,
     ),
 
   darwin: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {

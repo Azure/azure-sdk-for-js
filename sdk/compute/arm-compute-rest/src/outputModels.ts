@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The List Compute Operation operation response. */
 export interface ComputeOperationListResultOutput {
   /** The list of compute operations */
-  value?: Array<ComputeOperationValueOutput>;
+  readonly value?: Array<ComputeOperationValueOutput>;
 }
 
 /** Describes the properties of a Compute Operation value. */
 export interface ComputeOperationValueOutput {
   /** The origin of the compute operation. */
-  origin?: string;
+  readonly origin?: string;
   /** The name of the compute operation. */
-  name?: string;
+  readonly name?: string;
   /** Describes the properties of a Compute Operation Value Display. */
   display?: ComputeOperationValueDisplayOutput;
 }
@@ -20,13 +20,13 @@ export interface ComputeOperationValueOutput {
 /** Describes the properties of a Compute Operation Value Display. */
 export interface ComputeOperationValueDisplayOutput {
   /** The display name of the compute operation. */
-  operation?: string;
+  readonly operation?: string;
   /** The display name of the resource the operation applies to. */
-  resource?: string;
+  readonly resource?: string;
   /** The description of the operation. */
-  description?: string;
+  readonly description?: string;
   /** The resource provider for the operation. */
-  provider?: string;
+  readonly provider?: string;
 }
 
 /** An error response from the Compute service. */
@@ -172,13 +172,13 @@ export interface VirtualMachineScaleSetPropertiesOutput {
   /** The virtual machine profile. */
   virtualMachineProfile?: VirtualMachineScaleSetVMProfileOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
   overprovision?: boolean;
   /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
   doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /** Specifies the ID which uniquely identifies a Virtual Machine Scale Set. */
-  uniqueId?: string;
+  readonly uniqueId?: string;
   /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
   singlePlacementGroup?: boolean;
   /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
@@ -200,7 +200,7 @@ export interface VirtualMachineScaleSetPropertiesOutput {
   /** Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance. */
   priorityMixPolicy?: PriorityMixPolicyOutput;
   /** Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
 }
 
 /** Describes an upgrade policy - automatic, manual, or rolling. */
@@ -452,7 +452,7 @@ export interface ImageReferenceOutput extends SubResourceOutput {
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input. */
   version?: string;
   /** Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'. */
-  exactVersion?: string;
+  readonly exactVersion?: string;
   /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
   sharedGalleryImageId?: string;
   /** Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call. */
@@ -724,7 +724,7 @@ export interface VirtualMachineScaleSetExtensionOutput extends SubResourceReadOn
   /** The name of the extension. */
   name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
   properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
 }
@@ -748,7 +748,7 @@ export interface VirtualMachineScaleSetExtensionPropertiesOutput {
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: any;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
   provisionAfterExtensions?: Array<string>;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
@@ -767,7 +767,7 @@ export interface KeyVaultSecretReferenceOutput {
 
 export interface SubResourceReadOnlyOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
 }
 
 /** Specifies the billing related details of a Azure Spot VM or VMSS. <br><br>Minimum api-version: 2019-03-01. */
@@ -865,9 +865,9 @@ export interface PriorityMixPolicyOutput {
 /** Identity for the virtual machine scale set. */
 export interface VirtualMachineScaleSetIdentityOutput {
   /** The principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -876,9 +876,9 @@ export interface VirtualMachineScaleSetIdentityOutput {
 
 export interface UserAssignedIdentitiesValueOutput {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  readonly clientId?: string;
 }
 
 /** The complex type of the extended location. */
@@ -892,11 +892,11 @@ export interface ExtendedLocationOutput {
 /** The Resource model definition. */
 export interface ResourceOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Resource location */
   location: string;
   /** Resource tags */
@@ -984,35 +984,35 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationPropert
 /** The instance view of a virtual machine scale set. */
 export interface VirtualMachineScaleSetInstanceViewOutput {
   /** The instance view status summary for the virtual machine scale set. */
-  virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummaryOutput;
+  readonly virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummaryOutput;
   /** The extensions information. */
-  extensions?: Array<VirtualMachineScaleSetVMExtensionsSummaryOutput>;
+  readonly extensions?: Array<VirtualMachineScaleSetVMExtensionsSummaryOutput>;
   /** The resource status information. */
   statuses?: Array<InstanceViewStatusOutput>;
   /** The orchestration services information. */
-  orchestrationServices?: Array<OrchestrationServiceSummaryOutput>;
+  readonly orchestrationServices?: Array<OrchestrationServiceSummaryOutput>;
 }
 
 /** Instance view statuses summary for virtual machines of a virtual machine scale set. */
 export interface VirtualMachineScaleSetInstanceViewStatusesSummaryOutput {
   /** The extensions information. */
-  statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
+  readonly statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
 }
 
 /** The status code and count of the virtual machine scale set instance view status summary. */
 export interface VirtualMachineStatusCodeCountOutput {
   /** The instance view status code. */
-  code?: string;
+  readonly code?: string;
   /** The number of instances having a particular status code. */
-  count?: number;
+  readonly count?: number;
 }
 
 /** Extensions summary for virtual machines of a virtual machine scale set. */
 export interface VirtualMachineScaleSetVMExtensionsSummaryOutput {
   /** The extension name. */
-  name?: string;
+  readonly name?: string;
   /** The extensions information. */
-  statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
+  readonly statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
 }
 
 /** Instance view status. */
@@ -1032,17 +1032,17 @@ export interface InstanceViewStatusOutput {
 /** Summary for an orchestration service of a virtual machine scale set. */
 export interface OrchestrationServiceSummaryOutput {
   /** The name of the service. */
-  serviceName?: "AutomaticRepairs";
+  readonly serviceName?: "AutomaticRepairs";
   /** The current state of the service. */
-  serviceState?: "NotRunning" | "Running" | "Suspended";
+  readonly serviceState?: "NotRunning" | "Running" | "Suspended";
 }
 
 /** Describes a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionUpdateOutput extends SubResourceReadOnlyOutput {
   /** The name of the extension. */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Describes the properties of a Virtual Machine Scale Set Extension. */
   properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
 }
@@ -1074,23 +1074,23 @@ export interface VirtualMachineScaleSetListSkusResultOutput {
 /** Describes an available virtual machine scale set sku. */
 export interface VirtualMachineScaleSetSkuOutput {
   /** The type of resource the sku applies to. */
-  resourceType?: string;
+  readonly resourceType?: string;
   /** The Sku. */
-  sku?: SkuOutput;
+  readonly sku?: SkuOutput;
   /** Specifies the number of virtual machines in the scale set. */
-  capacity?: VirtualMachineScaleSetSkuCapacityOutput;
+  readonly capacity?: VirtualMachineScaleSetSkuCapacityOutput;
 }
 
 /** Describes scaling information of a sku. */
 export interface VirtualMachineScaleSetSkuCapacityOutput {
   /** The minimum capacity. */
-  minimum?: number;
+  readonly minimum?: number;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  readonly maximum?: number;
   /** The default capacity. */
-  defaultCapacity?: number;
+  readonly defaultCapacity?: number;
   /** The scale type applicable to the sku. */
-  scaleType?: "Automatic" | "None";
+  readonly scaleType?: "Automatic" | "None";
 }
 
 /** List of Virtual Machine Scale Set OS Upgrade History operation response. */
@@ -1104,59 +1104,59 @@ export interface VirtualMachineScaleSetListOSUpgradeHistoryOutput {
 /** Virtual Machine Scale Set OS Upgrade History operation response. */
 export interface UpgradeOperationHistoricalStatusInfoOutput {
   /** Information about the properties of the upgrade operation. */
-  properties?: UpgradeOperationHistoricalStatusInfoPropertiesOutput;
+  readonly properties?: UpgradeOperationHistoricalStatusInfoPropertiesOutput;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Resource location */
-  location?: string;
+  readonly location?: string;
 }
 
 /** Describes each OS upgrade on the Virtual Machine Scale Set. */
 export interface UpgradeOperationHistoricalStatusInfoPropertiesOutput {
   /** Information about the overall status of the upgrade operation. */
-  runningStatus?: UpgradeOperationHistoryStatusOutput;
+  readonly runningStatus?: UpgradeOperationHistoryStatusOutput;
   /** Counts of the VMs in each state. */
-  progress?: RollingUpgradeProgressInfoOutput;
+  readonly progress?: RollingUpgradeProgressInfoOutput;
   /** Error Details for this upgrade if there are any. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
   /** Invoker of the Upgrade Operation */
-  startedBy?: "Unknown" | "User" | "Platform";
+  readonly startedBy?: "Unknown" | "User" | "Platform";
   /** Image Reference details */
-  targetImageReference?: ImageReferenceOutput;
+  readonly targetImageReference?: ImageReferenceOutput;
   /** Information about OS rollback if performed */
-  rollbackInfo?: RollbackStatusInfoOutput;
+  readonly rollbackInfo?: RollbackStatusInfoOutput;
 }
 
 /** Information about the current running state of the overall upgrade. */
 export interface UpgradeOperationHistoryStatusOutput {
   /** Code indicating the current status of the upgrade. */
-  code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+  readonly code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
   /** Start time of the upgrade. */
-  startTime?: string;
+  readonly startTime?: string;
   /** End time of the upgrade. */
-  endTime?: string;
+  readonly endTime?: string;
 }
 
 /** Information about the number of virtual machine instances in each upgrade state. */
 export interface RollingUpgradeProgressInfoOutput {
   /** The number of instances that have been successfully upgraded. */
-  successfulInstanceCount?: number;
+  readonly successfulInstanceCount?: number;
   /** The number of instances that have failed to be upgraded successfully. */
-  failedInstanceCount?: number;
+  readonly failedInstanceCount?: number;
   /** The number of instances that are currently being upgraded. */
-  inProgressInstanceCount?: number;
+  readonly inProgressInstanceCount?: number;
   /** The number of instances that have not yet begun to be upgraded. */
-  pendingInstanceCount?: number;
+  readonly pendingInstanceCount?: number;
 }
 
 /** Information about rollback on failed VM instances after a OS Upgrade operation. */
 export interface RollbackStatusInfoOutput {
   /** The number of instances which have been successfully rolled back. */
-  successfullyRolledbackInstanceCount?: number;
+  readonly successfullyRolledbackInstanceCount?: number;
   /** The number of instances which failed to rollback. */
-  failedRolledbackInstanceCount?: number;
+  readonly failedRolledbackInstanceCount?: number;
   /** Error details if OS rollback failed. */
-  rollbackError?: ApiErrorOutput;
+  readonly rollbackError?: ApiErrorOutput;
 }
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
@@ -1168,41 +1168,41 @@ export interface RollingUpgradeStatusInfoOutput extends ResourceOutput {
 /** The status of the latest virtual machine scale set rolling upgrade. */
 export interface RollingUpgradeStatusInfoPropertiesOutput {
   /** The rolling upgrade policies applied for this upgrade. */
-  policy?: RollingUpgradePolicyOutput;
+  readonly policy?: RollingUpgradePolicyOutput;
   /** Information about the current running state of the overall upgrade. */
-  runningStatus?: RollingUpgradeRunningStatusOutput;
+  readonly runningStatus?: RollingUpgradeRunningStatusOutput;
   /** Information about the number of virtual machine instances in each upgrade state. */
-  progress?: RollingUpgradeProgressInfoOutput;
+  readonly progress?: RollingUpgradeProgressInfoOutput;
   /** Error details for this upgrade, if there are any. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
 }
 
 /** Information about the current running state of the overall upgrade. */
 export interface RollingUpgradeRunningStatusOutput {
   /** Code indicating the current status of the upgrade. */
-  code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+  readonly code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
   /** Start time of the upgrade. */
-  startTime?: string;
+  readonly startTime?: string;
   /** The last action performed on the rolling upgrade. */
-  lastAction?: "Start" | "Cancel";
+  readonly lastAction?: "Start" | "Cancel";
   /** Last action time of the upgrade. */
-  lastActionTime?: string;
+  readonly lastActionTime?: string;
 }
 
 /** Response after calling a manual recovery walk */
 export interface RecoveryWalkResponseOutput {
   /** Whether the recovery walk was performed */
-  walkPerformed?: boolean;
+  readonly walkPerformed?: boolean;
   /** The next update domain that needs to be walked. Null means walk spanning all update domains has been completed */
-  nextPlatformUpdateDomain?: number;
+  readonly nextPlatformUpdateDomain?: number;
 }
 
 /** Describes a VMSS VM Extension. */
 export interface VirtualMachineScaleSetVMExtensionOutput extends SubResourceReadOnlyOutput {
   /** The name of the extension. */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Describes the properties of a Virtual Machine Extension. */
   properties?: VirtualMachineExtensionPropertiesOutput;
 }
@@ -1226,7 +1226,7 @@ export interface VirtualMachineExtensionPropertiesOutput {
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: any;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The virtual machine extension instance view. */
   instanceView?: VirtualMachineExtensionInstanceViewOutput;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
@@ -1252,9 +1252,9 @@ export interface VirtualMachineExtensionInstanceViewOutput {
 /** Describes a VMSS VM Extension. */
 export interface VirtualMachineScaleSetVMExtensionUpdateOutput extends SubResourceReadOnlyOutput {
   /** The name of the extension. */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Describes the properties of a Virtual Machine Extension. */
   properties?: VirtualMachineExtensionUpdatePropertiesOutput;
 }
@@ -1292,17 +1292,17 @@ export interface VirtualMachineScaleSetVMExtensionsListResultOutput {
 /** Describes a virtual machine scale set virtual machine. */
 export interface VirtualMachineScaleSetVMOutput extends ResourceOutput {
   /** The virtual machine instance ID. */
-  instanceId?: string;
+  readonly instanceId?: string;
   /** The virtual machine SKU. */
-  sku?: SkuOutput;
+  readonly sku?: SkuOutput;
   /** Describes the properties of a virtual machine scale set virtual machine. */
   properties?: VirtualMachineScaleSetVMPropertiesOutput;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
   plan?: PlanOutput;
   /** The virtual machine child extension resources. */
-  resources?: Array<VirtualMachineExtensionOutput>;
+  readonly resources?: Array<VirtualMachineExtensionOutput>;
   /** The virtual machine zones. */
-  zones?: Array<string>;
+  readonly zones?: Array<string>;
   /** The identity of the virtual machine, if configured. */
   identity?: VirtualMachineIdentityOutput;
 }
@@ -1310,11 +1310,11 @@ export interface VirtualMachineScaleSetVMOutput extends ResourceOutput {
 /** Describes the properties of a virtual machine scale set virtual machine. */
 export interface VirtualMachineScaleSetVMPropertiesOutput {
   /** Specifies whether the latest model has been applied to the virtual machine. */
-  latestModelApplied?: boolean;
+  readonly latestModelApplied?: boolean;
   /** Azure VM unique ID. */
-  vmId?: string;
+  readonly vmId?: string;
   /** The virtual machine instance view. */
-  instanceView?: VirtualMachineScaleSetVMInstanceViewOutput;
+  readonly instanceView?: VirtualMachineScaleSetVMInstanceViewOutput;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfileOutput;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -1334,11 +1334,11 @@ export interface VirtualMachineScaleSetVMPropertiesOutput {
   /** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
   availabilitySet?: SubResourceOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
   licenseType?: string;
   /** Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine. */
-  modelDefinitionApplied?: string;
+  readonly modelDefinitionApplied?: string;
   /** Specifies the protection policy of the virtual machine. */
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicyOutput;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
@@ -1362,13 +1362,13 @@ export interface VirtualMachineScaleSetVMInstanceViewOutput {
   /** The extensions information. */
   extensions?: Array<VirtualMachineExtensionInstanceViewOutput>;
   /** The health status for the VM. */
-  vmHealth?: VirtualMachineHealthStatusOutput;
+  readonly vmHealth?: VirtualMachineHealthStatusOutput;
   /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
   bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
   /** The resource status information. */
   statuses?: Array<InstanceViewStatusOutput>;
   /** Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. <br><br>Minimum api-version: 2020-06-01. */
-  assignedHost?: string;
+  readonly assignedHost?: string;
   /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
   placementGroupId?: string;
 }
@@ -1442,17 +1442,17 @@ export interface KeyVaultKeyReferenceOutput {
 /** The health status of the VM. */
 export interface VirtualMachineHealthStatusOutput {
   /** The health status information for the VM. */
-  status?: InstanceViewStatusOutput;
+  readonly status?: InstanceViewStatusOutput;
 }
 
 /** The instance view of a virtual machine boot diagnostics. */
 export interface BootDiagnosticsInstanceViewOutput {
   /** The console screenshot blob URI. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage. */
-  consoleScreenshotBlobUri?: string;
+  readonly consoleScreenshotBlobUri?: string;
   /** The serial console log blob Uri. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage. */
-  serialConsoleLogBlobUri?: string;
+  readonly serialConsoleLogBlobUri?: string;
   /** The boot diagnostics status information for the VM. <br><br> NOTE: It will be set only if there are errors encountered in enabling boot diagnostics. */
-  status?: InstanceViewStatusOutput;
+  readonly status?: InstanceViewStatusOutput;
 }
 
 /** Specifies the hardware settings for the virtual machine. */
@@ -1709,9 +1709,9 @@ export interface DataDiskOutput {
   /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
   toBeDetached?: boolean;
   /** Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set. */
-  diskIOPSReadWrite?: number;
+  readonly diskIOPSReadWrite?: number;
   /** Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set. */
-  diskMBpsReadWrite?: number;
+  readonly diskMBpsReadWrite?: number;
   /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br> detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: "ForceDetach";
   /** Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach** */
@@ -1894,11 +1894,11 @@ export interface ResourceWithOptionalLocationOutput {
   /** Resource location */
   location?: string;
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Resource tags */
   tags?: Record<string, string>;
 }
@@ -1906,9 +1906,9 @@ export interface ResourceWithOptionalLocationOutput {
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentityOutput {
   /** The principal id of virtual machine identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -1926,9 +1926,9 @@ export interface VirtualMachineScaleSetVMListResultOutput {
 /** The SAS URIs of the console screenshot and serial log blobs. */
 export interface RetrieveBootDiagnosticsDataResultOutput {
   /** The console screenshot blob URI */
-  consoleScreenshotBlobUri?: string;
+  readonly consoleScreenshotBlobUri?: string;
   /** The serial console log blob URI. */
-  serialConsoleLogBlobUri?: string;
+  readonly serialConsoleLogBlobUri?: string;
 }
 
 /** The List Extension operation response */
@@ -1952,7 +1952,7 @@ export interface VirtualMachineOutput extends ResourceOutput {
   /** Describes the properties of a Virtual Machine. */
   properties?: VirtualMachinePropertiesOutput;
   /** The virtual machine child extension resources. */
-  resources?: Array<VirtualMachineExtensionOutput>;
+  readonly resources?: Array<VirtualMachineExtensionOutput>;
   /** The identity of the virtual machine, if configured. */
   identity?: VirtualMachineIdentityOutput;
   /** The virtual machine zones. */
@@ -1994,13 +1994,13 @@ export interface VirtualMachinePropertiesOutput {
   /** Specifies information about the dedicated host group that the virtual machine resides in. <br><br>Minimum api-version: 2020-06-01. <br><br>NOTE: User cannot specify both host and hostGroup properties. */
   hostGroup?: SubResourceOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The virtual machine instance view. */
-  instanceView?: VirtualMachineInstanceViewOutput;
+  readonly instanceView?: VirtualMachineInstanceViewOutput;
   /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
   licenseType?: string;
   /** Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands. */
-  vmId?: string;
+  readonly vmId?: string;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01 */
   extensionsTimeBudget?: string;
   /** Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains.<br><li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01 */
@@ -2014,7 +2014,7 @@ export interface VirtualMachinePropertiesOutput {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfileOutput;
   /** Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
 }
 
 /** The instance view of a virtual machine. */
@@ -2042,11 +2042,11 @@ export interface VirtualMachineInstanceViewOutput {
   /** The extensions information. */
   extensions?: Array<VirtualMachineExtensionInstanceViewOutput>;
   /** The health status for the VM. */
-  vmHealth?: VirtualMachineHealthStatusOutput;
+  readonly vmHealth?: VirtualMachineHealthStatusOutput;
   /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
   bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
   /** Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. <br><br>Minimum api-version: 2020-06-01. */
-  assignedHost?: string;
+  readonly assignedHost?: string;
   /** The resource status information. */
   statuses?: Array<InstanceViewStatusOutput>;
   /** [Preview Feature] The status of virtual machine patch operations. */
@@ -2060,153 +2060,163 @@ export interface VirtualMachinePatchStatusOutput {
   /** The installation summary of the latest installation operation for the virtual machine. */
   lastPatchInstallationSummary?: LastPatchInstallationSummaryOutput;
   /** The enablement status of the specified patchMode */
-  configurationStatuses?: Array<InstanceViewStatusOutput>;
+  readonly configurationStatuses?: Array<InstanceViewStatusOutput>;
 }
 
 /** Describes the properties of an virtual machine instance view for available patch summary. */
 export interface AvailablePatchSummaryOutput {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+  readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  assessmentActivityId?: string;
+  readonly assessmentActivityId?: string;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
-  rebootPending?: boolean;
+  readonly rebootPending?: boolean;
   /** The number of critical or security patches that have been detected as available and not yet installed. */
-  criticalAndSecurityPatchCount?: number;
+  readonly criticalAndSecurityPatchCount?: number;
   /** The number of all available patches excluding critical and security. */
-  otherPatchCount?: number;
+  readonly otherPatchCount?: number;
   /** The UTC timestamp when the operation began. */
-  startTime?: string;
+  readonly startTime?: string;
   /** The UTC timestamp when the operation began. */
-  lastModifiedTime?: string;
+  readonly lastModifiedTime?: string;
   /** The errors that were encountered during execution of the operation. The details array contains the list of them. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
 }
 
 /** Describes the properties of the last installed patch summary. */
 export interface LastPatchInstallationSummaryOutput {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+  readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  installationActivityId?: string;
+  readonly installationActivityId?: string;
   /** Describes whether the operation ran out of time before it completed all its intended actions */
-  maintenanceWindowExceeded?: boolean;
+  readonly maintenanceWindowExceeded?: boolean;
   /** The number of all available patches but not going to be installed because it didn't match a classification or inclusion list entry. */
-  notSelectedPatchCount?: number;
+  readonly notSelectedPatchCount?: number;
   /** The number of all available patches but excluded explicitly by a customer-specified exclusion list match. */
-  excludedPatchCount?: number;
+  readonly excludedPatchCount?: number;
   /** The number of all available patches expected to be installed over the course of the patch installation operation. */
-  pendingPatchCount?: number;
+  readonly pendingPatchCount?: number;
   /** The count of patches that successfully installed. */
-  installedPatchCount?: number;
+  readonly installedPatchCount?: number;
   /** The count of patches that failed installation. */
-  failedPatchCount?: number;
+  readonly failedPatchCount?: number;
   /** The UTC timestamp when the operation began. */
-  startTime?: string;
+  readonly startTime?: string;
   /** The UTC timestamp when the operation began. */
-  lastModifiedTime?: string;
+  readonly lastModifiedTime?: string;
   /** The errors that were encountered during execution of the operation. The details array contains the list of them. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
 }
 
 /** Output of virtual machine capture operation. */
 export interface VirtualMachineCaptureResultOutput extends SubResourceOutput {
   /** the schema of the captured virtual machine */
-  $schema?: string;
+  readonly $schema?: string;
   /** the version of the content */
-  contentVersion?: string;
+  readonly contentVersion?: string;
   /** parameters of the captured virtual machine */
-  parameters?: any;
+  readonly parameters?: any;
   /** a list of resource items of the captured virtual machine */
-  resources?: Array<any>;
+  readonly resources?: Array<any>;
 }
 
 /** Describes the properties of an AssessPatches result. */
 export interface VirtualMachineAssessPatchesResultOutput {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+  readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  assessmentActivityId?: string;
+  readonly assessmentActivityId?: string;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
-  rebootPending?: boolean;
+  readonly rebootPending?: boolean;
   /** The number of critical or security patches that have been detected as available and not yet installed. */
-  criticalAndSecurityPatchCount?: number;
+  readonly criticalAndSecurityPatchCount?: number;
   /** The number of all available patches excluding critical and security. */
-  otherPatchCount?: number;
+  readonly otherPatchCount?: number;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  readonly startDateTime?: string;
   /** The list of patches that have been detected as available for installation. */
-  availablePatches?: Array<VirtualMachineSoftwarePatchPropertiesOutput>;
+  readonly availablePatches?: Array<VirtualMachineSoftwarePatchPropertiesOutput>;
   /** The errors that were encountered during execution of the operation. The details array contains the list of them. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
 }
 
 /** Describes the properties of a Virtual Machine software patch. */
 export interface VirtualMachineSoftwarePatchPropertiesOutput {
   /** A unique identifier for the patch. */
-  patchId?: string;
+  readonly patchId?: string;
   /** The friendly name of the patch. */
-  name?: string;
+  readonly name?: string;
   /** The version number of the patch. This property applies only to Linux patches. */
-  version?: string;
+  readonly version?: string;
   /** The KBID of the patch. Only applies to Windows patches. */
-  kbId?: string;
+  readonly kbId?: string;
   /** The classification(s) of the patch as provided by the patch publisher. */
-  classifications?: Array<string>;
+  readonly classifications?: Array<string>;
   /** Describes the reboot requirements of the patch. */
-  rebootBehavior?: "Unknown" | "NeverReboots" | "AlwaysRequiresReboot" | "CanRequestReboot";
+  readonly rebootBehavior?:
+    | "Unknown"
+    | "NeverReboots"
+    | "AlwaysRequiresReboot"
+    | "CanRequestReboot";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  activityId?: string;
+  readonly activityId?: string;
   /** The UTC timestamp when the repository published this patch. */
-  publishedDate?: string;
+  readonly publishedDate?: string;
   /** The UTC timestamp of the last update to this patch record. */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** Describes the availability of a given patch. */
-  assessmentState?: "Unknown" | "Available";
+  readonly assessmentState?: "Unknown" | "Available";
 }
 
 /** The result summary of an installation operation. */
 export interface VirtualMachineInstallPatchesResultOutput {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", "Unknown" or "CompletedWithWarnings." */
-  status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+  readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
-  installationActivityId?: string;
+  readonly installationActivityId?: string;
   /** The reboot state of the VM following completion of the operation. */
-  rebootStatus?: "Unknown" | "NotNeeded" | "Required" | "Started" | "Failed" | "Completed";
+  readonly rebootStatus?: "Unknown" | "NotNeeded" | "Required" | "Started" | "Failed" | "Completed";
   /** Whether the operation ran out of time before it completed all its intended actions. */
-  maintenanceWindowExceeded?: boolean;
+  readonly maintenanceWindowExceeded?: boolean;
   /** The number of patches that were not installed due to the user blocking their installation. */
-  excludedPatchCount?: number;
+  readonly excludedPatchCount?: number;
   /** The number of patches that were detected as available for install, but did not meet the operation's criteria. */
-  notSelectedPatchCount?: number;
+  readonly notSelectedPatchCount?: number;
   /** The number of patches that were identified as meeting the installation criteria, but were not able to be installed. Typically this happens when maintenanceWindowExceeded == true. */
-  pendingPatchCount?: number;
+  readonly pendingPatchCount?: number;
   /** The number of patches successfully installed. */
-  installedPatchCount?: number;
+  readonly installedPatchCount?: number;
   /** The number of patches that could not be installed due to some issue. See errors for details. */
-  failedPatchCount?: number;
+  readonly failedPatchCount?: number;
   /** The patches that were installed during the operation. */
-  patches?: Array<PatchInstallationDetailOutput>;
+  readonly patches?: Array<PatchInstallationDetailOutput>;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  readonly startDateTime?: string;
   /** The errors that were encountered during execution of the operation. The details array contains the list of them. */
-  error?: ApiErrorOutput;
+  readonly error?: ApiErrorOutput;
 }
 
 /** Information about a specific patch that was encountered during an installation action. */
 export interface PatchInstallationDetailOutput {
   /** A unique identifier for the patch. */
-  patchId?: string;
+  readonly patchId?: string;
   /** The friendly name of the patch. */
-  name?: string;
+  readonly name?: string;
   /** The version string of the package. It may conform to Semantic Versioning. Only applies to Linux. */
-  version?: string;
+  readonly version?: string;
   /** The KBID of the patch. Only applies to Windows patches. */
-  kbId?: string;
+  readonly kbId?: string;
   /** The classification(s) of the patch as provided by the patch publisher. */
-  classifications?: Array<string>;
+  readonly classifications?: Array<string>;
   /** The state of the patch after the installation operation completed. */
-  installationState?: "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
+  readonly installationState?:
+    | "Unknown"
+    | "Installed"
+    | "Failed"
+    | "Excluded"
+    | "NotSelected"
+    | "Pending";
 }
 
 /** Describes a Virtual Machine Image. */
@@ -2252,7 +2262,7 @@ export interface OSDiskImageOutput {
 /** Contains the data disk images information. */
 export interface DataDiskImageOutput {
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun?: number;
+  readonly lun?: number;
 }
 
 /** Describes automatic OS upgrade properties on the image. */
@@ -2334,7 +2344,7 @@ export interface AvailabilitySetPropertiesOutput {
   /** Specifies information about the proximity placement group that the availability set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
   proximityPlacementGroup?: SubResourceOutput;
   /** The resource status information. */
-  statuses?: Array<InstanceViewStatusOutput>;
+  readonly statuses?: Array<InstanceViewStatusOutput>;
 }
 
 /** The List Availability Set operation response. */
@@ -2358,11 +2368,11 @@ export interface ProximityPlacementGroupPropertiesOutput {
   /** Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use. */
   proximityPlacementGroupType?: "Standard" | "Ultra";
   /** A list of references to all virtual machines in the proximity placement group. */
-  virtualMachines?: Array<SubResourceWithColocationStatusOutput>;
+  readonly virtualMachines?: Array<SubResourceWithColocationStatusOutput>;
   /** A list of references to all virtual machine scale sets in the proximity placement group. */
-  virtualMachineScaleSets?: Array<SubResourceWithColocationStatusOutput>;
+  readonly virtualMachineScaleSets?: Array<SubResourceWithColocationStatusOutput>;
   /** A list of references to all availability sets in the proximity placement group. */
-  availabilitySets?: Array<SubResourceWithColocationStatusOutput>;
+  readonly availabilitySets?: Array<SubResourceWithColocationStatusOutput>;
   /** Describes colocation status of the Proximity Placement Group. */
   colocationStatus?: InstanceViewStatusOutput;
   /** Specifies the user intent of the proximity placement group. */
@@ -2401,9 +2411,9 @@ export interface DedicatedHostGroupPropertiesOutput {
   /** Number of fault domains that the host group can span. */
   platformFaultDomainCount: number;
   /** A list of references to all dedicated hosts in the dedicated host group. */
-  hosts?: Array<SubResourceReadOnlyOutput>;
+  readonly hosts?: Array<SubResourceReadOnlyOutput>;
   /** The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group. */
-  instanceView?: DedicatedHostGroupInstanceViewOutput;
+  readonly instanceView?: DedicatedHostGroupInstanceViewOutput;
   /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
   supportAutomaticPlacement?: boolean;
   /** Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01. */
@@ -2418,13 +2428,13 @@ export interface DedicatedHostGroupInstanceViewOutput {
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
 export interface DedicatedHostInstanceViewWithNameOutput extends DedicatedHostInstanceViewOutput {
   /** The name of the dedicated host. */
-  name?: string;
+  readonly name?: string;
 }
 
 /** The instance view of a dedicated host. */
 export interface DedicatedHostInstanceViewOutput {
   /** Specifies the unique id of the dedicated physical machine on which the dedicated host resides. */
-  assetId?: string;
+  readonly assetId?: string;
   /** Unutilized capacity of the dedicated host. */
   availableCapacity?: DedicatedHostAvailableCapacityOutput;
   /** The resource status information. */
@@ -2474,19 +2484,19 @@ export interface DedicatedHostPropertiesOutput {
   /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
   autoReplaceOnFailure?: boolean;
   /** A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host. */
-  hostId?: string;
+  readonly hostId?: string;
   /** A list of references to all virtual machines in the Dedicated Host. */
-  virtualMachines?: Array<SubResourceReadOnlyOutput>;
+  readonly virtualMachines?: Array<SubResourceReadOnlyOutput>;
   /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None** */
   licenseType?: "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
   /** The date when the host was first provisioned. */
-  provisioningTime?: string;
+  readonly provisioningTime?: string;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The dedicated host instance view. */
-  instanceView?: DedicatedHostInstanceViewOutput;
+  readonly instanceView?: DedicatedHostInstanceViewOutput;
   /** Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
 }
 
 /** The list dedicated host operation response. */
@@ -2542,7 +2552,7 @@ export interface ImagePropertiesOutput {
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: ImageStorageProfileOutput;
   /** The provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. */
   hyperVGeneration?: "V1" | "V2";
 }
@@ -2615,17 +2625,17 @@ export interface RestorePointCollectionPropertiesOutput {
   /** The properties of the source resource that this restore point collection is created from. */
   source?: RestorePointCollectionSourcePropertiesOutput;
   /** The provisioning state of the restore point collection. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The unique id of the restore point collection. */
-  restorePointCollectionId?: string;
+  readonly restorePointCollectionId?: string;
   /** A list containing all restore points created under this restore point collection. */
-  restorePoints?: Array<RestorePointOutput>;
+  readonly restorePoints?: Array<RestorePointOutput>;
 }
 
 /** The properties of the source resource that this restore point collection is created from. */
 export interface RestorePointCollectionSourcePropertiesOutput {
   /** Location of the source resource used to create this restore point collection. */
-  location?: string;
+  readonly location?: string;
   /** Resource Id of the source resource used to create this restore point collection */
   id?: string;
 }
@@ -2641,9 +2651,9 @@ export interface RestorePointPropertiesOutput {
   /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
   excludeDisks?: Array<ApiEntityReferenceOutput>;
   /** Gets the details of the VM captured at the time of the restore point creation. */
-  sourceMetadata?: RestorePointSourceMetadataOutput;
+  readonly sourceMetadata?: RestorePointSourceMetadataOutput;
   /** Gets the provisioning state of the restore point. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
   consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
   /** Gets the creation time of the restore point. */
@@ -2651,7 +2661,7 @@ export interface RestorePointPropertiesOutput {
   /** Resource Id of the source restore point from which a copy needs to be created. */
   sourceRestorePoint?: ApiEntityReferenceOutput;
   /** The restore point instance view. */
-  instanceView?: RestorePointInstanceViewOutput;
+  readonly instanceView?: RestorePointInstanceViewOutput;
 }
 
 /** Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation. */
@@ -2743,11 +2753,11 @@ export interface DiskRestorePointReplicationStatusOutput {
 /** The resource model definition for an Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResourceOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
 }
 
 /** The List restore point collection operation response. */
@@ -2769,23 +2779,23 @@ export interface CapacityReservationGroupOutput extends ResourceOutput {
 /** capacity reservation group Properties. */
 export interface CapacityReservationGroupPropertiesOutput {
   /** A list of all capacity reservation resource ids that belong to capacity reservation group. */
-  capacityReservations?: Array<SubResourceReadOnlyOutput>;
+  readonly capacityReservations?: Array<SubResourceReadOnlyOutput>;
   /** A list of references to all virtual machines associated to the capacity reservation group. */
-  virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
+  readonly virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
   /** The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group. */
-  instanceView?: CapacityReservationGroupInstanceViewOutput;
+  readonly instanceView?: CapacityReservationGroupInstanceViewOutput;
 }
 
 export interface CapacityReservationGroupInstanceViewOutput {
   /** List of instance view of the capacity reservations under the capacity reservation group. */
-  capacityReservations?: Array<CapacityReservationInstanceViewWithNameOutput>;
+  readonly capacityReservations?: Array<CapacityReservationInstanceViewWithNameOutput>;
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
 export interface CapacityReservationInstanceViewWithNameOutput
   extends CapacityReservationInstanceViewOutput {
   /** The name of the capacity reservation. */
-  name?: string;
+  readonly name?: string;
 }
 
 /** The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
@@ -2799,9 +2809,9 @@ export interface CapacityReservationInstanceViewOutput {
 /** Represents the capacity reservation utilization in terms of resources allocated. */
 export interface CapacityReservationUtilizationOutput {
   /** The value provides the current capacity of the VM size which was reserved successfully and for which the customer is getting billed.<br><br>Minimum api-version: 2022-08-01. */
-  currentCapacity?: number;
+  readonly currentCapacity?: number;
   /** A list of all virtual machines resource ids allocated against the capacity reservation. */
-  virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
+  readonly virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
 }
 
 /** The List capacity reservation group with resource group response. */
@@ -2825,19 +2835,19 @@ export interface CapacityReservationOutput extends ResourceOutput {
 /** Properties of the Capacity reservation. */
 export interface CapacityReservationPropertiesOutput {
   /** A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource. */
-  reservationId?: string;
+  readonly reservationId?: string;
   /** Specifies the value of fault domain count that Capacity Reservation supports for requested VM size.<br>NOTE: The fault domain count specified for a resource (like virtual machines scale set) must be less than or equal to this value if it deploys using capacity reservation.<br><br>Minimum api-version: 2022-08-01. */
-  platformFaultDomainCount?: number;
+  readonly platformFaultDomainCount?: number;
   /** A list of all virtual machine resource ids that are associated with the capacity reservation. */
-  virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
+  readonly virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
   /** The date time when the capacity reservation was last updated. */
-  provisioningTime?: string;
+  readonly provisioningTime?: string;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The Capacity reservation instance view. */
-  instanceView?: CapacityReservationInstanceViewOutput;
+  readonly instanceView?: CapacityReservationInstanceViewOutput;
   /** Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
 }
 
 /** The list capacity reservation operation response. */
@@ -2851,13 +2861,13 @@ export interface CapacityReservationListResultOutput {
 /** LogAnalytics operation status response */
 export interface LogAnalyticsOperationResultOutput {
   /** LogAnalyticsOutput */
-  properties?: LogAnalyticsOutputOutput;
+  readonly properties?: LogAnalyticsOutputOutput;
 }
 
 /** LogAnalytics output properties */
 export interface LogAnalyticsOutputOutput {
   /** Output file Uri path to blob container. */
-  output?: string;
+  readonly output?: string;
 }
 
 /** The List Virtual Machine operation response. */
@@ -2942,9 +2952,9 @@ export interface VirtualMachineRunCommandPropertiesOutput {
   /** Specifies the Azure storage blob where script error stream will be uploaded. */
   errorBlobUri?: string;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The virtual machine run command instance view. */
-  instanceView?: VirtualMachineRunCommandInstanceViewOutput;
+  readonly instanceView?: VirtualMachineRunCommandInstanceViewOutput;
 }
 
 /** Describes the script sources for run command. */
@@ -2995,9 +3005,9 @@ export interface VirtualMachineRunCommandsListResultOutput {
 /** Disk resource. */
 export interface DiskOutput extends ResourceOutput {
   /** A relative URI containing the ID of the VM that has the disk attached. */
-  managedBy?: string;
+  readonly managedBy?: string;
   /** List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. */
-  managedByExtended?: Array<string>;
+  readonly managedByExtended?: Array<string>;
   /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, or PremiumV2_LRS. */
   sku?: DiskSkuOutput;
   /** The Logical zone list for Disk. */
@@ -3020,13 +3030,13 @@ export interface DiskSkuOutput {
     | "StandardSSD_ZRS"
     | "PremiumV2_LRS";
   /** The sku tier. */
-  tier?: string;
+  readonly tier?: string;
 }
 
 /** Disk resource properties. */
 export interface DiskPropertiesOutput {
   /** The time when the disk was created. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
   /** The Operating System type. */
   osType?: "Windows" | "Linux";
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
@@ -3040,13 +3050,13 @@ export interface DiskPropertiesOutput {
   /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
   diskSizeGB?: number;
   /** The size of the disk in bytes. This field is read only. */
-  diskSizeBytes?: number;
+  readonly diskSizeBytes?: number;
   /** Unique Guid identifying the resource. */
-  uniqueId?: string;
+  readonly uniqueId?: string;
   /** Encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
   encryptionSettingsCollection?: EncryptionSettingsCollectionOutput;
   /** The disk provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. */
   diskIOPSReadWrite?: number;
   /** The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
@@ -3056,7 +3066,7 @@ export interface DiskPropertiesOutput {
   /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
   diskMBpsReadOnly?: number;
   /** The state of the disk. */
-  diskState?:
+  readonly diskState?:
     | "Unattached"
     | "Attached"
     | "Reserved"
@@ -3070,19 +3080,19 @@ export interface DiskPropertiesOutput {
   /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. */
   maxShares?: number;
   /** Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs. */
-  shareInfo?: Array<ShareInfoElementOutput>;
+  readonly shareInfo?: Array<ShareInfoElementOutput>;
   /** Policy for accessing the disk via network. */
   networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
   /** ARM id of the DiskAccess resource for using private endpoints on disks. */
   diskAccessId?: string;
   /** Latest time when bursting was last enabled on a disk. */
-  burstingEnabledTime?: string;
+  readonly burstingEnabledTime?: string;
   /** Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
   tier?: string;
   /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
   burstingEnabled?: boolean;
   /** Properties of the disk for which update is pending. */
-  propertyUpdatesInProgress?: PropertyUpdatesInProgressOutput;
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgressOutput;
   /** Indicates the OS on a disk supports hibernation. */
   supportsHibernation?: boolean;
   /** Contains the security related information for the resource. */
@@ -3144,7 +3154,7 @@ export interface CreationDataOutput {
   /** If createOption is Copy, this is the ARM id of the source snapshot or disk. */
   sourceResourceId?: string;
   /** If this field is set, this is the unique id identifying the source of this resource. */
-  sourceUniqueId?: string;
+  readonly sourceUniqueId?: string;
   /** If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer). */
   uploadSizeBytes?: number;
   /** Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default. */
@@ -3220,7 +3230,7 @@ export interface EncryptionOutput {
 
 export interface ShareInfoElementOutput {
   /** A relative URI containing the ID of the VM that has the disk attached. */
-  vmUri?: string;
+  readonly vmUri?: string;
 }
 
 /** Properties of the disk for which update is pending. */
@@ -3252,9 +3262,9 @@ export interface DiskListOutput {
 /** A disk access SAS uri. */
 export interface AccessUriOutput {
   /** A SAS uri for accessing a disk. */
-  accessSAS?: string;
+  readonly accessSAS?: string;
   /** A SAS uri for accessing a VM guest state. */
-  securityDataAccessSAS?: string;
+  readonly securityDataAccessSAS?: string;
 }
 
 /** disk access resource. */
@@ -3266,11 +3276,11 @@ export interface DiskAccessOutput extends ResourceOutput {
 
 export interface DiskAccessPropertiesOutput {
   /** A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported. */
-  privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
+  readonly privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
   /** The disk access resource provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The time when the disk access was created. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -3278,27 +3288,27 @@ export interface PrivateEndpointConnectionOutput {
   /** Resource properties. */
   properties?: PrivateEndpointConnectionPropertiesOutput;
   /** private endpoint connection Id */
-  id?: string;
+  readonly id?: string;
   /** private endpoint connection name */
-  name?: string;
+  readonly name?: string;
   /** private endpoint connection type */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesOutput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointOutput;
+  readonly privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between DiskAccess and Virtual Network. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
 /** The Private Endpoint resource. */
 export interface PrivateEndpointOutput {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  readonly id?: string;
 }
 
 /** A collection of information about the state of the connection between service consumer and provider. */
@@ -3330,19 +3340,19 @@ export interface PrivateLinkResourceOutput {
   /** Resource properties. */
   properties?: PrivateLinkResourcePropertiesOutput;
   /** private link resource Id */
-  id?: string;
+  readonly id?: string;
   /** private link resource name */
-  name?: string;
+  readonly name?: string;
   /** private link resource type */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of a private link resource. */
 export interface PrivateLinkResourcePropertiesOutput {
   /** The private link resource group id. */
-  groupId?: string;
+  readonly groupId?: string;
   /** The private link resource required member names. */
-  requiredMembers?: Array<string>;
+  readonly requiredMembers?: Array<string>;
   /** The private link resource DNS zone name. */
   requiredZoneNames?: Array<string>;
 }
@@ -3367,9 +3377,9 @@ export interface EncryptionSetIdentityOutput {
   /** The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
-  principalId?: string;
+  readonly principalId?: string;
   /** The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
@@ -3383,15 +3393,15 @@ export interface EncryptionSetPropertiesOutput {
   /** The key vault key which is currently used by this disk encryption set. */
   activeKey?: KeyForDiskEncryptionSetOutput;
   /** A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation. */
-  previousKeys?: Array<KeyForDiskEncryptionSetOutput>;
+  readonly previousKeys?: Array<KeyForDiskEncryptionSetOutput>;
   /** The disk encryption set provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
   rotationToLatestKeyVersionEnabled?: boolean;
   /** The time when the active key of this disk encryption set was updated. */
-  lastKeyRotationTimestamp?: string;
+  readonly lastKeyRotationTimestamp?: string;
   /** The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed. */
-  autoKeyRotationError?: ApiErrorOutput;
+  readonly autoKeyRotationError?: ApiErrorOutput;
   /** Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property. */
   federatedClientId?: string;
 }
@@ -3429,11 +3439,11 @@ export interface DiskRestorePointOutput extends ProxyOnlyResourceOutput {
 /** Properties of an incremental disk restore point */
 export interface DiskRestorePointPropertiesOutput {
   /** The timestamp of restorePoint creation */
-  timeCreated?: string;
+  readonly timeCreated?: string;
   /** arm id of source disk or source disk restore point. */
-  sourceResourceId?: string;
+  readonly sourceResourceId?: string;
   /** The Operating System type. */
-  osType?: "Windows" | "Linux";
+  readonly osType?: "Windows" | "Linux";
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: "V1" | "V2";
   /** Purchase plan information for the the image from which the OS disk was created. */
@@ -3441,11 +3451,11 @@ export interface DiskRestorePointPropertiesOutput {
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilitiesOutput;
   /** id of the backing snapshot's MIS family */
-  familyId?: string;
+  readonly familyId?: string;
   /** unique incarnation id of the source disk */
-  sourceUniqueId?: string;
+  readonly sourceUniqueId?: string;
   /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
-  encryption?: EncryptionOutput;
+  readonly encryption?: EncryptionOutput;
   /** Indicates the OS on a disk supports hibernation. */
   supportsHibernation?: boolean;
   /** Policy for accessing the disk via network. */
@@ -3457,9 +3467,9 @@ export interface DiskRestorePointPropertiesOutput {
   /** Percentage complete for the background copy of disk restore point when source resource is from a different region. */
   completionPercent?: number;
   /** Replication state of disk restore point when source resource is from a different region. */
-  replicationState?: string;
+  readonly replicationState?: string;
   /** Location of source disk or source disk restore point when source resource is from a different region. */
-  sourceResourceLocation?: string;
+  readonly sourceResourceLocation?: string;
   /** Contains the security related information for the resource. */
   securityProfile?: DiskSecurityProfileOutput;
 }
@@ -3467,11 +3477,11 @@ export interface DiskRestorePointPropertiesOutput {
 /** The ProxyOnly Resource model definition. */
 export interface ProxyOnlyResourceOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
 }
 
 /** The List Disk Restore Points operation response. */
@@ -3485,7 +3495,7 @@ export interface DiskRestorePointListOutput {
 /** Snapshot resource. */
 export interface SnapshotOutput extends ResourceOutput {
   /** Unused. Always Null. */
-  managedBy?: string;
+  readonly managedBy?: string;
   /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
   sku?: SnapshotSkuOutput;
   /** The extended location where the snapshot will be created. Extended location cannot be changed. */
@@ -3499,13 +3509,13 @@ export interface SnapshotSkuOutput {
   /** The sku name. */
   name?: "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
   /** The sku tier. */
-  tier?: string;
+  readonly tier?: string;
 }
 
 /** Snapshot resource properties. */
 export interface SnapshotPropertiesOutput {
   /** The time when the snapshot was created. */
-  timeCreated?: string;
+  readonly timeCreated?: string;
   /** The Operating System type. */
   osType?: "Windows" | "Linux";
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
@@ -3519,9 +3529,9 @@ export interface SnapshotPropertiesOutput {
   /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
   diskSizeGB?: number;
   /** The size of the disk in bytes. This field is read only. */
-  diskSizeBytes?: number;
+  readonly diskSizeBytes?: number;
   /** The state of the snapshot. */
-  diskState?:
+  readonly diskState?:
     | "Unattached"
     | "Attached"
     | "Reserved"
@@ -3531,15 +3541,15 @@ export interface SnapshotPropertiesOutput {
     | "ReadyToUpload"
     | "ActiveUpload";
   /** Unique Guid identifying the resource. */
-  uniqueId?: string;
+  readonly uniqueId?: string;
   /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
   encryptionSettingsCollection?: EncryptionSettingsCollectionOutput;
   /** The disk provisioning state. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed. */
   incremental?: boolean;
   /** Incremental snapshots for a disk share an incremental snapshot family id. The Get Page Range Diff API can only be called on incremental snapshots with the same family id. */
-  incrementalSnapshotFamilyId?: string;
+  readonly incrementalSnapshotFamilyId?: string;
   /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
   encryption?: EncryptionOutput;
   /** Policy for accessing the disk via network. */
@@ -3587,103 +3597,103 @@ export interface ResourceSkusResultOutput {
 /** Describes an available Compute SKU. */
 export interface ResourceSkuOutput {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  readonly resourceType?: string;
   /** The name of SKU. */
-  name?: string;
+  readonly name?: string;
   /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
-  tier?: string;
+  readonly tier?: string;
   /** The Size of the SKU. */
-  size?: string;
+  readonly size?: string;
   /** The Family of this particular SKU. */
-  family?: string;
+  readonly family?: string;
   /** The Kind of resources that are supported in this SKU. */
-  kind?: string;
+  readonly kind?: string;
   /** Specifies the number of virtual machines in the scale set. */
-  capacity?: ResourceSkuCapacityOutput;
+  readonly capacity?: ResourceSkuCapacityOutput;
   /** The set of locations that the SKU is available. */
-  locations?: Array<string>;
+  readonly locations?: Array<string>;
   /** A list of locations and availability zones in those locations where the SKU is available. */
-  locationInfo?: Array<ResourceSkuLocationInfoOutput>;
+  readonly locationInfo?: Array<ResourceSkuLocationInfoOutput>;
   /** The api versions that support this SKU. */
-  apiVersions?: Array<string>;
+  readonly apiVersions?: Array<string>;
   /** Metadata for retrieving price info. */
-  costs?: Array<ResourceSkuCostsOutput>;
+  readonly costs?: Array<ResourceSkuCostsOutput>;
   /** A name value pair to describe the capability. */
-  capabilities?: Array<ResourceSkuCapabilitiesOutput>;
+  readonly capabilities?: Array<ResourceSkuCapabilitiesOutput>;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: Array<ResourceSkuRestrictionsOutput>;
+  readonly restrictions?: Array<ResourceSkuRestrictionsOutput>;
 }
 
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuCapacityOutput {
   /** The minimum capacity. */
-  minimum?: number;
+  readonly minimum?: number;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  readonly maximum?: number;
   /** The default capacity. */
-  default?: number;
+  readonly default?: number;
   /** The scale type applicable to the sku. */
-  scaleType?: "Automatic" | "Manual" | "None";
+  readonly scaleType?: "Automatic" | "Manual" | "None";
 }
 
 /** Describes an available Compute SKU Location Information. */
 export interface ResourceSkuLocationInfoOutput {
   /** Location of the SKU */
-  location?: string;
+  readonly location?: string;
   /** List of availability zones where the SKU is supported. */
-  zones?: Array<string>;
+  readonly zones?: Array<string>;
   /** Details of capabilities available to a SKU in specific zones. */
-  zoneDetails?: Array<ResourceSkuZoneDetailsOutput>;
+  readonly zoneDetails?: Array<ResourceSkuZoneDetailsOutput>;
   /** The names of extended locations. */
-  extendedLocations?: Array<string>;
+  readonly extendedLocations?: Array<string>;
   /** The type of the extended location. */
-  type?: "EdgeZone";
+  readonly type?: "EdgeZone";
 }
 
 /** Describes The zonal capabilities of a SKU. */
 export interface ResourceSkuZoneDetailsOutput {
   /** The set of zones that the SKU is available in with the specified capabilities. */
-  name?: Array<string>;
+  readonly name?: Array<string>;
   /** A list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities?: Array<ResourceSkuCapabilitiesOutput>;
+  readonly capabilities?: Array<ResourceSkuCapabilitiesOutput>;
 }
 
 /** Describes The SKU capabilities object. */
 export interface ResourceSkuCapabilitiesOutput {
   /** An invariant to describe the feature. */
-  name?: string;
+  readonly name?: string;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  readonly value?: string;
 }
 
 /** Describes metadata for retrieving price info. */
 export interface ResourceSkuCostsOutput {
   /** Used for querying price from commerce. */
-  meterID?: string;
+  readonly meterID?: string;
   /** The multiplier is needed to extend the base metered cost. */
-  quantity?: number;
+  readonly quantity?: number;
   /** An invariant to show the extended unit. */
-  extendedUnit?: string;
+  readonly extendedUnit?: string;
 }
 
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuRestrictionsOutput {
   /** The type of restrictions. */
-  type?: "Location" | "Zone";
+  readonly type?: "Location" | "Zone";
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: Array<string>;
+  readonly values?: Array<string>;
   /** The information about the restriction where the SKU cannot be used. */
-  restrictionInfo?: ResourceSkuRestrictionInfoOutput;
+  readonly restrictionInfo?: ResourceSkuRestrictionInfoOutput;
   /** The reason for restriction. */
-  reasonCode?: "QuotaId" | "NotAvailableForSubscription";
+  readonly reasonCode?: "QuotaId" | "NotAvailableForSubscription";
 }
 
 /** Describes an available Compute SKU Restriction Information. */
 export interface ResourceSkuRestrictionInfoOutput {
   /** Locations where the SKU is restricted */
-  locations?: Array<string>;
+  readonly locations?: Array<string>;
   /** List of availability zones where the SKU is restricted. */
-  zones?: Array<string>;
+  readonly zones?: Array<string>;
 }
 
 /** Specifies information about the Shared Image Gallery that you want to create or update. */
@@ -3699,19 +3709,25 @@ export interface GalleryPropertiesOutput {
   /** Describes the gallery unique name. */
   identifier?: GalleryIdentifierOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+  readonly provisioningState?:
+    | "Creating"
+    | "Updating"
+    | "Failed"
+    | "Succeeded"
+    | "Deleting"
+    | "Migrating";
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfileOutput;
   /** Contains information about the soft deletion policy of the gallery. */
   softDeletePolicy?: SoftDeletePolicyOutput;
   /** Sharing status of current gallery. */
-  sharingStatus?: SharingStatusOutput;
+  readonly sharingStatus?: SharingStatusOutput;
 }
 
 /** Describes the gallery unique name. */
 export interface GalleryIdentifierOutput {
   /** The unique name of the Shared Image Gallery. This name is generated automatically by Azure. */
-  uniqueName?: string;
+  readonly uniqueName?: string;
 }
 
 /** Profile for gallery sharing to subscription or tenant */
@@ -3719,7 +3735,7 @@ export interface SharingProfileOutput {
   /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
   permissions?: "Private" | "Groups" | "Community";
   /** A list of sharing profile groups. */
-  groups?: Array<SharingProfileGroupOutput>;
+  readonly groups?: Array<SharingProfileGroupOutput>;
   /** Information of community gallery if current gallery is shared to community. */
   communityGalleryInfo?: CommunityGalleryInfoOutput;
 }
@@ -3743,9 +3759,9 @@ export interface CommunityGalleryInfoOutput {
   /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
   publicNamePrefix?: string;
   /** Contains info about whether community gallery sharing is enabled. */
-  communityGalleryEnabled?: boolean;
+  readonly communityGalleryEnabled?: boolean;
   /** Community gallery public name list. */
-  publicNames?: Array<string>;
+  readonly publicNames?: Array<string>;
 }
 
 /** Contains information about the soft deletion policy of the gallery. */
@@ -3757,7 +3773,7 @@ export interface SoftDeletePolicyOutput {
 /** Sharing status of current gallery. */
 export interface SharingStatusOutput {
   /** Aggregated sharing state of current gallery. */
-  aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
+  readonly aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
   /** Summary of all regional sharing status. */
   summary?: Array<RegionalSharingStatusOutput>;
 }
@@ -3767,7 +3783,7 @@ export interface RegionalSharingStatusOutput {
   /** Region name */
   region?: string;
   /** Gallery sharing state in current region */
-  state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
+  readonly state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
   /** Details of gallery regional sharing failure. */
   details?: string;
 }
@@ -3805,7 +3821,13 @@ export interface GalleryImagePropertiesOutput {
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlanOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+  readonly provisioningState?:
+    | "Creating"
+    | "Updating"
+    | "Failed"
+    | "Succeeded"
+    | "Deleting"
+    | "Migrating";
   /** A list of gallery image features. */
   features?: Array<GalleryImageFeatureOutput>;
   /** The architecture of the image. Applicable to OS disks only. */
@@ -3873,11 +3895,17 @@ export interface GalleryImageVersionPropertiesOutput {
   /** The publishing profile of a gallery image Version. */
   publishingProfile?: GalleryImageVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+  readonly provisioningState?:
+    | "Creating"
+    | "Updating"
+    | "Failed"
+    | "Succeeded"
+    | "Deleting"
+    | "Migrating";
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile: GalleryImageVersionStorageProfileOutput;
   /** This is the replication status of the gallery image version. */
-  replicationStatus?: ReplicationStatusOutput;
+  readonly replicationStatus?: ReplicationStatusOutput;
 }
 
 /** The publishing profile of a gallery image Version. */
@@ -3893,7 +3921,7 @@ export interface GalleryArtifactPublishingProfileBaseOutput {
   /** If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version. */
   excludeFromLatest?: boolean;
   /** The timestamp for when the gallery image version is published. */
-  publishedDate?: string;
+  readonly publishedDate?: string;
   /** The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: string;
   /** Specifies the storage account type to be used to store the image. This property is not updatable. */
@@ -3997,7 +4025,7 @@ export interface GalleryOSDiskImageOutput extends GalleryDiskImageOutput {}
 /** This is the disk image base class. */
 export interface GalleryDiskImageOutput {
   /** This property indicates the size of the VHD to be created. */
-  sizeInGB?: number;
+  readonly sizeInGB?: number;
   /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
   hostCaching?: "None" | "ReadOnly" | "ReadWrite";
   /** The gallery artifact version source. */
@@ -4013,21 +4041,21 @@ export interface GalleryDataDiskImageOutput extends GalleryDiskImageOutput {
 /** This is the replication status of the gallery image version. */
 export interface ReplicationStatusOutput {
   /** This is the aggregated replication status based on all the regional replication status flags. */
-  aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
+  readonly aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
   /** This is a summary of replication status for each region. */
-  summary?: Array<RegionalReplicationStatusOutput>;
+  readonly summary?: Array<RegionalReplicationStatusOutput>;
 }
 
 /** This is the regional replication status. */
 export interface RegionalReplicationStatusOutput {
   /** The region to which the gallery image version is being replicated to. */
-  region?: string;
+  readonly region?: string;
   /** This is the regional replication state. */
-  state?: "Unknown" | "Replicating" | "Completed" | "Failed";
+  readonly state?: "Unknown" | "Replicating" | "Completed" | "Failed";
   /** The details of the replication status. */
-  details?: string;
+  readonly details?: string;
   /** It indicates progress of the replication job. */
-  progress?: number;
+  readonly progress?: number;
 }
 
 /** Specifies information about the gallery Application Definition that you want to create or update. */
@@ -4063,9 +4091,15 @@ export interface GalleryApplicationVersionPropertiesOutput {
   /** The publishing profile of a gallery image version. */
   publishingProfile: GalleryApplicationVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+  readonly provisioningState?:
+    | "Creating"
+    | "Updating"
+    | "Failed"
+    | "Succeeded"
+    | "Deleting"
+    | "Migrating";
   /** This is the replication status of the gallery image version. */
-  replicationStatus?: ReplicationStatusOutput;
+  readonly replicationStatus?: ReplicationStatusOutput;
 }
 
 /** The publishing profile of a gallery image version. */
@@ -4181,9 +4215,9 @@ export interface SharedGalleryIdentifierOutput {
 /** The Resource model definition. */
 export interface PirResourceOutput {
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource location */
-  location?: string;
+  readonly location?: string;
 }
 
 /** The List Shared Gallery Images operation response. */
@@ -4264,7 +4298,7 @@ export interface SharedGalleryOSDiskImageOutput extends SharedGalleryDiskImageOu
 /** This is the disk image base class. */
 export interface SharedGalleryDiskImageOutput {
   /** This property indicates the size of the VHD to be created. */
-  diskSizeGB?: number;
+  readonly diskSizeGB?: number;
   /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
   hostCaching?: "None" | "ReadOnly" | "ReadWrite";
 }
@@ -4281,11 +4315,11 @@ export interface CommunityGalleryOutput extends PirCommunityGalleryResourceOutpu
 /** Base information about the community gallery resource in pir. */
 export interface PirCommunityGalleryResourceOutput {
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource location */
-  location?: string;
+  readonly location?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** The identifier information of community gallery. */
   identifier?: CommunityGalleryIdentifierOutput;
 }
@@ -4367,15 +4401,15 @@ export interface CommunityGalleryImageVersionListOutput {
 /** Describes the cloud service role instance. */
 export interface RoleInstanceOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource Name. */
-  name?: string;
+  readonly name?: string;
   /** Resource Type. */
-  type?: string;
+  readonly type?: string;
   /** Resource Location. */
-  location?: string;
+  readonly location?: string;
   /** Resource tags. */
-  tags?: Record<string, string>;
+  readonly tags?: Record<string, string>;
   /** The role instance SKU. */
   sku?: InstanceSkuOutput;
   /** Role instance properties. */
@@ -4385,9 +4419,9 @@ export interface RoleInstanceOutput {
 /** The role instance SKU. */
 export interface InstanceSkuOutput {
   /** The sku name. */
-  name?: string;
+  readonly name?: string;
   /** The tier of the cloud service role instance. */
-  tier?: string;
+  readonly tier?: string;
 }
 
 /** Role instance properties. */
@@ -4401,30 +4435,30 @@ export interface RoleInstancePropertiesOutput {
 /** Describes the network profile for the role instance. */
 export interface RoleInstanceNetworkProfileOutput {
   /** Specifies the list of resource Ids for the network interfaces associated with the role instance. */
-  networkInterfaces?: Array<SubResourceOutput>;
+  readonly networkInterfaces?: Array<SubResourceOutput>;
 }
 
 /** The instance view of the role instance. */
 export interface RoleInstanceViewOutput {
   /** The Update Domain. */
-  platformUpdateDomain?: number;
+  readonly platformUpdateDomain?: number;
   /** The Fault Domain. */
-  platformFaultDomain?: number;
+  readonly platformFaultDomain?: number;
   /** Specifies a unique identifier generated internally for the cloud service associated with this role instance. <br /><br /> NOTE: If you are using Azure Diagnostics extension, this property can be used as 'DeploymentId' for querying details. */
-  privateId?: string;
-  statuses?: Array<ResourceInstanceViewStatusOutput>;
+  readonly privateId?: string;
+  readonly statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
 /** Instance view status. */
 export interface ResourceInstanceViewStatusOutput {
   /** The status code. */
-  code?: string;
+  readonly code?: string;
   /** The short localizable label for the status. */
-  displayStatus?: string;
+  readonly displayStatus?: string;
   /** The detailed status message, including for alerts and error messages. */
-  message?: string;
+  readonly message?: string;
   /** The time of the status. */
-  time?: string;
+  readonly time?: string;
   /** The level code. */
   level?: "Info" | "Warning" | "Error";
 }
@@ -4440,13 +4474,13 @@ export interface RoleInstanceListResultOutput {
 /** Describes a role of the cloud service. */
 export interface CloudServiceRoleOutput {
   /** Resource id */
-  id?: string;
+  readonly id?: string;
   /** Resource name */
-  name?: string;
+  readonly name?: string;
   /** Resource type */
-  type?: string;
+  readonly type?: string;
   /** Resource location */
-  location?: string;
+  readonly location?: string;
   /** Describes the cloud service role sku. */
   sku?: CloudServiceRoleSkuOutput;
   /** The cloud service role properties. */
@@ -4466,7 +4500,7 @@ export interface CloudServiceRoleSkuOutput {
 /** The cloud service role properties. */
 export interface CloudServiceRolePropertiesOutput {
   /** Specifies the ID which uniquely identifies a cloud service role. */
-  uniqueId?: string;
+  readonly uniqueId?: string;
 }
 
 /** The list operation result. */
@@ -4480,11 +4514,11 @@ export interface CloudServiceRoleListResultOutput {
 /** Describes the cloud service. */
 export interface CloudServiceOutput {
   /** Resource Id. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource location. */
   location: string;
   /** Resource tags. */
@@ -4534,9 +4568,9 @@ export interface CloudServicePropertiesOutput {
   /** Describes a cloud service extension profile. */
   extensionProfile?: CloudServiceExtensionProfileOutput;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The unique identifier for the cloud service. */
-  uniqueId?: string;
+  readonly uniqueId?: string;
 }
 
 /** Describes the role profile for the cloud service. */
@@ -4660,7 +4694,7 @@ export interface CloudServiceExtensionPropertiesOutput {
    */
   forceUpdateTag?: string;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** Optional list of roles to apply this extension. If property is not specified or '*' is specified, extension is applied to all roles in the cloud service. */
   rolesAppliedTo?: Array<string>;
 }
@@ -4676,9 +4710,9 @@ export interface CloudServiceVaultAndSecretReferenceOutput {
 /** The system meta data relating to this resource. */
 export interface SystemDataOutput {
   /** Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04. */
-  createdAt?: string;
+  readonly createdAt?: string;
   /** Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04. */
-  lastModifiedAt?: string;
+  readonly lastModifiedAt?: string;
 }
 
 /** InstanceView of CloudService as a whole */
@@ -4686,24 +4720,24 @@ export interface CloudServiceInstanceViewOutput {
   /** Instance view statuses. */
   roleInstance?: InstanceViewStatusesSummaryOutput;
   /** The version of the SDK that was used to generate the package for the cloud service. */
-  sdkVersion?: string;
+  readonly sdkVersion?: string;
   /** Specifies a list of unique identifiers generated internally for the cloud service. <br /><br /> NOTE: If you are using Azure Diagnostics extension, this property can be used as 'DeploymentId' for querying details. */
-  privateIds?: Array<string>;
-  statuses?: Array<ResourceInstanceViewStatusOutput>;
+  readonly privateIds?: Array<string>;
+  readonly statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
 /** Instance view statuses. */
 export interface InstanceViewStatusesSummaryOutput {
   /** The summary. */
-  statusesSummary?: Array<StatusCodeCountOutput>;
+  readonly statusesSummary?: Array<StatusCodeCountOutput>;
 }
 
 /** The status code and count of the cloud service instance view statuses */
 export interface StatusCodeCountOutput {
   /** The instance view status code */
-  code?: string;
+  readonly code?: string;
   /** Number of instances having this status code */
-  count?: number;
+  readonly count?: number;
 }
 
 /** The list operation result. */
@@ -4717,9 +4751,9 @@ export interface CloudServiceListResultOutput {
 /** Defines an update domain for the cloud service. */
 export interface UpdateDomainOutput {
   /** Resource Id */
-  id?: string;
+  readonly id?: string;
   /** Resource Name */
-  name?: string;
+  readonly name?: string;
 }
 
 /** The list operation result. */
@@ -4733,13 +4767,13 @@ export interface UpdateDomainListResultOutput {
 /** Describes a cloud service OS version. */
 export interface OSVersionOutput {
   /** Resource Id. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource location. */
-  location?: string;
+  readonly location?: string;
   /** OS version properties. */
   properties?: OSVersionPropertiesOutput;
 }
@@ -4747,17 +4781,17 @@ export interface OSVersionOutput {
 /** OS version properties. */
 export interface OSVersionPropertiesOutput {
   /** The family of this OS version. */
-  family?: string;
+  readonly family?: string;
   /** The family label of this OS version. */
-  familyLabel?: string;
+  readonly familyLabel?: string;
   /** The OS version. */
-  version?: string;
+  readonly version?: string;
   /** The OS version label. */
-  label?: string;
+  readonly label?: string;
   /** Specifies whether this is the default OS version for its family. */
-  isDefault?: boolean;
+  readonly isDefault?: boolean;
   /** Specifies whether this OS version is active. */
-  isActive?: boolean;
+  readonly isActive?: boolean;
 }
 
 /** The list operation result. */
@@ -4771,13 +4805,13 @@ export interface OSVersionListResultOutput {
 /** Describes a cloud service OS family. */
 export interface OSFamilyOutput {
   /** Resource Id. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource location. */
-  location?: string;
+  readonly location?: string;
   /** OS family properties. */
   properties?: OSFamilyPropertiesOutput;
 }
@@ -4785,23 +4819,23 @@ export interface OSFamilyOutput {
 /** OS family properties. */
 export interface OSFamilyPropertiesOutput {
   /** The OS family name. */
-  name?: string;
+  readonly name?: string;
   /** The OS family label. */
-  label?: string;
+  readonly label?: string;
   /** List of OS versions belonging to this family. */
-  versions?: Array<OSVersionPropertiesBaseOutput>;
+  readonly versions?: Array<OSVersionPropertiesBaseOutput>;
 }
 
 /** Configuration view of an OS version. */
 export interface OSVersionPropertiesBaseOutput {
   /** The OS version. */
-  version?: string;
+  readonly version?: string;
   /** The OS version label. */
-  label?: string;
+  readonly label?: string;
   /** Specifies whether this is the default OS version for its family. */
-  isDefault?: boolean;
+  readonly isDefault?: boolean;
   /** Specifies whether this OS version is active. */
-  isActive?: boolean;
+  readonly isActive?: boolean;
 }
 
 /** The list operation result. */

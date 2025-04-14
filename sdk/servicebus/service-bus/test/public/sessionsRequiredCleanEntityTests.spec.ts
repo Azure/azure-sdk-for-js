@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
+// Licensed under the MIT License.
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-const should = chai.should();
+} from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
+import type { TestClientType } from "./utils/testUtils.js";
+import { TestMessage } from "./utils/testUtils.js";
+import { afterEach, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
 // and only grab the "expected" next session you need to ensure the entity (queue, sub)
 // is completely empty.
 //
-// I've moved these tests in here and re-create entites after each test - it'e expensive
+// I've moved these tests in here and re-create entities after each test - it'e expensive
 // but it'll allow them to be reliable.
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -30,7 +30,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     // Observation -
@@ -46,7 +46,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
-    //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    //   assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
 
@@ -72,7 +72,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   ].forEach((testClientType) => {
     describe(testClientType + "Peek session", function (): void {
       async function peekSession(
-        sessionReceiverType: "acceptsession" | "acceptnextsession" | ":hell"
+        sessionReceiverType: "acceptsession" | "acceptnextsession" | ":hell",
       ): Promise<void> {
         const testMessage = TestMessage.getSessionSample();
         await sender.sendMessages(testMessage);
@@ -82,7 +82,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         if (sessionReceiverType === "acceptsession") {
           receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
             entityNames,
-            testMessage.sessionId!
+            testMessage.sessionId!,
           );
         } else if (sessionReceiverType === "acceptnextsession") {
           receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
@@ -98,17 +98,17 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         should.equal(
           peekedMsgs[0].body,
           testMessage.body,
-          "MessageBody is different than expected"
+          "MessageBody is different than expected",
         );
         should.equal(
           peekedMsgs[0].messageId,
           testMessage.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
         should.equal(
           peekedMsgs[0].sessionId,
           testMessage.sessionId,
-          "SessionId is different than expected"
+          "SessionId is different than expected",
         );
 
         const msgs = await receiver.receiveMessages(1);
@@ -117,12 +117,12 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         should.equal(
           msgs[0].messageId,
           testMessage.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
         should.equal(
           msgs[0].sessionId,
           testMessage.sessionId,
-          "SessionId is different than expected"
+          "SessionId is different than expected",
         );
 
         await receiver.completeMessage(msgs[0]);
@@ -172,10 +172,10 @@ describe("sessions tests -  requires completely clean entity for each test", () 
           (x) =>
             msgs[0].body === x.body &&
             msgs[0].messageId === x.messageId &&
-            msgs[0].sessionId === x.sessionId
+            msgs[0].sessionId === x.sessionId,
         ),
         true,
-        "Received Message doesnt match any of the test messages"
+        "Received Message doesn't match any of the test messages",
       );
       await receiver.completeMessage(msgs[0]);
       await receiver.close();
@@ -192,10 +192,10 @@ describe("sessions tests -  requires completely clean entity for each test", () 
           (x) =>
             msgs[0].body === x.body &&
             msgs[0].messageId === x.messageId &&
-            msgs[0].sessionId === x.sessionId
+            msgs[0].sessionId === x.sessionId,
         ),
         true,
-        "Received Message doesnt match any of the test messages"
+        "Received Message doesn't match any of the test messages",
       );
       await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
@@ -206,7 +206,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       async function (): Promise<void> {
         await beforeEachNoSessionTest(randomTestClientType);
         await testComplete_batching();
-      }
+      },
     );
   });
 
@@ -247,7 +247,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
             testMessagesWithDifferentSessionIds[1].messageId === msgs[0].messageId &&
             testMessagesWithDifferentSessionIds[1].sessionId === msgs[0].sessionId,
           true,
-          "Received Message doesnt match expected test message"
+          "Received Message doesn't match expected test message",
         );
         await receiver.completeMessage(msgs[0]);
 
@@ -261,7 +261,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         await beforeEachNoSessionTest(randomTestClientType);
         await testComplete_batching();
       });
-    }
+    },
   );
 });
 

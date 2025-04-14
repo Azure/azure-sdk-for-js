@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { ChangeFeed } from "./ChangeFeed";
-import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants";
+import type { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { ChangeFeed } from "./ChangeFeed.js";
+import type { ChangeFeedCursor } from "./models/ChangeFeedCursor.js";
+import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants.js";
 import {
   ceilToNearestHour,
   floorToNearestHour,
@@ -13,20 +13,26 @@ import {
   minDate,
   getHost,
   parseDateFromSegmentPath,
-} from "./utils/utils.common";
-import { bodyToString } from "./utils/utils.node";
-import { SegmentFactory } from "./SegmentFactory";
-import { ShardFactory } from "./ShardFactory";
-import { ChunkFactory } from "./ChunkFactory";
-import { AvroReaderFactory } from "./AvroReaderFactory";
-import { Segment } from "./Segment";
-import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { tracingClient } from "./utils/tracing";
-import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+} from "./utils/utils.common.js";
+import { bodyToString } from "./utils/utils.node.js";
+import { SegmentFactory } from "./SegmentFactory.js";
+import { ShardFactory } from "./ShardFactory.js";
+import { ChunkFactory } from "./ChunkFactory.js";
+import { AvroReaderFactory } from "./AvroReaderFactory.js";
+import type { Segment } from "./Segment.js";
+import type { BlobChangeFeedListChangesOptions } from "./models/models.js";
+import { tracingClient } from "./utils/tracing.js";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
 
 interface MetaSegments {
   version?: number;
   lastConsumable: string;
+}
+
+function isSegmentFactory(
+  segmentFactoryOrMaxTransferSize: SegmentFactory | number,
+): segmentFactoryOrMaxTransferSize is SegmentFactory {
+  return (segmentFactoryOrMaxTransferSize as SegmentFactory).create !== undefined;
 }
 
 export class ChangeFeedFactory {
@@ -40,7 +46,7 @@ export class ChangeFeedFactory {
     if (segmentFactoryOrMaxTransferSize) {
       if (Number.isFinite(segmentFactoryOrMaxTransferSize)) {
         this.maxTransferSize = segmentFactoryOrMaxTransferSize as number;
-      } else if (segmentFactoryOrMaxTransferSize instanceof SegmentFactory) {
+      } else if (isSegmentFactory(segmentFactoryOrMaxTransferSize)) {
         segmentFactory = segmentFactoryOrMaxTransferSize as SegmentFactory;
       }
     }
@@ -53,9 +59,9 @@ export class ChangeFeedFactory {
           new ChunkFactory(
             new AvroReaderFactory(),
             new LazyLoadingBlobStreamFactory(),
-            this.maxTransferSize
-          )
-        )
+            this.maxTransferSize,
+          ),
+        ),
       );
     }
   }
@@ -72,7 +78,7 @@ export class ChangeFeedFactory {
   public async create(
     blobServiceClient: BlobServiceClient,
     continuationToken?: string,
-    options: BlobChangeFeedListChangesOptions = {}
+    options: BlobChangeFeedListChangesOptions = {},
   ): Promise<ChangeFeed> {
     return tracingClient.withSpan("ChangeFeedFactory-create", options, async (updatedOptions) => {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
@@ -97,7 +103,7 @@ export class ChangeFeedFactory {
       });
       if (!changeFeedContainerExists) {
         throw new Error(
-          "Change Feed hasn't been enabled on this account, or is currently being enabled."
+          "Change Feed hasn't been enabled on this account, or is currently being enabled.",
         );
       }
 
@@ -121,7 +127,7 @@ export class ChangeFeedFactory {
         }
       }
       const lastConsumable = new Date(
-        (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
+        (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable,
       );
 
       // Get year paths
@@ -151,7 +157,7 @@ export class ChangeFeedFactory {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
       }
       if (segments.length === 0) {
@@ -164,7 +170,7 @@ export class ChangeFeedFactory {
         {
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
-        }
+        },
       );
 
       return new ChangeFeed(
@@ -175,7 +181,7 @@ export class ChangeFeedFactory {
         currentSegment,
         lastConsumable,
         options.start,
-        options.end
+        options.end,
       );
     });
   }

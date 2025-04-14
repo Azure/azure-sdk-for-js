@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import MapsRenderClient from "./mapsRenderClient";
+import MapsRenderClient from "./mapsRenderClient.js";
 
-export * from "./mapsRenderClient";
-export * from "./parameters";
-export * from "./responses";
-export * from "./clientDefinitions";
-export * from "./isUnexpected";
-export * from "./outputModels";
+export * from "./mapsRenderClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./outputModels.js";
 
 export default MapsRenderClient;

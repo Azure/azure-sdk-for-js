@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-package-json-required-scripts rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-required-scripts";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-package-json-required-scripts.js";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -57,7 +57,6 @@ const examplePackageGood = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -174,7 +173,6 @@ const examplePackageBad = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -249,13 +247,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-required-scripts", rule, {
   valid: [

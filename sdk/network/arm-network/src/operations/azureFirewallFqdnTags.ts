@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AzureFirewallFqdnTags } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AzureFirewallFqdnTags } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   AzureFirewallFqdnTag,
   AzureFirewallFqdnTagsListAllNextOptionalParams,
   AzureFirewallFqdnTagsListAllOptionalParams,
   AzureFirewallFqdnTagsListAllResponse,
-  AzureFirewallFqdnTagsListAllNextResponse
-} from "../models";
+  AzureFirewallFqdnTagsListAllNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureFirewallFqdnTags operations. */
@@ -39,7 +39,7 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
    * @param options The options parameters.
    */
   public listAll(
-    options?: AzureFirewallFqdnTagsListAllOptionalParams
+    options?: AzureFirewallFqdnTagsListAllOptionalParams,
   ): PagedAsyncIterableIterator<AzureFirewallFqdnTag> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: AzureFirewallFqdnTagsListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureFirewallFqdnTag[]> {
     let result: AzureFirewallFqdnTagsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
   }
 
   private async *listAllPagingAll(
-    options?: AzureFirewallFqdnTagsListAllOptionalParams
+    options?: AzureFirewallFqdnTagsListAllOptionalParams,
   ): AsyncIterableIterator<AzureFirewallFqdnTag> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: AzureFirewallFqdnTagsListAllOptionalParams
+    options?: AzureFirewallFqdnTagsListAllOptionalParams,
   ): Promise<AzureFirewallFqdnTagsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -105,11 +105,11 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
    */
   private _listAllNext(
     nextLink: string,
-    options?: AzureFirewallFqdnTagsListAllNextOptionalParams
+    options?: AzureFirewallFqdnTagsListAllNextOptionalParams,
   ): Promise<AzureFirewallFqdnTagsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class AzureFirewallFqdnTagsImpl implements AzureFirewallFqdnTags {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureFirewallFqdnTagListResult
+      bodyMapper: Mappers.AzureFirewallFqdnTagListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureFirewallFqdnTagListResult
+      bodyMapper: Mappers.AzureFirewallFqdnTagListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

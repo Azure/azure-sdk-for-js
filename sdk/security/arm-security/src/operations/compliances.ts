@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Compliances } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Compliances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   Compliance,
   CompliancesListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   CompliancesListResponse,
   CompliancesGetOptionalParams,
   CompliancesGetResponse,
-  CompliancesListNextResponse
-} from "../models";
+  CompliancesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Compliances operations. */
@@ -45,7 +45,7 @@ export class CompliancesImpl implements Compliances {
    */
   public list(
     scope: string,
-    options?: CompliancesListOptionalParams
+    options?: CompliancesListOptionalParams,
   ): PagedAsyncIterableIterator<Compliance> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -60,14 +60,14 @@ export class CompliancesImpl implements Compliances {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: CompliancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Compliance[]> {
     let result: CompliancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class CompliancesImpl implements Compliances {
 
   private async *listPagingAll(
     scope: string,
-    options?: CompliancesListOptionalParams
+    options?: CompliancesListOptionalParams,
   ): AsyncIterableIterator<Compliance> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -105,11 +105,11 @@ export class CompliancesImpl implements Compliances {
    */
   private _list(
     scope: string,
-    options?: CompliancesListOptionalParams
+    options?: CompliancesListOptionalParams,
   ): Promise<CompliancesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -124,11 +124,11 @@ export class CompliancesImpl implements Compliances {
   get(
     scope: string,
     complianceName: string,
-    options?: CompliancesGetOptionalParams
+    options?: CompliancesGetOptionalParams,
   ): Promise<CompliancesGetResponse> {
     return this.client.sendOperationRequest(
       { scope, complianceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class CompliancesImpl implements Compliances {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: CompliancesListNextOptionalParams
+    options?: CompliancesListNextOptionalParams,
   ): Promise<CompliancesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -159,49 +159,49 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceList
+      bodyMapper: Mappers.ComplianceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/compliances/{complianceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Compliance
+      bodyMapper: Mappers.Compliance,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.complianceName
+    Parameters.complianceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComplianceList
+      bodyMapper: Mappers.ComplianceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

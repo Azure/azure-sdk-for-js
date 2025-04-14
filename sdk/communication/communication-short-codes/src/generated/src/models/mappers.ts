@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ShortCodes: coreClient.CompositeMapper = {
+export const AcquiredShortCodes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ShortCodes",
+    className: "AcquiredShortCodes",
     modelProperties: {
       shortCodes: {
         serializedName: "shortCodes",
@@ -40,14 +40,8 @@ export const ShortCode: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCode",
     modelProperties: {
-      number: {
-        serializedName: "number",
-        type: {
-          name: "String"
-        }
-      },
-      numberType: {
-        serializedName: "numberType",
+      value: {
+        serializedName: "value",
         type: {
           name: "String"
         }
@@ -150,8 +144,8 @@ export const ShortCodeCosts: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCodeCosts",
     modelProperties: {
-      shortCodeCosts: {
-        serializedName: "shortCodeCosts",
+      costs: {
+        serializedName: "costs",
         type: {
           name: "Sequence",
           element: {
@@ -179,35 +173,30 @@ export const ShortCodeCost: coreClient.CompositeMapper = {
     modelProperties: {
       amount: {
         serializedName: "amount",
-        required: true,
         type: {
           name: "Number"
         }
       },
       currencyCode: {
         serializedName: "currencyCode",
-        required: true,
         type: {
           name: "String"
         }
       },
       countryCode: {
         serializedName: "countryCode",
-        required: true,
         type: {
           name: "String"
         }
       },
       isVanityShortCode: {
         serializedName: "isVanityShortCode",
-        required: true,
         type: {
           name: "Boolean"
         }
       },
       billingFrequency: {
         serializedName: "billingFrequency",
-        required: true,
         type: {
           name: "String"
         }

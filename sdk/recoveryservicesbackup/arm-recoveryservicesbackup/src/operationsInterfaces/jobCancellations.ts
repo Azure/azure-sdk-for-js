@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { JobCancellationsTriggerOptionalParams } from "../models";
+import { JobCancellationsTriggerOptionalParams } from "../models/index.js";
 
 /** Interface representing a JobCancellations. */
 export interface JobCancellations {
@@ -23,6 +23,6 @@ export interface JobCancellations {
     vaultName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: JobCancellationsTriggerOptionalParams
+    options?: JobCancellationsTriggerOptionalParams,
   ): Promise<void>;
 }

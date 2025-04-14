@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @hidden
@@ -83,9 +83,12 @@ export interface SubStatusCodesType {
 
   // 400: Bad Request Substatus
   CrossPartitionQueryNotServable: 1004;
+  IncorrectContainerRidSubstatus: 1024;
+  PartitionKeyMismatch: 1001;
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002;
+  CompletingSplit: 1007;
 
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002;
@@ -103,10 +106,12 @@ export const SubStatusCodes: SubStatusCodesType = {
 
   // 400: Bad Request Substatus
   CrossPartitionQueryNotServable: 1004,
+  IncorrectContainerRidSubstatus: 1024,
+  PartitionKeyMismatch: 1001,
 
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002,
-
+  CompletingSplit: 1007,
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002,
 

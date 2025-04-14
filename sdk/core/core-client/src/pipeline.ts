@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DeserializationPolicyOptions, deserializationPolicy } from "./deserializationPolicy";
+import type { DeserializationPolicyOptions } from "./deserializationPolicy.js";
+import { deserializationPolicy } from "./deserializationPolicy.js";
+import type { InternalPipelineOptions, Pipeline } from "@azure/core-rest-pipeline";
 import {
-  InternalPipelineOptions,
-  Pipeline,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-import { SerializationPolicyOptions, serializationPolicy } from "./serializationPolicy";
-import { TokenCredential } from "@azure/core-auth";
+import type { SerializationPolicyOptions } from "./serializationPolicy.js";
+import { serializationPolicy } from "./serializationPolicy.js";
+import type { TokenCredential } from "@azure/core-auth";
 
 /**
  * Options for creating a Pipeline to use with ServiceClient.
@@ -44,7 +45,7 @@ export function createClientPipeline(options: InternalClientPipelineOptions = {}
       bearerTokenAuthenticationPolicy({
         credential: options.credentialOptions.credential,
         scopes: options.credentialOptions.credentialScopes,
-      })
+      }),
     );
   }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Reset the Email Template to default template provided by the API Management service instance.
  *
  * @summary Reset the Email Template to default template provided by the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteTemplate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteTemplate.json
  */
 async function apiManagementDeleteTemplate() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

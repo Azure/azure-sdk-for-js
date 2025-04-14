@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { KeyCredential } from "@azure/core-auth";
+import type { KeyCredential } from "@azure/core-auth";
 
 const API_KEY_HEADER_NAME = "subscription-key";
 
@@ -21,7 +21,7 @@ const azureMapsKeyCredentialPolicyName = "mapsAzureKeyCredentialPolicy";
  * using an `AzureKeyCredential` for Azure Maps
  */
 export function createAzureMapsKeyCredentialPolicy(
-  azureKeyCredential: KeyCredential
+  azureKeyCredential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: azureMapsKeyCredentialPolicyName,

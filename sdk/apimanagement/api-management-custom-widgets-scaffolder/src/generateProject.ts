@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { ServiceInformation, Options, WidgetConfig } from "./scaffolding.js";
 import {
-  DeploymentConfig,
   OVERRIDE_DEFAULT_PORT,
   OVERRIDE_PORT_KEY,
-  Options,
-  WidgetConfig,
   displayNameToName,
   widgetFolderName,
-} from "./scaffolding";
-import { join as joinPath, parse as parsePath } from "path";
-import { promises as fs } from "fs";
-import { getTemplates } from "./getTemplates";
+} from "./scaffolding.js";
+import { sourceDir } from "./sourceDir.js";
+import { join as joinPath, parse as parsePath } from "node:path";
+import * as fs from "node:fs/promises";
+import { getTemplates } from "./getTemplates.js";
 import mustache from "mustache";
 
 const templateSuffix = ".mustache";
@@ -26,10 +25,10 @@ const templateSuffix = ".mustache";
  */
 export async function generateProject(
   widgetConfig: WidgetConfig,
-  deploymentConfig: DeploymentConfig,
-  options: Options = {}
+  deploymentConfig: ServiceInformation,
+  options: Options = {},
 ): Promise<void> {
-  const { openUrl } = options;
+  const { openUrl, configAdvancedTenantId, configAdvancedRedirectUri } = options;
   const openUrlParsed = openUrl ? new URL(openUrl) : null;
   if (openUrlParsed) {
     openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT));
@@ -41,6 +40,19 @@ export async function generateProject(
     open: openUrlParsed ? openUrlParsed.toString() : true,
   };
 
+  const configAdditional = {
+    interactiveBrowserCredentialOptions: { redirectUri: "http://localhost:1337" } as {
+      redirectUri: string;
+      tenantId?: string;
+    },
+  };
+  if (configAdvancedTenantId) {
+    configAdditional.interactiveBrowserCredentialOptions.tenantId = configAdvancedTenantId;
+  }
+  if (configAdvancedRedirectUri) {
+    configAdditional.interactiveBrowserCredentialOptions.redirectUri = configAdvancedRedirectUri;
+  }
+
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
     const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
@@ -51,17 +63,18 @@ export async function generateProject(
         displayName: widgetConfig.displayName,
         config: JSON.stringify({ ...widgetConfig, name }, null, "\t"),
         configDeploy: JSON.stringify(deploymentConfig, null, "\t"),
+        configAdditional: JSON.stringify(configAdditional, null, "\t"),
         serverSettings: JSON.stringify(serverSettings, null, "\t"),
       });
     }
 
     let relativePath = file;
-    if (__dirname.includes("\\")) {
+    if (sourceDir.includes("\\")) {
       relativePath = relativePath.replace(/\//g, "\\");
     }
     relativePath = relativePath
-      .replace(joinPath(__dirname, "templates", "_shared"), "")
-      .replace(joinPath(__dirname, "templates", widgetConfig.technology), "")
+      .replace(joinPath(sourceDir, "..", "templates", "_shared"), "")
+      .replace(joinPath(sourceDir, "..", "templates", widgetConfig.technology), "")
       .replace(templateSuffix, "");
     const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath);
     const dir = parsePath(newFilePath).dir;

@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
+import type { BrowserCustomizationOptions } from "./browserCustomizationOptions.js";
+import type { BrokerAuthOptions } from "./brokerAuthOptions.js";
+import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
+import type { InteractiveCredentialOptions } from "./interactiveCredentialOptions.js";
 
 /**
  * (Browser-only feature)
@@ -20,20 +22,27 @@ export type BrowserLoginStyle = "redirect" | "popup";
  */
 export interface InteractiveBrowserCredentialNodeOptions
   extends InteractiveCredentialOptions,
-    CredentialPersistenceOptions {
+    CredentialPersistenceOptions,
+    BrowserCustomizationOptions,
+    BrokerAuthOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.
+   * This field is no longer required for Node.js.
    */
   redirectUri?: string | (() => string);
 
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId?: string;
 
   /**
-   * The client (application) ID of an App Registration in the tenant.
+   * The Client ID of the Microsoft Entra application that users will sign into.
+   * It is recommended that developers register their applications and assign appropriate roles.
+   * For more information, visit https://aka.ms/identity/AppRegistrationAndRoleAssignment.
+   * If not specified, users will authenticate to an Azure development application,
+   * which is not recommended for production scenarios.
    */
   clientId?: string;
 
@@ -51,17 +60,20 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.
+   * This field is no longer required for Node.js.
    */
   redirectUri?: string | (() => string);
 
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId?: string;
 
   /**
-   * The client (application) ID of an App Registration in the tenant.
+   * The Client ID of the Microsoft Entra application that users will sign into.
    * This parameter is required on the browser.
+   * Developers need to register their applications and assign appropriate roles.
+   * For more information, visit https://aka.ms/identity/AppRegistrationAndRoleAssignment.
    */
   clientId: string;
 

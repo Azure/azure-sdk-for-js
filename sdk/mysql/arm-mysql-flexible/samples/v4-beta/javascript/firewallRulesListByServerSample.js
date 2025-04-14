@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the firewall rules in a given server.
  *
  * @summary List all the firewall rules in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2021-12-01-preview/examples/FirewallRulesListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRulesListByServer.json
  */
 async function listAllFirewallRulesInAServer() {
   const subscriptionId =

@@ -11,8 +11,8 @@ import {
   BackupEngineBaseResource,
   BackupEnginesListOptionalParams,
   BackupEnginesGetOptionalParams,
-  BackupEnginesGetResponse
-} from "../models";
+  BackupEnginesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BackupEngines. */
@@ -27,7 +27,7 @@ export interface BackupEngines {
   list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupEnginesListOptionalParams
+    options?: BackupEnginesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupEngineBaseResource>;
   /**
    * Returns backup management server registered to Recovery Services Vault.
@@ -41,6 +41,6 @@ export interface BackupEngines {
     vaultName: string,
     resourceGroupName: string,
     backupEngineName: string,
-    options?: BackupEnginesGetOptionalParams
+    options?: BackupEnginesGetOptionalParams,
   ): Promise<BackupEnginesGetResponse>;
 }

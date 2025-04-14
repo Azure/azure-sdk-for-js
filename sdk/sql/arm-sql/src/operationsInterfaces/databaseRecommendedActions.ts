@@ -13,8 +13,8 @@ import {
   DatabaseRecommendedActionsGetResponse,
   RecommendedAction,
   DatabaseRecommendedActionsUpdateOptionalParams,
-  DatabaseRecommendedActionsUpdateResponse
-} from "../models";
+  DatabaseRecommendedActionsUpdateResponse,
+} from "../models/index.js";
 
 /** Interface representing a DatabaseRecommendedActions. */
 export interface DatabaseRecommendedActions {
@@ -32,7 +32,7 @@ export interface DatabaseRecommendedActions {
     serverName: string,
     databaseName: string,
     advisorName: string,
-    options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams
+    options?: DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams,
   ): Promise<DatabaseRecommendedActionsListByDatabaseAdvisorResponse>;
   /**
    * Gets a database recommended action.
@@ -50,7 +50,7 @@ export interface DatabaseRecommendedActions {
     databaseName: string,
     advisorName: string,
     recommendedActionName: string,
-    options?: DatabaseRecommendedActionsGetOptionalParams
+    options?: DatabaseRecommendedActionsGetOptionalParams,
   ): Promise<DatabaseRecommendedActionsGetResponse>;
   /**
    * Updates a database recommended action.
@@ -70,6 +70,6 @@ export interface DatabaseRecommendedActions {
     advisorName: string,
     recommendedActionName: string,
     parameters: RecommendedAction,
-    options?: DatabaseRecommendedActionsUpdateOptionalParams
+    options?: DatabaseRecommendedActionsUpdateOptionalParams,
   ): Promise<DatabaseRecommendedActionsUpdateResponse>;
 }

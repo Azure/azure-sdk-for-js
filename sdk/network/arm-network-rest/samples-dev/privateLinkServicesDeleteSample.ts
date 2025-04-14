@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PrivateLinkServicesDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { PrivateLinkServicesDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private link service.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Deletes the specified private link service.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceDelete.json
  */
-async function deletePrivateLinkService() {
+async function deletePrivateLinkService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,7 +25,7 @@ async function deletePrivateLinkService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       subscriptionId,
       resourceGroupName,
-      serviceName
+      serviceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

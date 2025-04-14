@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Node.js specific platform utils
  */
-export * from "./constants";
-export * from "./persist";
-export * from "./httpSender";
-export * from "./context";
+export * from "./constants.js";
+export * from "./persist/index.js";
+export * from "./httpSender.js";
+export * from "./context/index.js";

@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  RestorePointCollectionsGetParameters,
-} from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import type { RestorePointCollectionsGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary The operation to get the restore point collection.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get.json
  */
-async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection() {
+async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -31,14 +26,14 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .get(options);
   console.log(result);
 }
 
 getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
@@ -46,7 +41,7 @@ getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollec
  * @summary The operation to get the restore point collection.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
  */
-async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection() {
+async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -60,12 +55,12 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .get(options);
   console.log(result);
 }
 
 getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
+  console.error,
 );

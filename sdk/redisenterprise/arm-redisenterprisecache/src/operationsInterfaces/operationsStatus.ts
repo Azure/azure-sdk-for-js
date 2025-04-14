@@ -8,8 +8,8 @@
 
 import {
   OperationsStatusGetOptionalParams,
-  OperationsStatusGetResponse
-} from "../models";
+  OperationsStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a OperationsStatus. */
 export interface OperationsStatus {
@@ -22,6 +22,6 @@ export interface OperationsStatus {
   get(
     location: string,
     operationId: string,
-    options?: OperationsStatusGetOptionalParams
+    options?: OperationsStatusGetOptionalParams,
   ): Promise<OperationsStatusGetResponse>;
 }

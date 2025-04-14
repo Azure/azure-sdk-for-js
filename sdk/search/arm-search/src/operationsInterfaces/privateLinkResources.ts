@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   PrivateLinkResource,
-  PrivateLinkResourcesListSupportedOptionalParams
-} from "../models";
+  PrivateLinkResourcesListSupportedOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
@@ -19,13 +19,13 @@ export interface PrivateLinkResources {
    * Gets a list of all supported private link resource types for the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   listSupported(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateLinkResourcesListSupportedOptionalParams
+    options?: PrivateLinkResourcesListSupportedOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }

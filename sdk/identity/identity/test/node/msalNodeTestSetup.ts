@@ -1,53 +1,55 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import Sinon, { createSandbox } from "sinon";
-import { MsalBaseUtilities } from "../../src/msal/utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import {
-  AuthenticationResult,
-  ConfidentialClientApplication,
-  PublicClientApplication,
-} from "@azure/msal-node";
-import { PlaybackTenantId } from "../msalTestUtils";
-import { Test } from "mocha";
+import type { AuthenticationResult } from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
+import { PlaybackTenantId } from "../msalTestUtils.js";
+import { Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
+import { vi } from "vitest";
 
 export type MsalTestCleanup = () => Promise<void>;
 
 export interface MsalTestSetupResponse {
   cleanup: MsalTestCleanup;
   recorder?: Recorder;
-  sandbox: Sinon.SinonSandbox;
+}
+
+/**
+ * Determines whether the given test is a Vitest Test.
+ * @param test - The test to check.
+ * @returns true if the given test is a Vitest Test.
+ */
+function isVitestTestContext(test: unknown): test is VitestTestContext {
+  return (
+    typeof test === "function" &&
+    "task" in test &&
+    typeof test.task === "object" &&
+    test.task != null &&
+    "name" in test.task
+  );
 }
 
 export async function msalNodeTestSetup(
-  testContext?: Test,
-  playbackClientId?: string
+  testContext?: VitestTestContext,
+  playbackClientId?: string,
 ): Promise<{
   cleanup: MsalTestCleanup;
   recorder: Recorder;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(stubbedToken: AuthenticationResult): Promise<{
   cleanup: MsalTestCleanup;
-  sandbox: Sinon.SinonSandbox;
 }>;
 
 export async function msalNodeTestSetup(
-  testContextOrStubbedToken?: Test | AuthenticationResult,
-  playbackClientId = "azure_client_id"
+  testContextOrStubbedToken?: VitestTestContext | AuthenticationResult,
+  playbackClientId = "azure_client_id",
 ): Promise<MsalTestSetupResponse> {
   const playbackValues = {
     correlationId: "client-request-id",
   };
 
-  const sandbox = createSandbox();
-
-  const stub = sandbox.stub(MsalBaseUtilities.prototype, "generateUuid");
-  stub.returns(playbackValues.correlationId);
-
-  if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
+  if (isVitestTestContext(testContextOrStubbedToken)) {
     const testContext = testContextOrStubbedToken;
 
     const recorder = new Recorder(testContext);
@@ -60,17 +62,18 @@ export async function msalNodeTestSetup(
         AZURE_TENANT_ID: PlaybackTenantId,
         AZURE_CLIENT_ID: playbackClientId,
         AZURE_CLIENT_SECRET: "azure_client_secret",
-        AZURE_USERNAME: "azure_username",
-        AZURE_PASSWORD: "azure_password",
-        AZURE_IDENTITY_TEST_TENANTID: "",
-        AZURE_IDENTITY_TEST_USERNAME: "",
-        AZURE_IDENTITY_TEST_PASSWORD: "",
+        AZURE_IDENTITY_TEST_TENANTID: PlaybackTenantId,
+        AZURE_IDENTITY_TEST_USERNAME: "azure_username",
+        AZURE_IDENTITY_TEST_PASSWORD: "azure_password",
         IDENTITY_SP_CLIENT_ID: "",
         IDENTITY_SP_TENANT_ID: "",
         IDENTITY_SP_CLIENT_SECRET: "",
         IDENTITY_SP_CERT_PEM: "",
         AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
         AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
+        AZURE_IDENTITY_MULTI_TENANT_TENANT_ID: "99999999-9999-9999-9999-999999999999",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID: "azure_multi_tenant_client_id",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET: "azure_multi_tenant_client_secret",
       },
       sanitizerOptions: {
         headerSanitizers: [
@@ -99,7 +102,19 @@ export async function msalNodeTestSetup(
     // Playback sanitizers
     await recorder.addSanitizers(
       {
+        uriSanitizers: [
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
+          },
+        ],
         bodySanitizers: [
+          {
+            regex: true,
+            target: 'username=[^&"]+', // env sanitizers do not handle matching urlencoded params well (@ character is urlencoded)
+            value: "username=azure_username",
+          },
           {
             regex: true,
             target: 'client_secret=[^&"]+',
@@ -118,17 +133,22 @@ export async function msalNodeTestSetup(
           {
             regex: true,
             target: `x-client-OS=[a-zA-Z0-9]+`,
-            value: `x-client-OS=x-client-OS`,
+            value: `x-client-OS=Sanitized`,
           },
           {
             regex: true,
             target: `x-client-CPU=[a-zA-Z0-9]+`,
-            value: `x-client-CPU=x-client-CPU`,
+            value: `x-client-CPU=Sanitized`,
           },
           {
             regex: true,
             target: `x-client-VER=[a-zA-Z0-9.-]+`,
             value: `x-client-VER=identity-client-version`,
+          },
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
           },
         ],
         bodyKeySanitizers: [
@@ -176,15 +196,15 @@ export async function msalNodeTestSetup(
           },
         ],
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
 
     return {
-      sandbox,
       recorder,
       async cleanup() {
         await recorder.stop();
-        sandbox.restore();
+        vi.unstubAllEnvs();
+        vi.restoreAllMocks();
       },
     };
   } else {
@@ -208,18 +228,19 @@ export async function msalNodeTestSetup(
     ];
 
     publicClientMethods.forEach((method) =>
-      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken)
+      vi
+        .spyOn(PublicClientApplication.prototype, method)
+        .mockImplementation(async () => stubbedToken ?? null),
     );
     confidentialClientMethods.forEach((method) =>
-      sandbox
-        .stub(ConfidentialClientApplication.prototype, method)
-        .callsFake(async () => stubbedToken)
+      vi
+        .spyOn(ConfidentialClientApplication.prototype, method)
+        .mockImplementation(async () => stubbedToken ?? null),
     );
 
     return {
-      sandbox,
       async cleanup() {
-        sandbox.restore();
+        vi.restoreAllMocks();
       },
     };
   }

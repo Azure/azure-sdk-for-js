@@ -217,6 +217,8 @@ export interface VirtualNetworkLink extends TrackedResource {
   virtualNetwork?: SubResource;
   /** Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? */
   registrationEnabled?: boolean;
+  /** The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response. */
+  resolutionPolicy?: ResolutionPolicy;
   /**
    * The status of the virtual network link to the Private DNS zone. Possible values are 'InProgress' and 'Done'. This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -278,7 +280,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -295,12 +297,30 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link ResolutionPolicy} that the service accepts. */
+export enum KnownResolutionPolicy {
+  /** Default */
+  Default = "Default",
+  /** NxDomainRedirect */
+  NxDomainRedirect = "NxDomainRedirect",
+}
+
+/**
+ * Defines values for ResolutionPolicy. \
+ * {@link KnownResolutionPolicy} can be used interchangeably with ResolutionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **NxDomainRedirect**
+ */
+export type ResolutionPolicy = string;
+
 /** Known values of {@link VirtualNetworkLinkState} that the service accepts. */
 export enum KnownVirtualNetworkLinkState {
   /** InProgress */
   InProgress = "InProgress",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**

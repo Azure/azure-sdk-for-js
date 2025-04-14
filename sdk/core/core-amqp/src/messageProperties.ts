@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable eqeqeq */
 
-import { MessageProperties as RheaMessageProperties } from "rhea-promise";
-import { logger } from "./log";
+import type { MessageProperties as RheaMessageProperties } from "rhea-promise";
+import { logger } from "./log.js";
 
 /**
  * Describes the defined set of standard properties of the message.

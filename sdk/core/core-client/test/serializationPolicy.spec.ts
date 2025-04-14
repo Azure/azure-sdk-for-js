@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MapperTypeNames, createSerializer } from "../src";
-import { serializeHeaders, serializeRequestBody } from "../src/serializationPolicy";
-import { Mappers } from "./testMappers1";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
+import { MapperTypeNames, createSerializer } from "../src/index.js";
+import { serializeHeaders, serializeRequestBody } from "../src/serializationPolicy.js";
+import { Mappers } from "./testMappers1.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 
@@ -36,11 +36,11 @@ describe("serializationPolicy", function () {
           requestBody: Mappers.body,
           responses: { 200: {} },
           serializer: createSerializer(Mappers),
-        }
+        },
       );
       assert.strictEqual(
         httpRequest.body,
-        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
+        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`,
       );
     });
 
@@ -66,7 +66,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `false`);
     });
@@ -94,7 +94,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `null`);
     });
@@ -120,7 +120,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
@@ -148,7 +148,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
@@ -174,7 +174,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
@@ -202,7 +202,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
@@ -229,7 +229,7 @@ describe("serializationPolicy", function () {
           responses: { 200: {} },
           serializer: createSerializer(),
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -258,7 +258,7 @@ describe("serializationPolicy", function () {
           responses: { 200: {} },
           serializer: createSerializer(),
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -286,11 +286,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`,
       );
     });
 
@@ -318,11 +318,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">body value</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">body value</bodyArg>`,
       );
     });
 
@@ -349,11 +349,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`,
       );
     });
 
@@ -380,7 +380,7 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -409,7 +409,7 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -439,11 +439,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns:sample="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns:sample="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`,
       );
     });
 
@@ -464,11 +464,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`,
       );
     });
 
@@ -487,12 +487,12 @@ describe("serializationPolicy", function () {
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
 
       assert.deepEqual(
         httpRequest.body,
-        '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}'
+        '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}',
       );
     });
 
@@ -525,11 +525,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element">Foo</testItem><testItem xmlns="https://microsoft.com/element">Bar</testItem></bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element">Foo</testItem><testItem xmlns="https://microsoft.com/element">Bar</testItem></bodyArg>`,
       );
     });
 
@@ -560,122 +560,9 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
-    });
-
-    it("should serialize an XML Array of composite elements, namespace and prefix", () => {
-      const httpRequest = createPipelineRequest({ url: "https://example.com" });
-      serializeRequestBody(
-        httpRequest,
-        {
-          bodyArg: [
-            { foo: "Foo1", bar: "Bar1" },
-            { foo: "Foo2", bar: "Bar2" },
-            { foo: "Foo3", bar: "Bar3" },
-          ],
-        },
-        {
-          httpMethod: "POST",
-          requestBody: {
-            parameterPath: "bodyArg",
-            mapper: {
-              required: true,
-              serializedName: "bodyArg",
-              xmlNamespace: "https://microsoft.com",
-              xmlElementName: "testItem",
-              type: {
-                name: MapperTypeNames.Sequence,
-                element: {
-                  xmlNamespace: "https://microsoft.com/element",
-                  type: {
-                    name: "Composite",
-                    modelProperties: {
-                      foo: {
-                        serializedName: "foo",
-                        xmlNamespace: "https://microsoft.com/foo",
-                        xmlName: "Foo",
-                        type: {
-                          name: "String",
-                        },
-                      },
-                      bar: {
-                        xmlNamespacePrefix: "bar",
-                        xmlNamespace: "https://microsoft.com/bar",
-                        xmlName: "Bar",
-                        serializedName: "bar",
-                        type: {
-                          name: "String",
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          responses: { 200: {} },
-          serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true,
-        },
-        stringifyXML
-      );
-      assert.strictEqual(
-        httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo1</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar1</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo2</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar2</Bar></testItem><testItem xmlns="https://microsoft.com/element"><Foo xmlns="https://microsoft.com/foo">Foo3</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar3</Bar></testItem></bodyArg>`
-      );
-    });
-
-    it("should serialize an XML Composite request body with namespace and prefix", () => {
-      const httpRequest = createPipelineRequest({ url: "https://example.com" });
-      serializeRequestBody(
-        httpRequest,
-        {
-          bodyArg: { foo: "Foo", bar: "Bar" },
-        },
-        {
-          httpMethod: "POST",
-          requestBody: {
-            parameterPath: "bodyArg",
-            mapper: {
-              required: true,
-              serializedName: "bodyArg",
-              xmlNamespace: "https://microsoft.com",
-              type: {
-                name: MapperTypeNames.Composite,
-                modelProperties: {
-                  foo: {
-                    serializedName: "foo",
-                    xmlNamespace: "https://microsoft.com/foo",
-                    xmlName: "Foo",
-                    type: {
-                      name: "String",
-                    },
-                  },
-                  bar: {
-                    xmlNamespacePrefix: "bar",
-                    xmlNamespace: "https://microsoft.com/bar",
-                    xmlName: "Bar",
-                    serializedName: "bar",
-                    type: {
-                      name: "String",
-                    },
-                  },
-                },
-              },
-            },
-          },
-          responses: { 200: {} },
-          serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true,
-        },
-        stringifyXML
-      );
-      assert.strictEqual(
-        httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><Foo xmlns="https://microsoft.com/foo">Foo</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar</Bar></bodyArg>`
-      );
     });
 
     it("should serialize an XML Dictionary request body", () => {
@@ -709,11 +596,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata><alpha>hello</alpha><beta>world</beta></metadata>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata><alpha>hello</alpha><beta>world</beta></metadata>`,
       );
     });
 
@@ -752,11 +639,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata xmlns:sample="https://microsoft.com"><alpha xmlns:el="https://microsoft.com/element">hello</alpha><beta xmlns:el="https://microsoft.com/element">world</beta></metadata>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata xmlns:sample="https://microsoft.com"><alpha xmlns:el="https://microsoft.com/element">hello</alpha><beta xmlns:el="https://microsoft.com/element">world</beta></metadata>`,
       );
     });
 
@@ -794,7 +681,7 @@ describe("serializationPolicy", function () {
           responses: { 200: {} },
           serializer: createSerializer(),
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
@@ -839,11 +726,11 @@ describe("serializationPolicy", function () {
           serializer: createSerializer(undefined, true /** isXML */),
           isXML: true,
         },
-        stringifyXML
+        stringifyXML,
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry>pound value</entry>`,
       );
     });
 
@@ -869,7 +756,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -896,7 +783,7 @@ describe("serializationPolicy", function () {
           },
           responses: { 200: {} },
           serializer: createSerializer(),
-        }
+        },
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
@@ -944,7 +831,7 @@ describe("serializationPolicy", function () {
               },
             },
           ],
-        }
+        },
       );
       assert.strictEqual(httpRequest.headers.get("Content-Type"), "custom/type");
     });

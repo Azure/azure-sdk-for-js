@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use `ShareServiceClient` to interact with shares, directories, and files
@@ -90,7 +90,7 @@ async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     readableStream.on("data", (data) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
       resolve(Buffer.concat(chunks));

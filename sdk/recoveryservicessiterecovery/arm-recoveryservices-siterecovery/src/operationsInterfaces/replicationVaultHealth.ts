@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReplicationVaultHealthGetOptionalParams,
   ReplicationVaultHealthGetResponse,
   ReplicationVaultHealthRefreshOptionalParams,
-  ReplicationVaultHealthRefreshResponse
-} from "../models";
+  ReplicationVaultHealthRefreshResponse,
+} from "../models/index.js";
 
 /** Interface representing a ReplicationVaultHealth. */
 export interface ReplicationVaultHealth {
@@ -26,7 +26,7 @@ export interface ReplicationVaultHealth {
   get(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthGetOptionalParams
+    options?: ReplicationVaultHealthGetOptionalParams,
   ): Promise<ReplicationVaultHealthGetResponse>;
   /**
    * Refreshes health summary of the vault.
@@ -38,10 +38,10 @@ export interface ReplicationVaultHealth {
   beginRefresh(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthRefreshOptionalParams
+    options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationVaultHealthRefreshResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationVaultHealthRefreshResponse>,
       ReplicationVaultHealthRefreshResponse
     >
   >;
@@ -55,6 +55,6 @@ export interface ReplicationVaultHealth {
   beginRefreshAndWait(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthRefreshOptionalParams
+    options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<ReplicationVaultHealthRefreshResponse>;
 }

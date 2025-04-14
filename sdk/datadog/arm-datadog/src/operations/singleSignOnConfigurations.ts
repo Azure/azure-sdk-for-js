@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SingleSignOnConfigurations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SingleSignOnConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftDatadogClient } from "../microsoftDatadogClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftDatadogClient } from "../microsoftDatadogClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DatadogSingleSignOnResource,
   SingleSignOnConfigurationsListNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   SingleSignOnConfigurationsGetOptionalParams,
   SingleSignOnConfigurationsGetResponse,
   SingleSignOnConfigurationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SingleSignOnConfigurations operations. */
@@ -147,8 +151,8 @@ export class SingleSignOnConfigurationsImpl
     configurationName: string,
     options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
       SingleSignOnConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -158,7 +162,7 @@ export class SingleSignOnConfigurationsImpl
     ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -191,15 +195,18 @@ export class SingleSignOnConfigurationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, configurationName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, configurationName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SingleSignOnConfigurationsCreateOrUpdateResponse,
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -358,7 +365,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedDatabaseRestoreDetails } from "../operationsInterfaces";
+import { ManagedDatabaseRestoreDetails } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   RestoreDetailsName,
   ManagedDatabaseRestoreDetailsGetOptionalParams,
-  ManagedDatabaseRestoreDetailsGetResponse
-} from "../models";
+  ManagedDatabaseRestoreDetailsGetResponse,
+} from "../models/index.js";
 
 /** Class containing ManagedDatabaseRestoreDetails operations. */
 export class ManagedDatabaseRestoreDetailsImpl
-  implements ManagedDatabaseRestoreDetails {
+  implements ManagedDatabaseRestoreDetails
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class ManagedDatabaseRestoreDetailsImpl
     managedInstanceName: string,
     databaseName: string,
     restoreDetailsName: RestoreDetailsName,
-    options?: ManagedDatabaseRestoreDetailsGetOptionalParams
+    options?: ManagedDatabaseRestoreDetailsGetOptionalParams,
   ): Promise<ManagedDatabaseRestoreDetailsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -52,9 +53,9 @@ export class ManagedDatabaseRestoreDetailsImpl
         managedInstanceName,
         databaseName,
         restoreDetailsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -62,24 +63,23 @@ export class ManagedDatabaseRestoreDetailsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseRestoreDetailsResult
+      bodyMapper: Mappers.ManagedDatabaseRestoreDetailsResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.restoreDetailsName
+    Parameters.restoreDetailsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

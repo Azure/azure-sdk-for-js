@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecureScoreControlDetails,
   SecureScoreControlsListBySecureScoreOptionalParams,
-  SecureScoreControlsListOptionalParams
-} from "../models";
+  SecureScoreControlsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecureScoreControls. */
@@ -24,13 +24,13 @@ export interface SecureScoreControls {
    */
   listBySecureScore(
     secureScoreName: string,
-    options?: SecureScoreControlsListBySecureScoreOptionalParams
+    options?: SecureScoreControlsListBySecureScoreOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreControlDetails>;
   /**
    * Get all security controls within a scope
    * @param options The options parameters.
    */
   list(
-    options?: SecureScoreControlsListOptionalParams
+    options?: SecureScoreControlsListOptionalParams,
   ): PagedAsyncIterableIterator<SecureScoreControlDetails>;
 }

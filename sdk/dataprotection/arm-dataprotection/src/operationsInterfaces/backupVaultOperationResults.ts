@@ -8,8 +8,8 @@
 
 import {
   BackupVaultOperationResultsGetOptionalParams,
-  BackupVaultOperationResultsGetResponse
-} from "../models";
+  BackupVaultOperationResultsGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a BackupVaultOperationResults. */
 export interface BackupVaultOperationResults {
@@ -23,6 +23,6 @@ export interface BackupVaultOperationResults {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: BackupVaultOperationResultsGetOptionalParams
+    options?: BackupVaultOperationResultsGetOptionalParams,
   ): Promise<BackupVaultOperationResultsGetResponse>;
 }

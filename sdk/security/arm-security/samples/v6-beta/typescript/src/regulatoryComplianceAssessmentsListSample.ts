@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Details and state of assessments mapped to selected regulatory compliance control
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Details and state of assessments mapped to selected regulatory compliance control
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/RegulatoryCompliance/getRegulatoryComplianceAssessmentList_example.json
  */
-async function getAllAssessmentsMappedToSelectedRegulatoryComplianceControl() {
+async function getAllAssessmentsMappedToSelectedRegulatoryComplianceControl(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -31,14 +29,14 @@ async function getAllAssessmentsMappedToSelectedRegulatoryComplianceControl() {
   const resArray = new Array();
   for await (let item of client.regulatoryComplianceAssessments.list(
     regulatoryComplianceStandardName,
-    regulatoryComplianceControlName
+    regulatoryComplianceControlName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllAssessmentsMappedToSelectedRegulatoryComplianceControl();
 }
 

@@ -3,63 +3,40 @@
   "sdk-type": "client",
   "version": "12.0.0-preview.5",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/storage-blob-changefeed/src/index.js",
-  "browser": {
-    "./dist-esm/storage-blob-changefeed/src/utils/utils.node.js": "./dist-esm/storage-blob-changefeed/src/utils/utils.browser.js",
-    "./dist-esm/storage-blob-changefeed/test/utils/index.js": "./dist-esm/storage-blob-changefeed/test/utils/index.browser.js",
-    "fs": false,
-    "os": false,
-    "process": false
-  },
-  "types": "./types/latest/storage-blob-changefeed.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "./types/3.1/storage-blob-changefeed.d.ts"
-      ]
-    }
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/browser/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:es6": "tsc -p tsconfig.json",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:test": "npm run build:es6 && dev-tool run bundle --browser-test=false",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "clean:samples": "rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "build:test": "echo Obsolete.",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean:samples": "dev-tool run vendored rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
+    "emulator-tests": "dev-tool run vendored cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
     "execute:samples": "dev-tool samples run samples-dev",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "dev-tool run test:vitest --esm",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix",
     "pack": "npm pack 2>&1",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "echo 'browser not supported yet.'",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo 'browser not supported yet.'",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "dev-tool run test:vitest",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
-    "BreakingChanges.md",
-    "types/",
     "dist/",
-    "dist-browser/",
-    "dist-esm/storage-blob-changefeed/src/",
-    "dist-esm/storage-internal-avro/src/",
-    "types/latest/storage-blob-changefeed.d.ts",
-    "types/3.1/storage-blob-changefeed.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -91,58 +68,33 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.12.0",
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.4.0",
-    "@azure/core-http-compat": "^2.0.0",
-    "@azure/core-lro": "^2.2.0",
-    "@azure/core-paging": "^1.1.1",
-    "@azure/core-rest-pipeline": "^1.10.1",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/logger": "^1.0.0",
-    "events": "^3.0.0",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.3",
+    "@azure/core-http-compat": "^2.2.0",
+    "@azure/core-lro": "^2.7.2",
+    "@azure/core-paging": "^1.6.2",
+    "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/logger": "^1.1.4",
+    "@azure/storage-blob": "^12.26.0",
+    "@azure/storage-internal-avro": "^1.0.0",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/test-utils": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
+    "@azure/identity": "^4.7.0",
+    "@types/node": "^18.0.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
-    "es6-promise": "^4.2.5",
-    "eslint": "^8.0.0",
-    "esm": "^3.2.18",
-    "inherits": "^2.0.3",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-json-preprocessor": "^0.3.3",
-    "karma-json-to-file-reporter": "^1.0.1",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
-    "puppeteer": "^19.2.2",
-    "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
-    "util": "^0.12.1",
-    "sinon": "^9.0.2"
+    "eslint": "^9.9.0",
+    "playwright": "^1.51.0",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "skipFolder": true,
@@ -152,7 +104,46 @@
       "azure-storage"
     ],
     "requiredResources": {
-      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+      "Azure Storage Account": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
+    }
+  },
+  "type": "module",
+  "tshy": {
+    "project": "./tsconfig.src.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "react-native": "./dist/react-native/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     }
   }
 }

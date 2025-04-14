@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpHeaders,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
-  RestError,
-  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import {
+import { RestError, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type {
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "../../models/notificationDetails.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure/core-client";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { isDefined } from "../../utils/utils.js";
 import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
@@ -23,7 +22,7 @@ export function createRequest(
   endpoint: URL,
   method: HttpMethods,
   headers: HttpHeaders,
-  options: OperationOptions
+  options: OperationOptions,
 ): PipelineRequest {
   return createPipelineRequest({
     ...options.tracingOptions,
@@ -58,7 +57,7 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
  * @returns A NotificationHubsMessageResponse with results from the notification.
  */
 export async function parseNotificationSendResponse(
-  response: PipelineResponse
+  response: PipelineResponse,
 ): Promise<NotificationHubsMessageResponse> {
   const result = parseNotificationResponse(response);
   let notificationId: string | undefined;
@@ -87,7 +86,7 @@ export async function parseNotificationSendResponse(
 
 function createDefaultResponse(
   response: NotificationHubsResponse,
-  notificationId?: string
+  notificationId?: string,
 ): NotificationHubsMessageResponse {
   return {
     ...response,
@@ -109,7 +108,7 @@ function createDefaultResponse(
 export async function sendRequest(
   context: NotificationHubsClientContext,
   request: PipelineRequest,
-  successStatusCode: number | number[]
+  successStatusCode: number | number[],
 ): Promise<PipelineResponse> {
   const statuses: number[] = Array.isArray(successStatusCode)
     ? successStatusCode
@@ -121,11 +120,7 @@ export async function sendRequest(
     const responseBody = response.bodyAsText;
     let details: string | undefined;
     if (isDefined(responseBody)) {
-      try {
-        details = await parseXMLError(responseBody);
-      } catch (err) {
-        // eslint-disable no-empty
-      }
+      details = await parseXMLError(responseBody);
     }
 
     let errorMessage: string | undefined;

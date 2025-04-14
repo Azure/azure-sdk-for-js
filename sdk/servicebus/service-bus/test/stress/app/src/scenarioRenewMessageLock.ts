@@ -77,7 +77,7 @@ export async function main() {
         const messages = await stressBase.receiveMessages(
           receiver,
           receiveBatchMaxMessageCount,
-          receiveBatchMaxWaitTimeInMs
+          receiveBatchMaxWaitTimeInMs,
         );
         elapsedTime = new Date().valueOf() - startedAt.valueOf();
         messages.map((msg) =>
@@ -85,8 +85,8 @@ export async function main() {
             msg,
             receiver,
             testDurationForLockRenewalInMs - elapsedTime,
-            completeMessageAfterDuration
-          )
+            completeMessageAfterDuration,
+          ),
         );
         await delay(delayBetweenReceivesInMs);
       }

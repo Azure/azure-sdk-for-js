@@ -10,7 +10,7 @@ import {
   DatabaseCheckNameRequest,
   KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
   KustoPoolChildResourceCheckNameAvailabilityResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a KustoPoolChildResource. */
 export interface KustoPoolChildResource {

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { PrivateZone, PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
  *
  * @summary Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZonePut.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZonePut.json
  */
-async function putPrivateDnsZone() {
+async function putPrivateDnsZone(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -28,19 +26,19 @@ async function putPrivateDnsZone() {
   const privateZoneName = "privatezone1.com";
   const parameters: PrivateZone = {
     location: "Global",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.privateZones.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateZoneName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putPrivateDnsZone();
 }
 

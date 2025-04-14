@@ -1,11 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
  * appear on a Service Bus Queue/Subscription at a later time.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
@@ -58,7 +58,7 @@ async function sendScheduledMessages(sbClient) {
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`,
   );
 
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);

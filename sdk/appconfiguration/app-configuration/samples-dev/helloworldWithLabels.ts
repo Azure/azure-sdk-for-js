@@ -6,6 +6,7 @@
  * @azsdk-weight 90
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -13,12 +14,14 @@ dotenv.config();
 
 export async function main() {
   // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
-  // More info - https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
+  // More info - https://learn.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   const urlKey = "Samples:Endpoint:Url";
 

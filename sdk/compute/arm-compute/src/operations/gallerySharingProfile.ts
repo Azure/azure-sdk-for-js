@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GallerySharingProfile } from "../operationsInterfaces";
+import { GallerySharingProfile } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SharingUpdate,
   GallerySharingProfileUpdateOptionalParams,
-  GallerySharingProfileUpdateResponse
-} from "../models";
+  GallerySharingProfileUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing GallerySharingProfile operations. */
 export class GallerySharingProfileImpl implements GallerySharingProfile {
@@ -46,7 +46,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
     resourceGroupName: string,
     galleryName: string,
     sharingUpdate: SharingUpdate,
-    options?: GallerySharingProfileUpdateOptionalParams
+    options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GallerySharingProfileUpdateResponse>,
@@ -55,21 +55,20 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GallerySharingProfileUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -78,8 +77,8 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -87,22 +86,22 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, galleryName, sharingUpdate, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       GallerySharingProfileUpdateResponse,
       OperationState<GallerySharingProfileUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -119,13 +118,13 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
     resourceGroupName: string,
     galleryName: string,
     sharingUpdate: SharingUpdate,
-    options?: GallerySharingProfileUpdateOptionalParams
+    options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<GallerySharingProfileUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       galleryName,
       sharingUpdate,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -134,25 +133,24 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharingUpdate
+      bodyMapper: Mappers.SharingUpdate,
     },
     201: {
-      bodyMapper: Mappers.SharingUpdate
+      bodyMapper: Mappers.SharingUpdate,
     },
     202: {
-      bodyMapper: Mappers.SharingUpdate
+      bodyMapper: Mappers.SharingUpdate,
     },
     204: {
-      bodyMapper: Mappers.SharingUpdate
+      bodyMapper: Mappers.SharingUpdate,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.sharingUpdate,
   queryParameters: [Parameters.apiVersion3],
@@ -160,9 +158,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName
+    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

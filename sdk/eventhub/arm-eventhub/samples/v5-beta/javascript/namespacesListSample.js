@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the available Namespaces within a subscription, irrespective of the resource groups.
  *
  * @summary Lists all the available Namespaces within a subscription, irrespective of the resource groups.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceList.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceList.json
  */
 async function namespacesListBySubscription() {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
@@ -30,7 +28,7 @@ async function namespacesListBySubscription() {
 }
 
 async function main() {
-  namespacesListBySubscription();
+  await namespacesListBySubscription();
 }
 
 main().catch(console.error);

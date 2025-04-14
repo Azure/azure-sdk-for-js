@@ -1,33 +1,51 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Database, Databases } from "./client/Database";
-import { Offer, Offers } from "./client/Offer";
-import { ClientContext } from "./ClientContext";
-import { parseConnectionString } from "./common";
-import { Constants } from "./common/constants";
-import { getUserAgent } from "./common/platform";
-import { CosmosClientOptions } from "./CosmosClientOptions";
-import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-import { RequestOptions, ResourceResponse } from "./request";
-import { checkURL } from "./utils/checkURL";
+// Licensed under the MIT License.
+import { Database, Databases } from "./client/Database/index.js";
+import { Offer, Offers } from "./client/Offer/index.js";
+import { ClientContext } from "./ClientContext.js";
+import { parseConnectionString } from "./common/index.js";
+import { Constants } from "./common/constants.js";
+import { getUserAgent } from "./common/platform.js";
+import type { CosmosClientOptions } from "./CosmosClientOptions.js";
+import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
+import {
+  determineDiagnosticLevel,
+  getDiagnosticLevelFromEnvironment,
+} from "./diagnostics/index.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { DatabaseAccount } from "./documents/index.js";
+import { defaultConnectionPolicy } from "./documents/index.js";
+import { EncryptionManager } from "./encryption/EncryptionManager.js";
+import { GlobalEndpointManager } from "./globalEndpointManager.js";
+import type { RequestOptions } from "./request/index.js";
+import { ResourceResponse } from "./request/index.js";
+import { checkURL } from "./utils/checkURL.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
  * This client is used to configure and execute requests in the Azure Cosmos DB database service.
  * @example Instantiate a client and create a new database
- * ```typescript
- * const client = new CosmosClient({endpoint: "<URL HERE>", auth: {masterKey: "<KEY HERE>"}});
- * await client.databases.create({id: "<datbase name here>"});
+ * ```ts snippet:CosmosClientCreate
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const key = "<database account masterkey>";
+ * const client = new CosmosClient({ endpoint, key });
  * ```
  * @example Instantiate a client with custom Connection Policy
- * ```typescript
- * const connectionPolicy = new ConnectionPolicy();
- * connectionPolicy.RequestTimeout = 10000;
+ * ```ts snippet:CosmosClientWithConnectionPolicy
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const key = "<database account masterkey>";
  * const client = new CosmosClient({
- *    endpoint: "<URL HERE>",
- *    auth: {masterKey: "<KEY HERE>"},
- *    connectionPolicy
+ *   endpoint,
+ *   key,
+ *   connectionPolicy: {
+ *     requestTimeout: 10000,
+ *   },
  * });
  * ```
  */
@@ -38,8 +56,15 @@ export class CosmosClient {
    * Use `.database(id)` to read, replace, or delete a specific, existing database by id.
    *
    * @example Create a new database
-   * ```typescript
-   * const {resource: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
+   * ```ts snippet:CosmosClientDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: databaseDefinition, database } = await client.databases.create({
+   *   id: "<name here>",
+   * });
    * ```
    */
   public readonly databases: Databases;
@@ -50,7 +75,11 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
-  private endpointRefresher: NodeJS.Timer;
+  private endpointRefresher: NodeJS.Timeout;
+  /**
+   * @internal
+   */
+  private encryptionManager: EncryptionManager;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -63,6 +92,10 @@ export class CosmosClient {
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    } else if (optionsOrConnectionString.connectionString) {
+      const { endpoint, key } = parseConnectionString(optionsOrConnectionString.connectionString);
+      optionsOrConnectionString.endpoint = endpoint;
+      optionsOrConnectionString.key = key;
     }
 
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
@@ -70,10 +103,31 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
+    if (optionsOrConnectionString.clientEncryptionOptions) {
+      if (!optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver) {
+        throw new Error(
+          "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
+        );
+      }
+      if (
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds &&
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds < 60
+      ) {
+        throw new Error("EncryptionKeyTimeToLiveInSeconds needs to be >= 60 seconds.");
+      }
+      this.encryptionManager = new EncryptionManager(
+        optionsOrConnectionString.clientEncryptionOptions.keyEncryptionKeyResolver,
+        optionsOrConnectionString.clientEncryptionOptions.encryptionKeyTimeToLiveInSeconds,
+      );
+    }
+
+    const clientConfig: ClientConfigDiagnostic =
+      this.initializeClientConfigDiagnostic(optionsOrConnectionString);
+
     optionsOrConnectionString.connectionPolicy = Object.assign(
       {},
       defaultConnectionPolicy,
-      optionsOrConnectionString.connectionPolicy
+      optionsOrConnectionString.connectionPolicy,
     );
 
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
@@ -85,15 +139,30 @@ export class CosmosClient {
         optionsOrConnectionString.consistencyLevel;
     }
 
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
-      optionsOrConnectionString.userAgentSuffix
-    );
+    if (optionsOrConnectionString.throughputBucket !== undefined) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ThroughputBucket] =
+        optionsOrConnectionString.throughputBucket;
+    }
+
+    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
-      async (opts: RequestOptions) => this.getDatabaseAccount(opts)
+      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
+        this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
-    this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
+
+    this.clientContext = new ClientContext(
+      optionsOrConnectionString,
+      globalEndpointManager,
+      clientConfig,
+      determineDiagnosticLevel(
+        optionsOrConnectionString.diagnosticLevel,
+        getDiagnosticLevelFromEnvironment(),
+      ),
+    );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -101,26 +170,58 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs
+          defaultConnectionPolicy.endpointRefreshRateInMs,
       );
     }
 
-    this.databases = new Databases(this, this.clientContext);
+    this.databases = new Databases(this, this.clientContext, this.encryptionManager);
     this.offers = new Offers(this, this.clientContext);
+  }
+
+  private initializeClientConfigDiagnostic(
+    optionsOrConnectionString: CosmosClientOptions,
+  ): ClientConfigDiagnostic {
+    return {
+      endpoint: optionsOrConnectionString.endpoint,
+      resourceTokensConfigured: optionsOrConnectionString.resourceTokens !== undefined,
+      tokenProviderConfigured: optionsOrConnectionString.tokenProvider !== undefined,
+      aadCredentialsConfigured: optionsOrConnectionString.aadCredentials !== undefined,
+      connectionPolicyConfigured: optionsOrConnectionString.connectionPolicy !== undefined,
+      consistencyLevel: optionsOrConnectionString.consistencyLevel,
+      defaultHeaders: optionsOrConnectionString.defaultHeaders,
+      agentConfigured: optionsOrConnectionString.agent !== undefined,
+      userAgentSuffix: optionsOrConnectionString.userAgentSuffix,
+      diagnosticLevel: optionsOrConnectionString.diagnosticLevel,
+      pluginsConfigured: optionsOrConnectionString.plugins !== undefined,
+      sDKVersion: Constants.SDKVersion,
+    };
   }
 
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
   public async getDatabaseAccount(
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ResourceResponse<DatabaseAccount>> {
-    const response = await this.clientContext.getDatabaseAccount(options);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.getDatabaseAccountInternal(diagnosticNode, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async getDatabaseAccountInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: RequestOptions,
+  ): Promise<ResourceResponse<DatabaseAccount>> {
+    const response = await this.clientContext.getDatabaseAccount(diagnosticNode, options);
     return new ResourceResponse<DatabaseAccount>(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics
+      getEmptyCosmosDiagnostics(),
+      response.substatus,
     );
   }
 
@@ -129,8 +230,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getWriteEndpoint(): Promise<string> {
-    return this.clientContext.getWriteEndpoint();
+  public async getWriteEndpoint(): Promise<string> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getWriteEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -138,8 +241,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getReadEndpoint(): Promise<string> {
-    return this.clientContext.getReadEndpoint();
+  public async getReadEndpoint(): Promise<string> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getReadEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -167,17 +272,29 @@ export class CosmosClient {
    *
    * @param id - The id of the database.
    * @example Create a new container off of an existing database
-   * ```typescript
-   * const container = client.database("<database id>").containers.create("<container id>");
+   * ```ts snippet:CosmosClientDatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const container = client.database("<database id>").containers.create({
+   *   id: "<name here>",
+   * });
    * ```
    *
    * @example Delete an existing database
-   * ```typescript
+   * ```ts snippet:CosmosClientDatabaseDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
    * await client.database("<id here>").delete();
    * ```
    */
   public database(id: string): Database {
-    return new Database(this, id, this.clientContext);
+    return new Database(this, id, this.clientContext, this.encryptionManager);
   }
 
   /**
@@ -193,15 +310,25 @@ export class CosmosClient {
    */
   public dispose(): void {
     clearTimeout(this.endpointRefresher);
+    if (this.clientContext.enableEncryption) {
+      clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
+      clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
+    }
   }
 
   private async backgroundRefreshEndpointList(
     globalEndpointManager: GlobalEndpointManager,
-    refreshRate: number
+    refreshRate: number,
   ) {
     this.endpointRefresher = setInterval(() => {
       try {
-        globalEndpointManager.refreshEndpointList();
+        return withDiagnostics(
+          async (diagnosticNode: DiagnosticNodeInternal) => {
+            return globalEndpointManager.refreshEndpointList(diagnosticNode);
+          },
+          this.clientContext,
+          DiagnosticNodeType.BACKGROUND_REFRESH_THREAD,
+        );
       } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);
       }
@@ -209,5 +336,14 @@ export class CosmosClient {
     if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
       this.endpointRefresher.unref();
     }
+  }
+
+  /**
+   * Update the host framework. If provided host framework will be used to generate the defualt SDK user agent.
+   * @param hostFramework - A custom string.
+   * @internal
+   */
+  public async updateHostFramework(hostFramework: string): Promise<void> {
+    this.clientContext.refreshUserAgent(hostFramework);
   }
 }

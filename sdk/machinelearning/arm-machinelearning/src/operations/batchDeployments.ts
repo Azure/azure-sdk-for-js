@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { BatchDeployments } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { BatchDeployments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   BatchDeployment,
   BatchDeploymentsListNextOptionalParams,
@@ -28,19 +32,19 @@ import {
   BatchDeploymentsUpdateResponse,
   BatchDeploymentsCreateOrUpdateOptionalParams,
   BatchDeploymentsCreateOrUpdateResponse,
-  BatchDeploymentsListNextResponse
-} from "../models";
+  BatchDeploymentsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BatchDeployments operations. */
 export class BatchDeploymentsImpl implements BatchDeployments {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class BatchDeployments class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -55,13 +59,13 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchDeploymentsListOptionalParams
+    options?: BatchDeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<BatchDeployment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       endpointName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +83,9 @@ export class BatchDeploymentsImpl implements BatchDeployments {
           workspaceName,
           endpointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +94,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     options?: BatchDeploymentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BatchDeployment[]> {
     let result: BatchDeploymentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +103,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         resourceGroupName,
         workspaceName,
         endpointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +116,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         workspaceName,
         endpointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,13 +129,13 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchDeploymentsListOptionalParams
+    options?: BatchDeploymentsListOptionalParams,
   ): AsyncIterableIterator<BatchDeployment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       endpointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,11 +152,11 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: BatchDeploymentsListOptionalParams
+    options?: BatchDeploymentsListOptionalParams,
   ): Promise<BatchDeploymentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -169,25 +173,24 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: BatchDeploymentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -196,8 +199,8 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -205,25 +208,26 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -242,14 +246,14 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsDeleteOptionalParams
+    options?: BatchDeploymentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       endpointName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,7 +271,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     deploymentName: string,
-    options?: BatchDeploymentsGetOptionalParams
+    options?: BatchDeploymentsGetOptionalParams,
   ): Promise<BatchDeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -275,9 +279,9 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         workspaceName,
         endpointName,
         deploymentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -296,30 +300,29 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
-    options?: BatchDeploymentsUpdateOptionalParams
+    options?: BatchDeploymentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsUpdateResponse>,
       BatchDeploymentsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BatchDeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -328,8 +331,8 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -337,26 +340,29 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         body,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BatchDeploymentsUpdateResponse,
+      OperationState<BatchDeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -377,7 +383,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties,
-    options?: BatchDeploymentsUpdateOptionalParams
+    options?: BatchDeploymentsUpdateOptionalParams,
   ): Promise<BatchDeploymentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -385,7 +391,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
       endpointName,
       deploymentName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -405,30 +411,29 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: BatchDeployment,
-    options?: BatchDeploymentsCreateOrUpdateOptionalParams
+    options?: BatchDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchDeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>,
       BatchDeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BatchDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -437,8 +442,8 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -446,26 +451,30 @@ export class BatchDeploymentsImpl implements BatchDeployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         endpointName,
         deploymentName,
         body,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BatchDeploymentsCreateOrUpdateResponse,
+      OperationState<BatchDeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -486,7 +495,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     endpointName: string,
     deploymentName: string,
     body: BatchDeployment,
-    options?: BatchDeploymentsCreateOrUpdateOptionalParams
+    options?: BatchDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<BatchDeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -494,7 +503,7 @@ export class BatchDeploymentsImpl implements BatchDeployments {
       endpointName,
       deploymentName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -512,11 +521,11 @@ export class BatchDeploymentsImpl implements BatchDeployments {
     workspaceName: string,
     endpointName: string,
     nextLink: string,
-    options?: BatchDeploymentsListNextOptionalParams
+    options?: BatchDeploymentsListNextOptionalParams,
   ): Promise<BatchDeploymentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -524,36 +533,34 @@ export class BatchDeploymentsImpl implements BatchDeployments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeploymentTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.BatchDeploymentTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.orderBy,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -561,8 +568,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -571,22 +578,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -595,33 +601,32 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     201: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     202: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     204: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -629,34 +634,33 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName1,
-    Parameters.deploymentName1
+    Parameters.deploymentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     201: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     202: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     204: {
-      bodyMapper: Mappers.BatchDeployment
+      bodyMapper: Mappers.BatchDeployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -664,37 +668,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.endpointName1,
-    Parameters.deploymentName1
+    Parameters.deploymentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchDeploymentTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.BatchDeploymentTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.orderBy,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

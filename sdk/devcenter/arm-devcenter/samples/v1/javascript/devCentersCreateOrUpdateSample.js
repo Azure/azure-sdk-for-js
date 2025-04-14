@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a devcenter resource
  *
  * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_Create.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Create.json
  */
 async function devCentersCreate() {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function devCentersCreate() {
   const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
   const devCenterName = "Contoso";
   const body = {
+    displayName: "ContosoDevCenter",
     location: "centralus",
     tags: { costCode: "12345" },
   };
@@ -32,7 +33,7 @@ async function devCentersCreate() {
   const result = await client.devCenters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     devCenterName,
-    body
+    body,
   );
   console.log(result);
 }
@@ -41,14 +42,25 @@ async function devCentersCreate() {
  * This sample demonstrates how to Creates or updates a devcenter resource
  *
  * @summary Creates or updates a devcenter resource
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevCenters_CreateWithUserIdentity.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithEncryption.json
  */
-async function devCentersCreateWithUserIdentity() {
+async function devCentersCreateWithEncryption() {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
   const devCenterName = "Contoso";
   const body = {
+    displayName: "ContosoDevCenter",
+    encryption: {
+      customerManagedKeyEncryption: {
+        keyEncryptionKeyIdentity: {
+          identityType: "userAssignedIdentity",
+          userAssignedIdentityResourceId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
+        },
+        keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+      },
+    },
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -64,13 +76,47 @@ async function devCentersCreateWithUserIdentity() {
   const result = await client.devCenters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     devCenterName,
-    body
+    body,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates a devcenter resource
+ *
+ * @summary Creates or updates a devcenter resource
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithUserIdentity.json
+ */
+async function devCentersCreateWithUserIdentity() {
+  const subscriptionId =
+    process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
+  const resourceGroupName = process.env["DEVCENTER_RESOURCE_GROUP"] || "rg1";
+  const devCenterName = "Contoso";
+  const body = {
+    displayName: "ContosoDevCenter",
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000000000000000000000000000/resourceGroups/identityGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity1":
+          {},
+      },
+    },
+    location: "centralus",
+    tags: { costCode: "12345" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DevCenterClient(credential, subscriptionId);
+  const result = await client.devCenters.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    devCenterName,
+    body,
   );
   console.log(result);
 }
 
 async function main() {
   devCentersCreate();
+  devCentersCreateWithEncryption();
   devCentersCreateWithUserIdentity();
 }
 

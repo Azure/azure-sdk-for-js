@@ -8,6 +8,8 @@ The configuration is following the [RLC quick start guide](https://github.com/Az
 For the configuration property, please refer to [Index of AutoRestFlag](https://github.com/Azure/autorest/blob/main/docs/generate/flags.md).
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/maps-geolocation"
 title: MapsGeolocationClient
 description: Azure Maps Geolocation Client
@@ -25,14 +27,15 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Geolocation/preview/1.0/geolocation.json
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.6
 rest-level-client: true
-# Although maps service supports key-credentials and AAD, maps service requires header "ms-x-client-id", which is different from the standard AAD, so we don't generate AAD code and implement ourselves.
+# Although maps service supports key-credentials and Microsoft Entra ID, maps service requires header "ms-x-client-id", which is different from the standard Microsoft Entra ID, so we don't generate Microsoft Entra ID code and implement ourselves.
 # For auth configuration, please refer to: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-configure-authentication
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.3"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ## Customization for Track 2 Generator

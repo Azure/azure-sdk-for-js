@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Skus } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Skus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevCenterClient } from "../devCenterClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevCenterClient } from "../devCenterClient.js";
 import {
   DevCenterSku,
   SkusListBySubscriptionNextOptionalParams,
   SkusListBySubscriptionOptionalParams,
   SkusListBySubscriptionResponse,
-  SkusListBySubscriptionNextResponse
-} from "../models";
+  SkusListBySubscriptionNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Skus operations. */
@@ -39,7 +39,7 @@ export class SkusImpl implements Skus {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SkusListBySubscriptionOptionalParams
+    options?: SkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DevCenterSku> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SkusListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevCenterSku[]> {
     let result: SkusListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class SkusImpl implements Skus {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SkusListBySubscriptionOptionalParams
+    options?: SkusListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DevCenterSku> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -93,11 +93,11 @@ export class SkusImpl implements Skus {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SkusListBySubscriptionOptionalParams
+    options?: SkusListBySubscriptionOptionalParams,
   ): Promise<SkusListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -108,11 +108,11 @@ export class SkusImpl implements Skus {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SkusListBySubscriptionNextOptionalParams
+    options?: SkusListBySubscriptionNextOptionalParams,
   ): Promise<SkusListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -124,33 +124,33 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuListResult
+      bodyMapper: Mappers.SkuListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuListResult
+      bodyMapper: Mappers.SkuListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

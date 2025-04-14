@@ -14,8 +14,8 @@ import {
   DeviceSecurityGroupsGetResponse,
   DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   DeviceSecurityGroupsCreateOrUpdateResponse,
-  DeviceSecurityGroupsDeleteOptionalParams
-} from "../models";
+  DeviceSecurityGroupsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeviceSecurityGroups. */
@@ -27,7 +27,7 @@ export interface DeviceSecurityGroups {
    */
   list(
     resourceId: string,
-    options?: DeviceSecurityGroupsListOptionalParams
+    options?: DeviceSecurityGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<DeviceSecurityGroup>;
   /**
    * Use this method to get the device security group for the specified IoT Hub resource.
@@ -39,7 +39,7 @@ export interface DeviceSecurityGroups {
   get(
     resourceId: string,
     deviceSecurityGroupName: string,
-    options?: DeviceSecurityGroupsGetOptionalParams
+    options?: DeviceSecurityGroupsGetOptionalParams,
   ): Promise<DeviceSecurityGroupsGetResponse>;
   /**
    * Use this method to creates or updates the device security group on a specified IoT Hub resource.
@@ -53,7 +53,7 @@ export interface DeviceSecurityGroups {
     resourceId: string,
     deviceSecurityGroupName: string,
     deviceSecurityGroup: DeviceSecurityGroup,
-    options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams
+    options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<DeviceSecurityGroupsCreateOrUpdateResponse>;
   /**
    * User this method to deletes the device security group.
@@ -65,6 +65,6 @@ export interface DeviceSecurityGroups {
   delete(
     resourceId: string,
     deviceSecurityGroupName: string,
-    options?: DeviceSecurityGroupsDeleteOptionalParams
+    options?: DeviceSecurityGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

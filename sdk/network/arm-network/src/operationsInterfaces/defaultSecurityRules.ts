@@ -11,8 +11,8 @@ import {
   SecurityRule,
   DefaultSecurityRulesListOptionalParams,
   DefaultSecurityRulesGetOptionalParams,
-  DefaultSecurityRulesGetResponse
-} from "../models";
+  DefaultSecurityRulesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DefaultSecurityRules. */
@@ -26,7 +26,7 @@ export interface DefaultSecurityRules {
   list(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: DefaultSecurityRulesListOptionalParams
+    options?: DefaultSecurityRulesListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityRule>;
   /**
    * Get the specified default network security rule.
@@ -39,6 +39,6 @@ export interface DefaultSecurityRules {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     defaultSecurityRuleName: string,
-    options?: DefaultSecurityRulesGetOptionalParams
+    options?: DefaultSecurityRulesGetOptionalParams,
   ): Promise<DefaultSecurityRulesGetResponse>;
 }

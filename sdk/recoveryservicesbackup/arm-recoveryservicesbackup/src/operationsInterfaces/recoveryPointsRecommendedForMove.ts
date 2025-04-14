@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RecoveryPointResource,
   ListRecoveryPointsRecommendedForMoveRequest,
-  RecoveryPointsRecommendedForMoveListOptionalParams
-} from "../models";
+  RecoveryPointsRecommendedForMoveListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoveryPointsRecommendedForMove. */
@@ -34,6 +34,6 @@ export interface RecoveryPointsRecommendedForMove {
     containerName: string,
     protectedItemName: string,
     parameters: ListRecoveryPointsRecommendedForMoveRequest,
-    options?: RecoveryPointsRecommendedForMoveListOptionalParams
+    options?: RecoveryPointsRecommendedForMoveListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointResource>;
 }

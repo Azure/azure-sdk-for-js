@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+/** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
   /** The managed cluster SKU. */
   sku?: ManagedClusterSKU;
@@ -12,6 +13,7 @@ export interface ManagedCluster extends TrackedResource {
   properties?: ManagedClusterProperties;
 }
 
+/** The SKU of a Managed Cluster. */
 export interface ManagedClusterSKU {
   /** The name of a managed cluster SKU. */
   name?: "Basic";
@@ -19,6 +21,7 @@ export interface ManagedClusterSKU {
   tier?: "Paid" | "Free";
 }
 
+/** The complex type of the extended location. */
 export interface ExtendedLocation {
   /** The name of the extended location. */
   name?: string;
@@ -26,47 +29,26 @@ export interface ExtendedLocation {
   type?: "EdgeZone";
 }
 
+/** Identity for the managed cluster. */
 export interface ManagedClusterIdentity {
-  /** The principal id of the system assigned identity which is used by master components. */
-  principalId?: string;
-  /** The tenant id of the system assigned identity which is used by master components. */
-  tenantId?: string;
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: "SystemAssigned" | "UserAssigned" | "None";
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValue>;
 }
 
-export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
-  /** The principal id of user assigned identity. */
-  principalId?: string;
-  /** The client id of user assigned identity. */
-  clientId?: string;
-}
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {}
 
+/** Properties of the managed cluster. */
 export interface ManagedClusterProperties {
-  /** The current provisioning state. */
-  provisioningState?: string;
-  /** The Power State of the cluster. */
-  powerState?: PowerState;
   /** CreationData to be used to specify the source Snapshot ID if the cluster will be created/upgraded using a snapshot. */
   creationData?: CreationData;
-  /** The max number of agent pools for the managed cluster. */
-  maxAgentPools?: number;
   /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
   kubernetesVersion?: string;
-  /** The version of Kubernetes the Managed Cluster is running. */
-  currentKubernetesVersion?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
   dnsPrefix?: string;
   /** This cannot be updated once the Managed Cluster has been created. */
   fqdnSubdomain?: string;
-  /** The FQDN of the master pool. */
-  fqdn?: string;
-  /** The FQDN of private cluster. */
-  privateFQDN?: string;
-  /** The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. */
-  azurePortalFQDN?: string;
   /** The agent pool properties. */
   agentPoolProfiles?: Array<ManagedClusterAgentPoolProfile>;
   /** The profile for Linux VMs in the Managed Cluster. */
@@ -121,21 +103,25 @@ export interface ManagedClusterProperties {
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
 
+/** Describes the Power State of the cluster */
 export interface PowerState {
   /** Tells whether the cluster is Running or Stopped */
   code?: "Running" | "Stopped";
 }
 
+/** Data used when creating a target resource from a source resource. */
 export interface CreationData {
   /** This is the ARM ID of the source object to be used to create the target object. */
   sourceResourceId?: string;
 }
 
+/** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolProfileProperties {
   /** Windows agent pool names must be 6 characters or less. */
   name: string;
 }
 
+/** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
@@ -175,14 +161,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   mode?: "System" | "User";
   /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same <major.minor> once it has been created will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
   orchestratorVersion?: string;
-  /** If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentOrchestratorVersion?: string;
-  /** The version of node image */
-  nodeImageVersion?: string;
   /** Settings for upgrading the agentpool */
   upgradeSettings?: AgentPoolUpgradeSettings;
-  /** The current deployment or provisioning state. */
-  provisioningState?: string;
   /** When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
   powerState?: PowerState;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
@@ -227,11 +207,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
   hostGroupID?: string;
 }
 
+/** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
   /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
   maxSurge?: string;
 }
 
+/** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface KubeletConfig {
   /** The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'. */
   cpuManagerPolicy?: string;
@@ -257,6 +239,7 @@ export interface KubeletConfig {
   podMaxPids?: number;
 }
 
+/** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface LinuxOSConfig {
   /** Sysctl settings for Linux agent nodes. */
   sysctls?: SysctlConfig;
@@ -268,6 +251,7 @@ export interface LinuxOSConfig {
   swapFileSizeMB?: number;
 }
 
+/** Sysctl settings for Linux agent nodes. */
 export interface SysctlConfig {
   /** Sysctl setting net.core.somaxconn. */
   netCoreSomaxconn?: number;
@@ -327,6 +311,7 @@ export interface SysctlConfig {
   vmVfsCachePressure?: number;
 }
 
+/** Profile for Linux VMs in the container service cluster. */
 export interface ContainerServiceLinuxProfile {
   /** The administrator username to use for Linux VMs. */
   adminUsername: string;
@@ -334,16 +319,19 @@ export interface ContainerServiceLinuxProfile {
   ssh: ContainerServiceSshConfiguration;
 }
 
+/** SSH configuration for Linux-based VMs running on Azure. */
 export interface ContainerServiceSshConfiguration {
   /** The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified. */
   publicKeys: Array<ContainerServiceSshPublicKey>;
 }
 
+/** Contains information about SSH certificate public key data. */
 export interface ContainerServiceSshPublicKey {
   /** Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers. */
   keyData: string;
 }
 
+/** Profile for Windows VMs in the managed cluster. */
 export interface ManagedClusterWindowsProfile {
   /** Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters */
   adminUsername: string;
@@ -357,6 +345,7 @@ export interface ManagedClusterWindowsProfile {
   gmsaProfile?: WindowsGmsaProfile;
 }
 
+/** Windows gMSA Profile in the managed cluster. */
 export interface WindowsGmsaProfile {
   /** Specifies whether to enable Windows gMSA in the managed cluster. */
   enabled?: boolean;
@@ -366,6 +355,7 @@ export interface WindowsGmsaProfile {
   rootDomainName?: string;
 }
 
+/** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
 export interface ManagedClusterServicePrincipalProfile {
   /** The ID for the service principal. */
   clientId: string;
@@ -373,17 +363,18 @@ export interface ManagedClusterServicePrincipalProfile {
   secret?: string;
 }
 
+/** A Kubernetes add-on profile for a managed cluster. */
 export interface ManagedClusterAddonProfile {
   /** Whether the add-on is enabled or not. */
   enabled: boolean;
   /** Key-value pairs for configuring an add-on. */
   config?: Record<string, string>;
-  /** Information of user assigned identity used by this add-on. */
-  identity?: ManagedClusterAddonProfileIdentity;
 }
 
+/** Information of user assigned identity used by this add-on. */
 export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {}
 
+/** Details about a user assigned identity. */
 export interface UserAssignedIdentity {
   /** The resource ID of the user assigned identity. */
   resourceId?: string;
@@ -393,6 +384,7 @@ export interface UserAssignedIdentity {
   objectId?: string;
 }
 
+/** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration. */
 export interface ManagedClusterPodIdentityProfile {
   /** Whether the pod identity addon is enabled. */
   enabled?: boolean;
@@ -404,6 +396,7 @@ export interface ManagedClusterPodIdentityProfile {
   userAssignedIdentityExceptions?: Array<ManagedClusterPodIdentityException>;
 }
 
+/** Details about the pod identity assigned to the Managed Cluster. */
 export interface ManagedClusterPodIdentity {
   /** The name of the pod identity. */
   name: string;
@@ -413,9 +406,6 @@ export interface ManagedClusterPodIdentity {
   bindingSelector?: string;
   /** The user assigned identity details. */
   identity: UserAssignedIdentity;
-  /** The current provisioning state of the pod identity. */
-  provisioningState?: "Assigned" | "Updating" | "Deleting" | "Failed";
-  provisioningInfo?: ManagedClusterPodIdentityProvisioningInfo;
 }
 
 export interface ManagedClusterPodIdentityProvisioningInfo {
@@ -423,11 +413,13 @@ export interface ManagedClusterPodIdentityProvisioningInfo {
   error?: ManagedClusterPodIdentityProvisioningError;
 }
 
+/** An error response from the pod identity provisioning. */
 export interface ManagedClusterPodIdentityProvisioningError {
   /** Details about the error. */
   error?: ManagedClusterPodIdentityProvisioningErrorBody;
 }
 
+/** An error response from the pod identity provisioning. */
 export interface ManagedClusterPodIdentityProvisioningErrorBody {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
@@ -439,6 +431,7 @@ export interface ManagedClusterPodIdentityProvisioningErrorBody {
   details?: Array<ManagedClusterPodIdentityProvisioningErrorBody>;
 }
 
+/** See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details. */
 export interface ManagedClusterPodIdentityException {
   /** The name of the pod identity exception. */
   name: string;
@@ -448,13 +441,13 @@ export interface ManagedClusterPodIdentityException {
   podLabels: Record<string, string>;
 }
 
+/** The OIDC issuer profile of the Managed Cluster. */
 export interface ManagedClusterOidcIssuerProfile {
-  /** The OIDC issuer url of the Managed Cluster. */
-  issuerURL?: string;
   /** Whether the OIDC issuer is enabled. */
   enabled?: boolean;
 }
 
+/** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
   networkPlugin?: "azure" | "kubenet" | "none";
@@ -492,6 +485,7 @@ export interface ContainerServiceNetworkProfile {
   ipFamilies?: Array<"IPv4" | "IPv6">;
 }
 
+/** Profile of the managed cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfile {
   /** Desired managed outbound IPs for the cluster load balancer. */
   managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
@@ -509,6 +503,7 @@ export interface ManagedClusterLoadBalancerProfile {
   enableMultipleStandardLoadBalancers?: boolean;
 }
 
+/** Desired managed outbound IPs for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
   /** The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
   count?: number;
@@ -516,21 +511,25 @@ export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
   countIPv6?: number;
 }
 
+/** Desired outbound IP Prefix resources for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileOutboundIPPrefixes {
   /** A list of public IP prefix resources. */
   publicIPPrefixes?: Array<ResourceReference>;
 }
 
+/** A reference to an Azure resource. */
 export interface ResourceReference {
   /** The fully qualified Azure resource id. */
   id?: string;
 }
 
+/** Desired outbound IP resources for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileOutboundIPs {
   /** A list of public IP resources. */
   publicIPs?: Array<ResourceReference>;
 }
 
+/** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
   managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
@@ -540,11 +539,13 @@ export interface ManagedClusterNATGatewayProfile {
   idleTimeoutInMinutes?: number;
 }
 
+/** Profile of the managed outbound IP resources of the managed cluster. */
 export interface ManagedClusterManagedOutboundIPProfile {
   /** The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. */
   count?: number;
 }
 
+/** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
 export interface ManagedClusterAADProfile {
   /** Whether to enable managed AAD. */
   managed?: boolean;
@@ -562,11 +563,13 @@ export interface ManagedClusterAADProfile {
   tenantID?: string;
 }
 
+/** Auto upgrade profile for a managed cluster. */
 export interface ManagedClusterAutoUpgradeProfile {
   /** For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
   upgradeChannel?: "rapid" | "stable" | "patch" | "node-image" | "none";
 }
 
+/** Parameters to be applied to the cluster-autoscaler when enabled */
 export interface ManagedClusterPropertiesAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
   "balance-similar-node-groups"?: string;
@@ -604,6 +607,7 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
   "skip-nodes-with-system-pods"?: string;
 }
 
+/** Access profile for managed cluster API server. */
 export interface ManagedClusterAPIServerAccessProfile {
   /** IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges). */
   authorizedIPRanges?: Array<string>;
@@ -621,6 +625,7 @@ export interface ManagedClusterAPIServerAccessProfile {
   subnetId?: string;
 }
 
+/** A private link resource */
 export interface PrivateLinkResource {
   /** The ID of the private link resource. */
   id?: string;
@@ -632,10 +637,9 @@ export interface PrivateLinkResource {
   groupId?: string;
   /** The RequiredMembers of the resource */
   requiredMembers?: Array<string>;
-  /** The private link service ID of the resource, this field is exposed only to NRP internally. */
-  privateLinkServiceID?: string;
 }
 
+/** Cluster HTTP proxy configuration. */
 export interface ManagedClusterHttpProxyConfig {
   /** The HTTP proxy server endpoint to use. */
   httpProxy?: string;
@@ -643,12 +647,11 @@ export interface ManagedClusterHttpProxyConfig {
   httpsProxy?: string;
   /** The endpoints that should not go through proxy. */
   noProxy?: Array<string>;
-  /** A read-only list of all endpoints for which traffic should not be sent to the proxy. This list is a superset of noProxy and values injected by AKS. */
-  effectiveNoProxy?: Array<string>;
   /** Alternative CA cert to use for connecting to proxy servers. */
   trustedCa?: string;
 }
 
+/** Security profile for the container service cluster. */
 export interface ManagedClusterSecurityProfile {
   /** Microsoft Defender settings for the security profile. */
   defender?: ManagedClusterSecurityProfileDefender;
@@ -658,6 +661,7 @@ export interface ManagedClusterSecurityProfile {
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
+/** Microsoft Defender settings for the security profile. */
 export interface ManagedClusterSecurityProfileDefender {
   /** Resource ID of the Log Analytics workspace to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft Defender is disabled, leave the field empty. */
   logAnalyticsWorkspaceResourceId?: string;
@@ -665,11 +669,13 @@ export interface ManagedClusterSecurityProfileDefender {
   securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
 }
 
+/** Microsoft Defender settings for the security profile threat detection. */
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
   /** Whether to enable Defender threat detection */
   enabled?: boolean;
 }
 
+/** Azure Key Vault key management service settings for the security profile. */
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
@@ -681,11 +687,13 @@ export interface AzureKeyVaultKms {
   keyVaultResourceId?: string;
 }
 
+/** Workload Identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable Workload Identity */
   enabled?: boolean;
 }
 
+/** Storage profile for the container service cluster. */
 export interface ManagedClusterStorageProfile {
   /** AzureDisk CSI Driver settings for the storage profile. */
   diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -697,6 +705,7 @@ export interface ManagedClusterStorageProfile {
   blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
 }
 
+/** AzureDisk CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
   enabled?: boolean;
@@ -704,26 +713,31 @@ export interface ManagedClusterStorageProfileDiskCSIDriver {
   version?: string;
 }
 
+/** AzureFile CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileFileCSIDriver {
   /** Whether to enable AzureFile CSI Driver. The default value is true. */
   enabled?: boolean;
 }
 
+/** Snapshot Controller settings for the storage profile. */
 export interface ManagedClusterStorageProfileSnapshotController {
   /** Whether to enable Snapshot Controller. The default value is true. */
   enabled?: boolean;
 }
 
+/** AzureBlob CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileBlobCSIDriver {
   /** Whether to enable AzureBlob CSI Driver. The default value is false. */
   enabled?: boolean;
 }
 
+/** Ingress profile for the container service cluster. */
 export interface ManagedClusterIngressProfile {
   /** Web App Routing settings for the ingress profile. */
   webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
 }
 
+/** Web App Routing settings for the ingress profile. */
 export interface ManagedClusterIngressProfileWebAppRouting {
   /** Whether to enable Web App Routing. */
   enabled?: boolean;
@@ -731,16 +745,19 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   dnsZoneResourceId?: string;
 }
 
+/** Workload Auto-scaler profile for the container service cluster. */
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
 }
 
+/** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
   /** Whether to enable KEDA. */
   enabled: boolean;
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: Record<string, string>;
@@ -748,17 +765,10 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-}
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {}
 
+/** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
   createdBy?: string;
@@ -774,11 +784,13 @@ export interface SystemData {
   lastModifiedAt?: Date | string;
 }
 
+/** Managed cluster Access Profile. */
 export interface ManagedClusterAccessProfile extends TrackedResource {
   /** AccessProfile of a managed cluster. */
   properties?: AccessProfile;
 }
 
+/** Profile for enabling a user to access a managed cluster. */
 export interface AccessProfile {
   /**
    * Base64-encoded Kubernetes configuration file.
@@ -788,18 +800,19 @@ export interface AccessProfile {
   kubeConfig?: string;
 }
 
+/** Tags object for patch operations. */
 export interface TagsObject {
   /** Resource tags. */
   tags?: Record<string, string>;
 }
 
+/** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export interface MaintenanceConfiguration extends SubResource {
-  /** The system metadata relating to this resource. */
-  systemData?: SystemData;
   /** Properties of a default maintenance configuration. */
   properties?: MaintenanceConfigurationProperties;
 }
 
+/** Properties used to configure planned maintenance for a Managed Cluster. */
 export interface MaintenanceConfigurationProperties {
   /** If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. */
   timeInWeek?: Array<TimeInWeek>;
@@ -807,6 +820,7 @@ export interface MaintenanceConfigurationProperties {
   notAllowedTime?: Array<TimeSpan>;
 }
 
+/** Time in a week. */
 export interface TimeInWeek {
   /** The day of the week. */
   day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -814,6 +828,7 @@ export interface TimeInWeek {
   hourSlots?: Array<number>;
 }
 
+/** For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z. */
 export interface TimeSpan {
   /** The start of a time span */
   start?: Date | string;
@@ -821,45 +836,36 @@ export interface TimeSpan {
   end?: Date | string;
 }
 
-export interface SubResource {
-  /** Resource ID. */
-  id?: string;
-  /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
-  name?: string;
-  /** Resource type */
-  type?: string;
-}
+/** Reference to another subresource. */
+export interface SubResource {}
 
+/** Agent Pool. */
 export interface AgentPool extends SubResource {
   /** Properties of an agent pool. */
   properties?: ManagedClusterAgentPoolProfileProperties;
 }
 
+/** A private endpoint connection */
 export interface PrivateEndpointConnection {
-  /** The ID of the private endpoint connection. */
-  id?: string;
-  /** The name of the private endpoint connection. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
   /** The properties of a private endpoint connection. */
   properties?: PrivateEndpointConnectionProperties;
 }
 
+/** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
-  /** The current provisioning state. */
-  provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
   /** The resource of private endpoint. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 
+/** Private endpoint which a connection belongs to. */
 export interface PrivateEndpoint {
   /** The resource ID of the private endpoint */
   id?: string;
 }
 
+/** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionState {
   /** The private link service connection status. */
   status?: "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -867,6 +873,7 @@ export interface PrivateLinkServiceConnectionState {
   description?: string;
 }
 
+/** A run command request */
 export interface RunCommandRequest {
   /** The command to run. */
   command: string;
@@ -876,44 +883,35 @@ export interface RunCommandRequest {
   clusterToken?: string;
 }
 
+/** A node pool snapshot resource. */
 export interface Snapshot extends TrackedResource {
   /** Properties of a snapshot. */
   properties?: SnapshotProperties;
 }
 
+/** Properties used to configure a node pool snapshot. */
 export interface SnapshotProperties {
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
   snapshotType?: "NodePool" | "ManagedCluster";
-  /** The version of Kubernetes. */
-  kubernetesVersion?: string;
-  /** The version of node image. */
-  nodeImageVersion?: string;
-  /** The operating system type. The default is Linux. */
-  osType?: "Linux" | "Windows";
-  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
-  osSku?: "Ubuntu" | "CBLMariner" | "Windows2019" | "Windows2022";
-  /** The size of the VM. */
-  vmSize?: string;
-  /** Whether to use a FIPS-enabled OS. */
-  enableFIPS?: boolean;
 }
 
+/** A managed cluster snapshot resource. */
 export interface ManagedClusterSnapshot extends TrackedResource {
   /** Properties of a managed cluster snapshot. */
   properties?: ManagedClusterSnapshotProperties;
 }
 
+/** Properties for a managed cluster snapshot. */
 export interface ManagedClusterSnapshotProperties {
   /** CreationData to be used to specify the source resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
   snapshotType?: "NodePool" | "ManagedCluster";
-  /** What the properties will be showed when getting managed cluster snapshot. Those properties are read-only. */
-  managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
 }
 
+/** managed cluster properties for snapshot, these properties are read only. */
 export interface ManagedClusterPropertiesForSnapshot {
   /** The current kubernetes version. */
   kubernetesVersion?: string;
@@ -921,10 +919,9 @@ export interface ManagedClusterPropertiesForSnapshot {
   sku?: ManagedClusterSKU;
   /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
   enableRbac?: boolean;
-  /** The current network profile. */
-  networkProfile?: NetworkProfileForSnapshot;
 }
 
+/** network profile for managed cluster snapshot, these properties are read only. */
 export interface NetworkProfileForSnapshot {
   /** networkPlugin for managed cluster snapshot. */
   networkPlugin?: "azure" | "kubenet" | "none";
@@ -938,14 +935,14 @@ export interface NetworkProfileForSnapshot {
   loadBalancerSku?: "standard" | "basic";
 }
 
+/** Defines binding between a resource and role */
 export interface TrustedAccessRoleBinding extends Resource {
   /** Properties for trusted access role binding */
   properties: TrustedAccessRoleBindingProperties;
 }
 
+/** Properties for trusted access role binding */
 export interface TrustedAccessRoleBindingProperties {
-  /** The current provisioning state of trusted access role binding. */
-  provisioningState?: "Succeeded" | "Failed" | "Updating" | "Deleting";
   /** The ARM resource ID of source resource that trusted access is configured for. */
   sourceResourceId: string;
   /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */

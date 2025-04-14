@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DevToolPortals } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DevToolPortals } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClient } from "../appPlatformManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DevToolPortalResource,
   DevToolPortalsListNextOptionalParams,
@@ -29,8 +29,9 @@ import {
   DevToolPortalsCreateOrUpdateOptionalParams,
   DevToolPortalsCreateOrUpdateResponse,
   DevToolPortalsDeleteOptionalParams,
+  DevToolPortalsDeleteResponse,
   DevToolPortalsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DevToolPortals operations. */
@@ -281,11 +282,16 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DevToolPortalsDeleteResponse>,
+      DevToolPortalsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<DevToolPortalsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -326,7 +332,10 @@ export class DevToolPortalsImpl implements DevToolPortals {
       args: { resourceGroupName, serviceName, devToolPortalName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DevToolPortalsDeleteResponse,
+      OperationState<DevToolPortalsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -347,7 +356,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     options?: DevToolPortalsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<DevToolPortalsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -382,7 +391,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/devToolPortals",
   httpMethod: "GET",
   responses: {
     200: {
@@ -464,10 +473,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

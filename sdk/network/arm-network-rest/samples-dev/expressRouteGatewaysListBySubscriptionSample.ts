@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ExpressRouteGatewaysListBySubscriptionParameters,
-} from "@azure-rest/arm-network";
+import type { ExpressRouteGatewaysListBySubscriptionParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists ExpressRoute gateways under a given subscription.
@@ -17,7 +11,7 @@ dotenv.config();
  * @summary Lists ExpressRoute gateways under a given subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayListBySubscription.json
  */
-async function expressRouteGatewayListBySubscription() {
+async function expressRouteGatewayListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -27,7 +21,7 @@ async function expressRouteGatewayListBySubscription() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

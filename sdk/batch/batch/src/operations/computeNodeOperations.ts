@@ -211,8 +211,7 @@ export class ComputeNodeOperations {
 
   /**
    * You can reinstall the operating system on a Compute Node only if it is in an idle or running
-   * state. This API can be invoked only on Pools created with the cloud service configuration
-   * property.
+   * state.
    * @summary Reinstalls the operating system on the specified Compute Node.
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that you want to restart.
@@ -313,10 +312,74 @@ export class ComputeNodeOperations {
   }
 
   /**
+   * You can start a Compute Node only if it has been deallocated
+   * @summary Starts the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to start.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ComputeNodeStartResponse>
+   */
+  start(poolId: string, nodeId: string, options?: Models.ComputeNodeStartOptionalParams): Promise<Models.ComputeNodeStartResponse>;
+  /**
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to start.
+   * @param callback The callback
+   */
+  start(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to start.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  start(poolId: string, nodeId: string, options: Models.ComputeNodeStartOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  start(poolId: string, nodeId: string, options?: Models.ComputeNodeStartOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeStartResponse> {
+    return this.client.sendOperationRequest(
+      {
+        poolId,
+        nodeId,
+        options
+      },
+      startOperationSpec,
+      callback) as Promise<Models.ComputeNodeStartResponse>;
+  }
+
+  /**
+   * You can deallocate a Compute Node only if it is in an idle or running state.
+   * @summary Deallocates the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to deallocate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ComputeNodeDeallocateResponse>
+   */
+  deallocate(poolId: string, nodeId: string, options?: Models.ComputeNodeDeallocateOptionalParams): Promise<Models.ComputeNodeDeallocateResponse>;
+  /**
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to deallocate.
+   * @param callback The callback
+   */
+  deallocate(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to deallocate.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deallocate(poolId: string, nodeId: string, options: Models.ComputeNodeDeallocateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deallocate(poolId: string, nodeId: string, options?: Models.ComputeNodeDeallocateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeDeallocateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        poolId,
+        nodeId,
+        options
+      },
+      deallocateOperationSpec,
+      callback) as Promise<Models.ComputeNodeDeallocateResponse>;
+  }
+
+  /**
    * Before you can remotely login to a Compute Node using the remote login settings, you must create
-   * a user Account on the Compute Node. This API can be invoked only on Pools created with the
-   * virtual machine configuration property. For Pools created with a cloud service configuration,
-   * see the GetRemoteDesktop API.
+   * a user Account on the Compute Node.
    * @summary Gets the settings required for remote login to a Compute Node.
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node for which to obtain the remote login settings.
@@ -346,45 +409,6 @@ export class ComputeNodeOperations {
       },
       getRemoteLoginSettingsOperationSpec,
       callback) as Promise<Models.ComputeNodeGetRemoteLoginSettingsResponse>;
-  }
-
-  /**
-   * Before you can access a Compute Node by using the RDP file, you must create a user Account on
-   * the Compute Node. This API can only be invoked on Pools created with a cloud service
-   * configuration. For Pools created with a virtual machine configuration, see the
-   * GetRemoteLoginSettings API.
-   * @summary Gets the Remote Desktop Protocol file for the specified Compute Node.
-   * @param poolId The ID of the Pool that contains the Compute Node.
-   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
-   * file.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ComputeNodeGetRemoteDesktopResponse>
-   */
-  getRemoteDesktop(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteDesktopOptionalParams): Promise<Models.ComputeNodeGetRemoteDesktopResponse>;
-  /**
-   * @param poolId The ID of the Pool that contains the Compute Node.
-   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
-   * file.
-   * @param callback The callback
-   */
-  getRemoteDesktop(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param poolId The ID of the Pool that contains the Compute Node.
-   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
-   * file.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getRemoteDesktop(poolId: string, nodeId: string, options: Models.ComputeNodeGetRemoteDesktopOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getRemoteDesktop(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteDesktopOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ComputeNodeGetRemoteDesktopResponse> {
-    return this.client.sendOperationRequest(
-      {
-        poolId,
-        nodeId,
-        options
-      },
-      getRemoteDesktopOperationSpec,
-      callback) as Promise<Models.ComputeNodeGetRemoteDesktopResponse>;
   }
 
   /**
@@ -502,13 +526,13 @@ const addUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout64
+    Parameters.timeout62
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId77,
-    Parameters.returnClientRequestId77,
-    Parameters.ocpDate77
+    Parameters.clientRequestId75,
+    Parameters.returnClientRequestId75,
+    Parameters.ocpDate75
   ],
   requestBody: {
     parameterPath: "user",
@@ -541,13 +565,13 @@ const deleteUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout65
+    Parameters.timeout63
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId78,
-    Parameters.returnClientRequestId78,
-    Parameters.ocpDate78
+    Parameters.clientRequestId76,
+    Parameters.returnClientRequestId76,
+    Parameters.ocpDate76
   ],
   responses: {
     200: {
@@ -572,13 +596,13 @@ const updateUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout66
+    Parameters.timeout64
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId79,
-    Parameters.returnClientRequestId79,
-    Parameters.ocpDate79
+    Parameters.clientRequestId77,
+    Parameters.returnClientRequestId77,
+    Parameters.ocpDate77
   ],
   requestBody: {
     parameterPath: "nodeUpdateUserParameter",
@@ -611,13 +635,13 @@ const getOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select13,
-    Parameters.timeout67
+    Parameters.timeout65
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId80,
-    Parameters.returnClientRequestId80,
-    Parameters.ocpDate80
+    Parameters.clientRequestId78,
+    Parameters.returnClientRequestId78,
+    Parameters.ocpDate78
   ],
   responses: {
     200: {
@@ -642,13 +666,13 @@ const rebootOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout68
+    Parameters.timeout66
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId81,
-    Parameters.returnClientRequestId81,
-    Parameters.ocpDate81
+    Parameters.clientRequestId79,
+    Parameters.returnClientRequestId79,
+    Parameters.ocpDate79
   ],
   requestBody: {
     parameterPath: {
@@ -682,13 +706,13 @@ const reimageOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout69
+    Parameters.timeout67
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId82,
-    Parameters.returnClientRequestId82,
-    Parameters.ocpDate82
+    Parameters.clientRequestId80,
+    Parameters.returnClientRequestId80,
+    Parameters.ocpDate80
   ],
   requestBody: {
     parameterPath: {
@@ -722,13 +746,13 @@ const disableSchedulingOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout70
+    Parameters.timeout68
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId83,
-    Parameters.returnClientRequestId83,
-    Parameters.ocpDate83
+    Parameters.clientRequestId81,
+    Parameters.returnClientRequestId81,
+    Parameters.ocpDate81
   ],
   requestBody: {
     parameterPath: {
@@ -762,13 +786,13 @@ const enableSchedulingOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout71
+    Parameters.timeout69
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId84,
-    Parameters.returnClientRequestId84,
-    Parameters.ocpDate84
+    Parameters.clientRequestId82,
+    Parameters.returnClientRequestId82,
+    Parameters.ocpDate82
   ],
   responses: {
     200: {
@@ -777,6 +801,76 @@ const enableSchedulingOperationSpec: msRest.OperationSpec = {
     default: {
       bodyMapper: Mappers.BatchError,
       headersMapper: Mappers.ComputeNodeEnableSchedulingHeaders
+    }
+  },
+  serializer
+};
+
+const startOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "pools/{poolId}/nodes/{nodeId}/start",
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout70
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId83,
+    Parameters.returnClientRequestId83,
+    Parameters.ocpDate83
+  ],
+  responses: {
+    202: {
+      headersMapper: Mappers.ComputeNodeStartHeaders
+    },
+    default: {
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeStartHeaders
+    }
+  },
+  serializer
+};
+
+const deallocateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "pools/{poolId}/nodes/{nodeId}/deallocate",
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout71
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId84,
+    Parameters.returnClientRequestId84,
+    Parameters.ocpDate84
+  ],
+  requestBody: {
+    parameterPath: {
+      nodeDeallocateOption: [
+        "options",
+        "nodeDeallocateOption"
+      ]
+    },
+    mapper: Mappers.NodeDeallocateParameter
+  },
+  contentType: "application/json; odata=minimalmetadata; charset=utf-8",
+  responses: {
+    202: {
+      headersMapper: Mappers.ComputeNodeDeallocateHeaders
+    },
+    default: {
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeDeallocateHeaders
     }
   },
   serializer
@@ -813,9 +907,9 @@ const getRemoteLoginSettingsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getRemoteDesktopOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "pools/{poolId}/nodes/{nodeId}/rdp",
+const uploadBatchServiceLogsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",
   urlParameters: [
     Parameters.batchUrl,
     Parameters.poolId,
@@ -830,42 +924,6 @@ const getRemoteDesktopOperationSpec: msRest.OperationSpec = {
     Parameters.clientRequestId86,
     Parameters.returnClientRequestId86,
     Parameters.ocpDate86
-  ],
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Stream"
-        }
-      },
-      headersMapper: Mappers.ComputeNodeGetRemoteDesktopHeaders
-    },
-    default: {
-      bodyMapper: Mappers.BatchError,
-      headersMapper: Mappers.ComputeNodeGetRemoteDesktopHeaders
-    }
-  },
-  serializer
-};
-
-const uploadBatchServiceLogsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",
-  urlParameters: [
-    Parameters.batchUrl,
-    Parameters.poolId,
-    Parameters.nodeId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.timeout74
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId87,
-    Parameters.returnClientRequestId87,
-    Parameters.ocpDate87
   ],
   requestBody: {
     parameterPath: "uploadBatchServiceLogsConfiguration",
@@ -900,13 +958,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.filter12,
     Parameters.select14,
     Parameters.maxResults13,
-    Parameters.timeout75
+    Parameters.timeout74
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId88,
-    Parameters.returnClientRequestId88,
-    Parameters.ocpDate88
+    Parameters.clientRequestId87,
+    Parameters.returnClientRequestId87,
+    Parameters.ocpDate87
   ],
   responses: {
     200: {
@@ -933,9 +991,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId89,
-    Parameters.returnClientRequestId89,
-    Parameters.ocpDate89
+    Parameters.clientRequestId88,
+    Parameters.returnClientRequestId88,
+    Parameters.ocpDate88
   ],
   responses: {
     200: {

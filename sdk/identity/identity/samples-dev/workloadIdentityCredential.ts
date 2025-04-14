@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Authenticates using Workload Identity Credential
  */
 
 import { DefaultAzureCredential, WorkloadIdentityCredential } from "@azure/identity";
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,7 +16,10 @@ async function testDefaultCredential() {
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
+    console.log(
+      "DefaultAzureCredential: Successfully got a token with expiry time:",
+      token?.expiresOnTimestamp,
+    );
   } catch (err) {
     console.log("Error with DefaultAzureCredential:", err);
   }
@@ -29,7 +33,10 @@ async function testWorkloadCredential() {
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
+    console.log(
+      "workloadIdentityCredential: Successfully got a token with expiry time:",
+      token?.expiresOnTimestamp,
+    );
   } catch (err) {
     console.log("Error with WorkloadIdentityCredential:", err);
   }

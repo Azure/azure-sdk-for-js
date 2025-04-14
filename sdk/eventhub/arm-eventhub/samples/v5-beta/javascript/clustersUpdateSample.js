@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
  *
  * @summary Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterPatch.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClusterPatch.json
  */
 async function clusterPatch() {
   const subscriptionId =
@@ -32,13 +30,13 @@ async function clusterPatch() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  clusterPatch();
+  await clusterPatch();
 }
 
 main().catch(console.error);

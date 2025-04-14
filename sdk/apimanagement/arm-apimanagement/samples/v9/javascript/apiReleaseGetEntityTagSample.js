@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the etag of an API release.
  *
  * @summary Returns the etag of an API release.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadApiRelease.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiRelease.json
  */
 async function apiManagementHeadApiRelease() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

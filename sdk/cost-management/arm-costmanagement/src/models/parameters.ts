@@ -21,7 +21,7 @@ import {
   GenerateDetailedCostReportDefinition as GenerateDetailedCostReportDefinitionMapper,
   ScheduledAction as ScheduledActionMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { newPipeline } from "../../src";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { recorderEnvSetup } from "../utils/index.browser";
-import { Context } from "mocha";
+import { newPipeline } from "../../src/index.js";
+import {
+  getQSU,
+  getConnectionStringFromEnvironment,
+  configureStorageClient,
+  getUniqueName,
+  recorderEnvSetup,
+} from "../utils/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { QueueClient } from "../../src/QueueClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;
@@ -17,15 +20,16 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -51,7 +55,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -92,35 +96,34 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
     const newClient = new QueueClient(queueClient.url, credential);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -131,21 +134,21 @@ describe("QueueClient messageId methods, Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -153,15 +156,16 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -171,15 +175,16 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.popReceipt);
 
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -193,15 +198,16 @@ describe("QueueClient messageId methods, Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -213,7 +219,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });

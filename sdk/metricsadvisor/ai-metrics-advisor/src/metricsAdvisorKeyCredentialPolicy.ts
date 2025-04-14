@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -89,7 +89,8 @@ export class MetricsAdvisorKeyCredential {
  * using an `MetricsAdvisorKeyCredential`
  */
 export function createMetricsAdvisorKeyCredentialPolicy(
-  credential: MetricsAdvisorKeyCredential
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  credential: MetricsAdvisorKeyCredential,
 ): PipelinePolicy {
   return {
     name: "metricsAdvisorKeyCredentialPolicy",

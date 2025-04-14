@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants.js";
+import type {
   CopyAuthorization,
   GeneratedClient,
   ResourceDetails,
@@ -14,21 +15,21 @@ import {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-  ClassifierDocumentTypeDetails,
-} from "./generated";
-import { accept1 } from "./generated/models/parameters";
-import {
+} from "./generated/index.js";
+import { accept1 } from "./generated/models/parameters.js";
+import type {
   TrainingOperationDefinition,
   DocumentModelOperationState,
   DocumentModelPoller,
-  toTrainingPollOperationState,
   DocumentModelBuildResponse,
   AdministrationOperationState,
   DocumentClassifierPoller,
   DocumentClassifierOperationState,
-} from "./lro/administration";
-import { OperationContext, lro } from "./lro/util/poller";
-import {
+} from "./lro/administration.js";
+import { toTrainingPollOperationState } from "./lro/administration.js";
+import type { OperationContext } from "./lro/util/poller.js";
+import { lro } from "./lro/util/poller.js";
+import type {
   BeginCopyModelOptions,
   DeleteDocumentModelOptions,
   DocumentModelAdministrationClientOptions,
@@ -39,15 +40,20 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
   PollerOptions,
-} from "./options";
-import { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
-import {
+} from "./options/index.js";
+import type { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions.js";
+import type {
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
   DocumentModelBuildMode,
-} from "./options/BuildModelOptions";
-import { Mappers, SERIALIZER, makeServiceClient } from "./util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+} from "./options/BuildModelOptions.js";
+import { Mappers, SERIALIZER, makeServiceClient } from "./util.js";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type {
+  DocumentModelSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+} from "./models/index.js";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -57,25 +63,27 @@ import { FullOperationResponse, OperationOptions } from "@azure/core-client";
  *
  * #### Azure Active Directory
  *
- * ```typescript
- * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleAdministrationClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
  *
- * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
- * const client = new DocumentModelAdministrationClient(endpoint, credential);
+ * const client = new DocumentModelAdministrationClient(
+ *   "https://<resource name>.cognitiveservices.azure.com",
+ *   credential,
+ * );
  * ```
  *
  * #### API Key (Subscription Key)
  *
- * ```typescript
- * import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleAdministrationClient_KeyCredential
+ * import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
  *
- * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
- * const credential = new AzureKeyCredential("<api key>");
- *
- * const client = new DocumentModelAdministrationClient(endpoint, credential);
+ * const credential = new AzureKeyCredential("<API key>");
+ * const client = new DocumentModelAdministrationClient(
+ *   "https://<resource name>.cognitiveservices.azure.com",
+ *   credential,
+ * );
  * ```
  */
 export class DocumentModelAdministrationClient {
@@ -90,14 +98,15 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleAdministrationClient_TokenCredential
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
    *
-   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new DefaultAzureCredential();
-   *
-   * const client = new DocumentModelAdministrationClient(endpoint, credential);
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
    * ```
    *
    * @param endpoint - the endpoint URL of an Azure Cognitive Services instance
@@ -107,7 +116,7 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a static API key
@@ -115,13 +124,14 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleAdministrationClient_KeyCredential
+   * import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
    *
-   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
-   * const credential = new AzureKeyCredential("<api key>");
-   *
-   * const client = new DocumentModelAdministrationClient(endpoint, credential);
+   * const credential = new AzureKeyCredential("<API key>");
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
    * ```
    *
    * @param endpoint - the endpoint URL of an Azure Cognitive Services instance
@@ -131,7 +141,7 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   /**
    * @hidden
@@ -139,12 +149,12 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: DocumentModelAdministrationClientOptions = {}
+    options: DocumentModelAdministrationClientOptions = {},
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
     this._tracing = createTracingClient({
@@ -171,25 +181,54 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * const modelId = "aNewModel";
-   * const containerUrl = "<training data container SAS URL>";
+   * ```ts snippet:ReadmeSampleBuildModel
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
    *
-   * const poller = await client.beginBuildDocumentModel(modelId, containerUrl, {
-   *   // Optionally, a text description may be attached to the model
-   *   description: "This is an example model!"
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * const containerSasUrl = "<SAS url to the blob container storing training documents>";
+   *
+   * // You must provide the model ID. It can be any text that does not start with "prebuilt-".
+   * // For example, you could provide a randomly generated GUID using the "uuid" package.
+   * // The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
+   * // The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
+   * // See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
+   * const poller = await client.beginBuildDocumentModel("<model ID>", containerSasUrl, "template", {
+   *   // The model description is optional and can be any text.
+   *   description: "This is my new model!",
+   *   onProgress: ({ status }) => {
+   *     console.log(`operation status: ${status}`);
+   *   },
    * });
+   * const model = await poller.pollUntilDone();
    *
-   * // Model building, like all other model creation operations, returns a poller that eventually produces a ModelDetails
-   * // object
-   * const modelDetails = await poller.pollUntilDone();
+   * console.log(`Model ID: ${model.modelId}`);
+   * console.log(`Description: ${model.description}`);
+   * console.log(`Created: ${model.createdOn}`);
    *
-   * const {
-   *   modelId, // identical to the modelId given when creating the model
-   *   description, // identical to the description given when creating the model
-   *   createdOn, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types in the model and their field schemas
-   * } = modelDetails;
+   * // A model may contain several document types, which describe the possible object structures of fields extracted using
+   * // this model
+   *
+   * console.log("Document Types:");
+   * for (const [docType, { description, fieldSchema: schema }] of Object.entries(
+   *   model.docTypes ?? {},
+   * )) {
+   *   console.log(`- Name: "${docType}"`);
+   *   console.log(`  Description: "${description}"`);
+   *
+   *   // For simplicity, this example will only show top-level field names
+   *   console.log("  Fields:");
+   *
+   *   for (const [fieldName, fieldSchema] of Object.entries(schema)) {
+   *     console.log(`  - "${fieldName}" (${fieldSchema.type})`);
+   *     console.log(`    ${fieldSchema.description ?? "<no description>"}`);
+   *   }
+   * }
    * ```
    *
    * @param modelId - the unique ID of the model to create
@@ -202,8 +241,104 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
-    options: BeginBuildDocumentModelOptions = {}
+    options?: BeginBuildDocumentModelOptions,
+  ): Promise<DocumentModelPoller>;
+
+  /**
+   * Build a new model with a given ID from a model content source.
+   *
+   * The Model ID can consist of any text, so long as it does not begin with "prebuilt-" (as these models refer to
+   * prebuilt Form Recognizer models that are common to all resources), and so long as it does not already exist within
+   * the resource.
+   *
+   * The content source describes the mechanism the service will use to read the input training data. See the
+   * {@link DocumentModelContentSource} type for more information.
+   *
+   * ### Example
+   *
+   * ```ts snippet:ReadmeSampleBuildModel_Container
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * const containerSasUrl = "<SAS url to the blob container storing training documents>";
+   *
+   * // You must provide the model ID. It can be any text that does not start with "prebuilt-".
+   * // For example, you could provide a randomly generated GUID using the "uuid" package.
+   * // The second parameter is the SAS-encoded URL to an Azure Storage container with the training documents.
+   * // The third parameter is the build mode: one of "template" (the only mode prior to 4.0.0-beta.3) or "neural".
+   * // See https://aka.ms/azsdk/formrecognizer/buildmode for more information about build modes.
+   * const poller = await client.beginBuildDocumentModel(
+   *   "<model ID>",
+   *   { azureBlobSource: { containerUrl: containerSasUrl } },
+   *   "template",
+   *   {
+   *     // The model description is optional and can be any text.
+   *     description: "This is my new model!",
+   *     onProgress: ({ status }) => {
+   *       console.log(`operation status: ${status}`);
+   *     },
+   *   },
+   * );
+   * const model = await poller.pollUntilDone();
+   *
+   * console.log(`Model ID: ${model.modelId}`);
+   * console.log(`Description: ${model.description}`);
+   * console.log(`Created: ${model.createdOn}`);
+   *
+   * // A model may contain several document types, which describe the possible object structures of fields extracted using
+   * // this model
+   *
+   * console.log("Document Types:");
+   * for (const [docType, { description, fieldSchema: schema }] of Object.entries(
+   *   model.docTypes ?? {},
+   * )) {
+   *   console.log(`- Name: "${docType}"`);
+   *   console.log(`  Description: "${description}"`);
+   *
+   *   // For simplicity, this example will only show top-level field names
+   *   console.log("  Fields:");
+   *
+   *   for (const [fieldName, fieldSchema] of Object.entries(schema)) {
+   *     console.log(`  - "${fieldName}" (${fieldSchema.type})`);
+   *     console.log(`    ${fieldSchema.description ?? "<no description>"}`);
+   *   }
+   * }
+   * ```
+   *
+   * @param modelId - the unique ID of the model to create
+   * @param contentSource - a content source that provides the training data for this model
+   * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
+   * @param options - optional settings for the model build operation
+   * @returns a long-running operation (poller) that will eventually produce the created model information or an error
+   */
+  public async beginBuildDocumentModel(
+    modelId: string,
+    contentSource: DocumentModelSource,
+    buildMode: DocumentModelBuildMode,
+    options?: BeginBuildDocumentModelOptions,
+  ): Promise<DocumentModelPoller>;
+
+  public async beginBuildDocumentModel(
+    modelId: string,
+    urlOrSource: string | DocumentModelSource,
+    buildMode: DocumentModelBuildMode,
+    options: BeginBuildDocumentModelOptions = {},
   ): Promise<DocumentModelPoller> {
+    const sourceInfo =
+      typeof urlOrSource === "string"
+        ? ({
+            azureBlobSource: {
+              containerUrl: urlOrSource,
+            },
+          } as AzureBlobSource)
+        : urlOrSource;
+
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
       options,
@@ -215,17 +350,15 @@ export class DocumentModelAdministrationClient {
               {
                 modelId,
                 description: finalOptions.description,
-                azureBlobSource: {
-                  containerUrl,
-                },
+                ...sourceInfo,
                 buildMode,
               },
               {
                 ...finalOptions,
                 abortSignal: ctx.abortSignal,
-              }
+              },
             ),
-        })
+        }),
     );
   }
 
@@ -237,20 +370,24 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * const modelId = "aNewComposedModel";
-   * const subModelIds = [
-   *   "documentType1Model",
-   *   "documentType2Model",
-   *   "documentType3Model"
-   * ];
+   * ```ts snippet:ReadmeSampleComposeModel
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * const composeModelId = "aNewComposedModel";
+   * const subModelIds = ["documentType1Model", "documentType2Model", "documentType3Model"];
    *
    * // The resulting composed model can classify and extract data from documents
    * // conforming to any of the above document types
-   * const poller = await client.beginComposeDocumentModel(modelId, subModelIds, {
-   *   description: "This is a composed model that can handle several document types."
+   * const poller = await client.beginComposeDocumentModel(composeModelId, subModelIds, {
+   *   description: "This is a composed model that can handle several document types.",
    * });
-   *
    * // Model composition, like all other model creation operations, returns a poller that eventually produces a
    * // ModelDetails object
    * const modelDetails = await poller.pollUntilDone();
@@ -259,7 +396,7 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when creating the model
    *   description, // identical to the description given when creating the model
    *   createdOn, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types of the composed submodels
+   *   docTypes, // information about the document types of the composed submodels
    * } = modelDetails;
    * ```
    *
@@ -271,7 +408,7 @@ export class DocumentModelAdministrationClient {
   public async beginComposeDocumentModel(
     modelId: string,
     componentModelIds: Iterable<string>,
-    options: BeginComposeDocumentModelOptions = {}
+    options: BeginComposeDocumentModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginComposeDocumentModel",
@@ -292,9 +429,9 @@ export class DocumentModelAdministrationClient {
               {
                 ...finalOptions,
                 abortSignal: ctx.abortSignal,
-              }
+              },
             ),
-        })
+        }),
     );
   }
 
@@ -306,7 +443,16 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleGetCopyAuthorization
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * // The copyAuthorization data structure stored below grants any cognitive services resource the right to copy a
    * // model into the client's resource with the given destination model ID.
    * const copyAuthorization = await client.getCopyAuthorization("<destination model ID>");
@@ -318,7 +464,7 @@ export class DocumentModelAdministrationClient {
    */
   public async getCopyAuthorization(
     destinationModelId: string,
-    options: GetCopyAuthorizationOptions = {}
+    options: GetCopyAuthorizationOptions = {},
   ): Promise<CopyAuthorization> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getCopyAuthorization",
@@ -330,8 +476,8 @@ export class DocumentModelAdministrationClient {
             description: finalOptions.description,
             tags: finalOptions.tags,
           },
-          finalOptions
-        )
+          finalOptions,
+        ),
     );
   }
 
@@ -342,18 +488,26 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * // We need a client for the source model's resource
-   * const sourceEndpoint = "https://<source resource name>.cognitiveservices.azure.com";
-   * const sourceCredential = new AzureKeyCredential("<source api key>");
-   * const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, sourceCredential);
+   * ```ts snippet:ReadmeSampleCopyModel
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
    *
    * // We create the copy authorization using a client authenticated with the destination resource. Note that these two
    * // resources can be the same (you can copy a model to a new ID in the same resource).
    * const copyAuthorization = await client.getCopyAuthorization("<destination model ID>");
    *
    * // Finally, use the _source_ client to copy the model and await the copy operation
-   * const poller = await sourceClient.beginCopyModelTo("<source model ID>");
+   * // We need a client for the source model's resource
+   * const sourceEndpoint = "https://<source resource name>.cognitiveservices.azure.com";
+   * const sourceCredential = new AzureKeyCredential("<source api key>");
+   * const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, sourceCredential);
+   * const poller = await sourceClient.beginCopyModelTo("<source model ID>", copyAuthorization);
    *
    * // Model copying, like all other model creation operations, returns a poller that eventually produces a ModelDetails
    * // object
@@ -363,7 +517,7 @@ export class DocumentModelAdministrationClient {
    *   modelId, // identical to the modelId given when creating the copy authorization
    *   description, // identical to the description given when creating the copy authorization
    *   createdOn, // the Date (timestamp) that the model was created
-   *   docTypes // information about the document types of the model (identical to the original, source model)
+   *   docTypes, // information about the document types of the model (identical to the original, source model)
    * } = modelDetails;
    * ```
    *
@@ -375,7 +529,8 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
-    options: BeginCopyModelOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginCopyModel",
@@ -385,7 +540,7 @@ export class DocumentModelAdministrationClient {
           options: finalOptions,
           start: () =>
             this._restClient.documentModels.copyModelTo(sourceModelId, authorization, finalOptions),
-        })
+        }),
     );
   }
 
@@ -413,32 +568,41 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * const classifierId = "aNewClassifier";
+   * ```ts snippet:ReadmeSampleBuildClassifier
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * const newClassifiedId = "aNewClassifier";
    * const containerUrl1 = "<training data container SAS URL 1>";
    * const containerUrl2 = "<training data container SAS URL 2>";
    *
    * const poller = await client.beginBuildDocumentClassifier(
-   *   classifierId,
+   *   newClassifiedId,
    *   {
    *     // The document types. Each entry in this object should map a document type name to a
    *     // `ClassifierDocumentTypeDetails` object
-   *     "formX": {
+   *     formX: {
    *       azureBlobSource: {
    *         containerUrl: containerUrl1,
-   *       }
+   *       },
    *     },
-   *     "formY": {
+   *     formY: {
    *       azureBlobFileListSource: {
    *         containerUrl: containerUrl2,
-   *         fileList: "path/to/fileList.jsonl"
-   *       }
+   *         fileList: "path/to/fileList.jsonl",
+   *       },
    *     },
    *   },
    *   {
    *     // Optionally, a text description may be attached to the classifier
-   *     description: "This is an example classifier!"
-   *   }
+   *     description: "This is an example classifier!",
+   *   },
    * );
    *
    * // Classifier building, like model creation operations, returns a poller that eventually produces a
@@ -449,19 +613,20 @@ export class DocumentModelAdministrationClient {
    *   classifierId, // identical to the classifierId given when creating the classifier
    *   description, // identical to the description given when creating the classifier (if any)
    *   createdOn, // the Date (timestamp) that the classifier was created
-   *   docTypes // information about the document types in the classifier and their details
+   *   docTypes, // information about the document types in the classifier and their details
    * } = classifierDetails;
    * ```
    *
    * @param classifierId - the unique ID of the classifier to create
-   * @param docTypes - the document types to include in the classifier (a map of document type names to `ClassifierDocumentTypeDetails`)
+   * @param docTypeSources - the document types to include in the classifier and their sources (a map of document type
+   *                         names to `ClassifierDocumentTypeDetails`)
    * @param options - optional settings for the classifier build operation
    * @returns a long-running operation (poller) that will eventually produce the created classifier details or an error
    */
   public async beginBuildDocumentClassifier(
     classifierId: string,
-    docTypes: { [docType: string]: ClassifierDocumentTypeDetails },
-    options: BeginBuildDocumentClassifierOptions = {}
+    docTypeSources: DocumentClassifierDocumentTypeSources,
+    options: BeginBuildDocumentClassifierOptions = {},
   ): Promise<DocumentClassifierPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentClassifier",
@@ -474,11 +639,11 @@ export class DocumentModelAdministrationClient {
               {
                 classifierId,
                 description: finalOptions.description,
-                docTypes,
+                docTypes: docTypeSources,
               },
-              finalOptions
+              finalOptions,
             ),
-        })
+        }),
     );
   }
 
@@ -493,7 +658,7 @@ export class DocumentModelAdministrationClient {
    * @returns a model poller (produces a ModelDetails)
    */
   private async createAdministrationPoller<State extends AdministrationOperationState>(
-    definition: TrainingOperationDefinition<State>
+    definition: TrainingOperationDefinition<State>,
   ): Promise<
     State extends DocumentModelOperationState ? DocumentModelPoller : DocumentClassifierPoller
   > {
@@ -510,7 +675,7 @@ export class DocumentModelAdministrationClient {
 
                 if (operationLocation === undefined) {
                   throw new Error(
-                    "Unable to start model creation operation: no Operation-Location received."
+                    "Unable to start model creation operation: no Operation-Location received.",
                   );
                 }
 
@@ -537,9 +702,9 @@ export class DocumentModelAdministrationClient {
                     },
                     headerParameters: [accept1],
                     serializer: SERIALIZER,
-                  }
+                  },
                 ) as Promise<OperationDetails>;
-              }
+              },
             )
         : (ctx: OperationContext) =>
             this._tracing.withSpan(
@@ -554,7 +719,7 @@ export class DocumentModelAdministrationClient {
                   },
                   ...options,
                 });
-              }
+              },
             );
 
     const poller = await lro<
@@ -578,12 +743,12 @@ export class DocumentModelAdministrationClient {
               });
 
               return toTrainingPollOperationState(res as DocumentModelBuildResponse);
-            }
+            },
           ),
         serialize: ({ operationId }) => JSON.stringify({ operationId }),
       },
       definition.options.updateIntervalInMs,
-      definition.options.abortSignal
+      definition.options.abortSignal,
     );
 
     if (definition.options.onProgress !== undefined) {
@@ -606,8 +771,8 @@ export class DocumentModelAdministrationClient {
       rawResponse: FullOperationResponse,
       ctx: OperationContext,
       options: PollerOptions<State> & OperationOptions,
-      args: [flatResponse: unknown, error?: unknown]
-    ) {
+      args: [flatResponse: unknown, error?: unknown],
+    ): void | undefined {
       const retryAfterHeader = rawResponse.headers.get("retry-after");
       // Convert the header value to milliseconds. If the header is not a valid number, then it is an HTTP
       // date.
@@ -634,15 +799,24 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleGetResourceDetails
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * const {
    *   // Information about the custom models in the current resource
-   *   customDocumentModelDetails: {
+   *   customDocumentModels: {
    *     // The number of custom models in the current resource
    *     count,
    *     // The maximum number of models that the current resource can support
-   *     limit
-   *   }
+   *     limit,
+   *   },
    * } = await client.getResourceDetails();
    * ```
    *
@@ -653,7 +827,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getResourceDetails",
       options,
-      (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions),
     );
   }
 
@@ -671,9 +845,18 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleGetModel
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * // The ID of the prebuilt business card model
-   * const modelId = "prebuilt-businessCard";
+   * const prebuiltModelId = "prebuilt-businessCard";
    *
    * const {
    *   modelId, // identical to the modelId given when calling `getDocumentModel`
@@ -684,15 +867,15 @@ export class DocumentModelAdministrationClient {
    *     // the document type of the prebuilt business card model
    *     "prebuilt:businesscard": {
    *       // an optional, textual description of this document type
-   *       description,
+   *       description: businessCardDescription,
    *       // the schema of the fields in this document type, see the FieldSchema type
    *       fieldSchema,
    *       // the service's confidences in the fields (an object with field names as properties and numeric confidence
    *       // values)
-   *       fieldConfidence
-   *     }
-   *   }
-   * } = await client.getDocumentModel(modelId);
+   *       fieldConfidence,
+   *     },
+   *   },
+   * } = await client.getDocumentModel(prebuiltModelId);
    * ```
    *
    * @param modelId - the unique ID of the model to query
@@ -701,12 +884,13 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentModel(
     modelId: string,
-    options: GetModelOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentModel",
       options,
-      (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions),
     );
   }
 
@@ -730,7 +914,17 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleListModels
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * // Iterate over all models in the current resource
    * for await (const summary of client.listDocumentModels()) {
    *   const {
    *     modelId, // The model's unique ID
@@ -740,17 +934,13 @@ export class DocumentModelAdministrationClient {
    *   // You can get the full model info using `getDocumentModel`
    *   const model = await client.getDocumentModel(modelId);
    * }
-   * ```
    *
-   * #### By Page
-   *
-   * ```javascript
    * // The listDocumentModels method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listDocumentModels().byPage();
    *
    * for await (const page of pages) {
    *   // Each page is an array of models and can be iterated synchronously
-   *   for (const model of page) {
+   *   for (const summary of page) {
    *     const {
    *       modelId, // The model's unique ID
    *       description, // a textual description of the model, if provided during model creation
@@ -766,7 +956,8 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of model summaries that supports paging
    */
   public listDocumentModels(
-    options: ListModelsOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.documentModels.listModels(options);
   }
@@ -776,8 +967,17 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * await client.deleteDocumentModel("<model ID to delete>"));
+   * ```ts snippet:ReadmeSampleDeleteModel
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * await client.deleteDocumentModel("<model ID to delete>");
    * ```
    *
    * @param modelId - the unique ID of the model to delete from the resource
@@ -785,12 +985,12 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentModel(
     modelId: string,
-    options: DeleteDocumentModelOptions = {}
+    options: DeleteDocumentModelOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,
-      (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions),
     );
   }
 
@@ -803,21 +1003,30 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * const classifierId = "<classifier ID";
+   * ```ts snippet:ReadmeSampleGetClassifier
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * const foundClassifier = "<classifier ID>";
    *
    * const {
    *   classifierId, // identical to the ID given when calling `getDocumentClassifier`
    *   description, // a textual description of the classifier, if provided during classifier creation
    *   createdOn, // the Date (timestamp) that the classifier was created
    *   // information about the document types in the classifier and their corresponding traning data
-   *   docTypes
-   * } = await client.getDocumentClassifier(classifierId);
+   *   docTypes,
+   * } = await client.getDocumentClassifier(foundClassifier);
    *
    * // The `docTypes` property is a map of document type names to information about the training data
    * // for that document type.
    * for (const [docTypeName, classifierDocTypeDetails] of Object.entries(docTypes)) {
-   *  console.log(`- '${docTypeName}': `, classifierDocTypeDetails);
+   *   console.log(`- '${docTypeName}': `, classifierDocTypeDetails);
    * }
    * ```
    *
@@ -827,13 +1036,13 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentClassifier(
     classifierId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentClassifier",
       options,
       (finalOptions) =>
-        this._restClient.documentClassifiers.getClassifier(classifierId, finalOptions)
+        this._restClient.documentClassifiers.getClassifier(classifierId, finalOptions),
     );
   }
 
@@ -844,7 +1053,16 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleListClassifiers
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * for await (const details of client.listDocumentClassifiers()) {
    *   const {
    *     classifierId, // The classifier's unique ID
@@ -852,11 +1070,7 @@ export class DocumentModelAdministrationClient {
    *     docTypes, // information about the document types in the classifier and their corresponding traning data
    *   } = details;
    * }
-   * ```
    *
-   * #### By Page
-   *
-   * ```javascript
    * // The listDocumentClassifiers method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listDocumentClassifiers().byPage();
    *
@@ -876,7 +1090,8 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of classifier details that supports paging
    */
   public listDocumentClassifiers(
-    options: ListModelsOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
     return this._restClient.documentClassifiers.listClassifiers(options);
   }
@@ -886,8 +1101,17 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
-   * await client.deleteDocumentClassifier("<classifier ID to delete>"));
+   * ```ts snippet:ReadmeSampleDeleteClassifier
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
+   * await client.deleteDocumentClassifier("<classifier ID to delete>");
    * ```
    *
    * @param classifierId - the unique ID of the classifier to delete from the resource
@@ -895,13 +1119,13 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentClassifier(
     classifierId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentClassifier",
       options,
       (finalOptions) =>
-        this._restClient.documentClassifiers.deleteClassifier(classifierId, finalOptions)
+        this._restClient.documentClassifiers.deleteClassifier(classifierId, finalOptions),
     );
   }
 
@@ -920,9 +1144,18 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleGetOperation
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * // The ID of the operation, which should be a GUID
-   * const operationId = "<operation GUID>";
+   * const findOperationId = "<operation GUID>";
    *
    * const {
    *   operationId, // identical to the operationId given when calling `getOperation`
@@ -931,17 +1164,17 @@ export class DocumentModelAdministrationClient {
    *   percentCompleted, // a number between 0 and 100 representing the progress of the operation
    *   createdOn, // a Date object that reflects the time when the operation was started
    *   lastUpdatedOn, // a Date object that reflects the time when the operation state was last modified
-   * } = await client.getOperation(operationId);
+   * } = await client.getOperation(findOperationId);
    * ```
    */
   public getOperation(
     operationId: string,
-    options: GetOperationOptions = {}
+    options: GetOperationOptions = {},
   ): Promise<OperationDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,
-      (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions),
     );
   }
 
@@ -953,19 +1186,24 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ReadmeSampleListOperations
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new DocumentModelAdministrationClient(
+   *   "https://<resource name>.cognitiveservices.azure.com",
+   *   credential,
+   * );
+   *
    * for await (const operation of client.listOperations()) {
    *   const {
    *     operationId, // the operation's GUID
    *     status, // the operation status, one of "notStarted", "running", "succeeded", "failed", or "canceled"
-   *     percentCompleted // the progress of the operation, from 0 to 100
+   *     percentCompleted, // the progress of the operation, from 0 to 100
    *   } = operation;
    * }
-   * ```
    *
-   * #### By Page
-   *
-   * ```javascript
    * // The listOperations method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listOperations().byPage();
    *
@@ -975,7 +1213,7 @@ export class DocumentModelAdministrationClient {
    *     const {
    *       operationId, // the operation's GUID
    *       status, // the operation status, one of "notStarted", "running", "succeeded", "failed", or "canceled"
-   *       percentCompleted // the progress of the operation, from 0 to 100
+   *       percentCompleted, // the progress of the operation, from 0 to 100
    *     } = operation;
    *   }
    * }
@@ -985,7 +1223,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of operation information objects that supports paging
    */
   public listOperations(
-    options: ListOperationsOptions = {}
+    options: ListOperationsOptions = {},
   ): PagedAsyncIterableIterator<OperationSummary> {
     return this._restClient.miscellaneous.listOperations(options);
   }

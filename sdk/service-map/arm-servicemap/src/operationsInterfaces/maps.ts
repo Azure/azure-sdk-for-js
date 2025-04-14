@@ -10,7 +10,7 @@ import {
   MapRequestUnion,
   MapsGenerateOptionalParams,
   MapsGenerateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Maps. */
 export interface Maps {

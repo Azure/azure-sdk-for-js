@@ -15,8 +15,8 @@ import {
   BlobInventoryPoliciesGetResponse,
   BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   BlobInventoryPoliciesCreateOrUpdateResponse,
-  BlobInventoryPoliciesDeleteOptionalParams
-} from "../models";
+  BlobInventoryPoliciesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BlobInventoryPolicies. */
@@ -33,7 +33,7 @@ export interface BlobInventoryPolicies {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobInventoryPoliciesListOptionalParams
+    options?: BlobInventoryPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BlobInventoryPolicy>;
   /**
    * Gets the blob inventory policy associated with the specified storage account.
@@ -50,7 +50,7 @@ export interface BlobInventoryPolicies {
     resourceGroupName: string,
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesGetOptionalParams
+    options?: BlobInventoryPoliciesGetOptionalParams,
   ): Promise<BlobInventoryPoliciesGetResponse>;
   /**
    * Sets the blob inventory policy to the specified storage account.
@@ -69,7 +69,7 @@ export interface BlobInventoryPolicies {
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
     properties: BlobInventoryPolicy,
-    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams
+    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   ): Promise<BlobInventoryPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the blob inventory policy associated with the specified storage account.
@@ -86,6 +86,6 @@ export interface BlobInventoryPolicies {
     resourceGroupName: string,
     accountName: string,
     blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesDeleteOptionalParams
+    options?: BlobInventoryPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

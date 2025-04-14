@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists environment types for the devcenter.
  *
  * @summary Lists environment types for the devcenter.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/EnvironmentTypes_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_List.json
  */
 async function environmentTypesListByDevCenter() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function environmentTypesListByDevCenter() {
   const resArray = new Array();
   for await (let item of client.environmentTypes.listByDevCenter(
     resourceGroupName,
-    devCenterName
+    devCenterName,
   )) {
     resArray.push(item);
   }

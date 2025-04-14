@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
-import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
-import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
-import { GeospatialType } from "../../documents/GeospatialType";
+// Licensed under the MIT License.
+import type { IndexingPolicy, PartitionKeyDefinition } from "../../documents/index.js";
+import type { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy.js";
+import type { UniqueKeyPolicy } from "./UniqueKeyPolicy.js";
+import type { GeospatialType } from "../../documents/GeospatialType.js";
+import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy.js";
+import type { ComputedProperty } from "../../documents/ComputedProperty.js";
+import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy.js";
+import type { FullTextPolicy } from "../../documents/FullTextPolicy.js";
+import { ClientEncryptionPolicy } from "../../encryption/index.js";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -22,4 +27,14 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** Change feed policy related to the container */
+  changeFeedPolicy?: ChangeFeedPolicy;
+  /** The computed properties of the container */
+  computedProperties?: ComputedProperty[];
+  /** The vector embedding policy information for storing items in a container. */
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  /** The full text policy information for storing items in a container. */
+  fullTextPolicy?: FullTextPolicy;
+  /** Encryption policy for the container, contains path that needs to be encrypted */
+  clientEncryptionPolicy?: ClientEncryptionPolicy;
 }

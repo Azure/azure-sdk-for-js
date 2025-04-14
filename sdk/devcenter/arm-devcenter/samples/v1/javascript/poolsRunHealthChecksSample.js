@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Triggers a refresh of the pool status.
  *
  * @summary Triggers a refresh of the pool status.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_RunHealthChecks.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_RunHealthChecks.json
  */
 async function poolsRefreshStatus() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function poolsRefreshStatus() {
   const result = await client.pools.beginRunHealthChecksAndWait(
     resourceGroupName,
     projectName,
-    poolName
+    poolName,
   );
   console.log(result);
 }

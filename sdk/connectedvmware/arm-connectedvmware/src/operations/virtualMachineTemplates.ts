@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VirtualMachineTemplates } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VirtualMachineTemplates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachineTemplate,
   VirtualMachineTemplatesListNextOptionalParams,
@@ -32,7 +36,7 @@ import {
   VirtualMachineTemplatesDeleteOptionalParams,
   VirtualMachineTemplatesListNextResponse,
   VirtualMachineTemplatesListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineTemplates operations. */
@@ -181,8 +185,8 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineTemplatesCreateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineTemplatesCreateResponse>,
       VirtualMachineTemplatesCreateResponse
     >
   > {
@@ -192,7 +196,7 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     ): Promise<VirtualMachineTemplatesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -225,15 +229,18 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineTemplatesCreateResponse,
+      OperationState<VirtualMachineTemplatesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -302,14 +309,14 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     resourceGroupName: string,
     virtualMachineTemplateName: string,
     options?: VirtualMachineTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -342,13 +349,13 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualMachineTemplateName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualMachineTemplateName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -455,7 +462,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -501,7 +508,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { UnknownObject, isObject } from "@azure/core-util";
+import { type UnknownObject, isObject } from "@azure/core-util";
 
 /**
  * @internal
@@ -128,8 +128,28 @@ export class Sanitizer {
 
         return value;
       },
-      2
+      2,
     );
+  }
+
+  public sanitizeUrl(value: string): string {
+    if (typeof value !== "string" || value === null || value === "") {
+      return value;
+    }
+
+    const url = new URL(value);
+
+    if (!url.search) {
+      return value;
+    }
+
+    for (const [key] of url.searchParams) {
+      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
+        url.searchParams.set(key, RedactedString);
+      }
+    }
+
+    return url.toString();
   }
 
   private sanitizeHeaders(obj: UnknownObject): UnknownObject {
@@ -160,25 +180,5 @@ export class Sanitizer {
     }
 
     return sanitized;
-  }
-
-  private sanitizeUrl(value: string): string {
-    if (typeof value !== "string" || value === null) {
-      return value;
-    }
-
-    const url = new URL(value);
-
-    if (!url.search) {
-      return value;
-    }
-
-    for (const [key] of url.searchParams) {
-      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
-        url.searchParams.set(key, RedactedString);
-      }
-    }
-
-    return url.toString();
   }
 }

@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Schema Groups in a Namespace.
  *
  * @summary Gets all the Schema Groups in a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryListByNamespace.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/SchemaRegistry/SchemaRegistryListByNamespace.json
  */
-async function schemaRegistryListAll() {
+async function schemaRegistryListAll(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
@@ -31,15 +27,15 @@ async function schemaRegistryListAll() {
   const resArray = new Array();
   for await (let item of client.schemaRegistry.listByNamespace(
     resourceGroupName,
-    namespaceName
+    namespaceName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  schemaRegistryListAll();
+async function main(): Promise<void> {
+  await schemaRegistryListAll();
 }
 
 main().catch(console.error);

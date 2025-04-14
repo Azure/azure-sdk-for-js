@@ -5,8 +5,16 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import { Instrumentation } from '@opentelemetry/instrumentation';
-import { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import type { Instrumentation } from '@opentelemetry/instrumentation';
+import { InstrumentationBase } from '@opentelemetry/instrumentation';
+import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import type { InstrumentationModuleDefinition } from '@opentelemetry/instrumentation';
+
+// @public
+export class AzureSdkInstrumentation extends InstrumentationBase {
+    constructor(options?: AzureSdkInstrumentationOptions);
+    protected init(): void | InstrumentationModuleDefinition | InstrumentationModuleDefinition[];
+}
 
 // @public
 export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
-import { Offer } from "./Offer";
-import { OfferDefinition } from "./OfferDefinition";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { Offer } from "./Offer.js";
+import type { OfferDefinition } from "./OfferDefinition.js";
 
 export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> {
   constructor(
@@ -13,7 +13,7 @@ export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> 
     headers: CosmosHeaders,
     statusCode: number,
     diagnostics: CosmosDiagnostics,
-    offer?: Offer
+    offer?: Offer,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.offer = offer;

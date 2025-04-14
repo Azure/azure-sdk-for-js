@@ -1,90 +1,97 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
-import {
-  TokenCredential,
-  isTokenCredential,
-  NamedKeyCredential,
-  isNamedKeyCredential,
-} from "@azure/core-auth";
-import {
-  ServiceClient,
+import type { TokenCredential, NamedKeyCredential } from "@azure/core-auth";
+import { isTokenCredential, isNamedKeyCredential } from "@azure/core-auth";
+import type {
   OperationOptions,
   CommonClientOptions,
   FullOperationResponse,
 } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
-  bearerTokenAuthenticationPolicy,
-  RestError,
+import { ServiceClient } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
   PipelineResponse,
-  createPipelineFromOptions,
   PipelineRequest,
-  createPipelineRequest,
   PipelinePolicy,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CorrelationRuleFilter } from "./core/managementClient";
-import { administrationLogger as logger } from "./log";
+import {
+  bearerTokenAuthenticationPolicy,
+  RestError,
+  createPipelineFromOptions,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import type { CorrelationRuleFilter } from "./core/managementClient.js";
+import { administrationLogger as logger } from "./log.js";
+import type { NamespaceProperties } from "./serializers/namespaceResourceSerializer.js";
 import {
   buildNamespace,
-  NamespaceProperties,
   NamespaceResourceSerializer,
-} from "./serializers/namespaceResourceSerializer";
+} from "./serializers/namespaceResourceSerializer.js";
+import type {
+  CreateQueueOptions,
+  InternalQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties,
+} from "./serializers/queueResourceSerializer.js";
 import {
   buildQueue,
   buildQueueOptions,
   buildQueueRuntimeProperties,
-  CreateQueueOptions,
-  InternalQueueOptions,
-  QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties,
-} from "./serializers/queueResourceSerializer";
-import {
-  buildRule,
+} from "./serializers/queueResourceSerializer.js";
+import type {
   CreateRuleOptions,
-  isSqlRuleAction,
   RuleProperties,
-  RuleResourceSerializer,
   SqlRuleAction,
   SqlRuleFilter,
-} from "./serializers/ruleResourceSerializer";
+} from "./serializers/ruleResourceSerializer.js";
+import {
+  buildRule,
+  isSqlRuleAction,
+  RuleResourceSerializer,
+} from "./serializers/ruleResourceSerializer.js";
+import type {
+  CreateSubscriptionOptions,
+  InternalSubscriptionOptions,
+  SubscriptionProperties,
+  SubscriptionRuntimeProperties,
+} from "./serializers/subscriptionResourceSerializer.js";
 import {
   buildSubscription,
   buildSubscriptionOptions,
   buildSubscriptionRuntimeProperties,
-  CreateSubscriptionOptions,
-  InternalSubscriptionOptions,
-  SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeProperties,
-} from "./serializers/subscriptionResourceSerializer";
+} from "./serializers/subscriptionResourceSerializer.js";
+import type {
+  CreateTopicOptions,
+  InternalTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties,
+} from "./serializers/topicResourceSerializer.js";
 import {
   buildTopic,
   buildTopicOptions,
   buildTopicRuntimeProperties,
-  CreateTopicOptions,
-  InternalTopicOptions,
-  TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties,
-} from "./serializers/topicResourceSerializer";
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
-import * as Constants from "./util/constants";
-import { parseURL } from "./util/parseUrl";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { tracingClient } from "./diagnostics/tracing";
+} from "./serializers/topicResourceSerializer.js";
+import type { AtomXmlSerializer } from "./util/atomXmlHelper.js";
+import { executeAtomXmlOperation } from "./util/atomXmlHelper.js";
+import * as Constants from "./util/constants.js";
+import { parseURL } from "./util/parseUrl.js";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
+import type { ServiceBusAtomAPIVersion } from "./util/utils.js";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion,
-} from "./util/utils";
-import { HttpResponse } from "./util/compat";
+} from "./util/utils.js";
+import type { HttpResponse } from "./util/compat/index.js";
 
 /**
  * Request options for list<entity-type>() operations
@@ -104,7 +111,6 @@ export interface ListRequestOptions {
 /**
  * Represents the returned response of the operation along with the raw response.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
@@ -129,7 +135,6 @@ export interface ServiceBusAdministrationClientOptions extends CommonClientOptio
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
 
@@ -163,6 +168,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private serviceVersion: ServiceBusAtomAPIVersion;
 
+  private useTls: boolean;
+
   /**
    * Singleton instances of serializers used across the various operations.
    */
@@ -182,7 +189,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param connectionString - The connection string needed for the client to connect to Azure.
    * @param options - PipelineOptions
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
   /**
    *
@@ -200,8 +206,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusAdministrationClientOptions
+    options?: ServiceBusAdministrationClientOptions,
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -209,13 +214,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       | TokenCredential
       | NamedKeyCredential
       | ServiceBusAdministrationClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: ServiceBusAdministrationClientOptions
+    options3?: ServiceBusAdministrationClientOptions,
   ) {
     let options: ServiceBusAdministrationClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: PipelinePolicy;
+    let useTls: boolean = true;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
@@ -228,7 +233,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       credentials = new SasServiceClientCredentials(credentialOrOptions2);
       options = options3 || {};
-      authPolicy = signingPolicy(credentials);
+      authPolicy = signingPolicy(credentials as SasServiceClientCredentials);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -238,14 +243,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       try {
         fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
-      } catch (error: any) {
+      } catch {
         throw new Error("Endpoint in the connection string is not valid.");
+      }
+      if (connectionStringObj.UseDevelopmentEmulator) {
+        useTls = false;
       }
       credentials = new SasServiceClientCredentials({
         key: connectionStringObj.SharedAccessKey,
         name: connectionStringObj.SharedAccessKeyName,
       });
-      authPolicy = signingPolicy(credentials);
+      authPolicy = signingPolicy(credentials as SasServiceClientCredentials);
     }
 
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
@@ -262,6 +270,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
     this.serviceVersion = options.serviceVersion ?? Constants.CURRENT_API_VERSION;
+    this.useTls = useTls;
     this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
@@ -276,8 +285,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    */
   async getNamespaceProperties(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<NamespaceProperties>> {
     logger.verbose(`Performing management operation - getNamespaceProperties()`);
 
@@ -288,10 +296,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.getResource(
           "$namespaceinfo",
           this.namespaceResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
         return this.buildNamespacePropertiesResponse(response);
-      }
+      },
     );
   }
 
@@ -312,8 +320,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createQueue(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: CreateQueueOptions = {}
+    options: CreateQueueOptions = {},
   ): Promise<WithResponse<QueueProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.createQueue",
@@ -321,18 +328,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - createQueue() for "${queueName}" with options: %j`,
-          options
+          options,
         );
         const response = await this.putResource(
           queueName,
           buildQueueOptions(options || {}),
           this.queueResourceSerializer,
           false,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildQueueResponse(response);
-      }
+      },
     );
   }
 
@@ -352,8 +359,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getQueue(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<QueueProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getQueue",
@@ -363,11 +369,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.getResource(
           queueName,
           this.queueResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildQueueResponse(response);
-      }
+      },
     );
   }
 
@@ -386,24 +392,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getQueueRuntimeProperties(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<QueueRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getQueueRuntimeProperties",
       operationOptions,
       async (updatedOptions) => {
         logger.verbose(
-          `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
+          `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`,
         );
         const response = await this.getResource(
           queueName,
           this.queueResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildQueueRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
@@ -421,7 +426,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueues(
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<QueueProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getQueues",
@@ -431,17 +436,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.listResources(
           "$Resources/Queues",
           updatedOptions,
-          this.queueResourceSerializer
+          this.queueResourceSerializer,
         );
 
         return this.buildListQueuesResponse(response);
-      }
+      },
     );
   }
 
   private async *listQueuesPage(
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<QueueProperties>> {
     let listResponse;
     do {
@@ -456,7 +461,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private async *listQueuesAll(
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<QueueProperties> {
     let marker: string | undefined;
     for await (const segment of this.listQueuesPage(marker, options)) {
@@ -472,8 +477,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
     logger.verbose(`Performing management operation - listQueues() with options: %j`, options);
     const iter = this.listQueuesAll(options);
@@ -513,7 +517,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueuesRuntimeProperties(
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getQueuesRuntimeProperties",
@@ -521,22 +525,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
-          options
+          options,
         );
         const response = await this.listResources(
           "$Resources/Queues",
           updatedOptions,
-          this.queueResourceSerializer
+          this.queueResourceSerializer,
         );
 
         return this.buildListQueuesRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
   private async *listQueuesRuntimePropertiesPage(
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeProperties>> {
     let listResponse;
     do {
@@ -551,7 +555,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private async *listQueuesRuntimePropertiesAll(
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<QueueRuntimeProperties> {
     let marker: string | undefined;
     for await (const segment of this.listQueuesRuntimePropertiesPage(marker, options)) {
@@ -568,12 +572,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueuesRuntimeProperties(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
     logger.verbose(
       `Performing management operation - listQueuesRuntimeProperties() with options: %j`,
-      options
+      options,
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
@@ -621,8 +624,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateQueue(
     queue: WithResponse<QueueProperties>,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<QueueProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.updateQueue",
@@ -630,12 +632,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - updateQueue() for "${queue.name}" with options: %j`,
-          queue
+          queue,
         );
 
         if (!isJSONLikeObject(queue) || queue == null) {
           throw new TypeError(
-            `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+            `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`,
           );
         }
 
@@ -648,11 +650,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           buildQueueOptions(queue),
           this.queueResourceSerializer,
           true,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildQueueResponse(response);
-      }
+      },
     );
   }
 
@@ -671,9 +673,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async deleteQueue(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<{}>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.deleteQueue",
@@ -683,11 +683,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.deleteResource(
           queueName,
           this.queueResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return { _response: getHttpResponseOnly(response) };
-      }
+      },
     );
   }
 
@@ -695,12 +695,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * Checks whether a given queue exists or not.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async queueExists(queueName: string, operationOptions: OperationOptions = {}): Promise<boolean> {
     logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
     const { span, updatedOptions } = tracingClient.startSpan(
       "ServiceBusAdministrationClient.queueExists",
-      operationOptions
+      operationOptions,
     );
     try {
       await this.getQueue(queueName, updatedOptions);
@@ -731,8 +730,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createTopic(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: CreateTopicOptions = {}
+    options: CreateTopicOptions = {},
   ): Promise<WithResponse<TopicProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.createTopic",
@@ -740,18 +738,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - createTopic() for "${topicName}" with options: %j`,
-          options
+          options,
         );
         const response = await this.putResource(
           topicName,
           buildTopicOptions(options || {}),
           this.topicResourceSerializer,
           false,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildTopicResponse(response);
-      }
+      },
     );
   }
 
@@ -771,8 +769,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getTopic(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<TopicProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getTopic",
@@ -782,11 +779,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.getResource(
           topicName,
           this.topicResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildTopicResponse(response);
-      }
+      },
     );
   }
 
@@ -805,24 +802,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getTopicRuntimeProperties(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<TopicRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getTopicRuntimeProperties",
       operationOptions,
       async (updatedOptions) => {
         logger.verbose(
-          `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
+          `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`,
         );
         const response = await this.getResource(
           topicName,
           this.topicResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildTopicRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
@@ -840,7 +836,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopics(
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<TopicProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getTopics",
@@ -850,17 +846,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.listResources(
           "$Resources/Topics",
           updatedOptions,
-          this.topicResourceSerializer
+          this.topicResourceSerializer,
         );
 
         return this.buildListTopicsResponse(response);
-      }
+      },
     );
   }
 
   private async *listTopicsPage(
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<TopicProperties>> {
     let listResponse;
     do {
@@ -875,7 +871,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private async *listTopicsAll(
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<TopicProperties> {
     let marker: string | undefined;
     for await (const segment of this.listTopicsPage(marker, options)) {
@@ -892,8 +888,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listTopics(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
     logger.verbose(`Performing management operation - listTopics() with options: %j`, options);
     const iter = this.listTopicsAll(options);
@@ -933,7 +928,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopicsRuntimeProperties(
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getTopicsRuntimeProperties",
@@ -942,22 +937,22 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
-          options
+          options,
         );
         const response = await this.listResources(
           "$Resources/Topics",
           updatedOptions,
-          this.topicResourceSerializer
+          this.topicResourceSerializer,
         );
 
         return this.buildListTopicsRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
   private async *listTopicsRuntimePropertiesPage(
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeProperties>> {
     let listResponse;
     do {
@@ -972,7 +967,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private async *listTopicsRuntimePropertiesAll(
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<TopicRuntimeProperties> {
     let marker: string | undefined;
     for await (const segment of this.listTopicsRuntimePropertiesPage(marker, options)) {
@@ -989,12 +984,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listTopicsRuntimeProperties(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
     logger.verbose(
       `Performing management operation - listTopicsRuntimeProperties() with options: %j`,
-      options
+      options,
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
@@ -1045,8 +1039,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateTopic(
     topic: WithResponse<TopicProperties>,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<TopicProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.updateTopic",
@@ -1055,12 +1048,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - updateTopic() for "${topic.name}" with options: %j`,
-          topic
+          topic,
         );
 
         if (!isJSONLikeObject(topic) || topic == null) {
           throw new TypeError(
-            `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+            `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`,
           );
         }
 
@@ -1073,11 +1066,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           buildTopicOptions(topic),
           this.topicResourceSerializer,
           true,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildTopicResponse(response);
-      }
+      },
     );
   }
 
@@ -1096,9 +1089,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async deleteTopic(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<{}>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.deleteTopic",
@@ -1108,11 +1099,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.deleteResource(
           topicName,
           this.topicResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return { _response: getHttpResponseOnly(response) };
-      }
+      },
     );
   }
 
@@ -1120,12 +1111,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * Checks whether a given topic exists or not.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
     logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
     const { span, updatedOptions } = tracingClient.startSpan(
       "ServiceBusAdministrationClient.topicExists",
-      operationOptions
+      operationOptions,
     );
     try {
       span.setStatus({ status: "success" });
@@ -1157,8 +1147,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: CreateSubscriptionOptions = {}
+    options: CreateSubscriptionOptions = {},
   ): Promise<WithResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.createSubscription",
@@ -1166,7 +1155,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - createSubscription() for "${subscriptionName}" with options: %j`,
-          options
+          options,
         );
         const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
         const response = await this.putResource(
@@ -1174,11 +1163,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           buildSubscriptionOptions(options || {}),
           this.subscriptionResourceSerializer,
           false,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildSubscriptionResponse(response);
-      }
+      },
     );
   }
 
@@ -1199,25 +1188,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getSubscription(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getSubscription",
       operationOptions,
       async (updatedOptions) => {
         logger.verbose(
-          `Performing management operation - getSubscription() for "${subscriptionName}"`
+          `Performing management operation - getSubscription() for "${subscriptionName}"`,
         );
         const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
         const response = await this.getResource(
           fullPath,
           this.subscriptionResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildSubscriptionResponse(response);
-      }
+      },
     );
   }
 
@@ -1237,25 +1225,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getSubscriptionRuntimeProperties(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getSubscriptionRuntimeProperties",
       operationOptions,
       async (updatedOptions) => {
         logger.verbose(
-          `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
+          `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`,
         );
         const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
         const response = await this.getResource(
           fullPath,
           this.subscriptionResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildSubscriptionRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
@@ -1274,7 +1261,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private async getSubscriptions(
     topicName: string,
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getSubscriptions",
@@ -1282,23 +1269,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - getSubscriptions() with options: %j`,
-          options
+          options,
         );
         const response = await this.listResources(
           topicName + "/Subscriptions/",
           updatedOptions,
-          this.subscriptionResourceSerializer
+          this.subscriptionResourceSerializer,
         );
 
         return this.buildListSubscriptionsResponse(response);
-      }
+      },
     );
   }
 
   private async *listSubscriptionsPage(
     topicName: string,
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionProperties>> {
     let listResponse;
     do {
@@ -1314,7 +1301,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private async *listSubscriptionsAll(
     topicName: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<SubscriptionProperties> {
     let marker: string | undefined;
     for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
@@ -1333,12 +1320,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   public listSubscriptions(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     logger.verbose(
       `Performing management operation - listSubscriptions() with options: %j`,
-      options
+      options,
     );
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
@@ -1378,7 +1364,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private async getSubscriptionsRuntimeProperties(
     topicName: string,
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getSubscriptionsRuntimeProperties",
@@ -1386,23 +1372,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
-          options
+          options,
         );
         const response = await this.listResources(
           topicName + "/Subscriptions/",
           updatedOptions,
-          this.subscriptionResourceSerializer
+          this.subscriptionResourceSerializer,
         );
 
         return this.buildListSubscriptionsRuntimePropertiesResponse(response);
-      }
+      },
     );
   }
 
   private async *listSubscriptionsRuntimePropertiesPage(
     topicName: string,
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeProperties>> {
     let listResponse;
     do {
@@ -1418,13 +1404,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private async *listSubscriptionsRuntimePropertiesAll(
     topicName: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<SubscriptionRuntimeProperties> {
     let marker: string | undefined;
     for await (const segment of this.listSubscriptionsRuntimePropertiesPage(
       topicName,
       marker,
-      options
+      options,
     )) {
       yield* segment;
     }
@@ -1440,15 +1426,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<
     SubscriptionRuntimeProperties,
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
     logger.verbose(
       `Performing management operation - listSubscriptionsRuntimeProperties() with options: %j`,
-      options
+      options,
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
@@ -1495,8 +1480,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateSubscription(
     subscription: WithResponse<SubscriptionProperties>,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.updateSubscription",
@@ -1505,24 +1489,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: %j`,
-          subscription
+          subscription,
         );
 
         if (!isJSONLikeObject(subscription) || subscription == null) {
           throw new TypeError(
-            `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+            `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`,
           );
         }
 
         if (!subscription.topicName || !subscription.subscriptionName) {
           throw new TypeError(
-            `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+            `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`,
           );
         }
 
         const fullPath = this.getSubscriptionPath(
           subscription.topicName,
-          subscription.subscriptionName
+          subscription.subscriptionName,
         );
 
         const response = await this.putResource(
@@ -1530,11 +1514,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           buildSubscriptionOptions(subscription),
           this.subscriptionResourceSerializer,
           true,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildSubscriptionResponse(response);
-      }
+      },
     );
   }
 
@@ -1554,9 +1538,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async deleteSubscription(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<{}>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.deleteSubscription",
@@ -1564,17 +1546,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions,
       async (updatedOptions) => {
         logger.verbose(
-          `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+          `Performing management operation - deleteSubscription() for "${subscriptionName}"`,
         );
         const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
         const response = await this.deleteResource(
           fullPath,
           this.subscriptionResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return { _response: getHttpResponseOnly(response) };
-      }
+      },
     );
   }
 
@@ -1585,15 +1567,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async subscriptionExists(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<boolean> {
     logger.verbose(
-      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`,
     );
     const { span, updatedOptions } = tracingClient.startSpan(
       "ServiceBusAdministrationClient.subscriptionExists",
-      operationOptions
+      operationOptions,
     );
     try {
       span.setStatus({ status: "success" });
@@ -1627,8 +1608,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions?: OperationOptions,
   ): Promise<WithResponse<RuleProperties>>;
   /**
    * Creates a rule with given name, configured using the given options.
@@ -1652,8 +1632,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction: SqlRuleAction,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions?: OperationOptions,
   ): Promise<WithResponse<RuleProperties>>;
   async createRule(
     topicName: string,
@@ -1661,8 +1640,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions?: OperationOptions,
   ): Promise<WithResponse<RuleProperties>> {
     let ruleAction: SqlRuleAction | undefined = undefined;
     let operOptions: OperationOptions | undefined;
@@ -1684,7 +1662,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - createRule() for "${ruleName}" with filter: "%j"`,
-          ruleFilter
+          ruleFilter,
         );
         const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
         const response = await this.putResource(
@@ -1692,10 +1670,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           { name: ruleName, filter: ruleFilter, action: ruleAction },
           this.ruleResourceSerializer,
           false,
-          updatedOptions
+          updatedOptions,
         );
         return this.buildRuleResponse(response);
-      }
+      },
     );
   }
 
@@ -1716,8 +1694,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<WithResponse<RuleProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getRule",
@@ -1728,11 +1705,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.getResource(
           fullPath,
           this.ruleResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildRuleResponse(response);
-      }
+      },
     );
   }
 
@@ -1751,7 +1728,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getRules(
     topicName: string,
     subscriptionName: string,
-    options: ListRequestOptions & OperationOptions = {}
+    options: ListRequestOptions & OperationOptions = {},
   ): Promise<EntitiesResponse<RuleProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getRules",
@@ -1763,11 +1740,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.listResources(
           fullPath,
           updatedOptions,
-          this.ruleResourceSerializer
+          this.ruleResourceSerializer,
         );
 
         return this.buildListRulesResponse(response);
-      }
+      },
     );
   }
 
@@ -1775,7 +1752,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     marker?: string,
-    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {},
   ): AsyncIterableIterator<EntitiesResponse<RuleProperties>> {
     let listResponse;
     do {
@@ -1792,7 +1769,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async *listRulesAll(
     topicName: string,
     subscriptionName: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): AsyncIterableIterator<RuleProperties> {
     let marker: string | undefined;
     for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
@@ -1811,8 +1788,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listRules(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
     logger.verbose(`Performing management operation - listRules() with options: %j`, options);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
@@ -1861,8 +1837,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: WithResponse<RuleProperties>,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
+    operationOptions?: OperationOptions,
   ): Promise<WithResponse<RuleProperties>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.updateRule",
@@ -1870,12 +1845,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       async (updatedOptions) => {
         logger.verbose(
           `Performing management operation - updateRule() for "${rule.name}" with options: %j`,
-          rule
+          rule,
         );
 
         if (!isJSONLikeObject(rule) || rule === null) {
           throw new TypeError(
-            `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+            `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`,
           );
         }
 
@@ -1889,11 +1864,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           rule,
           this.ruleResourceSerializer,
           true,
-          updatedOptions
+          updatedOptions,
         );
 
         return this.buildRuleResponse(response);
-      }
+      },
     );
   }
 
@@ -1914,9 +1889,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions?: OperationOptions
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    operationOptions?: OperationOptions,
   ): Promise<WithResponse<{}>> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.deleteRule",
@@ -1927,11 +1900,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const response = await this.deleteResource(
           fullPath,
           this.ruleResourceSerializer,
-          updatedOptions
+          updatedOptions,
         );
 
         return { _response: getHttpResponseOnly(response) };
-      }
+      },
     );
   }
 
@@ -1943,13 +1916,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<boolean> {
     logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
     const { span, updatedOptions } = tracingClient.startSpan(
       "ServiceBusAdministrationClient.ruleExists",
-      operationOptions
+      operationOptions,
     );
     try {
       span.setStatus({ status: "success" });
@@ -1975,7 +1947,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       | CreateRuleOptions,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<PipelineResponse> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.putResource",
@@ -1984,6 +1956,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request: PipelineRequest = createPipelineRequest({
           url: this.getUrl(name),
           method: "PUT",
+          allowInsecureConnection: !this.useTls,
         });
         if (isUpdate) {
           request.headers.set("If-Match", "*");
@@ -1998,14 +1971,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         ) {
           const token =
             this.credentials instanceof SasServiceClientCredentials
-              ? this.credentials.getToken(this.endpoint).token
+              ? (await this.credentials.getToken(this.endpoint)).token
               : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
           if (queueOrSubscriptionFields.ForwardTo) {
             request.headers.set("ServiceBusSupplementaryAuthorization", token);
             if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
               queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
-                queueOrSubscriptionFields.ForwardTo
+                queueOrSubscriptionFields.ForwardTo,
               );
             }
           }
@@ -2014,7 +1987,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
             if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
               queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
                 this.endpointWithProtocol.concat(
-                  queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+                  queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo,
                 );
             }
           }
@@ -2023,7 +1996,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
         return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
-      }
+      },
     );
   }
 
@@ -2033,7 +2006,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getResource(
     name: string,
     serializer: AtomXmlSerializer,
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<FullOperationResponse> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.getResource",
@@ -2042,6 +2015,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name),
           method: "GET",
+          allowInsecureConnection: !this.useTls,
         });
 
         const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
@@ -2056,12 +2030,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
               statusCode: response.status,
               request,
               response,
-            }
+            },
           );
           throw err;
         }
         return response;
-      }
+      },
     );
   }
 
@@ -2071,7 +2045,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async listResources(
     name: string,
     options: ListRequestOptions & OperationOptions = {},
-    serializer: AtomXmlSerializer
+    serializer: AtomXmlSerializer,
   ): Promise<FullOperationResponse> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.listResources",
@@ -2090,10 +2064,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name, queryParams),
           method: "GET",
+          allowInsecureConnection: !this.useTls,
         });
 
         return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-      }
+      },
     );
   }
 
@@ -2103,7 +2078,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async deleteResource(
     name: string,
     serializer: AtomXmlSerializer,
-    operationOptions: OperationOptions = {}
+    operationOptions: OperationOptions = {},
   ): Promise<FullOperationResponse> {
     return tracingClient.withSpan(
       "ServiceBusAdministrationClient.deleteResource",
@@ -2112,14 +2087,15 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name),
           method: "DELETE",
+          allowInsecureConnection: !this.useTls,
         });
         return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-      }
+      },
     );
   }
 
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {
-    const baseUri = `https://${this.endpoint}/${path}`;
+    const baseUri = `${this.useTls ? "https" : "http"}://${this.endpoint}/${path}`;
 
     const requestUrl = new URL(baseUri);
     requestUrl.searchParams.set(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
@@ -2151,20 +2127,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (error: any) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
-          error
+          error,
       );
     }
   }
 
   private buildNamespacePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): WithResponse<NamespaceProperties> {
     try {
       const namespace = buildNamespace(response.parsedBody);
       const namespaceResponse: WithResponse<NamespaceProperties> = Object.defineProperty(
         namespace || {},
         "_response",
-        { value: getHttpResponseOnly(response) }
+        { value: getHttpResponseOnly(response) },
       ) as WithResponse<NamespaceProperties>;
       return namespaceResponse;
     } catch (err: any) {
@@ -2176,13 +2152,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListQueuesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<QueueProperties> {
     try {
       const queues: QueueProperties[] = [];
@@ -2202,7 +2178,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as EntitiesResponse<QueueProperties>;
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
@@ -2215,13 +2191,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListQueuesRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<QueueRuntimeProperties> {
     try {
       const queues: QueueRuntimeProperties[] = [];
@@ -2241,7 +2217,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as EntitiesResponse<QueueRuntimeProperties>;
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
@@ -2254,7 +2230,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
@@ -2267,7 +2243,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<QueueProperties>;
       return queueResponse;
     } catch (err: any) {
@@ -2279,13 +2255,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildQueueRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): WithResponse<QueueRuntimeProperties> {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
@@ -2294,7 +2270,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<QueueRuntimeProperties>;
       return queueResponse;
     } catch (err: any) {
@@ -2306,13 +2282,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListTopicsResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<TopicProperties> {
     try {
       const topics: TopicProperties[] = [];
@@ -2332,7 +2308,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as EntitiesResponse<TopicProperties>;
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
@@ -2345,13 +2321,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListTopicsRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<TopicRuntimeProperties> {
     try {
       const topics: TopicRuntimeProperties[] = [];
@@ -2371,7 +2347,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as EntitiesResponse<TopicRuntimeProperties>;
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
@@ -2384,7 +2360,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
@@ -2396,7 +2372,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<TopicProperties>;
       return topicResponse;
     } catch (err: any) {
@@ -2408,13 +2384,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildTopicRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): WithResponse<TopicRuntimeProperties> {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
@@ -2423,7 +2399,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<TopicRuntimeProperties>;
       return topicResponse;
     } catch (err: any) {
@@ -2435,13 +2411,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListSubscriptionsResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<SubscriptionProperties> {
     try {
       const subscriptions: SubscriptionProperties[] = [];
@@ -2471,13 +2447,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListSubscriptionsRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<SubscriptionRuntimeProperties> {
     try {
       const subscriptions: SubscriptionRuntimeProperties[] = [];
@@ -2507,13 +2483,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildSubscriptionResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): WithResponse<SubscriptionProperties> {
     try {
       const subscription = buildSubscription(response.parsedBody);
@@ -2522,7 +2498,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<SubscriptionProperties>;
       return subscriptionResponse;
     } catch (err: any) {
@@ -2534,13 +2510,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildSubscriptionRuntimePropertiesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
@@ -2558,13 +2534,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
 
   private buildListRulesResponse(
-    response: FullOperationResponse
+    response: FullOperationResponse,
   ): EntitiesResponse<RuleProperties> {
     try {
       const rules: RuleProperties[] = [];
@@ -2584,7 +2560,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as EntitiesResponse<RuleProperties>;
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
@@ -2597,7 +2573,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }
@@ -2610,7 +2586,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         "_response",
         {
           value: getHttpResponseOnly(response),
-        }
+        },
       ) as WithResponse<RuleProperties>;
       return ruleResponse;
     } catch (err: any) {
@@ -2622,7 +2598,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response,
-        }
+        },
       );
     }
   }

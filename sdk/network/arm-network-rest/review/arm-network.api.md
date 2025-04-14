@@ -4,19 +4,19 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AadAuthenticationParameters {
@@ -129,7 +129,6 @@ export interface AdminPropertiesFormat {
     direction: "Inbound" | "Outbound";
     priority: number;
     protocol: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sourcePortRanges?: Array<string>;
     sources?: Array<AddressPrefixItem>;
 }
@@ -143,7 +142,7 @@ export interface AdminPropertiesFormatOutput {
     direction: "Inbound" | "Outbound";
     priority: number;
     protocol: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sourcePortRanges?: Array<string>;
     sources?: Array<AddressPrefixItemOutput>;
 }
@@ -158,7 +157,6 @@ export interface AdminRule extends BaseAdminRuleParent {
 // @public
 export interface AdminRuleCollection extends ChildResource {
     properties?: AdminRuleCollectionPropertiesFormat;
-    systemData?: SystemData;
 }
 
 // @public
@@ -170,21 +168,20 @@ export interface AdminRuleCollectionListResultOutput {
 // @public
 export interface AdminRuleCollectionOutput extends ChildResourceOutput {
     properties?: AdminRuleCollectionPropertiesFormatOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface AdminRuleCollectionPropertiesFormat {
     appliesToGroups: Array<NetworkManagerSecurityGroupItem>;
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface AdminRuleCollectionPropertiesFormatOutput {
     appliesToGroups: Array<NetworkManagerSecurityGroupItemOutput>;
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -238,8 +235,6 @@ export interface AdminRuleCollectionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface AdminRuleCollectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -251,8 +246,6 @@ export interface AdminRuleCollectionsDelete202Headers {
 // @public
 export interface AdminRuleCollectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & AdminRuleCollectionsDelete202Headers;
     // (undocumented)
     status: "202";
@@ -260,8 +253,6 @@ export interface AdminRuleCollectionsDelete202Response extends HttpResponse {
 
 // @public
 export interface AdminRuleCollectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -427,8 +418,6 @@ export interface AdminRulesCreateOrUpdateQueryParamProperties {
 // @public
 export interface AdminRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -440,8 +429,6 @@ export interface AdminRulesDelete202Headers {
 // @public
 export interface AdminRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & AdminRulesDelete202Headers;
     // (undocumented)
     status: "202";
@@ -449,8 +436,6 @@ export interface AdminRulesDelete202Response extends HttpResponse {
 
 // @public
 export interface AdminRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -554,7 +539,6 @@ export interface AdminRulesListQueryParamProperties {
 
 // @public
 export interface ApplicationGateway extends Resource {
-    etag?: string;
     identity?: ManagedServiceIdentity;
     properties?: ApplicationGatewayPropertiesFormat;
     zones?: Array<string>;
@@ -562,30 +546,27 @@ export interface ApplicationGateway extends Resource {
 
 // @public
 export interface ApplicationGatewayAuthenticationCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayAuthenticationCertificatePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayAuthenticationCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayAuthenticationCertificatePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayAuthenticationCertificatePropertiesFormat {
     data?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayAuthenticationCertificatePropertiesFormatOutput {
     data?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -651,32 +632,28 @@ export interface ApplicationGatewayBackendAddressOutput {
 
 // @public
 export interface ApplicationGatewayBackendAddressPool extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendAddressPoolPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayBackendAddressPoolOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendAddressPoolPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayBackendAddressPoolPropertiesFormat {
     backendAddresses?: Array<ApplicationGatewayBackendAddress>;
-    backendIPConfigurations?: Array<NetworkInterfaceIPConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayBackendAddressPoolPropertiesFormatOutput {
     backendAddresses?: Array<ApplicationGatewayBackendAddressOutput>;
-    backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -712,18 +689,16 @@ export interface ApplicationGatewayBackendHealthServerOutput {
 
 // @public
 export interface ApplicationGatewayBackendHttpSettings extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendHttpSettingsPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayBackendHttpSettingsOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -739,7 +714,6 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormat {
     probe?: SubResource;
     probeEnabled?: boolean;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestTimeout?: number;
     trustedRootCertificates?: Array<SubResource>;
 }
@@ -757,25 +731,23 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput {
     probe?: SubResourceOutput;
     probeEnabled?: boolean;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestTimeout?: number;
     trustedRootCertificates?: Array<SubResourceOutput>;
 }
 
 // @public
 export interface ApplicationGatewayBackendSettings extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendSettingsPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayBackendSettingsOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayBackendSettingsPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -785,7 +757,6 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormat {
     port?: number;
     probe?: SubResource;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     timeout?: number;
     trustedRootCertificates?: Array<SubResource>;
 }
@@ -797,7 +768,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormatOutput {
     port?: number;
     probe?: SubResourceOutput;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     timeout?: number;
     trustedRootCertificates?: Array<SubResourceOutput>;
 }
@@ -917,7 +888,6 @@ export interface ApplicationGatewayFirewallRuleSetOutput extends ResourceOutput 
 
 // @public
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleGroups: Array<ApplicationGatewayFirewallRuleGroup>;
     ruleSetType: string;
     ruleSetVersion: string;
@@ -926,7 +896,7 @@ export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
 
 // @public
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleGroups: Array<ApplicationGatewayFirewallRuleGroupOutput>;
     ruleSetType: string;
     ruleSetVersion: string;
@@ -935,18 +905,16 @@ export interface ApplicationGatewayFirewallRuleSetPropertiesFormatOutput {
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayFrontendIPConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayFrontendIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -954,7 +922,6 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
     privateLinkConfiguration?: SubResource;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
@@ -964,37 +931,34 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
     privateLinkConfiguration?: SubResourceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResourceOutput;
     subnet?: SubResourceOutput;
 }
 
 // @public
 export interface ApplicationGatewayFrontendPort extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayFrontendPortPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayFrontendPortOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayFrontendPortPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayFrontendPortPropertiesFormat {
     port?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayFrontendPortPropertiesFormatOutput {
     port?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -1023,18 +987,16 @@ export interface ApplicationGatewayHeaderConfigurationOutput {
 
 // @public
 export interface ApplicationGatewayHttpListener extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayHttpListenerPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayHttpListenerOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayHttpListenerPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1046,7 +1008,6 @@ export interface ApplicationGatewayHttpListenerPropertiesFormat {
     hostName?: string;
     hostNames?: Array<string>;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requireServerNameIndication?: boolean;
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
@@ -1061,7 +1022,7 @@ export interface ApplicationGatewayHttpListenerPropertiesFormatOutput {
     hostName?: string;
     hostNames?: Array<string>;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requireServerNameIndication?: boolean;
     sslCertificate?: SubResourceOutput;
     sslProfile?: SubResourceOutput;
@@ -1069,46 +1030,41 @@ export interface ApplicationGatewayHttpListenerPropertiesFormatOutput {
 
 // @public
 export interface ApplicationGatewayIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayIPConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayIPConfigurationPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubResource;
 }
 
 // @public
 export interface ApplicationGatewayIPConfigurationPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubResourceOutput;
 }
 
 // @public
 export interface ApplicationGatewayListener extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayListenerPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayListenerOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayListenerPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1116,7 +1072,6 @@ export interface ApplicationGatewayListenerPropertiesFormat {
     frontendIPConfiguration?: SubResource;
     frontendPort?: SubResource;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sslCertificate?: SubResource;
     sslProfile?: SubResource;
 }
@@ -1126,7 +1081,7 @@ export interface ApplicationGatewayListenerPropertiesFormatOutput {
     frontendIPConfiguration?: SubResourceOutput;
     frontendPort?: SubResourceOutput;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sslCertificate?: SubResourceOutput;
     sslProfile?: SubResourceOutput;
 }
@@ -1139,48 +1094,43 @@ export interface ApplicationGatewayListResultOutput {
 
 // @public
 export interface ApplicationGatewayLoadDistributionPolicy extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayLoadDistributionPolicyPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayLoadDistributionPolicyOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormat {
     loadDistributionAlgorithm?: "RoundRobin" | "LeastConnections" | "IpHash";
     loadDistributionTargets?: Array<ApplicationGatewayLoadDistributionTarget>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput {
     loadDistributionAlgorithm?: "RoundRobin" | "LeastConnections" | "IpHash";
     loadDistributionTargets?: Array<ApplicationGatewayLoadDistributionTargetOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayLoadDistributionTarget extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayLoadDistributionTargetPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayLoadDistributionTargetOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayLoadDistributionTargetPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -1209,7 +1159,7 @@ export interface ApplicationGatewayOnDemandProbe {
 
 // @public
 export interface ApplicationGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     identity?: ManagedServiceIdentityOutput;
     properties?: ApplicationGatewayPropertiesFormatOutput;
     zones?: Array<string>;
@@ -1217,18 +1167,16 @@ export interface ApplicationGatewayOutput extends ResourceOutput {
 
 // @public
 export interface ApplicationGatewayPathRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayPathRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPathRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayPathRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1238,7 +1186,6 @@ export interface ApplicationGatewayPathRulePropertiesFormat {
     firewallPolicy?: SubResource;
     loadDistributionPolicy?: SubResource;
     paths?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
 }
@@ -1250,17 +1197,15 @@ export interface ApplicationGatewayPathRulePropertiesFormatOutput {
     firewallPolicy?: SubResourceOutput;
     loadDistributionPolicy?: SubResourceOutput;
     paths?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfiguration?: SubResourceOutput;
     rewriteRuleSet?: SubResourceOutput;
 }
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateEndpointConnectionProperties;
-    type?: string;
 }
 
 // @public
@@ -1271,26 +1216,23 @@ export interface ApplicationGatewayPrivateEndpointConnectionListResultOutput {
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateEndpointConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionProperties {
-    linkIdentifier?: string;
-    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionPropertiesOutput {
-    linkIdentifier?: string;
-    privateEndpoint?: PrivateEndpointOutput;
+    readonly linkIdentifier?: string;
+    readonly privateEndpoint?: PrivateEndpointOutput;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -1303,23 +1245,17 @@ export interface ApplicationGatewayPrivateEndpointConnectionsDelete {
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1422,8 +1358,6 @@ export interface ApplicationGatewayPrivateEndpointConnectionsUpdate200Response e
 // @public
 export interface ApplicationGatewayPrivateEndpointConnectionsUpdate202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -1461,46 +1395,41 @@ export interface ApplicationGatewayPrivateEndpointConnectionsUpdateQueryParamPro
 
 // @public
 export interface ApplicationGatewayPrivateLinkConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkConfigurationProperties;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkConfigurationPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkConfigurationProperties {
     ipConfigurations?: Array<ApplicationGatewayPrivateLinkIpConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkConfigurationPropertiesOutput {
     ipConfigurations?: Array<ApplicationGatewayPrivateLinkIpConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkIpConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkIpConfigurationProperties;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkIpConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1508,7 +1437,6 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationProperties {
     primary?: boolean;
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubResource;
 }
 
@@ -1517,16 +1445,14 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput {
     primary?: boolean;
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubResourceOutput;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkResource extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkResourceProperties;
-    type?: string;
 }
 
 // @public
@@ -1537,23 +1463,21 @@ export interface ApplicationGatewayPrivateLinkResourceListResultOutput {
 
 // @public
 export interface ApplicationGatewayPrivateLinkResourceOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayPrivateLinkResourcePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkResourceProperties {
-    groupId?: string;
-    requiredMembers?: Array<string>;
     requiredZoneNames?: Array<string>;
 }
 
 // @public
 export interface ApplicationGatewayPrivateLinkResourcePropertiesOutput {
-    groupId?: string;
-    requiredMembers?: Array<string>;
+    readonly groupId?: string;
+    readonly requiredMembers?: Array<string>;
     requiredZoneNames?: Array<string>;
 }
 
@@ -1594,10 +1518,8 @@ export interface ApplicationGatewayPrivateLinkResourcesListQueryParamProperties 
 
 // @public
 export interface ApplicationGatewayProbe extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayProbePropertiesFormat;
-    type?: string;
 }
 
 // @public
@@ -1614,10 +1536,10 @@ export interface ApplicationGatewayProbeHealthResponseMatchOutput {
 
 // @public
 export interface ApplicationGatewayProbeOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayProbePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1631,7 +1553,6 @@ export interface ApplicationGatewayProbePropertiesFormat {
     pickHostNameFromBackendSettings?: boolean;
     port?: number;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     timeout?: number;
     unhealthyThreshold?: number;
 }
@@ -1647,7 +1568,7 @@ export interface ApplicationGatewayProbePropertiesFormatOutput {
     pickHostNameFromBackendSettings?: boolean;
     port?: number;
     protocol?: "Http" | "Https" | "Tcp" | "Tls";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     timeout?: number;
     unhealthyThreshold?: number;
 }
@@ -1671,14 +1592,10 @@ export interface ApplicationGatewayPropertiesFormat {
     httpListeners?: Array<ApplicationGatewayHttpListener>;
     listeners?: Array<ApplicationGatewayListener>;
     loadDistributionPolicies?: Array<ApplicationGatewayLoadDistributionPolicy>;
-    operationalState?: "Stopped" | "Starting" | "Running" | "Stopping";
-    privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnection>;
     privateLinkConfigurations?: Array<ApplicationGatewayPrivateLinkConfiguration>;
     probes?: Array<ApplicationGatewayProbe>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfigurations?: Array<ApplicationGatewayRedirectConfiguration>;
     requestRoutingRules?: Array<ApplicationGatewayRequestRoutingRule>;
-    resourceGuid?: string;
     rewriteRuleSets?: Array<ApplicationGatewayRewriteRuleSet>;
     routingRules?: Array<ApplicationGatewayRoutingRule>;
     sku?: ApplicationGatewaySku;
@@ -1710,14 +1627,14 @@ export interface ApplicationGatewayPropertiesFormatOutput {
     httpListeners?: Array<ApplicationGatewayHttpListenerOutput>;
     listeners?: Array<ApplicationGatewayListenerOutput>;
     loadDistributionPolicies?: Array<ApplicationGatewayLoadDistributionPolicyOutput>;
-    operationalState?: "Stopped" | "Starting" | "Running" | "Stopping";
-    privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
+    readonly operationalState?: "Stopped" | "Starting" | "Running" | "Stopping";
+    readonly privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
     privateLinkConfigurations?: Array<ApplicationGatewayPrivateLinkConfigurationOutput>;
     probes?: Array<ApplicationGatewayProbeOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfigurations?: Array<ApplicationGatewayRedirectConfigurationOutput>;
     requestRoutingRules?: Array<ApplicationGatewayRequestRoutingRuleOutput>;
-    resourceGuid?: string;
+    readonly resourceGuid?: string;
     rewriteRuleSets?: Array<ApplicationGatewayRewriteRuleSetOutput>;
     routingRules?: Array<ApplicationGatewayRoutingRuleOutput>;
     sku?: ApplicationGatewaySkuOutput;
@@ -1732,18 +1649,16 @@ export interface ApplicationGatewayPropertiesFormatOutput {
 
 // @public
 export interface ApplicationGatewayRedirectConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayRedirectConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayRedirectConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayRedirectConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1772,18 +1687,16 @@ export interface ApplicationGatewayRedirectConfigurationPropertiesFormatOutput {
 
 // @public
 export interface ApplicationGatewayRequestRoutingRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayRequestRoutingRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayRequestRoutingRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayRequestRoutingRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1793,7 +1706,6 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
     httpListener?: SubResource;
     loadDistributionPolicy?: SubResource;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfiguration?: SubResource;
     rewriteRuleSet?: SubResource;
     ruleType?: "Basic" | "PathBasedRouting";
@@ -1807,7 +1719,7 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormatOutput {
     httpListener?: SubResourceOutput;
     loadDistributionPolicy?: SubResourceOutput;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     redirectConfiguration?: SubResourceOutput;
     rewriteRuleSet?: SubResourceOutput;
     ruleType?: "Basic" | "PathBasedRouting";
@@ -1862,44 +1774,40 @@ export interface ApplicationGatewayRewriteRuleOutput {
 
 // @public
 export interface ApplicationGatewayRewriteRuleSet extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayRewriteRuleSetPropertiesFormat;
 }
 
 // @public
 export interface ApplicationGatewayRewriteRuleSetOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayRewriteRuleSetPropertiesFormatOutput;
 }
 
 // @public
 export interface ApplicationGatewayRewriteRuleSetPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rewriteRules?: Array<ApplicationGatewayRewriteRule>;
 }
 
 // @public
 export interface ApplicationGatewayRewriteRuleSetPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rewriteRules?: Array<ApplicationGatewayRewriteRuleOutput>;
 }
 
 // @public
 export interface ApplicationGatewayRoutingRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayRoutingRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayRoutingRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayRoutingRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1908,7 +1816,6 @@ export interface ApplicationGatewayRoutingRulePropertiesFormat {
     backendSettings?: SubResource;
     listener?: SubResource;
     priority: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleType?: "Basic" | "PathBasedRouting";
 }
 
@@ -1918,7 +1825,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormatOutput {
     backendSettings?: SubResourceOutput;
     listener?: SubResourceOutput;
     priority: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleType?: "Basic" | "PathBasedRouting";
 }
 
@@ -1937,8 +1844,6 @@ export interface ApplicationGatewaysBackendHealth200Response extends HttpRespons
 
 // @public
 export interface ApplicationGatewaysBackendHealth202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -1966,8 +1871,6 @@ export interface ApplicationGatewaysBackendHealthOnDemand200Response extends Htt
 
 // @public
 export interface ApplicationGatewaysBackendHealthOnDemand202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2079,23 +1982,17 @@ export interface ApplicationGatewaysDelete {
 // @public
 export interface ApplicationGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ApplicationGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2483,18 +2380,16 @@ export interface ApplicationGatewaysListQueryParamProperties {
 
 // @public
 export interface ApplicationGatewaySslCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewaySslCertificatePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewaySslCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewaySslCertificatePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -2502,8 +2397,6 @@ export interface ApplicationGatewaySslCertificatePropertiesFormat {
     data?: string;
     keyVaultSecretId?: string;
     password?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicCertData?: string;
 }
 
 // @public
@@ -2511,8 +2404,8 @@ export interface ApplicationGatewaySslCertificatePropertiesFormatOutput {
     data?: string;
     keyVaultSecretId?: string;
     password?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicCertData?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly publicCertData?: string;
 }
 
 // @public
@@ -2559,24 +2452,21 @@ export interface ApplicationGatewaySslPredefinedPolicyPropertiesFormatOutput {
 
 // @public
 export interface ApplicationGatewaySslProfile extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewaySslProfilePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewaySslProfileOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewaySslProfilePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewaySslProfilePropertiesFormat {
     clientAuthConfiguration?: ApplicationGatewayClientAuthConfiguration;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sslPolicy?: ApplicationGatewaySslPolicy;
     trustedClientCertificates?: Array<SubResource>;
 }
@@ -2584,7 +2474,7 @@ export interface ApplicationGatewaySslProfilePropertiesFormat {
 // @public
 export interface ApplicationGatewaySslProfilePropertiesFormatOutput {
     clientAuthConfiguration?: ApplicationGatewayClientAuthConfigurationOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sslPolicy?: ApplicationGatewaySslPolicyOutput;
     trustedClientCertificates?: Array<SubResourceOutput>;
 }
@@ -2597,15 +2487,11 @@ export interface ApplicationGatewaysStart {
 // @public
 export interface ApplicationGatewaysStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ApplicationGatewaysStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2640,15 +2526,11 @@ export interface ApplicationGatewaysStop {
 // @public
 export interface ApplicationGatewaysStop200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ApplicationGatewaysStop202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2717,64 +2599,56 @@ export interface ApplicationGatewaysUpdateTagsQueryParamProperties {
 
 // @public
 export interface ApplicationGatewayTrustedClientCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayTrustedClientCertificatePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedClientCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayTrustedClientCertificatePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedClientCertificatePropertiesFormat {
-    clientCertIssuerDN?: string;
     data?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    validatedCertData?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedClientCertificatePropertiesFormatOutput {
-    clientCertIssuerDN?: string;
+    readonly clientCertIssuerDN?: string;
     data?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    validatedCertData?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly validatedCertData?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayTrustedRootCertificatePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedRootCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
     data?: string;
     keyVaultSecretId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput {
     data?: string;
     keyVaultSecretId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -2793,18 +2667,16 @@ export interface ApplicationGatewayUrlConfigurationOutput {
 
 // @public
 export interface ApplicationGatewayUrlPathMap extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ApplicationGatewayUrlPathMapPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ApplicationGatewayUrlPathMapOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ApplicationGatewayUrlPathMapPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -2815,7 +2687,6 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormat {
     defaultRedirectConfiguration?: SubResource;
     defaultRewriteRuleSet?: SubResource;
     pathRules?: Array<ApplicationGatewayPathRule>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -2826,7 +2697,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormatOutput {
     defaultRedirectConfiguration?: SubResourceOutput;
     defaultRewriteRuleSet?: SubResourceOutput;
     pathRules?: Array<ApplicationGatewayPathRuleOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -2844,9 +2715,9 @@ export interface ApplicationGatewayWafDynamicManifestResultListOutput {
 // @public
 export interface ApplicationGatewayWafDynamicManifestResultOutput {
     id?: string;
-    name?: string;
+    readonly name?: string;
     properties?: ApplicationGatewayWafDynamicManifestPropertiesResultOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -2979,32 +2850,29 @@ export interface ApplicationRuleOutput extends FirewallPolicyRuleOutputParent {
 
 // @public
 export interface ApplicationSecurityGroup extends Resource {
-    etag?: string;
     properties?: ApplicationSecurityGroupPropertiesFormat;
 }
 
 // @public
 export interface ApplicationSecurityGroupListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ApplicationSecurityGroupOutput>;
 }
 
 // @public
 export interface ApplicationSecurityGroupOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: ApplicationSecurityGroupPropertiesFormatOutput;
 }
 
 // @public
 export interface ApplicationSecurityGroupPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
 export interface ApplicationSecurityGroupPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -3066,23 +2934,17 @@ export interface ApplicationSecurityGroupsDelete {
 // @public
 export interface ApplicationSecurityGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ApplicationSecurityGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationSecurityGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3259,14 +3121,13 @@ export interface AuthorizationListResultOutput {
 export interface AuthorizationPropertiesFormat {
     authorizationKey?: string;
     authorizationUseStatus?: "Available" | "InUse";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface AuthorizationPropertiesFormatOutput {
     authorizationKey?: string;
     authorizationUseStatus?: "Available" | "InUse";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -3276,7 +3137,7 @@ export interface AutoApprovedPrivateLinkServiceOutput {
 
 // @public
 export interface AutoApprovedPrivateLinkServicesResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<AutoApprovedPrivateLinkServiceOutput>;
 }
 
@@ -3333,7 +3194,7 @@ export interface AvailableDelegationsListQueryParamProperties {
 
 // @public
 export interface AvailableDelegationsResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<AvailableDelegationOutput>;
 }
 
@@ -3453,7 +3314,7 @@ export interface AvailablePrivateEndpointTypesListQueryParamProperties {
 
 // @public
 export interface AvailablePrivateEndpointTypesResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<AvailablePrivateEndpointTypeOutput>;
 }
 
@@ -3597,7 +3458,7 @@ export interface AvailableServiceAliasesListQueryParamProperties {
 
 // @public
 export interface AvailableServiceAliasesResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<AvailableServiceAliasOutput>;
 }
 
@@ -3611,7 +3472,6 @@ export interface AvailableServiceAliasOutput {
 
 // @public
 export interface AzureFirewall extends Resource {
-    etag?: string;
     properties?: AzureFirewallPropertiesFormat;
     zones?: Array<string>;
 }
@@ -3629,14 +3489,13 @@ export interface AzureFirewallApplicationRule {
 
 // @public
 export interface AzureFirewallApplicationRuleCollection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: AzureFirewallApplicationRuleCollectionPropertiesFormat;
 }
 
 // @public
 export interface AzureFirewallApplicationRuleCollectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: AzureFirewallApplicationRuleCollectionPropertiesFormatOutput;
 }
@@ -3645,7 +3504,6 @@ export interface AzureFirewallApplicationRuleCollectionOutput extends SubResourc
 export interface AzureFirewallApplicationRuleCollectionPropertiesFormat {
     action?: AzureFirewallRCAction;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallApplicationRule>;
 }
 
@@ -3653,7 +3511,7 @@ export interface AzureFirewallApplicationRuleCollectionPropertiesFormat {
 export interface AzureFirewallApplicationRuleCollectionPropertiesFormatOutput {
     action?: AzureFirewallRCActionOutput;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallApplicationRuleOutput>;
 }
 
@@ -3682,7 +3540,6 @@ export interface AzureFirewallApplicationRuleProtocolOutput {
 
 // @public
 export interface AzureFirewallFqdnTag extends Resource {
-    etag?: string;
     properties?: AzureFirewallFqdnTagPropertiesFormat;
 }
 
@@ -3694,20 +3551,18 @@ export interface AzureFirewallFqdnTagListResultOutput {
 
 // @public
 export interface AzureFirewallFqdnTagOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: AzureFirewallFqdnTagPropertiesFormatOutput;
 }
 
 // @public
 export interface AzureFirewallFqdnTagPropertiesFormat {
-    fqdnTagName?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface AzureFirewallFqdnTagPropertiesFormatOutput {
-    fqdnTagName?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly fqdnTagName?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -3747,46 +3602,40 @@ export interface AzureFirewallFqdnTagsListAllQueryParamProperties {
 
 // @public
 export interface AzureFirewallIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: AzureFirewallIPConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface AzureFirewallIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: AzureFirewallIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface AzureFirewallIPConfigurationPropertiesFormat {
-    privateIPAddress?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
 
 // @public
 export interface AzureFirewallIPConfigurationPropertiesFormatOutput {
-    privateIPAddress?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly privateIPAddress?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResourceOutput;
     subnet?: SubResourceOutput;
 }
 
 // @public
 export interface AzureFirewallIpGroups {
-    changeNumber?: string;
-    id?: string;
 }
 
 // @public
 export interface AzureFirewallIpGroupsOutput {
-    changeNumber?: string;
-    id?: string;
+    readonly changeNumber?: string;
+    readonly id?: string;
 }
 
 // @public
@@ -3821,14 +3670,13 @@ export interface AzureFirewallNatRule {
 
 // @public
 export interface AzureFirewallNatRuleCollection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: AzureFirewallNatRuleCollectionProperties;
 }
 
 // @public
 export interface AzureFirewallNatRuleCollectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: AzureFirewallNatRuleCollectionPropertiesOutput;
 }
@@ -3837,7 +3685,6 @@ export interface AzureFirewallNatRuleCollectionOutput extends SubResourceOutput 
 export interface AzureFirewallNatRuleCollectionProperties {
     action?: AzureFirewallNatRCAction;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallNatRule>;
 }
 
@@ -3845,7 +3692,7 @@ export interface AzureFirewallNatRuleCollectionProperties {
 export interface AzureFirewallNatRuleCollectionPropertiesOutput {
     action?: AzureFirewallNatRCActionOutput;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallNatRuleOutput>;
 }
 
@@ -3878,14 +3725,13 @@ export interface AzureFirewallNetworkRule {
 
 // @public
 export interface AzureFirewallNetworkRuleCollection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: AzureFirewallNetworkRuleCollectionPropertiesFormat;
 }
 
 // @public
 export interface AzureFirewallNetworkRuleCollectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: AzureFirewallNetworkRuleCollectionPropertiesFormatOutput;
 }
@@ -3894,7 +3740,6 @@ export interface AzureFirewallNetworkRuleCollectionOutput extends SubResourceOut
 export interface AzureFirewallNetworkRuleCollectionPropertiesFormat {
     action?: AzureFirewallRCAction;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallNetworkRule>;
 }
 
@@ -3902,7 +3747,7 @@ export interface AzureFirewallNetworkRuleCollectionPropertiesFormat {
 export interface AzureFirewallNetworkRuleCollectionPropertiesFormatOutput {
     action?: AzureFirewallRCActionOutput;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<AzureFirewallNetworkRuleOutput>;
 }
 
@@ -3921,7 +3766,7 @@ export interface AzureFirewallNetworkRuleOutput {
 
 // @public
 export interface AzureFirewallOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: AzureFirewallPropertiesFormatOutput;
     zones?: Array<string>;
 }
@@ -3933,11 +3778,9 @@ export interface AzureFirewallPropertiesFormat {
     firewallPolicy?: SubResource;
     hubIPAddresses?: HubIPAddresses;
     ipConfigurations?: Array<AzureFirewallIPConfiguration>;
-    ipGroups?: Array<AzureFirewallIpGroups>;
     managementIpConfiguration?: AzureFirewallIPConfiguration;
     natRuleCollections?: Array<AzureFirewallNatRuleCollection>;
     networkRuleCollections?: Array<AzureFirewallNetworkRuleCollection>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sku?: AzureFirewallSku;
     threatIntelMode?: "Alert" | "Deny" | "Off";
     virtualHub?: SubResource;
@@ -3950,11 +3793,11 @@ export interface AzureFirewallPropertiesFormatOutput {
     firewallPolicy?: SubResourceOutput;
     hubIPAddresses?: HubIPAddressesOutput;
     ipConfigurations?: Array<AzureFirewallIPConfigurationOutput>;
-    ipGroups?: Array<AzureFirewallIpGroupsOutput>;
+    readonly ipGroups?: Array<AzureFirewallIpGroupsOutput>;
     managementIpConfiguration?: AzureFirewallIPConfigurationOutput;
     natRuleCollections?: Array<AzureFirewallNatRuleCollectionOutput>;
     networkRuleCollections?: Array<AzureFirewallNetworkRuleCollectionOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sku?: AzureFirewallSkuOutput;
     threatIntelMode?: "Alert" | "Deny" | "Off";
     virtualHub?: SubResourceOutput;
@@ -4039,23 +3882,17 @@ export interface AzureFirewallsDelete {
 // @public
 export interface AzureFirewallsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface AzureFirewallsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface AzureFirewallsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4196,8 +4033,6 @@ export interface AzureFirewallsListLearnedPrefixes200Response extends HttpRespon
 // @public
 export interface AzureFirewallsListLearnedPrefixes202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -4247,8 +4082,6 @@ export interface AzureFirewallsUpdateTags200Response extends HttpResponse {
 
 // @public
 export interface AzureFirewallsUpdateTags202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -4336,16 +4169,16 @@ export interface AzureWebCategoryListResultOutput {
 
 // @public
 export interface AzureWebCategoryOutput {
-    etag?: string;
+    readonly etag?: string;
     id?: string;
-    name?: string;
+    readonly name?: string;
     properties?: AzureWebCategoryPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface AzureWebCategoryPropertiesFormatOutput {
-    group?: string;
+    readonly group?: string;
 }
 
 // @public
@@ -4355,45 +4188,37 @@ export interface BackendAddressInboundNatRulePortMappingsOutput {
 
 // @public
 export interface BackendAddressPool extends SubResource {
-    etag?: string;
     name?: string;
     properties?: BackendAddressPoolPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface BackendAddressPoolOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: BackendAddressPoolPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface BackendAddressPoolPropertiesFormat {
-    backendIPConfigurations?: Array<NetworkInterfaceIPConfiguration>;
     drainPeriodInSeconds?: number;
-    inboundNatRules?: Array<SubResource>;
     loadBalancerBackendAddresses?: Array<LoadBalancerBackendAddress>;
-    loadBalancingRules?: Array<SubResource>;
     location?: string;
-    outboundRule?: SubResource;
-    outboundRules?: Array<SubResource>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     tunnelInterfaces?: Array<GatewayLoadBalancerTunnelInterface>;
 }
 
 // @public
 export interface BackendAddressPoolPropertiesFormatOutput {
-    backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
+    readonly backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
     drainPeriodInSeconds?: number;
-    inboundNatRules?: Array<SubResourceOutput>;
+    readonly inboundNatRules?: Array<SubResourceOutput>;
     loadBalancerBackendAddresses?: Array<LoadBalancerBackendAddressOutput>;
-    loadBalancingRules?: Array<SubResourceOutput>;
+    readonly loadBalancingRules?: Array<SubResourceOutput>;
     location?: string;
-    outboundRule?: SubResourceOutput;
-    outboundRules?: Array<SubResourceOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly outboundRule?: SubResourceOutput;
+    readonly outboundRules?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     tunnelInterfaces?: Array<GatewayLoadBalancerTunnelInterfaceOutput>;
 }
 
@@ -4407,14 +4232,13 @@ export type BaseAdminRuleOutput = AdminRuleOutput | DefaultAdminRuleOutput;
 export interface BaseAdminRuleOutputParent extends ChildResourceOutput {
     // (undocumented)
     kind: "BaseAdminRule" | "Custom" | "Default";
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface BaseAdminRuleParent extends ChildResource {
     // (undocumented)
     kind: "BaseAdminRule" | "Custom" | "Default";
-    systemData?: SystemData;
 }
 
 // @public
@@ -4425,46 +4249,42 @@ export interface BastionActiveSessionListResultOutput {
 
 // @public
 export interface BastionActiveSessionOutput {
-    protocol?: "SSH" | "RDP";
-    resourceType?: string;
-    sessionDurationInMins?: number;
-    sessionId?: string;
-    startTime?: Record<string, unknown>;
-    targetHostName?: string;
-    targetIpAddress?: string;
-    targetResourceGroup?: string;
-    targetResourceId?: string;
-    targetSubscriptionId?: string;
-    userName?: string;
+    readonly protocol?: "SSH" | "RDP";
+    readonly resourceType?: string;
+    readonly sessionDurationInMins?: number;
+    readonly sessionId?: string;
+    readonly startTime?: Record<string, unknown>;
+    readonly targetHostName?: string;
+    readonly targetIpAddress?: string;
+    readonly targetResourceGroup?: string;
+    readonly targetResourceId?: string;
+    readonly targetSubscriptionId?: string;
+    readonly userName?: string;
 }
 
 // @public
 export interface BastionHost extends Resource {
-    etag?: string;
     properties?: BastionHostPropertiesFormat;
     sku?: Sku;
 }
 
 // @public
 export interface BastionHostIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: BastionHostIPConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface BastionHostIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: BastionHostIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface BastionHostIPConfigurationPropertiesFormat {
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress: SubResource;
     subnet: SubResource;
 }
@@ -4472,7 +4292,7 @@ export interface BastionHostIPConfigurationPropertiesFormat {
 // @public
 export interface BastionHostIPConfigurationPropertiesFormatOutput {
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress: SubResourceOutput;
     subnet: SubResourceOutput;
 }
@@ -4485,7 +4305,7 @@ export interface BastionHostListResultOutput {
 
 // @public
 export interface BastionHostOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: BastionHostPropertiesFormatOutput;
     sku?: SkuOutput;
 }
@@ -4499,7 +4319,6 @@ export interface BastionHostPropertiesFormat {
     enableShareableLink?: boolean;
     enableTunneling?: boolean;
     ipConfigurations?: Array<BastionHostIPConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     scaleUnits?: number;
 }
 
@@ -4512,7 +4331,7 @@ export interface BastionHostPropertiesFormatOutput {
     enableShareableLink?: boolean;
     enableTunneling?: boolean;
     ipConfigurations?: Array<BastionHostIPConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     scaleUnits?: number;
 }
 
@@ -4575,23 +4394,17 @@ export interface BastionHostsDelete {
 // @public
 export interface BastionHostsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface BastionHostsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface BastionHostsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4729,8 +4542,6 @@ export interface BastionHostsUpdateTags200Response extends HttpResponse {
 // @public
 export interface BastionHostsUpdateTags202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -4774,16 +4585,13 @@ export interface BastionSessionDeleteResultOutput {
 
 // @public
 export interface BastionSessionStateOutput {
-    message?: string;
-    sessionId?: string;
-    state?: string;
+    readonly message?: string;
+    readonly sessionId?: string;
+    readonly state?: string;
 }
 
 // @public
 export interface BastionShareableLink {
-    bsl?: string;
-    createdAt?: string;
-    message?: string;
     vm: Vm;
 }
 
@@ -4800,9 +4608,9 @@ export interface BastionShareableLinkListResultOutput {
 
 // @public
 export interface BastionShareableLinkOutput {
-    bsl?: string;
-    createdAt?: string;
-    message?: string;
+    readonly bsl?: string;
+    readonly createdAt?: string;
+    readonly message?: string;
     vm: VmOutput;
 }
 
@@ -4828,36 +4636,32 @@ export interface BGPCommunityOutput {
 
 // @public
 export interface BgpConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: BgpConnectionProperties;
-    type?: string;
 }
 
 // @public
 export interface BgpConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: BgpConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface BgpConnectionProperties {
-    connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     hubVirtualNetworkConnection?: SubResource;
     peerAsn?: number;
     peerIp?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface BgpConnectionPropertiesOutput {
-    connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     hubVirtualNetworkConnection?: SubResourceOutput;
     peerAsn?: number;
     peerIp?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -4867,14 +4671,14 @@ export interface BgpPeerStatusListResultOutput {
 
 // @public
 export interface BgpPeerStatusOutput {
-    asn?: number;
-    connectedDuration?: string;
-    localAddress?: string;
-    messagesReceived?: number;
-    messagesSent?: number;
-    neighbor?: string;
-    routesReceived?: number;
-    state?: "Unknown" | "Stopped" | "Idle" | "Connecting" | "Connected";
+    readonly asn?: number;
+    readonly connectedDuration?: string;
+    readonly localAddress?: string;
+    readonly messagesReceived?: number;
+    readonly messagesSent?: number;
+    readonly neighbor?: string;
+    readonly routesReceived?: number;
+    readonly state?: "Unknown" | "Stopped" | "Idle" | "Connecting" | "Connected";
 }
 
 // @public (undocumented)
@@ -5013,18 +4817,14 @@ export interface CheckPrivateLinkServiceVisibilityRequest {
 
 // @public
 export interface ChildResource {
-    etag?: string;
-    id?: string;
-    name?: string;
-    type?: string;
 }
 
 // @public
 export interface ChildResourceOutput {
-    etag?: string;
-    id?: string;
-    name?: string;
-    type?: string;
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -5042,14 +4842,12 @@ export interface CloudErrorOutput {
 
 // @public (undocumented)
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-    clientId?: string;
-    principalId?: string;
 }
 
 // @public (undocumented)
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesOutput {
-    clientId?: string;
-    principalId?: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -5116,23 +4914,17 @@ export interface ConfigurationPolicyGroupsCreateOrUpdateQueryParamProperties {
 // @public
 export interface ConfigurationPolicyGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ConfigurationPolicyGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ConfigurationPolicyGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -5394,29 +5186,25 @@ export interface ConnectionMonitorQueryResultOutput {
 
 // @public
 export interface ConnectionMonitorResultOutput {
-    etag?: string;
-    id?: string;
+    readonly etag?: string;
+    readonly id?: string;
     location?: string;
-    name?: string;
+    readonly name?: string;
     properties?: ConnectionMonitorResultPropertiesOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ConnectionMonitorResultProperties extends ConnectionMonitorParameters {
-    connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
-    monitoringStatus?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    startTime?: Date | string;
 }
 
 // @public
 export interface ConnectionMonitorResultPropertiesOutput extends ConnectionMonitorParametersOutput {
-    connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
-    monitoringStatus?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    startTime?: string;
+    readonly connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
+    readonly monitoringStatus?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly startTime?: string;
 }
 
 // @public (undocumented)
@@ -5479,15 +5267,11 @@ export interface ConnectionMonitorsCreateOrUpdateQueryParamProperties {
 // @public
 export interface ConnectionMonitorsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ConnectionMonitorsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -5642,15 +5426,11 @@ export interface ConnectionMonitorsStart {
 // @public
 export interface ConnectionMonitorsStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ConnectionMonitorsStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -5685,15 +5465,11 @@ export interface ConnectionMonitorsStop {
 // @public
 export interface ConnectionMonitorsStop200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ConnectionMonitorsStop202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -5864,7 +5640,7 @@ export interface ConnectionStateSnapshotOutput {
     connectionState?: "Reachable" | "Unreachable" | "Unknown";
     endTime?: string;
     evaluationState?: "NotStarted" | "InProgress" | "Completed";
-    hops?: Array<ConnectivityHopOutput>;
+    readonly hops?: Array<ConnectivityHopOutput>;
     maxLatencyInMs?: number;
     minLatencyInMs?: number;
     probesFailed?: number;
@@ -5875,7 +5651,6 @@ export interface ConnectionStateSnapshotOutput {
 // @public
 export interface ConnectivityConfiguration extends ChildResource {
     properties?: ConnectivityConfigurationProperties;
-    systemData?: SystemData;
 }
 
 // @public
@@ -5887,7 +5662,7 @@ export interface ConnectivityConfigurationListResultOutput {
 // @public
 export interface ConnectivityConfigurationOutput extends ChildResourceOutput {
     properties?: ConnectivityConfigurationPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
@@ -5898,7 +5673,6 @@ export interface ConnectivityConfigurationProperties {
     description?: string;
     hubs?: Array<Hub>;
     isGlobal?: "False" | "True";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -5909,7 +5683,7 @@ export interface ConnectivityConfigurationPropertiesOutput {
     description?: string;
     hubs?: Array<HubOutput>;
     isGlobal?: "False" | "True";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -5963,8 +5737,6 @@ export interface ConnectivityConfigurationsCreateOrUpdateQueryParamProperties {
 // @public
 export interface ConnectivityConfigurationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -5976,8 +5748,6 @@ export interface ConnectivityConfigurationsDelete202Headers {
 // @public
 export interface ConnectivityConfigurationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & ConnectivityConfigurationsDelete202Headers;
     // (undocumented)
     status: "202";
@@ -5985,8 +5755,6 @@ export interface ConnectivityConfigurationsDelete202Response extends HttpRespons
 
 // @public
 export interface ConnectivityConfigurationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6113,34 +5881,34 @@ export interface ConnectivityGroupItemOutput {
 
 // @public
 export interface ConnectivityHopOutput {
-    address?: string;
-    id?: string;
-    issues?: Array<ConnectivityIssueOutput>;
-    links?: Array<HopLinkOutput>;
-    nextHopIds?: Array<string>;
-    previousHopIds?: Array<string>;
-    previousLinks?: Array<HopLinkOutput>;
-    resourceId?: string;
-    type?: string;
+    readonly address?: string;
+    readonly id?: string;
+    readonly issues?: Array<ConnectivityIssueOutput>;
+    readonly links?: Array<HopLinkOutput>;
+    readonly nextHopIds?: Array<string>;
+    readonly previousHopIds?: Array<string>;
+    readonly previousLinks?: Array<HopLinkOutput>;
+    readonly resourceId?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ConnectivityInformationOutput {
-    avgLatencyInMs?: number;
-    connectionStatus?: "Unknown" | "Connected" | "Disconnected" | "Degraded";
-    hops?: Array<ConnectivityHopOutput>;
-    maxLatencyInMs?: number;
-    minLatencyInMs?: number;
-    probesFailed?: number;
-    probesSent?: number;
+    readonly avgLatencyInMs?: number;
+    readonly connectionStatus?: "Unknown" | "Connected" | "Disconnected" | "Degraded";
+    readonly hops?: Array<ConnectivityHopOutput>;
+    readonly maxLatencyInMs?: number;
+    readonly minLatencyInMs?: number;
+    readonly probesFailed?: number;
+    readonly probesSent?: number;
 }
 
 // @public
 export interface ConnectivityIssueOutput {
-    context?: Array<Record<string, string>>;
-    origin?: "Local" | "Inbound" | "Outbound";
-    severity?: "Error" | "Warning";
-    type?: "Unknown" | "AgentStopped" | "GuestFirewall" | "DnsResolution" | "SocketBind" | "NetworkSecurityRule" | "UserDefinedRoute" | "PortThrottled" | "Platform";
+    readonly context?: Array<Record<string, string>>;
+    readonly origin?: "Local" | "Inbound" | "Outbound";
+    readonly severity?: "Error" | "Warning";
+    readonly type?: "Unknown" | "AgentStopped" | "GuestFirewall" | "DnsResolution" | "SocketBind" | "NetworkSecurityRule" | "UserDefinedRoute" | "PortThrottled" | "Platform";
 }
 
 // @public
@@ -6164,90 +5932,79 @@ export interface Container extends SubResource {
 
 // @public
 export interface ContainerNetworkInterface extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfacePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfaceConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfaceConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceConfigurationPropertiesFormat {
     containerNetworkInterfaces?: Array<SubResource>;
     ipConfigurations?: Array<IPConfigurationProfile>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ContainerNetworkInterfaceConfigurationPropertiesFormatOutput {
     containerNetworkInterfaces?: Array<SubResourceOutput>;
     ipConfigurations?: Array<IPConfigurationProfileOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfiguration {
-    etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfaceIpConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfigurationOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfaceIpConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ContainerNetworkInterfaceOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ContainerNetworkInterfacePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ContainerNetworkInterfacePropertiesFormat {
     container?: Container;
-    containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfiguration;
-    ipConfigurations?: Array<ContainerNetworkInterfaceIpConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ContainerNetworkInterfacePropertiesFormatOutput {
     container?: ContainerOutput;
-    containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfigurationOutput;
-    ipConfigurations?: Array<ContainerNetworkInterfaceIpConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfigurationOutput;
+    readonly ipConfigurations?: Array<ContainerNetworkInterfaceIpConfigurationOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -6255,7 +6012,7 @@ export interface ContainerOutput extends SubResourceOutput {
 }
 
 // @public
-function createClient(credentials: TokenCredential, options?: ClientOptions): NetworkManagementClient;
+function createClient(credentials: TokenCredential, options?: NetworkManagementClientOptions): NetworkManagementClient;
 export default createClient;
 
 // @public
@@ -6276,16 +6033,13 @@ export interface CriterionOutput {
 
 // @public
 export interface CrossTenantScopes {
-    managementGroups?: Array<string>;
-    subscriptions?: Array<string>;
-    tenantId?: string;
 }
 
 // @public
 export interface CrossTenantScopesOutput {
-    managementGroups?: Array<string>;
-    subscriptions?: Array<string>;
-    tenantId?: string;
+    readonly managementGroups?: Array<string>;
+    readonly subscriptions?: Array<string>;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -6302,7 +6056,6 @@ export interface CustomDnsConfigPropertiesFormatOutput {
 
 // @public
 export interface CustomIpPrefix extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: CustomIpPrefixPropertiesFormat;
     zones?: Array<string>;
@@ -6367,23 +6120,17 @@ export interface CustomIPPrefixesDelete {
 // @public
 export interface CustomIPPrefixesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CustomIPPrefixesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface CustomIPPrefixesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6559,7 +6306,7 @@ export interface CustomIpPrefixListResultOutput {
 
 // @public
 export interface CustomIpPrefixOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: CustomIpPrefixPropertiesFormatOutput;
     zones?: Array<string>;
@@ -6569,18 +6316,13 @@ export interface CustomIpPrefixOutput extends ResourceOutput {
 export interface CustomIpPrefixPropertiesFormat {
     asn?: string;
     authorizationMessage?: string;
-    childCustomIpPrefixes?: Array<SubResource>;
     cidr?: string;
     commissionedState?: "Provisioning" | "Provisioned" | "Commissioning" | "CommissionedNoInternetAdvertise" | "Commissioned" | "Decommissioning" | "Deprovisioning" | "Deprovisioned";
     customIpPrefixParent?: SubResource;
     expressRouteAdvertise?: boolean;
-    failedReason?: string;
     geo?: "GLOBAL" | "AFRI" | "APAC" | "EURO" | "LATAM" | "NAM" | "ME" | "OCEANIA" | "AQ";
     noInternetAdvertise?: boolean;
     prefixType?: "Singular" | "Parent" | "Child";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIpPrefixes?: Array<SubResource>;
-    resourceGuid?: string;
     signedMessage?: string;
 }
 
@@ -6588,18 +6330,18 @@ export interface CustomIpPrefixPropertiesFormat {
 export interface CustomIpPrefixPropertiesFormatOutput {
     asn?: string;
     authorizationMessage?: string;
-    childCustomIpPrefixes?: Array<SubResourceOutput>;
+    readonly childCustomIpPrefixes?: Array<SubResourceOutput>;
     cidr?: string;
     commissionedState?: "Provisioning" | "Provisioned" | "Commissioning" | "CommissionedNoInternetAdvertise" | "Commissioned" | "Decommissioning" | "Deprovisioning" | "Deprovisioned";
     customIpPrefixParent?: SubResourceOutput;
     expressRouteAdvertise?: boolean;
-    failedReason?: string;
+    readonly failedReason?: string;
     geo?: "GLOBAL" | "AFRI" | "APAC" | "EURO" | "LATAM" | "NAM" | "ME" | "OCEANIA" | "AQ";
     noInternetAdvertise?: boolean;
     prefixType?: "Singular" | "Parent" | "Child";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIpPrefixes?: Array<SubResourceOutput>;
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly publicIpPrefixes?: Array<SubResourceOutput>;
+    readonly resourceGuid?: string;
     signedMessage?: string;
 }
 
@@ -6662,23 +6404,17 @@ export interface DdosCustomPoliciesDelete {
 // @public
 export interface DdosCustomPoliciesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DdosCustomPoliciesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DdosCustomPoliciesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6777,70 +6513,59 @@ export interface DdosCustomPoliciesUpdateTagsQueryParamProperties {
 
 // @public
 export interface DdosCustomPolicy extends Resource {
-    etag?: string;
     properties?: DdosCustomPolicyPropertiesFormat;
 }
 
 // @public
 export interface DdosCustomPolicyOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: DdosCustomPolicyPropertiesFormatOutput;
 }
 
 // @public
 export interface DdosCustomPolicyPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
 export interface DdosCustomPolicyPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
 export interface DdosProtectionPlan {
-    etag?: string;
-    id?: string;
     location?: string;
-    name?: string;
     properties?: DdosProtectionPlanPropertiesFormat;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface DdosProtectionPlanListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<DdosProtectionPlanOutput>;
 }
 
 // @public
 export interface DdosProtectionPlanOutput {
-    etag?: string;
-    id?: string;
+    readonly etag?: string;
+    readonly id?: string;
     location?: string;
-    name?: string;
+    readonly name?: string;
     properties?: DdosProtectionPlanPropertiesFormatOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface DdosProtectionPlanPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIpAddresses?: Array<SubResource>;
-    resourceGuid?: string;
-    virtualNetworks?: Array<SubResource>;
 }
 
 // @public
 export interface DdosProtectionPlanPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIpAddresses?: Array<SubResourceOutput>;
-    resourceGuid?: string;
-    virtualNetworks?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly publicIpAddresses?: Array<SubResourceOutput>;
+    readonly resourceGuid?: string;
+    readonly virtualNetworks?: Array<SubResourceOutput>;
 }
 
 // @public
@@ -6902,23 +6627,17 @@ export interface DdosProtectionPlansDelete {
 // @public
 export interface DdosProtectionPlansDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DdosProtectionPlansDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DdosProtectionPlansDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -7099,32 +6818,22 @@ export interface DdosSettingsOutput {
 
 // @public
 export interface DefaultAdminPropertiesFormat {
-    access?: "Allow" | "Deny" | "AlwaysAllow";
-    description?: string;
-    destinationPortRanges?: Array<string>;
-    destinations?: Array<AddressPrefixItem>;
-    direction?: "Inbound" | "Outbound";
     flag?: string;
-    priority?: number;
-    protocol?: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    sourcePortRanges?: Array<string>;
-    sources?: Array<AddressPrefixItem>;
 }
 
 // @public
 export interface DefaultAdminPropertiesFormatOutput {
-    access?: "Allow" | "Deny" | "AlwaysAllow";
-    description?: string;
-    destinationPortRanges?: Array<string>;
-    destinations?: Array<AddressPrefixItemOutput>;
-    direction?: "Inbound" | "Outbound";
+    readonly access?: "Allow" | "Deny" | "AlwaysAllow";
+    readonly description?: string;
+    readonly destinationPortRanges?: Array<string>;
+    readonly destinations?: Array<AddressPrefixItemOutput>;
+    readonly direction?: "Inbound" | "Outbound";
     flag?: string;
-    priority?: number;
-    protocol?: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    sourcePortRanges?: Array<string>;
-    sources?: Array<AddressPrefixItemOutput>;
+    readonly priority?: number;
+    readonly protocol?: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly sourcePortRanges?: Array<string>;
+    readonly sources?: Array<AddressPrefixItemOutput>;
 }
 
 // @public
@@ -7219,7 +6928,6 @@ export interface DefaultSecurityRulesListQueryParamProperties {
 
 // @public
 export interface Delegation extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ServiceDelegationPropertiesFormat;
     type?: string;
@@ -7227,7 +6935,7 @@ export interface Delegation extends SubResource {
 
 // @public
 export interface DelegationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ServiceDelegationPropertiesFormatOutput;
     type?: string;
@@ -7241,15 +6949,11 @@ export interface DeleteBastionShareableLink {
 // @public
 export interface DeleteBastionShareableLink200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DeleteBastionShareableLink202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -7383,7 +7087,6 @@ export interface DnsSettingsOutput {
 
 // @public
 export interface DscpConfiguration extends Resource {
-    etag?: string;
     properties?: DscpConfigurationPropertiesFormat;
 }
 
@@ -7445,23 +7148,17 @@ export interface DscpConfigurationCreateOrUpdateQueryParamProperties {
 // @public
 export interface DscpConfigurationDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DscpConfigurationDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DscpConfigurationDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -7590,42 +7287,38 @@ export interface DscpConfigurationListQueryParamProperties {
 
 // @public
 export interface DscpConfigurationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<DscpConfigurationOutput>;
 }
 
 // @public
 export interface DscpConfigurationOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: DscpConfigurationPropertiesFormatOutput;
 }
 
 // @public
 export interface DscpConfigurationPropertiesFormat {
-    associatedNetworkInterfaces?: Array<NetworkInterface>;
     destinationIpRanges?: Array<QosIpRange>;
     destinationPortRanges?: Array<QosPortRange>;
     markings?: Array<number>;
     protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    qosCollectionId?: string;
     qosDefinitionCollection?: Array<QosDefinition>;
-    resourceGuid?: string;
     sourceIpRanges?: Array<QosIpRange>;
     sourcePortRanges?: Array<QosPortRange>;
 }
 
 // @public
 export interface DscpConfigurationPropertiesFormatOutput {
-    associatedNetworkInterfaces?: Array<NetworkInterfaceOutput>;
+    readonly associatedNetworkInterfaces?: Array<NetworkInterfaceOutput>;
     destinationIpRanges?: Array<QosIpRangeOutput>;
     destinationPortRanges?: Array<QosPortRangeOutput>;
     markings?: Array<number>;
     protocol?: "DoNotUse" | "Icmp" | "Tcp" | "Udp" | "Gre" | "Esp" | "Ah" | "Vxlan" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    qosCollectionId?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly qosCollectionId?: string;
     qosDefinitionCollection?: Array<QosDefinitionOutput>;
-    resourceGuid?: string;
+    readonly resourceGuid?: string;
     sourceIpRanges?: Array<QosIpRangeOutput>;
     sourcePortRanges?: Array<QosPortRangeOutput>;
 }
@@ -7667,7 +7360,7 @@ export interface EffectiveNetworkSecurityGroupAssociationOutput {
 
 // @public
 export interface EffectiveNetworkSecurityGroupListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<EffectiveNetworkSecurityGroupOutput>;
 }
 
@@ -7700,7 +7393,7 @@ export interface EffectiveNetworkSecurityRuleOutput {
 
 // @public
 export interface EffectiveRouteListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<EffectiveRouteOutput>;
 }
 
@@ -7730,14 +7423,12 @@ export interface EffectiveSecurityAdminRuleOutput extends EffectiveBaseSecurityA
 
 // @public
 export interface EndpointServiceResult extends SubResource {
-    name?: string;
-    type?: string;
 }
 
 // @public
 export interface EndpointServiceResultOutput extends SubResourceOutput {
-    name?: string;
-    type?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -7772,7 +7463,7 @@ export interface EvaluatedNetworkSecurityGroupOutput {
     appliedTo?: string;
     matchedRule?: MatchedRuleOutput;
     networkSecurityGroupId?: string;
-    rulesEvaluationResult?: Array<NetworkSecurityRulesEvaluationResultOutput>;
+    readonly rulesEvaluationResult?: Array<NetworkSecurityRulesEvaluationResultOutput>;
 }
 
 // @public
@@ -7833,7 +7524,6 @@ export interface ExplicitProxyOutput {
 
 // @public
 export interface ExpressRouteCircuit extends Resource {
-    etag?: string;
     properties?: ExpressRouteCircuitPropertiesFormat;
     sku?: ExpressRouteCircuitSku;
 }
@@ -7848,18 +7538,16 @@ export interface ExpressRouteCircuitArpTableOutput {
 
 // @public
 export interface ExpressRouteCircuitAuthorization extends SubResource {
-    etag?: string;
     name?: string;
     properties?: AuthorizationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ExpressRouteCircuitAuthorizationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: AuthorizationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -7920,23 +7608,17 @@ export interface ExpressRouteCircuitAuthorizationsDelete {
 // @public
 export interface ExpressRouteCircuitAuthorizationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteCircuitAuthorizationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteCircuitAuthorizationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8030,10 +7712,8 @@ export interface ExpressRouteCircuitAuthorizationsListQueryParamProperties {
 
 // @public
 export interface ExpressRouteCircuitConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ExpressRouteCircuitConnectionPropertiesFormat;
-    type?: string;
 }
 
 // @public
@@ -8044,32 +7724,30 @@ export interface ExpressRouteCircuitConnectionListResultOutput {
 
 // @public
 export interface ExpressRouteCircuitConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ExpressRouteCircuitConnectionPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ExpressRouteCircuitConnectionPropertiesFormat {
     addressPrefix?: string;
     authorizationKey?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
     expressRouteCircuitPeering?: SubResource;
     ipv6CircuitConnectionConfig?: Ipv6CircuitConnectionConfig;
     peerExpressRouteCircuitPeering?: SubResource;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ExpressRouteCircuitConnectionPropertiesFormatOutput {
     addressPrefix?: string;
     authorizationKey?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+    readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
     expressRouteCircuitPeering?: SubResourceOutput;
     ipv6CircuitConnectionConfig?: Ipv6CircuitConnectionConfigOutput;
     peerExpressRouteCircuitPeering?: SubResourceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -8130,23 +7808,17 @@ export interface ExpressRouteCircuitConnectionsDelete {
 // @public
 export interface ExpressRouteCircuitConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteCircuitConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteCircuitConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8246,24 +7918,21 @@ export interface ExpressRouteCircuitListResultOutput {
 
 // @public
 export interface ExpressRouteCircuitOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: ExpressRouteCircuitPropertiesFormatOutput;
     sku?: ExpressRouteCircuitSkuOutput;
 }
 
 // @public
 export interface ExpressRouteCircuitPeering extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ExpressRouteCircuitPeeringPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ExpressRouteCircuitPeeringConfig {
     advertisedCommunities?: Array<string>;
     advertisedPublicPrefixes?: Array<string>;
-    advertisedPublicPrefixesState?: "NotConfigured" | "Configuring" | "Configured" | "ValidationNeeded";
     customerASN?: number;
     legacyMode?: number;
     routingRegistryName?: string;
@@ -8273,7 +7942,7 @@ export interface ExpressRouteCircuitPeeringConfig {
 export interface ExpressRouteCircuitPeeringConfigOutput {
     advertisedCommunities?: Array<string>;
     advertisedPublicPrefixes?: Array<string>;
-    advertisedPublicPrefixesState?: "NotConfigured" | "Configuring" | "Configured" | "ValidationNeeded";
+    readonly advertisedPublicPrefixesState?: "NotConfigured" | "Configuring" | "Configured" | "ValidationNeeded";
     customerASN?: number;
     legacyMode?: number;
     routingRegistryName?: string;
@@ -8297,10 +7966,10 @@ export interface ExpressRouteCircuitPeeringListResultOutput {
 
 // @public
 export interface ExpressRouteCircuitPeeringOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ExpressRouteCircuitPeeringPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -8310,14 +7979,11 @@ export interface ExpressRouteCircuitPeeringPropertiesFormat {
     expressRouteConnection?: ExpressRouteConnectionId;
     gatewayManagerEtag?: string;
     ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfig;
-    lastModifiedBy?: string;
     microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfig;
     peerASN?: number;
-    peeredConnections?: Array<PeerExpressRouteCircuitConnection>;
     peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
     primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routeFilter?: SubResource;
     secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
@@ -8334,14 +8000,14 @@ export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
     expressRouteConnection?: ExpressRouteConnectionIdOutput;
     gatewayManagerEtag?: string;
     ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfigOutput;
-    lastModifiedBy?: string;
+    readonly lastModifiedBy?: string;
     microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfigOutput;
     peerASN?: number;
-    peeredConnections?: Array<PeerExpressRouteCircuitConnectionOutput>;
+    readonly peeredConnections?: Array<PeerExpressRouteCircuitConnectionOutput>;
     peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
     primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routeFilter?: SubResourceOutput;
     secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
@@ -8409,23 +8075,17 @@ export interface ExpressRouteCircuitPeeringsDelete {
 // @public
 export interface ExpressRouteCircuitPeeringsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteCircuitPeeringsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteCircuitPeeringsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8528,12 +8188,10 @@ export interface ExpressRouteCircuitPropertiesFormat {
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
     peerings?: Array<ExpressRouteCircuitPeering>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     serviceKey?: string;
     serviceProviderNotes?: string;
     serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
     serviceProviderProvisioningState?: "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
-    stag?: number;
 }
 
 // @public
@@ -8547,12 +8205,12 @@ export interface ExpressRouteCircuitPropertiesFormatOutput {
     gatewayManagerEtag?: string;
     globalReachEnabled?: boolean;
     peerings?: Array<ExpressRouteCircuitPeeringOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     serviceKey?: string;
     serviceProviderNotes?: string;
     serviceProviderProperties?: ExpressRouteCircuitServiceProviderPropertiesOutput;
     serviceProviderProvisioningState?: "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
-    stag?: number;
+    readonly stag?: number;
 }
 
 // @public
@@ -8648,23 +8306,17 @@ export interface ExpressRouteCircuitsDelete {
 // @public
 export interface ExpressRouteCircuitsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteCircuitsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteCircuitsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8883,8 +8535,6 @@ export interface ExpressRouteCircuitsListArpTable200Response extends HttpRespons
 // @public
 export interface ExpressRouteCircuitsListArpTable202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -8948,8 +8598,6 @@ export interface ExpressRouteCircuitsListRoutesTable200Response extends HttpResp
 // @public
 export interface ExpressRouteCircuitsListRoutesTable202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -8990,8 +8638,6 @@ export interface ExpressRouteCircuitsListRoutesTableSummary200Response extends H
 
 // @public
 export interface ExpressRouteCircuitsListRoutesTableSummary202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -9094,12 +8740,11 @@ export interface ExpressRouteConnection extends SubResource {
 
 // @public
 export interface ExpressRouteConnectionId {
-    id?: string;
 }
 
 // @public
 export interface ExpressRouteConnectionIdOutput {
-    id?: string;
+    readonly id?: string;
 }
 
 // @public
@@ -9120,7 +8765,6 @@ export interface ExpressRouteConnectionProperties {
     enablePrivateLinkFastPath?: boolean;
     expressRouteCircuitPeering: ExpressRouteCircuitPeeringId;
     expressRouteGatewayBypass?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
 }
@@ -9132,7 +8776,7 @@ export interface ExpressRouteConnectionPropertiesOutput {
     enablePrivateLinkFastPath?: boolean;
     expressRouteCircuitPeering: ExpressRouteCircuitPeeringIdOutput;
     expressRouteGatewayBypass?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingConfiguration?: RoutingConfigurationOutput;
     routingWeight?: number;
 }
@@ -9195,23 +8839,17 @@ export interface ExpressRouteConnectionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface ExpressRouteConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -9305,55 +8943,48 @@ export interface ExpressRouteConnectionsListQueryParamProperties {
 
 // @public
 export interface ExpressRouteCrossConnection extends Resource {
-    etag?: string;
     properties?: ExpressRouteCrossConnectionProperties;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ExpressRouteCrossConnectionOutput>;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: ExpressRouteCrossConnectionPropertiesOutput;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeering extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ExpressRouteCrossConnectionPeeringProperties;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringListOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ExpressRouteCrossConnectionPeeringOutput>;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ExpressRouteCrossConnectionPeeringPropertiesOutput;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringProperties {
-    azureASN?: number;
     gatewayManagerEtag?: string;
     ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfig;
-    lastModifiedBy?: string;
     microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfig;
     peerASN?: number;
     peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
-    primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
     sharedKey?: string;
     state?: "Disabled" | "Enabled";
@@ -9362,17 +8993,17 @@ export interface ExpressRouteCrossConnectionPeeringProperties {
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
-    azureASN?: number;
+    readonly azureASN?: number;
     gatewayManagerEtag?: string;
     ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfigOutput;
-    lastModifiedBy?: string;
+    readonly lastModifiedBy?: string;
     microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfigOutput;
     peerASN?: number;
     peeringType?: "AzurePublicPeering" | "AzurePrivatePeering" | "MicrosoftPeering";
-    primaryAzurePort?: string;
+    readonly primaryAzurePort?: string;
     primaryPeerAddressPrefix?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    secondaryAzurePort?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly secondaryAzurePort?: string;
     secondaryPeerAddressPrefix?: string;
     sharedKey?: string;
     state?: "Disabled" | "Enabled";
@@ -9437,23 +9068,17 @@ export interface ExpressRouteCrossConnectionPeeringsDelete {
 // @public
 export interface ExpressRouteCrossConnectionPeeringsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPeeringsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -9547,30 +9172,24 @@ export interface ExpressRouteCrossConnectionPeeringsListQueryParamProperties {
 
 // @public
 export interface ExpressRouteCrossConnectionProperties {
-    bandwidthInMbps?: number;
     expressRouteCircuit?: ExpressRouteCircuitReference;
-    peeringLocation?: string;
     peerings?: Array<ExpressRouteCrossConnectionPeering>;
-    primaryAzurePort?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    secondaryAzurePort?: string;
     serviceProviderNotes?: string;
     serviceProviderProvisioningState?: "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
-    sTag?: number;
 }
 
 // @public
 export interface ExpressRouteCrossConnectionPropertiesOutput {
-    bandwidthInMbps?: number;
+    readonly bandwidthInMbps?: number;
     expressRouteCircuit?: ExpressRouteCircuitReferenceOutput;
-    peeringLocation?: string;
+    readonly peeringLocation?: string;
     peerings?: Array<ExpressRouteCrossConnectionPeeringOutput>;
-    primaryAzurePort?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    secondaryAzurePort?: string;
+    readonly primaryAzurePort?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly secondaryAzurePort?: string;
     serviceProviderNotes?: string;
     serviceProviderProvisioningState?: "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
-    sTag?: number;
+    readonly sTag?: number;
 }
 
 // @public
@@ -9687,8 +9306,6 @@ export interface ExpressRouteCrossConnectionsListArpTable200Response extends Htt
 // @public
 export interface ExpressRouteCrossConnectionsListArpTable202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -9787,8 +9404,6 @@ export interface ExpressRouteCrossConnectionsListRoutesTable200Response extends 
 // @public
 export interface ExpressRouteCrossConnectionsListRoutesTable202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -9830,8 +9445,6 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummary200Response e
 // @public
 export interface ExpressRouteCrossConnectionsListRoutesTableSummary202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -9859,7 +9472,7 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummaryQueryParamPro
 
 // @public
 export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ExpressRouteCrossConnectionRoutesTableSummaryOutput>;
 }
 
@@ -9905,7 +9518,6 @@ export interface ExpressRouteCrossConnectionsUpdateTagsQueryParamProperties {
 
 // @public
 export interface ExpressRouteGateway extends Resource {
-    etag?: string;
     properties?: ExpressRouteGatewayProperties;
 }
 
@@ -9916,7 +9528,7 @@ export interface ExpressRouteGatewayListOutput {
 
 // @public
 export interface ExpressRouteGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: ExpressRouteGatewayPropertiesOutput;
 }
 
@@ -9924,7 +9536,6 @@ export interface ExpressRouteGatewayOutput extends ResourceOutput {
 export interface ExpressRouteGatewayProperties {
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
     expressRouteConnections?: Array<ExpressRouteConnection>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub: VirtualHubId;
 }
 
@@ -9954,7 +9565,7 @@ export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationOutput {
 export interface ExpressRouteGatewayPropertiesOutput {
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfigurationOutput;
     expressRouteConnections?: Array<ExpressRouteConnectionOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub: VirtualHubIdOutput;
 }
 
@@ -10017,23 +9628,17 @@ export interface ExpressRouteGatewaysCreateOrUpdateQueryParamProperties {
 // @public
 export interface ExpressRouteGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRouteGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRouteGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -10171,8 +9776,6 @@ export interface ExpressRouteGatewaysUpdateTags200Response extends HttpResponse 
 // @public
 export interface ExpressRouteGatewaysUpdateTags202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -10210,7 +9813,6 @@ export interface ExpressRouteGatewaysUpdateTagsQueryParamProperties {
 
 // @public
 export interface ExpressRouteLink extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ExpressRouteLinkPropertiesFormat;
 }
@@ -10239,7 +9841,7 @@ export interface ExpressRouteLinkMacSecConfigOutput {
 
 // @public
 export interface ExpressRouteLinkOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ExpressRouteLinkPropertiesFormatOutput;
 }
@@ -10247,27 +9849,20 @@ export interface ExpressRouteLinkOutput extends SubResourceOutput {
 // @public
 export interface ExpressRouteLinkPropertiesFormat {
     adminState?: "Enabled" | "Disabled";
-    coloLocation?: string;
-    connectorType?: "LC" | "SC";
-    interfaceName?: string;
     macSecConfig?: ExpressRouteLinkMacSecConfig;
-    patchPanelId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    rackId?: string;
-    routerName?: string;
 }
 
 // @public
 export interface ExpressRouteLinkPropertiesFormatOutput {
     adminState?: "Enabled" | "Disabled";
-    coloLocation?: string;
-    connectorType?: "LC" | "SC";
-    interfaceName?: string;
+    readonly coloLocation?: string;
+    readonly connectorType?: "LC" | "SC";
+    readonly interfaceName?: string;
     macSecConfig?: ExpressRouteLinkMacSecConfigOutput;
-    patchPanelId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    rackId?: string;
-    routerName?: string;
+    readonly patchPanelId?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly rackId?: string;
+    readonly routerName?: string;
 }
 
 // @public (undocumented)
@@ -10342,17 +9937,14 @@ export interface ExpressRouteLinksListQueryParamProperties {
 
 // @public
 export interface ExpressRoutePort extends Resource {
-    etag?: string;
     identity?: ManagedServiceIdentity;
     properties?: ExpressRoutePortPropertiesFormat;
 }
 
 // @public
 export interface ExpressRoutePortAuthorization extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ExpressRoutePortAuthorizationPropertiesFormat;
-    type?: string;
 }
 
 // @public
@@ -10363,26 +9955,22 @@ export interface ExpressRoutePortAuthorizationListResultOutput {
 
 // @public
 export interface ExpressRoutePortAuthorizationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ExpressRoutePortAuthorizationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ExpressRoutePortAuthorizationPropertiesFormat {
-    authorizationKey?: string;
-    authorizationUseStatus?: "Available" | "InUse";
-    circuitResourceUri?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ExpressRoutePortAuthorizationPropertiesFormatOutput {
-    authorizationKey?: string;
-    authorizationUseStatus?: "Available" | "InUse";
-    circuitResourceUri?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly authorizationKey?: string;
+    readonly authorizationUseStatus?: "Available" | "InUse";
+    readonly circuitResourceUri?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -10443,23 +10031,17 @@ export interface ExpressRoutePortAuthorizationsDelete {
 // @public
 export interface ExpressRoutePortAuthorizationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRoutePortAuthorizationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRoutePortAuthorizationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -10559,41 +10141,34 @@ export interface ExpressRoutePortListResultOutput {
 
 // @public
 export interface ExpressRoutePortOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     identity?: ManagedServiceIdentityOutput;
     properties?: ExpressRoutePortPropertiesFormatOutput;
 }
 
 // @public
 export interface ExpressRoutePortPropertiesFormat {
-    allocationDate?: string;
     bandwidthInGbps?: number;
     billingType?: "MeteredData" | "UnlimitedData";
-    circuits?: Array<SubResource>;
     encapsulation?: "Dot1Q" | "QinQ";
-    etherType?: string;
     links?: Array<ExpressRouteLink>;
-    mtu?: string;
     peeringLocation?: string;
-    provisionedBandwidthInGbps?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
 export interface ExpressRoutePortPropertiesFormatOutput {
-    allocationDate?: string;
+    readonly allocationDate?: string;
     bandwidthInGbps?: number;
     billingType?: "MeteredData" | "UnlimitedData";
-    circuits?: Array<SubResourceOutput>;
+    readonly circuits?: Array<SubResourceOutput>;
     encapsulation?: "Dot1Q" | "QinQ";
-    etherType?: string;
+    readonly etherType?: string;
     links?: Array<ExpressRouteLinkOutput>;
-    mtu?: string;
+    readonly mtu?: string;
     peeringLocation?: string;
-    provisionedBandwidthInGbps?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisionedBandwidthInGbps?: number;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -10655,23 +10230,17 @@ export interface ExpressRoutePortsDelete {
 // @public
 export interface ExpressRoutePortsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ExpressRoutePortsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ExpressRoutePortsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -10850,14 +10419,12 @@ export interface ExpressRoutePortsLocation extends Resource {
 
 // @public
 export interface ExpressRoutePortsLocationBandwidths {
-    offerName?: string;
-    valueInGbps?: number;
 }
 
 // @public
 export interface ExpressRoutePortsLocationBandwidthsOutput {
-    offerName?: string;
-    valueInGbps?: number;
+    readonly offerName?: string;
+    readonly valueInGbps?: number;
 }
 
 // @public
@@ -10873,18 +10440,15 @@ export interface ExpressRoutePortsLocationOutput extends ResourceOutput {
 
 // @public
 export interface ExpressRoutePortsLocationPropertiesFormat {
-    address?: string;
     availableBandwidths?: Array<ExpressRoutePortsLocationBandwidths>;
-    contact?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ExpressRoutePortsLocationPropertiesFormatOutput {
-    address?: string;
+    readonly address?: string;
     availableBandwidths?: Array<ExpressRoutePortsLocationBandwidthsOutput>;
-    contact?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly contact?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -10997,33 +10561,48 @@ export interface ExpressRoutePortsUpdateTagsQueryParamProperties {
     "api-version": "2022-05-01";
 }
 
+// @public (undocumented)
+export interface ExpressRouteProviderPort {
+    get(options: ExpressRouteProviderPortParameters): StreamableMethod<ExpressRouteProviderPort200Response | ExpressRouteProviderPortDefaultResponse>;
+}
+
 // @public
-export interface ExpressRouteProviderPort extends Resource {
-    etag?: string;
-    properties?: ExpressRouteProviderPortProperties;
+export interface ExpressRouteProviderPort200Response extends HttpResponse {
+    // (undocumented)
+    body: ExpressRouteProviderPortOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ExpressRouteProviderPortDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: CloudErrorOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
 export interface ExpressRouteProviderPortListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ExpressRouteProviderPortOutput>;
 }
 
 // @public
 export interface ExpressRouteProviderPortOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: ExpressRouteProviderPortPropertiesOutput;
 }
+
+// @public (undocumented)
+export type ExpressRouteProviderPortParameters = ExpressRouteProviderPortQueryParam & RequestParameters;
 
 // @public
 export interface ExpressRouteProviderPortProperties {
     overprovisionFactor?: number;
     peeringLocation?: string;
     portBandwidthInMbps?: number;
-    portPairDescriptor?: string;
-    primaryAzurePort?: string;
     remainingBandwidthInMbps?: number;
-    secondaryAzurePort?: string;
     usedBandwidthInMbps?: number;
 }
 
@@ -11032,45 +10611,21 @@ export interface ExpressRouteProviderPortPropertiesOutput {
     overprovisionFactor?: number;
     peeringLocation?: string;
     portBandwidthInMbps?: number;
-    portPairDescriptor?: string;
-    primaryAzurePort?: string;
+    readonly portPairDescriptor?: string;
+    readonly primaryAzurePort?: string;
     remainingBandwidthInMbps?: number;
-    secondaryAzurePort?: string;
+    readonly secondaryAzurePort?: string;
     usedBandwidthInMbps?: number;
 }
 
 // @public (undocumented)
-export interface ExpressRouteProviderPortsGet {
-    get(options: ExpressRouteProviderPortsGetParameters): StreamableMethod<ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse>;
-}
-
-// @public
-export interface ExpressRouteProviderPortsGet200Response extends HttpResponse {
+export interface ExpressRouteProviderPortQueryParam {
     // (undocumented)
-    body: ExpressRouteProviderPortOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface ExpressRouteProviderPortsGetDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: CloudErrorOutput;
-    // (undocumented)
-    status: string;
+    queryParameters: ExpressRouteProviderPortQueryParamProperties;
 }
 
 // @public (undocumented)
-export type ExpressRouteProviderPortsGetParameters = ExpressRouteProviderPortsGetQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ExpressRouteProviderPortsGetQueryParam {
-    // (undocumented)
-    queryParameters: ExpressRouteProviderPortsGetQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ExpressRouteProviderPortsGetQueryParamProperties {
+export interface ExpressRouteProviderPortQueryParamProperties {
     "api-version": "2022-05-01";
 }
 
@@ -11142,14 +10697,13 @@ export interface ExpressRouteServiceProviderOutput extends ResourceOutput {
 export interface ExpressRouteServiceProviderPropertiesFormat {
     bandwidthsOffered?: Array<ExpressRouteServiceProviderBandwidthsOffered>;
     peeringLocations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ExpressRouteServiceProviderPropertiesFormatOutput {
     bandwidthsOffered?: Array<ExpressRouteServiceProviderBandwidthsOfferedOutput>;
     peeringLocations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -11264,23 +10818,17 @@ export interface FirewallPoliciesDelete {
 // @public
 export interface FirewallPoliciesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface FirewallPoliciesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface FirewallPoliciesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -11450,7 +10998,6 @@ export interface FirewallPoliciesUpdateTagsQueryParamProperties {
 
 // @public
 export interface FirewallPolicy extends Resource {
-    etag?: string;
     identity?: ManagedServiceIdentity;
     properties?: FirewallPolicyPropertiesFormat;
 }
@@ -11871,7 +11418,7 @@ export interface FirewallPolicyNatRuleCollectionOutput extends FirewallPolicyRul
 
 // @public
 export interface FirewallPolicyOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     identity?: ManagedServiceIdentityOutput;
     properties?: FirewallPolicyPropertiesFormatOutput;
 }
@@ -11879,14 +11426,10 @@ export interface FirewallPolicyOutput extends ResourceOutput {
 // @public
 export interface FirewallPolicyPropertiesFormat {
     basePolicy?: SubResource;
-    childPolicies?: Array<SubResource>;
     dnsSettings?: DnsSettings;
     explicitProxy?: ExplicitProxy;
-    firewalls?: Array<SubResource>;
     insights?: FirewallPolicyInsights;
     intrusionDetection?: FirewallPolicyIntrusionDetection;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    ruleCollectionGroups?: Array<SubResource>;
     sku?: FirewallPolicySku;
     snat?: FirewallPolicySnat;
     sql?: FirewallPolicySQL;
@@ -11898,14 +11441,14 @@ export interface FirewallPolicyPropertiesFormat {
 // @public
 export interface FirewallPolicyPropertiesFormatOutput {
     basePolicy?: SubResourceOutput;
-    childPolicies?: Array<SubResourceOutput>;
+    readonly childPolicies?: Array<SubResourceOutput>;
     dnsSettings?: DnsSettingsOutput;
     explicitProxy?: ExplicitProxyOutput;
-    firewalls?: Array<SubResourceOutput>;
+    readonly firewalls?: Array<SubResourceOutput>;
     insights?: FirewallPolicyInsightsOutput;
     intrusionDetection?: FirewallPolicyIntrusionDetectionOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    ruleCollectionGroups?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly ruleCollectionGroups?: Array<SubResourceOutput>;
     sku?: FirewallPolicySkuOutput;
     snat?: FirewallPolicySnatOutput;
     sql?: FirewallPolicySQLOutput;
@@ -11934,10 +11477,8 @@ export type FirewallPolicyRuleCollection = FirewallPolicyNatRuleCollection | Fir
 
 // @public
 export interface FirewallPolicyRuleCollectionGroup extends SubResource {
-    etag?: string;
     name?: string;
     properties?: FirewallPolicyRuleCollectionGroupProperties;
-    type?: string;
 }
 
 // @public
@@ -11948,23 +11489,22 @@ export interface FirewallPolicyRuleCollectionGroupListResultOutput {
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: FirewallPolicyRuleCollectionGroupPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupProperties {
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleCollections?: Array<FirewallPolicyRuleCollection>;
 }
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupPropertiesOutput {
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     ruleCollections?: Array<FirewallPolicyRuleCollectionOutput>;
 }
 
@@ -12026,23 +11566,17 @@ export interface FirewallPolicyRuleCollectionGroupsDelete {
 // @public
 export interface FirewallPolicyRuleCollectionGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface FirewallPolicyRuleCollectionGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -12228,7 +11762,6 @@ export interface FirewallPolicyTransportSecurityOutput {
 
 // @public
 export interface FlowLog extends Resource {
-    etag?: string;
     properties?: FlowLogPropertiesFormat;
 }
 
@@ -12260,13 +11793,13 @@ export interface FlowLogInformationOutput {
 
 // @public
 export interface FlowLogListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<FlowLogOutput>;
 }
 
 // @public
 export interface FlowLogOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: FlowLogPropertiesFormatOutput;
 }
 
@@ -12283,10 +11816,8 @@ export interface FlowLogPropertiesFormat {
     enabled?: boolean;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     retentionPolicy?: RetentionPolicyParameters;
     storageId: string;
-    targetResourceGuid?: string;
     targetResourceId: string;
 }
 
@@ -12295,10 +11826,10 @@ export interface FlowLogPropertiesFormatOutput {
     enabled?: boolean;
     flowAnalyticsConfiguration?: TrafficAnalyticsPropertiesOutput;
     format?: FlowLogFormatParametersOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     retentionPolicy?: RetentionPolicyParametersOutput;
     storageId: string;
-    targetResourceGuid?: string;
+    readonly targetResourceGuid?: string;
     targetResourceId: string;
 }
 
@@ -12369,15 +11900,11 @@ export interface FlowLogsCreateOrUpdateQueryParamProperties {
 // @public
 export interface FlowLogsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface FlowLogsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -12516,33 +12043,26 @@ export interface FlowLogsUpdateTagsQueryParamProperties {
 
 // @public
 export interface FrontendIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: FrontendIPConfigurationPropertiesFormat;
-    type?: string;
     zones?: Array<string>;
 }
 
 // @public
 export interface FrontendIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: FrontendIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
     zones?: Array<string>;
 }
 
 // @public
 export interface FrontendIPConfigurationPropertiesFormat {
     gatewayLoadBalancer?: SubResource;
-    inboundNatPools?: Array<SubResource>;
-    inboundNatRules?: Array<SubResource>;
-    loadBalancingRules?: Array<SubResource>;
-    outboundRules?: Array<SubResource>;
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddress;
     publicIPPrefix?: SubResource;
     subnet?: Subnet;
@@ -12551,14 +12071,14 @@ export interface FrontendIPConfigurationPropertiesFormat {
 // @public
 export interface FrontendIPConfigurationPropertiesFormatOutput {
     gatewayLoadBalancer?: SubResourceOutput;
-    inboundNatPools?: Array<SubResourceOutput>;
-    inboundNatRules?: Array<SubResourceOutput>;
-    loadBalancingRules?: Array<SubResourceOutput>;
-    outboundRules?: Array<SubResourceOutput>;
+    readonly inboundNatPools?: Array<SubResourceOutput>;
+    readonly inboundNatRules?: Array<SubResourceOutput>;
+    readonly loadBalancingRules?: Array<SubResourceOutput>;
+    readonly outboundRules?: Array<SubResourceOutput>;
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddressOutput;
     publicIPPrefix?: SubResourceOutput;
     subnet?: SubnetOutput;
@@ -12599,13 +12119,13 @@ export interface GatewayRouteListResultOutput {
 
 // @public
 export interface GatewayRouteOutput {
-    asPath?: string;
-    localAddress?: string;
-    network?: string;
-    nextHop?: string;
-    origin?: string;
-    sourcePeer?: string;
-    weight?: number;
+    readonly asPath?: string;
+    readonly localAddress?: string;
+    readonly network?: string;
+    readonly nextHop?: string;
+    readonly origin?: string;
+    readonly sourcePeer?: string;
+    readonly weight?: number;
 }
 
 // @public
@@ -12633,8 +12153,6 @@ export interface Generatevirtualwanvpnserverconfigurationvpnprofile200Response e
 
 // @public
 export interface Generatevirtualwanvpnserverconfigurationvpnprofile202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -12686,8 +12204,6 @@ export interface GetActiveSessions200Response extends HttpResponse {
 
 // @public
 export interface GetActiveSessions202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -12769,7 +12285,7 @@ export interface GetInboundRoutesParameters {
 }
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export interface GetOutboundRoutesParameters {
@@ -12778,7 +12294,7 @@ export interface GetOutboundRoutesParameters {
 }
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -12791,19 +12307,19 @@ export interface GetVpnSitesConfigurationRequest {
 
 // @public
 export interface HopLinkOutput {
-    context?: Record<string, string>;
-    issues?: Array<ConnectivityIssueOutput>;
-    linkType?: string;
-    nextHopId?: string;
+    readonly context?: Record<string, string>;
+    readonly issues?: Array<ConnectivityIssueOutput>;
+    readonly linkType?: string;
+    readonly nextHopId?: string;
     properties?: HopLinkPropertiesOutput;
-    resourceId?: string;
+    readonly resourceId?: string;
 }
 
 // @public
 export interface HopLinkPropertiesOutput {
-    roundTripTimeAvg?: number;
-    roundTripTimeMax?: number;
-    roundTripTimeMin?: number;
+    readonly roundTripTimeAvg?: number;
+    readonly roundTripTimeMax?: number;
+    readonly roundTripTimeMin?: number;
 }
 
 // @public
@@ -12845,25 +12361,22 @@ export interface HubIPAddressesOutput {
 
 // @public
 export interface HubIpConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: HubIPConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface HubIpConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: HubIPConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface HubIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -12872,7 +12385,7 @@ export interface HubIPConfigurationPropertiesFormat {
 export interface HubIPConfigurationPropertiesFormatOutput {
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddressOutput;
     subnet?: SubnetOutput;
 }
@@ -12915,35 +12428,30 @@ export interface HubRouteOutput {
 
 // @public
 export interface HubRouteTable extends SubResource {
-    etag?: string;
     name?: string;
     properties?: HubRouteTableProperties;
-    type?: string;
 }
 
 // @public
 export interface HubRouteTableOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: HubRouteTablePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface HubRouteTableProperties {
-    associatedConnections?: Array<string>;
     labels?: Array<string>;
-    propagatingConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routes?: Array<HubRoute>;
 }
 
 // @public
 export interface HubRouteTablePropertiesOutput {
-    associatedConnections?: Array<string>;
+    readonly associatedConnections?: Array<string>;
     labels?: Array<string>;
-    propagatingConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly propagatingConnections?: Array<string>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routes?: Array<HubRouteOutput>;
 }
 
@@ -13005,23 +12513,17 @@ export interface HubRouteTablesCreateOrUpdateQueryParamProperties {
 // @public
 export interface HubRouteTablesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface HubRouteTablesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface HubRouteTablesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13115,14 +12617,13 @@ export interface HubRouteTablesListQueryParamProperties {
 
 // @public
 export interface HubVirtualNetworkConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: HubVirtualNetworkConnectionProperties;
 }
 
 // @public
 export interface HubVirtualNetworkConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: HubVirtualNetworkConnectionPropertiesOutput;
 }
@@ -13132,7 +12633,6 @@ export interface HubVirtualNetworkConnectionProperties {
     allowHubToRemoteVnetTransit?: boolean;
     allowRemoteVnetToUseHubVnetGateways?: boolean;
     enableInternetSecurity?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteVirtualNetwork?: SubResource;
     routingConfiguration?: RoutingConfiguration;
 }
@@ -13142,7 +12642,7 @@ export interface HubVirtualNetworkConnectionPropertiesOutput {
     allowHubToRemoteVnetTransit?: boolean;
     allowRemoteVnetToUseHubVnetGateways?: boolean;
     enableInternetSecurity?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteVirtualNetwork?: SubResourceOutput;
     routingConfiguration?: RoutingConfigurationOutput;
 }
@@ -13205,23 +12705,17 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdateQueryParamProperties 
 // @public
 export interface HubVirtualNetworkConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface HubVirtualNetworkConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface HubVirtualNetworkConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13324,18 +12818,16 @@ export interface IdpsQueryObject {
 
 // @public
 export interface InboundNatPool extends SubResource {
-    etag?: string;
     name?: string;
     properties?: InboundNatPoolPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface InboundNatPoolOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: InboundNatPoolPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -13348,7 +12840,6 @@ export interface InboundNatPoolPropertiesFormat {
     frontendPortRangeStart: number;
     idleTimeoutInMinutes?: number;
     protocol: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -13361,43 +12852,40 @@ export interface InboundNatPoolPropertiesFormatOutput {
     frontendPortRangeStart: number;
     idleTimeoutInMinutes?: number;
     protocol: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface InboundNatRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: InboundNatRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface InboundNatRuleListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<InboundNatRuleOutput>;
 }
 
 // @public
 export interface InboundNatRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: InboundNatRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface InboundNatRulePortMappingOutput {
-    backendPort?: number;
-    frontendPort?: number;
-    inboundNatRuleName?: string;
-    protocol?: "Udp" | "Tcp" | "All";
+    readonly backendPort?: number;
+    readonly frontendPort?: number;
+    readonly inboundNatRuleName?: string;
+    readonly protocol?: "Udp" | "Tcp" | "All";
 }
 
 // @public
 export interface InboundNatRulePropertiesFormat {
     backendAddressPool?: SubResource;
-    backendIPConfiguration?: NetworkInterfaceIPConfiguration;
     backendPort?: number;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
@@ -13407,13 +12895,12 @@ export interface InboundNatRulePropertiesFormat {
     frontendPortRangeStart?: number;
     idleTimeoutInMinutes?: number;
     protocol?: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface InboundNatRulePropertiesFormatOutput {
     backendAddressPool?: SubResourceOutput;
-    backendIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
+    readonly backendIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
     backendPort?: number;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
@@ -13423,7 +12910,7 @@ export interface InboundNatRulePropertiesFormatOutput {
     frontendPortRangeStart?: number;
     idleTimeoutInMinutes?: number;
     protocol?: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -13484,23 +12971,17 @@ export interface InboundNatRulesDelete {
 // @public
 export interface InboundNatRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface InboundNatRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface InboundNatRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13595,10 +13076,8 @@ export interface InboundNatRulesListQueryParamProperties {
 
 // @public
 export interface InboundSecurityRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: InboundSecurityRuleProperties;
-    type?: string;
 }
 
 // @public (undocumented)
@@ -13656,21 +13135,20 @@ export interface InboundSecurityRuleCreateOrUpdateQueryParamProperties {
 
 // @public
 export interface InboundSecurityRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: InboundSecurityRulePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface InboundSecurityRuleProperties {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<InboundSecurityRules>;
 }
 
 // @public
 export interface InboundSecurityRulePropertiesOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<InboundSecurityRulesOutput>;
 }
 
@@ -13697,7 +13175,6 @@ export interface IPAddressAvailabilityResultOutput {
 
 // @public
 export interface IpAllocation extends Resource {
-    etag?: string;
     properties?: IpAllocationPropertiesFormat;
 }
 
@@ -13709,7 +13186,7 @@ export interface IpAllocationListResultOutput {
 
 // @public
 export interface IpAllocationOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: IpAllocationPropertiesFormatOutput;
 }
 
@@ -13720,9 +13197,7 @@ export interface IpAllocationPropertiesFormat {
     prefix?: string;
     prefixLength?: number;
     prefixType?: "IPv4" | "IPv6";
-    subnet?: SubResource;
     type?: "Undefined" | "Hypernet";
-    virtualNetwork?: SubResource;
 }
 
 // @public
@@ -13732,9 +13207,9 @@ export interface IpAllocationPropertiesFormatOutput {
     prefix?: string;
     prefixLength?: number;
     prefixType?: "IPv4" | "IPv6";
-    subnet?: SubResourceOutput;
+    readonly subnet?: SubResourceOutput;
     type?: "Undefined" | "Hypernet";
-    virtualNetwork?: SubResourceOutput;
+    readonly virtualNetwork?: SubResourceOutput;
 }
 
 // @public
@@ -13796,23 +13271,17 @@ export interface IpAllocationsDelete {
 // @public
 export interface IpAllocationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface IpAllocationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface IpAllocationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13982,7 +13451,6 @@ export interface IpAllocationsUpdateTagsQueryParamProperties {
 
 // @public
 export interface IPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: IPConfigurationPropertiesFormat;
 }
@@ -13990,51 +13458,46 @@ export interface IPConfiguration extends SubResource {
 // @public
 export interface IPConfigurationBgpPeeringAddress {
     customBgpIpAddresses?: Array<string>;
-    defaultBgpIpAddresses?: Array<string>;
     ipconfigurationId?: string;
-    tunnelIpAddresses?: Array<string>;
 }
 
 // @public
 export interface IPConfigurationBgpPeeringAddressOutput {
     customBgpIpAddresses?: Array<string>;
-    defaultBgpIpAddresses?: Array<string>;
+    readonly defaultBgpIpAddresses?: Array<string>;
     ipconfigurationId?: string;
-    tunnelIpAddresses?: Array<string>;
+    readonly tunnelIpAddresses?: Array<string>;
 }
 
 // @public
 export interface IPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: IPConfigurationPropertiesFormatOutput;
 }
 
 // @public
 export interface IPConfigurationProfile extends SubResource {
-    etag?: string;
     name?: string;
     properties?: IPConfigurationProfilePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface IPConfigurationProfileOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: IPConfigurationProfilePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface IPConfigurationProfilePropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: Subnet;
 }
 
 // @public
 export interface IPConfigurationProfilePropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubnetOutput;
 }
 
@@ -14042,7 +13505,6 @@ export interface IPConfigurationProfilePropertiesFormatOutput {
 export interface IPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
 }
@@ -14051,14 +13513,13 @@ export interface IPConfigurationPropertiesFormat {
 export interface IPConfigurationPropertiesFormatOutput {
     privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddressOutput;
     subnet?: SubnetOutput;
 }
 
 // @public
 export interface IpGroup extends Resource {
-    etag?: string;
     properties?: IpGroupPropertiesFormat;
 }
 
@@ -14070,24 +13531,21 @@ export interface IpGroupListResultOutput {
 
 // @public
 export interface IpGroupOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: IpGroupPropertiesFormatOutput;
 }
 
 // @public
 export interface IpGroupPropertiesFormat {
-    firewallPolicies?: Array<SubResource>;
-    firewalls?: Array<SubResource>;
     ipAddresses?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface IpGroupPropertiesFormatOutput {
-    firewallPolicies?: Array<SubResourceOutput>;
-    firewalls?: Array<SubResourceOutput>;
+    readonly firewallPolicies?: Array<SubResourceOutput>;
+    readonly firewalls?: Array<SubResourceOutput>;
     ipAddresses?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -14141,23 +13599,17 @@ export interface IpGroupsCreateOrUpdateQueryParamProperties {
 // @public
 export interface IpGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface IpGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface IpGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -14377,13 +13829,12 @@ export interface IpTagOutput {
 // @public
 export interface Ipv6CircuitConnectionConfig {
     addressPrefix?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
 }
 
 // @public
 export interface Ipv6CircuitConnectionConfigOutput {
     addressPrefix?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+    readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
 }
 
 // @public
@@ -14571,6 +14022,9 @@ export function isUnexpected(response: DisconnectActiveSessions200Response | Dis
 
 // @public (undocumented)
 export function isUnexpected(response: CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse): response is CheckDnsNameAvailabilityDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ExpressRouteProviderPort200Response | ExpressRouteProviderPortDefaultResponse): response is ExpressRouteProviderPortDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListActiveConnectivityConfigurations200Response | ListActiveConnectivityConfigurationsDefaultResponse): response is ListActiveConnectivityConfigurationsDefaultResponse;
@@ -14904,9 +14358,6 @@ export function isUnexpected(response: ExpressRoutePortAuthorizationsList200Resp
 
 // @public (undocumented)
 export function isUnexpected(response: ExpressRouteProviderPortsLocationList200Response | ExpressRouteProviderPortsLocationListDefaultResponse): response is ExpressRouteProviderPortsLocationListDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse): response is ExpressRouteProviderPortsGetDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: FirewallPoliciesDelete200Response | FirewallPoliciesDelete202Response | FirewallPoliciesDelete204Response | FirewallPoliciesDeleteDefaultResponse): response is FirewallPoliciesDeleteDefaultResponse;
@@ -16543,7 +15994,6 @@ export interface ListVpnSitesResultOutput {
 
 // @public
 export interface LoadBalancer extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: LoadBalancerPropertiesFormat;
     sku?: LoadBalancerSku;
@@ -16563,7 +16013,7 @@ export interface LoadBalancerBackendAddressOutput {
 
 // @public
 export interface LoadBalancerBackendAddressPoolListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<BackendAddressPoolOutput>;
 }
 
@@ -16618,23 +16068,17 @@ export interface LoadBalancerBackendAddressPoolsCreateOrUpdateQueryParamProperti
 // @public
 export interface LoadBalancerBackendAddressPoolsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface LoadBalancerBackendAddressPoolsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface LoadBalancerBackendAddressPoolsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -16736,10 +16180,8 @@ export interface LoadBalancerBackendAddressPoolsListQueryParamProperties {
 // @public
 export interface LoadBalancerBackendAddressPropertiesFormat {
     adminState?: "None" | "Up" | "Down" | "Drain";
-    inboundNatRulesPortMapping?: Array<NatRulePortMapping>;
     ipAddress?: string;
     loadBalancerFrontendIPConfiguration?: SubResource;
-    networkInterfaceIPConfiguration?: SubResource;
     subnet?: SubResource;
     virtualNetwork?: SubResource;
 }
@@ -16747,17 +16189,17 @@ export interface LoadBalancerBackendAddressPropertiesFormat {
 // @public
 export interface LoadBalancerBackendAddressPropertiesFormatOutput {
     adminState?: "None" | "Up" | "Down" | "Drain";
-    inboundNatRulesPortMapping?: Array<NatRulePortMappingOutput>;
+    readonly inboundNatRulesPortMapping?: Array<NatRulePortMappingOutput>;
     ipAddress?: string;
     loadBalancerFrontendIPConfiguration?: SubResourceOutput;
-    networkInterfaceIPConfiguration?: SubResourceOutput;
+    readonly networkInterfaceIPConfiguration?: SubResourceOutput;
     subnet?: SubResourceOutput;
     virtualNetwork?: SubResourceOutput;
 }
 
 // @public
 export interface LoadBalancerFrontendIPConfigurationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<FrontendIPConfigurationOutput>;
 }
 
@@ -16833,13 +16275,13 @@ export interface LoadBalancerFrontendIPConfigurationsListQueryParamProperties {
 
 // @public
 export interface LoadBalancerListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<LoadBalancerOutput>;
 }
 
 // @public
 export interface LoadBalancerLoadBalancingRuleListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<LoadBalancingRuleOutput>;
 }
 
@@ -16950,7 +16392,7 @@ export interface LoadBalancerNetworkInterfacesListQueryParamProperties {
 
 // @public
 export interface LoadBalancerOutboundRuleListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<OutboundRuleOutput>;
 }
 
@@ -17026,7 +16468,7 @@ export interface LoadBalancerOutboundRulesListQueryParamProperties {
 
 // @public
 export interface LoadBalancerOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: LoadBalancerPropertiesFormatOutput;
     sku?: LoadBalancerSkuOutput;
@@ -17034,7 +16476,7 @@ export interface LoadBalancerOutput extends ResourceOutput {
 
 // @public
 export interface LoadBalancerProbeListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ProbeOutput>;
 }
 
@@ -17117,8 +16559,6 @@ export interface LoadBalancerPropertiesFormat {
     loadBalancingRules?: Array<LoadBalancingRule>;
     outboundRules?: Array<OutboundRule>;
     probes?: Array<Probe>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
@@ -17130,8 +16570,8 @@ export interface LoadBalancerPropertiesFormatOutput {
     loadBalancingRules?: Array<LoadBalancingRuleOutput>;
     outboundRules?: Array<OutboundRuleOutput>;
     probes?: Array<ProbeOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -17193,23 +16633,17 @@ export interface LoadBalancersDelete {
 // @public
 export interface LoadBalancersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface LoadBalancersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface LoadBalancersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -17410,15 +16844,11 @@ export interface LoadBalancersSwapPublicIpAddresses {
 // @public
 export interface LoadBalancersSwapPublicIpAddresses200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface LoadBalancersSwapPublicIpAddresses202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17513,18 +16943,16 @@ export interface LoadBalancerVipSwapRequestFrontendIPConfigurationProperties {
 
 // @public
 export interface LoadBalancingRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: LoadBalancingRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface LoadBalancingRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: LoadBalancingRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -17541,7 +16969,6 @@ export interface LoadBalancingRulePropertiesFormat {
     loadDistribution?: "Default" | "SourceIP" | "SourceIPProtocol";
     probe?: SubResource;
     protocol: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -17558,24 +16985,23 @@ export interface LoadBalancingRulePropertiesFormatOutput {
     loadDistribution?: "Default" | "SourceIP" | "SourceIPProtocol";
     probe?: SubResourceOutput;
     protocol: "Udp" | "Tcp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface LocalNetworkGateway extends Resource {
-    etag?: string;
     properties: LocalNetworkGatewayPropertiesFormat;
 }
 
 // @public
 export interface LocalNetworkGatewayListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<LocalNetworkGatewayOutput>;
 }
 
 // @public
 export interface LocalNetworkGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties: LocalNetworkGatewayPropertiesFormatOutput;
 }
 
@@ -17585,8 +17011,6 @@ export interface LocalNetworkGatewayPropertiesFormat {
     fqdn?: string;
     gatewayIpAddress?: string;
     localNetworkAddressSpace?: AddressSpace;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
@@ -17595,8 +17019,8 @@ export interface LocalNetworkGatewayPropertiesFormatOutput {
     fqdn?: string;
     gatewayIpAddress?: string;
     localNetworkAddressSpace?: AddressSpaceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public (undocumented)
@@ -17658,23 +17082,17 @@ export interface LocalNetworkGatewaysCreateOrUpdateQueryParamProperties {
 // @public
 export interface LocalNetworkGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface LocalNetworkGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface LocalNetworkGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -17867,16 +17285,14 @@ export interface ManagedRuleSetOutput {
 
 // @public
 export interface ManagedServiceIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties>;
 }
 
 // @public
 export interface ManagedServiceIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesOutput>;
 }
@@ -17939,15 +17355,11 @@ export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateQueryPara
 // @public
 export interface ManagementGroupNetworkManagerConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ManagementGroupNetworkManagerConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -18097,7 +17509,6 @@ export interface MetricSpecificationOutput {
 
 // @public
 export interface NatGateway extends Resource {
-    etag?: string;
     properties?: NatGatewayPropertiesFormat;
     sku?: NatGatewaySku;
     zones?: Array<string>;
@@ -18111,7 +17522,7 @@ export interface NatGatewayListResultOutput {
 
 // @public
 export interface NatGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NatGatewayPropertiesFormatOutput;
     sku?: NatGatewaySkuOutput;
     zones?: Array<string>;
@@ -18120,21 +17531,18 @@ export interface NatGatewayOutput extends ResourceOutput {
 // @public
 export interface NatGatewayPropertiesFormat {
     idleTimeoutInMinutes?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIpAddresses?: Array<SubResource>;
     publicIpPrefixes?: Array<SubResource>;
-    resourceGuid?: string;
-    subnets?: Array<SubResource>;
 }
 
 // @public
 export interface NatGatewayPropertiesFormatOutput {
     idleTimeoutInMinutes?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIpAddresses?: Array<SubResourceOutput>;
     publicIpPrefixes?: Array<SubResourceOutput>;
-    resourceGuid?: string;
-    subnets?: Array<SubResourceOutput>;
+    readonly resourceGuid?: string;
+    readonly subnets?: Array<SubResourceOutput>;
 }
 
 // @public
@@ -18155,8 +17563,6 @@ export interface NatGatewaysCreateOrUpdate201Response extends HttpResponse {
 
 // @public
 export interface NatGatewaysCreateOrUpdate202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -18204,23 +17610,17 @@ export interface NatGatewaysDelete {
 // @public
 export interface NatGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NatGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NatGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -18491,23 +17891,17 @@ export interface NatRulesCreateOrUpdateQueryParamProperties {
 // @public
 export interface NatRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NatRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NatRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -18633,7 +18027,7 @@ export interface NetworkConfigurationDiagnosticProfileOutput {
 
 // @public
 export interface NetworkConfigurationDiagnosticResponseOutput {
-    results?: Array<NetworkConfigurationDiagnosticResultOutput>;
+    readonly results?: Array<NetworkConfigurationDiagnosticResultOutput>;
 }
 
 // @public
@@ -18645,7 +18039,6 @@ export interface NetworkConfigurationDiagnosticResultOutput {
 // @public
 export interface NetworkGroup extends ChildResource {
     properties?: NetworkGroupProperties;
-    systemData?: SystemData;
 }
 
 // @public
@@ -18657,19 +18050,18 @@ export interface NetworkGroupListResultOutput {
 // @public
 export interface NetworkGroupOutput extends ChildResourceOutput {
     properties?: NetworkGroupPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface NetworkGroupProperties {
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface NetworkGroupPropertiesOutput {
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -18718,7 +18110,7 @@ export interface NetworkGroupsCreateOrUpdateDefaultResponse extends HttpResponse
 // @public (undocumented)
 export interface NetworkGroupsCreateOrUpdateHeaderParam {
     // (undocumented)
-    headers: RawHttpHeadersInput & NetworkGroupsCreateOrUpdateHeaders;
+    headers?: RawHttpHeadersInput & NetworkGroupsCreateOrUpdateHeaders;
 }
 
 // @public (undocumented)
@@ -18748,8 +18140,6 @@ export interface NetworkGroupsCreateOrUpdateQueryParamProperties {
 // @public
 export interface NetworkGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -18761,8 +18151,6 @@ export interface NetworkGroupsDelete202Headers {
 // @public
 export interface NetworkGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & NetworkGroupsDelete202Headers;
     // (undocumented)
     status: "202";
@@ -18770,8 +18158,6 @@ export interface NetworkGroupsDelete202Response extends HttpResponse {
 
 // @public
 export interface NetworkGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -18875,7 +18261,6 @@ export interface NetworkGroupsListQueryParamProperties {
 
 // @public
 export interface NetworkIntentPolicy extends Resource {
-    etag?: string;
 }
 
 // @public
@@ -18886,43 +18271,38 @@ export interface NetworkIntentPolicyConfiguration {
 
 // @public
 export interface NetworkIntentPolicyOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
 }
 
 // @public
 export interface NetworkInterface extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: NetworkInterfacePropertiesFormat;
 }
 
 // @public
 export interface NetworkInterfaceAssociationOutput {
-    id?: string;
+    readonly id?: string;
     securityRules?: Array<SecurityRuleOutput>;
 }
 
 // @public
 export interface NetworkInterfaceDnsSettings {
-    appliedDnsServers?: Array<string>;
     dnsServers?: Array<string>;
     internalDnsNameLabel?: string;
-    internalDomainNameSuffix?: string;
-    internalFqdn?: string;
 }
 
 // @public
 export interface NetworkInterfaceDnsSettingsOutput {
-    appliedDnsServers?: Array<string>;
+    readonly appliedDnsServers?: Array<string>;
     dnsServers?: Array<string>;
     internalDnsNameLabel?: string;
-    internalDomainNameSuffix?: string;
-    internalFqdn?: string;
+    readonly internalDomainNameSuffix?: string;
+    readonly internalFqdn?: string;
 }
 
 // @public
 export interface NetworkInterfaceIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: NetworkInterfaceIPConfigurationPropertiesFormat;
     type?: string;
@@ -18930,13 +18310,13 @@ export interface NetworkInterfaceIPConfiguration extends SubResource {
 
 // @public
 export interface NetworkInterfaceIPConfigurationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<NetworkInterfaceIPConfigurationOutput>;
 }
 
 // @public
 export interface NetworkInterfaceIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: NetworkInterfaceIPConfigurationPropertiesFormatOutput;
     type?: string;
@@ -18944,16 +18324,13 @@ export interface NetworkInterfaceIPConfigurationOutput extends SubResourceOutput
 
 // @public
 export interface NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties {
-    fqdns?: Array<string>;
-    groupId?: string;
-    requiredMemberName?: string;
 }
 
 // @public
 export interface NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput {
-    fqdns?: Array<string>;
-    groupId?: string;
-    requiredMemberName?: string;
+    readonly fqdns?: Array<string>;
+    readonly groupId?: string;
+    readonly requiredMemberName?: string;
 }
 
 // @public
@@ -18967,8 +18344,6 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormat {
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddress;
     subnet?: Subnet;
     virtualNetworkTaps?: Array<VirtualNetworkTap>;
@@ -18985,8 +18360,8 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormatOutput {
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: PublicIPAddressOutput;
     subnet?: SubnetOutput;
     virtualNetworkTaps?: Array<VirtualNetworkTapOutput>;
@@ -19064,13 +18439,13 @@ export interface NetworkInterfaceIPConfigurationsListQueryParamProperties {
 
 // @public
 export interface NetworkInterfaceListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<NetworkInterfaceOutput>;
 }
 
 // @public
 export interface NetworkInterfaceLoadBalancerListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<LoadBalancerOutput>;
 }
 
@@ -19111,7 +18486,7 @@ export interface NetworkInterfaceLoadBalancersListQueryParamProperties {
 
 // @public
 export interface NetworkInterfaceOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: NetworkInterfacePropertiesFormatOutput;
 }
@@ -19121,23 +18496,13 @@ export interface NetworkInterfacePropertiesFormat {
     auxiliaryMode?: "None" | "MaxConnections" | "Floating";
     disableTcpStateTracking?: boolean;
     dnsSettings?: NetworkInterfaceDnsSettings;
-    dscpConfiguration?: SubResource;
     enableAcceleratedNetworking?: boolean;
     enableIPForwarding?: boolean;
-    hostedWorkloads?: Array<string>;
     ipConfigurations?: Array<NetworkInterfaceIPConfiguration>;
-    macAddress?: string;
     migrationPhase?: "None" | "Prepare" | "Commit" | "Abort" | "Committed";
     networkSecurityGroup?: NetworkSecurityGroup;
     nicType?: "Standard" | "Elastic";
-    primary?: boolean;
-    privateEndpoint?: PrivateEndpoint;
     privateLinkService?: PrivateLinkService;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
-    tapConfigurations?: Array<NetworkInterfaceTapConfiguration>;
-    virtualMachine?: SubResource;
-    vnetEncryptionSupported?: boolean;
     workloadType?: string;
 }
 
@@ -19146,23 +18511,23 @@ export interface NetworkInterfacePropertiesFormatOutput {
     auxiliaryMode?: "None" | "MaxConnections" | "Floating";
     disableTcpStateTracking?: boolean;
     dnsSettings?: NetworkInterfaceDnsSettingsOutput;
-    dscpConfiguration?: SubResourceOutput;
+    readonly dscpConfiguration?: SubResourceOutput;
     enableAcceleratedNetworking?: boolean;
     enableIPForwarding?: boolean;
-    hostedWorkloads?: Array<string>;
+    readonly hostedWorkloads?: Array<string>;
     ipConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
-    macAddress?: string;
+    readonly macAddress?: string;
     migrationPhase?: "None" | "Prepare" | "Commit" | "Abort" | "Committed";
     networkSecurityGroup?: NetworkSecurityGroupOutput;
     nicType?: "Standard" | "Elastic";
-    primary?: boolean;
-    privateEndpoint?: PrivateEndpointOutput;
+    readonly primary?: boolean;
+    readonly privateEndpoint?: PrivateEndpointOutput;
     privateLinkService?: PrivateLinkServiceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
-    tapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
-    virtualMachine?: SubResourceOutput;
-    vnetEncryptionSupported?: boolean;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
+    readonly tapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
+    readonly virtualMachine?: SubResourceOutput;
+    readonly vnetEncryptionSupported?: boolean;
     workloadType?: string;
 }
 
@@ -19225,23 +18590,17 @@ export interface NetworkInterfacesDelete {
 // @public
 export interface NetworkInterfacesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NetworkInterfacesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkInterfacesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -19335,8 +18694,6 @@ export interface NetworkInterfacesGetEffectiveRouteTable200Response extends Http
 
 // @public
 export interface NetworkInterfacesGetEffectiveRouteTable202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -19592,8 +18949,6 @@ export interface NetworkInterfacesListEffectiveNetworkSecurityGroups200Response 
 // @public
 export interface NetworkInterfacesListEffectiveNetworkSecurityGroups202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -19781,35 +19136,32 @@ export interface NetworkInterfacesUpdateTagsQueryParamProperties {
 
 // @public
 export interface NetworkInterfaceTapConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: NetworkInterfaceTapConfigurationPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<NetworkInterfaceTapConfigurationOutput>;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: NetworkInterfaceTapConfigurationPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualNetworkTap?: VirtualNetworkTap;
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualNetworkTap?: VirtualNetworkTapOutput;
 }
 
@@ -19871,23 +19223,17 @@ export interface NetworkInterfaceTapConfigurationsDelete {
 // @public
 export interface NetworkInterfaceTapConfigurationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkInterfaceTapConfigurationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -19985,15 +19331,16 @@ export type NetworkManagementClient = Client & {
 };
 
 // @public
+export interface NetworkManagementClientOptions extends ClientOptions {
+}
+
+// @public
 export interface NetworkManager extends Resource {
-    etag?: string;
     properties?: NetworkManagerProperties;
-    systemData?: SystemData;
 }
 
 // @public
 export interface NetworkManagerCommit {
-    commitId?: string;
     commitType: "SecurityAdmin" | "Connectivity";
     configurationIds?: Array<string>;
     targetLocations: Array<string>;
@@ -20001,7 +19348,7 @@ export interface NetworkManagerCommit {
 
 // @public
 export interface NetworkManagerCommitOutput {
-    commitId?: string;
+    readonly commitId?: string;
     commitType: "SecurityAdmin" | "Connectivity";
     configurationIds?: Array<string>;
     targetLocations: Array<string>;
@@ -20070,7 +19417,6 @@ export interface NetworkManagerCommitsPostQueryParamProperties {
 // @public
 export interface NetworkManagerConnection extends ChildResource {
     properties?: NetworkManagerConnectionProperties;
-    systemData?: SystemData;
 }
 
 // @public
@@ -20082,19 +19428,18 @@ export interface NetworkManagerConnectionListResultOutput {
 // @public
 export interface NetworkManagerConnectionOutput extends ChildResourceOutput {
     properties?: NetworkManagerConnectionPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface NetworkManagerConnectionProperties {
-    connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
     description?: string;
     networkManagerId?: string;
 }
 
 // @public
 export interface NetworkManagerConnectionPropertiesOutput {
-    connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
+    readonly connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
     description?: string;
     networkManagerId?: string;
 }
@@ -20188,9 +19533,9 @@ export interface NetworkManagerListResultOutput {
 
 // @public
 export interface NetworkManagerOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NetworkManagerPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
@@ -20198,19 +19543,17 @@ export interface NetworkManagerProperties {
     description?: string;
     networkManagerScopeAccesses: Array<"SecurityAdmin" | "Connectivity">;
     networkManagerScopes: NetworkManagerPropertiesNetworkManagerScopes;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface NetworkManagerPropertiesNetworkManagerScopes {
-    crossTenantScopes?: Array<CrossTenantScopes>;
     managementGroups?: Array<string>;
     subscriptions?: Array<string>;
 }
 
 // @public
 export interface NetworkManagerPropertiesNetworkManagerScopesOutput {
-    crossTenantScopes?: Array<CrossTenantScopesOutput>;
+    readonly crossTenantScopes?: Array<CrossTenantScopesOutput>;
     managementGroups?: Array<string>;
     subscriptions?: Array<string>;
 }
@@ -20220,7 +19563,7 @@ export interface NetworkManagerPropertiesOutput {
     description?: string;
     networkManagerScopeAccesses: Array<"SecurityAdmin" | "Connectivity">;
     networkManagerScopes: NetworkManagerPropertiesNetworkManagerScopesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -20274,8 +19617,6 @@ export interface NetworkManagersCreateOrUpdateQueryParamProperties {
 // @public
 export interface NetworkManagersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -20287,8 +19628,6 @@ export interface NetworkManagersDelete202Headers {
 // @public
 export interface NetworkManagersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & NetworkManagersDelete202Headers;
     // (undocumented)
     status: "202";
@@ -20296,8 +19635,6 @@ export interface NetworkManagersDelete202Response extends HttpResponse {
 
 // @public
 export interface NetworkManagersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -20489,7 +19826,6 @@ export interface NetworkManagersPatchQueryParamProperties {
 
 // @public
 export interface NetworkProfile extends Resource {
-    etag?: string;
     properties?: NetworkProfilePropertiesFormat;
 }
 
@@ -20501,24 +19837,21 @@ export interface NetworkProfileListResultOutput {
 
 // @public
 export interface NetworkProfileOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NetworkProfilePropertiesFormatOutput;
 }
 
 // @public
 export interface NetworkProfilePropertiesFormat {
     containerNetworkInterfaceConfigurations?: Array<ContainerNetworkInterfaceConfiguration>;
-    containerNetworkInterfaces?: Array<ContainerNetworkInterface>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
 export interface NetworkProfilePropertiesFormatOutput {
     containerNetworkInterfaceConfigurations?: Array<ContainerNetworkInterfaceConfigurationOutput>;
-    containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -20580,23 +19913,17 @@ export interface NetworkProfilesDelete {
 // @public
 export interface NetworkProfilesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NetworkProfilesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkProfilesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -20792,7 +20119,6 @@ export interface NetworkRuleOutput extends FirewallPolicyRuleOutputParent {
 
 // @public
 export interface NetworkSecurityGroup extends Resource {
-    etag?: string;
     properties?: NetworkSecurityGroupPropertiesFormat;
 }
 
@@ -20804,37 +20130,31 @@ export interface NetworkSecurityGroupListResultOutput {
 
 // @public
 export interface NetworkSecurityGroupOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NetworkSecurityGroupPropertiesFormatOutput;
 }
 
 // @public
 export interface NetworkSecurityGroupPropertiesFormat {
-    defaultSecurityRules?: Array<SecurityRule>;
-    flowLogs?: Array<FlowLog>;
     flushConnection?: boolean;
-    networkInterfaces?: Array<NetworkInterface>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     securityRules?: Array<SecurityRule>;
-    subnets?: Array<Subnet>;
 }
 
 // @public
 export interface NetworkSecurityGroupPropertiesFormatOutput {
-    defaultSecurityRules?: Array<SecurityRuleOutput>;
-    flowLogs?: Array<FlowLogOutput>;
+    readonly defaultSecurityRules?: Array<SecurityRuleOutput>;
+    readonly flowLogs?: Array<FlowLogOutput>;
     flushConnection?: boolean;
-    networkInterfaces?: Array<NetworkInterfaceOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     securityRules?: Array<SecurityRuleOutput>;
-    subnets?: Array<SubnetOutput>;
+    readonly subnets?: Array<SubnetOutput>;
 }
 
 // @public
 export interface NetworkSecurityGroupResultOutput {
-    evaluatedNetworkSecurityGroups?: Array<EvaluatedNetworkSecurityGroupOutput>;
+    readonly evaluatedNetworkSecurityGroups?: Array<EvaluatedNetworkSecurityGroupOutput>;
     securityRuleAccessResult?: "Allow" | "Deny";
 }
 
@@ -20897,23 +20217,17 @@ export interface NetworkSecurityGroupsDelete {
 // @public
 export interface NetworkSecurityGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NetworkSecurityGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkSecurityGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -21093,7 +20407,6 @@ export interface NetworkSecurityRulesEvaluationResultOutput {
 
 // @public
 export interface NetworkVirtualAppliance extends Resource {
-    etag?: string;
     identity?: ManagedServiceIdentity;
     properties?: NetworkVirtualAppliancePropertiesFormat;
 }
@@ -21106,40 +20419,35 @@ export interface NetworkVirtualApplianceListResultOutput {
 
 // @public
 export interface NetworkVirtualApplianceOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     identity?: ManagedServiceIdentityOutput;
     properties?: NetworkVirtualAppliancePropertiesFormatOutput;
 }
 
 // @public
 export interface NetworkVirtualAppliancePropertiesFormat {
-    addressPrefix?: string;
     bootStrapConfigurationBlobs?: Array<string>;
     cloudInitConfiguration?: string;
     cloudInitConfigurationBlobs?: Array<string>;
-    inboundSecurityRules?: Array<SubResource>;
     nvaSku?: VirtualApplianceSkuProperties;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
-    virtualApplianceNics?: Array<VirtualApplianceNicProperties>;
-    virtualApplianceSites?: Array<SubResource>;
     virtualHub?: SubResource;
 }
 
 // @public
 export interface NetworkVirtualAppliancePropertiesFormatOutput {
-    addressPrefix?: string;
+    readonly addressPrefix?: string;
     bootStrapConfigurationBlobs?: Array<string>;
     cloudInitConfiguration?: string;
     cloudInitConfigurationBlobs?: Array<string>;
-    inboundSecurityRules?: Array<SubResourceOutput>;
+    readonly inboundSecurityRules?: Array<SubResourceOutput>;
     nvaSku?: VirtualApplianceSkuPropertiesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sshPublicKey?: string;
     virtualApplianceAsn?: number;
-    virtualApplianceNics?: Array<VirtualApplianceNicPropertiesOutput>;
-    virtualApplianceSites?: Array<SubResourceOutput>;
+    readonly virtualApplianceNics?: Array<VirtualApplianceNicPropertiesOutput>;
+    readonly virtualApplianceSites?: Array<SubResourceOutput>;
     virtualHub?: SubResourceOutput;
 }
 
@@ -21202,23 +20510,17 @@ export interface NetworkVirtualAppliancesDelete {
 // @public
 export interface NetworkVirtualAppliancesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface NetworkVirtualAppliancesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkVirtualAppliancesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -21284,20 +20586,17 @@ export interface NetworkVirtualApplianceSiteListResultOutput {
 
 // @public
 export interface NetworkVirtualApplianceSku extends Resource {
-    etag?: string;
     properties?: NetworkVirtualApplianceSkuPropertiesFormat;
 }
 
 // @public
 export interface NetworkVirtualApplianceSkuInstances {
-    instanceCount?: number;
-    scaleUnit?: string;
 }
 
 // @public
 export interface NetworkVirtualApplianceSkuInstancesOutput {
-    instanceCount?: number;
-    scaleUnit?: string;
+    readonly instanceCount?: number;
+    readonly scaleUnit?: string;
 }
 
 // @public
@@ -21308,22 +20607,20 @@ export interface NetworkVirtualApplianceSkuListResultOutput {
 
 // @public
 export interface NetworkVirtualApplianceSkuOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NetworkVirtualApplianceSkuPropertiesFormatOutput;
 }
 
 // @public
 export interface NetworkVirtualApplianceSkuPropertiesFormat {
     availableScaleUnits?: Array<NetworkVirtualApplianceSkuInstances>;
-    availableVersions?: Array<string>;
-    vendor?: string;
 }
 
 // @public
 export interface NetworkVirtualApplianceSkuPropertiesFormatOutput {
     availableScaleUnits?: Array<NetworkVirtualApplianceSkuInstancesOutput>;
-    availableVersions?: Array<string>;
-    vendor?: string;
+    readonly availableVersions?: Array<string>;
+    readonly vendor?: string;
 }
 
 // @public (undocumented)
@@ -21438,7 +20735,6 @@ export interface NetworkVirtualAppliancesUpdateTagsQueryParamProperties {
 
 // @public
 export interface NetworkWatcher extends Resource {
-    etag?: string;
     properties?: NetworkWatcherPropertiesFormat;
 }
 
@@ -21449,18 +20745,17 @@ export interface NetworkWatcherListResultOutput {
 
 // @public
 export interface NetworkWatcherOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: NetworkWatcherPropertiesFormatOutput;
 }
 
 // @public
 export interface NetworkWatcherPropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface NetworkWatcherPropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -21575,15 +20870,11 @@ export interface NetworkWatchersCreateOrUpdateQueryParamProperties {
 // @public
 export interface NetworkWatchersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface NetworkWatchersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -22450,18 +21741,16 @@ export interface OrderBy {
 
 // @public
 export interface OutboundRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: OutboundRulePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface OutboundRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: OutboundRulePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -22472,7 +21761,6 @@ export interface OutboundRulePropertiesFormat {
     frontendIPConfigurations: Array<SubResource>;
     idleTimeoutInMinutes?: number;
     protocol: "Tcp" | "Udp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -22483,7 +21771,7 @@ export interface OutboundRulePropertiesFormatOutput {
     frontendIPConfigurations: Array<SubResourceOutput>;
     idleTimeoutInMinutes?: number;
     protocol: "Tcp" | "Udp" | "All";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -22504,34 +21792,30 @@ export interface OwaspCrsExclusionEntryOutput {
 
 // @public
 export interface P2SConnectionConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: P2SConnectionConfigurationProperties;
 }
 
 // @public
 export interface P2SConnectionConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: P2SConnectionConfigurationPropertiesOutput;
 }
 
 // @public
 export interface P2SConnectionConfigurationProperties {
-    configurationPolicyGroupAssociations?: Array<SubResource>;
     enableInternetSecurity?: boolean;
-    previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroup>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingConfiguration?: RoutingConfiguration;
     vpnClientAddressPool?: AddressSpace;
 }
 
 // @public
 export interface P2SConnectionConfigurationPropertiesOutput {
-    configurationPolicyGroupAssociations?: Array<SubResourceOutput>;
+    readonly configurationPolicyGroupAssociations?: Array<SubResourceOutput>;
     enableInternetSecurity?: boolean;
-    previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroupOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroupOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingConfiguration?: RoutingConfigurationOutput;
     vpnClientAddressPool?: AddressSpaceOutput;
 }
@@ -22554,13 +21838,12 @@ export interface P2SVpnConnectionRequest {
 
 // @public
 export interface P2SVpnGateway extends Resource {
-    etag?: string;
     properties?: P2SVpnGatewayProperties;
 }
 
 // @public
 export interface P2SVpnGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: P2SVpnGatewayPropertiesOutput;
 }
 
@@ -22569,9 +21852,7 @@ export interface P2SVpnGatewayProperties {
     customDnsServers?: Array<string>;
     isRoutingPreferenceInternet?: boolean;
     p2SConnectionConfigurations?: Array<P2SConnectionConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub?: SubResource;
-    vpnClientConnectionHealth?: VpnClientConnectionHealth;
     vpnGatewayScaleUnit?: number;
     vpnServerConfiguration?: SubResource;
 }
@@ -22581,9 +21862,9 @@ export interface P2SVpnGatewayPropertiesOutput {
     customDnsServers?: Array<string>;
     isRoutingPreferenceInternet?: boolean;
     p2SConnectionConfigurations?: Array<P2SConnectionConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub?: SubResourceOutput;
-    vpnClientConnectionHealth?: VpnClientConnectionHealthOutput;
+    readonly vpnClientConnectionHealth?: VpnClientConnectionHealthOutput;
     vpnGatewayScaleUnit?: number;
     vpnServerConfiguration?: SubResourceOutput;
 }
@@ -22639,23 +21920,17 @@ export interface P2SVpnGatewaysCreateOrUpdateQueryParamProperties {
 // @public
 export interface P2SVpnGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface P2SVpnGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface P2SVpnGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -22690,15 +21965,11 @@ export interface P2SVpnGatewaysDisconnectP2SVpnConnections {
 // @public
 export interface P2SVpnGatewaysDisconnectP2SVpnConnections200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface P2SVpnGatewaysDisconnectP2SVpnConnections202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -22750,8 +22021,6 @@ export interface P2SVpnGatewaysGenerateVpnProfile200Response extends HttpRespons
 
 // @public
 export interface P2SVpnGatewaysGenerateVpnProfile202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -22828,8 +22097,6 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealth200Response extends Http
 // @public
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealth202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -22856,8 +22123,6 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response exte
 
 // @public
 export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -23008,8 +22273,6 @@ export interface P2SVpnGatewaysReset200Response extends HttpResponse {
 // @public
 export interface P2SVpnGatewaysReset202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -23045,8 +22308,6 @@ export interface P2SVpnGatewaysUpdateTags200Response extends HttpResponse {
 
 // @public
 export interface P2SVpnGatewaysUpdateTags202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -23164,20 +22425,19 @@ export interface PacketCaptureQueryStatusResultOutput {
 
 // @public
 export interface PacketCaptureResultOutput {
-    etag?: string;
-    id?: string;
-    name?: string;
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties?: PacketCaptureResultPropertiesOutput;
 }
 
 // @public
 export interface PacketCaptureResultProperties extends PacketCaptureParameters {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PacketCaptureResultPropertiesOutput extends PacketCaptureParametersOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -23230,15 +22490,11 @@ export interface PacketCapturesCreateQueryParamProperties {
 // @public
 export interface PacketCapturesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PacketCapturesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -23381,15 +22637,11 @@ export interface PacketCapturesStop {
 // @public
 export interface PacketCapturesStop200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PacketCapturesStop202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -23431,6 +22683,18 @@ export interface PacketCaptureStorageLocationOutput {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
 
 // @public
@@ -23466,42 +22730,35 @@ export interface PatchObject {
 
 // @public
 export interface PatchRouteFilter extends SubResource {
-    etag?: string;
-    name?: string;
     properties?: RouteFilterPropertiesFormat;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface PatchRouteFilterOutput extends SubResourceOutput {
-    etag?: string;
-    name?: string;
+    readonly etag?: string;
+    readonly name?: string;
     properties?: RouteFilterPropertiesFormatOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PatchRouteFilterRule extends SubResource {
-    etag?: string;
-    name?: string;
     properties?: RouteFilterRulePropertiesFormat;
 }
 
 // @public
 export interface PatchRouteFilterRuleOutput extends SubResourceOutput {
-    etag?: string;
-    name?: string;
+    readonly etag?: string;
+    readonly name?: string;
     properties?: RouteFilterRulePropertiesFormatOutput;
 }
 
 // @public
 export interface PeerExpressRouteCircuitConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: PeerExpressRouteCircuitConnectionPropertiesFormat;
-    type?: string;
 }
 
 // @public
@@ -23512,32 +22769,30 @@ export interface PeerExpressRouteCircuitConnectionListResultOutput {
 
 // @public
 export interface PeerExpressRouteCircuitConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PeerExpressRouteCircuitConnectionPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PeerExpressRouteCircuitConnectionPropertiesFormat {
     addressPrefix?: string;
     authResourceGuid?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
     connectionName?: string;
     expressRouteCircuitPeering?: SubResource;
     peerExpressRouteCircuitPeering?: SubResource;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PeerExpressRouteCircuitConnectionPropertiesFormatOutput {
     addressPrefix?: string;
     authResourceGuid?: string;
-    circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+    readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
     connectionName?: string;
     expressRouteCircuitPeering?: SubResourceOutput;
     peerExpressRouteCircuitPeering?: SubResourceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -23617,13 +22872,13 @@ export interface PeerRouteListOutput {
 
 // @public
 export interface PeerRouteOutput {
-    asPath?: string;
-    localAddress?: string;
-    network?: string;
-    nextHop?: string;
-    origin?: string;
-    sourcePeer?: string;
-    weight?: number;
+    readonly asPath?: string;
+    readonly localAddress?: string;
+    readonly network?: string;
+    readonly nextHop?: string;
+    readonly origin?: string;
+    readonly sourcePeer?: string;
+    readonly weight?: number;
 }
 
 // @public
@@ -23664,20 +22919,19 @@ export interface PrivateDnsZoneConfigOutput {
 
 // @public
 export interface PrivateDnsZoneGroup extends SubResource {
-    etag?: string;
     name?: string;
     properties?: PrivateDnsZoneGroupPropertiesFormat;
 }
 
 // @public
 export interface PrivateDnsZoneGroupListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<PrivateDnsZoneGroupOutput>;
 }
 
 // @public
 export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PrivateDnsZoneGroupPropertiesFormatOutput;
 }
@@ -23685,13 +22939,12 @@ export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
 // @public
 export interface PrivateDnsZoneGroupPropertiesFormat {
     privateDnsZoneConfigs?: Array<PrivateDnsZoneConfig>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateDnsZoneGroupPropertiesFormatOutput {
     privateDnsZoneConfigs?: Array<PrivateDnsZoneConfigOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -23752,23 +23005,17 @@ export interface PrivateDnsZoneGroupsDelete {
 // @public
 export interface PrivateDnsZoneGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PrivateDnsZoneGroupsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PrivateDnsZoneGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -23863,74 +23110,65 @@ export interface PrivateDnsZoneGroupsListQueryParamProperties {
 // @public
 export interface PrivateDnsZonePropertiesFormat {
     privateDnsZoneId?: string;
-    recordSets?: Array<RecordSet>;
 }
 
 // @public
 export interface PrivateDnsZonePropertiesFormatOutput {
     privateDnsZoneId?: string;
-    recordSets?: Array<RecordSetOutput>;
+    readonly recordSets?: Array<RecordSetOutput>;
 }
 
 // @public
 export interface PrivateEndpoint extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: PrivateEndpointProperties;
 }
 
 // @public
 export interface PrivateEndpointConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: PrivateEndpointConnectionProperties;
-    type?: string;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<PrivateEndpointConnectionOutput>;
 }
 
 // @public
 export interface PrivateEndpointConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PrivateEndpointConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PrivateEndpointConnectionProperties {
-    linkIdentifier?: string;
-    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateEndpointConnectionPropertiesOutput {
-    linkIdentifier?: string;
-    privateEndpoint?: PrivateEndpointOutput;
+    readonly linkIdentifier?: string;
+    readonly privateEndpoint?: PrivateEndpointOutput;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateEndpointIPConfiguration {
-    etag?: string;
     name?: string;
     properties?: PrivateEndpointIPConfigurationProperties;
-    type?: string;
 }
 
 // @public
 export interface PrivateEndpointIPConfigurationOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PrivateEndpointIPConfigurationPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -23949,13 +23187,13 @@ export interface PrivateEndpointIPConfigurationPropertiesOutput {
 
 // @public
 export interface PrivateEndpointListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<PrivateEndpointOutput>;
 }
 
 // @public
 export interface PrivateEndpointOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: PrivateEndpointPropertiesOutput;
 }
@@ -23967,9 +23205,7 @@ export interface PrivateEndpointProperties {
     customNetworkInterfaceName?: string;
     ipConfigurations?: Array<PrivateEndpointIPConfiguration>;
     manualPrivateLinkServiceConnections?: Array<PrivateLinkServiceConnection>;
-    networkInterfaces?: Array<NetworkInterface>;
     privateLinkServiceConnections?: Array<PrivateLinkServiceConnection>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: Subnet;
 }
 
@@ -23980,9 +23216,9 @@ export interface PrivateEndpointPropertiesOutput {
     customNetworkInterfaceName?: string;
     ipConfigurations?: Array<PrivateEndpointIPConfigurationOutput>;
     manualPrivateLinkServiceConnections?: Array<PrivateLinkServiceConnectionOutput>;
-    networkInterfaces?: Array<NetworkInterfaceOutput>;
+    readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
     privateLinkServiceConnections?: Array<PrivateLinkServiceConnectionOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubnetOutput;
 }
 
@@ -24044,23 +23280,17 @@ export interface PrivateEndpointsDelete {
 // @public
 export interface PrivateEndpointsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PrivateEndpointsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PrivateEndpointsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -24190,25 +23420,22 @@ export interface PrivateEndpointsListQueryParamProperties {
 
 // @public
 export interface PrivateLinkService extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: PrivateLinkServiceProperties;
 }
 
 // @public
 export interface PrivateLinkServiceConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: PrivateLinkServiceConnectionProperties;
-    type?: string;
 }
 
 // @public
 export interface PrivateLinkServiceConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PrivateLinkServiceConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -24216,7 +23443,6 @@ export interface PrivateLinkServiceConnectionProperties {
     groupIds?: Array<string>;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     privateLinkServiceId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestMessage?: string;
 }
 
@@ -24225,7 +23451,7 @@ export interface PrivateLinkServiceConnectionPropertiesOutput {
     groupIds?: Array<string>;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
     privateLinkServiceId?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestMessage?: string;
 }
 
@@ -24245,18 +23471,16 @@ export interface PrivateLinkServiceConnectionStateOutput {
 
 // @public
 export interface PrivateLinkServiceIpConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: PrivateLinkServiceIpConfigurationProperties;
-    type?: string;
 }
 
 // @public
 export interface PrivateLinkServiceIpConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: PrivateLinkServiceIpConfigurationPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -24265,7 +23489,6 @@ export interface PrivateLinkServiceIpConfigurationProperties {
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: Subnet;
 }
 
@@ -24275,34 +23498,30 @@ export interface PrivateLinkServiceIpConfigurationPropertiesOutput {
     privateIPAddress?: string;
     privateIPAddressVersion?: "IPv4" | "IPv6";
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     subnet?: SubnetOutput;
 }
 
 // @public
 export interface PrivateLinkServiceListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<PrivateLinkServiceOutput>;
 }
 
 // @public
 export interface PrivateLinkServiceOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: PrivateLinkServicePropertiesOutput;
 }
 
 // @public
 export interface PrivateLinkServiceProperties {
-    alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApproval;
     enableProxyProtocol?: boolean;
     fqdns?: Array<string>;
     ipConfigurations?: Array<PrivateLinkServiceIpConfiguration>;
     loadBalancerFrontendIpConfigurations?: Array<FrontendIPConfiguration>;
-    networkInterfaces?: Array<NetworkInterface>;
-    privateEndpointConnections?: Array<PrivateEndpointConnection>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     visibility?: PrivateLinkServicePropertiesVisibility;
 }
 
@@ -24316,15 +23535,15 @@ export interface PrivateLinkServicePropertiesAutoApprovalOutput extends Resource
 
 // @public
 export interface PrivateLinkServicePropertiesOutput {
-    alias?: string;
+    readonly alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApprovalOutput;
     enableProxyProtocol?: boolean;
     fqdns?: Array<string>;
     ipConfigurations?: Array<PrivateLinkServiceIpConfigurationOutput>;
     loadBalancerFrontendIpConfigurations?: Array<FrontendIPConfigurationOutput>;
-    networkInterfaces?: Array<NetworkInterfaceOutput>;
-    privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
+    readonly privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     visibility?: PrivateLinkServicePropertiesVisibilityOutput;
 }
 
@@ -24352,8 +23571,6 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
 // @public
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -24377,8 +23594,6 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceG
 
 // @public
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -24500,23 +23715,17 @@ export interface PrivateLinkServicesDelete {
 // @public
 export interface PrivateLinkServicesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PrivateLinkServicesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PrivateLinkServicesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -24535,23 +23744,17 @@ export type PrivateLinkServicesDeleteParameters = PrivateLinkServicesDeleteQuery
 // @public
 export interface PrivateLinkServicesDeletePrivateEndpointConnection200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PrivateLinkServicesDeletePrivateEndpointConnection202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PrivateLinkServicesDeletePrivateEndpointConnection204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -24880,41 +24083,37 @@ export interface PrivateLinkServiceVisibilityOutput {
 
 // @public
 export interface Probe extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ProbePropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ProbeOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ProbePropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ProbePropertiesFormat {
     intervalInSeconds?: number;
-    loadBalancingRules?: Array<SubResource>;
     numberOfProbes?: number;
     port: number;
     probeThreshold?: number;
     protocol: "Http" | "Tcp" | "Https";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestPath?: string;
 }
 
 // @public
 export interface ProbePropertiesFormatOutput {
     intervalInSeconds?: number;
-    loadBalancingRules?: Array<SubResourceOutput>;
+    readonly loadBalancingRules?: Array<SubResourceOutput>;
     numberOfProbes?: number;
     port: number;
     probeThreshold?: number;
     protocol: "Http" | "Tcp" | "Https";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     requestPath?: string;
 }
 
@@ -24937,7 +24136,6 @@ export interface ProtocolConfiguration {
 
 // @public
 export interface PublicIPAddress extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: PublicIPAddressPropertiesFormat;
     sku?: PublicIPAddressSku;
@@ -25022,8 +24220,6 @@ export interface PublicIPAddressesDdosProtectionStatus200Response extends HttpRe
 // @public
 export interface PublicIPAddressesDdosProtectionStatus202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -25060,23 +24256,17 @@ export interface PublicIPAddressesDelete {
 // @public
 export interface PublicIPAddressesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PublicIPAddressesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PublicIPAddressesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -25464,7 +24654,7 @@ export interface PublicIPAddressListResultOutput {
 
 // @public
 export interface PublicIPAddressOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: PublicIPAddressPropertiesFormatOutput;
     sku?: PublicIPAddressSkuOutput;
@@ -25478,16 +24668,13 @@ export interface PublicIPAddressPropertiesFormat {
     dnsSettings?: PublicIPAddressDnsSettings;
     idleTimeoutInMinutes?: number;
     ipAddress?: string;
-    ipConfiguration?: IPConfiguration;
     ipTags?: Array<IpTag>;
     linkedPublicIPAddress?: PublicIPAddress;
     migrationPhase?: "None" | "Prepare" | "Commit" | "Abort" | "Committed";
     natGateway?: NatGateway;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddressVersion?: "IPv4" | "IPv6";
     publicIPAllocationMethod?: "Static" | "Dynamic";
     publicIPPrefix?: SubResource;
-    resourceGuid?: string;
     servicePublicIPAddress?: PublicIPAddress;
 }
 
@@ -25498,16 +24685,16 @@ export interface PublicIPAddressPropertiesFormatOutput {
     dnsSettings?: PublicIPAddressDnsSettingsOutput;
     idleTimeoutInMinutes?: number;
     ipAddress?: string;
-    ipConfiguration?: IPConfigurationOutput;
+    readonly ipConfiguration?: IPConfigurationOutput;
     ipTags?: Array<IpTagOutput>;
     linkedPublicIPAddress?: PublicIPAddressOutput;
     migrationPhase?: "None" | "Prepare" | "Commit" | "Abort" | "Committed";
     natGateway?: NatGatewayOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddressVersion?: "IPv4" | "IPv6";
     publicIPAllocationMethod?: "Static" | "Dynamic";
     publicIPPrefix?: SubResourceOutput;
-    resourceGuid?: string;
+    readonly resourceGuid?: string;
     servicePublicIPAddress?: PublicIPAddressOutput;
 }
 
@@ -25533,7 +24720,6 @@ export interface PublicIpDdosProtectionStatusResultOutput {
 
 // @public
 export interface PublicIPPrefix extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: PublicIPPrefixPropertiesFormat;
     sku?: PublicIPPrefixSku;
@@ -25599,23 +24785,17 @@ export interface PublicIPPrefixesDelete {
 // @public
 export interface PublicIPPrefixesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface PublicIPPrefixesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface PublicIPPrefixesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -25791,7 +24971,7 @@ export interface PublicIPPrefixListResultOutput {
 
 // @public
 export interface PublicIPPrefixOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: PublicIPPrefixPropertiesFormatOutput;
     sku?: PublicIPPrefixSkuOutput;
@@ -25801,29 +24981,24 @@ export interface PublicIPPrefixOutput extends ResourceOutput {
 // @public
 export interface PublicIPPrefixPropertiesFormat {
     customIPPrefix?: SubResource;
-    ipPrefix?: string;
     ipTags?: Array<IpTag>;
-    loadBalancerFrontendIpConfiguration?: SubResource;
     natGateway?: NatGateway;
     prefixLength?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIPAddresses?: Array<ReferencedPublicIpAddress>;
     publicIPAddressVersion?: "IPv4" | "IPv6";
-    resourceGuid?: string;
 }
 
 // @public
 export interface PublicIPPrefixPropertiesFormatOutput {
     customIPPrefix?: SubResourceOutput;
-    ipPrefix?: string;
+    readonly ipPrefix?: string;
     ipTags?: Array<IpTagOutput>;
-    loadBalancerFrontendIpConfiguration?: SubResourceOutput;
+    readonly loadBalancerFrontendIpConfiguration?: SubResourceOutput;
     natGateway?: NatGatewayOutput;
     prefixLength?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    publicIPAddresses?: Array<ReferencedPublicIpAddressOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly publicIPAddresses?: Array<ReferencedPublicIpAddressOutput>;
     publicIPAddressVersion?: "IPv4" | "IPv6";
-    resourceGuid?: string;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -25853,8 +25028,6 @@ export interface PutBastionShareableLink200Response extends HttpResponse {
 
 // @public
 export interface PutBastionShareableLink202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -25975,7 +25148,6 @@ export interface RadiusServerOutput {
 export interface RecordSet {
     fqdn?: string;
     ipAddresses?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     recordSetName?: string;
     recordType?: string;
     ttl?: number;
@@ -25985,7 +25157,7 @@ export interface RecordSet {
 export interface RecordSetOutput {
     fqdn?: string;
     ipAddresses?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     recordSetName?: string;
     recordType?: string;
     ttl?: number;
@@ -26005,39 +25177,34 @@ export interface ReferencedPublicIpAddressOutput {
 export interface Resource {
     id?: string;
     location?: string;
-    name?: string;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface ResourceNavigationLink extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ResourceNavigationLinkFormat;
-    type?: string;
 }
 
 // @public
 export interface ResourceNavigationLinkFormat {
     link?: string;
     linkedResourceType?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ResourceNavigationLinkFormatOutput {
     link?: string;
     linkedResourceType?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface ResourceNavigationLinkOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ResourceNavigationLinkFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -26077,7 +25244,7 @@ export interface ResourceNavigationLinksListQueryParamProperties {
 
 // @public
 export interface ResourceNavigationLinksListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ResourceNavigationLinkOutput>;
 }
 
@@ -26085,9 +25252,9 @@ export interface ResourceNavigationLinksListResultOutput {
 export interface ResourceOutput {
     id?: string;
     location?: string;
-    name?: string;
+    readonly name?: string;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -26114,7 +25281,6 @@ export interface RetentionPolicyParametersOutput {
 
 // @public
 export interface Route extends SubResource {
-    etag?: string;
     name?: string;
     properties?: RoutePropertiesFormat;
     type?: string;
@@ -26122,7 +25288,6 @@ export interface Route extends SubResource {
 
 // @public
 export interface RouteFilter extends Resource {
-    etag?: string;
     properties?: RouteFilterPropertiesFormat;
 }
 
@@ -26134,29 +25299,25 @@ export interface RouteFilterListResultOutput {
 
 // @public
 export interface RouteFilterOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: RouteFilterPropertiesFormatOutput;
 }
 
 // @public
 export interface RouteFilterPropertiesFormat {
-    ipv6Peerings?: Array<ExpressRouteCircuitPeering>;
-    peerings?: Array<ExpressRouteCircuitPeering>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<RouteFilterRule>;
 }
 
 // @public
 export interface RouteFilterPropertiesFormatOutput {
-    ipv6Peerings?: Array<ExpressRouteCircuitPeeringOutput>;
-    peerings?: Array<ExpressRouteCircuitPeeringOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly ipv6Peerings?: Array<ExpressRouteCircuitPeeringOutput>;
+    readonly peerings?: Array<ExpressRouteCircuitPeeringOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<RouteFilterRuleOutput>;
 }
 
 // @public
 export interface RouteFilterRule extends SubResource {
-    etag?: string;
     location?: string;
     name?: string;
     properties?: RouteFilterRulePropertiesFormat;
@@ -26170,7 +25331,7 @@ export interface RouteFilterRuleListResultOutput {
 
 // @public
 export interface RouteFilterRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     location?: string;
     name?: string;
     properties?: RouteFilterRulePropertiesFormatOutput;
@@ -26180,7 +25341,6 @@ export interface RouteFilterRuleOutput extends SubResourceOutput {
 export interface RouteFilterRulePropertiesFormat {
     access: "Allow" | "Deny";
     communities: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routeFilterRuleType: "Community";
 }
 
@@ -26188,7 +25348,7 @@ export interface RouteFilterRulePropertiesFormat {
 export interface RouteFilterRulePropertiesFormatOutput {
     access: "Allow" | "Deny";
     communities: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routeFilterRuleType: "Community";
 }
 
@@ -26250,23 +25410,17 @@ export interface RouteFilterRulesDelete {
 // @public
 export interface RouteFilterRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RouteFilterRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RouteFilterRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -26417,23 +25571,17 @@ export interface RouteFiltersDelete {
 // @public
 export interface RouteFiltersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RouteFiltersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RouteFiltersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -26609,25 +25757,21 @@ export interface RouteListResultOutput {
 
 // @public
 export interface RouteMap extends SubResource {
-    etag?: string;
-    name?: string;
     properties?: RouteMapProperties;
-    type?: string;
 }
 
 // @public
 export interface RouteMapOutput extends SubResourceOutput {
-    etag?: string;
-    name?: string;
+    readonly etag?: string;
+    readonly name?: string;
     properties?: RouteMapPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface RouteMapProperties {
     associatedInboundConnections?: Array<string>;
     associatedOutboundConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<RouteMapRule>;
 }
 
@@ -26635,7 +25779,7 @@ export interface RouteMapProperties {
 export interface RouteMapPropertiesOutput {
     associatedInboundConnections?: Array<string>;
     associatedOutboundConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     rules?: Array<RouteMapRuleOutput>;
 }
 
@@ -26706,23 +25850,17 @@ export interface RouteMapsCreateOrUpdateQueryParamProperties {
 // @public
 export interface RouteMapsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RouteMapsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RouteMapsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -26823,7 +25961,7 @@ export interface RouteMapsListQueryParamProperties {
 
 // @public
 export interface RouteOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: RoutePropertiesFormatOutput;
     type?: string;
@@ -26835,7 +25973,6 @@ export interface RoutePropertiesFormat {
     hasBgpOverride?: boolean;
     nextHopIpAddress?: string;
     nextHopType: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -26844,7 +25981,7 @@ export interface RoutePropertiesFormatOutput {
     hasBgpOverride?: boolean;
     nextHopIpAddress?: string;
     nextHopType: "VirtualNetworkGateway" | "VnetLocal" | "Internet" | "VirtualAppliance" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -26891,6 +26028,7 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions", subscriptionId: string, resourceGroupName: string, bastionHostName: string): GetActiveSessions;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions", subscriptionId: string, resourceGroupName: string, bastionHostName: string): DisconnectActiveSessions;
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability", subscriptionId: string, location: string): CheckDnsNameAvailability;
+    (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}", subscriptionId: string, providerport: string): ExpressRouteProviderPort;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations", subscriptionId: string, resourceGroupName: string, networkManagerName: string): ListActiveConnectivityConfigurations;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules", subscriptionId: string, resourceGroupName: string, networkManagerName: string): ListActiveSecurityAdminRules;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations", subscriptionId: string, resourceGroupName: string, virtualNetworkName: string): ListNetworkManagerEffectiveConnectivityConfigurations;
@@ -26967,7 +26105,6 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}", subscriptionId: string, resourceGroupName: string, expressRoutePortName: string, authorizationName: string): ExpressRoutePortAuthorizationsDelete;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations", subscriptionId: string, resourceGroupName: string, expressRoutePortName: string): ExpressRoutePortAuthorizationsList;
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts", subscriptionId: string): ExpressRouteProviderPortsLocationList;
-    (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}", subscriptionId: string, providerport: string): ExpressRouteProviderPortsGet;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}", subscriptionId: string, resourceGroupName: string, firewallPolicyName: string): FirewallPoliciesDelete;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies", subscriptionId: string, resourceGroupName: string): FirewallPoliciesList;
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies", subscriptionId: string): FirewallPoliciesListAll;
@@ -27171,7 +26308,7 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters", subscriptionId: string): VirtualRoutersList;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}", subscriptionId: string, resourceGroupName: string, virtualRouterName: string, peeringName: string): VirtualRouterPeeringsDelete;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings", subscriptionId: string, resourceGroupName: string, virtualRouterName: string): VirtualRouterPeeringsList;
-    (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}", subscriptionId: string, resourceGroupName: string, VirtualWANName: string): VirtualWansGet;
+    (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}", subscriptionId: string, resourceGroupName: string, virtualWANName: string): VirtualWansGet;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans", subscriptionId: string, resourceGroupName: string): VirtualWansListByResourceGroup;
     (path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans", subscriptionId: string): VirtualWansList;
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}", subscriptionId: string, resourceGroupName: string, vpnSiteName: string): VpnSitesGet;
@@ -27302,23 +26439,17 @@ export interface RoutesDelete {
 // @public
 export interface RoutesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RoutesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RoutesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -27412,7 +26543,6 @@ export interface RoutesListQueryParamProperties {
 
 // @public
 export interface RouteTable extends Resource {
-    etag?: string;
     properties?: RouteTablePropertiesFormat;
 }
 
@@ -27424,26 +26554,23 @@ export interface RouteTableListResultOutput {
 
 // @public
 export interface RouteTableOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: RouteTablePropertiesFormatOutput;
 }
 
 // @public
 export interface RouteTablePropertiesFormat {
     disableBgpRoutePropagation?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     routes?: Array<Route>;
-    subnets?: Array<Subnet>;
 }
 
 // @public
 export interface RouteTablePropertiesFormatOutput {
     disableBgpRoutePropagation?: boolean;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     routes?: Array<RouteOutput>;
-    subnets?: Array<SubnetOutput>;
+    readonly subnets?: Array<SubnetOutput>;
 }
 
 // @public
@@ -27505,23 +26632,17 @@ export interface RouteTablesDelete {
 // @public
 export interface RouteTablesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RouteTablesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RouteTablesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -27709,10 +26830,8 @@ export interface RoutingConfigurationOutput {
 
 // @public
 export interface RoutingIntent extends SubResource {
-    etag?: string;
     name?: string;
     properties?: RoutingIntentProperties;
-    type?: string;
 }
 
 // @public (undocumented)
@@ -27773,23 +26892,17 @@ export interface RoutingIntentCreateOrUpdateQueryParamProperties {
 // @public
 export interface RoutingIntentDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RoutingIntentDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RoutingIntentDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -27883,21 +26996,20 @@ export interface RoutingIntentListQueryParamProperties {
 
 // @public
 export interface RoutingIntentOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: RoutingIntentPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface RoutingIntentProperties {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingPolicies?: Array<RoutingPolicy>;
 }
 
 // @public
 export interface RoutingIntentPropertiesOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingPolicies?: Array<RoutingPolicyOutput>;
 }
 
@@ -27918,7 +27030,6 @@ export interface RoutingPolicyOutput {
 // @public
 export interface ScopeConnection extends ChildResource {
     properties?: ScopeConnectionProperties;
-    systemData?: SystemData;
 }
 
 // @public
@@ -27930,12 +27041,11 @@ export interface ScopeConnectionListResultOutput {
 // @public
 export interface ScopeConnectionOutput extends ChildResourceOutput {
     properties?: ScopeConnectionPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface ScopeConnectionProperties {
-    connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
     description?: string;
     resourceId?: string;
     tenantId?: string;
@@ -27943,7 +27053,7 @@ export interface ScopeConnectionProperties {
 
 // @public
 export interface ScopeConnectionPropertiesOutput {
-    connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
+    readonly connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
     description?: string;
     resourceId?: string;
     tenantId?: string;
@@ -28007,15 +27117,11 @@ export interface ScopeConnectionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface ScopeConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ScopeConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -28112,7 +27218,6 @@ export interface ScopeConnectionsListQueryParamProperties {
 // @public
 export interface SecurityAdminConfiguration extends ChildResource {
     properties?: SecurityAdminConfigurationPropertiesFormat;
-    systemData?: SystemData;
 }
 
 // @public
@@ -28124,21 +27229,20 @@ export interface SecurityAdminConfigurationListResultOutput {
 // @public
 export interface SecurityAdminConfigurationOutput extends ChildResourceOutput {
     properties?: SecurityAdminConfigurationPropertiesFormatOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface SecurityAdminConfigurationPropertiesFormat {
     applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface SecurityAdminConfigurationPropertiesFormatOutput {
     applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -28192,8 +27296,6 @@ export interface SecurityAdminConfigurationsCreateOrUpdateQueryParamProperties {
 // @public
 export interface SecurityAdminConfigurationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -28205,8 +27307,6 @@ export interface SecurityAdminConfigurationsDelete202Headers {
 // @public
 export interface SecurityAdminConfigurationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     headers: RawHttpHeaders & SecurityAdminConfigurationsDelete202Headers;
     // (undocumented)
     status: "202";
@@ -28214,8 +27314,6 @@ export interface SecurityAdminConfigurationsDelete202Response extends HttpRespon
 
 // @public
 export interface SecurityAdminConfigurationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -28335,7 +27433,6 @@ export interface SecurityGroupViewResultOutput {
 
 // @public
 export interface SecurityPartnerProvider extends Resource {
-    etag?: string;
     properties?: SecurityPartnerProviderPropertiesFormat;
 }
 
@@ -28347,22 +27444,20 @@ export interface SecurityPartnerProviderListResultOutput {
 
 // @public
 export interface SecurityPartnerProviderOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: SecurityPartnerProviderPropertiesFormatOutput;
 }
 
 // @public
 export interface SecurityPartnerProviderPropertiesFormat {
-    connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     securityProviderName?: "ZScaler" | "IBoss" | "Checkpoint";
     virtualHub?: SubResource;
 }
 
 // @public
 export interface SecurityPartnerProviderPropertiesFormatOutput {
-    connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     securityProviderName?: "ZScaler" | "IBoss" | "Checkpoint";
     virtualHub?: SubResourceOutput;
 }
@@ -28426,23 +27521,17 @@ export interface SecurityPartnerProvidersDelete {
 // @public
 export interface SecurityPartnerProvidersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SecurityPartnerProvidersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface SecurityPartnerProvidersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -28611,7 +27700,6 @@ export interface SecurityPartnerProvidersUpdateTagsQueryParamProperties {
 
 // @public
 export interface SecurityRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: SecurityRulePropertiesFormat;
     type?: string;
@@ -28633,7 +27721,7 @@ export interface SecurityRuleListResultOutput {
 
 // @public
 export interface SecurityRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: SecurityRulePropertiesFormatOutput;
     type?: string;
@@ -28651,7 +27739,6 @@ export interface SecurityRulePropertiesFormat {
     direction: "Inbound" | "Outbound";
     priority?: number;
     protocol: "Tcp" | "Udp" | "Icmp" | "Esp" | "*" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sourceAddressPrefix?: string;
     sourceAddressPrefixes?: Array<string>;
     sourceApplicationSecurityGroups?: Array<ApplicationSecurityGroup>;
@@ -28671,7 +27758,7 @@ export interface SecurityRulePropertiesFormatOutput {
     direction: "Inbound" | "Outbound";
     priority?: number;
     protocol: "Tcp" | "Udp" | "Icmp" | "Esp" | "*" | "Ah";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     sourceAddressPrefix?: string;
     sourceAddressPrefixes?: Array<string>;
     sourceApplicationSecurityGroups?: Array<ApplicationSecurityGroupOutput>;
@@ -28737,23 +27824,17 @@ export interface SecurityRulesDelete {
 // @public
 export interface SecurityRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SecurityRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface SecurityRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -28847,18 +27928,16 @@ export interface SecurityRulesListQueryParamProperties {
 
 // @public
 export interface ServiceAssociationLink extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ServiceAssociationLinkPropertiesFormat;
-    type?: string;
 }
 
 // @public
 export interface ServiceAssociationLinkOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ServiceAssociationLinkPropertiesFormatOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -28867,7 +27946,6 @@ export interface ServiceAssociationLinkPropertiesFormat {
     link?: string;
     linkedResourceType?: string;
     locations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -28876,7 +27954,7 @@ export interface ServiceAssociationLinkPropertiesFormatOutput {
     link?: string;
     linkedResourceType?: string;
     locations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -28916,21 +27994,19 @@ export interface ServiceAssociationLinksListQueryParamProperties {
 
 // @public
 export interface ServiceAssociationLinksListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ServiceAssociationLinkOutput>;
 }
 
 // @public
 export interface ServiceDelegationPropertiesFormat {
-    actions?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     serviceName?: string;
 }
 
 // @public
 export interface ServiceDelegationPropertiesFormatOutput {
-    actions?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly actions?: Array<string>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     serviceName?: string;
 }
 
@@ -28993,23 +28069,17 @@ export interface ServiceEndpointPoliciesDelete {
 // @public
 export interface ServiceEndpointPoliciesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ServiceEndpointPoliciesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ServiceEndpointPoliciesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -29179,14 +28249,11 @@ export interface ServiceEndpointPoliciesUpdateTagsQueryParamProperties {
 
 // @public
 export interface ServiceEndpointPolicy extends Resource {
-    etag?: string;
-    kind?: string;
     properties?: ServiceEndpointPolicyPropertiesFormat;
 }
 
 // @public
 export interface ServiceEndpointPolicyDefinition extends SubResource {
-    etag?: string;
     name?: string;
     properties?: ServiceEndpointPolicyDefinitionPropertiesFormat;
     type?: string;
@@ -29200,7 +28267,7 @@ export interface ServiceEndpointPolicyDefinitionListResultOutput {
 
 // @public
 export interface ServiceEndpointPolicyDefinitionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: ServiceEndpointPolicyDefinitionPropertiesFormatOutput;
     type?: string;
@@ -29209,7 +28276,6 @@ export interface ServiceEndpointPolicyDefinitionOutput extends SubResourceOutput
 // @public
 export interface ServiceEndpointPolicyDefinitionPropertiesFormat {
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     service?: string;
     serviceResources?: Array<string>;
 }
@@ -29217,7 +28283,7 @@ export interface ServiceEndpointPolicyDefinitionPropertiesFormat {
 // @public
 export interface ServiceEndpointPolicyDefinitionPropertiesFormatOutput {
     description?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     service?: string;
     serviceResources?: Array<string>;
 }
@@ -29280,23 +28346,17 @@ export interface ServiceEndpointPolicyDefinitionsDelete {
 // @public
 export interface ServiceEndpointPolicyDefinitionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ServiceEndpointPolicyDefinitionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ServiceEndpointPolicyDefinitionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -29390,48 +28450,44 @@ export interface ServiceEndpointPolicyDefinitionsListByResourceGroupQueryParamPr
 
 // @public
 export interface ServiceEndpointPolicyListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ServiceEndpointPolicyOutput>;
 }
 
 // @public
 export interface ServiceEndpointPolicyOutput extends ResourceOutput {
-    etag?: string;
-    kind?: string;
+    readonly etag?: string;
+    readonly kind?: string;
     properties?: ServiceEndpointPolicyPropertiesFormatOutput;
 }
 
 // @public
 export interface ServiceEndpointPolicyPropertiesFormat {
     contextualServiceEndpointPolicies?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     serviceAlias?: string;
     serviceEndpointPolicyDefinitions?: Array<ServiceEndpointPolicyDefinition>;
-    subnets?: Array<Subnet>;
 }
 
 // @public
 export interface ServiceEndpointPolicyPropertiesFormatOutput {
     contextualServiceEndpointPolicies?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     serviceAlias?: string;
     serviceEndpointPolicyDefinitions?: Array<ServiceEndpointPolicyDefinitionOutput>;
-    subnets?: Array<SubnetOutput>;
+    readonly subnets?: Array<SubnetOutput>;
 }
 
 // @public
 export interface ServiceEndpointPropertiesFormat {
     locations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     service?: string;
 }
 
 // @public
 export interface ServiceEndpointPropertiesFormatOutput {
     locations?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     service?: string;
 }
 
@@ -29474,25 +28530,25 @@ export interface ServiceTagInformationListQueryParamProperties {
 
 // @public
 export interface ServiceTagInformationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ServiceTagInformationOutput>;
 }
 
 // @public
 export interface ServiceTagInformationOutput {
-    id?: string;
-    name?: string;
-    properties?: ServiceTagInformationPropertiesFormatOutput;
-    serviceTagChangeNumber?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly properties?: ServiceTagInformationPropertiesFormatOutput;
+    readonly serviceTagChangeNumber?: string;
 }
 
 // @public
 export interface ServiceTagInformationPropertiesFormatOutput {
-    addressPrefixes?: Array<string>;
-    changeNumber?: string;
-    region?: string;
-    state?: string;
-    systemService?: string;
+    readonly addressPrefixes?: Array<string>;
+    readonly changeNumber?: string;
+    readonly region?: string;
+    readonly state?: string;
+    readonly systemService?: string;
 }
 
 // @public (undocumented)
@@ -29532,13 +28588,13 @@ export interface ServiceTagsListQueryParamProperties {
 
 // @public
 export interface ServiceTagsListResultOutput {
-    changeNumber?: string;
-    cloud?: string;
-    id?: string;
-    name?: string;
-    nextLink?: string;
-    type?: string;
-    values?: Array<ServiceTagInformationOutput>;
+    readonly changeNumber?: string;
+    readonly cloud?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly nextLink?: string;
+    readonly type?: string;
+    readonly values?: Array<ServiceTagInformationOutput>;
 }
 
 // @public
@@ -29587,6 +28643,28 @@ export interface SignaturesOverridesPropertiesOutput {
     signatures?: Record<string, string>;
 }
 
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
 // @public (undocumented)
 export interface SingleQueryResultOutput {
     description?: string;
@@ -29615,7 +28693,6 @@ export interface SkuOutput {
 // @public
 export interface StaticMember extends ChildResource {
     properties?: StaticMemberProperties;
-    systemData?: SystemData;
 }
 
 // @public
@@ -29627,20 +28704,18 @@ export interface StaticMemberListResultOutput {
 // @public
 export interface StaticMemberOutput extends ChildResourceOutput {
     properties?: StaticMemberPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
 // @public
 export interface StaticMemberProperties {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    region?: string;
     resourceId?: string;
 }
 
 // @public
 export interface StaticMemberPropertiesOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    region?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly region?: string;
     resourceId?: string;
 }
 
@@ -29695,15 +28770,11 @@ export interface StaticMembersCreateOrUpdateQueryParamProperties {
 // @public
 export interface StaticMembersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface StaticMembersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -29820,19 +28891,17 @@ export interface StaticRouteOutput {
 
 // @public
 export interface StaticRoutesConfig {
-    propagateStaticRoutes?: boolean;
     vnetLocalRouteOverrideCriteria?: "Contains" | "Equal";
 }
 
 // @public
 export interface StaticRoutesConfigOutput {
-    propagateStaticRoutes?: boolean;
+    readonly propagateStaticRoutes?: boolean;
     vnetLocalRouteOverrideCriteria?: "Contains" | "Equal";
 }
 
 // @public
 export interface Subnet extends SubResource {
-    etag?: string;
     name?: string;
     properties?: SubnetPropertiesFormat;
     type?: string;
@@ -29840,7 +28909,7 @@ export interface Subnet extends SubResource {
 
 // @public
 export interface SubnetAssociationOutput {
-    id?: string;
+    readonly id?: string;
     securityRules?: Array<SecurityRuleOutput>;
 }
 
@@ -29852,7 +28921,7 @@ export interface SubnetListResultOutput {
 
 // @public
 export interface SubnetOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: SubnetPropertiesFormatOutput;
     type?: string;
@@ -29865,18 +28934,11 @@ export interface SubnetPropertiesFormat {
     applicationGatewayIpConfigurations?: Array<ApplicationGatewayIPConfiguration>;
     delegations?: Array<Delegation>;
     ipAllocations?: Array<SubResource>;
-    ipConfigurationProfiles?: Array<IPConfigurationProfile>;
-    ipConfigurations?: Array<IPConfiguration>;
     natGateway?: SubResource;
     networkSecurityGroup?: NetworkSecurityGroup;
     privateEndpointNetworkPolicies?: "Enabled" | "Disabled";
-    privateEndpoints?: Array<PrivateEndpoint>;
     privateLinkServiceNetworkPolicies?: "Enabled" | "Disabled";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    purpose?: string;
-    resourceNavigationLinks?: Array<ResourceNavigationLink>;
     routeTable?: RouteTable;
-    serviceAssociationLinks?: Array<ServiceAssociationLink>;
     serviceEndpointPolicies?: Array<ServiceEndpointPolicy>;
     serviceEndpoints?: Array<ServiceEndpointPropertiesFormat>;
 }
@@ -29888,18 +28950,18 @@ export interface SubnetPropertiesFormatOutput {
     applicationGatewayIpConfigurations?: Array<ApplicationGatewayIPConfigurationOutput>;
     delegations?: Array<DelegationOutput>;
     ipAllocations?: Array<SubResourceOutput>;
-    ipConfigurationProfiles?: Array<IPConfigurationProfileOutput>;
-    ipConfigurations?: Array<IPConfigurationOutput>;
+    readonly ipConfigurationProfiles?: Array<IPConfigurationProfileOutput>;
+    readonly ipConfigurations?: Array<IPConfigurationOutput>;
     natGateway?: SubResourceOutput;
     networkSecurityGroup?: NetworkSecurityGroupOutput;
     privateEndpointNetworkPolicies?: "Enabled" | "Disabled";
-    privateEndpoints?: Array<PrivateEndpointOutput>;
+    readonly privateEndpoints?: Array<PrivateEndpointOutput>;
     privateLinkServiceNetworkPolicies?: "Enabled" | "Disabled";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    purpose?: string;
-    resourceNavigationLinks?: Array<ResourceNavigationLinkOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly purpose?: string;
+    readonly resourceNavigationLinks?: Array<ResourceNavigationLinkOutput>;
     routeTable?: RouteTableOutput;
-    serviceAssociationLinks?: Array<ServiceAssociationLinkOutput>;
+    readonly serviceAssociationLinks?: Array<ServiceAssociationLinkOutput>;
     serviceEndpointPolicies?: Array<ServiceEndpointPolicyOutput>;
     serviceEndpoints?: Array<ServiceEndpointPropertiesFormatOutput>;
 }
@@ -29962,23 +29024,17 @@ export interface SubnetsDelete {
 // @public
 export interface SubnetsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SubnetsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface SubnetsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -30079,15 +29135,11 @@ export interface SubnetsPrepareNetworkPolicies {
 // @public
 export interface SubnetsPrepareNetworkPolicies200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SubnetsPrepareNetworkPolicies202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -30132,15 +29184,11 @@ export interface SubnetsUnprepareNetworkPolicies {
 // @public
 export interface SubnetsUnprepareNetworkPolicies200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SubnetsUnprepareNetworkPolicies202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -30245,15 +29293,11 @@ export interface SubscriptionNetworkManagerConnectionsCreateOrUpdateQueryParamPr
 // @public
 export interface SubscriptionNetworkManagerConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SubscriptionNetworkManagerConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -30384,10 +29428,7 @@ export interface SupportedSecurityProvidersQueryParamProperties {
 
 // @public
 export interface SwapResource {
-    id?: string;
-    name?: string;
     properties?: SwapResourceProperties;
-    type?: string;
 }
 
 // @public
@@ -30398,10 +29439,10 @@ export interface SwapResourceListResultOutput {
 
 // @public
 export interface SwapResourceOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties?: SwapResourcePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -30448,9 +29489,9 @@ export interface TopologyAssociationOutput {
 
 // @public
 export interface TopologyOutput {
-    createdDateTime?: string;
-    id?: string;
-    lastModified?: string;
+    readonly createdDateTime?: string;
+    readonly id?: string;
+    readonly lastModified?: string;
     resources?: Array<TopologyResourceOutput>;
 }
 
@@ -30548,20 +29589,15 @@ export interface TroubleshootingResultOutput {
 
 // @public
 export interface TunnelConnectionHealth {
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
-    egressBytesTransferred?: number;
-    ingressBytesTransferred?: number;
-    lastConnectionEstablishedUtcTime?: string;
-    tunnel?: string;
 }
 
 // @public
 export interface TunnelConnectionHealthOutput {
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
-    egressBytesTransferred?: number;
-    ingressBytesTransferred?: number;
-    lastConnectionEstablishedUtcTime?: string;
-    tunnel?: string;
+    readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly egressBytesTransferred?: number;
+    readonly ingressBytesTransferred?: number;
+    readonly lastConnectionEstablishedUtcTime?: string;
+    readonly tunnel?: string;
 }
 
 // @public
@@ -30578,7 +29614,7 @@ export interface UsageNameOutput {
 // @public
 export interface UsageOutput {
     currentValue: number;
-    id?: string;
+    readonly id?: string;
     limit: number;
     name: UsageNameOutput;
     unit: "Count";
@@ -30646,15 +29682,11 @@ export interface VerificationIPFlowResultOutput {
 // @public
 export interface VipSwapCreate200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VipSwapCreate202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -30764,46 +29796,40 @@ export interface VipSwapListQueryParamProperties {
 
 // @public
 export interface VirtualApplianceNicProperties {
-    name?: string;
-    privateIpAddress?: string;
-    publicIpAddress?: string;
 }
 
 // @public
 export interface VirtualApplianceNicPropertiesOutput {
-    name?: string;
-    privateIpAddress?: string;
-    publicIpAddress?: string;
+    readonly name?: string;
+    readonly privateIpAddress?: string;
+    readonly publicIpAddress?: string;
 }
 
 // @public
 export interface VirtualApplianceSite extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualApplianceSiteProperties;
-    type?: string;
 }
 
 // @public
 export interface VirtualApplianceSiteOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualApplianceSitePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface VirtualApplianceSiteProperties {
     addressPrefix?: string;
     o365Policy?: Office365PolicyProperties;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface VirtualApplianceSitePropertiesOutput {
     addressPrefix?: string;
     o365Policy?: Office365PolicyPropertiesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -30864,23 +29890,17 @@ export interface VirtualApplianceSitesDelete {
 // @public
 export interface VirtualApplianceSitesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualApplianceSitesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualApplianceSitesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -31058,8 +30078,6 @@ export interface VirtualApplianceSkusListQueryParamProperties {
 
 // @public
 export interface VirtualHub extends Resource {
-    etag?: string;
-    kind?: string;
     properties?: VirtualHubProperties;
 }
 
@@ -31114,23 +30132,17 @@ export interface VirtualHubBgpConnectionCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualHubBgpConnectionDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubBgpConnectionDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualHubBgpConnectionDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -31223,8 +30235,6 @@ export interface VirtualHubBgpConnectionsListAdvertisedRoutes200Response extends
 // @public
 export interface VirtualHubBgpConnectionsListAdvertisedRoutes202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -31273,8 +30283,6 @@ export interface VirtualHubBgpConnectionsListLearnedRoutes200Response extends Ht
 
 // @public
 export interface VirtualHubBgpConnectionsListLearnedRoutes202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -31376,23 +30384,17 @@ export interface VirtualHubIpConfigurationCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualHubIpConfigurationDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubIpConfigurationDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualHubIpConfigurationDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -31493,8 +30495,8 @@ export interface VirtualHubIpConfigurationListQueryParamProperties {
 
 // @public
 export interface VirtualHubOutput extends ResourceOutput {
-    etag?: string;
-    kind?: string;
+    readonly etag?: string;
+    readonly kind?: string;
     properties?: VirtualHubPropertiesOutput;
 }
 
@@ -31503,16 +30505,11 @@ export interface VirtualHubProperties {
     addressPrefix?: string;
     allowBranchToBranchTraffic?: boolean;
     azureFirewall?: SubResource;
-    bgpConnections?: Array<SubResource>;
     expressRouteGateway?: SubResource;
     hubRoutingPreference?: "ExpressRoute" | "VpnGateway" | "ASPath";
-    ipConfigurations?: Array<SubResource>;
     p2SVpnGateway?: SubResource;
     preferredRoutingGateway?: "ExpressRoute" | "VpnGateway" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    routeMaps?: Array<SubResource>;
     routeTable?: VirtualHubRouteTable;
-    routingState?: "None" | "Provisioned" | "Provisioning" | "Failed";
     securityPartnerProvider?: SubResource;
     securityProviderName?: string;
     sku?: string;
@@ -31529,16 +30526,16 @@ export interface VirtualHubPropertiesOutput {
     addressPrefix?: string;
     allowBranchToBranchTraffic?: boolean;
     azureFirewall?: SubResourceOutput;
-    bgpConnections?: Array<SubResourceOutput>;
+    readonly bgpConnections?: Array<SubResourceOutput>;
     expressRouteGateway?: SubResourceOutput;
     hubRoutingPreference?: "ExpressRoute" | "VpnGateway" | "ASPath";
-    ipConfigurations?: Array<SubResourceOutput>;
+    readonly ipConfigurations?: Array<SubResourceOutput>;
     p2SVpnGateway?: SubResourceOutput;
     preferredRoutingGateway?: "ExpressRoute" | "VpnGateway" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    routeMaps?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly routeMaps?: Array<SubResourceOutput>;
     routeTable?: VirtualHubRouteTableOutput;
-    routingState?: "None" | "Provisioned" | "Provisioning" | "Failed";
+    readonly routingState?: "None" | "Provisioned" | "Provisioning" | "Failed";
     securityPartnerProvider?: SubResourceOutput;
     securityProviderName?: string;
     sku?: string;
@@ -31574,14 +30571,13 @@ export interface VirtualHubRouteTableOutput {
 
 // @public
 export interface VirtualHubRouteTableV2 extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualHubRouteTableV2Properties;
 }
 
 // @public
 export interface VirtualHubRouteTableV2Output extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualHubRouteTableV2PropertiesOutput;
 }
@@ -31589,14 +30585,13 @@ export interface VirtualHubRouteTableV2Output extends SubResourceOutput {
 // @public
 export interface VirtualHubRouteTableV2Properties {
     attachedConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routes?: Array<VirtualHubRouteV2>;
 }
 
 // @public
 export interface VirtualHubRouteTableV2PropertiesOutput {
     attachedConnections?: Array<string>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routes?: Array<VirtualHubRouteV2Output>;
 }
 
@@ -31651,23 +30646,17 @@ export interface VirtualHubRouteTableV2SCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualHubRouteTableV2SDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubRouteTableV2SDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualHubRouteTableV2SDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -31833,23 +30822,17 @@ export interface VirtualHubsCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualHubsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualHubsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -31908,15 +30891,11 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutes {
 // @public
 export interface VirtualHubsGetEffectiveVirtualHubRoutes200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubsGetEffectiveVirtualHubRoutes202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -31961,15 +30940,11 @@ export interface VirtualHubsGetInboundRoutes {
 // @public
 export interface VirtualHubsGetInboundRoutes200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubsGetInboundRoutes202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -32014,15 +30989,11 @@ export interface VirtualHubsGetOutboundRoutes {
 // @public
 export interface VirtualHubsGetOutboundRoutes200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualHubsGetOutboundRoutes202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -32185,20 +31156,18 @@ export interface VirtualHubsUpdateTagsQueryParamProperties {
 
 // @public
 export interface VirtualNetwork extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties?: VirtualNetworkPropertiesFormat;
 }
 
 // @public
 export interface VirtualNetworkBgpCommunities {
-    regionalCommunity?: string;
     virtualNetworkCommunity: string;
 }
 
 // @public
 export interface VirtualNetworkBgpCommunitiesOutput {
-    regionalCommunity?: string;
+    readonly regionalCommunity?: string;
     virtualNetworkCommunity: string;
 }
 
@@ -32232,26 +31201,23 @@ export interface VirtualNetworkEncryptionOutput {
 
 // @public
 export interface VirtualNetworkGateway extends Resource {
-    etag?: string;
     extendedLocation?: ExtendedLocation;
     properties: VirtualNetworkGatewayPropertiesFormat;
 }
 
 // @public
 export interface VirtualNetworkGatewayConnection extends Resource {
-    etag?: string;
     properties: VirtualNetworkGatewayConnectionPropertiesFormat;
 }
 
 // @public
 export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
-    etag?: string;
     properties: VirtualNetworkGatewayConnectionListEntityPropertiesFormat;
 }
 
 // @public
 export interface VirtualNetworkGatewayConnectionListEntityOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties: VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput;
 }
 
@@ -32260,23 +31226,17 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     authorizationKey?: string;
     connectionMode?: "Default" | "ResponderOnly" | "InitiatorOnly";
     connectionProtocol?: "IKEv2" | "IKEv1";
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     connectionType: "IPsec" | "Vnet2Vnet" | "ExpressRoute" | "VPNClient";
-    egressBytesTransferred?: number;
     enableBgp?: boolean;
     enablePrivateLinkFastPath?: boolean;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfiguration>;
-    ingressBytesTransferred?: number;
     ipsecPolicies?: Array<IpsecPolicy>;
     localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
     peer?: SubResource;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
     trafficSelectorPolicies?: Array<TrafficSelectorPolicy>;
-    tunnelConnectionStatus?: Array<TunnelConnectionHealth>;
     usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkConnectionGatewayReference;
     virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
@@ -32287,23 +31247,23 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
     authorizationKey?: string;
     connectionMode?: "Default" | "ResponderOnly" | "InitiatorOnly";
     connectionProtocol?: "IKEv2" | "IKEv1";
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     connectionType: "IPsec" | "Vnet2Vnet" | "ExpressRoute" | "VPNClient";
-    egressBytesTransferred?: number;
+    readonly egressBytesTransferred?: number;
     enableBgp?: boolean;
     enablePrivateLinkFastPath?: boolean;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfigurationOutput>;
-    ingressBytesTransferred?: number;
+    readonly ingressBytesTransferred?: number;
     ipsecPolicies?: Array<IpsecPolicyOutput>;
     localNetworkGateway2?: VirtualNetworkConnectionGatewayReferenceOutput;
     peer?: SubResourceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
     trafficSelectorPolicies?: Array<TrafficSelectorPolicyOutput>;
-    tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
+    readonly tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
     usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkConnectionGatewayReferenceOutput;
     virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReferenceOutput;
@@ -32311,13 +31271,13 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
 
 // @public
 export interface VirtualNetworkGatewayConnectionListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<VirtualNetworkGatewayConnectionOutput>;
 }
 
 // @public
 export interface VirtualNetworkGatewayConnectionOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties: VirtualNetworkGatewayConnectionPropertiesFormatOutput;
 }
 
@@ -32326,26 +31286,20 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormat {
     authorizationKey?: string;
     connectionMode?: "Default" | "ResponderOnly" | "InitiatorOnly";
     connectionProtocol?: "IKEv2" | "IKEv1";
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     connectionType: "IPsec" | "Vnet2Vnet" | "ExpressRoute" | "VPNClient";
     dpdTimeoutSeconds?: number;
-    egressBytesTransferred?: number;
     egressNatRules?: Array<SubResource>;
     enableBgp?: boolean;
     enablePrivateLinkFastPath?: boolean;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfiguration>;
-    ingressBytesTransferred?: number;
     ingressNatRules?: Array<SubResource>;
     ipsecPolicies?: Array<IpsecPolicy>;
     localNetworkGateway2?: LocalNetworkGateway;
     peer?: SubResource;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
     trafficSelectorPolicies?: Array<TrafficSelectorPolicy>;
-    tunnelConnectionStatus?: Array<TunnelConnectionHealth>;
     useLocalAzureIpAddress?: boolean;
     usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkGateway;
@@ -32357,26 +31311,26 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
     authorizationKey?: string;
     connectionMode?: "Default" | "ResponderOnly" | "InitiatorOnly";
     connectionProtocol?: "IKEv2" | "IKEv1";
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     connectionType: "IPsec" | "Vnet2Vnet" | "ExpressRoute" | "VPNClient";
     dpdTimeoutSeconds?: number;
-    egressBytesTransferred?: number;
+    readonly egressBytesTransferred?: number;
     egressNatRules?: Array<SubResourceOutput>;
     enableBgp?: boolean;
     enablePrivateLinkFastPath?: boolean;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: Array<GatewayCustomBgpIpAddressIpConfigurationOutput>;
-    ingressBytesTransferred?: number;
+    readonly ingressBytesTransferred?: number;
     ingressNatRules?: Array<SubResourceOutput>;
     ipsecPolicies?: Array<IpsecPolicyOutput>;
     localNetworkGateway2?: LocalNetworkGatewayOutput;
     peer?: SubResourceOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
     trafficSelectorPolicies?: Array<TrafficSelectorPolicyOutput>;
-    tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
+    readonly tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
     useLocalAzureIpAddress?: boolean;
     usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkGatewayOutput;
@@ -32442,23 +31396,17 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdateQueryParamPropert
 // @public
 export interface VirtualNetworkGatewayConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkGatewayConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworkGatewayConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -32516,8 +31464,6 @@ export interface VirtualNetworkGatewayConnectionsGetIkeSas200Response extends Ht
 
 // @public
 export interface VirtualNetworkGatewayConnectionsGetIkeSas202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -32631,8 +31577,6 @@ export interface VirtualNetworkGatewayConnectionsResetConnection {
 // @public
 export interface VirtualNetworkGatewayConnectionsResetConnection202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -32673,8 +31617,6 @@ export interface VirtualNetworkGatewayConnectionsResetSharedKey200Response exten
 
 // @public
 export interface VirtualNetworkGatewayConnectionsResetSharedKey202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -32781,8 +31723,6 @@ export interface VirtualNetworkGatewayConnectionsStartPacketCapture200Response e
 // @public
 export interface VirtualNetworkGatewayConnectionsStartPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -32834,8 +31774,6 @@ export interface VirtualNetworkGatewayConnectionsStopPacketCapture200Response ex
 // @public
 export interface VirtualNetworkGatewayConnectionsStopPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -32882,8 +31820,6 @@ export interface VirtualNetworkGatewayConnectionsUpdateTags200Response extends H
 // @public
 export interface VirtualNetworkGatewayConnectionsUpdateTags202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -32921,62 +31857,57 @@ export interface VirtualNetworkGatewayConnectionsUpdateTagsQueryParamProperties 
 
 // @public
 export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayIPConfigurationPropertiesFormat;
 }
 
 // @public
 export interface VirtualNetworkGatewayIPConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput;
 }
 
 // @public
 export interface VirtualNetworkGatewayIPConfigurationPropertiesFormat {
-    privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResource;
     subnet?: SubResource;
 }
 
 // @public
 export interface VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput {
-    privateIPAddress?: string;
+    readonly privateIPAddress?: string;
     privateIPAllocationMethod?: "Static" | "Dynamic";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicIPAddress?: SubResourceOutput;
     subnet?: SubResourceOutput;
 }
 
 // @public
 export interface VirtualNetworkGatewayListConnectionsResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<VirtualNetworkGatewayConnectionListEntityOutput>;
 }
 
 // @public
 export interface VirtualNetworkGatewayListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<VirtualNetworkGatewayOutput>;
 }
 
 // @public
 export interface VirtualNetworkGatewayNatRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayNatRuleProperties;
-    type?: string;
 }
 
 // @public
 export interface VirtualNetworkGatewayNatRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayNatRulePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -32985,7 +31916,6 @@ export interface VirtualNetworkGatewayNatRuleProperties {
     internalMappings?: Array<VpnNatRuleMapping>;
     ipConfigurationId?: string;
     mode?: "EgressSnat" | "IngressSnat";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: "Static" | "Dynamic";
 }
 
@@ -32995,7 +31925,7 @@ export interface VirtualNetworkGatewayNatRulePropertiesOutput {
     internalMappings?: Array<VpnNatRuleMappingOutput>;
     ipConfigurationId?: string;
     mode?: "EgressSnat" | "IngressSnat";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: "Static" | "Dynamic";
 }
 
@@ -33050,23 +31980,17 @@ export interface VirtualNetworkGatewayNatRulesCreateOrUpdateQueryParamProperties
 // @public
 export interface VirtualNetworkGatewayNatRulesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkGatewayNatRulesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworkGatewayNatRulesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -33167,14 +32091,13 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayQueryPa
 
 // @public
 export interface VirtualNetworkGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties: VirtualNetworkGatewayPropertiesFormatOutput;
 }
 
 // @public
 export interface VirtualNetworkGatewayPolicyGroup extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayPolicyGroupProperties;
 }
@@ -33195,7 +32118,7 @@ export interface VirtualNetworkGatewayPolicyGroupMemberOutput {
 
 // @public
 export interface VirtualNetworkGatewayPolicyGroupOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualNetworkGatewayPolicyGroupPropertiesOutput;
 }
@@ -33205,8 +32128,6 @@ export interface VirtualNetworkGatewayPolicyGroupProperties {
     isDefault: boolean;
     policyMembers: Array<VirtualNetworkGatewayPolicyGroupMember>;
     priority: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    vngClientConnectionConfigurations?: Array<SubResource>;
 }
 
 // @public
@@ -33214,8 +32135,8 @@ export interface VirtualNetworkGatewayPolicyGroupPropertiesOutput {
     isDefault: boolean;
     policyMembers: Array<VirtualNetworkGatewayPolicyGroupMemberOutput>;
     priority: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    vngClientConnectionConfigurations?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly vngClientConnectionConfigurations?: Array<SubResourceOutput>;
 }
 
 // @public
@@ -33230,11 +32151,8 @@ export interface VirtualNetworkGatewayPropertiesFormat {
     enablePrivateIpAddress?: boolean;
     gatewayDefaultSite?: SubResource;
     gatewayType?: "Vpn" | "ExpressRoute" | "LocalGateway";
-    inboundDnsForwardingEndpoint?: string;
     ipConfigurations?: Array<VirtualNetworkGatewayIPConfiguration>;
     natRules?: Array<VirtualNetworkGatewayNatRule>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
     virtualNetworkGatewayPolicyGroups?: Array<VirtualNetworkGatewayPolicyGroup>;
     vNetExtendedLocationResourceId?: string;
@@ -33255,11 +32173,11 @@ export interface VirtualNetworkGatewayPropertiesFormatOutput {
     enablePrivateIpAddress?: boolean;
     gatewayDefaultSite?: SubResourceOutput;
     gatewayType?: "Vpn" | "ExpressRoute" | "LocalGateway";
-    inboundDnsForwardingEndpoint?: string;
+    readonly inboundDnsForwardingEndpoint?: string;
     ipConfigurations?: Array<VirtualNetworkGatewayIPConfigurationOutput>;
     natRules?: Array<VirtualNetworkGatewayNatRuleOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySkuOutput;
     virtualNetworkGatewayPolicyGroups?: Array<VirtualNetworkGatewayPolicyGroupOutput>;
     vNetExtendedLocationResourceId?: string;
@@ -33327,23 +32245,17 @@ export interface VirtualNetworkGatewaysCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualNetworkGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworkGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -33378,15 +32290,11 @@ export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnect
 // @public
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33439,8 +32347,6 @@ export interface VirtualNetworkGatewaysGeneratevpnclientpackage200Response exten
 // @public
 export interface VirtualNetworkGatewaysGeneratevpnclientpackage202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -33491,8 +32397,6 @@ export interface VirtualNetworkGatewaysGenerateVpnProfile200Response extends Htt
 
 // @public
 export interface VirtualNetworkGatewaysGenerateVpnProfile202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33553,8 +32457,6 @@ export interface VirtualNetworkGatewaysGetAdvertisedRoutes200Response extends Ht
 // @public
 export interface VirtualNetworkGatewaysGetAdvertisedRoutes202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -33596,8 +32498,6 @@ export interface VirtualNetworkGatewaysGetBgpPeerStatus200Response extends HttpR
 
 // @public
 export interface VirtualNetworkGatewaysGetBgpPeerStatus202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33648,8 +32548,6 @@ export interface VirtualNetworkGatewaysGetLearnedRoutes200Response extends HttpR
 
 // @public
 export interface VirtualNetworkGatewaysGetLearnedRoutes202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33705,8 +32603,6 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response e
 
 // @public
 export interface VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33784,8 +32680,6 @@ export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response extend
 // @public
 export interface VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -33813,14 +32707,13 @@ export interface VirtualNetworkGatewaysGetVpnProfilePackageUrlQueryParamProperti
 
 // @public
 export interface VirtualNetworkGatewaySku {
-    capacity?: number;
     name?: "Basic" | "HighPerformance" | "Standard" | "UltraPerformance" | "VpnGw1" | "VpnGw2" | "VpnGw3" | "VpnGw4" | "VpnGw5" | "VpnGw1AZ" | "VpnGw2AZ" | "VpnGw3AZ" | "VpnGw4AZ" | "VpnGw5AZ" | "ErGw1AZ" | "ErGw2AZ" | "ErGw3AZ";
     tier?: "Basic" | "HighPerformance" | "Standard" | "UltraPerformance" | "VpnGw1" | "VpnGw2" | "VpnGw3" | "VpnGw4" | "VpnGw5" | "VpnGw1AZ" | "VpnGw2AZ" | "VpnGw3AZ" | "VpnGw4AZ" | "VpnGw5AZ" | "ErGw1AZ" | "ErGw2AZ" | "ErGw3AZ";
 }
 
 // @public
 export interface VirtualNetworkGatewaySkuOutput {
-    capacity?: number;
+    readonly capacity?: number;
     name?: "Basic" | "HighPerformance" | "Standard" | "UltraPerformance" | "VpnGw1" | "VpnGw2" | "VpnGw3" | "VpnGw4" | "VpnGw5" | "VpnGw1AZ" | "VpnGw2AZ" | "VpnGw3AZ" | "VpnGw4AZ" | "VpnGw5AZ" | "ErGw1AZ" | "ErGw2AZ" | "ErGw3AZ";
     tier?: "Basic" | "HighPerformance" | "Standard" | "UltraPerformance" | "VpnGw1" | "VpnGw2" | "VpnGw3" | "VpnGw4" | "VpnGw5" | "VpnGw1AZ" | "VpnGw2AZ" | "VpnGw3AZ" | "VpnGw4AZ" | "VpnGw5AZ" | "ErGw1AZ" | "ErGw2AZ" | "ErGw3AZ";
 }
@@ -33911,8 +32804,6 @@ export interface VirtualNetworkGatewaysReset200Response extends HttpResponse {
 // @public
 export interface VirtualNetworkGatewaysReset202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -33947,15 +32838,11 @@ export interface VirtualNetworkGatewaysResetVpnClientSharedKey {
 // @public
 export interface VirtualNetworkGatewaysResetVpnClientSharedKey200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkGatewaysResetVpnClientSharedKey202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -33997,8 +32884,6 @@ export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response ex
 
 // @public
 export interface VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -34051,8 +32936,6 @@ export interface VirtualNetworkGatewaysStartPacketCapture200Response extends Htt
 // @public
 export interface VirtualNetworkGatewaysStartPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -34103,8 +32986,6 @@ export interface VirtualNetworkGatewaysStopPacketCapture200Response extends Http
 
 // @public
 export interface VirtualNetworkGatewaysStopPacketCapture202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -34186,8 +33067,6 @@ export interface VirtualNetworkGatewaysUpdateTags200Response extends HttpRespons
 
 // @public
 export interface VirtualNetworkGatewaysUpdateTags202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -34278,19 +33157,18 @@ export interface VirtualNetworkListResultOutput {
 // @public
 export interface VirtualNetworkListUsageResultOutput {
     nextLink?: string;
-    value?: Array<VirtualNetworkUsageOutput>;
+    readonly value?: Array<VirtualNetworkUsageOutput>;
 }
 
 // @public
 export interface VirtualNetworkOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocationOutput;
     properties?: VirtualNetworkPropertiesFormatOutput;
 }
 
 // @public
 export interface VirtualNetworkPeering extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualNetworkPeeringPropertiesFormat;
     type?: string;
@@ -34304,7 +33182,7 @@ export interface VirtualNetworkPeeringListResultOutput {
 
 // @public
 export interface VirtualNetworkPeeringOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualNetworkPeeringPropertiesFormatOutput;
     type?: string;
@@ -34318,13 +33196,10 @@ export interface VirtualNetworkPeeringPropertiesFormat {
     doNotVerifyRemoteGateways?: boolean;
     peeringState?: "Initiated" | "Connected" | "Disconnected";
     peeringSyncLevel?: "FullyInSync" | "RemoteNotInSync" | "LocalNotInSync" | "LocalAndRemoteNotInSync";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteAddressSpace?: AddressSpace;
     remoteBgpCommunities?: VirtualNetworkBgpCommunities;
     remoteVirtualNetwork?: SubResource;
     remoteVirtualNetworkAddressSpace?: AddressSpace;
-    remoteVirtualNetworkEncryption?: VirtualNetworkEncryption;
-    resourceGuid?: string;
     useRemoteGateways?: boolean;
 }
 
@@ -34336,13 +33211,13 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
     doNotVerifyRemoteGateways?: boolean;
     peeringState?: "Initiated" | "Connected" | "Disconnected";
     peeringSyncLevel?: "FullyInSync" | "RemoteNotInSync" | "LocalNotInSync" | "LocalAndRemoteNotInSync";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteAddressSpace?: AddressSpaceOutput;
     remoteBgpCommunities?: VirtualNetworkBgpCommunitiesOutput;
     remoteVirtualNetwork?: SubResourceOutput;
     remoteVirtualNetworkAddressSpace?: AddressSpaceOutput;
-    remoteVirtualNetworkEncryption?: VirtualNetworkEncryptionOutput;
-    resourceGuid?: string;
+    readonly remoteVirtualNetworkEncryption?: VirtualNetworkEncryptionOutput;
+    readonly resourceGuid?: string;
     useRemoteGateways?: boolean;
 }
 
@@ -34405,23 +33280,17 @@ export interface VirtualNetworkPeeringsDelete {
 // @public
 export interface VirtualNetworkPeeringsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkPeeringsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworkPeeringsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -34524,8 +33393,6 @@ export interface VirtualNetworkPropertiesFormat {
     encryption?: VirtualNetworkEncryption;
     flowTimeoutInMinutes?: number;
     ipAllocations?: Array<SubResource>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
     subnets?: Array<Subnet>;
     virtualNetworkPeerings?: Array<VirtualNetworkPeering>;
 }
@@ -34541,8 +33408,8 @@ export interface VirtualNetworkPropertiesFormatOutput {
     encryption?: VirtualNetworkEncryptionOutput;
     flowTimeoutInMinutes?: number;
     ipAllocations?: Array<SubResourceOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
     subnets?: Array<SubnetOutput>;
     virtualNetworkPeerings?: Array<VirtualNetworkPeeringOutput>;
 }
@@ -34642,23 +33509,17 @@ export interface VirtualNetworksDelete {
 // @public
 export interface VirtualNetworksDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworksDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworksDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -34779,8 +33640,6 @@ export interface VirtualNetworksListDdosProtectionStatus200Response extends Http
 
 // @public
 export interface VirtualNetworksListDdosProtectionStatus202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -34908,7 +33767,6 @@ export interface VirtualNetworksUpdateTagsQueryParamProperties {
 
 // @public
 export interface VirtualNetworkTap extends Resource {
-    etag?: string;
     properties?: VirtualNetworkTapPropertiesFormat;
 }
 
@@ -34920,7 +33778,7 @@ export interface VirtualNetworkTapListResultOutput {
 
 // @public
 export interface VirtualNetworkTapOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VirtualNetworkTapPropertiesFormatOutput;
 }
 
@@ -34929,9 +33787,6 @@ export interface VirtualNetworkTapPropertiesFormat {
     destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
     destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
     destinationPort?: number;
-    networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfiguration>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
 }
 
 // @public
@@ -34939,9 +33794,9 @@ export interface VirtualNetworkTapPropertiesFormatOutput {
     destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfigurationOutput;
     destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
     destinationPort?: number;
-    networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceGuid?: string;
+    readonly networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -35003,23 +33858,17 @@ export interface VirtualNetworkTapsDelete {
 // @public
 export interface VirtualNetworkTapsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualNetworkTapsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualNetworkTapsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -35188,22 +34037,21 @@ export interface VirtualNetworkTapsUpdateTagsQueryParamProperties {
 
 // @public
 export interface VirtualNetworkUsageNameOutput {
-    localizedValue?: string;
-    value?: string;
+    readonly localizedValue?: string;
+    readonly value?: string;
 }
 
 // @public
 export interface VirtualNetworkUsageOutput {
-    currentValue?: number;
-    id?: string;
-    limit?: number;
-    name?: VirtualNetworkUsageNameOutput;
-    unit?: string;
+    readonly currentValue?: number;
+    readonly id?: string;
+    readonly limit?: number;
+    readonly name?: VirtualNetworkUsageNameOutput;
+    readonly unit?: string;
 }
 
 // @public
 export interface VirtualRouter extends Resource {
-    etag?: string;
     properties?: VirtualRouterPropertiesFormat;
 }
 
@@ -35225,16 +34073,14 @@ export interface VirtualRouterListResultOutput {
 
 // @public
 export interface VirtualRouterOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VirtualRouterPropertiesFormatOutput;
 }
 
 // @public
 export interface VirtualRouterPeering extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VirtualRouterPeeringProperties;
-    type?: string;
 }
 
 // @public
@@ -35245,24 +34091,23 @@ export interface VirtualRouterPeeringListResultOutput {
 
 // @public
 export interface VirtualRouterPeeringOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VirtualRouterPeeringPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface VirtualRouterPeeringProperties {
     peerAsn?: number;
     peerIp?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface VirtualRouterPeeringPropertiesOutput {
     peerAsn?: number;
     peerIp?: string;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -35323,23 +34168,17 @@ export interface VirtualRouterPeeringsDelete {
 // @public
 export interface VirtualRouterPeeringsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualRouterPeeringsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualRouterPeeringsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -35435,8 +34274,6 @@ export interface VirtualRouterPeeringsListQueryParamProperties {
 export interface VirtualRouterPropertiesFormat {
     hostedGateway?: SubResource;
     hostedSubnet?: SubResource;
-    peerings?: Array<SubResource>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualRouterAsn?: number;
     virtualRouterIps?: Array<string>;
 }
@@ -35445,8 +34282,8 @@ export interface VirtualRouterPropertiesFormat {
 export interface VirtualRouterPropertiesFormatOutput {
     hostedGateway?: SubResourceOutput;
     hostedSubnet?: SubResourceOutput;
-    peerings?: Array<SubResourceOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly peerings?: Array<SubResourceOutput>;
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualRouterAsn?: number;
     virtualRouterIps?: Array<string>;
 }
@@ -35509,23 +34346,17 @@ export interface VirtualRoutersDelete {
 // @public
 export interface VirtualRoutersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualRoutersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualRoutersDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -35655,13 +34486,12 @@ export interface VirtualRoutersListQueryParamProperties {
 
 // @public
 export interface VirtualWAN extends Resource {
-    etag?: string;
     properties?: VirtualWanProperties;
 }
 
 // @public
 export interface VirtualWANOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VirtualWanPropertiesOutput;
 }
 
@@ -35670,11 +34500,7 @@ export interface VirtualWanProperties {
     allowBranchToBranchTraffic?: boolean;
     allowVnetToVnetTraffic?: boolean;
     disableVpnEncryption?: boolean;
-    office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: string;
-    virtualHubs?: Array<SubResource>;
-    vpnSites?: Array<SubResource>;
 }
 
 // @public
@@ -35682,11 +34508,11 @@ export interface VirtualWanPropertiesOutput {
     allowBranchToBranchTraffic?: boolean;
     allowVnetToVnetTraffic?: boolean;
     disableVpnEncryption?: boolean;
-    office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: string;
-    virtualHubs?: Array<SubResourceOutput>;
-    vpnSites?: Array<SubResourceOutput>;
+    readonly virtualHubs?: Array<SubResourceOutput>;
+    readonly vpnSites?: Array<SubResourceOutput>;
 }
 
 // @public
@@ -35740,23 +34566,17 @@ export interface VirtualWansCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualWansDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualWansDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualWansDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -35786,7 +34606,7 @@ export interface VirtualWansDeleteQueryParamProperties {
 // @public
 export interface VirtualWanSecurityProviderOutput {
     name?: string;
-    type?: "External" | "Native";
+    readonly type?: "External" | "Native";
     url?: string;
 }
 
@@ -35959,42 +34779,39 @@ export interface VmOutput extends ResourceOutput {
 
 // @public
 export interface VnetRoute {
-    bgpConnections?: Array<SubResource>;
     staticRoutes?: Array<StaticRoute>;
     staticRoutesConfig?: StaticRoutesConfig;
 }
 
 // @public
 export interface VnetRouteOutput {
-    bgpConnections?: Array<SubResourceOutput>;
+    readonly bgpConnections?: Array<SubResourceOutput>;
     staticRoutes?: Array<StaticRouteOutput>;
     staticRoutesConfig?: StaticRoutesConfigOutput;
 }
 
 // @public
 export interface VngClientConnectionConfiguration extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VngClientConnectionConfigurationProperties;
 }
 
 // @public
 export interface VngClientConnectionConfigurationOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VngClientConnectionConfigurationPropertiesOutput;
 }
 
 // @public
 export interface VngClientConnectionConfigurationProperties {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualNetworkGatewayPolicyGroups: Array<SubResource>;
     vpnClientAddressPool: AddressSpace;
 }
 
 // @public
 export interface VngClientConnectionConfigurationPropertiesOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualNetworkGatewayPolicyGroups: Array<SubResourceOutput>;
     vpnClientAddressPool: AddressSpaceOutput;
 }
@@ -36036,8 +34853,6 @@ export interface VpnClientConfigurationOutput {
 // @public
 export interface VpnClientConnectionHealth {
     allocatedIpAddresses?: Array<string>;
-    totalEgressBytesTransferred?: number;
-    totalIngressBytesTransferred?: number;
     vpnClientConnectionsCount?: number;
 }
 
@@ -36048,25 +34863,25 @@ export interface VpnClientConnectionHealthDetailListResultOutput {
 
 // @public
 export interface VpnClientConnectionHealthDetailOutput {
-    egressBytesTransferred?: number;
-    egressPacketsTransferred?: number;
-    ingressBytesTransferred?: number;
-    ingressPacketsTransferred?: number;
-    maxBandwidth?: number;
-    maxPacketsPerSecond?: number;
-    privateIpAddress?: string;
-    publicIpAddress?: string;
-    vpnConnectionDuration?: number;
-    vpnConnectionId?: string;
-    vpnConnectionTime?: string;
-    vpnUserName?: string;
+    readonly egressBytesTransferred?: number;
+    readonly egressPacketsTransferred?: number;
+    readonly ingressBytesTransferred?: number;
+    readonly ingressPacketsTransferred?: number;
+    readonly maxBandwidth?: number;
+    readonly maxPacketsPerSecond?: number;
+    readonly privateIpAddress?: string;
+    readonly publicIpAddress?: string;
+    readonly vpnConnectionDuration?: number;
+    readonly vpnConnectionId?: string;
+    readonly vpnConnectionTime?: string;
+    readonly vpnUserName?: string;
 }
 
 // @public
 export interface VpnClientConnectionHealthOutput {
     allocatedIpAddresses?: Array<string>;
-    totalEgressBytesTransferred?: number;
-    totalIngressBytesTransferred?: number;
+    readonly totalEgressBytesTransferred?: number;
+    readonly totalIngressBytesTransferred?: number;
     vpnClientConnectionsCount?: number;
 }
 
@@ -36104,66 +34919,61 @@ export interface VpnClientParameters {
 
 // @public
 export interface VpnClientRevokedCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnClientRevokedCertificatePropertiesFormat;
 }
 
 // @public
 export interface VpnClientRevokedCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnClientRevokedCertificatePropertiesFormatOutput;
 }
 
 // @public
 export interface VpnClientRevokedCertificatePropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     thumbprint?: string;
 }
 
 // @public
 export interface VpnClientRevokedCertificatePropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     thumbprint?: string;
 }
 
 // @public
 export interface VpnClientRootCertificate extends SubResource {
-    etag?: string;
     name?: string;
     properties: VpnClientRootCertificatePropertiesFormat;
 }
 
 // @public
 export interface VpnClientRootCertificateOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties: VpnClientRootCertificatePropertiesFormatOutput;
 }
 
 // @public
 export interface VpnClientRootCertificatePropertiesFormat {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicCertData: string;
 }
 
 // @public
 export interface VpnClientRootCertificatePropertiesFormatOutput {
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     publicCertData: string;
 }
 
 // @public
 export interface VpnConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnConnectionProperties;
 }
 
 // @public
 export interface VpnConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnConnectionPropertiesOutput;
 }
@@ -36183,15 +34993,11 @@ export interface VpnConnectionPacketCaptureStopParameters {
 // @public
 export interface VpnConnectionProperties {
     connectionBandwidth?: number;
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     dpdTimeoutSeconds?: number;
-    egressBytesTransferred?: number;
     enableBgp?: boolean;
     enableInternetSecurity?: boolean;
     enableRateLimiting?: boolean;
-    ingressBytesTransferred?: number;
     ipsecPolicies?: Array<IpsecPolicy>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteVpnSite?: SubResource;
     routingConfiguration?: RoutingConfiguration;
     routingWeight?: number;
@@ -36206,15 +35012,15 @@ export interface VpnConnectionProperties {
 // @public
 export interface VpnConnectionPropertiesOutput {
     connectionBandwidth?: number;
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
     dpdTimeoutSeconds?: number;
-    egressBytesTransferred?: number;
+    readonly egressBytesTransferred?: number;
     enableBgp?: boolean;
     enableInternetSecurity?: boolean;
     enableRateLimiting?: boolean;
-    ingressBytesTransferred?: number;
+    readonly ingressBytesTransferred?: number;
     ipsecPolicies?: Array<IpsecPolicyOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     remoteVpnSite?: SubResourceOutput;
     routingConfiguration?: RoutingConfigurationOutput;
     routingWeight?: number;
@@ -36277,23 +35083,17 @@ export interface VpnConnectionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface VpnConnectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VpnConnectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VpnConnectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -36408,8 +35208,6 @@ export interface VpnConnectionsStartPacketCapture200Response extends HttpRespons
 // @public
 export interface VpnConnectionsStartPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -36461,8 +35259,6 @@ export interface VpnConnectionsStopPacketCapture200Response extends HttpResponse
 // @public
 export interface VpnConnectionsStopPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -36507,7 +35303,6 @@ export interface VpnDeviceScriptParameters {
 
 // @public
 export interface VpnGateway extends Resource {
-    etag?: string;
     properties?: VpnGatewayProperties;
 }
 
@@ -36527,47 +35322,42 @@ export interface VpnGatewayIpConfigurationOutput {
 
 // @public
 export interface VpnGatewayNatRule extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnGatewayNatRuleProperties;
-    type?: string;
 }
 
 // @public
 export interface VpnGatewayNatRuleOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnGatewayNatRulePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface VpnGatewayNatRuleProperties {
-    egressVpnSiteLinkConnections?: Array<SubResource>;
     externalMappings?: Array<VpnNatRuleMapping>;
-    ingressVpnSiteLinkConnections?: Array<SubResource>;
     internalMappings?: Array<VpnNatRuleMapping>;
     ipConfigurationId?: string;
     mode?: "EgressSnat" | "IngressSnat";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: "Static" | "Dynamic";
 }
 
 // @public
 export interface VpnGatewayNatRulePropertiesOutput {
-    egressVpnSiteLinkConnections?: Array<SubResourceOutput>;
+    readonly egressVpnSiteLinkConnections?: Array<SubResourceOutput>;
     externalMappings?: Array<VpnNatRuleMappingOutput>;
-    ingressVpnSiteLinkConnections?: Array<SubResourceOutput>;
+    readonly ingressVpnSiteLinkConnections?: Array<SubResourceOutput>;
     internalMappings?: Array<VpnNatRuleMappingOutput>;
     ipConfigurationId?: string;
     mode?: "EgressSnat" | "IngressSnat";
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     type?: "Static" | "Dynamic";
 }
 
 // @public
 export interface VpnGatewayOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VpnGatewayPropertiesOutput;
 }
 
@@ -36586,10 +35376,8 @@ export interface VpnGatewayProperties {
     bgpSettings?: BgpSettings;
     connections?: Array<VpnConnection>;
     enableBgpRouteTranslationForNat?: boolean;
-    ipConfigurations?: Array<VpnGatewayIpConfiguration>;
     isRoutingPreferenceInternet?: boolean;
     natRules?: Array<VpnGatewayNatRule>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub?: SubResource;
     vpnGatewayScaleUnit?: number;
 }
@@ -36599,10 +35387,10 @@ export interface VpnGatewayPropertiesOutput {
     bgpSettings?: BgpSettingsOutput;
     connections?: Array<VpnConnectionOutput>;
     enableBgpRouteTranslationForNat?: boolean;
-    ipConfigurations?: Array<VpnGatewayIpConfigurationOutput>;
+    readonly ipConfigurations?: Array<VpnGatewayIpConfigurationOutput>;
     isRoutingPreferenceInternet?: boolean;
     natRules?: Array<VpnGatewayNatRuleOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     virtualHub?: SubResourceOutput;
     vpnGatewayScaleUnit?: number;
 }
@@ -36658,23 +35446,17 @@ export interface VpnGatewaysCreateOrUpdateQueryParamProperties {
 // @public
 export interface VpnGatewaysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VpnGatewaysDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VpnGatewaysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -36825,8 +35607,6 @@ export interface VpnGatewaysReset200Response extends HttpResponse {
 // @public
 export interface VpnGatewaysReset202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -36867,8 +35647,6 @@ export interface VpnGatewaysStartPacketCapture200Response extends HttpResponse {
 
 // @public
 export interface VpnGatewaysStartPacketCapture202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -36921,8 +35699,6 @@ export interface VpnGatewaysStopPacketCapture200Response extends HttpResponse {
 // @public
 export interface VpnGatewaysStopPacketCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -36968,8 +35744,6 @@ export interface VpnGatewaysUpdateTags200Response extends HttpResponse {
 
 // @public
 export interface VpnGatewaysUpdateTags202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -37033,8 +35807,6 @@ export interface VpnLinkConnectionsGetIkeSas200Response extends HttpResponse {
 
 // @public
 export interface VpnLinkConnectionsGetIkeSas202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -37103,8 +35875,6 @@ export interface VpnLinkConnectionsResetConnection {
 
 // @public
 export interface VpnLinkConnectionsResetConnection202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -37196,22 +35966,19 @@ export interface VpnServerConfigRadiusServerRootCertificateOutput {
 
 // @public
 export interface VpnServerConfiguration extends Resource {
-    etag?: string;
     properties?: VpnServerConfigurationProperties;
 }
 
 // @public
 export interface VpnServerConfigurationOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VpnServerConfigurationPropertiesOutput;
 }
 
 // @public
 export interface VpnServerConfigurationPolicyGroup extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnServerConfigurationPolicyGroupProperties;
-    type?: string;
 }
 
 // @public
@@ -37230,38 +35997,33 @@ export interface VpnServerConfigurationPolicyGroupMemberOutput {
 
 // @public
 export interface VpnServerConfigurationPolicyGroupOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnServerConfigurationPolicyGroupPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface VpnServerConfigurationPolicyGroupProperties {
     isDefault?: boolean;
-    p2SConnectionConfigurations?: Array<SubResource>;
     policyMembers?: Array<VpnServerConfigurationPolicyGroupMember>;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface VpnServerConfigurationPolicyGroupPropertiesOutput {
     isDefault?: boolean;
-    p2SConnectionConfigurations?: Array<SubResourceOutput>;
+    readonly p2SConnectionConfigurations?: Array<SubResourceOutput>;
     policyMembers?: Array<VpnServerConfigurationPolicyGroupMemberOutput>;
     priority?: number;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface VpnServerConfigurationProperties {
     aadAuthenticationParameters?: AadAuthenticationParameters;
     configurationPolicyGroups?: Array<VpnServerConfigurationPolicyGroup>;
-    etag?: string;
     name?: string;
-    p2SVpnGateways?: Array<P2SVpnGateway>;
-    provisioningState?: string;
     radiusClientRootCertificates?: Array<VpnServerConfigRadiusClientRootCertificate>;
     radiusServerAddress?: string;
     radiusServerRootCertificates?: Array<VpnServerConfigRadiusServerRootCertificate>;
@@ -37278,10 +36040,10 @@ export interface VpnServerConfigurationProperties {
 export interface VpnServerConfigurationPropertiesOutput {
     aadAuthenticationParameters?: AadAuthenticationParametersOutput;
     configurationPolicyGroups?: Array<VpnServerConfigurationPolicyGroupOutput>;
-    etag?: string;
+    readonly etag?: string;
     name?: string;
-    p2SVpnGateways?: Array<P2SVpnGatewayOutput>;
-    provisioningState?: string;
+    readonly p2SVpnGateways?: Array<P2SVpnGatewayOutput>;
+    readonly provisioningState?: string;
     radiusClientRootCertificates?: Array<VpnServerConfigRadiusClientRootCertificateOutput>;
     radiusServerAddress?: string;
     radiusServerRootCertificates?: Array<VpnServerConfigRadiusServerRootCertificateOutput>;
@@ -37309,8 +36071,6 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWanList200Response 
 
 // @public
 export interface VpnServerConfigurationsAssociatedWithVirtualWanList202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -37388,23 +36148,17 @@ export interface VpnServerConfigurationsCreateOrUpdateQueryParamProperties {
 // @public
 export interface VpnServerConfigurationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VpnServerConfigurationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VpnServerConfigurationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -37610,46 +36364,37 @@ export interface VpnServerConfigVpnClientRootCertificateOutput {
 
 // @public
 export interface VpnSite extends Resource {
-    etag?: string;
     properties?: VpnSiteProperties;
 }
 
 // @public
 export interface VpnSiteLink extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnSiteLinkProperties;
-    type?: string;
 }
 
 // @public
 export interface VpnSiteLinkConnection extends SubResource {
-    etag?: string;
     name?: string;
     properties?: VpnSiteLinkConnectionProperties;
-    type?: string;
 }
 
 // @public
 export interface VpnSiteLinkConnectionOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnSiteLinkConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface VpnSiteLinkConnectionProperties {
     connectionBandwidth?: number;
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
-    egressBytesTransferred?: number;
     egressNatRules?: Array<SubResource>;
     enableBgp?: boolean;
     enableRateLimiting?: boolean;
-    ingressBytesTransferred?: number;
     ingressNatRules?: Array<SubResource>;
     ipsecPolicies?: Array<IpsecPolicy>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingWeight?: number;
     sharedKey?: string;
     useLocalAzureIpAddress?: boolean;
@@ -37663,15 +36408,15 @@ export interface VpnSiteLinkConnectionProperties {
 // @public
 export interface VpnSiteLinkConnectionPropertiesOutput {
     connectionBandwidth?: number;
-    connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
-    egressBytesTransferred?: number;
+    readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+    readonly egressBytesTransferred?: number;
     egressNatRules?: Array<SubResourceOutput>;
     enableBgp?: boolean;
     enableRateLimiting?: boolean;
-    ingressBytesTransferred?: number;
+    readonly ingressBytesTransferred?: number;
     ingressNatRules?: Array<SubResourceOutput>;
     ipsecPolicies?: Array<IpsecPolicyOutput>;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     routingWeight?: number;
     sharedKey?: string;
     useLocalAzureIpAddress?: boolean;
@@ -37719,10 +36464,10 @@ export interface VpnSiteLinkConnectionsGetQueryParamProperties {
 
 // @public
 export interface VpnSiteLinkOutput extends SubResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     name?: string;
     properties?: VpnSiteLinkPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -37731,7 +36476,6 @@ export interface VpnSiteLinkProperties {
     fqdn?: string;
     ipAddress?: string;
     linkProperties?: VpnLinkProviderProperties;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public
@@ -37740,7 +36484,7 @@ export interface VpnSiteLinkPropertiesOutput {
     fqdn?: string;
     ipAddress?: string;
     linkProperties?: VpnLinkProviderPropertiesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 // @public (undocumented)
@@ -37815,7 +36559,7 @@ export interface VpnSiteLinksListByVpnSiteQueryParamProperties {
 
 // @public
 export interface VpnSiteOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: VpnSitePropertiesOutput;
 }
 
@@ -37827,7 +36571,6 @@ export interface VpnSiteProperties {
     ipAddress?: string;
     isSecuritySite?: boolean;
     o365Policy?: O365PolicyProperties;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     siteKey?: string;
     virtualWan?: SubResource;
     vpnSiteLinks?: Array<VpnSiteLink>;
@@ -37841,7 +36584,7 @@ export interface VpnSitePropertiesOutput {
     ipAddress?: string;
     isSecuritySite?: boolean;
     o365Policy?: O365PolicyPropertiesOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
     siteKey?: string;
     virtualWan?: SubResourceOutput;
     vpnSiteLinks?: Array<VpnSiteLinkOutput>;
@@ -37855,15 +36598,11 @@ export interface VpnSitesConfigurationDownload {
 // @public
 export interface VpnSitesConfigurationDownload200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VpnSitesConfigurationDownload202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -37951,23 +36690,17 @@ export interface VpnSitesCreateOrUpdateQueryParamProperties {
 // @public
 export interface VpnSitesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VpnSitesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VpnSitesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -38145,7 +36878,6 @@ export interface VpnSitesUpdateTagsQueryParamProperties {
 // @public
 export interface WebApplicationFirewallCustomRule {
     action: "Allow" | "Block" | "Log";
-    etag?: string;
     matchConditions: Array<MatchCondition>;
     name?: string;
     priority: number;
@@ -38155,7 +36887,7 @@ export interface WebApplicationFirewallCustomRule {
 // @public
 export interface WebApplicationFirewallCustomRuleOutput {
     action: "Allow" | "Block" | "Log";
-    etag?: string;
+    readonly etag?: string;
     matchConditions: Array<MatchConditionOutput>;
     name?: string;
     priority: number;
@@ -38213,23 +36945,17 @@ export interface WebApplicationFirewallPoliciesCreateOrUpdateQueryParamPropertie
 // @public
 export interface WebApplicationFirewallPoliciesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface WebApplicationFirewallPoliciesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface WebApplicationFirewallPoliciesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -38365,44 +37091,38 @@ export interface WebApplicationFirewallPoliciesListQueryParamProperties {
 
 // @public
 export interface WebApplicationFirewallPolicy extends Resource {
-    etag?: string;
     properties?: WebApplicationFirewallPolicyPropertiesFormat;
 }
 
 // @public
 export interface WebApplicationFirewallPolicyListResultOutput {
-    nextLink?: string;
-    value?: Array<WebApplicationFirewallPolicyOutput>;
+    readonly nextLink?: string;
+    readonly value?: Array<WebApplicationFirewallPolicyOutput>;
 }
 
 // @public
 export interface WebApplicationFirewallPolicyOutput extends ResourceOutput {
-    etag?: string;
+    readonly etag?: string;
     properties?: WebApplicationFirewallPolicyPropertiesFormatOutput;
 }
 
 // @public
 export interface WebApplicationFirewallPolicyPropertiesFormat {
-    applicationGateways?: Array<ApplicationGateway>;
     customRules?: Array<WebApplicationFirewallCustomRule>;
-    httpListeners?: Array<SubResource>;
     managedRules: ManagedRulesDefinition;
-    pathBasedRules?: Array<SubResource>;
     policySettings?: PolicySettings;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
 }
 
 // @public
 export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
-    applicationGateways?: Array<ApplicationGatewayOutput>;
+    readonly applicationGateways?: Array<ApplicationGatewayOutput>;
     customRules?: Array<WebApplicationFirewallCustomRuleOutput>;
-    httpListeners?: Array<SubResourceOutput>;
+    readonly httpListeners?: Array<SubResourceOutput>;
     managedRules: ManagedRulesDefinitionOutput;
-    pathBasedRules?: Array<SubResourceOutput>;
+    readonly pathBasedRules?: Array<SubResourceOutput>;
     policySettings?: PolicySettingsOutput;
-    provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
-    resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
+    readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+    readonly resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
 }
 
 // @public (undocumented)

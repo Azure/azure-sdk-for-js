@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { logErrorStackTrace, logger } from "../logger";
-import { ConnectionContext } from "../connectionContext";
+import { logErrorStackTrace, logger } from "../logger.js";
+import type { ConnectionContext } from "../connectionContext.js";
 import { isDefined } from "@azure/core-util";
-import { AmqpError, isAmqpError } from "rhea-promise";
-import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
+import type { AmqpError } from "rhea-promise";
+import { isAmqpError } from "rhea-promise";
+import type { MessagingError } from "@azure/core-amqp";
+import { isMessagingError, translate } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -34,11 +36,11 @@ export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   methodName: string,
   parameterName: string,
-  parameterValue: unknown
+  parameterValue: unknown,
 ): void {
   if (!isDefined(parameterValue)) {
     const error = new TypeError(
-      `${methodName} called without required argument "${parameterName}"`
+      `${methodName} called without required argument "${parameterName}"`,
     );
     logger.warning(`[${connectionId}] ${error.name}: ${error.message}`);
     logErrorStackTrace(error);
@@ -125,13 +127,13 @@ export function validateProducerPartitionSettings({
 }): void {
   if (enableIdempotentRetries && (isDefined(partitionKey) || !isDefined(partitionId))) {
     throw new Error(
-      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
     );
   }
 
   if (isDefined(partitionId) && isDefined(partitionKey)) {
     throw new Error(
-      `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
+      `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`,
     );
   }
 }

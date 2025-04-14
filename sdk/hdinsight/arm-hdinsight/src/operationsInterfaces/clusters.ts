@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListByResourceGroupOptionalParams,
@@ -37,8 +37,8 @@ import {
   UpdateClusterIdentityCertificateParameters,
   ClustersUpdateIdentityCertificateOptionalParams,
   ExecuteScriptActionParameters,
-  ClustersExecuteScriptActionsOptionalParams
-} from "../models";
+  ClustersExecuteScriptActionsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
@@ -50,14 +50,14 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists all the HDInsight clusters under the subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates a new HDInsight cluster with the specified parameters.
@@ -70,10 +70,10 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterCreateParametersExtended,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateResponse>,
       ClustersCreateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterCreateParametersExtended,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<ClustersCreateResponse>;
   /**
    * Patch HDInsight cluster with the specified parameters.
@@ -101,7 +101,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterPatchParameters,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Deletes the specified HDInsight cluster.
@@ -112,8 +112,8 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -123,7 +123,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified cluster.
@@ -134,7 +134,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Resizes the specified HDInsight cluster to the specified size.
@@ -149,8 +149,8 @@ export interface Clusters {
     clusterName: string,
     roleName: RoleName,
     parameters: ClusterResizeParameters,
-    options?: ClustersResizeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersResizeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resizes the specified HDInsight cluster to the specified size.
    * @param resourceGroupName The name of the resource group.
@@ -164,7 +164,7 @@ export interface Clusters {
     clusterName: string,
     roleName: RoleName,
     parameters: ClusterResizeParameters,
-    options?: ClustersResizeOptionalParams
+    options?: ClustersResizeOptionalParams,
   ): Promise<void>;
   /**
    * Updates the Autoscale Configuration for HDInsight cluster.
@@ -179,8 +179,8 @@ export interface Clusters {
     clusterName: string,
     roleName: RoleName,
     parameters: AutoscaleConfigurationUpdateParameter,
-    options?: ClustersUpdateAutoScaleConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersUpdateAutoScaleConfigurationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the Autoscale Configuration for HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -194,7 +194,7 @@ export interface Clusters {
     clusterName: string,
     roleName: RoleName,
     parameters: AutoscaleConfigurationUpdateParameter,
-    options?: ClustersUpdateAutoScaleConfigurationOptionalParams
+    options?: ClustersUpdateAutoScaleConfigurationOptionalParams,
   ): Promise<void>;
   /**
    * Rotate disk encryption key of the specified HDInsight cluster.
@@ -207,8 +207,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterDiskEncryptionParameters,
-    options?: ClustersRotateDiskEncryptionKeyOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersRotateDiskEncryptionKeyOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rotate disk encryption key of the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -220,7 +220,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterDiskEncryptionParameters,
-    options?: ClustersRotateDiskEncryptionKeyOptionalParams
+    options?: ClustersRotateDiskEncryptionKeyOptionalParams,
   ): Promise<void>;
   /**
    * Gets the gateway settings for the specified cluster.
@@ -231,7 +231,7 @@ export interface Clusters {
   getGatewaySettings(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetGatewaySettingsOptionalParams
+    options?: ClustersGetGatewaySettingsOptionalParams,
   ): Promise<ClustersGetGatewaySettingsResponse>;
   /**
    * Configures the gateway settings on the specified cluster.
@@ -244,8 +244,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: UpdateGatewaySettingsParameters,
-    options?: ClustersUpdateGatewaySettingsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersUpdateGatewaySettingsOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Configures the gateway settings on the specified cluster.
    * @param resourceGroupName The name of the resource group.
@@ -257,7 +257,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: UpdateGatewaySettingsParameters,
-    options?: ClustersUpdateGatewaySettingsOptionalParams
+    options?: ClustersUpdateGatewaySettingsOptionalParams,
   ): Promise<void>;
   /**
    * The the async operation status.
@@ -270,7 +270,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     operationId: string,
-    options?: ClustersGetAzureAsyncOperationStatusOptionalParams
+    options?: ClustersGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ClustersGetAzureAsyncOperationStatusResponse>;
   /**
    * Updates the cluster identity certificate.
@@ -283,8 +283,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: UpdateClusterIdentityCertificateParameters,
-    options?: ClustersUpdateIdentityCertificateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersUpdateIdentityCertificateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the cluster identity certificate.
    * @param resourceGroupName The name of the resource group.
@@ -296,7 +296,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: UpdateClusterIdentityCertificateParameters,
-    options?: ClustersUpdateIdentityCertificateOptionalParams
+    options?: ClustersUpdateIdentityCertificateOptionalParams,
   ): Promise<void>;
   /**
    * Executes script actions on the specified HDInsight cluster.
@@ -309,8 +309,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ExecuteScriptActionParameters,
-    options?: ClustersExecuteScriptActionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersExecuteScriptActionsOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
@@ -322,6 +322,6 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ExecuteScriptActionParameters,
-    options?: ClustersExecuteScriptActionsOptionalParams
+    options?: ClustersExecuteScriptActionsOptionalParams,
   ): Promise<void>;
 }

@@ -10,8 +10,8 @@ Container registry service methods throw [`RestError`] on failure.
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -71,16 +71,32 @@ message containing additional information and [Docker error code](https://docs.d
 In rare cases, transient error (such as connection reset) can happen during blob upload which may lead a `RestError` being thrown with a message similar to
 `{"errors":[{"code":"BLOB_UPLOAD_INVALID","message":"blob upload invalid"}]}`, resulting in a failed upload. In this case upload should to be restarted from the beginning.
 
-The following code snippet shows how to access detailed error information:   
-```ts
-const config = Buffer.from(`{"hello":"world"}`);
+The following code snippet shows how to access detailed error information:
 
+```ts snippet:SampleReadmeErrorHandling
+import { ContainerRegistryContentClient } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import { isRestError } from "@azure/core-rest-pipeline";
+
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
+
+const config = Buffer.from(`{"hello":"world"}`);
 try {
-  const uploadResult = await contentClient.uploadBlob(config);
+  const uploadResult = await client.uploadBlob(config);
   console.log(`Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`);
 } catch (e) {
   // isRestError is exported by @azure/core-rest-pipeline
-  if(isRestError(e) && e.statusCode === 404 && (e.details as any).errors.some((error: any) => error.code === "BLOB_UPLOAD_INVALID")) {
+  if (
+    isRestError(e) &&
+    e.statusCode === 404 &&
+    (e.details as any).errors.some((error: any) => error.code === "BLOB_UPLOAD_INVALID")
+  ) {
     // Retry upload
   } else {
     throw e;
@@ -92,11 +108,9 @@ try {
 
 [`resterror`]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts
 [azure logger client library]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger
-[logging reference]: https://docs.microsoft.com/javascript/api/overview/azure/logger-readme
-[anonymous pull access]: https://docs.microsoft.com/azure/container-registry/anonymous-pull-access
-[troubleshoot registry login]: https://docs.microsoft.com/azure/container-registry/container-registry-troubleshoot-login
+[logging reference]: https://learn.microsoft.com/javascript/api/overview/azure/logger-readme
+[anonymous pull access]: https://learn.microsoft.com/azure/container-registry/anonymous-pull-access
+[troubleshoot registry login]: https://learn.microsoft.com/azure/container-registry/container-registry-troubleshoot-login
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential
 [enable client logging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/TROUBLESHOOTING.md#enable-client-logging
-[troubleshoot network issues with registry]: https://docs.microsoft.com/azure/container-registry/container-registry-troubleshoot-access
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcontainerregistry%2Fcontainer-registry%TROUBLESHOOTING.png)
+[troubleshoot network issues with registry]: https://learn.microsoft.com/azure/container-registry/container-registry-troubleshoot-access

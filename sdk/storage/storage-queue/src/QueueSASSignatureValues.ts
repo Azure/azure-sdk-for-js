@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { QueueSASPermissions } from "./QueueSASPermissions";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "./utils/constants.js";
+import { truncatedISO8061Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -56,7 +57,7 @@ export interface QueueSASSignatureValues {
   /**
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 }
@@ -78,14 +79,22 @@ export interface QueueSASSignatureValues {
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
+  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
+}
+
+export function generateQueueSASQueryParametersInternal(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (
     !queueSASSignatureValues.identifier &&
     !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -97,7 +106,7 @@ export function generateQueueSASQueryParameters(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
     verifiedPermissions = QueueSASPermissions.parse(
-      queueSASSignatureValues.permissions.toString()
+      queueSASSignatureValues.permissions.toString(),
     ).toString();
   }
 
@@ -119,18 +128,21 @@ export function generateQueueSASQueryParameters(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    version,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    queueSASSignatureValues.protocol,
-    queueSASSignatureValues.startsOn,
-    queueSASSignatureValues.expiresOn,
-    queueSASSignatureValues.ipRange,
-    queueSASSignatureValues.identifier
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      queueSASSignatureValues.protocol,
+      queueSASSignatureValues.startsOn,
+      queueSASSignatureValues.expiresOn,
+      queueSASSignatureValues.ipRange,
+      queueSASSignatureValues.identifier,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, queueName: string): string {

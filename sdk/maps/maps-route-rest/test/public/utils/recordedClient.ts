@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-import "./env";
+// Licensed under the MIT License.
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import "./env.js";
 import { createClientLogger } from "@azure/logger";
-import { AzureKeyCredential } from "@azure/core-auth";
-import MapsRoute from "../../../src/mapsRoute";
-import { ClientOptions } from "@azure-rest/core-client";
-import { MapsRouteClient } from "../../../src/generated";
+import { createTestCredential } from "@azure-tools/test-credential";
+import MapsRoute from "../../../src/mapsRoute.js";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { MapsRouteClient } from "../../../src/generated/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  MAPS_CLIENT_ID: "azure_maps_client_id",
-  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
+  MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -27,8 +22,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -36,6 +31,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 export const testLogger = createClientLogger("route-test");
 
 export function createClient(options?: ClientOptions): MapsRouteClient {
-  const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
-  return MapsRoute(credential, options);
+  const credential = createTestCredential();
+  const client = MapsRoute(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
+  return client;
 }

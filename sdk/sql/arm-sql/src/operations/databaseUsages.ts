@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DatabaseUsages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DatabaseUsages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   DatabaseUsage,
   DatabaseUsagesListByDatabaseNextOptionalParams,
   DatabaseUsagesListByDatabaseOptionalParams,
   DatabaseUsagesListByDatabaseResponse,
-  DatabaseUsagesListByDatabaseNextResponse
-} from "../models";
+  DatabaseUsagesListByDatabaseNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseUsages operations. */
@@ -46,13 +46,13 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseUsagesListByDatabaseOptionalParams
+    options?: DatabaseUsagesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUsage> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
           serverName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     serverName: string,
     databaseName: string,
     options?: DatabaseUsagesListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseUsage[]> {
     let result: DatabaseUsagesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
         resourceGroupName,
         serverName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
         serverName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +116,13 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseUsagesListByDatabaseOptionalParams
+    options?: DatabaseUsagesListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DatabaseUsage> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseUsagesListByDatabaseOptionalParams
+    options?: DatabaseUsagesListByDatabaseOptionalParams,
   ): Promise<DatabaseUsagesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseUsagesListByDatabaseNextOptionalParams
+    options?: DatabaseUsagesListByDatabaseNextOptionalParams,
   ): Promise<DatabaseUsagesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -174,34 +174,33 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseUsageListResult
+      bodyMapper: Mappers.DatabaseUsageListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseUsageListResult
+      bodyMapper: Mappers.DatabaseUsageListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -209,8 +208,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

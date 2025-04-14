@@ -10,30 +10,30 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BmcKeySet,
-  BmcKeySetsListByResourceGroupOptionalParams,
+  BmcKeySetsListByClusterOptionalParams,
   BmcKeySetsGetOptionalParams,
   BmcKeySetsGetResponse,
   BmcKeySetsCreateOrUpdateOptionalParams,
   BmcKeySetsCreateOrUpdateResponse,
   BmcKeySetsDeleteOptionalParams,
+  BmcKeySetsDeleteResponse,
   BmcKeySetsUpdateOptionalParams,
-  BmcKeySetsUpdateResponse
-} from "../models";
+  BmcKeySetsUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BmcKeySets. */
 export interface BmcKeySets {
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<BmcKeySet>;
   /**
    * Get baseboard management controller key set of the provided cluster.
@@ -46,7 +46,7 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsGetOptionalParams
+    options?: BmcKeySetsGetOptionalParams,
   ): Promise<BmcKeySetsGetResponse>;
   /**
    * Create a new baseboard management controller key set or update the existing one for the provided
@@ -62,7 +62,7 @@ export interface BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<BmcKeySetsCreateOrUpdateResponse>;
   /**
    * Delete the baseboard management controller key set of the provided cluster.
@@ -96,8 +96,13 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BmcKeySetsDeleteResponse>,
+      BmcKeySetsDeleteResponse
+    >
+  >;
   /**
    * Delete the baseboard management controller key set of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,8 +114,8 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<void>;
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<BmcKeySetsDeleteResponse>;
   /**
    * Patch properties of baseboard management controller key set for the provided cluster, or update the
    * tags associated with it. Properties and tag updates can be done independently.
@@ -123,7 +128,7 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsUpdateResponse>,
@@ -142,6 +147,6 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<BmcKeySetsUpdateResponse>;
 }

@@ -12,7 +12,7 @@
 
 ## 6.2.0-beta.1 (2023-02-08)
     
-**Features**
+### Features Added
 
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias TlsVersion
@@ -25,7 +25,7 @@
     
 ## 6.1.0 (2022-12-09)
     
-**Features**
+### Features Added
 
   - Added Interface ArmDisasterRecovery
   - Added Interface MigrationConfigProperties
@@ -53,7 +53,7 @@
     
 ## 6.0.0 (2022-05-01)
     
-**Features**
+### Features Added
 
   - Added Interface ProxyResource
   - Interface Operation has a new optional parameter isDataAction
@@ -72,7 +72,7 @@
   - Type Alias SBNamespace has a new parameter alternateName
   - Type Alias SBNamespaceUpdateParameters has a new parameter alternateName
 
-**Breaking Changes**
+### Breaking Changes
 
   - Delete parameters of Resource in TypeAlias ArmDisasterRecovery
   - Delete parameters of Resource in TypeAlias MigrationConfigProperties
@@ -94,4 +94,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

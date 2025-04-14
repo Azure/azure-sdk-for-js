@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ContainerRequest } from "../client/Container/ContainerRequest";
+import type { ContainerRequest } from "../client/Container/ContainerRequest.js";
 
 export function validateOffer(body: ContainerRequest): void {
   if (body.throughput) {
@@ -11,7 +11,7 @@ export function validateOffer(body: ContainerRequest): void {
     }
     if (body.autoUpgradePolicy) {
       throw new Error(
-        "Cannot specify autoUpgradePolicy with throughput. Use `maxThroughput` instead"
+        "Cannot specify autoUpgradePolicy with throughput. Use `maxThroughput` instead",
       );
     }
   }

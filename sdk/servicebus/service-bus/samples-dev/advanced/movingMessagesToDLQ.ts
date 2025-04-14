@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
  * the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
- * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+ * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
  *
  * Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
  *
@@ -12,18 +12,19 @@
  * the DLQ
  * @azsdk-weight 50
  */
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
-const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
+const credential = new DefaultAzureCredential();
+const sbClient: ServiceBusClient = new ServiceBusClient(fqdn, credential);
 
-export async function main() {
+export async function main(): Promise<void> {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -34,7 +35,7 @@ export async function main() {
   }
 }
 
-async function sendMessage() {
+async function sendMessage(): Promise<void> {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
@@ -50,7 +51,7 @@ async function sendMessage() {
   await sender.close();
 }
 
-async function receiveMessage() {
+async function receiveMessage(): Promise<void> {
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   const receiver = sbClient.createReceiver(queueName);
 
@@ -59,7 +60,7 @@ async function receiveMessage() {
   if (messages.length) {
     console.log(
       ">>>>> Deadletter the one message received from the main queue - ",
-      messages[0].body
+      messages[0].body,
     );
     // Deadletter the message received
     await receiver.deadLetterMessage(messages[0], {

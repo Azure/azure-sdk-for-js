@@ -13,7 +13,7 @@ import {
   ReservationOrderAliasCreateResponse,
   ReservationOrderAliasGetOptionalParams,
   ReservationOrderAliasGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ReservationOrderAlias. */
 export interface ReservationOrderAlias {

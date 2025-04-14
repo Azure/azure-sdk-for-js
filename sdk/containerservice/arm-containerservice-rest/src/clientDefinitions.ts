@@ -1,674 +1,674 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  AgentPoolsCreateOrUpdateParameters,
-  AgentPoolsDeleteParameters,
-  AgentPoolsGetAvailableAgentPoolVersionsParameters,
-  AgentPoolsGetParameters,
-  AgentPoolsGetUpgradeProfileParameters,
-  AgentPoolsListParameters,
-  AgentPoolsUpgradeNodeImageVersionParameters,
-  MaintenanceConfigurationsCreateOrUpdateParameters,
-  MaintenanceConfigurationsDeleteParameters,
-  MaintenanceConfigurationsGetParameters,
-  MaintenanceConfigurationsListByManagedClusterParameters,
-  ManagedClusterSnapshotsCreateOrUpdateParameters,
-  ManagedClusterSnapshotsDeleteParameters,
-  ManagedClusterSnapshotsGetParameters,
-  ManagedClusterSnapshotsListByResourceGroupParameters,
-  ManagedClusterSnapshotsListParameters,
-  ManagedClusterSnapshotsUpdateTagsParameters,
-  ManagedClustersCreateOrUpdateParameters,
-  ManagedClustersDeleteParameters,
-  ManagedClustersGetAccessProfileParameters,
-  ManagedClustersGetCommandResultParameters,
+import type {
+  OperationsListParameters,
   ManagedClustersGetOSOptionsParameters,
-  ManagedClustersGetParameters,
-  ManagedClustersGetUpgradeProfileParameters,
-  ManagedClustersListByResourceGroupParameters,
-  ManagedClustersListClusterAdminCredentialsParameters,
-  ManagedClustersListClusterMonitoringUserCredentialsParameters,
-  ManagedClustersListClusterUserCredentialsParameters,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsParameters,
   ManagedClustersListParameters,
-  ManagedClustersResetAADProfileParameters,
+  ManagedClustersListByResourceGroupParameters,
+  ManagedClustersGetUpgradeProfileParameters,
+  ManagedClustersGetAccessProfileParameters,
+  ManagedClustersListClusterAdminCredentialsParameters,
+  ManagedClustersListClusterUserCredentialsParameters,
+  ManagedClustersListClusterMonitoringUserCredentialsParameters,
+  ManagedClustersGetParameters,
+  ManagedClustersCreateOrUpdateParameters,
+  ManagedClustersUpdateTagsParameters,
+  ManagedClustersDeleteParameters,
   ManagedClustersResetServicePrincipalProfileParameters,
+  ManagedClustersResetAADProfileParameters,
   ManagedClustersRotateClusterCertificatesParameters,
   ManagedClustersRotateServiceAccountSigningKeysParameters,
-  ManagedClustersRunCommandParameters,
-  ManagedClustersStartParameters,
   ManagedClustersStopParameters,
-  ManagedClustersUpdateTagsParameters,
-  OperationsListParameters,
-  PrivateEndpointConnectionsDeleteParameters,
-  PrivateEndpointConnectionsGetParameters,
+  ManagedClustersStartParameters,
+  ManagedClustersRunCommandParameters,
+  ManagedClustersGetCommandResultParameters,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsParameters,
+  MaintenanceConfigurationsListByManagedClusterParameters,
+  MaintenanceConfigurationsGetParameters,
+  MaintenanceConfigurationsCreateOrUpdateParameters,
+  MaintenanceConfigurationsDeleteParameters,
+  AgentPoolsListParameters,
+  AgentPoolsGetParameters,
+  AgentPoolsCreateOrUpdateParameters,
+  AgentPoolsDeleteParameters,
+  AgentPoolsGetUpgradeProfileParameters,
+  AgentPoolsGetAvailableAgentPoolVersionsParameters,
+  AgentPoolsUpgradeNodeImageVersionParameters,
   PrivateEndpointConnectionsListParameters,
+  PrivateEndpointConnectionsGetParameters,
   PrivateEndpointConnectionsUpdateParameters,
+  PrivateEndpointConnectionsDeleteParameters,
   PrivateLinkResourcesListParameters,
   ResolvePrivateLinkServiceIdPostParameters,
-  SnapshotsCreateOrUpdateParameters,
-  SnapshotsDeleteParameters,
-  SnapshotsGetParameters,
-  SnapshotsListByResourceGroupParameters,
   SnapshotsListParameters,
+  SnapshotsListByResourceGroupParameters,
+  SnapshotsGetParameters,
+  SnapshotsCreateOrUpdateParameters,
   SnapshotsUpdateTagsParameters,
+  SnapshotsDeleteParameters,
+  ManagedClusterSnapshotsListParameters,
+  ManagedClusterSnapshotsListByResourceGroupParameters,
+  ManagedClusterSnapshotsGetParameters,
+  ManagedClusterSnapshotsCreateOrUpdateParameters,
+  ManagedClusterSnapshotsUpdateTagsParameters,
+  ManagedClusterSnapshotsDeleteParameters,
+  TrustedAccessRolesListParameters,
+  TrustedAccessRoleBindingsListParameters,
+  TrustedAccessRoleBindingsGetParameters,
   TrustedAccessRoleBindingsCreateOrUpdateParameters,
   TrustedAccessRoleBindingsDeleteParameters,
-  TrustedAccessRoleBindingsGetParameters,
-  TrustedAccessRoleBindingsListParameters,
-  TrustedAccessRolesListParameters,
-} from "./parameters";
-import {
-  AgentPoolsCreateOrUpdate200Response,
-  AgentPoolsCreateOrUpdate201Response,
-  AgentPoolsCreateOrUpdatedefaultResponse,
-  AgentPoolsDelete202Response,
-  AgentPoolsDelete204Response,
-  AgentPoolsDeletedefaultResponse,
-  AgentPoolsGet200Response,
-  AgentPoolsGetAvailableAgentPoolVersions200Response,
-  AgentPoolsGetUpgradeProfile200Response,
-  AgentPoolsGetUpgradeProfiledefaultResponse,
-  AgentPoolsGetdefaultResponse,
-  AgentPoolsList200Response,
-  AgentPoolsListdefaultResponse,
-  AgentPoolsUpgradeNodeImageVersion200Response,
-  AgentPoolsUpgradeNodeImageVersion202Response,
-  AgentPoolsUpgradeNodeImageVersiondefaultResponse,
-  MaintenanceConfigurationsCreateOrUpdate200Response,
-  MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
-  MaintenanceConfigurationsDelete200Response,
-  MaintenanceConfigurationsDelete204Response,
-  MaintenanceConfigurationsDeletedefaultResponse,
-  MaintenanceConfigurationsGet200Response,
-  MaintenanceConfigurationsGetdefaultResponse,
-  MaintenanceConfigurationsListByManagedCluster200Response,
-  MaintenanceConfigurationsListByManagedClusterdefaultResponse,
-  ManagedClusterSnapshotsCreateOrUpdate200Response,
-  ManagedClusterSnapshotsCreateOrUpdate201Response,
-  ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
-  ManagedClusterSnapshotsDelete200Response,
-  ManagedClusterSnapshotsDelete204Response,
-  ManagedClusterSnapshotsDeletedefaultResponse,
-  ManagedClusterSnapshotsGet200Response,
-  ManagedClusterSnapshotsGetdefaultResponse,
-  ManagedClusterSnapshotsList200Response,
-  ManagedClusterSnapshotsListByResourceGroup200Response,
-  ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
-  ManagedClusterSnapshotsListdefaultResponse,
-  ManagedClusterSnapshotsUpdateTags200Response,
-  ManagedClusterSnapshotsUpdateTagsdefaultResponse,
+} from "./parameters.js";
+import type {
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  ManagedClustersGetOSOptions200Response,
+  ManagedClustersGetOSOptionsDefaultResponse,
+  ManagedClustersList200Response,
+  ManagedClustersListDefaultResponse,
+  ManagedClustersListByResourceGroup200Response,
+  ManagedClustersListByResourceGroupDefaultResponse,
+  ManagedClustersGetUpgradeProfile200Response,
+  ManagedClustersGetUpgradeProfileDefaultResponse,
+  ManagedClustersGetAccessProfile200Response,
+  ManagedClustersGetAccessProfileDefaultResponse,
+  ManagedClustersListClusterAdminCredentials200Response,
+  ManagedClustersListClusterAdminCredentialsDefaultResponse,
+  ManagedClustersListClusterUserCredentials200Response,
+  ManagedClustersListClusterUserCredentialsDefaultResponse,
+  ManagedClustersListClusterMonitoringUserCredentials200Response,
+  ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse,
+  ManagedClustersGet200Response,
+  ManagedClustersGetDefaultResponse,
   ManagedClustersCreateOrUpdate200Response,
   ManagedClustersCreateOrUpdate201Response,
-  ManagedClustersCreateOrUpdatedefaultResponse,
+  ManagedClustersCreateOrUpdateDefaultResponse,
+  ManagedClustersUpdateTags200Response,
+  ManagedClustersUpdateTagsDefaultResponse,
   ManagedClustersDelete202Response,
   ManagedClustersDelete204Response,
-  ManagedClustersDeletedefaultResponse,
-  ManagedClustersGet200Response,
-  ManagedClustersGetAccessProfile200Response,
-  ManagedClustersGetAccessProfiledefaultResponse,
-  ManagedClustersGetCommandResult200Response,
-  ManagedClustersGetCommandResult202Response,
-  ManagedClustersGetCommandResultdefaultResponse,
-  ManagedClustersGetOSOptions200Response,
-  ManagedClustersGetOSOptionsdefaultResponse,
-  ManagedClustersGetUpgradeProfile200Response,
-  ManagedClustersGetUpgradeProfiledefaultResponse,
-  ManagedClustersGetdefaultResponse,
-  ManagedClustersList200Response,
-  ManagedClustersListByResourceGroup200Response,
-  ManagedClustersListByResourceGroupdefaultResponse,
-  ManagedClustersListClusterAdminCredentials200Response,
-  ManagedClustersListClusterAdminCredentialsdefaultResponse,
-  ManagedClustersListClusterMonitoringUserCredentials200Response,
-  ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
-  ManagedClustersListClusterUserCredentials200Response,
-  ManagedClustersListClusterUserCredentialsdefaultResponse,
-  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
-  ManagedClustersListdefaultResponse,
-  ManagedClustersResetAADProfile200Response,
-  ManagedClustersResetAADProfile202Response,
-  ManagedClustersResetAADProfiledefaultResponse,
+  ManagedClustersDeleteDefaultResponse,
   ManagedClustersResetServicePrincipalProfile200Response,
   ManagedClustersResetServicePrincipalProfile202Response,
-  ManagedClustersResetServicePrincipalProfiledefaultResponse,
+  ManagedClustersResetServicePrincipalProfileDefaultResponse,
+  ManagedClustersResetAADProfile200Response,
+  ManagedClustersResetAADProfile202Response,
+  ManagedClustersResetAADProfileDefaultResponse,
   ManagedClustersRotateClusterCertificates202Response,
   ManagedClustersRotateClusterCertificates204Response,
-  ManagedClustersRotateClusterCertificatesdefaultResponse,
+  ManagedClustersRotateClusterCertificatesDefaultResponse,
   ManagedClustersRotateServiceAccountSigningKeys202Response,
   ManagedClustersRotateServiceAccountSigningKeys204Response,
-  ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
-  ManagedClustersRunCommand200Response,
-  ManagedClustersRunCommand202Response,
-  ManagedClustersRunCommanddefaultResponse,
-  ManagedClustersStart202Response,
-  ManagedClustersStart204Response,
-  ManagedClustersStartdefaultResponse,
+  ManagedClustersRotateServiceAccountSigningKeysDefaultResponse,
   ManagedClustersStop202Response,
   ManagedClustersStop204Response,
-  ManagedClustersStopdefaultResponse,
-  ManagedClustersUpdateTags200Response,
-  ManagedClustersUpdateTagsdefaultResponse,
-  OperationsList200Response,
-  OperationsListdefaultResponse,
+  ManagedClustersStopDefaultResponse,
+  ManagedClustersStart202Response,
+  ManagedClustersStart204Response,
+  ManagedClustersStartDefaultResponse,
+  ManagedClustersRunCommand200Response,
+  ManagedClustersRunCommand202Response,
+  ManagedClustersRunCommandDefaultResponse,
+  ManagedClustersGetCommandResult200Response,
+  ManagedClustersGetCommandResult202Response,
+  ManagedClustersGetCommandResultDefaultResponse,
+  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse,
+  MaintenanceConfigurationsListByManagedCluster200Response,
+  MaintenanceConfigurationsListByManagedClusterDefaultResponse,
+  MaintenanceConfigurationsGet200Response,
+  MaintenanceConfigurationsGetDefaultResponse,
+  MaintenanceConfigurationsCreateOrUpdate200Response,
+  MaintenanceConfigurationsCreateOrUpdateDefaultResponse,
+  MaintenanceConfigurationsDelete200Response,
+  MaintenanceConfigurationsDelete204Response,
+  MaintenanceConfigurationsDeleteDefaultResponse,
+  AgentPoolsList200Response,
+  AgentPoolsListDefaultResponse,
+  AgentPoolsGet200Response,
+  AgentPoolsGetDefaultResponse,
+  AgentPoolsCreateOrUpdate200Response,
+  AgentPoolsCreateOrUpdate201Response,
+  AgentPoolsCreateOrUpdateDefaultResponse,
+  AgentPoolsDelete202Response,
+  AgentPoolsDelete204Response,
+  AgentPoolsDeleteDefaultResponse,
+  AgentPoolsGetUpgradeProfile200Response,
+  AgentPoolsGetUpgradeProfileDefaultResponse,
+  AgentPoolsGetAvailableAgentPoolVersions200Response,
+  AgentPoolsUpgradeNodeImageVersion200Response,
+  AgentPoolsUpgradeNodeImageVersion202Response,
+  AgentPoolsUpgradeNodeImageVersionDefaultResponse,
+  PrivateEndpointConnectionsList200Response,
+  PrivateEndpointConnectionsListDefaultResponse,
+  PrivateEndpointConnectionsGet200Response,
+  PrivateEndpointConnectionsGetDefaultResponse,
+  PrivateEndpointConnectionsUpdate200Response,
+  PrivateEndpointConnectionsUpdateDefaultResponse,
   PrivateEndpointConnectionsDelete200Response,
   PrivateEndpointConnectionsDelete204Response,
-  PrivateEndpointConnectionsDeletedefaultResponse,
-  PrivateEndpointConnectionsGet200Response,
-  PrivateEndpointConnectionsGetdefaultResponse,
-  PrivateEndpointConnectionsList200Response,
-  PrivateEndpointConnectionsListdefaultResponse,
-  PrivateEndpointConnectionsUpdate200Response,
-  PrivateEndpointConnectionsUpdatedefaultResponse,
+  PrivateEndpointConnectionsDeleteDefaultResponse,
   PrivateLinkResourcesList200Response,
-  PrivateLinkResourcesListdefaultResponse,
+  PrivateLinkResourcesListDefaultResponse,
   ResolvePrivateLinkServiceIdPost200Response,
-  ResolvePrivateLinkServiceIdPostdefaultResponse,
+  ResolvePrivateLinkServiceIdPostDefaultResponse,
+  SnapshotsList200Response,
+  SnapshotsListDefaultResponse,
+  SnapshotsListByResourceGroup200Response,
+  SnapshotsListByResourceGroupDefaultResponse,
+  SnapshotsGet200Response,
+  SnapshotsGetDefaultResponse,
   SnapshotsCreateOrUpdate200Response,
   SnapshotsCreateOrUpdate201Response,
-  SnapshotsCreateOrUpdatedefaultResponse,
+  SnapshotsCreateOrUpdateDefaultResponse,
+  SnapshotsUpdateTags200Response,
+  SnapshotsUpdateTagsDefaultResponse,
   SnapshotsDelete200Response,
   SnapshotsDelete204Response,
-  SnapshotsDeletedefaultResponse,
-  SnapshotsGet200Response,
-  SnapshotsGetdefaultResponse,
-  SnapshotsList200Response,
-  SnapshotsListByResourceGroup200Response,
-  SnapshotsListByResourceGroupdefaultResponse,
-  SnapshotsListdefaultResponse,
-  SnapshotsUpdateTags200Response,
-  SnapshotsUpdateTagsdefaultResponse,
+  SnapshotsDeleteDefaultResponse,
+  ManagedClusterSnapshotsList200Response,
+  ManagedClusterSnapshotsListDefaultResponse,
+  ManagedClusterSnapshotsListByResourceGroup200Response,
+  ManagedClusterSnapshotsListByResourceGroupDefaultResponse,
+  ManagedClusterSnapshotsGet200Response,
+  ManagedClusterSnapshotsGetDefaultResponse,
+  ManagedClusterSnapshotsCreateOrUpdate200Response,
+  ManagedClusterSnapshotsCreateOrUpdate201Response,
+  ManagedClusterSnapshotsCreateOrUpdateDefaultResponse,
+  ManagedClusterSnapshotsUpdateTags200Response,
+  ManagedClusterSnapshotsUpdateTagsDefaultResponse,
+  ManagedClusterSnapshotsDelete200Response,
+  ManagedClusterSnapshotsDelete204Response,
+  ManagedClusterSnapshotsDeleteDefaultResponse,
+  TrustedAccessRolesList200Response,
+  TrustedAccessRolesListDefaultResponse,
+  TrustedAccessRoleBindingsList200Response,
+  TrustedAccessRoleBindingsListDefaultResponse,
+  TrustedAccessRoleBindingsGet200Response,
+  TrustedAccessRoleBindingsGetDefaultResponse,
   TrustedAccessRoleBindingsCreateOrUpdate200Response,
-  TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
+  TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse,
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
-  TrustedAccessRoleBindingsDeletedefaultResponse,
-  TrustedAccessRoleBindingsGet200Response,
-  TrustedAccessRoleBindingsGetdefaultResponse,
-  TrustedAccessRoleBindingsList200Response,
-  TrustedAccessRoleBindingsListdefaultResponse,
-  TrustedAccessRolesList200Response,
-  TrustedAccessRolesListdefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+  TrustedAccessRoleBindingsDeleteDefaultResponse,
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface OperationsList {
   /** Gets a list of operations. */
   get(
-    options?: OperationsListParameters
-  ): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
+    options?: OperationsListParameters,
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface ManagedClustersGetOSOptions {
   /** Gets supported OS options in the specified subscription. */
   get(
-    options?: ManagedClustersGetOSOptionsParameters
+    options?: ManagedClustersGetOSOptionsParameters,
   ): StreamableMethod<
-    ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse
+    ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse
   >;
 }
 
 export interface ManagedClustersList {
   /** Gets a list of managed clusters in the specified subscription. */
   get(
-    options?: ManagedClustersListParameters
-  ): StreamableMethod<ManagedClustersList200Response | ManagedClustersListdefaultResponse>;
+    options?: ManagedClustersListParameters,
+  ): StreamableMethod<ManagedClustersList200Response | ManagedClustersListDefaultResponse>;
 }
 
 export interface ManagedClustersListByResourceGroup {
   /** Lists managed clusters in the specified subscription and resource group. */
   get(
-    options?: ManagedClustersListByResourceGroupParameters
+    options?: ManagedClustersListByResourceGroupParameters,
   ): StreamableMethod<
     | ManagedClustersListByResourceGroup200Response
-    | ManagedClustersListByResourceGroupdefaultResponse
+    | ManagedClustersListByResourceGroupDefaultResponse
   >;
 }
 
 export interface ManagedClustersGetUpgradeProfile {
   /** Gets the upgrade profile of a managed cluster. */
   get(
-    options?: ManagedClustersGetUpgradeProfileParameters
+    options?: ManagedClustersGetUpgradeProfileParameters,
   ): StreamableMethod<
-    ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfiledefaultResponse
+    ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfileDefaultResponse
   >;
 }
 
 export interface ManagedClustersGetAccessProfile {
   /** **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) . */
   post(
-    options?: ManagedClustersGetAccessProfileParameters
+    options?: ManagedClustersGetAccessProfileParameters,
   ): StreamableMethod<
-    ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfiledefaultResponse
+    ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfileDefaultResponse
   >;
 }
 
 export interface ManagedClustersListClusterAdminCredentials {
   /** Lists the admin credentials of a managed cluster. */
   post(
-    options?: ManagedClustersListClusterAdminCredentialsParameters
+    options?: ManagedClustersListClusterAdminCredentialsParameters,
   ): StreamableMethod<
     | ManagedClustersListClusterAdminCredentials200Response
-    | ManagedClustersListClusterAdminCredentialsdefaultResponse
+    | ManagedClustersListClusterAdminCredentialsDefaultResponse
   >;
 }
 
 export interface ManagedClustersListClusterUserCredentials {
   /** Lists the user credentials of a managed cluster. */
   post(
-    options?: ManagedClustersListClusterUserCredentialsParameters
+    options?: ManagedClustersListClusterUserCredentialsParameters,
   ): StreamableMethod<
     | ManagedClustersListClusterUserCredentials200Response
-    | ManagedClustersListClusterUserCredentialsdefaultResponse
+    | ManagedClustersListClusterUserCredentialsDefaultResponse
   >;
 }
 
 export interface ManagedClustersListClusterMonitoringUserCredentials {
   /** Lists the cluster monitoring user credentials of a managed cluster. */
   post(
-    options?: ManagedClustersListClusterMonitoringUserCredentialsParameters
+    options?: ManagedClustersListClusterMonitoringUserCredentialsParameters,
   ): StreamableMethod<
     | ManagedClustersListClusterMonitoringUserCredentials200Response
-    | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse
+    | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse
   >;
 }
 
 export interface ManagedClustersGet {
   /** Gets a managed cluster. */
   get(
-    options?: ManagedClustersGetParameters
-  ): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetdefaultResponse>;
+    options?: ManagedClustersGetParameters,
+  ): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetDefaultResponse>;
   /** Creates or updates a managed cluster. */
   put(
-    options: ManagedClustersCreateOrUpdateParameters
+    options: ManagedClustersCreateOrUpdateParameters,
   ): StreamableMethod<
     | ManagedClustersCreateOrUpdate200Response
     | ManagedClustersCreateOrUpdate201Response
-    | ManagedClustersCreateOrUpdatedefaultResponse
+    | ManagedClustersCreateOrUpdateDefaultResponse
   >;
   /** Updates tags on a managed cluster. */
   patch(
-    options: ManagedClustersUpdateTagsParameters
+    options: ManagedClustersUpdateTagsParameters,
   ): StreamableMethod<
-    ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse
+    ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse
   >;
   /** Deletes a managed cluster. */
   delete(
-    options?: ManagedClustersDeleteParameters
+    options?: ManagedClustersDeleteParameters,
   ): StreamableMethod<
     | ManagedClustersDelete202Response
     | ManagedClustersDelete204Response
-    | ManagedClustersDeletedefaultResponse
+    | ManagedClustersDeleteDefaultResponse
   >;
 }
 
 export interface ManagedClustersResetServicePrincipalProfile {
   /** This action cannot be performed on a cluster that is not using a service principal */
   post(
-    options: ManagedClustersResetServicePrincipalProfileParameters
+    options: ManagedClustersResetServicePrincipalProfileParameters,
   ): StreamableMethod<
     | ManagedClustersResetServicePrincipalProfile200Response
     | ManagedClustersResetServicePrincipalProfile202Response
-    | ManagedClustersResetServicePrincipalProfiledefaultResponse
+    | ManagedClustersResetServicePrincipalProfileDefaultResponse
   >;
 }
 
 export interface ManagedClustersResetAADProfile {
   /** Reset the AAD Profile of a managed cluster. */
   post(
-    options: ManagedClustersResetAADProfileParameters
+    options: ManagedClustersResetAADProfileParameters,
   ): StreamableMethod<
     | ManagedClustersResetAADProfile200Response
     | ManagedClustersResetAADProfile202Response
-    | ManagedClustersResetAADProfiledefaultResponse
+    | ManagedClustersResetAADProfileDefaultResponse
   >;
 }
 
 export interface ManagedClustersRotateClusterCertificates {
   /** See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates. */
   post(
-    options?: ManagedClustersRotateClusterCertificatesParameters
+    options?: ManagedClustersRotateClusterCertificatesParameters,
   ): StreamableMethod<
     | ManagedClustersRotateClusterCertificates202Response
     | ManagedClustersRotateClusterCertificates204Response
-    | ManagedClustersRotateClusterCertificatesdefaultResponse
+    | ManagedClustersRotateClusterCertificatesDefaultResponse
   >;
 }
 
 export interface ManagedClustersRotateServiceAccountSigningKeys {
   /** Rotates the service account signing keys of a managed cluster. */
   post(
-    options?: ManagedClustersRotateServiceAccountSigningKeysParameters
+    options?: ManagedClustersRotateServiceAccountSigningKeysParameters,
   ): StreamableMethod<
     | ManagedClustersRotateServiceAccountSigningKeys202Response
     | ManagedClustersRotateServiceAccountSigningKeys204Response
-    | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse
+    | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse
   >;
 }
 
 export interface ManagedClustersStop {
   /** This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A cluster does not accrue charges while it is stopped. See [stopping a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a cluster. */
   post(
-    options?: ManagedClustersStopParameters
+    options?: ManagedClustersStopParameters,
   ): StreamableMethod<
     | ManagedClustersStop202Response
     | ManagedClustersStop204Response
-    | ManagedClustersStopdefaultResponse
+    | ManagedClustersStopDefaultResponse
   >;
 }
 
 export interface ManagedClustersStart {
   /** See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster. */
   post(
-    options?: ManagedClustersStartParameters
+    options?: ManagedClustersStartParameters,
   ): StreamableMethod<
     | ManagedClustersStart202Response
     | ManagedClustersStart204Response
-    | ManagedClustersStartdefaultResponse
+    | ManagedClustersStartDefaultResponse
   >;
 }
 
 export interface ManagedClustersRunCommand {
   /** AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview). */
   post(
-    options: ManagedClustersRunCommandParameters
+    options: ManagedClustersRunCommandParameters,
   ): StreamableMethod<
     | ManagedClustersRunCommand200Response
     | ManagedClustersRunCommand202Response
-    | ManagedClustersRunCommanddefaultResponse
+    | ManagedClustersRunCommandDefaultResponse
   >;
 }
 
 export interface ManagedClustersGetCommandResult {
   /** Gets the results of a command which has been run on the Managed Cluster. */
   get(
-    options?: ManagedClustersGetCommandResultParameters
+    options?: ManagedClustersGetCommandResultParameters,
   ): StreamableMethod<
     | ManagedClustersGetCommandResult200Response
     | ManagedClustersGetCommandResult202Response
-    | ManagedClustersGetCommandResultdefaultResponse
+    | ManagedClustersGetCommandResultDefaultResponse
   >;
 }
 
 export interface ManagedClustersListOutboundNetworkDependenciesEndpoints {
   /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint. */
   get(
-    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsParameters
+    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsParameters,
   ): StreamableMethod<
     | ManagedClustersListOutboundNetworkDependenciesEndpoints200Response
-    | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse
+    | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse
   >;
 }
 
 export interface MaintenanceConfigurationsListByManagedCluster {
   /** Gets a list of maintenance configurations in the specified managed cluster. */
   get(
-    options?: MaintenanceConfigurationsListByManagedClusterParameters
+    options?: MaintenanceConfigurationsListByManagedClusterParameters,
   ): StreamableMethod<
     | MaintenanceConfigurationsListByManagedCluster200Response
-    | MaintenanceConfigurationsListByManagedClusterdefaultResponse
+    | MaintenanceConfigurationsListByManagedClusterDefaultResponse
   >;
 }
 
 export interface MaintenanceConfigurationsGet {
   /** Gets the specified maintenance configuration of a managed cluster. */
   get(
-    options?: MaintenanceConfigurationsGetParameters
+    options?: MaintenanceConfigurationsGetParameters,
   ): StreamableMethod<
-    MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse
+    MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse
   >;
   /** Creates or updates a maintenance configuration in the specified managed cluster. */
   put(
-    options: MaintenanceConfigurationsCreateOrUpdateParameters
+    options: MaintenanceConfigurationsCreateOrUpdateParameters,
   ): StreamableMethod<
     | MaintenanceConfigurationsCreateOrUpdate200Response
-    | MaintenanceConfigurationsCreateOrUpdatedefaultResponse
+    | MaintenanceConfigurationsCreateOrUpdateDefaultResponse
   >;
   /** Deletes a maintenance configuration. */
   delete(
-    options?: MaintenanceConfigurationsDeleteParameters
+    options?: MaintenanceConfigurationsDeleteParameters,
   ): StreamableMethod<
     | MaintenanceConfigurationsDelete200Response
     | MaintenanceConfigurationsDelete204Response
-    | MaintenanceConfigurationsDeletedefaultResponse
+    | MaintenanceConfigurationsDeleteDefaultResponse
   >;
 }
 
 export interface AgentPoolsList {
   /** Gets a list of agent pools in the specified managed cluster. */
   get(
-    options?: AgentPoolsListParameters
-  ): StreamableMethod<AgentPoolsList200Response | AgentPoolsListdefaultResponse>;
+    options?: AgentPoolsListParameters,
+  ): StreamableMethod<AgentPoolsList200Response | AgentPoolsListDefaultResponse>;
 }
 
 export interface AgentPoolsGet {
   /** Gets the specified managed cluster agent pool. */
   get(
-    options?: AgentPoolsGetParameters
-  ): StreamableMethod<AgentPoolsGet200Response | AgentPoolsGetdefaultResponse>;
+    options?: AgentPoolsGetParameters,
+  ): StreamableMethod<AgentPoolsGet200Response | AgentPoolsGetDefaultResponse>;
   /** Creates or updates an agent pool in the specified managed cluster. */
   put(
-    options: AgentPoolsCreateOrUpdateParameters
+    options: AgentPoolsCreateOrUpdateParameters,
   ): StreamableMethod<
     | AgentPoolsCreateOrUpdate200Response
     | AgentPoolsCreateOrUpdate201Response
-    | AgentPoolsCreateOrUpdatedefaultResponse
+    | AgentPoolsCreateOrUpdateDefaultResponse
   >;
   /** Deletes an agent pool in the specified managed cluster. */
   delete(
-    options?: AgentPoolsDeleteParameters
+    options?: AgentPoolsDeleteParameters,
   ): StreamableMethod<
-    AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeletedefaultResponse
+    AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeleteDefaultResponse
   >;
 }
 
 export interface AgentPoolsGetUpgradeProfile {
   /** Gets the upgrade profile for an agent pool. */
   get(
-    options?: AgentPoolsGetUpgradeProfileParameters
+    options?: AgentPoolsGetUpgradeProfileParameters,
   ): StreamableMethod<
-    AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse
+    AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse
   >;
 }
 
 export interface AgentPoolsGetAvailableAgentPoolVersions {
   /** See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle. */
   get(
-    options?: AgentPoolsGetAvailableAgentPoolVersionsParameters
+    options?: AgentPoolsGetAvailableAgentPoolVersionsParameters,
   ): StreamableMethod<AgentPoolsGetAvailableAgentPoolVersions200Response>;
 }
 
 export interface AgentPoolsUpgradeNodeImageVersion {
   /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
   post(
-    options?: AgentPoolsUpgradeNodeImageVersionParameters
+    options?: AgentPoolsUpgradeNodeImageVersionParameters,
   ): StreamableMethod<
     | AgentPoolsUpgradeNodeImageVersion200Response
     | AgentPoolsUpgradeNodeImageVersion202Response
-    | AgentPoolsUpgradeNodeImageVersiondefaultResponse
+    | AgentPoolsUpgradeNodeImageVersionDefaultResponse
   >;
 }
 
 export interface PrivateEndpointConnectionsList {
   /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
   get(
-    options?: PrivateEndpointConnectionsListParameters
+    options?: PrivateEndpointConnectionsListParameters,
   ): StreamableMethod<
-    PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListdefaultResponse
+    PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListDefaultResponse
   >;
 }
 
 export interface PrivateEndpointConnectionsGet {
   /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
   get(
-    options?: PrivateEndpointConnectionsGetParameters
+    options?: PrivateEndpointConnectionsGetParameters,
   ): StreamableMethod<
-    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse
+    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
   >;
   /** Updates a private endpoint connection. */
   put(
-    options: PrivateEndpointConnectionsUpdateParameters
+    options: PrivateEndpointConnectionsUpdateParameters,
   ): StreamableMethod<
-    PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdatedefaultResponse
+    PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdateDefaultResponse
   >;
   /** Deletes a private endpoint connection. */
   delete(
-    options?: PrivateEndpointConnectionsDeleteParameters
+    options?: PrivateEndpointConnectionsDeleteParameters,
   ): StreamableMethod<
     | PrivateEndpointConnectionsDelete200Response
     | PrivateEndpointConnectionsDelete204Response
-    | PrivateEndpointConnectionsDeletedefaultResponse
+    | PrivateEndpointConnectionsDeleteDefaultResponse
   >;
 }
 
 export interface PrivateLinkResourcesList {
   /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
   get(
-    options?: PrivateLinkResourcesListParameters
+    options?: PrivateLinkResourcesListParameters,
   ): StreamableMethod<
-    PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse
+    PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse
   >;
 }
 
 export interface ResolvePrivateLinkServiceIdPost {
   /** Gets the private link service ID for the specified managed cluster. */
   post(
-    options: ResolvePrivateLinkServiceIdPostParameters
+    options: ResolvePrivateLinkServiceIdPostParameters,
   ): StreamableMethod<
-    ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostdefaultResponse
+    ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostDefaultResponse
   >;
 }
 
 export interface SnapshotsList {
   /** Gets a list of snapshots in the specified subscription. */
   get(
-    options?: SnapshotsListParameters
-  ): StreamableMethod<SnapshotsList200Response | SnapshotsListdefaultResponse>;
+    options?: SnapshotsListParameters,
+  ): StreamableMethod<SnapshotsList200Response | SnapshotsListDefaultResponse>;
 }
 
 export interface SnapshotsListByResourceGroup {
   /** Lists snapshots in the specified subscription and resource group. */
   get(
-    options?: SnapshotsListByResourceGroupParameters
+    options?: SnapshotsListByResourceGroupParameters,
   ): StreamableMethod<
-    SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse
+    SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse
   >;
 }
 
 export interface SnapshotsGet {
   /** Gets a snapshot. */
   get(
-    options?: SnapshotsGetParameters
-  ): StreamableMethod<SnapshotsGet200Response | SnapshotsGetdefaultResponse>;
+    options?: SnapshotsGetParameters,
+  ): StreamableMethod<SnapshotsGet200Response | SnapshotsGetDefaultResponse>;
   /** Creates or updates a snapshot. */
   put(
-    options: SnapshotsCreateOrUpdateParameters
+    options: SnapshotsCreateOrUpdateParameters,
   ): StreamableMethod<
     | SnapshotsCreateOrUpdate200Response
     | SnapshotsCreateOrUpdate201Response
-    | SnapshotsCreateOrUpdatedefaultResponse
+    | SnapshotsCreateOrUpdateDefaultResponse
   >;
   /** Updates tags on a snapshot. */
   patch(
-    options: SnapshotsUpdateTagsParameters
-  ): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse>;
+    options: SnapshotsUpdateTagsParameters,
+  ): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse>;
   /** Deletes a snapshot. */
   delete(
-    options?: SnapshotsDeleteParameters
+    options?: SnapshotsDeleteParameters,
   ): StreamableMethod<
-    SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse
+    SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeleteDefaultResponse
   >;
 }
 
 export interface ManagedClusterSnapshotsList {
   /** Gets a list of managed cluster snapshots in the specified subscription. */
   get(
-    options?: ManagedClusterSnapshotsListParameters
+    options?: ManagedClusterSnapshotsListParameters,
   ): StreamableMethod<
-    ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse
+    ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse
   >;
 }
 
 export interface ManagedClusterSnapshotsListByResourceGroup {
   /** Lists managed cluster snapshots in the specified subscription and resource group. */
   get(
-    options?: ManagedClusterSnapshotsListByResourceGroupParameters
+    options?: ManagedClusterSnapshotsListByResourceGroupParameters,
   ): StreamableMethod<
     | ManagedClusterSnapshotsListByResourceGroup200Response
-    | ManagedClusterSnapshotsListByResourceGroupdefaultResponse
+    | ManagedClusterSnapshotsListByResourceGroupDefaultResponse
   >;
 }
 
 export interface ManagedClusterSnapshotsGet {
   /** Gets a managed cluster snapshot. */
   get(
-    options?: ManagedClusterSnapshotsGetParameters
+    options?: ManagedClusterSnapshotsGetParameters,
   ): StreamableMethod<
-    ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse
+    ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse
   >;
   /** Creates or updates a managed cluster snapshot. */
   put(
-    options: ManagedClusterSnapshotsCreateOrUpdateParameters
+    options: ManagedClusterSnapshotsCreateOrUpdateParameters,
   ): StreamableMethod<
     | ManagedClusterSnapshotsCreateOrUpdate200Response
     | ManagedClusterSnapshotsCreateOrUpdate201Response
-    | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse
+    | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse
   >;
   /** Updates tags on a managed cluster snapshot. */
   patch(
-    options: ManagedClusterSnapshotsUpdateTagsParameters
+    options: ManagedClusterSnapshotsUpdateTagsParameters,
   ): StreamableMethod<
-    ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsdefaultResponse
+    ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsDefaultResponse
   >;
   /** Deletes a managed cluster snapshot. */
   delete(
-    options?: ManagedClusterSnapshotsDeleteParameters
+    options?: ManagedClusterSnapshotsDeleteParameters,
   ): StreamableMethod<
     | ManagedClusterSnapshotsDelete200Response
     | ManagedClusterSnapshotsDelete204Response
-    | ManagedClusterSnapshotsDeletedefaultResponse
+    | ManagedClusterSnapshotsDeleteDefaultResponse
   >;
 }
 
 export interface TrustedAccessRolesList {
   /** List supported trusted access roles. */
   get(
-    options?: TrustedAccessRolesListParameters
-  ): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse>;
+    options?: TrustedAccessRolesListParameters,
+  ): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse>;
 }
 
 export interface TrustedAccessRoleBindingsList {
   /** List trusted access role bindings. */
   get(
-    options?: TrustedAccessRoleBindingsListParameters
+    options?: TrustedAccessRoleBindingsListParameters,
   ): StreamableMethod<
-    TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse
+    TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse
   >;
 }
 
 export interface TrustedAccessRoleBindingsGet {
   /** Get a trusted access role binding. */
   get(
-    options?: TrustedAccessRoleBindingsGetParameters
+    options?: TrustedAccessRoleBindingsGetParameters,
   ): StreamableMethod<
-    TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse
+    TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse
   >;
   /** Create or update a trusted access role binding */
   put(
-    options: TrustedAccessRoleBindingsCreateOrUpdateParameters
+    options: TrustedAccessRoleBindingsCreateOrUpdateParameters,
   ): StreamableMethod<
     | TrustedAccessRoleBindingsCreateOrUpdate200Response
-    | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
+    | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse
   >;
   /** Delete a trusted access role binding. */
   delete(
-    options?: TrustedAccessRoleBindingsDeleteParameters
+    options?: TrustedAccessRoleBindingsDeleteParameters,
   ): StreamableMethod<
     | TrustedAccessRoleBindingsDelete200Response
     | TrustedAccessRoleBindingsDelete204Response
-    | TrustedAccessRoleBindingsDeletedefaultResponse
+    | TrustedAccessRoleBindingsDeleteDefaultResponse
   >;
 }
 
@@ -679,25 +679,25 @@ export interface Routes {
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/osOptions/default",
     subscriptionId: string,
-    location: string
+    location: string,
   ): ManagedClustersGetOSOptions;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.ContainerService/managedClusters' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-    subscriptionId: string
+    subscriptionId: string,
   ): ManagedClustersList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): ManagedClustersListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/upgradeProfiles/default' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersGetUpgradeProfile;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/accessProfiles/\{roleName\}/listCredential' has methods for the following verbs: post */
   (
@@ -705,84 +705,84 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    roleName: string
+    roleName: string,
   ): ManagedClustersGetAccessProfile;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/listClusterAdminCredential' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersListClusterAdminCredentials;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/listClusterUserCredential' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersListClusterUserCredentials;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/listClusterMonitoringUserCredential' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersListClusterMonitoringUserCredentials;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}' has methods for the following verbs: get, put, patch, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/resetServicePrincipalProfile' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersResetServicePrincipalProfile;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/resetAADProfile' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersResetAADProfile;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/rotateClusterCertificates' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersRotateClusterCertificates;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/rotateServiceAccountSigningKeys' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersRotateServiceAccountSigningKeys;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/stop' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersStop;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/start' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersStart;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/runCommand' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersRunCommand;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/commandResults/\{commandId\}' has methods for the following verbs: get */
   (
@@ -790,21 +790,21 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    commandId: string
+    commandId: string,
   ): ManagedClustersGetCommandResult;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/outboundNetworkDependenciesEndpoints' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClustersListOutboundNetworkDependenciesEndpoints;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/maintenanceConfigurations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): MaintenanceConfigurationsListByManagedCluster;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/maintenanceConfigurations/\{configName\}' has methods for the following verbs: get, put, delete */
   (
@@ -812,14 +812,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    configName: string
+    configName: string,
   ): MaintenanceConfigurationsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/agentPools' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): AgentPoolsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/agentPools/\{agentPoolName\}' has methods for the following verbs: get, put, delete */
   (
@@ -827,7 +827,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string
+    agentPoolName: string,
   ): AgentPoolsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/agentPools/\{agentPoolName\}/upgradeProfiles/default' has methods for the following verbs: get */
   (
@@ -835,14 +835,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string
+    agentPoolName: string,
   ): AgentPoolsGetUpgradeProfile;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/availableAgentPoolVersions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): AgentPoolsGetAvailableAgentPoolVersions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/agentPools/\{agentPoolName\}/upgradeNodeImageVersion' has methods for the following verbs: post */
   (
@@ -850,14 +850,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    agentPoolName: string
+    agentPoolName: string,
   ): AgentPoolsUpgradeNodeImageVersion;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/privateEndpointConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): PrivateEndpointConnectionsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -865,70 +865,70 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    privateEndpointConnectionName: string
+    privateEndpointConnectionName: string,
   ): PrivateEndpointConnectionsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/privateLinkResources' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateLinkResources",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): PrivateLinkResourcesList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/resolvePrivateLinkServiceId' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ResolvePrivateLinkServiceIdPost;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.ContainerService/snapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots",
-    subscriptionId: string
+    subscriptionId: string,
   ): SnapshotsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/snapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): SnapshotsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/snapshots/\{resourceName\}' has methods for the following verbs: get, put, patch, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): SnapshotsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.ContainerService/managedclustersnapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedclustersnapshots",
-    subscriptionId: string
+    subscriptionId: string,
   ): ManagedClusterSnapshotsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedclustersnapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): ManagedClusterSnapshotsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedclustersnapshots/\{resourceName\}' has methods for the following verbs: get, put, patch, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclustersnapshots/{resourceName}",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): ManagedClusterSnapshotsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.ContainerService/locations/\{location\}/trustedAccessRoles' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
     subscriptionId: string,
-    location: string
+    location: string,
   ): TrustedAccessRolesList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/trustedAccessRoleBindings' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
     subscriptionId: string,
     resourceGroupName: string,
-    resourceName: string
+    resourceName: string,
   ): TrustedAccessRoleBindingsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.ContainerService/managedClusters/\{resourceName\}/trustedAccessRoleBindings/\{trustedAccessRoleBindingName\}' has methods for the following verbs: get, put, delete */
   (
@@ -936,7 +936,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     resourceName: string,
-    trustedAccessRoleBindingName: string
+    trustedAccessRoleBindingName: string,
   ): TrustedAccessRoleBindingsGet;
 }
 

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WorkspaceConnections } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WorkspaceConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListNextOptionalParams,
@@ -23,19 +23,21 @@ import {
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
   WorkspaceConnectionsDeleteOptionalParams,
-  WorkspaceConnectionsListNextResponse
-} from "../models";
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse,
+  WorkspaceConnectionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceConnections operations. */
 export class WorkspaceConnectionsImpl implements WorkspaceConnections {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class WorkspaceConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -47,7 +49,7 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
+    options?: WorkspaceConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -65,9 +67,9 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +77,7 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource[]> {
     let result: WorkspaceConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +93,7 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,12 +105,12 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
+    options?: WorkspaceConnectionsListOptionalParams,
   ): AsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +128,11 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
     workspaceName: string,
     connectionName: string,
     parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
+    options?: WorkspaceConnectionsCreateOptionalParams,
   ): Promise<WorkspaceConnectionsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, connectionName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -144,11 +146,11 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
+    options?: WorkspaceConnectionsGetOptionalParams,
   ): Promise<WorkspaceConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, connectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,11 +164,11 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
+    options?: WorkspaceConnectionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, connectionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -178,11 +180,30 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
+    options?: WorkspaceConnectionsListOptionalParams,
   ): Promise<WorkspaceConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * List all the secrets of a machine learning workspaces connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams,
+  ): Promise<WorkspaceConnectionsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      listSecretsOperationSpec,
     );
   }
 
@@ -197,11 +218,11 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceConnectionsListNextOptionalParams
+    options?: WorkspaceConnectionsListNextOptionalParams,
   ): Promise<WorkspaceConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -209,16 +230,15 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -227,23 +247,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -251,21 +270,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -273,37 +291,58 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+        Mappers.WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.target,
-    Parameters.category
+    Parameters.category,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -311,24 +350,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper:
-        Mappers.WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+        Mappers.WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.target,
-    Parameters.category
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

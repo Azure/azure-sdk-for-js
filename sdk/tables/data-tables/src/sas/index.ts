@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export { generateAccountSas, AccountSasOptions } from "./generateAccountSas";
-export { generateTableSas } from "./generateTableSas";
-export { TableSasSignatureValues } from "./tableSasSignatureValues";
-export { SasIPRange } from "./sasIPRange";
-export { TableSasPermissions } from "./tableSasPermisions";
-export { AccountSasPermissions } from "./accountSasPermissions";
-export { SasProtocol } from "./sasQueryParameters";
-export { AccountSasServices } from "./accountSasServices";
+export { generateAccountSas, AccountSasOptions } from "./generateAccountSas.js";
+export { generateTableSas } from "./generateTableSas.js";
+export { TableSasSignatureValues } from "./tableSasSignatureValues.js";
+export { SasIPRange } from "./sasIPRange.js";
+export { TableSasPermissions } from "./tableSasPermisions.js";
+export { AccountSasPermissions } from "./accountSasPermissions.js";
+export { SasProtocol } from "./sasQueryParameters.js";
+export { AccountSasServices } from "./accountSasServices.js";

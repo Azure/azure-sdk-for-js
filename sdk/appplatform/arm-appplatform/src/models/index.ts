@@ -37,6 +37,7 @@ export type AcceleratorAuthSettingUnion =
 export type UploadedUserSourceInfoUnion =
   | UploadedUserSourceInfo
   | JarUploadedUserSourceInfo
+  | WarUploadedUserSourceInfo
   | SourceUploadedUserSourceInfo
   | NetCoreZipUploadedUserSourceInfo;
 
@@ -57,14 +58,10 @@ export interface ClusterResourceProperties {
    */
   readonly version?: number;
   /**
-   * ServiceInstanceEntity GUID which uniquely identifies a created resource
+   * ServiceInstanceEntity Id which uniquely identifies a created resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceId?: string;
-  /** The resource Id of the Managed Environment that the Spring Apps instance builds on */
-  managedEnvironmentId?: string;
-  /** The name of the resource group that contains the infrastructure resources */
-  infraResourceGroup?: string;
   /**
    * Power state of the Service
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -258,6 +255,67 @@ export interface RegenerateTestKeyRequestPayload {
   keyType: TestKeyType;
 }
 
+/** Supported APM types payload */
+export interface SupportedApmTypes {
+  /** Collection of the supported APM type */
+  value?: SupportedApmType[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Supported APM type */
+export interface SupportedApmType {
+  /** The name of the supported APM type */
+  name?: string;
+}
+
+/** Globally enabled APMs payload */
+export interface GloballyEnabledApms {
+  /** Collection of the globally enabled APMs */
+  value?: string[];
+}
+
+/** A reference to the APM */
+export interface ApmReference {
+  /** Resource Id of the APM */
+  resourceId: string;
+}
+
+/** Object that includes an array of APM resources and a possible link for next set */
+export interface ApmResourceCollection {
+  /** Collection of APM resources */
+  value?: ApmResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Properties of an APM */
+export interface ApmProperties {
+  /** APM Type */
+  type: string;
+  /**
+   * State of the APM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ApmProvisioningState;
+  /** Non-sensitive properties for the APM */
+  properties?: { [propertyName: string]: string };
+  /** Sensitive properties for the APM */
+  secrets?: { [propertyName: string]: string };
+}
+
+/** Keys of APM sensitive properties */
+export interface ApmSecretKeys {
+  /** Collection of the keys for the APM sensitive properties */
+  value?: string[];
+}
+
 /** Config server git properties payload */
 export interface ConfigServerProperties {
   /**
@@ -360,6 +418,8 @@ export interface ConfigurationServiceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ConfigurationServiceProvisioningState;
+  /** The generation of the Application Configuration Service. */
+  generation?: ConfigurationServiceGeneration;
   /**
    * The requested resource quantity for required CPU and Memory.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -443,6 +503,10 @@ export interface ConfigurationServiceGitRepository {
   privateKey?: string;
   /** Strict host key checking or not. */
   strictHostKeyChecking?: boolean;
+  /** Git libraries used to support various repository providers */
+  gitImplementation?: GitImplementation;
+  /** Resource Id of CA certificate for https URL of Git repository. */
+  caCertResourceId?: string;
 }
 
 /** Object that includes an array of configuration service resources and a possible link for next set */
@@ -637,15 +701,10 @@ export interface DevToolPortalProperties {
    */
   readonly provisioningState?: DevToolPortalProvisioningState;
   /**
-   * The requested resource quantity for required CPU and Memory.
+   * Collection of components belong to Dev Tool Portal.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceRequests?: DevToolPortalResourceRequests;
-  /**
-   * Collection of instances belong to Dev Tool Portal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instances?: DevToolPortalInstance[];
+  readonly components?: DevToolPortalComponent[];
   /** Indicates whether the resource exposes public endpoint */
   public?: boolean;
   /**
@@ -657,6 +716,21 @@ export interface DevToolPortalProperties {
   ssoProperties?: DevToolPortalSsoProperties;
   /** Settings for Dev Tool Portal */
   features?: DevToolPortalFeatureSettings;
+}
+
+export interface DevToolPortalComponent {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: DevToolPortalResourceRequests;
+  /**
+   * Collection of instances belong to Dev Tool Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: DevToolPortalInstance[];
 }
 
 /** The resource quantity for required CPU and Memory of Dev Tool Portal */
@@ -748,6 +822,14 @@ export interface ContainerRegistryCredentials {
   type: "BasicAuth";
 }
 
+/** Validation result for container registry properties */
+export interface ContainerRegistryValidateResult {
+  /** Indicate if the container registry properties are valid */
+  isValid?: boolean;
+  /** Detailed validation messages. */
+  message?: string;
+}
+
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
@@ -817,6 +899,10 @@ export interface BuildProperties {
   readonly provisioningState?: BuildProvisioningState;
   /** The environment variables for this build */
   env?: { [propertyName: string]: string };
+  /** The APMs for this build */
+  apms?: ApmReference[];
+  /** The CA Certificates for this build */
+  certificates?: CertificateReference[];
   /**
    *  The build result triggered by this build
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -826,10 +912,29 @@ export interface BuildProperties {
   resourceRequests?: BuildResourceRequests;
 }
 
+/** A reference to the certificate */
+export interface CertificateReference {
+  /** Resource Id of the certificate */
+  resourceId: string;
+}
+
 /** The build result triggered by a build */
 export interface TriggeredBuildResult {
   /** The unique build id of this build result */
   id?: string;
+  /**
+   * The provisioning state of this build result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TriggeredBuildResultProvisioningState;
+  /** The container image of this build result */
+  image?: string;
+  /** The last transition time of this build result */
+  lastTransitionTime?: Date;
+  /** The last transition reason of this build result */
+  lastTransitionReason?: string;
+  /** The last transition status of this build result */
+  lastTransitionStatus?: string;
 }
 
 /** Resource request payload of Build Resource. */
@@ -1137,8 +1242,6 @@ export interface AppResourceProperties {
   vnetAddons?: AppVNetAddons;
   /** App ingress settings payload. */
   ingressSettings?: IngressSettings;
-  /** Collection of auth secrets */
-  secrets?: Secret[];
 }
 
 /** Temporary disk payload */
@@ -1223,14 +1326,6 @@ export interface IngressSettings {
 export interface IngressSettingsClientAuth {
   /** Collection of certificate resource id. */
   certificates?: string[];
-}
-
-/** Secret definition. */
-export interface Secret {
-  /** Secret Name. */
-  name?: string;
-  /** Secret Value. */
-  value?: string;
 }
 
 /** Managed identity properties retrieved from ARM request headers. */
@@ -1481,6 +1576,7 @@ export interface UserSourceInfo {
   type:
     | "UploadedUserSourceInfo"
     | "Jar"
+    | "War"
     | "Source"
     | "NetCoreZip"
     | "BuildResult"
@@ -1495,6 +1591,8 @@ export interface DeploymentSettings {
   resourceRequests?: ResourceRequests;
   /** Collection of environment variables */
   environmentVariables?: { [propertyName: string]: string };
+  /** Collection of ApmReferences */
+  apms?: ApmReference[];
   /** Collection of addons */
   addonConfigs?: { [propertyName: string]: Record<string, unknown> };
   /** Periodic probe of App Instance liveness. App Instance will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
@@ -1505,8 +1603,6 @@ export interface DeploymentSettings {
   startupProbe?: Probe;
   /** Optional duration in seconds the App Instance needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the App Instance are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 90 seconds. */
   terminationGracePeriodSeconds?: number;
-  /** Scaling properties for the Azure Spring Apps App Instance. */
-  scale?: Scale;
   /** Container liveness and readiness probe settings */
   containerProbeSettings?: ContainerProbeSettings;
 }
@@ -1541,77 +1637,6 @@ export interface Probe {
 export interface ProbeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HTTPGetAction" | "ExecAction" | "TCPSocketAction";
-}
-
-/** Azure Spring Apps scaling configurations. */
-export interface Scale {
-  /** Optional. Minimum number of container replicas. */
-  minReplicas?: number;
-  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
-  maxReplicas?: number;
-  /** Scaling rules. */
-  rules?: ScaleRule[];
-}
-
-/** Azure Spring Apps App Instance scaling rule. */
-export interface ScaleRule {
-  /** Scale Rule Name */
-  name?: string;
-  /** Azure Queue based scaling. */
-  azureQueue?: QueueScaleRule;
-  /** Custom scale rule. */
-  custom?: CustomScaleRule;
-  /** HTTP requests based scaling. */
-  http?: HttpScaleRule;
-  /** Tcp requests based scaling. */
-  tcp?: TcpScaleRule;
-}
-
-/** Azure Spring Apps App Instance Azure Queue based scaling rule. */
-export interface QueueScaleRule {
-  /** Queue name. */
-  queueName?: string;
-  /** Queue length. */
-  queueLength?: number;
-  /** Authentication secrets for the queue scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Auth Secrets for Azure Spring Apps App Instance Scale Rule */
-export interface ScaleRuleAuth {
-  /** Name of the Azure Spring Apps App Instance secret from which to pull the auth params. */
-  secretRef?: string;
-  /** Trigger Parameter that uses the secret */
-  triggerParameter?: string;
-}
-
-/** Azure Spring Apps App Instance Custom scaling rule. */
-export interface CustomScaleRule {
-  /**
-   * Type of the custom scale rule
-   * eg: azure-servicebus, redis etc.
-   */
-  type?: string;
-  /** Metadata properties to describe custom scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Azure Spring Apps App Instance Http scaling rule. */
-export interface HttpScaleRule {
-  /** Metadata properties to describe http scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Azure Spring Apps App Instance Tcp scaling rule. */
-export interface TcpScaleRule {
-  /** Metadata properties to describe tcp scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the tcp scale rule. */
-  auth?: ScaleRuleAuth[];
 }
 
 /** Container liveness and readiness probe settings */
@@ -1930,6 +1955,27 @@ export interface ResourceSkuRestrictionInfo {
   zones?: string[];
 }
 
+/** Supported server versions. */
+export interface SupportedServerVersions {
+  /** Collection of the supported server versions. */
+  value?: SupportedServerVersion[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Supported server version. */
+export interface SupportedServerVersion {
+  /** The raw server version value which could be passed to deployment CRUD operations. */
+  value?: string;
+  /** The server name. */
+  server?: string;
+  /** The Server version. */
+  version?: string;
+}
+
 /** Spring Cloud Gateway properties payload */
 export interface GatewayProperties {
   /**
@@ -1954,8 +2000,8 @@ export interface GatewayProperties {
   corsProperties?: GatewayCorsProperties;
   /** Client-Certification Authentication. */
   clientAuth?: GatewayPropertiesClientAuth;
-  /** Collection of APM type used in Spring Cloud Gateway */
-  apmTypes?: ApmType[];
+  /** Collection of ApmReferences in service level */
+  apms?: ApmReference[];
   /** Environment variables of Spring Cloud Gateway */
   environmentVariables?: GatewayPropertiesEnvironmentVariables;
   /** The requested resource quantity for required CPU and Memory. */
@@ -2002,6 +2048,8 @@ export interface GatewayApiMetadataProperties {
 export interface GatewayCorsProperties {
   /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
   allowedOrigins?: string[];
+  /** Allowed origin patterns to make cross-site requests. */
+  allowedOriginPatterns?: string[];
   /** Allowed HTTP methods on cross-site requests. The special value `*` allows all methods. If not set, `GET` and `HEAD` are allowed by default. */
   allowedMethods?: string[];
   /** Allowed headers in cross-site requests. The special value `*` allows actual requests to send any header. */
@@ -2083,12 +2131,6 @@ export interface GatewayOperatorResourceRequests {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceCount?: number;
-}
-
-/** Resource Sku object used for scaling out and scaling in. */
-export interface SkuObject {
-  /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
 }
 
 /** Object that includes an array of gateway resources and a possible link for next set */
@@ -2213,6 +2255,8 @@ export interface ApiPortalProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instances?: ApiPortalInstance[];
+  /** Indicates whether the API try-out feature is enabled or disabled. When enabled, users can try out the API by sending requests and viewing responses in API portal. When disabled, users cannot try out the API. */
+  apiTryOutEnabledState?: ApiPortalApiTryOutEnabledState;
 }
 
 /** Resource requests of the API portal */
@@ -2347,10 +2391,17 @@ export interface CustomizedAcceleratorProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: CustomizedAcceleratorProvisioningState;
+  /** Type of the customized accelerator. */
+  acceleratorType?: CustomizedAcceleratorType;
   displayName?: string;
   description?: string;
   iconUrl?: string;
   acceleratorTags?: string[];
+  /**
+   * Imports references all imports that this accelerator/fragment depends upon.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly imports?: string[];
   gitRepository: AcceleratorGitRepository;
 }
 
@@ -2367,6 +2418,8 @@ export interface AcceleratorGitRepository {
   gitTag?: string;
   /** Properties of the auth setting payload. */
   authSetting: AcceleratorAuthSettingUnion;
+  /** Folder path inside the git repository to consider as the root of the accelerator or fragment. */
+  subPath?: string;
 }
 
 /** Auth setting payload. */
@@ -2419,7 +2472,7 @@ export interface CustomContainer {
   args?: string[];
   /** Credential of the image registry */
   imageRegistryCredential?: ImageRegistryCredential;
-  /** Language framework of the container image uploaded */
+  /** Language framework of the container image uploaded. Supported values: "springboot", "", null. */
   languageFramework?: string;
 }
 
@@ -2429,6 +2482,12 @@ export interface ImageRegistryCredential {
   username?: string;
   /** The password of the image registry credential */
   password?: string;
+}
+
+/** Resource Sku object used for scaling out and scaling in. */
+export interface SkuObject {
+  /** Sku of the Spring Cloud Gateway resource */
+  sku?: Sku;
 }
 
 /** The resource model definition for a ARM tracked top level resource. */
@@ -2485,6 +2544,8 @@ export interface KeyVaultCertificateProperties extends CertificateProperties {
   certVersion?: string;
   /** Optional. If set to true, it will not import private key from key vault. */
   excludePrivateKey?: boolean;
+  /** Indicates whether to automatically synchronize certificate from key vault or not. */
+  autoSync?: KeyVaultCertificateAutoSync;
 }
 
 /** Properties of certificate imported from key vault. */
@@ -2498,7 +2559,7 @@ export interface ContentCertificateProperties extends CertificateProperties {
 /** Source with uploaded location */
 export interface UploadedUserSourceInfo extends UserSourceInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip";
+  type: "UploadedUserSourceInfo" | "Jar" | "War" | "Source" | "NetCoreZip";
   /** Relative path of the storage which stores the source */
   relativePath?: string;
 }
@@ -2587,6 +2648,12 @@ export interface ServiceResource extends TrackedResource {
   properties?: ClusterResourceProperties;
   /** Sku of the Service resource */
   sku?: Sku;
+}
+
+/** APM Resource object */
+export interface ApmResource extends ProxyResource {
+  /** Properties of an APM */
+  properties?: ApmProperties;
 }
 
 /** Config Server resource */
@@ -2789,6 +2856,18 @@ export interface JarUploadedUserSourceInfo extends UploadedUserSourceInfo {
   jvmOptions?: string;
 }
 
+/** Uploaded War binary for a deployment */
+export interface WarUploadedUserSourceInfo extends UploadedUserSourceInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "War";
+  /** Runtime version of the war file */
+  runtimeVersion?: string;
+  /** JVM parameter */
+  jvmOptions?: string;
+  /** Server version, currently only Apache Tomcat is supported */
+  serverVersion?: string;
+}
+
 /** Uploaded Java source code binary for a deployment */
 export interface SourceUploadedUserSourceInfo extends UploadedUserSourceInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2813,18 +2892,83 @@ export interface NetCoreZipUploadedUserSourceInfo
   runtimeVersion?: string;
 }
 
+/** Defines headers for Services_flushVnetDnsSetting operation. */
+export interface ServicesFlushVnetDnsSettingHeaders {
+  location?: string;
+}
+
+/** Defines headers for Services_enableApmGlobally operation. */
+export interface ServicesEnableApmGloballyHeaders {
+  location?: string;
+}
+
+/** Defines headers for Services_disableApmGlobally operation. */
+export interface ServicesDisableApmGloballyHeaders {
+  location?: string;
+}
+
+/** Defines headers for Apms_delete operation. */
+export interface ApmsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for ConfigurationServices_validateResource operation. */
+export interface ConfigurationServicesValidateResourceHeaders {
+  location?: string;
+}
+
+/** Defines headers for ApplicationLiveViews_delete operation. */
+export interface ApplicationLiveViewsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for DevToolPortals_delete operation. */
+export interface DevToolPortalsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for ContainerRegistries_delete operation. */
+export interface ContainerRegistriesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for ContainerRegistries_validate operation. */
+export interface ContainerRegistriesValidateHeaders {
+  location?: string;
+}
+
 /** Defines headers for BuildService_deleteBuild operation. */
 export interface BuildServiceDeleteBuildHeaders {
   location?: string;
 }
 
-/** Defines headers for Gateways_updateCapacity operation. */
-export interface GatewaysUpdateCapacityHeaders {
+/** Defines headers for Gateways_restart operation. */
+export interface GatewaysRestartHeaders {
   location?: string;
 }
 
-/** Defines headers for Gateways_restart operation. */
-export interface GatewaysRestartHeaders {
+/** Defines headers for ApplicationAccelerators_delete operation. */
+export interface ApplicationAcceleratorsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for CustomizedAccelerators_delete operation. */
+export interface CustomizedAcceleratorsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for CustomizedAccelerators_validate operation. */
+export interface CustomizedAcceleratorsValidateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PredefinedAccelerators_disable operation. */
+export interface PredefinedAcceleratorsDisableHeaders {
+  location?: string;
+}
+
+/** Defines headers for PredefinedAccelerators_enable operation. */
+export interface PredefinedAcceleratorsEnableHeaders {
   location?: string;
 }
 
@@ -2975,6 +3119,36 @@ export enum KnownTestKeyType {
  */
 export type TestKeyType = string;
 
+/** Known values of {@link ApmProvisioningState} that the service accepts. */
+export enum KnownApmProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ApmProvisioningState. \
+ * {@link KnownApmProvisioningState} can be used interchangeably with ApmProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ApmProvisioningState = string;
+
 /** Known values of {@link ConfigServerState} that the service accepts. */
 export enum KnownConfigServerState {
   /** NotAvailable */
@@ -3028,6 +3202,42 @@ export enum KnownConfigurationServiceProvisioningState {
  * **Deleting**
  */
 export type ConfigurationServiceProvisioningState = string;
+
+/** Known values of {@link ConfigurationServiceGeneration} that the service accepts. */
+export enum KnownConfigurationServiceGeneration {
+  /** Gen1 */
+  Gen1 = "Gen1",
+  /** Gen2 */
+  Gen2 = "Gen2"
+}
+
+/**
+ * Defines values for ConfigurationServiceGeneration. \
+ * {@link KnownConfigurationServiceGeneration} can be used interchangeably with ConfigurationServiceGeneration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Gen1** \
+ * **Gen2**
+ */
+export type ConfigurationServiceGeneration = string;
+
+/** Known values of {@link GitImplementation} that the service accepts. */
+export enum KnownGitImplementation {
+  /** GoGit */
+  GoGit = "go-git",
+  /** Libgit2 */
+  Libgit2 = "libgit2"
+}
+
+/**
+ * Defines values for GitImplementation. \
+ * {@link KnownGitImplementation} can be used interchangeably with GitImplementation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **go-git** \
+ * **libgit2**
+ */
+export type GitImplementation = string;
 
 /** Known values of {@link ServiceRegistryProvisioningState} that the service accepts. */
 export enum KnownServiceRegistryProvisioningState {
@@ -3144,6 +3354,8 @@ export enum KnownContainerRegistryProvisioningState {
   Succeeded = "Succeeded",
   /** Failed */
   Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
   /** Canceled */
   Canceled = "Canceled"
 }
@@ -3157,6 +3369,7 @@ export enum KnownContainerRegistryProvisioningState {
  * **Updating** \
  * **Succeeded** \
  * **Failed** \
+ * **Deleting** \
  * **Canceled**
  */
 export type ContainerRegistryProvisioningState = string;
@@ -3215,6 +3428,36 @@ export enum KnownBuildProvisioningState {
  */
 export type BuildProvisioningState = string;
 
+/** Known values of {@link TriggeredBuildResultProvisioningState} that the service accepts. */
+export enum KnownTriggeredBuildResultProvisioningState {
+  /** Queuing */
+  Queuing = "Queuing",
+  /** Building */
+  Building = "Building",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for TriggeredBuildResultProvisioningState. \
+ * {@link KnownTriggeredBuildResultProvisioningState} can be used interchangeably with TriggeredBuildResultProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Queuing** \
+ * **Building** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type TriggeredBuildResultProvisioningState = string;
+
 /** Known values of {@link BindingType} that the service accepts. */
 export enum KnownBindingType {
   /** ApplicationInsights */
@@ -3228,9 +3471,7 @@ export enum KnownBindingType {
   /** NewRelic */
   NewRelic = "NewRelic",
   /** ElasticAPM */
-  ElasticAPM = "ElasticAPM",
-  /** CACertificates */
-  CACertificates = "CACertificates"
+  ElasticAPM = "ElasticAPM"
 }
 
 /**
@@ -3243,8 +3484,7 @@ export enum KnownBindingType {
  * **AppDynamics** \
  * **Dynatrace** \
  * **NewRelic** \
- * **ElasticAPM** \
- * **CACertificates**
+ * **ElasticAPM**
  */
 export type BindingType = string;
 
@@ -3770,33 +4010,6 @@ export enum KnownGatewayCertificateVerification {
  */
 export type GatewayCertificateVerification = string;
 
-/** Known values of {@link ApmType} that the service accepts. */
-export enum KnownApmType {
-  /** ApplicationInsights */
-  ApplicationInsights = "ApplicationInsights",
-  /** AppDynamics */
-  AppDynamics = "AppDynamics",
-  /** Dynatrace */
-  Dynatrace = "Dynatrace",
-  /** NewRelic */
-  NewRelic = "NewRelic",
-  /** ElasticAPM */
-  ElasticAPM = "ElasticAPM"
-}
-
-/**
- * Defines values for ApmType. \
- * {@link KnownApmType} can be used interchangeably with ApmType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ApplicationInsights** \
- * **AppDynamics** \
- * **Dynatrace** \
- * **NewRelic** \
- * **ElasticAPM**
- */
-export type ApmType = string;
-
 /** Known values of {@link GatewayRouteConfigProtocol} that the service accepts. */
 export enum KnownGatewayRouteConfigProtocol {
   /** Http */
@@ -3842,6 +4055,24 @@ export enum KnownApiPortalProvisioningState {
  */
 export type ApiPortalProvisioningState = string;
 
+/** Known values of {@link ApiPortalApiTryOutEnabledState} that the service accepts. */
+export enum KnownApiPortalApiTryOutEnabledState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ApiPortalApiTryOutEnabledState. \
+ * {@link KnownApiPortalApiTryOutEnabledState} can be used interchangeably with ApiPortalApiTryOutEnabledState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ApiPortalApiTryOutEnabledState = string;
+
 /** Known values of {@link ApplicationAcceleratorProvisioningState} that the service accepts. */
 export enum KnownApplicationAcceleratorProvisioningState {
   /** Creating */
@@ -3853,7 +4084,9 @@ export enum KnownApplicationAcceleratorProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -3865,7 +4098,8 @@ export enum KnownApplicationAcceleratorProvisioningState {
  * **Updating** \
  * **Succeeded** \
  * **Failed** \
- * **Deleting**
+ * **Deleting** \
+ * **Canceled**
  */
 export type ApplicationAcceleratorProvisioningState = string;
 
@@ -3880,7 +4114,9 @@ export enum KnownCustomizedAcceleratorProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -3892,9 +4128,28 @@ export enum KnownCustomizedAcceleratorProvisioningState {
  * **Updating** \
  * **Succeeded** \
  * **Failed** \
- * **Deleting**
+ * **Deleting** \
+ * **Canceled**
  */
 export type CustomizedAcceleratorProvisioningState = string;
+
+/** Known values of {@link CustomizedAcceleratorType} that the service accepts. */
+export enum KnownCustomizedAcceleratorType {
+  /** Accelerator */
+  Accelerator = "Accelerator",
+  /** Fragment */
+  Fragment = "Fragment"
+}
+
+/**
+ * Defines values for CustomizedAcceleratorType. \
+ * {@link KnownCustomizedAcceleratorType} can be used interchangeably with CustomizedAcceleratorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accelerator** \
+ * **Fragment**
+ */
+export type CustomizedAcceleratorType = string;
 
 /** Known values of {@link CustomizedAcceleratorValidateResultState} that the service accepts. */
 export enum KnownCustomizedAcceleratorValidateResultState {
@@ -3923,7 +4178,9 @@ export enum KnownPredefinedAcceleratorProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
@@ -3934,7 +4191,8 @@ export enum KnownPredefinedAcceleratorProvisioningState {
  * **Creating** \
  * **Updating** \
  * **Succeeded** \
- * **Failed**
+ * **Failed** \
+ * **Canceled**
  */
 export type PredefinedAcceleratorProvisioningState = string;
 
@@ -3955,6 +4213,24 @@ export enum KnownPredefinedAcceleratorState {
  * **Disabled**: Disable the predefined accelerator.
  */
 export type PredefinedAcceleratorState = string;
+
+/** Known values of {@link KeyVaultCertificateAutoSync} that the service accepts. */
+export enum KnownKeyVaultCertificateAutoSync {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for KeyVaultCertificateAutoSync. \
+ * {@link KnownKeyVaultCertificateAutoSync} can be used interchangeably with KeyVaultCertificateAutoSync,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type KeyVaultCertificateAutoSync = string;
 
 /** Known values of {@link HttpSchemeType} that the service accepts. */
 export enum KnownHttpSchemeType {
@@ -4058,6 +4334,50 @@ export interface ServicesStartOptionalParams
 }
 
 /** Optional parameters. */
+export interface ServicesFlushVnetDnsSettingOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the flushVnetDnsSetting operation. */
+export type ServicesFlushVnetDnsSettingResponse = ServicesFlushVnetDnsSettingHeaders;
+
+/** Optional parameters. */
+export interface ServicesListSupportedApmTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedApmTypes operation. */
+export type ServicesListSupportedApmTypesResponse = SupportedApmTypes;
+
+/** Optional parameters. */
+export interface ServicesListGloballyEnabledApmsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listGloballyEnabledApms operation. */
+export type ServicesListGloballyEnabledApmsResponse = GloballyEnabledApms;
+
+/** Optional parameters. */
+export interface ServicesEnableApmGloballyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServicesDisableApmGloballyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4079,6 +4399,20 @@ export interface ServicesListOptionalParams
 export type ServicesListResponse = ServiceResourceList;
 
 /** Optional parameters. */
+export interface ServicesListSupportedServerVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedServerVersions operation. */
+export type ServicesListSupportedServerVersionsResponse = SupportedServerVersions;
+
+/** Optional parameters. */
+export interface ServicesListSupportedApmTypesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedApmTypesNext operation. */
+export type ServicesListSupportedApmTypesNextResponse = SupportedApmTypes;
+
+/** Optional parameters. */
 export interface ServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4091,6 +4425,62 @@ export interface ServicesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ServicesListNextResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ServicesListSupportedServerVersionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupportedServerVersionsNext operation. */
+export type ServicesListSupportedServerVersionsNextResponse = SupportedServerVersions;
+
+/** Optional parameters. */
+export interface ApmsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApmsListResponse = ApmResourceCollection;
+
+/** Optional parameters. */
+export interface ApmsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApmsGetResponse = ApmResource;
+
+/** Optional parameters. */
+export interface ApmsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApmsCreateOrUpdateResponse = ApmResource;
+
+/** Optional parameters. */
+export interface ApmsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ApmsDeleteResponse = ApmsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ApmsListSecretKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecretKeys operation. */
+export type ApmsListSecretKeysResponse = ApmSecretKeys;
+
+/** Optional parameters. */
+export interface ApmsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApmsListNextResponse = ApmResourceCollection;
 
 /** Optional parameters. */
 export interface ConfigServersGetOptionalParams
@@ -4183,6 +4573,18 @@ export interface ConfigurationServicesValidateOptionalParams
 export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
 
 /** Optional parameters. */
+export interface ConfigurationServicesValidateResourceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateResource operation. */
+export type ConfigurationServicesValidateResourceResponse = ConfigurationServiceSettingsValidateResult;
+
+/** Optional parameters. */
 export interface ConfigurationServicesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4266,6 +4668,9 @@ export interface ApplicationLiveViewsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ApplicationLiveViewsDeleteResponse = ApplicationLiveViewsDeleteHeaders;
+
 /** Optional parameters. */
 export interface ApplicationLiveViewsListNextOptionalParams
   extends coreClient.OperationOptions {}
@@ -4308,6 +4713,9 @@ export interface DevToolPortalsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type DevToolPortalsDeleteResponse = DevToolPortalsDeleteHeaders;
+
 /** Optional parameters. */
 export interface DevToolPortalsListNextOptionalParams
   extends coreClient.OperationOptions {}
@@ -4340,6 +4748,30 @@ export interface ContainerRegistriesCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ContainerRegistriesCreateOrUpdateResponse = ContainerRegistryResource;
+
+/** Optional parameters. */
+export interface ContainerRegistriesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ContainerRegistriesDeleteResponse = ContainerRegistriesDeleteHeaders;
+
+/** Optional parameters. */
+export interface ContainerRegistriesValidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validate operation. */
+export type ContainerRegistriesValidateResponse = ContainerRegistryValidateResult;
 
 /** Optional parameters. */
 export interface ContainerRegistriesListNextOptionalParams
@@ -4403,6 +4835,9 @@ export interface BuildServiceDeleteBuildOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the deleteBuild operation. */
+export type BuildServiceDeleteBuildResponse = BuildServiceDeleteBuildHeaders;
 
 /** Optional parameters. */
 export interface BuildServiceListBuildResultsOptionalParams
@@ -4976,6 +5411,8 @@ export interface DeploymentsListForClusterOptionalParams
   extends coreClient.OperationOptions {
   /** Version of the deployments to be listed */
   version?: string[];
+  /** The expand expression to apply on the operation. */
+  expand?: string;
 }
 
 /** Contains response data for the listForCluster operation. */
@@ -5141,18 +5578,6 @@ export interface GatewaysCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type GatewaysCreateOrUpdateResponse = GatewayResource;
-
-/** Optional parameters. */
-export interface GatewaysUpdateCapacityOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updateCapacity operation. */
-export type GatewaysUpdateCapacityResponse = GatewayResource;
 
 /** Optional parameters. */
 export interface GatewaysDeleteOptionalParams
@@ -5410,6 +5835,9 @@ export interface ApplicationAcceleratorsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ApplicationAcceleratorsDeleteResponse = ApplicationAcceleratorsDeleteHeaders;
+
 /** Optional parameters. */
 export interface ApplicationAcceleratorsListNextOptionalParams
   extends coreClient.OperationOptions {}
@@ -5452,9 +5880,17 @@ export interface CustomizedAcceleratorsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type CustomizedAcceleratorsDeleteResponse = CustomizedAcceleratorsDeleteHeaders;
+
 /** Optional parameters. */
 export interface CustomizedAcceleratorsValidateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the validate operation. */
 export type CustomizedAcceleratorsValidateResponse = CustomizedAcceleratorValidateResult;

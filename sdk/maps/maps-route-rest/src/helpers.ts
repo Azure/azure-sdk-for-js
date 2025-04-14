@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LatLon } from "@azure/maps-common";
-import { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "./generated";
+import type { LatLon } from "@azure/maps-common";
+import type {
+  BatchRequest,
+  RouteGetRouteDirectionsQueryParamProperties,
+} from "./generated/index.js";
 
 function toLatLonString(coordinates: LatLon): string {
   return `${coordinates[0]},${coordinates[1]}`;
@@ -26,7 +29,7 @@ export function toColonDelimitedLatLonString(coordinates: LatLon[]): string {
  * @returns The composed batch request.
  */
 export function createRouteDirectionsBatchRequest(
-  queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]
+  queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[],
 ): BatchRequest {
   return {
     batchItems: queryParamProperties.map((queryParam) => ({

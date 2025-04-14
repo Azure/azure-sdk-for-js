@@ -51,7 +51,7 @@ node messageOperations.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node messageOperations.js
+npx dev-tool run vendored cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node messageOperations.js
 ```
 
 ## Next Steps
@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [messageoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-chat/samples/v1/javascript/messageOperations.js
 [participantsoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-chat/samples/v1/javascript/participantsOperations.js
 [threadoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-chat/samples/v1/javascript/threadOperations.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-chat
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-chat
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/README.md

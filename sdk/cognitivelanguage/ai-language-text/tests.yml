@@ -2,12 +2,12 @@ parameters:
 - name: Location
   displayName: Location
   type: string
-  default: eastus
+  default: westus2
 
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/ai-language-text"
       ServiceDirectory: cognitivelanguage

@@ -13,8 +13,8 @@ import {
   DesktopsGetOptionalParams,
   DesktopsGetResponse,
   DesktopsUpdateOptionalParams,
-  DesktopsUpdateResponse
-} from "../models";
+  DesktopsUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Desktops. */
@@ -28,7 +28,7 @@ export interface Desktops {
   list(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: DesktopsListOptionalParams
+    options?: DesktopsListOptionalParams,
   ): PagedAsyncIterableIterator<Desktop>;
   /**
    * Get a desktop.
@@ -41,7 +41,7 @@ export interface Desktops {
     resourceGroupName: string,
     applicationGroupName: string,
     desktopName: string,
-    options?: DesktopsGetOptionalParams
+    options?: DesktopsGetOptionalParams,
   ): Promise<DesktopsGetResponse>;
   /**
    * Update a desktop.
@@ -54,6 +54,6 @@ export interface Desktops {
     resourceGroupName: string,
     applicationGroupName: string,
     desktopName: string,
-    options?: DesktopsUpdateOptionalParams
+    options?: DesktopsUpdateOptionalParams,
   ): Promise<DesktopsUpdateResponse>;
 }

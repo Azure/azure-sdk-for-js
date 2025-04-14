@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.samples.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/synapse-managed-private-endpoints": ["./dist/esm"]
+    }
+  }
+}

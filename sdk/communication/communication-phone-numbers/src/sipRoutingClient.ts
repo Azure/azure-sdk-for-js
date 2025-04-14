@@ -1,23 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { logger } from "./utils";
-import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationUpdate, SipRoutingError } from "./generated/src/siprouting/models";
-import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel } from "./mappers";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { tracingClient } from "./generated/src/tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { logger } from "./utils/index.js";
+import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient.js";
+import type {
+  SipConfigurationUpdate,
+  SipRoutingError,
+} from "./generated/src/siprouting/models/index.js";
+import type {
+  ListSipRoutesOptions,
+  ListSipTrunksOptions,
+  SipTrunk,
+  SipTrunkRoute,
+} from "./models.js";
+import { transformFromRestModel, transformIntoRestModel } from "./mappers.js";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { tracingClient } from "./generated/src/tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export * from "./models";
+export * from "./models.js";
 
 /**
  * Client options used to configure the SipRoutingClient API requests.
@@ -59,7 +68,7 @@ export class SipRoutingClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: SipRoutingClientOptions
+    options?: SipRoutingClientOptions,
   );
 
   /**
@@ -71,13 +80,13 @@ export class SipRoutingClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: SipRoutingClientOptions
+    options?: SipRoutingClientOptions,
   );
 
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | SipRoutingClientOptions,
-    maybeOptions: SipRoutingClientOptions = {}
+    maybeOptions: SipRoutingClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSipClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -103,10 +112,11 @@ export class SipRoutingClient {
    * Lists the SIP trunks.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listTrunks",
-      options
+      options,
     );
 
     try {
@@ -153,10 +163,11 @@ export class SipRoutingClient {
    * Lists the SIP trunk routes.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listRoutes",
-      options
+      options,
     );
 
     try {
@@ -230,7 +241,7 @@ export class SipRoutingClient {
       };
       const config = await this.client.sipRouting.update(payload);
       const storedTrunk = transformFromRestModel(config.trunks).find(
-        (value: SipTrunk) => value.fqdn === trunk.fqdn
+        (value: SipTrunk) => value.fqdn === trunk.fqdn,
       );
       if (storedTrunk) {
         return storedTrunk;
@@ -247,7 +258,7 @@ export class SipRoutingClient {
    */
   public async setRoutes(
     routes: SipTrunkRoute[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<SipTrunkRoute[]> {
     return tracingClient.withSpan("SipRoutingClient-setRoutes", options, async (updatedOptions) => {
       const patch: SipConfigurationUpdate = {
@@ -284,7 +295,7 @@ export class SipRoutingClient {
           ...patch,
         };
         await this.client.sipRouting.update(payload);
-      }
+      },
     );
   }
 
@@ -299,7 +310,7 @@ export class SipRoutingClient {
   }
 
   private async *listRoutesPagingAll(
-    options?: ListSipRoutesOptions
+    options?: ListSipRoutesOptions,
   ): AsyncIterableIterator<SipTrunkRoute> {
     for await (const page of this.listRoutesPagingPage(options)) {
       yield* page;
@@ -307,7 +318,7 @@ export class SipRoutingClient {
   }
 
   private async *listTrunksPagingAll(
-    options?: ListSipTrunksOptions
+    options?: ListSipTrunksOptions,
   ): AsyncIterableIterator<SipTrunk> {
     for await (const page of this.listTrunksPagingPage(options)) {
       yield* page;
@@ -315,14 +326,14 @@ export class SipRoutingClient {
   }
 
   private async *listTrunksPagingPage(
-    options: ListSipTrunksOptions = {}
+    options: ListSipTrunksOptions = {},
   ): AsyncIterableIterator<SipTrunk[]> {
     const apiResult = await this.getTrunksInternal(options as OperationOptions);
     yield apiResult;
   }
 
   private async *listRoutesPagingPage(
-    options: ListSipRoutesOptions = {}
+    options: ListSipRoutesOptions = {},
   ): AsyncIterableIterator<SipTrunkRoute[]> {
     const apiResult = await this.getRoutesInternal(options as OperationOptions);
     yield apiResult;

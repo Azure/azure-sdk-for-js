@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-06-08/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d18a495685ccec837b72891b4deea017f62e8190/specification/storage/data-plane/Microsoft.FileStorage/stable/2025-05-05/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.2"
-package-version: 12.20.0
+package-version: 12.27.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -846,13 +846,66 @@ directive:
       $["modelAsString"] = false;
 ```
 
-### Update service version from "2018-06-08" to "2021-10-04"
+### Correct parameter location
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    where: $["parameters"]["FileRequestIntent"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["AllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["SourceAllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+### Rename x-ms-file-share-usage-bytes -> usageBytes
+### Rename x-ms-file-share-snapshot-usage-bytes -> snapshotUsageBytes
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["delete"]..responses..headers["x-ms-file-share-usage-bytes"]
+    transform: >
+      $["x-ms-client-name"] = "usageBytes";      
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}?restype=share"]["delete"]..responses..headers["x-ms-file-share-snapshot-usage-bytes"]
+    transform: >
+      $["x-ms-client-name"] = "snapshotUsageBytes";
+```
+
+### Remove structured body parameters.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return false == param['$ref'].endsWith("#/parameters/StructuredBodyGet")});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      delete $["x-ms-structured-body"];
+      delete $["x-ms-structured-content-length"];
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]
+    transform: >
+      $["parameters"] = $["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/StructuredBodyPut") && false == param['$ref'].endsWith("#/parameters/StructuredContentLength"))});
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=range"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      delete $["x-ms-structured-body"];
+```

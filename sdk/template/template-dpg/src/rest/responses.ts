@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
@@ -9,8 +9,8 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { HttpResponse } from "@azure-rest/core-client";
-import { WidgetOutput, WidgetErrorOutput, AnalyzeResultOutput } from "./outputModels.js";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type { WidgetOutput, WidgetErrorOutput, AnalyzeResultOutput } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface ListWidgets200Response extends HttpResponse {

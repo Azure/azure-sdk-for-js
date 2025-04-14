@@ -1,8 +1,18 @@
 # Release History
-    
+
+## 1.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.3 (2023-05-29)
     
-**Features**
+### Features Added
 
   - Added Interface ArtifactGenerationProperties
   - Added Interface GeneratePreviewArtifactsOptionalParams
@@ -35,7 +45,7 @@
   - Added Enum KnownManifestGenerationMode
   - Added Enum KnownWorkflowRunStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Workflow no longer has parameter namespace
   - Type of parameter authStatus of interface Workflow is changed from ManifestType to AuthorizationStatus
@@ -43,11 +53,11 @@
     
 ## 1.0.0-beta.2 (2023-01-04)
     
-**Features**
+### Features Added
 
   - Interface WorkflowListByResourceGroupNextOptionalParams no longer has parameter managedClusterResource
     
     
 ## 1.0.0-beta.1 (2022-10-18)
 
-The package of @azure/arm-devhub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-devhub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

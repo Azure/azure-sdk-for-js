@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
 } from "@azure/core-http-compat";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { HeaderConstants } from "../utils/constants";
-import { getURLPath, getURLQueries } from "../utils/utils.common";
-import { CredentialPolicy } from "./CredentialPolicy";
+import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { HeaderConstants } from "../utils/constants.js";
+import { getURLPath, getURLQueries } from "../utils/utils.common.js";
+import { CredentialPolicy } from "./CredentialPolicy.js";
+import { compareHeader } from "../utils/SharedKeyComparator.js";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
@@ -29,7 +30,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    factory: StorageSharedKeyCredential
+    factory: StorageSharedKeyCredential,
   ) {
     super(nextPolicy, options);
     this.factory = factory;
@@ -73,7 +74,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     const signature: string = this.factory.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${this.factory.accountName}:${signature}`
+      `SharedKey ${this.factory.accountName}:${signature}`,
     );
 
     // console.log(`[URL]:${request.url}`);
@@ -85,7 +86,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
   /**
    * Retrieve header value according to shared key sign rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
    *
    * @param request -
    * @param headerName -
@@ -99,7 +100,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
-    // https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
+    // https://learn.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
     if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
       return "";
     }
@@ -126,7 +127,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     });
 
     headersArray.sort((a, b): number => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      return compareHeader(a.name.toLowerCase(), b.name.toLowerCase());
     });
 
     // Remove duplicate headers

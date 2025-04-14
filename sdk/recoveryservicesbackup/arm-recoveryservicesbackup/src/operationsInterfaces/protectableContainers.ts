@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProtectableContainerResource,
-  ProtectableContainersListOptionalParams
-} from "../models";
+  ProtectableContainersListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProtectableContainers. */
@@ -27,6 +27,6 @@ export interface ProtectableContainers {
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ProtectableContainersListOptionalParams
+    options?: ProtectableContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectableContainerResource>;
 }

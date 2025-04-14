@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a SQL virtual machine group.
  *
  * @summary Deletes a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/DeleteSqlVirtualMachineGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/DeleteSqlVirtualMachineGroup.json
  */
 async function deletesASqlVirtualMachineGroup() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function deletesASqlVirtualMachineGroup() {
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachineGroups.beginDeleteAndWait(
     resourceGroupName,
-    sqlVirtualMachineGroupName
+    sqlVirtualMachineGroupName,
   );
   console.log(result);
 }

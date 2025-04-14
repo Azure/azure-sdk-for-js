@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { ReceiverOptions } from "rhea-promise";
-chai.use(chaiAsPromised);
-const assert = chai.assert;
-
-import { BatchingReceiver } from "../../../src/core/batchingReceiver";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
+import type { ReceiverOptions } from "rhea-promise";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import {
   addTestStreamingReceiver,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
-} from "./unittestUtils";
-import { InternalMessageHandlers } from "../../../src/models";
-import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
-import { MessageSession } from "../../../src/session/messageSession";
-import sinon from "sinon";
-import { assertThrows } from "../../public/utils/testUtils";
+} from "./unittestUtils.js";
+import type { InternalMessageHandlers } from "../../../src/models.js";
+import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
+import { describe, it, vi, afterEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("Receiver unit tests", () => {
   it("Receiver should set target in created receiver options", () => {
@@ -35,7 +31,7 @@ describe("Receiver unit tests", () => {
         receiveMode: "peekLock",
         skipParsingBodyAsJson: false,
         skipConvertingDate: false,
-      }
+      },
     );
     const options = batchingReceiver["_createReceiverOptions"](false, {});
     assert.equal(options.target, "serviceBusClientId");
@@ -55,7 +51,7 @@ describe("Receiver unit tests", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       let initWasCalled = false;
@@ -85,7 +81,7 @@ describe("Receiver unit tests", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       await messageReceiver2.close();
@@ -98,7 +94,7 @@ describe("Receiver unit tests", () => {
       messageReceiver2["_negotiateClaim"] = async () => {
         negotiateClaimWasCalled = true;
         throw new Error(
-          "Negotiate claim was called - we should have early exited and never tried to init a close()'d instance."
+          "Negotiate claim was called - we should have early exited and never tried to init a close()'d instance.",
         );
       };
 
@@ -126,7 +122,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -143,7 +139,7 @@ describe("Receiver unit tests", () => {
           {
             name: "Error",
             message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`,
-          }
+          },
         );
       }
 
@@ -165,7 +161,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -175,7 +171,7 @@ describe("Receiver unit tests", () => {
 
       assert.isFalse(
         closeWasCalled,
-        "closing a subscription does NOT close the receiver (it should be re-usable)"
+        "closing a subscription does NOT close the receiver (it should be re-usable)",
       );
 
       const subscription2 = await subscribeAndWaitForInitialize(receiverImpl);
@@ -183,7 +179,7 @@ describe("Receiver unit tests", () => {
       assert.equal(
         originalStreamingReceiver?.name,
         receiverImpl["_streamingReceiver"]?.name,
-        "StreamingReceiver is closed but not replaced - this allows us to just stop and start at will without losing anything."
+        "StreamingReceiver is closed but not replaced - this allows us to just stop and start at will without losing anything.",
       );
 
       await subscription2.close();
@@ -197,7 +193,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const abortSignal = {
@@ -215,7 +211,7 @@ describe("Receiver unit tests", () => {
         },
         {
           abortSignal,
-        }
+        },
       );
 
       // subscription should just be auto-closed already
@@ -241,7 +237,7 @@ describe("Receiver unit tests", () => {
         "entity path",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -271,7 +267,7 @@ describe("Receiver unit tests", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       const impl = new ServiceBusSessionReceiverImpl(
@@ -281,7 +277,7 @@ describe("Receiver unit tests", () => {
         "peekLock",
         false,
         false,
-        undefined
+        undefined,
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -314,7 +310,7 @@ describe("Receiver unit tests", () => {
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, false);
 
       const existingStreamingReceiver = createStreamingReceiver("entityPath");
-      const subscribeStub = sinon.spy(existingStreamingReceiver, "subscribe");
+      const subscribeStub = vi.spyOn(existingStreamingReceiver, "subscribe");
 
       impl["_streamingReceiver"] = existingStreamingReceiver;
 
@@ -329,10 +325,10 @@ describe("Receiver unit tests", () => {
       assert.equal(
         impl["_streamingReceiver"],
         existingStreamingReceiver,
-        "original receiver should be intact - we should not create a new one.."
+        "original receiver should be intact - we should not create a new one..",
       );
 
-      assert.isTrue(subscribeStub.calledOnce);
+      expect(subscribeStub).toHaveBeenCalledOnce();
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
@@ -349,7 +345,7 @@ describe("Receiver unit tests", () => {
 });
 
 async function subscribeAndWaitForInitialize(
-  receiver: ServiceBusReceiverImpl
+  receiver: ServiceBusReceiverImpl,
 ): Promise<ReturnType<(typeof receiver)["subscribe"]>> {
   const sub = await new Promise<{
     close(): Promise<void>;
@@ -369,12 +365,12 @@ async function subscribeAndWaitForInitialize(
 
   assert.exists(
     receiver["_streamingReceiver"],
-    "streaming receiver has been initialized in the context"
+    "streaming receiver has been initialized in the context",
   );
 
   assert.isTrue(
     receiver["_streamingReceiver"]?.isSubscribeActive,
-    "streaming receiver should indicate it's receiving messages"
+    "streaming receiver should indicate it's receiving messages",
   );
 
   return sub;

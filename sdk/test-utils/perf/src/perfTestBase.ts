@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { multicoreUtils } from "./multicore";
+import { multicoreUtils } from "./multicore.js";
 import {
   PerfOptionDictionary,
   parsePerfOption,
@@ -9,15 +9,14 @@ import {
   defaultPerfOptions,
   validateOptions,
   ParsedPerfOptions,
-} from "./options";
-import { AbortController } from "@azure/abort-controller";
-import { Snapshot } from "./snapshot";
+} from "./options.js";
+import { Snapshot } from "./snapshot.js";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
  */
 export interface PerfTestConstructor<
-  TOptions extends Record<string, unknown> = Record<string, unknown>
+  TOptions extends Record<string, unknown> = Record<string, unknown>,
 > {
   new (): PerfTestBase<TOptions>;
 }
@@ -90,7 +89,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
 
   public abstract runAll(
     durationMilliseconds: number,
-    abortController: AbortController
+    abortController: AbortController,
   ): Promise<void>;
 
   public getSnapshot(): Snapshot {

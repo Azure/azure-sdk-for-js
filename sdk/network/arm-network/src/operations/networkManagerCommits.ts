@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagerCommits } from "../operationsInterfaces";
+import { NetworkManagerCommits } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkManagerCommit,
   NetworkManagerCommitsPostOptionalParams,
-  NetworkManagerCommitsPostResponse
-} from "../models";
+  NetworkManagerCommitsPostResponse,
+} from "../models/index.js";
 
 /** Class containing NetworkManagerCommits operations. */
 export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
@@ -46,7 +46,7 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
     resourceGroupName: string,
     networkManagerName: string,
     parameters: NetworkManagerCommit,
-    options?: NetworkManagerCommitsPostOptionalParams
+    options?: NetworkManagerCommitsPostOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkManagerCommitsPostResponse>,
@@ -55,21 +55,20 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkManagerCommitsPostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -78,8 +77,8 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -87,15 +86,15 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkManagerName, parameters, options },
-      spec: postOperationSpec
+      spec: postOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkManagerCommitsPostResponse,
@@ -103,7 +102,7 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -120,13 +119,13 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
     resourceGroupName: string,
     networkManagerName: string,
     parameters: NetworkManagerCommit,
-    options?: NetworkManagerCommitsPostOptionalParams
+    options?: NetworkManagerCommitsPostOptionalParams,
   ): Promise<NetworkManagerCommitsPostResponse> {
     const poller = await this.beginPost(
       resourceGroupName,
       networkManagerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -135,35 +134,34 @@ export class NetworkManagerCommitsImpl implements NetworkManagerCommits {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.NetworkManagerCommit,
     },
     201: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.NetworkManagerCommit,
     },
     202: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.NetworkManagerCommit,
     },
     204: {
-      bodyMapper: Mappers.NetworkManagerCommit
+      bodyMapper: Mappers.NetworkManagerCommit,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

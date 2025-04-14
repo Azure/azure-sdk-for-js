@@ -15,28 +15,26 @@ import {
   WebPubSubCustomDomainsGetResponse,
   WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   WebPubSubCustomDomainsCreateOrUpdateResponse,
-  WebPubSubCustomDomainsDeleteOptionalParams
-} from "../models";
+  WebPubSubCustomDomainsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubCustomDomains. */
 export interface WebPubSubCustomDomains {
   /**
    * List all custom domains.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomDomainsListOptionalParams
+    options?: WebPubSubCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Get a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -45,12 +43,11 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsGetOptionalParams
+    options?: WebPubSubCustomDomainsGetOptionalParams,
   ): Promise<WebPubSubCustomDomainsGetResponse>;
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -61,7 +58,7 @@ export interface WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
@@ -70,8 +67,7 @@ export interface WebPubSubCustomDomains {
   >;
   /**
    * Create or update a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param parameters A custom domain
@@ -82,12 +78,11 @@ export interface WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -96,12 +91,11 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsDeleteOptionalParams
+    options?: WebPubSubCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a custom domain.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param name Custom domain name.
    * @param options The options parameters.
@@ -110,6 +104,6 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsDeleteOptionalParams
+    options?: WebPubSubCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
 }

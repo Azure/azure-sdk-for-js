@@ -1,14 +1,115 @@
 # Release History
 
-## 1.0.0-beta.13 (Unreleased)
+## 1.0.0-beta.16 (2025-03-21)
 
 ### Features Added
 
+- Model Dataset has a new parameter schema
+- Model LinkedService parameter AzureFileStorageLinkedService support MI auth
+- Model LinkedService parameter AzureTableStorageLinkedService support MI auth
+- Model LinkedService parameter DynamicsCrmLinkedService has a new properties credential
+- Model LinkedService parameter DynamicsLinkedService has a new properties domain
+- Model LinkedService parameter GreenplumLinkedService has some new connection properties
+- Model LinkedService parameter MySqlLinkedService has some new properties
+- Model LinkedService parameter OracleLinkedService update properties
+- Model LinkedService parameter RestService and SharePointOnlineList support ServicePrincipalCert auth
+- Model LinkedService parameter SAP ODP update properties sncMode
+- Model LinkedService parameter SnowflakeV2LinkedService has a new properties host
+- Model LinkedService parameter SqlServerLinkedService add authenticationType UserAssignedManagedIdentity
+- Model LinkedService parameter TeradataLinkedService has some new Teradata connection properties
+- Model LinkedService parameter VerticaLinkedService support Vertica V2
+- Model LinkedService has a new parameter version
+- Model Pipeline Add credential reference in notebook and spark job definition activity
+- Model Pipeline feature snowflake support multi-resultset
+- Model Pipeline feature snowflake support storage integration
+- Model Pipeline parameter ExecuteDataFlowActivity has a new properties continuationSettings
+- Model Pipeline parameter ExpressionV2 has a new properties page_size
+- Model Pipeline parameter SalesforceV2Source has a new properties page_size
+- Model Pipeline support Iceberg Format As Sink
+- Model Pipeline support TeradataSink
+- Model Dataset support Iceberg Format As Sink
+- Model runNotebook parameter runId update description
+- Model LinkedService support sslMode and useSystemTrustStore for MariaDB
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Model LinkedService parameter PostgreSqlV2LinkedService has a new required properties authentication_type
+- Model LinkedService parameter SapOdpLinkedService update properties sncMode
+- Model LinkedService parameter AzureSqlDWLinkedService update required properties
+- Model LinkedService parameter SqlServerLinkedService update required properties
+- Model LinkedService parameter AmazonRdsForSqlServerLinkedService update required properties
+- Model LinkedService parameter AzureSqlDatabaseLinkedService update required properties
+- Model LinkedService parameter AzureSqlMILinkedService update required properties
+
+## 1.0.0-beta.15 (2024-06-07)
+
+### Features Added
+- Model Dataset has a new parameter LakeHouseLocation
+- Model Dataset has a new parameter GoogleBigQueryV2ObjectDataset
+- Model Dataset has a new parameter PostgreSqlV2TableDataset
+- Model Dataset has a new parameter SalesforceServiceCloudV2ObjectDataset
+- Model Dataset has a new parameter SalesforceV2ObjectDataset
+- Model Dataset has a new parameter ServiceNowV2ObjectDataset
+- Model Dataset has a new parameter SnowflakeV2Dataset
+- Model Dataset has a new parameter WarehouseTableDataset
+- Model Pipeline has a new parameter ExpressionV2
+- Model Pipeline has a new parameter GoogleBigQueryV2Source
+- Model Pipeline has a new parameter LakeHouseTableSink
+- Model Pipeline has a new parameter LakeHouseTableSource
+- Model Pipeline has a new parameter LakeHouseWriteSettings
+- Model Pipeline has a new parameter LakeHouseReadSettings
+- Model Pipeline has a new parameter Metadata
+- Model Pipeline has a new parameter MetadataItem
+- Model Pipeline has a new parameter ParquetReadSettingsstate
+- Model Pipeline has a new parameter PostgreSqlV2Source
+- Model Pipeline has a new parameter SalesforceServiceCloudV2Sink
+- Model Pipeline has a new parameter SalesforceServiceCloudV2Source
+- Model Pipeline has a new parameter SalesforceV2Sink
+- Model Pipeline has a new parameter SalesforceV2SourceReadBehavior
+- Model Pipeline has a new parameter SalesforceV2Source
+- Model Pipeline has a new parameter ServiceNowV2Source
+- Model Pipeline has a new parameter SnowflakeV2Sink
+- Model Pipeline has a new parameter SnowflakeV2Source
+- Model Pipeline has a new parameter WarehouseSink
+- Model Pipeline has a new parameter WarehouseSource
+- Model LinkedService add supports GoogleAds
+- Model LinkedService has a new parameter GoogleBigQueryV2LinkedService
+- Model LinkedService has a new parameter LakeHouseLinkedService
+- Model LinkedService has a new parameter PostgreSqlV2LinkedService
+- Model LinkedService has a new parameter SalesforceServiceCloudV2LinkedService
+- Model LinkedService has a new parameter SalesforceV2LinkedService
+- Model LinkedService has a new parameter SalesforceV2LinkedService
+- Model LinkedService has a new parameter SnowflakeV2LinkedService
+- Model LinkedService has a new parameter WarehouseLinkedService
+- Model LinkedService has a new parameter WarehouseLinkedService
+
+### Breaking Changes
+- Model LinkedService parameter MariaDBLinkedService update new properties
+- Model LinkedService parameter MySqlLinkedService update new properties
+- Model LinkedService parameter ServiceNowV2LinkedService update properties
+- Model Pipeline parameter ExecuteDataFlowActivity update new properties computeType
+- Model Pipeline parameter ScriptActivityScriptBlock update properties type
+
+## 1.0.0-beta.14 (2023-12-15)
 
 ### Other Changes
+- Fix runNotebook sessionId from number to string
+- Fix placeholder links causing 404s
+- Sync expression Support From DataFactory To Synapse
+
+
+## 1.0.0-beta.13 (2023-07-26)
+
+### Features Added
+- Added `authenticationType` , `containerUri`, `sasUri` and `sasToken` properties to BlobService
+- Added `setSystemVariable` proprety to SetVariableActivityTypeProperties
+- Added `mongoDbAtlasDriverVersion` property to MongoDbAtlasLinkedServiceTypeProperties
+- Added `ActionOnExistingTargetTable` property for Synapse Link
+- Added `OutputColumn` Object For Office365Source outputColumns
+- Added `configurationType` , `targetSparkConfiguration` and `sparkConfig` properties for SynapseNotebookActivityTypeProperties
+- Added `credential` property for LinkedService
+- Added `isolationLevel` property for SQLServerSource
+- Added new apis of Create/Cancel/GetStatus/GetSnapshot for RunNotebook
 
 ## 1.0.0-beta.12 (2023-01-10)
 

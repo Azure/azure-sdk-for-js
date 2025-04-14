@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/checkNameAvailabilityAvailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function checkNameAvailabilityAvailable() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function checkNameAvailabilityAvailable() {
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/checkNameAvailabilityUnavailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function checkNameAvailabilityUnavailable() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }

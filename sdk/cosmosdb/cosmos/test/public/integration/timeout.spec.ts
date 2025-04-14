@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import assert from "assert";
-import { Container, CosmosClient } from "../../../src";
-import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import type { Container } from "../../../src/index.js";
+import { CosmosClient } from "../../../src/index.js";
+import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("Timeout", function () {
-  beforeEach(async function () {
+describe("Timeout", () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("successfully exits queries after a timeout duration", async function () {
+  it("successfully exits queries after a timeout duration", async () => {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -28,7 +29,8 @@ describe("Timeout", function () {
       plugins: [
         {
           on: "request",
-          plugin: async (context, next) => {
+          plugin: async (context, diagNode, next) => {
+            assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
             // Simulate a request longer than our timeout duration
             await new Promise<void>((resolve) => {
               setTimeout(() => {
@@ -62,7 +64,7 @@ describe("Timeout", function () {
   });
 });
 
-async function createItem(container: Container) {
+async function createItem(container: Container): Promise<string> {
   const {
     resource: { id },
   } = await container.items.create({

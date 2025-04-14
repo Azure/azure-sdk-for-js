@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { createTracingClient, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
-import { ConnectionConfig } from "@azure/core-amqp";
-import { packageJsonInfo } from "../util/constants";
+import type { TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import type { ConnectionConfig } from "@azure/core-amqp";
+import { packageJsonInfo } from "../util/constants.js";
 
 /**
  * The names of the operations that can be instrumented.
@@ -29,7 +30,7 @@ export const tracingClient = createTracingClient({
 export function toSpanOptions(
   serviceBusConfig: Pick<ConnectionConfig, "host"> & { entityPath: string },
   operation: MessagingOperationNames,
-  spanKind?: TracingSpanKind
+  spanKind?: TracingSpanKind,
 ): TracingSpanOptions {
   const propertyName =
     operation === "process" || operation === "receive"

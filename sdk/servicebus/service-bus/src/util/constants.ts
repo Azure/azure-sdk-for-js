@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.9.1",
+  version: "7.10.0",
 };
 
 /**
@@ -323,7 +323,7 @@ export const ATOM_METADATA_MARKER = "_";
 
 /**
  * Known HTTP status codes as documented and referenced in ATOM based management API feature
- * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+ * https://learn.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
  * @internal
  */
 export const HttpResponseCodes = {

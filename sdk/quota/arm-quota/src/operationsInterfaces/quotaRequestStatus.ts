@@ -11,8 +11,8 @@ import {
   QuotaRequestDetails,
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
-  QuotaRequestStatusGetResponse
-} from "../models";
+  QuotaRequestStatusGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a QuotaRequestStatus. */
@@ -29,7 +29,7 @@ export interface QuotaRequestStatus {
    */
   list(
     scope: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaRequestDetails>;
   /**
    * Get the quota request details and status by quota request ID for the resources of the resource
@@ -46,6 +46,6 @@ export interface QuotaRequestStatus {
   get(
     id: string,
     scope: string,
-    options?: QuotaRequestStatusGetOptionalParams
+    options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse>;
 }

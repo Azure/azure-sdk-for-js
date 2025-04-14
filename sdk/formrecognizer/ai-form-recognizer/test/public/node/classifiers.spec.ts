@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { matrix } from "@azure/test-utils";
-
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
+  authMethods,
   createRecorder,
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../../utils/recordedClients";
-import { DocumentClassifierDetails } from "../../../src/generated";
-import { DocumentModelAdministrationClient } from "../../../src/documentModelAdministrationClient";
-import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient";
-import path from "path";
-import fs from "fs";
-import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
+} from "../../utils/recordedClients.js";
+import type { DocumentClassifierDetails } from "../../../src/generated/index.js";
+import { DocumentModelAdministrationClient } from "../../../src/documentModelAdministrationClient.js";
+import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient.js";
+import path from "node:path";
+import fs from "node:fs";
+import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { getEndpoint, getTrainingContainerSasUrl } from "../../utils/injectables.js";
 
-const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
-// const containerSasUrl = (): string =>
-//   assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
+const containerSasUrl = (): string => getTrainingContainerSasUrl();
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
@@ -31,148 +26,131 @@ const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOI
  * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
  * environment.
  */
-matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
-    let recorder: Recorder;
-    let client: DocumentAnalysisClient;
+describe.each(authMethods)(`[%s] document classifiers`, (authMethod) => {
+  let recorder: Recorder;
+  let client: DocumentAnalysisClient;
 
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
-      await recorder.setMatcher("BodilessMatcher");
-      client = new DocumentAnalysisClient(
-        endpoint(),
-        makeCredential(useAad),
-        recorder.configureClientOptions({})
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    await recorder.setMatcher("BodilessMatcher");
+    client = new DocumentAnalysisClient(
+      getEndpoint(),
+      makeCredential(authMethod),
+      recorder.configureClientOptions({}),
+    );
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  let _classifier: DocumentClassifierDetails;
+  let _classifierId: string;
+
+  const customClassifierDescription = "Custom classifier description";
+
+  // We only want to create the model once, but because of the recorder's
+  // precedence, we have to create it in a test, so one test will end up
+  // recording the entire creation and the other tests will still be able
+  // to use it.
+  async function requireClassifier(): Promise<DocumentClassifierDetails> {
+    if (!_classifier) {
+      const trainingClient = new DocumentModelAdministrationClient(
+        getEndpoint(),
+        makeCredential(authMethod),
+        recorder.configureClientOptions({}),
       );
-    });
+      _classifierId = recorder.variable(
+        "customClassifierId",
+        `customClassifier${getRandomNumber()}`,
+      );
 
-    afterEach(async function () {
-      await recorder.stop();
-    });
-
-    let _classifier: DocumentClassifierDetails;
-    let _classifierId: string;
-
-    const customClassifierDescription = "Custom classifier description";
-
-    // We only want to create the model once, but because of the recorder's
-    // precedence, we have to create it in a test, so one test will end up
-    // recording the entire creation and the other tests will still be able
-    // to use it.
-    async function requireClassifier(): Promise<DocumentClassifierDetails> {
-      if (!_classifier) {
-        const trainingClient = new DocumentModelAdministrationClient(
-          endpoint(),
-          makeCredential(useAad),
-          recorder.configureClientOptions({})
-        );
-        _classifierId = recorder.variable(
-          "customClassifierId",
-          `customClassifier${getRandomNumber()}`
-        );
-
-        const poller = await trainingClient.beginBuildDocumentClassifier(
-          _classifierId,
-          {
-            // TODO: use a different container for each test
-            foo: {
-              azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
-              },
-            },
-            bar: {
-              azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
-              },
+      const poller = await trainingClient.beginBuildDocumentClassifier(
+        _classifierId,
+        {
+          // TODO: use a different container for each test
+          foo: {
+            azureBlobSource: {
+              containerUrl: containerSasUrl(),
             },
           },
-          { ...testPollingOptions, description: customClassifierDescription }
-        );
+          bar: {
+            azureBlobSource: {
+              containerUrl: containerSasUrl(),
+            },
+          },
+        },
+        { ...testPollingOptions, description: customClassifierDescription },
+      );
 
-        _classifier = await poller.pollUntilDone();
+      _classifier = await poller.pollUntilDone();
 
-        assert.ok(_classifier.classifierId);
-      }
-
-      return _classifier;
+      assert.ok(_classifier.classifierId);
     }
 
-    it("build classifier", async function (this: Context) {
-      const classifier = await requireClassifier();
+    return _classifier;
+  }
 
-      assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
-      assert.equal(classifier.classifierId, _classifierId);
-      assert.equal(classifier.description, customClassifierDescription);
-    });
+  it("build classifier", async () => {
+    const classifier = await requireClassifier();
 
-    it("analyze from PNG file stream", async function (this: Context) {
-      const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-      const stream = fs.createReadStream(filePath);
+    assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
+    assert.equal(classifier.classifierId, _classifierId);
+    assert.equal(classifier.description, customClassifierDescription);
+  });
 
-      const { classifierId } = await requireClassifier();
+  it("analyze from PNG file stream", async () => {
+    const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+    const stream = fs.createReadStream(filePath);
 
-      const poller = await client.beginClassifyDocument(classifierId, stream, testPollingOptions);
+    const { classifierId } = await requireClassifier();
 
-      const result = await poller.pollUntilDone();
+    const poller = await client.beginClassifyDocument(classifierId, stream, testPollingOptions);
 
-      assert.isNotEmpty(result.documents);
-      assert.oneOf(result.documents![0].docType, ["foo", "bar"]);
+    const result = await poller.pollUntilDone();
 
-      // Additionally check that the pages aren't empty and that there are some common fields set
-      assert.isNotEmpty(result.pages);
-      assert.ok(result.pages![0].kind);
-      assert.ok(result.pages![0].pageNumber);
-      assert.isDefined(result.pages![0].angle);
-      assert.ok(result.pages![0].height);
-      assert.ok(result.pages![0].width);
-      assert.ok(result.pages![0].unit);
-    });
+    assert.isNotEmpty(result.documents);
+    assert.oneOf(result.documents![0].docType, ["foo", "bar"]);
 
-    it("analyze from PNG file URL", async function (this: Context) {
-      const url = makeTestUrl("/Invoice_1.pdf");
+    // Additionally check that the pages aren't empty and that there are some common fields set
+    assert.isNotEmpty(result.pages);
+    assert.ok(result.pages![0].pageNumber);
+    assert.isDefined(result.pages![0].angle);
+    assert.ok(result.pages![0].height);
+    assert.ok(result.pages![0].width);
+    assert.ok(result.pages![0].unit);
+  });
 
-      const { classifierId } = await requireClassifier();
+  it("analyze from PNG file URL", async () => {
+    const url = makeTestUrl("/Invoice_1.pdf");
 
-      const poller = await client.beginClassifyDocumentFromUrl(
-        classifierId,
-        url,
-        testPollingOptions
-      );
+    const { classifierId } = await requireClassifier();
 
-      const result = await poller.pollUntilDone();
+    const poller = await client.beginClassifyDocumentFromUrl(classifierId, url, testPollingOptions);
 
-      assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
-    });
+    const result = await poller.pollUntilDone();
 
-    it("get & delete classifiers from the account", async function () {
-      if (useAad) {
-        // TODO: AAD is not implemented for this operation in the service.
-        this.skip();
-        return;
-      }
+    assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
+  });
 
-      const trainingClient = new DocumentModelAdministrationClient(
-        endpoint(),
-        makeCredential(useAad),
-        recorder.configureClientOptions({})
-      );
-      await trainingClient.getDocumentClassifier(_classifierId);
+  it("get & delete classifiers from the account", async () => {
+    const trainingClient = new DocumentModelAdministrationClient(
+      getEndpoint(),
+      makeCredential(authMethod),
+      recorder.configureClientOptions({}),
+    );
+    await trainingClient.getDocumentClassifier(_classifierId);
 
-      // Delete the custom classifier we created
-      if (_classifierId) {
-        await trainingClient.deleteDocumentClassifier(_classifierId);
-      }
+    // Delete the custom classifier we created
+    if (_classifierId) {
+      await trainingClient.deleteDocumentClassifier(_classifierId);
+    }
 
-      // Try to get the classifier and assert that it's gone
-      await assert.isRejected(
-        (async function () {
-          await trainingClient.getDocumentClassifier(_classifierId);
-        })()
-      );
-    });
+    // Try to get the classifier and assert that it's gone
+    await expect(
+      (async function () {
+        await trainingClient.getDocumentClassifier(_classifierId);
+      })(),
+    ).rejects.toThrow();
   });
 });

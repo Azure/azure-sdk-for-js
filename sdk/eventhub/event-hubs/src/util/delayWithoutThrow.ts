@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-amqp";
 
 /**
@@ -11,7 +11,7 @@ import { delay } from "@azure/core-amqp";
  */
 export async function delayWithoutThrow(
   delayInMs: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<void> {
   try {
     await delay(delayInMs, abortSignal);

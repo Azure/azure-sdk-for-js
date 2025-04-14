@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
-import { Aggregator } from "./Aggregator";
+// Licensed under the MIT License.
+import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator.js";
+import type { Aggregator } from "./Aggregator.js";
 
 interface MaxAggregateResult {
   count: number;

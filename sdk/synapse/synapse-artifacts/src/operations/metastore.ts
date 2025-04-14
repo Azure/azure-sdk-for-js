@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Metastore } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { Metastore } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type {
   MetastoreRegisterObject,
   MetastoreRegisterOptionalParams,
   MetastoreRegisterResponse,
@@ -21,110 +21,9 @@ import {
   MetastoreUpdateObject,
   MetastoreUpdateOptionalParams,
   MetastoreUpdateResponse,
-  MetastoreDeleteOptionalParams
-} from "../models";
+  MetastoreDeleteOptionalParams,
+} from "../models/index.js";
 
-/** Class containing Metastore operations. */
-export class MetastoreImpl implements Metastore {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class Metastore class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Register files in Syms
-   * @param id The name of the database to be created. The name can contain only alphanumeric characters
-   *           and should not exceed 24 characters
-   * @param registerBody The body for the register request
-   * @param options The options parameters.
-   */
-  async register(
-    id: string,
-    registerBody: MetastoreRegisterObject,
-    options?: MetastoreRegisterOptionalParams
-  ): Promise<MetastoreRegisterResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.register",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, registerBody, options },
-          registerOperationSpec
-        ) as Promise<MetastoreRegisterResponse>;
-      }
-    );
-  }
-
-  /**
-   * Gets status of the database
-   * @param id
-   * @param options The options parameters.
-   */
-  async getDatabaseOperations(
-    id: string,
-    options?: MetastoreGetDatabaseOperationsOptionalParams
-  ): Promise<MetastoreGetDatabaseOperationsResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.getDatabaseOperations",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, options },
-          getDatabaseOperationsOperationSpec
-        ) as Promise<MetastoreGetDatabaseOperationsResponse>;
-      }
-    );
-  }
-
-  /**
-   * Update files in Syms
-   * @param id The name of the database to be updated
-   * @param updateBody The body for the update request
-   * @param options The options parameters.
-   */
-  async update(
-    id: string,
-    updateBody: MetastoreUpdateObject,
-    options?: MetastoreUpdateOptionalParams
-  ): Promise<MetastoreUpdateResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.update",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, updateBody, options },
-          updateOperationSpec
-        ) as Promise<MetastoreUpdateResponse>;
-      }
-    );
-  }
-
-  /**
-   * Remove files in Syms
-   * @param id
-   * @param options The options parameters.
-   */
-  async delete(
-    id: string,
-    options?: MetastoreDeleteOptionalParams
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.delete",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { id, options },
-          deleteOperationSpec
-        ) as Promise<void>;
-      }
-    );
-  }
-}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -133,52 +32,52 @@ const registerOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.MetastoreRegistrationResponse
+      bodyMapper: Mappers.MetastoreRegistrationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.registerBody,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDatabaseOperationsOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/create-database-operations/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetastoreRequestSuccessResponse
+      bodyMapper: Mappers.MetastoreRequestSuccessResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/update-database-operations/{id}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.MetastoreUpdationResponse
+      bodyMapper: Mappers.MetastoreUpdationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   requestBody: Parameters.updateBody,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/metastore/databases/{id}",
@@ -186,11 +85,110 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+
+/** Class containing Metastore operations. */
+export class MetastoreImpl implements Metastore {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class Metastore class.
+   * @param client - Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Register files in Syms
+   * @param id - The name of the database to be created. The name can contain only alphanumeric characters
+   *           and should not exceed 24 characters
+   * @param registerBody - The body for the register request
+   * @param options - The options parameters.
+   */
+  async register(
+    id: string,
+    registerBody: MetastoreRegisterObject,
+    options?: MetastoreRegisterOptionalParams,
+  ): Promise<MetastoreRegisterResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.register",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { id, registerBody, updatedOptions },
+          registerOperationSpec,
+        ) as Promise<MetastoreRegisterResponse>;
+      },
+    );
+  }
+
+  /**
+   * Gets status of the database
+   * @param id - the name of the database.
+   * @param options - The options parameters.
+   */
+  async getDatabaseOperations(
+    id: string,
+    options?: MetastoreGetDatabaseOperationsOptionalParams,
+  ): Promise<MetastoreGetDatabaseOperationsResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.getDatabaseOperations",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { id, updatedOptions },
+          getDatabaseOperationsOperationSpec,
+        ) as Promise<MetastoreGetDatabaseOperationsResponse>;
+      },
+    );
+  }
+
+  /**
+   * Update files in Syms
+   * @param id - The name of the database to be updated
+   * @param updateBody - The body for the update request
+   * @param options - The options parameters.
+   */
+  async update(
+    id: string,
+    updateBody: MetastoreUpdateObject,
+    options?: MetastoreUpdateOptionalParams,
+  ): Promise<MetastoreUpdateResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.update",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { id, updateBody, updatedOptions },
+          updateOperationSpec,
+        ) as Promise<MetastoreUpdateResponse>;
+      },
+    );
+  }
+
+  /**
+   * Remove files in Syms
+   * @param id - The name of the database to be deleted
+   * @param options - The options parameters.
+   */
+  async delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.delete",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { id, updatedOptions },
+          deleteOperationSpec,
+        ) as Promise<void>;
+      },
+    );
+  }
+}

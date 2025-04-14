@@ -5,13 +5,10 @@
  *  @summary This sample demonstrates how to retrieve time series data.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -30,17 +27,20 @@ export async function main() {
 }
 
 // get enriched series data for a detection configuration
-async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConfigId: string) {
+async function getEnrichedSeriesData(
+  client: MetricsAdvisorClient,
+  detectionConfigId: string,
+): Promise<void> {
   console.log("Retrieving metric enriched series data...");
   try {
     const result = await client.getMetricEnrichedSeriesData(
       detectionConfigId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const enriched of result) {
@@ -65,17 +65,17 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
   }
 }
 
-async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: string) {
+async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: string): Promise<void> {
   console.log("Retrieving metric series data...");
   try {
     const result = await client.getMetricSeriesData(
       metricId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const series of result) {

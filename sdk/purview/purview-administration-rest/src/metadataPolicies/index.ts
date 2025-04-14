@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as Models from "./models";
-import * as Pagination from "./paginateHelper";
-import * as Parameters from "./parameters";
-import * as Client from "./clientDefinitions";
-import * as Responses from "./responses";
-export { PurviewMetadataPoliciesClient } from "./purviewMetadataPolicies";
-export { Models, Pagination, Parameters, Client, Responses };
+import * as Parameters from "./parameters.js";
+import * as Responses from "./responses.js";
+import * as Client from "./clientDefinitions.js";
+import * as Models from "./models.js";
+import * as OutputModels from "./outputModels.js";
+import * as PaginateHelper from "./paginateHelper.js";
+import * as UnexpectedHelper from "./isUnexpected.js";
+
+export { createClient, PurviewMetadataPoliciesClientOptions } from "./purviewMetadataPolicies.js";
+export { Parameters, Responses, Client, Models, OutputModels, PaginateHelper, UnexpectedHelper };

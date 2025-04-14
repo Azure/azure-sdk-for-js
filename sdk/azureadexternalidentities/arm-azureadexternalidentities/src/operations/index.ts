@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./b2CTenants";
-export * from "./operations";
-export * from "./guestUsages";
+export * from "./b2CTenants.js";
+export * from "./operations.js";
+export * from "./guestUsages.js";

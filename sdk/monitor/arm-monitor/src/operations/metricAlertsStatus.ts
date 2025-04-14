@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricAlertsStatus } from "../operationsInterfaces";
+import { MetricAlertsStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   MetricAlertsStatusListOptionalParams,
   MetricAlertsStatusListResponse,
   MetricAlertsStatusListByNameOptionalParams,
-  MetricAlertsStatusListByNameResponse
-} from "../models";
+  MetricAlertsStatusListByNameResponse,
+} from "../models/index.js";
 
 /** Class containing MetricAlertsStatus operations. */
 export class MetricAlertsStatusImpl implements MetricAlertsStatus {
@@ -39,11 +39,11 @@ export class MetricAlertsStatusImpl implements MetricAlertsStatus {
   list(
     resourceGroupName: string,
     ruleName: string,
-    options?: MetricAlertsStatusListOptionalParams
+    options?: MetricAlertsStatusListOptionalParams,
   ): Promise<MetricAlertsStatusListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -58,11 +58,11 @@ export class MetricAlertsStatusImpl implements MetricAlertsStatus {
     resourceGroupName: string,
     ruleName: string,
     statusName: string,
-    options?: MetricAlertsStatusListByNameOptionalParams
+    options?: MetricAlertsStatusListByNameOptionalParams,
   ): Promise<MetricAlertsStatusListByNameResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, statusName, options },
-      listByNameOperationSpec
+      listByNameOperationSpec,
     );
   }
 }
@@ -70,47 +70,45 @@ export class MetricAlertsStatusImpl implements MetricAlertsStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricAlertStatusCollection
+      bodyMapper: Mappers.MetricAlertStatusCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status/{statusName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}/status/{statusName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricAlertStatusCollection
+      bodyMapper: Mappers.MetricAlertStatusCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.ruleName,
-    Parameters.statusName
+    Parameters.statusName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

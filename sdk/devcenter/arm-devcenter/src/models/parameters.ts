@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DevCenter as DevCenterMapper,
@@ -17,9 +17,9 @@ import {
   Project as ProjectMapper,
   ProjectUpdate as ProjectUpdateMapper,
   AttachedNetworkConnection as AttachedNetworkConnectionMapper,
-  Gallery as GalleryMapper,
   Catalog as CatalogMapper,
   CatalogUpdate as CatalogUpdateMapper,
+  Gallery as GalleryMapper,
   EnvironmentType as EnvironmentTypeMapper,
   EnvironmentTypeUpdate as EnvironmentTypeUpdateMapper,
   ProjectEnvironmentType as ProjectEnvironmentTypeMapper,
@@ -27,13 +27,14 @@ import {
   DevBoxDefinition as DevBoxDefinitionMapper,
   DevBoxDefinitionUpdate as DevBoxDefinitionUpdateMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
+  CheckScopedNameAvailabilityRequest as CheckScopedNameAvailabilityRequestMapper,
   Pool as PoolMapper,
   PoolUpdate as PoolUpdateMapper,
   Schedule as ScheduleMapper,
   ScheduleUpdate as ScheduleUpdateMapper,
   NetworkConnection as NetworkConnectionMapper,
-  NetworkConnectionUpdate as NetworkConnectionUpdateMapper
-} from "../models/mappers";
+  NetworkConnectionUpdate as NetworkConnectionUpdateMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -42,9 +43,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -53,36 +54,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2024-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -90,9 +91,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -100,25 +101,30 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const devCenterName: OperationURLParameter = {
   parameterPath: "devCenterName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]{2,25}$"),
+      MaxLength: 26,
+      MinLength: 3,
+    },
     serializedName: "devCenterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -128,19 +134,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: DevCenterMapper
+  mapper: DevCenterMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: DevCenterUpdateMapper
+  mapper: DevCenterUpdateMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -149,158 +155,214 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const projectName: OperationURLParameter = {
   parameterPath: "projectName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "projectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: ProjectMapper
+  mapper: ProjectMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: ProjectUpdateMapper
+  mapper: ProjectUpdateMapper,
 };
 
 export const attachedNetworkConnectionName: OperationURLParameter = {
   parameterPath: "attachedNetworkConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "attachedNetworkConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body4: OperationParameter = {
   parameterPath: "body",
-  mapper: AttachedNetworkConnectionMapper
-};
-
-export const galleryName: OperationURLParameter = {
-  parameterPath: "galleryName",
-  mapper: {
-    serializedName: "galleryName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body5: OperationParameter = {
-  parameterPath: "body",
-  mapper: GalleryMapper
-};
-
-export const imageName: OperationURLParameter = {
-  parameterPath: "imageName",
-  mapper: {
-    serializedName: "imageName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const versionName: OperationURLParameter = {
-  parameterPath: "versionName",
-  mapper: {
-    serializedName: "versionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: AttachedNetworkConnectionMapper,
 };
 
 export const catalogName: OperationURLParameter = {
   parameterPath: "catalogName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "catalogName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: CatalogMapper,
 };
 
 export const body6: OperationParameter = {
   parameterPath: "body",
-  mapper: CatalogMapper
+  mapper: CatalogUpdateMapper,
+};
+
+export const environmentDefinitionName: OperationURLParameter = {
+  parameterPath: "environmentDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "environmentDefinitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryName: OperationURLParameter = {
+  parameterPath: "galleryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "galleryName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const body7: OperationParameter = {
   parameterPath: "body",
-  mapper: CatalogUpdateMapper
+  mapper: GalleryMapper,
+};
+
+export const imageName: OperationURLParameter = {
+  parameterPath: "imageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-.]{0,78}[a-zA-Z0-9]$"),
+      MaxLength: 80,
+      MinLength: 3,
+    },
+    serializedName: "imageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const versionName: OperationURLParameter = {
+  parameterPath: "versionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]{1,10}[.][0-9]{1,10}[.][0-9]{1,10}$"),
+      MaxLength: 32,
+      MinLength: 5,
+    },
+    serializedName: "versionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const environmentTypeName: OperationURLParameter = {
   parameterPath: "environmentTypeName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "environmentTypeName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body8: OperationParameter = {
   parameterPath: "body",
-  mapper: EnvironmentTypeMapper
+  mapper: EnvironmentTypeMapper,
 };
 
 export const body9: OperationParameter = {
   parameterPath: "body",
-  mapper: EnvironmentTypeUpdateMapper
+  mapper: EnvironmentTypeUpdateMapper,
 };
 
 export const body10: OperationParameter = {
   parameterPath: "body",
-  mapper: ProjectEnvironmentTypeMapper
+  mapper: ProjectEnvironmentTypeMapper,
 };
 
 export const body11: OperationParameter = {
   parameterPath: "body",
-  mapper: ProjectEnvironmentTypeUpdateMapper
+  mapper: ProjectEnvironmentTypeUpdateMapper,
 };
 
 export const devBoxDefinitionName: OperationURLParameter = {
   parameterPath: "devBoxDefinitionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "devBoxDefinitionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body12: OperationParameter = {
   parameterPath: "body",
-  mapper: DevBoxDefinitionMapper
+  mapper: DevBoxDefinitionMapper,
 };
 
 export const body13: OperationParameter = {
   parameterPath: "body",
-  mapper: DevBoxDefinitionUpdateMapper
+  mapper: DevBoxDefinitionUpdateMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -309,9 +371,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -320,35 +382,45 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nameAvailabilityRequest: OperationParameter = {
   parameterPath: "nameAvailabilityRequest",
-  mapper: CheckNameAvailabilityRequestMapper
+  mapper: CheckNameAvailabilityRequestMapper,
+};
+
+export const nameAvailabilityRequest1: OperationParameter = {
+  parameterPath: "nameAvailabilityRequest",
+  mapper: CheckScopedNameAvailabilityRequestMapper,
 };
 
 export const poolName: OperationURLParameter = {
   parameterPath: "poolName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "poolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body14: OperationParameter = {
   parameterPath: "body",
-  mapper: PoolMapper
+  mapper: PoolMapper,
 };
 
 export const body15: OperationParameter = {
   parameterPath: "body",
-  mapper: PoolUpdateMapper
+  mapper: PoolUpdateMapper,
 };
 
 export const scheduleName: OperationURLParameter = {
@@ -357,43 +429,48 @@ export const scheduleName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w]+$"),
       MaxLength: 100,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "scheduleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body16: OperationParameter = {
   parameterPath: "body",
-  mapper: ScheduleMapper
+  mapper: ScheduleMapper,
 };
 
 export const body17: OperationParameter = {
   parameterPath: "body",
-  mapper: ScheduleUpdateMapper
+  mapper: ScheduleUpdateMapper,
 };
 
 export const networkConnectionName: OperationURLParameter = {
   parameterPath: "networkConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
     serializedName: "networkConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body18: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkConnectionMapper
+  mapper: NetworkConnectionMapper,
 };
 
 export const body19: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkConnectionUpdateMapper
+  mapper: NetworkConnectionUpdateMapper,
 };

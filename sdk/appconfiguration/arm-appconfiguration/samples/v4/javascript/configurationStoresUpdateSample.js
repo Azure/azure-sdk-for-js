@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdate.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdate.json
  */
 async function configurationStoresUpdate() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function configurationStoresUpdate() {
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function configurationStoresUpdate() {
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
  */
 async function configurationStoresUpdateDisableLocalAuth() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function configurationStoresUpdateDisableLocalAuth() {
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function configurationStoresUpdateDisableLocalAuth() {
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdateWithIdentity.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateWithIdentity.json
  */
 async function configurationStoresUpdateWithIdentity() {
   const subscriptionId =
@@ -89,7 +89,7 @@ async function configurationStoresUpdateWithIdentity() {
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }

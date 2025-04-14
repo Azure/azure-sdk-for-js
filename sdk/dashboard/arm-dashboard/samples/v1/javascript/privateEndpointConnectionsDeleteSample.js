@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete private endpoint connection
  *
  * @summary Delete private endpoint connection
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateEndpointConnections_Delete.json
  */
 async function privateEndpointConnectionsDelete() {
   const subscriptionId =

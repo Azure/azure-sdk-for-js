@@ -1,14 +1,17 @@
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { ManagedPrivateEndpoint, ManagedPrivateEndpointsClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ManagedPrivateEndpoint, ManagedPrivateEndpointsClient } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Synapse Managed Private Endpoints", () => {
   let recorder: Recorder;
   let client: ManagedPrivateEndpointsClient;
 
-  beforeEach(async function() {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
@@ -18,7 +21,7 @@ describe("Synapse Managed Private Endpoints", () => {
 
   it("should list endpoints", async () => {
     const result = client.managedPrivateEndpoints.list("default");
-    let endpoints: ManagedPrivateEndpoint[] = [];
+    const endpoints: ManagedPrivateEndpoint[] = [];
 
     for await (const endpoint of result) {
       endpoints.push(endpoint);

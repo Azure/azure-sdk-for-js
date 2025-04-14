@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a Scheduled.
  *
  * @summary Partially updates a Scheduled.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Schedules_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Schedules_Patch.json
  */
 async function schedulesUpdate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function schedulesUpdate() {
     projectName,
     poolName,
     scheduleName,
-    body
+    body,
   );
   console.log(result);
 }

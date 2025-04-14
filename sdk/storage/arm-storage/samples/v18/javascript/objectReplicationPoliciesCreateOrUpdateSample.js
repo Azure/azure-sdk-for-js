@@ -6,24 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnDestination() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "dst112";
   const objectReplicationPolicyId = "default";
   const properties = {
     destinationAccount: "dst112",
+    metrics: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -39,26 +39,25 @@ async function storageAccountCreateObjectReplicationPolicyOnDestination() {
     resourceGroupName,
     accountName,
     objectReplicationPolicyId,
-    properties
+    properties,
   );
   console.log(result);
 }
-
-storageAccountCreateObjectReplicationPolicyOnDestination().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnSource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "src1122";
   const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
   const properties = {
     destinationAccount: "dst112",
+    metrics: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -78,26 +77,25 @@ async function storageAccountCreateObjectReplicationPolicyOnSource() {
     resourceGroupName,
     accountName,
     objectReplicationPolicyId,
-    properties
+    properties,
   );
   console.log(result);
 }
-
-storageAccountCreateObjectReplicationPolicyOnSource().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnDestination() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "dst112";
   const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
   const properties = {
     destinationAccount: "dst112",
+    metrics: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -115,26 +113,25 @@ async function storageAccountUpdateObjectReplicationPolicyOnDestination() {
     resourceGroupName,
     accountName,
     objectReplicationPolicyId,
-    properties
+    properties,
   );
   console.log(result);
 }
-
-storageAccountUpdateObjectReplicationPolicyOnDestination().catch(console.error);
 
 /**
  * This sample demonstrates how to Create or update the object replication policy of the storage account.
  *
  * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnSource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "src1122";
   const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
   const properties = {
     destinationAccount: "dst112",
+    metrics: { enabled: true },
     rules: [
       {
         destinationContainer: "dcont139",
@@ -156,9 +153,16 @@ async function storageAccountUpdateObjectReplicationPolicyOnSource() {
     resourceGroupName,
     accountName,
     objectReplicationPolicyId,
-    properties
+    properties,
   );
   console.log(result);
 }
 
-storageAccountUpdateObjectReplicationPolicyOnSource().catch(console.error);
+async function main() {
+  await storageAccountCreateObjectReplicationPolicyOnDestination();
+  await storageAccountCreateObjectReplicationPolicyOnSource();
+  await storageAccountUpdateObjectReplicationPolicyOnDestination();
+  await storageAccountUpdateObjectReplicationPolicyOnSource();
+}
+
+main().catch(console.error);

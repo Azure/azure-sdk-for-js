@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.12.0";
-export const SERVICE_VERSION: string = "2021-12-02";
+export const SDK_VERSION: string = "12.26.0";
+export const SERVICE_VERSION: string = "2025-05-05";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;
@@ -16,6 +16,9 @@ export const FILE_UPLOAD_DEFAULT_CHUNK_SIZE: number = 8 * MB;
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const FILE_MAX_SIZE_BYTES: number = BLOCK_BLOB_MAX_BLOCKS * FILE_UPLOAD_MAX_CHUNK_SIZE;
 
+/**
+ * The OAuth scope to use with Azure Storage.
+ */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const StorageDataLakeLoggingAllowedHeaderNames = [

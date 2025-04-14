@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all relevant governance rules over a scope
@@ -20,13 +18,10 @@ dotenv.config();
  * @summary Get a list of all relevant governance rules over a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/ListByManagementGroupGovernanceRules_example.json
  */
-async function listGovernanceRulesByManagementGroupScope() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listGovernanceRulesByManagementGroupScope(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/contoso";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.governanceRules.list(scope)) {
     resArray.push(item);
@@ -40,14 +35,11 @@ async function listGovernanceRulesByManagementGroupScope() {
  * @summary Get a list of all relevant governance rules over a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/ListBySecurityConnectorGovernanceRules_example.json
  */
-async function listGovernanceRulesBySecurityConnectorScope() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listGovernanceRulesBySecurityConnectorScope(): Promise<void> {
   const scope =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/gcpResourceGroup/providers/Microsoft.Security/securityConnectors/gcpconnector";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.governanceRules.list(scope)) {
     resArray.push(item);
@@ -61,13 +53,10 @@ async function listGovernanceRulesBySecurityConnectorScope() {
  * @summary Get a list of all relevant governance rules over a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/ListBySubscriptionGovernanceRules_example.json
  */
-async function listGovernanceRulesBySubscriptionScope() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function listGovernanceRulesBySubscriptionScope(): Promise<void> {
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.governanceRules.list(scope)) {
     resArray.push(item);
@@ -75,7 +64,7 @@ async function listGovernanceRulesBySubscriptionScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listGovernanceRulesByManagementGroupScope();
   listGovernanceRulesBySecurityConnectorScope();
   listGovernanceRulesBySubscriptionScope();

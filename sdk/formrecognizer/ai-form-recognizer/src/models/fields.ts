@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DocumentSpan } from "..";
+import type { DocumentSpan } from "../index.js";
 
-import { AddressValue, CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
-import { toBoundingRegions } from "../transforms/polygon";
-import { capitalize } from "../util";
-import { BoundingRegion } from "./documentElements";
+import type {
+  AddressValue,
+  CurrencyValue,
+  DocumentField as GeneratedDocumentField,
+} from "../generated/index.js";
+import { toBoundingRegions } from "../transforms/polygon.js";
+import { capitalize } from "../util.js";
+import type { BoundingRegion } from "./documentElements.js";
 
 /**
  * Fields that are common to all DocumentField variants.
@@ -240,10 +244,13 @@ export interface DocumentObjectField<Properties = { [k: string]: DocumentField |
 export function toAnalyzedDocumentFieldsFromGenerated(fields: {
   [k: string]: GeneratedDocumentField;
 }): { [k: string]: DocumentField } {
-  return Object.entries(fields ?? {}).reduce((transformedFields, [name, value]) => {
-    transformedFields[name] = toDocumentField(value);
-    return transformedFields;
-  }, {} as { [k: string]: DocumentField });
+  return Object.entries(fields ?? {}).reduce(
+    (transformedFields, [name, value]) => {
+      transformedFields[name] = toDocumentField(value);
+      return transformedFields;
+    },
+    {} as { [k: string]: DocumentField },
+  );
 }
 
 /**

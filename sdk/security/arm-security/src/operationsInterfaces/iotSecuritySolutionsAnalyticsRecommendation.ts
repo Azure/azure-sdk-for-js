@@ -11,8 +11,8 @@ import {
   IoTSecurityAggregatedRecommendation,
   IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
-  IotSecuritySolutionsAnalyticsRecommendationGetResponse
-} from "../models";
+  IotSecuritySolutionsAnalyticsRecommendationGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IotSecuritySolutionsAnalyticsRecommendation. */
@@ -28,7 +28,7 @@ export interface IotSecuritySolutionsAnalyticsRecommendation {
   list(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecurityAggregatedRecommendation>;
   /**
    * Use this method to get the aggregated security analytics recommendation of yours IoT Security
@@ -43,6 +43,6 @@ export interface IotSecuritySolutionsAnalyticsRecommendation {
     resourceGroupName: string,
     solutionName: string,
     aggregatedRecommendationName: string,
-    options?: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams
+    options?: IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
   ): Promise<IotSecuritySolutionsAnalyticsRecommendationGetResponse>;
 }

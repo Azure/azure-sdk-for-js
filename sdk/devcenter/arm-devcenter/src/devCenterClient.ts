@@ -11,13 +11,16 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   DevCentersImpl,
   ProjectsImpl,
   AttachedNetworksImpl,
+  ProjectCatalogsImpl,
+  EnvironmentDefinitionsImpl,
+  ProjectCatalogEnvironmentDefinitionsImpl,
   GalleriesImpl,
   ImagesImpl,
   ImageVersionsImpl,
@@ -30,15 +33,19 @@ import {
   OperationStatusesImpl,
   UsagesImpl,
   CheckNameAvailabilityImpl,
+  CheckScopedNameAvailabilityImpl,
   SkusImpl,
   PoolsImpl,
   SchedulesImpl,
-  NetworkConnectionsImpl
-} from "./operations";
+  NetworkConnectionsImpl,
+} from "./operations/index.js";
 import {
   DevCenters,
   Projects,
   AttachedNetworks,
+  ProjectCatalogs,
+  EnvironmentDefinitions,
+  ProjectCatalogEnvironmentDefinitions,
   Galleries,
   Images,
   ImageVersions,
@@ -51,12 +58,13 @@ import {
   OperationStatuses,
   Usages,
   CheckNameAvailability,
+  CheckScopedNameAvailability,
   Skus,
   Pools,
   Schedules,
-  NetworkConnections
-} from "./operationsInterfaces";
-import { DevCenterClientOptionalParams } from "./models";
+  NetworkConnections,
+} from "./operationsInterfaces/index.js";
+import { DevCenterClientOptionalParams } from "./models/index.js";
 
 export class DevCenterClient extends coreClient.ServiceClient {
   $host: string;
@@ -72,7 +80,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: DevCenterClientOptionalParams
+    options?: DevCenterClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -87,10 +95,10 @@ export class DevCenterClient extends coreClient.ServiceClient {
     }
     const defaults: DevCenterClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.0.0`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,20 +108,21 @@ export class DevCenterClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -123,7 +132,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -133,9 +142,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -143,24 +152,30 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-01";
+    this.apiVersion = options.apiVersion || "2024-02-01";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
+    this.projectCatalogs = new ProjectCatalogsImpl(this);
+    this.environmentDefinitions = new EnvironmentDefinitionsImpl(this);
+    this.projectCatalogEnvironmentDefinitions =
+      new ProjectCatalogEnvironmentDefinitionsImpl(this);
     this.galleries = new GalleriesImpl(this);
     this.images = new ImagesImpl(this);
     this.imageVersions = new ImageVersionsImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
-    this.projectAllowedEnvironmentTypes = new ProjectAllowedEnvironmentTypesImpl(
-      this
-    );
+    this.projectAllowedEnvironmentTypes =
+      new ProjectAllowedEnvironmentTypesImpl(this);
     this.projectEnvironmentTypes = new ProjectEnvironmentTypesImpl(this);
     this.devBoxDefinitions = new DevBoxDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
     this.operationStatuses = new OperationStatusesImpl(this);
     this.usages = new UsagesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.checkScopedNameAvailability = new CheckScopedNameAvailabilityImpl(
+      this,
+    );
     this.skus = new SkusImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
@@ -177,7 +192,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -191,7 +206,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -199,6 +214,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
   devCenters: DevCenters;
   projects: Projects;
   attachedNetworks: AttachedNetworks;
+  projectCatalogs: ProjectCatalogs;
+  environmentDefinitions: EnvironmentDefinitions;
+  projectCatalogEnvironmentDefinitions: ProjectCatalogEnvironmentDefinitions;
   galleries: Galleries;
   images: Images;
   imageVersions: ImageVersions;
@@ -211,6 +229,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   operationStatuses: OperationStatuses;
   usages: Usages;
   checkNameAvailability: CheckNameAvailability;
+  checkScopedNameAvailability: CheckScopedNameAvailability;
   skus: Skus;
   pools: Pools;
   schedules: Schedules;

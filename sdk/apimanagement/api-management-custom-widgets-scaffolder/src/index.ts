@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @packageDocumentation https://aka.ms/apimdocs/portal/customwidgets
@@ -11,11 +11,11 @@ export {
   TECHNOLOGIES,
   displayNameToName,
   widgetFolderName,
-} from "./scaffolding";
-export { generateProject } from "./generateProject";
+} from "./scaffolding.js";
+export { generateProject } from "./generateProject.js";
 export type {
   WidgetConfig as CustomWidgetCommonConfig,
-  DeploymentConfig,
+  ServiceInformation as DeploymentConfig,
   Options,
   ScaffoldTech,
-} from "./scaffolding";
+} from "./scaffolding.js";

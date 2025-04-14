@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Server, ReplicasListByServerOptionalParams } from "../models";
+import { Server, ReplicasListByServerOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Replicas. */
@@ -21,6 +21,6 @@ export interface Replicas {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Server>;
 }

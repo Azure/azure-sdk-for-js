@@ -130,7 +130,7 @@ node accessControlRecordsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node accessControlRecordsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node accessControlRecordsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -231,6 +231,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storagedomainsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple1200series/arm-storsimple1200series/samples/v2/javascript/storageDomainsDeleteSample.js
 [storagedomainsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple1200series/arm-storsimple1200series/samples/v2/javascript/storageDomainsGetSample.js
 [storagedomainslistbymanagersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple1200series/arm-storsimple1200series/samples/v2/javascript/storageDomainsListByManagerSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storsimple1200series?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storsimple1200series?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storsimple1200series/arm-storsimple1200series/README.md

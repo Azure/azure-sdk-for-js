@@ -11,8 +11,8 @@ import {
   ServiceObjective,
   ServiceObjectivesListByServerOptionalParams,
   ServiceObjectivesGetOptionalParams,
-  ServiceObjectivesGetResponse
-} from "../models";
+  ServiceObjectivesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceObjectives. */
@@ -27,7 +27,7 @@ export interface ServiceObjectives {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ServiceObjectivesListByServerOptionalParams
+    options?: ServiceObjectivesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServiceObjective>;
   /**
    * Gets a database service objective.
@@ -41,6 +41,6 @@ export interface ServiceObjectives {
     resourceGroupName: string,
     serverName: string,
     serviceObjectiveName: string,
-    options?: ServiceObjectivesGetOptionalParams
+    options?: ServiceObjectivesGetOptionalParams,
   ): Promise<ServiceObjectivesGetResponse>;
 }

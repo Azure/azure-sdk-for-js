@@ -17,7 +17,7 @@ import {
   SavingsPlanUpdateValidateRequest as SavingsPlanUpdateValidateRequestMapper,
   SavingsPlanPurchaseValidateRequest as SavingsPlanPurchaseValidateRequestMapper,
   ReservationOrderAliasRequest as ReservationOrderAliasRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

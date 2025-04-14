@@ -1,20 +1,40 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RecorderStartOptions } from "@azure-tools/test-recorder";
-
-const envSetupForPlayback: Record<string, string> = {
-  WPS_CONNECTION_STRING: "Endpoint=endpoint;AccessKey=api_key;Version=1.0;",
-  WPS_API_KEY: "api_key",
-  WPS_ENDPOINT: "https://endpoint",
-  WPS_REVERSE_PROXY_ENDPOINT: "https://endpoint",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azuretenantid",
-};
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import {
+  getConnectionString,
+  getEndpoint,
+  getReverseProxyEndpoint,
+  getSocketIOEndpoint,
+} from "./utils/injectables.js";
+import * as MOCKS from "./utils/constants.js";
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
+  sanitizerOptions: {
+    uriSanitizers: [
+      {
+        target: getEndpoint(),
+        value: MOCKS.ENDPOINT,
+      },
+      {
+        target: getReverseProxyEndpoint(),
+        value: MOCKS.REVERSE_PROXY_ENDPOINT,
+      },
+      {
+        target: getSocketIOEndpoint(),
+        value: MOCKS.SOCKETIO_ENDPOINT,
+      },
+    ],
+    connectionStringSanitizers: [
+      {
+        actualConnString: getConnectionString(),
+        fakeConnString: MOCKS.CONNECTION_STRING,
+      },
+    ],
+  },
+  removeCentralSanitizers: ["AZSDK4001"],
 };
 
 export default recorderOptions;

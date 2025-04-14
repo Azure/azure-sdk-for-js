@@ -9,7 +9,7 @@ a CLA and decorate the PR appropriately (e.g., status check, comment). Simply fo
 provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 # How to contribute to the Azure SDK for Javascript
@@ -23,7 +23,7 @@ There are many ways that you can contribute to the Azure SDK for JavaScript proj
 
 All code submissions will be reviewed and tested by the team, and those that meet a high bar for both quality and design/roadmap appropriateness will be merged into the source. Be sure to follow the existing file/folder structure when adding new boards or sensors.
 
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
+If you encounter any bugs with the library, please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
 
 ## Things to keep in mind when contributing
 
@@ -35,7 +35,7 @@ Some guidance for when you make a contribution:
 
 ## Big contributions
 
-If your contribution is significantly big it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
+If your contribution is significantly big, it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
 
 ## Project orchestration
 
@@ -86,6 +86,8 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
     **On Linux, development headers for `libsecret` are also required.** Typically, these are available in a package called `libsecret-1-dev` (Debian/Ubuntu) or `libsecret-devel` (Fedora/Red Hat).
 
+    **[setuptools](https://pypi.org/project/setuptools/) is also a required Python library**. It can be installed using `pip install setuptools`.
+
 - Rush 5.x
   - Install / update Rush globally via `npm install -g @microsoft/rush`.
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
@@ -97,16 +99,15 @@ If you prefer to setup your own environment instead, make sure you have these pr
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 
-To build packages managed by Rush:
+To build all packages:
 
 4. Install and link all dependencies (`rush update`)
 5. Build the code base (`rush rebuild`)
 
-To build packages not managed by Rush:
+To build specific package(s), use `-t` rush command-line option:
 
-4. Navigate to the package directory as described in our [repository structure](https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md)
-5. Install the package dependencies (`npm install`)
-6. Build the package (`npm run build`)
+6. Install and link all dependencies (`rush update`)
+7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package directory, `rush build -t .`
 
 ## Development Workflows
 
@@ -123,6 +124,8 @@ To remove a dependency, you must edit the package.json to remove the dependency 
 If you manually edit dependencies within the package.json for any reason, make sure to run `rush update` afterwards to update the project's node_modules directory.
 
 Any time you add, update, or remove dependencies, running `rush update` will generate a diff to the file `common/config/rush/pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the Rush workspace. Do not check in any package-lock.json files.
+
+Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [the instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) on resolve PR merge conflicts for `common/config/rush/pnpm-lock.yaml`
 
 ### Resolving dependency version conflicts
 
@@ -153,11 +156,11 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `3.m.n`.
-Currently, version `3.m.n` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
-Eventually, all the tests will be migrated to depend on the `3.m.n` version of the recorder that depends on the language-agnostic [test proxy server].
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `4.m.n`.
+Currently, version `4.m.n` is maintained in the repository which is built as part of a cross-language unification effort in terms of the tests and recordings.
+Eventually, all the tests will be migrated to depend on the `4.m.n` version of the recorder that depends on the language-agnostic [test proxy server].
 
-Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v3.
+Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md#migration-steps-for-existing-recordings) for more information on migrating the tests from recorder v4.
 
 #### Live tests
 
@@ -179,7 +182,7 @@ If you modify the network calls (both the number of calls or their shape) either
 
 Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
 
-For more information the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+For more information about the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
 Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) that can be handy while testing your SDKs.
 
@@ -250,13 +253,13 @@ In the case where you do not want to generate documentation for a specific defin
 To maintain the quality of the documentation, the following two facilities are provided:
 
 - an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
-- the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
+- documentation artifacts are generated in pull request checks Azure Pipelines. They can be downloaded, extracted to local disk, and inspected by opening `azure-<package name>/<version>/index.html` in your favorite browser. Click on "xx published; xx consumed" under **Related**, expand packages > azure-xxxxx > documentation then download the azure-xxxxx.zip file.
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
 ### Formatting changed files
 
-We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rush prettier`.
+We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rushx format` under your package directory.
 
 ### Enforcing Azure SDK design guidelines
 
@@ -265,11 +268,17 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
 - [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
 - add a linting npm script as follows:
-  - ["lint": "eslint package.json api-extractor.json src test --ext .ts"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+  - ["lint": "eslint package.json api-extractor.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by excuting `rushx lint` inside your package directory.
+You can run the plugin by executing `rushx lint` inside your package directory. You need to build the plugin at least once either directly via `rush build -t eslint-plugin-azure-sdk`, or indirectly as your package's dependency by `rush build -t .` under your package directory.
 
-If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
+
+```javascript
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default [...azsdkEslint.configs.internal];
+```
 
 ## Onboarding a new library
 
@@ -281,7 +290,7 @@ The second type of libraries is more complex to develop and maintain because the
 
 Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
-In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `audit`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that performs steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
+In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 
 Because Rush uses PNPM to download and manage dependencies, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the Rush toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
 
@@ -312,7 +321,7 @@ nodeResolve({
 
 ### Package Versioning
 
-For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+For information about packages are versioned and tagged, see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
 
 ### Core Client libraries
 
@@ -339,7 +348,7 @@ When code samples take dependencies, readers should be able to use the material 
 
 Samples may take the following categories of dependencies:
 
-- **Open-source** : Open source offerings that use an [Open Source Initiative (OSI) approved license](https://opensource.org/licenses). Any component whose license isn't OSI-approved is considered a commercial offering. Prefer OSS projects that are members of any of the [OSS foundations that Microsoft is part of](https://opensource.microsoft.com/ecosystem/). Prefer permissive licenses for libraries, like [MIT](https://opensource.org/licenses/MIT) and [Apache 2](https://opensource.org/licenses/Apache-2.0). Copy-left licenses like [GPL](https://opensource.org/licenses/gpl-license) are acceptable for tools, and OSs. [Kubernetes](https://github.com/kubernetes/kubernetes), [Linux](https://github.com/torvalds/linux), and [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) are examples of this license type. Links to open source components should be to where the source is hosted, including any applicable license, such as a GitHub repository (or similar).
+- **Open-source** : Open source offerings that use an [Open Source Initiative (OSI) approved license](https://opensource.org/licenses). Any component whose license isn't OSI-approved is considered a commercial offering. Prefer OSS projects that are members of any of the [OSS foundations that Microsoft is part of](https://opensource.microsoft.com/ecosystem/). Prefer permissive licenses for libraries, like [MIT](https://opensource.org/license/MIT) and [Apache 2](https://opensource.org/license/Apache-2.0). Copy-left licenses like [GPL](https://opensource.org/license/gpl-2-0) are acceptable for tools, and OSs. [Kubernetes](https://github.com/kubernetes/kubernetes), [Linux](https://github.com/torvalds/linux), and [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) are examples of this license type. Links to open source components should be to where the source is hosted, including any applicable license, such as a GitHub repository (or similar).
 
 - **Commercial**: Commercial offerings that enable readers to learn from our content without unnecessary extra costs. Typically, the offering has some form of a community edition, or a free trial sufficient for its use in content. A commercial license may be a form of dual-license, or tiered license. Links to commercial components should be to the commercial site for the software, even if the source software is hosted publicly on GitHub (or similar).
 

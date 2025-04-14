@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ApplicationGroup,
-  EventHubManagementClient
+  EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an ApplicationGroup for a Namespace.
  *
  * @summary Creates or updates an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ApplicationGroup/ApplicationGroupCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ApplicationGroup/ApplicationGroupCreate.json
  */
-async function applicationGroupCreate() {
+async function applicationGroupCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,35 +35,36 @@ async function applicationGroupCreate() {
         name: "ThrottlingPolicy1",
         type: "ThrottlingPolicy",
         metricId: "IncomingMessages",
-        rateLimitThreshold: 7912
+        rateLimitThreshold: 7912,
       },
       {
         name: "ThrottlingPolicy2",
         type: "ThrottlingPolicy",
         metricId: "IncomingBytes",
-        rateLimitThreshold: 3951729
+        rateLimitThreshold: 3951729,
       },
       {
         name: "ThrottlingPolicy3",
         type: "ThrottlingPolicy",
         metricId: "OutgoingBytes",
-        rateLimitThreshold: 245175
-      }
-    ]
+        rateLimitThreshold: 245175,
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.applicationGroupOperations.createOrUpdateApplicationGroup(
-    resourceGroupName,
-    namespaceName,
-    applicationGroupName,
-    parameters
-  );
+  const result =
+    await client.applicationGroupOperations.createOrUpdateApplicationGroup(
+      resourceGroupName,
+      namespaceName,
+      applicationGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
-async function main() {
-  applicationGroupCreate();
+async function main(): Promise<void> {
+  await applicationGroupCreate();
 }
 
 main().catch(console.error);

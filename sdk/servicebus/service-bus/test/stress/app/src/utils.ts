@@ -1,4 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { randomUUID } from "@azure/core-util";
 
 export interface OperationInfo {
   numberOfSuccesses: number;
@@ -9,7 +12,7 @@ export interface LockRenewalOperationInfo extends OperationInfo {
   /**
    * key - id, value - next renewal timer meant for the message/session-receiver
    */
-  lockRenewalTimers: { [key: string]: NodeJS.Timer };
+  lockRenewalTimers: { [key: string]: NodeJS.Timeout };
   /**
    * key - id, value - number of renewals
    */
@@ -61,12 +64,12 @@ export function generateMessage(useSessions: boolean, numberOfSessions: number) 
   return {
     body: `message ${Math.random()}`,
     sessionId: useSessions ? `session-${Math.ceil(Math.random() * numberOfSessions)}` : undefined,
-    messageId: uuidv4(),
+    messageId: randomUUID(),
   };
 }
 
 export async function saveDiscrepanciesFromTrackedMessages(
-  trackedMessageIds: TrackedMessageIdsInfo
+  trackedMessageIds: TrackedMessageIdsInfo,
 ) {
   const output = {
     messages_sent_but_never_received: [] as string[],

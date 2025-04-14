@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobBase,
   JobsListOptionalParams,
@@ -16,8 +16,8 @@ import {
   JobsGetResponse,
   JobsCreateOrUpdateOptionalParams,
   JobsCreateOrUpdateResponse,
-  JobsCancelOptionalParams
-} from "../models";
+  JobsCancelOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */
@@ -31,7 +31,7 @@ export interface Jobs {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: JobsListOptionalParams
+    options?: JobsListOptionalParams,
   ): PagedAsyncIterableIterator<JobBase>;
   /**
    * Deletes a Job (asynchronous).
@@ -44,8 +44,8 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    options?: JobsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: JobsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -57,7 +57,7 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a Job by name/id.
@@ -70,10 +70,11 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
   /**
    * Creates and executes a Job.
+   * For update case, the Tags in the definition passed in will replace Tags in the existing job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param id The name and identifier for the Job. This is case-sensitive.
@@ -85,7 +86,7 @@ export interface Jobs {
     workspaceName: string,
     id: string,
     body: JobBase,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<JobsCreateOrUpdateResponse>;
   /**
    * Cancels a Job (asynchronous).
@@ -98,8 +99,8 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    options?: JobsCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: JobsCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancels a Job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -111,6 +112,6 @@ export interface Jobs {
     resourceGroupName: string,
     workspaceName: string,
     id: string,
-    options?: JobsCancelOptionalParams
+    options?: JobsCancelOptionalParams,
   ): Promise<void>;
 }

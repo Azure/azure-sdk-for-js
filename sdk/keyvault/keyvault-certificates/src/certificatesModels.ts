@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import * as coreClient from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type * as coreClient from "@azure-rest/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
+import type {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.4";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 /**
  * The optional parameters accepted by the KeyVault's CertificateClient
@@ -24,7 +24,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.
@@ -283,6 +283,13 @@ export interface LifetimeAction {
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
+ * The action that will be executed.
+ * @deprecated Use {@link CertificatePolicyAction} instead.
+ */
+// Re-exported for backwards compatibility, at some point both ActionType and CertificatePolicyAction were exported in the public API.
+export type ActionType = CertificatePolicyAction;
+
+/**
  * An interface representing a certificate's policy (without the subject properties).
  */
 export interface CertificatePolicyProperties {
@@ -456,11 +463,19 @@ export interface CertificateProperties {
    */
   readonly x509Thumbprint?: Uint8Array;
   /**
+   * Thumbprint of the certifiate encoded as a hex string.
+   */
+  readonly x509ThumbprintString?: string;
+  /**
    * The retention dates of the softDelete data.
    * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**
@@ -581,6 +596,10 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**

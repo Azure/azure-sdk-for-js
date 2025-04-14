@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
-  featureFlagContentType,
-  featureFlagPrefix,
-} from "../../src";
-import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
-import { Recorder } from "@azure-tools/test-recorder";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "../../src/index.js";
+import { featureFlagContentType, featureFlagPrefix } from "../../src/index.js";
+import type { FeatureFlagValue } from "../../src/featureFlag.js";
+import { isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
@@ -21,8 +20,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this);
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       baseSetting = {
         value: {
@@ -67,7 +66,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
         label: baseSetting.label,
@@ -77,7 +76,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
 
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
-      expected: ConfigurationSetting<FeatureFlagValue>
+      expected: ConfigurationSetting<FeatureFlagValue>,
     ): void {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
       assert.isDefined(actual.value, "Expected the value to be defined");
@@ -85,12 +84,12 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       assert.equal(
         actual.key,
         expected.key,
-        "Key from the response from get request is not as expected"
+        "Key from the response from get request is not as expected",
       );
       assert.deepEqual(
         featureFlagValue.conditions,
         expected.value.conditions,
-        "conditions from the response from get request is not as expected"
+        "conditions from the response from get request is not as expected",
       );
       assert.equal(featureFlagValue.description, expected.value.description);
       assert.equal(featureFlagValue.enabled, expected.value.enabled);
@@ -183,7 +182,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       assert.equal(
         numberOFFeatureFlagsReceived,
         0,
-        "Unexpected number of FeatureFlags seen after updating"
+        "Unexpected number of FeatureFlags seen after updating",
       );
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
@@ -193,21 +192,21 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this);
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       featureFlag = {
         contentType: featureFlagContentType,
         key: `${featureFlagPrefix}${recorder.variable(
           "name-1",
-          `name-1${Math.floor(Math.random() * 1000)}`
+          `name-1${Math.floor(Math.random() * 1000)}`,
         )}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
       };
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({ key: featureFlag.key });
       await recorder.stop();
     });
@@ -219,7 +218,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         assert.equal(
           (await client.getConfigurationSetting({ key: featureFlag.key })).value,
           value,
-          "message"
+          "message",
         );
       });
     });

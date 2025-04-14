@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public (undocumented)
 export interface AccessPolicy {
@@ -18,7 +18,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "Hot" | "Cool" | "Premium";
+export type AccessTier = "Hot" | "Cool" | "Premium" | "Cold";
 
 // @public
 export interface AccountImmutabilityPolicyProperties {
@@ -29,6 +29,14 @@ export interface AccountImmutabilityPolicyProperties {
 
 // @public
 export type AccountImmutabilityPolicyState = string;
+
+// @public
+export interface AccountLimits {
+    readonly maxFileShares?: number;
+    readonly maxProvisionedBandwidthMiBPerSec?: number;
+    readonly maxProvisionedIops?: number;
+    readonly maxProvisionedStorageGiB?: number;
+}
 
 // @public
 export interface AccountSasParameters {
@@ -47,6 +55,20 @@ export type AccountStatus = "available" | "unavailable";
 
 // @public
 export type AccountType = string;
+
+// @public
+export interface AccountUsage {
+    readonly liveShares?: AccountUsageElements;
+    readonly softDeletedShares?: AccountUsageElements;
+}
+
+// @public
+export interface AccountUsageElements {
+    readonly fileShareCount?: number;
+    readonly provisionedBandwidthMiBPerSec?: number;
+    readonly provisionedIops?: number;
+    readonly provisionedStorageGiB?: number;
+}
 
 // @public
 export interface ActiveDirectoryProperties {
@@ -105,7 +127,7 @@ export interface BlobContainer extends AzureEntityResource {
 
 // @public
 export interface BlobContainers {
-    beginObjectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: BlobContainersObjectLevelWormOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginObjectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: BlobContainersObjectLevelWormOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginObjectLevelWormAndWait(resourceGroupName: string, accountName: string, containerName: string, options?: BlobContainersObjectLevelWormOptionalParams): Promise<void>;
     clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, legalHold: LegalHold, options?: BlobContainersClearLegalHoldOptionalParams): Promise<BlobContainersClearLegalHoldResponse>;
     create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: BlobContainer, options?: BlobContainersCreateOptionalParams): Promise<BlobContainersCreateResponse>;
@@ -209,9 +231,6 @@ export type BlobContainersLeaseResponse = LeaseContainerResponse;
 
 // @public
 export interface BlobContainersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    include?: ListContainersInclude;
-    maxpagesize?: string;
 }
 
 // @public
@@ -258,6 +277,11 @@ export interface BlobContainersUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type BlobContainersUpdateResponse = BlobContainer;
+
+// @public
+export interface BlobInventoryCreationTime {
+    lastNDays?: number;
+}
 
 // @public
 export interface BlobInventoryPolicies {
@@ -311,6 +335,7 @@ export interface BlobInventoryPolicyDefinition {
 // @public
 export interface BlobInventoryPolicyFilter {
     blobTypes?: string[];
+    creationTime?: BlobInventoryCreationTime;
     excludePrefix?: string[];
     includeBlobVersions?: boolean;
     includeDeleted?: boolean;
@@ -406,6 +431,13 @@ export interface BlobServicesSetServicePropertiesOptionalParams extends coreClie
 
 // @public
 export type BlobServicesSetServicePropertiesResponse = BlobServiceProperties;
+
+// @public
+export interface BurstingConstants {
+    readonly burstFloorIops?: number;
+    readonly burstIOScalar?: number;
+    readonly burstTimeframeSeconds?: number;
+}
 
 // @public
 export type Bypass = string;
@@ -604,9 +636,6 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 // @public
 export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    include?: ListEncryptionScopesInclude;
-    maxpagesize?: number;
 }
 
 // @public
@@ -670,14 +699,52 @@ export interface Endpoints {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     error?: ErrorResponseBody;
+}
+
+// @public
+export interface ErrorResponseAutoGenerated {
+    error?: ErrorDetail;
 }
 
 // @public
 export interface ErrorResponseBody {
     code?: string;
     message?: string;
+}
+
+// @public
+export interface ExecutionTarget {
+    excludePrefix?: string[];
+    prefix?: string[];
+}
+
+// @public
+export interface ExecutionTrigger {
+    parameters: TriggerParameters;
+    type: TriggerType;
+}
+
+// @public
+export interface ExecutionTriggerUpdate {
+    parameters?: TriggerParametersUpdate;
+    type?: TriggerType;
 }
 
 // @public
@@ -708,7 +775,9 @@ export interface FileServiceProperties extends Resource {
 // @public
 export interface FileServices {
     getServiceProperties(resourceGroupName: string, accountName: string, options?: FileServicesGetServicePropertiesOptionalParams): Promise<FileServicesGetServicePropertiesResponse>;
+    getServiceUsage(resourceGroupName: string, accountName: string, options?: FileServicesGetServiceUsageOptionalParams): Promise<FileServicesGetServiceUsageResponse>;
     list(resourceGroupName: string, accountName: string, options?: FileServicesListOptionalParams): Promise<FileServicesListResponse>;
+    listServiceUsages(resourceGroupName: string, accountName: string, options?: FileServicesListServiceUsagesOptionalParams): PagedAsyncIterableIterator<FileServiceUsage>;
     setServiceProperties(resourceGroupName: string, accountName: string, parameters: FileServiceProperties, options?: FileServicesSetServicePropertiesOptionalParams): Promise<FileServicesSetServicePropertiesResponse>;
 }
 
@@ -720,11 +789,33 @@ export interface FileServicesGetServicePropertiesOptionalParams extends coreClie
 export type FileServicesGetServicePropertiesResponse = FileServiceProperties;
 
 // @public
+export interface FileServicesGetServiceUsageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileServicesGetServiceUsageResponse = FileServiceUsage;
+
+// @public
 export interface FileServicesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type FileServicesListResponse = FileServiceItems;
+
+// @public
+export interface FileServicesListServiceUsagesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileServicesListServiceUsagesNextResponse = FileServiceUsages;
+
+// @public
+export interface FileServicesListServiceUsagesOptionalParams extends coreClient.OperationOptions {
+    maxpagesize?: number;
+}
+
+// @public
+export type FileServicesListServiceUsagesResponse = FileServiceUsages;
 
 // @public
 export interface FileServicesSetServicePropertiesOptionalParams extends coreClient.OperationOptions {
@@ -734,6 +825,26 @@ export interface FileServicesSetServicePropertiesOptionalParams extends coreClie
 export type FileServicesSetServicePropertiesResponse = FileServiceProperties;
 
 // @public
+export interface FileServiceUsage extends Resource {
+    readonly properties?: FileServiceUsageProperties;
+}
+
+// @public
+export interface FileServiceUsageProperties {
+    readonly burstingConstants?: BurstingConstants;
+    readonly fileShareLimits?: FileShareLimits;
+    readonly fileShareRecommendations?: FileShareRecommendations;
+    readonly storageAccountLimits?: AccountLimits;
+    readonly storageAccountUsage?: AccountUsage;
+}
+
+// @public
+export interface FileServiceUsages {
+    readonly nextLink?: string;
+    readonly value?: FileServiceUsage[];
+}
+
+// @public
 export interface FileShare extends AzureEntityResource {
     accessTier?: ShareAccessTier;
     readonly accessTierChangeTime?: Date;
@@ -741,13 +852,21 @@ export interface FileShare extends AzureEntityResource {
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
     enabledProtocols?: EnabledProtocols;
+    fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
+    readonly includedBurstIops?: number;
     readonly lastModifiedTime?: Date;
     readonly leaseDuration?: LeaseDuration;
     readonly leaseState?: LeaseState;
     readonly leaseStatus?: LeaseStatus;
+    readonly maxBurstCreditsForIops?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+    readonly nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
+    provisionedIops?: number;
     readonly remainingRetentionDays?: number;
     rootSquash?: RootSquashType;
     shareQuota?: number;
@@ -765,13 +884,21 @@ export interface FileShareItem extends AzureEntityResource {
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
     enabledProtocols?: EnabledProtocols;
+    fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
+    readonly includedBurstIops?: number;
     readonly lastModifiedTime?: Date;
     readonly leaseDuration?: LeaseDuration;
     readonly leaseState?: LeaseState;
     readonly leaseStatus?: LeaseStatus;
+    readonly maxBurstCreditsForIops?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+    readonly nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
+    provisionedIops?: number;
     readonly remainingRetentionDays?: number;
     rootSquash?: RootSquashType;
     shareQuota?: number;
@@ -785,6 +912,31 @@ export interface FileShareItem extends AzureEntityResource {
 export interface FileShareItems {
     readonly nextLink?: string;
     readonly value?: FileShareItem[];
+}
+
+// @public
+export interface FileShareLimits {
+    readonly maxProvisionedBandwidthMiBPerSec?: number;
+    readonly maxProvisionedIops?: number;
+    readonly maxProvisionedStorageGiB?: number;
+    readonly minProvisionedBandwidthMiBPerSec?: number;
+    readonly minProvisionedIops?: number;
+    readonly minProvisionedStorageGiB?: number;
+}
+
+// @public
+export interface FileSharePropertiesFileSharePaidBursting {
+    paidBurstingEnabled?: boolean;
+    paidBurstingMaxBandwidthMibps?: number;
+    paidBurstingMaxIops?: number;
+}
+
+// @public
+export interface FileShareRecommendations {
+    readonly bandwidthScalar?: number;
+    readonly baseBandwidthMiBPerSec?: number;
+    readonly baseIops?: number;
+    readonly ioScalar?: number;
 }
 
 // @public
@@ -837,9 +989,6 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders & LeaseShareRespons
 
 // @public
 export interface FileSharesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    maxpagesize?: string;
 }
 
 // @public
@@ -872,7 +1021,10 @@ export type Format = string;
 // @public
 export interface GeoReplicationStats {
     readonly canFailover?: boolean;
+    readonly canPlannedFailover?: boolean;
     readonly lastSyncTime?: Date;
+    readonly postFailoverRedundancy?: PostFailoverRedundancy;
+    readonly postPlannedFailoverRedundancy?: PostPlannedFailoverRedundancy;
     readonly status?: GeoReplicationStatus;
 }
 
@@ -945,6 +1097,9 @@ export interface IPRule {
 }
 
 // @public
+export type IssueType = string;
+
+// @public
 export interface KeyCreationTime {
     // (undocumented)
     key1?: Date;
@@ -1001,6 +1156,7 @@ export enum KnownAllowedCopyScope {
 
 // @public
 export enum KnownAllowedMethods {
+    Connect = "CONNECT",
     Delete = "DELETE",
     GET = "GET",
     Head = "HEAD",
@@ -1008,7 +1164,8 @@ export enum KnownAllowedMethods {
     Options = "OPTIONS",
     Patch = "PATCH",
     Post = "POST",
-    PUT = "PUT"
+    PUT = "PUT",
+    Trace = "TRACE"
 }
 
 // @public
@@ -1081,6 +1238,7 @@ export enum KnownEncryptionScopeState {
 
 // @public
 export enum KnownExpirationAction {
+    Block = "Block",
     Log = "Log"
 }
 
@@ -1126,6 +1284,12 @@ export enum KnownImmutabilityPolicyUpdateType {
 // @public
 export enum KnownInventoryRuleType {
     Inventory = "Inventory"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1207,7 +1371,17 @@ export enum KnownListEncryptionScopesInclude {
 }
 
 // @public
+export enum KnownListLocalUserIncludeParam {
+    Nfsv3 = "nfsv3"
+}
+
+// @public
 export enum KnownManagementPolicyName {
+    Default = "default"
+}
+
+// @public
+export enum KnownMigrationName {
     Default = "default"
 }
 
@@ -1218,15 +1392,40 @@ export enum KnownMigrationState {
 }
 
 // @public
+export enum KnownMigrationStatus {
+    Complete = "Complete",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Invalid = "Invalid",
+    SubmittedForConversion = "SubmittedForConversion"
+}
+
+// @public
 export enum KnownMinimumTlsVersion {
     TLS10 = "TLS1_0",
     TLS11 = "TLS1_1",
-    TLS12 = "TLS1_2"
+    TLS12 = "TLS1_2",
+    TLS13 = "TLS1_3"
 }
 
 // @public
 export enum KnownName {
     AccessTimeTracking = "AccessTimeTracking"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -1256,6 +1455,20 @@ export enum KnownPermissions {
 }
 
 // @public
+export enum KnownPostFailoverRedundancy {
+    StandardLRS = "Standard_LRS",
+    StandardZRS = "Standard_ZRS"
+}
+
+// @public
+export enum KnownPostPlannedFailoverRedundancy {
+    StandardGRS = "Standard_GRS",
+    StandardGzrs = "Standard_GZRS",
+    StandardRagrs = "Standard_RAGRS",
+    StandardRagzrs = "Standard_RAGZRS"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1273,13 +1486,21 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
 export enum KnownReasonCode {
     NotAvailableForSubscription = "NotAvailableForSubscription",
     QuotaId = "QuotaId"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
 }
 
 // @public
@@ -1301,6 +1522,18 @@ export enum KnownRuleType {
 }
 
 // @public
+export enum KnownRunResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRunStatusEnum {
+    Finished = "Finished",
+    InProgress = "InProgress"
+}
+
+// @public
 export enum KnownSchedule {
     Daily = "Daily",
     Weekly = "Weekly"
@@ -1316,6 +1549,12 @@ export enum KnownServices {
     Q = "q",
     // (undocumented)
     T = "t"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -1358,12 +1597,18 @@ export enum KnownSkuConversionStatus {
 // @public
 export enum KnownSkuName {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumV2ZRS = "PremiumV2_ZRS",
     PremiumZRS = "Premium_ZRS",
     StandardGRS = "Standard_GRS",
     StandardGzrs = "Standard_GZRS",
     StandardLRS = "Standard_LRS",
     StandardRagrs = "Standard_RAGRS",
     StandardRagzrs = "Standard_RAGZRS",
+    StandardV2GRS = "StandardV2_GRS",
+    StandardV2Gzrs = "StandardV2_GZRS",
+    StandardV2LRS = "StandardV2_LRS",
+    StandardV2ZRS = "StandardV2_ZRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -1493,6 +1738,9 @@ export type ListContainersInclude = string;
 // @public
 export type ListEncryptionScopesInclude = string;
 
+// @public
+export type ListLocalUserIncludeParam = string;
+
 // @public (undocumented)
 export interface ListQueue extends Resource {
     metadata?: {
@@ -1529,14 +1777,19 @@ export interface ListTableServices {
 
 // @public
 export interface LocalUser extends Resource {
+    allowAclAuthorization?: boolean;
+    extendedGroups?: number[];
+    groupId?: number;
     hasSharedKey?: boolean;
     hasSshKey?: boolean;
     hasSshPassword?: boolean;
     homeDirectory?: string;
+    isNFSv3Enabled?: boolean;
     permissionScopes?: PermissionScope[];
     readonly sid?: string;
     sshAuthorizedKeys?: SshPublicKey[];
     readonly systemData?: SystemData;
+    readonly userId?: number;
 }
 
 // @public
@@ -1552,6 +1805,7 @@ export interface LocalUserRegeneratePasswordResult {
 
 // @public
 export interface LocalUsers {
+    readonly nextLink?: string;
     value?: LocalUser[];
 }
 
@@ -1582,6 +1836,9 @@ export type LocalUsersListKeysResponse = LocalUserKeys;
 
 // @public
 export interface LocalUsersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    include?: ListLocalUserIncludeParam;
+    maxpagesize?: number;
 }
 
 // @public
@@ -1713,7 +1970,13 @@ export interface MetricSpecification {
 }
 
 // @public
+export type MigrationName = string;
+
+// @public
 export type MigrationState = string;
+
+// @public
+export type MigrationStatus = string;
 
 // @public
 export type MinimumTlsVersion = string;
@@ -1733,6 +1996,106 @@ export interface NetworkRuleSet {
     ipRules?: IPRule[];
     resourceAccessRules?: ResourceAccessRule[];
     virtualNetworkRules?: VirtualNetworkRule[];
+}
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResourceAutoGenerated {
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    nextLink?: string;
+    readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
+
+// @public
+export interface NspAccessRule {
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -1777,6 +2140,7 @@ export interface ObjectReplicationPoliciesOperations {
 export interface ObjectReplicationPolicy extends Resource {
     destinationAccount?: string;
     readonly enabledTime?: Date;
+    metrics?: ObjectReplicationPolicyPropertiesMetrics;
     readonly policyId?: string;
     rules?: ObjectReplicationPolicyRule[];
     sourceAccount?: string;
@@ -1786,6 +2150,11 @@ export interface ObjectReplicationPolicy extends Resource {
 export interface ObjectReplicationPolicyFilter {
     minCreationTime?: string;
     prefixMatch?: string[];
+}
+
+// @public
+export interface ObjectReplicationPolicyPropertiesMetrics {
+    enabled?: boolean;
 }
 
 // @public
@@ -1842,6 +2211,12 @@ export interface PermissionScope {
     resourceName: string;
     service: string;
 }
+
+// @public
+export type PostFailoverRedundancy = string;
+
+// @public
+export type PostPlannedFailoverRedundancy = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -1942,10 +2317,27 @@ export interface ProtocolSettings {
 }
 
 // @public
-export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: IssueType;
+    severity?: Severity;
+}
+
+// @public
+export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Deleting" | "Canceled" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {
 }
 
 // @public
@@ -1983,8 +2375,6 @@ export type QueueGetResponse = StorageQueue;
 
 // @public
 export interface QueueListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxpagesize?: string;
 }
 
 // @public
@@ -2059,6 +2449,17 @@ export interface ResourceAccessRule {
 }
 
 // @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface RestorePolicyProperties {
     days?: number;
     enabled: boolean;
@@ -2088,6 +2489,12 @@ export interface RoutingPreference {
 
 // @public
 export type RuleType = string;
+
+// @public
+export type RunResult = string;
+
+// @public
+export type RunStatusEnum = string;
 
 // @public
 export interface SasPolicy {
@@ -2127,6 +2534,9 @@ export interface ServiceSasParameters {
 export interface ServiceSpecification {
     metricSpecifications?: MetricSpecification[];
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export type ShareAccessTier = string;
@@ -2208,6 +2618,7 @@ export type State = string;
 // @public
 export interface StorageAccount extends TrackedResource {
     readonly accessTier?: AccessTier;
+    readonly accountMigrationInProgress?: boolean;
     allowBlobPublicAccess?: boolean;
     allowCrossTenantReplication?: boolean;
     allowedCopyScope?: AllowedCopyScope;
@@ -2218,6 +2629,7 @@ export interface StorageAccount extends TrackedResource {
     readonly customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     readonly encryption?: Encryption;
@@ -2229,6 +2641,7 @@ export interface StorageAccount extends TrackedResource {
     isHnsEnabled?: boolean;
     isLocalUserEnabled?: boolean;
     isSftpEnabled?: boolean;
+    readonly isSkuConversionBlocked?: boolean;
     readonly keyCreationTime?: KeyCreationTime;
     readonly keyPolicy?: KeyPolicy;
     readonly kind?: Kind;
@@ -2268,6 +2681,7 @@ export interface StorageAccountCreateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     encryption?: Encryption;
@@ -2333,24 +2747,38 @@ export interface StorageAccountMicrosoftEndpoints {
 }
 
 // @public
+export interface StorageAccountMigration {
+    readonly id?: string;
+    readonly migrationFailedDetailedReason?: string;
+    readonly migrationFailedReason?: string;
+    readonly migrationStatus?: MigrationStatus;
+    name?: string;
+    targetSkuName: SkuName;
+    type?: string;
+}
+
+// @public
 export interface StorageAccountRegenerateKeyParameters {
     keyName: string;
 }
 
 // @public
 export interface StorageAccounts {
-    beginAbortHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAbortHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAbortHierarchicalNamespaceMigrationAndWait(resourceGroupName: string, accountName: string, options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams): Promise<void>;
-    beginCreate(resourceGroupName: string, accountName: string, parameters: StorageAccountCreateParameters, options?: StorageAccountsCreateOptionalParams): Promise<PollerLike<PollOperationState<StorageAccountsCreateResponse>, StorageAccountsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, parameters: StorageAccountCreateParameters, options?: StorageAccountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAccountsCreateResponse>, StorageAccountsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, parameters: StorageAccountCreateParameters, options?: StorageAccountsCreateOptionalParams): Promise<StorageAccountsCreateResponse>;
-    beginFailover(resourceGroupName: string, accountName: string, options?: StorageAccountsFailoverOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCustomerInitiatedMigration(resourceGroupName: string, accountName: string, parameters: StorageAccountMigration, options?: StorageAccountsCustomerInitiatedMigrationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCustomerInitiatedMigrationAndWait(resourceGroupName: string, accountName: string, parameters: StorageAccountMigration, options?: StorageAccountsCustomerInitiatedMigrationOptionalParams): Promise<void>;
+    beginFailover(resourceGroupName: string, accountName: string, options?: StorageAccountsFailoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFailoverAndWait(resourceGroupName: string, accountName: string, options?: StorageAccountsFailoverOptionalParams): Promise<void>;
-    beginHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, requestType: string, options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginHierarchicalNamespaceMigration(resourceGroupName: string, accountName: string, requestType: string, options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginHierarchicalNamespaceMigrationAndWait(resourceGroupName: string, accountName: string, requestType: string, options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams): Promise<void>;
-    beginRestoreBlobRanges(resourceGroupName: string, accountName: string, parameters: BlobRestoreParameters, options?: StorageAccountsRestoreBlobRangesOptionalParams): Promise<PollerLike<PollOperationState<StorageAccountsRestoreBlobRangesResponse>, StorageAccountsRestoreBlobRangesResponse>>;
+    beginRestoreBlobRanges(resourceGroupName: string, accountName: string, parameters: BlobRestoreParameters, options?: StorageAccountsRestoreBlobRangesOptionalParams): Promise<SimplePollerLike<OperationState<StorageAccountsRestoreBlobRangesResponse>, StorageAccountsRestoreBlobRangesResponse>>;
     beginRestoreBlobRangesAndWait(resourceGroupName: string, accountName: string, parameters: BlobRestoreParameters, options?: StorageAccountsRestoreBlobRangesOptionalParams): Promise<StorageAccountsRestoreBlobRangesResponse>;
     checkNameAvailability(accountName: StorageAccountCheckNameAvailabilityParameters, options?: StorageAccountsCheckNameAvailabilityOptionalParams): Promise<StorageAccountsCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, accountName: string, options?: StorageAccountsDeleteOptionalParams): Promise<void>;
+    getCustomerInitiatedMigration(resourceGroupName: string, accountName: string, migrationName: MigrationName, options?: StorageAccountsGetCustomerInitiatedMigrationOptionalParams): Promise<StorageAccountsGetCustomerInitiatedMigrationResponse>;
     getProperties(resourceGroupName: string, accountName: string, options?: StorageAccountsGetPropertiesOptionalParams): Promise<StorageAccountsGetPropertiesResponse>;
     list(options?: StorageAccountsListOptionalParams): PagedAsyncIterableIterator<StorageAccount>;
     listAccountSAS(resourceGroupName: string, accountName: string, parameters: AccountSasParameters, options?: StorageAccountsListAccountSASOptionalParams): Promise<StorageAccountsListAccountSASResponse>;
@@ -2385,6 +2813,18 @@ export interface StorageAccountsCreateOptionalParams extends coreClient.Operatio
 export type StorageAccountsCreateResponse = StorageAccount;
 
 // @public
+export interface StorageAccountsCustomerInitiatedMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageAccountsCustomerInitiatedMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface StorageAccountsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2393,6 +2833,13 @@ export interface StorageAccountsFailoverOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface StorageAccountsGetCustomerInitiatedMigrationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageAccountsGetCustomerInitiatedMigrationResponse = StorageAccountMigration;
 
 // @public
 export interface StorageAccountsGetPropertiesOptionalParams extends coreClient.OperationOptions {
@@ -2503,6 +2950,7 @@ export interface StorageAccountUpdateParameters {
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
     dnsEndpointType?: DnsEndpointType;
+    enableExtendedGroups?: boolean;
     enableHttpsTrafficOnly?: boolean;
     encryption?: Encryption;
     identity?: Identity;
@@ -2549,6 +2997,8 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     managementPolicies: ManagementPolicies;
     // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
     objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
     // (undocumented)
     operations: Operations;
@@ -2564,6 +3014,12 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     skus: Skus;
     // (undocumented)
     storageAccounts: StorageAccounts;
+    // (undocumented)
+    storageTaskAssignmentInstancesReport: StorageTaskAssignmentInstancesReport;
+    // (undocumented)
+    storageTaskAssignments: StorageTaskAssignments;
+    // (undocumented)
+    storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReport;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -2592,6 +3048,216 @@ export interface StorageQueue extends Resource {
 // @public
 export interface StorageSkuListResult {
     readonly value?: SkuInformation[];
+}
+
+// @public
+export interface StorageTaskAssignment extends Resource {
+    properties: StorageTaskAssignmentProperties;
+}
+
+// @public
+export interface StorageTaskAssignmentExecutionContext {
+    target?: ExecutionTarget;
+    trigger: ExecutionTrigger;
+}
+
+// @public
+export interface StorageTaskAssignmentInstancesReport {
+    list(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentInstancesReportListOptionalParams): PagedAsyncIterableIterator<StorageTaskReportInstance>;
+}
+
+// @public
+export interface StorageTaskAssignmentInstancesReportListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentInstancesReportListNextResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentInstancesReportListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    maxpagesize?: number;
+}
+
+// @public
+export type StorageTaskAssignmentInstancesReportListResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentProperties {
+    description: string;
+    enabled: boolean;
+    executionContext: StorageTaskAssignmentExecutionContext;
+    readonly provisioningState?: ProvisioningState;
+    report: StorageTaskAssignmentReport;
+    runStatus?: StorageTaskReportProperties;
+    taskId: string;
+}
+
+// @public
+export interface StorageTaskAssignmentReport {
+    prefix: string;
+}
+
+// @public
+export interface StorageTaskAssignments {
+    beginCreate(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignment, options?: StorageTaskAssignmentsCreateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsCreateResponse>, StorageTaskAssignmentsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignment, options?: StorageTaskAssignmentsCreateOptionalParams): Promise<StorageTaskAssignmentsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsDeleteResponse>, StorageTaskAssignmentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsDeleteOptionalParams): Promise<StorageTaskAssignmentsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignmentUpdateParameters, options?: StorageTaskAssignmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageTaskAssignmentsUpdateResponse>, StorageTaskAssignmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, parameters: StorageTaskAssignmentUpdateParameters, options?: StorageTaskAssignmentsUpdateOptionalParams): Promise<StorageTaskAssignmentsUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, storageTaskAssignmentName: string, options?: StorageTaskAssignmentsGetOptionalParams): Promise<StorageTaskAssignmentsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: StorageTaskAssignmentsListOptionalParams): PagedAsyncIterableIterator<StorageTaskAssignment>;
+}
+
+// @public
+export interface StorageTaskAssignmentsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsCreateResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsDeleteResponse = StorageTaskAssignmentsDeleteHeaders;
+
+// @public
+export interface StorageTaskAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsGetResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentsInstancesReport {
+    list(resourceGroupName: string, accountName: string, options?: StorageTaskAssignmentsInstancesReportListOptionalParams): PagedAsyncIterableIterator<StorageTaskReportInstance>;
+}
+
+// @public
+export interface StorageTaskAssignmentsInstancesReportListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsInstancesReportListNextResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentsInstancesReportListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    maxpagesize?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsInstancesReportListResponse = StorageTaskReportSummary;
+
+// @public
+export interface StorageTaskAssignmentsList {
+    readonly nextLink?: string;
+    readonly value?: StorageTaskAssignment[];
+}
+
+// @public
+export interface StorageTaskAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
+
+// @public
+export interface StorageTaskAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    maxpagesize?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsListResponse = StorageTaskAssignmentsList;
+
+// @public
+export interface StorageTaskAssignmentsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StorageTaskAssignmentsUpdateResponse = StorageTaskAssignment;
+
+// @public
+export interface StorageTaskAssignmentUpdateExecutionContext {
+    target?: ExecutionTarget;
+    trigger?: ExecutionTriggerUpdate;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateParameters {
+    properties?: StorageTaskAssignmentUpdateProperties;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateProperties {
+    description?: string;
+    enabled?: boolean;
+    executionContext?: StorageTaskAssignmentUpdateExecutionContext;
+    readonly provisioningState?: ProvisioningState;
+    report?: StorageTaskAssignmentUpdateReport;
+    runStatus?: StorageTaskReportProperties;
+    readonly taskId?: string;
+}
+
+// @public
+export interface StorageTaskAssignmentUpdateReport {
+    prefix?: string;
+}
+
+// @public
+export interface StorageTaskReportInstance extends ProxyResource {
+    properties?: StorageTaskReportProperties;
+}
+
+// @public
+export interface StorageTaskReportProperties {
+    readonly finishTime?: string;
+    readonly objectFailedCount?: string;
+    readonly objectsOperatedOnCount?: string;
+    readonly objectsSucceededCount?: string;
+    readonly objectsTargetedCount?: string;
+    readonly runResult?: RunResult;
+    readonly runStatusEnum?: RunStatusEnum;
+    readonly runStatusError?: string;
+    readonly startTime?: string;
+    readonly storageAccountId?: string;
+    readonly summaryReportPath?: string;
+    readonly taskAssignmentId?: string;
+    readonly taskId?: string;
+    readonly taskVersion?: string;
+}
+
+// @public
+export interface StorageTaskReportSummary {
+    readonly nextLink?: string;
+    readonly value?: StorageTaskReportInstance[];
 }
 
 // @public
@@ -2729,6 +3395,27 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export interface TriggerParameters {
+    endBy?: Date;
+    interval?: number;
+    intervalUnit?: "Days";
+    startFrom?: Date;
+    startOn?: Date;
+}
+
+// @public
+export interface TriggerParametersUpdate {
+    endBy?: Date;
+    interval?: number;
+    intervalUnit?: "Days";
+    startFrom?: Date;
+    startOn?: Date;
+}
+
+// @public
+export type TriggerType = "RunOnce" | "OnSchedule";
 
 // @public
 export interface UpdateHistoryProperty {

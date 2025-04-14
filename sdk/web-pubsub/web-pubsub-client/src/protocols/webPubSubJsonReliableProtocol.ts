@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { WebPubSubClientProtocol } from ".";
-import { WebPubSubMessage } from "../models/messages";
-import * as base from "./jsonProtocolBase";
+import type { WebPubSubClientProtocol } from "./index.js";
+import type { WebPubSubMessage } from "../models/messages.js";
+import * as base from "./jsonProtocolBase.js";
 
 /**
  * The "json.reliable.webpubsub.azure.v1" protocol

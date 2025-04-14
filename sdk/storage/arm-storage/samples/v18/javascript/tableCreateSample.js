@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableOperationPut.json
  */
 async function tableOperationPut() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const tableName = "table6185";
   const credential = new DefaultAzureCredential();
@@ -28,17 +27,15 @@ async function tableOperationPut() {
   console.log(result);
 }
 
-tableOperationPut().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const tableName = "table6185";
   const parameters = {
@@ -68,9 +65,14 @@ async function tableOperationPutOrPatchAcls() {
     resourceGroupName,
     accountName,
     tableName,
-    options
+    options,
   );
   console.log(result);
 }
 
-tableOperationPutOrPatchAcls().catch(console.error);
+async function main() {
+  await tableOperationPut();
+  await tableOperationPutOrPatchAcls();
+}
+
+main().catch(console.error);

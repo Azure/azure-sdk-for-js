@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert, expect } from "chai";
-import sinon from "sinon";
-import {
+import type {
   JoinGroupMessage,
   JoinGroupOptions,
   LeaveGroupMessage,
   SendEventMessage,
-  SendEventOptions,
   SendToGroupMessage,
-  SendToGroupOptions,
+  ServerDataMessage,
   WebPubSubClientOptions,
   WebPubSubResult,
   WebPubSubRetryOptions,
-} from "../src/models";
-import { WebPubSubClient } from "../src/webPubSubClient";
+} from "../src/models/index.js";
+import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { delay } from "@azure/core-util";
-import { TestWebSocketClient } from "./testWebSocketClient";
-import { WebPubSubJsonProtocol } from "../src/protocols";
-import { getConnectedPayload } from "./utils";
-import { AbortController } from "@azure/abort-controller";
-import { SendMessageError } from "../src/errors";
+import { TestWebSocketClient } from "./testWebSocketClient.js";
+import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
+import { getConnectedPayload } from "./utils.js";
+import { SendMessageError } from "../src/errors/index.js";
+import { describe, it, assert, expect, vi } from "vitest";
+import type { MockInstance } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Start operation can only be execute when stopped", () => {
@@ -31,7 +29,7 @@ describe("WebPubSubClient", function () {
       makeStartable(testWs);
       await client.start();
       // dup start is forbidden
-      await expect(client.start()).to.be.rejectedWith(Error);
+      await expect(client.start()).rejects.toThrowError();
       client.stop();
     });
   });
@@ -42,13 +40,13 @@ describe("WebPubSubClient", function () {
         testName: "join group",
         expectMessage: { kind: "joinGroup", group: "groupName", ackId: 2 } as JoinGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.joinGroup("groupName", { ackId: 2 } as JoinGroupOptions),
+          client.joinGroup("groupName", { ackId: 2 } as JoinGroupOptions),
       },
       {
         testName: "leave group",
         expectMessage: { kind: "leaveGroup", group: "groupName", ackId: 2 } as LeaveGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.leaveGroup("groupName", { ackId: 2 } as JoinGroupOptions),
+          client.leaveGroup("groupName", { ackId: 2 } as JoinGroupOptions),
       },
       {
         testName: "send to group",
@@ -61,7 +59,7 @@ describe("WebPubSubClient", function () {
           noEcho: false,
         } as SendToGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendToGroup("groupName", "xyz", "text", { ackId: 2 } as SendToGroupOptions),
+          client.sendToGroup("groupName", "xyz", "text", { ackId: 2 }),
       },
       {
         testName: "send event",
@@ -73,7 +71,7 @@ describe("WebPubSubClient", function () {
           data: "xyz",
         } as SendEventMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 } as SendEventOptions),
+          client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 }),
       },
     ];
 
@@ -83,16 +81,17 @@ describe("WebPubSubClient", function () {
         const client = new WebPubSubClient("wss://service.com", {
           messageRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
         } as WebPubSubClientOptions);
-        const mock = sinon.mock(client);
-        mock
-          .expects("_sendMessage")
-          .exactly(4)
-          .withArgs(expectMessage)
-          .callsFake((_) => Promise.reject());
-        try {
-          await actualMethod(client);
-        } catch {}
-        mock.verify();
+
+        const mock = vi
+          .spyOn(client as any, "_sendMessage")
+          .mockImplementation(() => Promise.reject());
+
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
+
+        expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
+        expect(mock).toHaveBeenCalledTimes(4);
       });
     });
 
@@ -102,16 +101,16 @@ describe("WebPubSubClient", function () {
         const client = new WebPubSubClient("wss://service.com", {
           messageRetryOptions: { retryDelayInMs: 10, maxRetries: 5 } as WebPubSubRetryOptions,
         } as WebPubSubClientOptions);
-        const mock = sinon.mock(client);
-        mock
-          .expects("_sendMessage")
-          .exactly(6)
-          .withArgs(expectMessage)
-          .callsFake((_) => Promise.reject());
-        try {
-          await actualMethod(client);
-        } catch {}
-        mock.verify();
+
+        const mock = vi
+          .spyOn(client as any, "_sendMessage")
+          .mockImplementation(() => Promise.reject());
+
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
+        expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
+        expect(mock).toHaveBeenCalledTimes(6);
       });
     });
 
@@ -121,21 +120,21 @@ describe("WebPubSubClient", function () {
         const client = new WebPubSubClient("wss://service.com", {
           messageRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
         } as WebPubSubClientOptions);
-        const mock = sinon.mock(client);
-        mock
-          .expects("_sendMessage")
-          .exactly(2)
-          .withArgs(expectMessage)
-          .onFirstCall()
-          .returns(Promise.reject(new Error("failed")))
-          .callsFake(() => {
+
+        const mock = vi
+          .spyOn(client as any, "_sendMessage")
+          .mockImplementationOnce(() => Promise.reject())
+          .mockImplementationOnce(() => {
             client["_ackMap"].get(2)!.resolve({ ackId: 2, isDuplicated: false } as WebPubSubResult);
             return Promise.resolve();
           });
-        try {
-          await actualMethod(client);
-        } catch {}
-        mock.verify();
+
+        await actualMethod(client).catch(() => {
+          /** empty */
+        });
+
+        expect(mock).toHaveBeenCalledWith(expectMessage, undefined);
+        expect(mock).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -146,16 +145,10 @@ describe("WebPubSubClient", function () {
         messageRetryOptions: { maxRetries: 0 } as WebPubSubRetryOptions,
       } as WebPubSubClientOptions);
 
-      const mock = sinon.mock(client);
-      mock
-        .expects("_sendMessage")
-        .exactly(2)
-        .onFirstCall()
-        .callsFake(() => {
-          return Promise.resolve();
-        })
-        .onSecondCall()
-        .callsFake(() => {
+      const mock = vi
+        .spyOn(client as any, "_sendMessage")
+        .mockImplementationOnce(() => Promise.reject())
+        .mockImplementationOnce(() => {
           client["_ackMap"].get(1)!.resolve({ ackId: 1, isDuplicated: false } as WebPubSubResult);
           return Promise.resolve();
         });
@@ -165,15 +158,17 @@ describe("WebPubSubClient", function () {
         ackId: 1,
         abortSignal: aborter.signal,
       } as JoinGroupOptions);
+
       setTimeout(() => {
         aborter.abort();
       });
-      await expect(p).to.be.rejectedWith(SendMessageError);
+
+      await expect(p).rejects.toThrowError(SendMessageError);
 
       // Retry with another non-abort operation should work
       await client.joinGroup("group", { ackId: 1 } as JoinGroupOptions);
 
-      mock.verify();
+      expect(mock).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -184,46 +179,46 @@ describe("WebPubSubClient", function () {
 
       const pm = client.start();
       testWs.invokeclose(1006);
-      await expect(pm).to.be.rejectedWith(Error);
+      await expect(pm).rejects.toThrowError();
     });
 
+    // TODO: Research how to fix the timings in this test
     it("reconnect if close before connected message", async () => {
       const client = new WebPubSubClient("wss://service.com", {
         reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
       } as WebPubSubClientOptions);
       const testWs = new TestWebSocketClient(client);
 
-      const mock = sinon.mock(client);
-      mock.expects("_getWebSocketClientFactory").thrice().callThrough();
+      const mock = vi.spyOn(client as any, "_getWebSocketClientFactory");
 
-      const stub = sinon.stub(testWs, "onopen");
-      stub
-        .onFirstCall()
-        .callsFake((...args) => {
+      const onOpenFn = testWs.onopen.bind(testWs);
+      vi.spyOn(testWs, "onopen")
+        .mockImplementationOnce((...args) => {
           setTimeout(() => {
-            stub.wrappedMethod.call(testWs, ...args);
+            onOpenFn(...args);
             testWs.invokeopen.call(testWs);
           });
         })
-        .onSecondCall()
-        .callsFake((...args) => {
+        .mockImplementationOnce((...args) => {
           setTimeout(() => {
-            stub.wrappedMethod.call(testWs, ...args);
+            onOpenFn(...args);
             testWs.invokeclose.call(testWs, 1006);
           });
         })
-        .callsFake((...args) => {
+        .mockImplementationOnce((...args) => {
           setTimeout(() => {
             console.log("called more than 2");
-            stub.wrappedMethod.call(testWs, ...args);
+            onOpenFn(...args);
             testWs.invokeopen.call(testWs);
           });
         });
 
       await client.start();
+
       testWs.invokeclose(1006);
       await delay(100);
-      mock.verify();
+
+      expect(mock).toHaveBeenCalledTimes(3);
       client.stop();
     });
 
@@ -247,7 +242,7 @@ describe("WebPubSubClient", function () {
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).to.be.rejectedWith(Error);
+      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1006);
@@ -275,14 +270,14 @@ describe("WebPubSubClient", function () {
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2", "reconToken")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).to.be.rejectedWith(Error);
+      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1006);
       await spinCheck(() => testWs.openTime === 2);
 
       // after recover, connected should be emit again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).to.be.rejectedWith(Error);
+      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
     });
 
     it("recover shouldn't work for 1008 close", async () => {
@@ -304,7 +299,7 @@ describe("WebPubSubClient", function () {
 
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       // connected should not happen again
-      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).to.be.rejectedWith(Error);
+      await expect(spinCheck(() => assert.equal("conn2", conn), 10, 3)).rejects.toThrowError();
 
       // drop connection
       testWs.invokeclose(1008);
@@ -318,11 +313,10 @@ describe("WebPubSubClient", function () {
         protocol: WebPubSubJsonProtocol(),
         reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
       } as WebPubSubClientOptions);
-      const mock = sinon.mock(client);
-      mock
-        .expects("_joinGroupCore")
-        .exactly(4)
-        .callsFake((_) => Promise.resolve());
+
+      const mock = vi
+        .spyOn(client as any, "_joinGroupCore")
+        .mockImplementation(() => Promise.resolve());
 
       const testWs = new TestWebSocketClient(client);
       makeStartable(testWs);
@@ -347,7 +341,7 @@ describe("WebPubSubClient", function () {
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       await spinCheck(() => assert.equal("conn2", conn));
 
-      mock.verify();
+      expect(mock).toHaveBeenCalledTimes(4);
     });
 
     it("rejoin group after reconnection can be disabled", async () => {
@@ -356,11 +350,10 @@ describe("WebPubSubClient", function () {
         reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
         autoRejoinGroups: false,
       } as WebPubSubClientOptions);
-      const mock = sinon.mock(client);
-      mock
-        .expects("_joinGroupCore")
-        .exactly(2)
-        .callsFake((_) => Promise.resolve());
+
+      const mock = vi
+        .spyOn(client as any, "_joinGroupCore")
+        .mockImplementation(() => Promise.resolve());
 
       const testWs = new TestWebSocketClient(client);
       makeStartable(testWs);
@@ -385,15 +378,89 @@ describe("WebPubSubClient", function () {
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       await spinCheck(() => assert.equal("conn2", conn));
 
-      mock.verify();
+      expect(mock).toHaveBeenCalledTimes(2);
     });
   });
 
-  function makeStartable(ws: TestWebSocketClient): sinon.SinonStub<[fn: () => void], void> {
-    const stub = sinon.stub(ws, "onopen");
-    stub.onFirstCall().callsFake((...args) => {
+  describe("WebPubSubClient handle messages", () => {
+    it("Handle a list of messages", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      vi.spyOn(client["_protocol"], "parseMessages").mockReturnValue([
+        { kind: "serverData", data: "a", dataType: "text" } as ServerDataMessage,
+        { kind: "serverData", data: "b", dataType: "text" } as ServerDataMessage,
+      ]);
+
+      const callback = vi.fn();
+      client.on("server-message", callback);
+      await client.start();
+
+      // invoke any data as we mocked parseMessages
+      testWs.invokemessage("a");
+
+      expect(callback).toHaveBeenCalledTimes(2);
+      client.stop();
+    });
+
+    it("Quick sequence ack if diff more than limit", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      const mock = vi.spyOn(client["_protocol"], "parseMessages").mockReturnValue([
+        { kind: "serverData", data: "a", dataType: "text", sequenceId: 1 } as ServerDataMessage,
+        { kind: "serverData", data: "a", dataType: "text", sequenceId: 302 } as ServerDataMessage, // semilate we got 300 messages
+      ]);
+
+      const writeMessageSpy = vi.spyOn(client["_protocol"], "writeMessage");
+
+      await client.start();
+      // invoke any data as we mocked parseMessages
+      testWs.invokemessage("a");
+
+      // expect quick sequenceAck message
+      expect(writeMessageSpy).toHaveBeenCalledWith({
+        kind: "sequenceAck",
+        sequenceId: 302,
+      });
+
+      expect(mock).toHaveBeenCalledTimes(1);
+
+      client.stop();
+    });
+
+    it("SequenceAck as ping", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      const writeMessageSpy = vi.spyOn(client["_protocol"], "writeMessage");
+      await client.start();
+
+      // simulate a update
+      client["_sequenceId"].tryUpdate(0);
+
+      // simulate a call
+      client["_trySendSequenceAck"]();
+
+      // expect quick sequenceAck message
+      expect(writeMessageSpy).toHaveBeenCalledWith({
+        kind: "sequenceAck",
+        sequenceId: 0,
+      });
+
+      client.stop();
+    });
+  });
+
+  function makeStartable(ws: TestWebSocketClient): MockInstance<(fn: () => void) => void> {
+    const onOpen = ws.onopen.bind(ws);
+    const stub = vi.spyOn(ws, "onopen");
+    stub.mockImplementationOnce((...args) => {
       setTimeout(() => {
-        stub.wrappedMethod.call(ws, ...args);
+        onOpen(...args);
         ws.invokeopen.call(ws);
       });
     });

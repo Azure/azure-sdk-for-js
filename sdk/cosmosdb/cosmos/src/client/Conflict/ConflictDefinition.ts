@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { OperationType, ResourceType } from "../../common";
+// Licensed under the MIT License.
+import type { OperationType, ResourceType } from "../../common/index.js";
 
 export interface ConflictDefinition {
   /** The id of the conflict */

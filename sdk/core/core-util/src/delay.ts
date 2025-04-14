@@ -1,24 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { createAbortablePromise } from "./createAbortablePromise";
+import type { AbortOptions } from "./aborterUtils.js";
+import { createAbortablePromise } from "./createAbortablePromise.js";
+import { getRandomIntegerInclusive } from "@typespec/ts-http-runtime/internal/util";
 
 const StandardAbortMessage = "The delay was aborted.";
 
 /**
  * Options for support abort functionality for the delay method
  */
-export interface DelayOptions {
-  /**
-   * The abortSignal associated with containing operation.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The abort error message associated with containing operation.
-   */
-  abortErrorMsg?: string;
-}
+export interface DelayOptions extends AbortOptions {}
 
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
@@ -37,6 +29,32 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
       cleanupBeforeAbort: () => clearTimeout(token),
       abortSignal,
       abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
-    }
+    },
   );
+}
+
+/**
+ * Calculates the delay interval for retry attempts using exponential delay with jitter.
+ * @param retryAttempt - The current retry attempt number.
+ * @param config - The exponential retry configuration.
+ * @returns An object containing the calculated retry delay.
+ */
+export function calculateRetryDelay(
+  retryAttempt: number,
+  config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+  },
+): { retryAfterInMs: number } {
+  // Exponentially increase the delay each time
+  const exponentialDelay = config.retryDelayInMs * Math.pow(2, retryAttempt);
+
+  // Don't let the delay exceed the maximum
+  const clampedDelay = Math.min(config.maxRetryDelayInMs, exponentialDelay);
+
+  // Allow the final value to have some "jitter" (within 50% of the delay size) so
+  // that retries across multiple clients don't occur simultaneously.
+  const retryAfterInMs = clampedDelay / 2 + getRandomIntegerInclusive(0, clampedDelay / 2);
+
+  return { retryAfterInMs };
 }

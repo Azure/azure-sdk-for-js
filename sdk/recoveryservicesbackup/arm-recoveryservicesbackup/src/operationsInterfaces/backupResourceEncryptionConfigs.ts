@@ -10,8 +10,8 @@ import {
   BackupResourceEncryptionConfigsGetOptionalParams,
   BackupResourceEncryptionConfigsGetResponse,
   BackupResourceEncryptionConfigResource,
-  BackupResourceEncryptionConfigsUpdateOptionalParams
-} from "../models";
+  BackupResourceEncryptionConfigsUpdateOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a BackupResourceEncryptionConfigs. */
 export interface BackupResourceEncryptionConfigs {
@@ -25,7 +25,7 @@ export interface BackupResourceEncryptionConfigs {
   get(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupResourceEncryptionConfigsGetOptionalParams
+    options?: BackupResourceEncryptionConfigsGetOptionalParams,
   ): Promise<BackupResourceEncryptionConfigsGetResponse>;
   /**
    * Updates Vault encryption config.
@@ -39,6 +39,6 @@ export interface BackupResourceEncryptionConfigs {
     vaultName: string,
     resourceGroupName: string,
     parameters: BackupResourceEncryptionConfigResource,
-    options?: BackupResourceEncryptionConfigsUpdateOptionalParams
+    options?: BackupResourceEncryptionConfigsUpdateOptionalParams,
   ): Promise<void>;
 }

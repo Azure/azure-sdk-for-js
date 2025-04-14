@@ -10,8 +10,8 @@ import {
   PrivateLinkResourcesListByClusterOptionalParams,
   PrivateLinkResourcesListByClusterResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
-} from "../models";
+  PrivateLinkResourcesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
@@ -24,7 +24,7 @@ export interface PrivateLinkResources {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateLinkResourcesListByClusterOptionalParams
+    options?: PrivateLinkResourcesListByClusterOptionalParams,
   ): Promise<PrivateLinkResourcesListByClusterResponse>;
   /**
    * Gets the specific private link resource.
@@ -37,6 +37,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     clusterName: string,
     privateLinkResourceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

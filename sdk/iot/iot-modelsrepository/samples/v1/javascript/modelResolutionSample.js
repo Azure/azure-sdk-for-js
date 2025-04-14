@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the use of ModelsRepositoryClient to get models from an endpoint.

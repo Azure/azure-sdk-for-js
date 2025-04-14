@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Use AAD token credentials when sending a SMS message.
  */
 
 import { parseConnectionString } from "@azure/communication-common";
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
-import { isNode } from "@azure/core-util";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { SmsSendRequest } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
+import { isNodeLike } from "@azure/core-util";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Send SMS Message With AAD Authentication ==");
 
   // You will need to set this environment variable or edit the following values
@@ -29,18 +30,18 @@ export async function main() {
     !process.env.AZURE_CLIENT_SECRET
   ) {
     console.error(
-      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
 
   // get credentials
-  const credential: TokenCredential = isNode
+  const credential: TokenCredential = isNodeLike
     ? new DefaultAzureCredential()
     : new ClientSecretCredential(
         process.env.AZURE_TENANT_ID,
         process.env.AZURE_CLIENT_ID,
-        process.env.AZURE_CLIENT_SECRET
+        process.env.AZURE_CLIENT_SECRET,
       );
 
   // create new client with endpoint and credentials

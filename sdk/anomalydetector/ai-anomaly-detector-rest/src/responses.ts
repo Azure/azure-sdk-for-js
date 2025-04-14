@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   UnivariateEntireDetectionResultOutput,
   AnomalyDetectorErrorOutput,
   UnivariateLastDetectionResultOutput,
@@ -13,7 +13,7 @@ import {
   AnomalyDetectionModelOutput,
   ModelListOutput,
   MultivariateLastDetectionResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface DetectUnivariateEntireSeries200Response extends HttpResponse {

@@ -12,15 +12,16 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aa4b90db8da0aa8017c6b80a6a68ab79cc09266b/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.12.0
+  "@autorest/typescript": "6.0.3"
+package-version: 12.26.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -226,13 +227,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2021-10-04"
+### Update service version from "2018-03-28" to "2025-05-05"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    transform: $.enum = [ "2025-05-05" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn
@@ -549,4 +550,12 @@ directive:
       $.description = "An interface representing Metrics.";
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)
+### Add AuthenticationErrorDetail.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
+```

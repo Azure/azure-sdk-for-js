@@ -17,7 +17,6 @@ PackageVersions:
   '@azure/logger': 1.0.3
 - '@azure/storage-blob': source
   '@azure/core-auth': source
-  '@azure/core-http': source
   '@azure/core-lro': source
   '@azure/core-paging': source
   '@azure/core-rest-pipeline': source

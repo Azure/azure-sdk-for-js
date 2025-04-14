@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { FirewallRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { FirewallRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RedisManagementClient } from "../redisManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RedisManagementClient } from "../redisManagementClient.js";
 import {
   RedisFirewallRule,
   FirewallRulesListNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
   FirewallRulesDeleteOptionalParams,
-  FirewallRulesListNextResponse
-} from "../models";
+  FirewallRulesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallRules operations. */
@@ -41,14 +41,14 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Gets all firewall rules in the specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     cacheName: string,
-    options?: FirewallRulesListOptionalParams
+    options?: FirewallRulesListOptionalParams,
   ): PagedAsyncIterableIterator<RedisFirewallRule> {
     const iter = this.listPagingAll(resourceGroupName, cacheName, options);
     return {
@@ -66,9 +66,9 @@ export class FirewallRulesImpl implements FirewallRules {
           resourceGroupName,
           cacheName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     options?: FirewallRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisFirewallRule[]> {
     let result: FirewallRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class FirewallRulesImpl implements FirewallRules {
         resourceGroupName,
         cacheName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class FirewallRulesImpl implements FirewallRules {
   private async *listPagingAll(
     resourceGroupName: string,
     cacheName: string,
-    options?: FirewallRulesListOptionalParams
+    options?: FirewallRulesListOptionalParams,
   ): AsyncIterableIterator<RedisFirewallRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       cacheName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -117,24 +117,24 @@ export class FirewallRulesImpl implements FirewallRules {
 
   /**
    * Gets all firewall rules in the specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     cacheName: string,
-    options?: FirewallRulesListOptionalParams
+    options?: FirewallRulesListOptionalParams,
   ): Promise<FirewallRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Create or update a redis cache firewall rule
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param parameters Parameters supplied to the create or update redis firewall rule operation.
@@ -145,17 +145,17 @@ export class FirewallRulesImpl implements FirewallRules {
     cacheName: string,
     ruleName: string,
     parameters: RedisFirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, ruleName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Gets a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -164,17 +164,17 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, ruleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Deletes a single firewall rule in a specified redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param ruleName The name of the firewall rule.
    * @param options The options parameters.
@@ -183,17 +183,17 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     ruleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, ruleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -202,11 +202,11 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     cacheName: string,
     nextLink: string,
-    options?: FirewallRulesListNextOptionalParams
+    options?: FirewallRulesListNextOptionalParams,
   ): Promise<FirewallRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cacheName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,41 +214,39 @@ export class FirewallRulesImpl implements FirewallRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisFirewallRuleListResult
+      bodyMapper: Mappers.RedisFirewallRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisFirewallRule
+      bodyMapper: Mappers.RedisFirewallRule,
     },
     201: {
-      bodyMapper: Mappers.RedisFirewallRule
+      bodyMapper: Mappers.RedisFirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -257,23 +255,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisFirewallRule
+      bodyMapper: Mappers.RedisFirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -281,21 +278,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -303,29 +299,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cacheName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisFirewallRuleListResult
+      bodyMapper: Mappers.RedisFirewallRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

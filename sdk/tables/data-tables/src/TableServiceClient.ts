@@ -1,51 +1,48 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import "@azure/core-paging";
-
-import {
+import type {
   GetPropertiesResponse,
   GetStatisticsResponse,
   ServiceProperties,
   SetPropertiesOptions,
   SetPropertiesResponse,
-} from "./generatedModels";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import {
+} from "./generatedModels.js";
+import type {
+  InternalClientPipelineOptions,
+  OperationOptions,
+  ServiceClientOptions,
+} from "@azure/core-client";
+import type {
   ListTableItemsOptions,
   TableItem,
   TableQueryOptions,
   TableServiceClientOptions,
-} from "./models";
-import {
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
-import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { Service, Table } from "./generated";
+} from "./models.js";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential, isTokenCredential } from "@azure/core-auth";
+import { COSMOS_SCOPE, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants.js";
+import type { Service, Table } from "./generated/index.js";
 import {
   injectSecondaryEndpointHeader,
   tablesSecondaryEndpointPolicy,
-} from "./secondaryEndpointPolicy";
+} from "./secondaryEndpointPolicy.js";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TableItemResultPage } from "./models";
-import { apiVersionPolicy } from "./utils/apiVersionPolicy";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { handleTableAlreadyExists } from "./utils/errorHelpers";
-import { isCredential } from "./utils/isCredential";
-import { logger } from "./logger";
-import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
-import { tracingClient } from "./utils/tracing";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TableItemResultPage } from "./models.js";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy.js";
+import { getClientParamsFromConnectionString } from "./utils/connectionString.js";
+import { handleTableAlreadyExists } from "./utils/errorHelpers.js";
+import { isCredential } from "./utils/isCredential.js";
+import { logger } from "./logger.js";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy.js";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
+import { tracingClient } from "./utils/tracing.js";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -73,14 +70,16 @@ export class TableServiceClient {
    *
    * ### Example using an account name/key:
    *
-   * ```js
-   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_NamedKeyCredential
+   * import { AzureNamedKeyCredential, TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new AzureNamedKeyCredential(account, accountKey);
+   * const serviceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   sharedKeyCredential
+   *   credential,
    * );
    * ```
    */
@@ -94,14 +93,15 @@ export class TableServiceClient {
    *
    * ### Example using a SAS Token.
    *
-   * ```js
-   * const { AzureSASCredential, TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const sasCredential = new AzureSASCredential(account, "<account key>");
+   * ```ts snippet:ReadmeSampleCreateClient_SASToken
+   * import { TableServiceClient, AzureSASCredential } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account name>";
+   * const sas = "<service Shared Access Signature Token>";
+   *
+   * const serviceClientWithSAS = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   sasCredential
+   *   new AzureSASCredential(sas),
    * );
    * ```
    */
@@ -115,15 +115,16 @@ export class TableServiceClient {
    *
    * ### Example using an Azure Active Directory credential:
    *
-   * ```js
-   * cons { DefaultAzureCredential } = require("@azure/identity");
-   * const { TableServiceClient } = require("@azure/data-tables")
-   * const account = "<storage account name>"
-   * const credential = new DefaultAzureCredential();
+   * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const credential = new DefaultAzureCredential();
+   * const account = "<account name>";
+   *
+   * const clientWithAAD = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
-   *   credential
+   *   credential,
    * );
    * ```
    */
@@ -137,11 +138,14 @@ export class TableServiceClient {
    * @param options - Options to configure the HTTP pipeline.
    * Example appending a SAS token:
    *
-   * ```js
-   * const account = "<storage account name>";
-   * const sasToken = "<SAS token>";
+   * ```ts snippet:ReadmeSampleCreateClient_SASTokenURL
+   * import { TableServiceClient } from "@azure/data-tables";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const account = "<account name>";
+   * const sasToken = "<SAS token>";
+   * const tableName = "<tableName>";
+   *
+   * const serviceClientWithSASURL = new TableServiceClient(
    *   `https://${account}.table.core.windows.net?${sasToken}`,
    * );
    * ```
@@ -154,28 +158,26 @@ export class TableServiceClient {
       | SASCredential
       | TokenCredential
       | TableServiceClientOptions,
-    options?: TableServiceClientOptions
+    options?: TableServiceClientOptions,
   ) {
     this.url = url;
+    const isCosmos = isCosmosEndpoint(this.url);
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || this.url;
-
-    const internalPipelineOptions: InternalClientPipelineOptions = {
+    const internalPipelineOptions: ServiceClientOptions & InternalClientPipelineOptions = {
       ...clientOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
-        },
-        deserializationOptions: {
-          parseXML,
-        },
-        serializationOptions: {
-          stringifyXML,
-        },
+      endpoint: clientOptions.endpoint || this.url,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
+      },
+      deserializationOptions: {
+        parseXML,
+      },
+      serializationOptions: {
+        stringifyXML,
       },
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
@@ -188,7 +190,8 @@ export class TableServiceClient {
     }
 
     if (isTokenCredential(credential)) {
-      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, STORAGE_SCOPE);
+      const scope = isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE;
+      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, scope);
     }
 
     if (options?.version) {
@@ -207,7 +210,7 @@ export class TableServiceClient {
    */
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
-      this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions))
+      this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions)),
     );
   }
 
@@ -218,7 +221,7 @@ export class TableServiceClient {
    */
   public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
-      this.service.getProperties(updatedOptions)
+      this.service.getProperties(updatedOptions),
     );
   }
 
@@ -230,10 +233,10 @@ export class TableServiceClient {
    */
   public setProperties(
     properties: ServiceProperties,
-    options: SetPropertiesOptions = {}
+    options: SetPropertiesOptions = {},
   ): Promise<SetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.setProperties", options, (updatedOptions) =>
-      this.service.setProperties(properties, updatedOptions)
+      this.service.setProperties(properties, updatedOptions),
     );
   }
 
@@ -252,7 +255,7 @@ export class TableServiceClient {
         } catch (e: any) {
           handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: name });
         }
-      }
+      },
     );
   }
 
@@ -275,7 +278,7 @@ export class TableServiceClient {
             throw e;
           }
         }
-      }
+      },
     );
   }
 
@@ -285,7 +288,7 @@ export class TableServiceClient {
    */
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListTableItemsOptions
+    options?: ListTableItemsOptions,
   ): PagedAsyncIterableIterator<TableItem, TableItemResultPage> {
     const iter = this.listTablesAll(options);
 
@@ -312,7 +315,7 @@ export class TableServiceClient {
   }
 
   private async *listTablesAll(
-    options?: InternalListTablesOptions
+    options?: InternalListTablesOptions,
   ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { continuationToken } = firstPage;
@@ -329,12 +332,12 @@ export class TableServiceClient {
   }
 
   private async *listTablesPage(
-    options: InternalListTablesOptions = {}
+    options: InternalListTablesOptions = {},
   ): AsyncIterableIterator<TableItemResultPage> {
     let result = await tracingClient.withSpan(
       "TableServiceClient.listTablesPage",
       options,
-      (updatedOptions) => this._listTables(updatedOptions)
+      (updatedOptions) => this._listTables(updatedOptions),
     );
 
     yield result;
@@ -350,7 +353,7 @@ export class TableServiceClient {
         async (updatedOptions, span) => {
           span.setAttribute("continuationToken", updatedOptions.continuationToken);
           return this._listTables(updatedOptions);
-        }
+        },
       );
       yield result;
     }
@@ -381,7 +384,7 @@ export class TableServiceClient {
   public static fromConnectionString(
     connectionString: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: TableServiceClientOptions
+    options?: TableServiceClientOptions,
   ): TableServiceClient {
     const {
       url,

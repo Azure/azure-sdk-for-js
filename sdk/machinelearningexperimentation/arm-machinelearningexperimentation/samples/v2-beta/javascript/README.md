@@ -52,7 +52,7 @@ node accountsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID="<machinelearningexperimentation subscription id>" MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP="<machinelearningexperimentation resource group>" node accountsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID="<machinelearningexperimentation subscription id>" MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP="<machinelearningexperimentation resource group>" node accountsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -75,6 +75,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesGetSample.js
 [workspaceslistbyaccountssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesListByAccountsSample.js
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearningexperimentation?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearningexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/README.md

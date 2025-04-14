@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientSideMetrics } from "./clientSideMetrics";
-import QueryMetricsConstants from "./queryMetricsConstants";
-import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
-import { QueryPreparationTimes } from "./queryPreparationTime";
-import { RuntimeExecutionTimes } from "./runtimeExecutionTimes";
-import { TimeSpan } from "./timeSpan";
+// Licensed under the MIT License.
+import { ClientSideMetrics } from "./clientSideMetrics.js";
+import QueryMetricsConstants from "./queryMetricsConstants.js";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils.js";
+import { QueryPreparationTimes } from "./queryPreparationTime.js";
+import { RuntimeExecutionTimes } from "./runtimeExecutionTimes.js";
+import { TimeSpan } from "./timeSpan.js";
 
 export class QueryMetrics {
   constructor(
@@ -21,7 +21,7 @@ export class QueryMetrics {
     public readonly vmExecutionTime: TimeSpan,
     public readonly runtimeExecutionTimes: RuntimeExecutionTimes,
     public readonly documentWriteTime: TimeSpan,
-    public readonly clientSideMetrics: ClientSideMetrics
+    public readonly clientSideMetrics: ClientSideMetrics,
   ) {}
 
   /**
@@ -85,7 +85,7 @@ export class QueryMetrics {
       vmExecutionTime,
       RuntimeExecutionTimes.createFromArray(runtimeExecutionTimesArray),
       documentWriteTime,
-      ClientSideMetrics.createFromArray(...clientSideQueryMetricsArray)
+      ClientSideMetrics.createFromArray(...clientSideQueryMetricsArray),
     );
   }
 
@@ -154,7 +154,7 @@ export class QueryMetrics {
     TimeSpan.zero,
     RuntimeExecutionTimes.zero,
     TimeSpan.zero,
-    ClientSideMetrics.zero
+    ClientSideMetrics.zero,
   );
 
   /**
@@ -173,7 +173,7 @@ export class QueryMetrics {
    */
   public static createFromDelimitedString(
     delimitedString: string,
-    clientSideMetrics?: ClientSideMetrics
+    clientSideMetrics?: ClientSideMetrics,
   ): QueryMetrics {
     const metrics = parseDelimitedString(delimitedString);
 
@@ -185,7 +185,7 @@ export class QueryMetrics {
     const retrievedDocumentSize = metrics[QueryMetricsConstants.RetrievedDocumentSize] || 0;
     const totalQueryExecutionTime = timeSpanFromMetrics(
       metrics,
-      QueryMetricsConstants.TotalQueryExecutionTimeInMs
+      QueryMetricsConstants.TotalQueryExecutionTimeInMs,
     );
     return new QueryMetrics(
       retrievedDocumentCount,
@@ -200,7 +200,7 @@ export class QueryMetrics {
       timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs),
       RuntimeExecutionTimes.createFromDelimitedString(delimitedString),
       timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs),
-      clientSideMetrics || ClientSideMetrics.zero
+      clientSideMetrics || ClientSideMetrics.zero,
     );
   }
 }

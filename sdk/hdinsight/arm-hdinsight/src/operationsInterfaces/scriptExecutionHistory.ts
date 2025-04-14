@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RuntimeScriptActionDetail,
   ScriptExecutionHistoryListByClusterOptionalParams,
-  ScriptExecutionHistoryPromoteOptionalParams
-} from "../models";
+  ScriptExecutionHistoryPromoteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScriptExecutionHistory. */
@@ -25,7 +25,7 @@ export interface ScriptExecutionHistory {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ScriptExecutionHistoryListByClusterOptionalParams
+    options?: ScriptExecutionHistoryListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<RuntimeScriptActionDetail>;
   /**
    * Promotes the specified ad-hoc script execution to a persisted script.
@@ -38,6 +38,6 @@ export interface ScriptExecutionHistory {
     resourceGroupName: string,
     clusterName: string,
     scriptExecutionId: string,
-    options?: ScriptExecutionHistoryPromoteOptionalParams
+    options?: ScriptExecutionHistoryPromoteOptionalParams,
   ): Promise<void>;
 }

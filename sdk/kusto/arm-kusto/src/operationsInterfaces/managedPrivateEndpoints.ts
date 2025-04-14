@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
@@ -20,26 +20,26 @@ import {
   ManagedPrivateEndpointsCreateOrUpdateResponse,
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
-} from "../models";
+  ManagedPrivateEndpointsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedPrivateEndpoints. */
 export interface ManagedPrivateEndpoints {
   /**
    * Returns the list of managed private endpoints.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
   /**
    * Checks that the managed private endpoints resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -48,11 +48,11 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     resourceName: ManagedPrivateEndpointsCheckNameRequest,
-    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
+    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams,
   ): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse>;
   /**
    * Gets a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -61,11 +61,11 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Creates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -76,16 +76,16 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
       ManagedPrivateEndpointsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -96,11 +96,11 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
   /**
    * Updates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -111,16 +111,16 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagedPrivateEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagedPrivateEndpointsUpdateResponse>,
       ManagedPrivateEndpointsUpdateResponse
     >
   >;
   /**
    * Updates a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param parameters The managed private endpoint parameters.
@@ -131,11 +131,11 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsUpdateResponse>;
   /**
    * Deletes a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -144,11 +144,11 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed private endpoint.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
@@ -157,6 +157,6 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

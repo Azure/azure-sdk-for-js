@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, ResourceChangesImpl, ChangesImpl } from "./operations";
-import { Operations, ResourceChanges, Changes } from "./operationsInterfaces";
-import { AzureChangeAnalysisManagementClientOptionalParams } from "./models";
+import { OperationsImpl, ResourceChangesImpl, ChangesImpl } from "./operations/index.js";
+import { Operations, ResourceChanges, Changes } from "./operationsInterfaces/index.js";
+import { AzureChangeAnalysisManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureChangeAnalysisManagementClient extends coreClient.ServiceClient {
   $host: string;

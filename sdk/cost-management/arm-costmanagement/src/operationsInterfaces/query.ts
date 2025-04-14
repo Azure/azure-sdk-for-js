@@ -13,7 +13,7 @@ import {
   ExternalCloudProviderType,
   QueryUsageByExternalCloudProviderTypeOptionalParams,
   QueryUsageByExternalCloudProviderTypeResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Query. */
 export interface Query {

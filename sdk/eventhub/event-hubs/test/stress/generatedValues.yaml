@@ -1,0 +1,17 @@
+scenarios:
+- testTarget: scenarioNoActivity
+  image: Dockerfile
+  Scenario: node18-noActivity
+  memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-prefetch/jseh/dockerfile:harshanalluru
+- testTarget: scenarioCheckpointStore
+  image: Dockerfile
+  Scenario: node18-checkpointStore
+  memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-prefetch/jseh/dockerfile:harshanalluru
+- testTarget: scenarioGetRuntimeProps
+  image: Dockerfile
+  Scenario: node18-getRuntimeProps
+  memory: 1.5Gi
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-prefetch/jseh/dockerfile:harshanalluru
+

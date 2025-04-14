@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a custom domain.
  *
  * @summary Get a custom domain.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubCustomDomains_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomDomains_Get.json
  */
 async function webPubSubCustomDomainsGet() {
   const subscriptionId =

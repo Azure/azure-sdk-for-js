@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BreezeResponse } from "../../src/utils/breezeUtils";
+import type { BreezeResponse } from "../../src/utils/breezeUtils.js";
 
 export function successfulBreezeResponse(count: number): BreezeResponse {
   return {
@@ -23,7 +23,7 @@ export function failedBreezeResponse(count: number, statusCode: number): BreezeR
   };
 }
 
-export function partialBreezeResponse(statusCodes: number[]) {
+export function partialBreezeResponse(statusCodes: number[]): BreezeResponse {
   const itemsAccepted = statusCodes.filter((v) => v === 200).length;
   return {
     itemsAccepted,

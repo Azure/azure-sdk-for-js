@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ManagedDatabaseAdvancedThreatProtectionSettings } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ManagedDatabaseAdvancedThreatProtectionSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   ManagedDatabaseAdvancedThreatProtection,
   ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams,
@@ -23,13 +23,14 @@ import {
   ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse,
   ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
-  ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
-} from "../models";
+  ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseAdvancedThreatProtectionSettings operations. */
 export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
-  implements ManagedDatabaseAdvancedThreatProtectionSettings {
+  implements ManagedDatabaseAdvancedThreatProtectionSettings
+{
   private readonly client: SqlManagementClient;
 
   /**
@@ -52,13 +53,13 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseAdvancedThreatProtection> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +77,9 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
           managedInstanceName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     managedInstanceName: string,
     databaseName: string,
     options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedDatabaseAdvancedThreatProtection[]> {
     let result: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
         resourceGroupName,
         managedInstanceName,
         databaseName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
         managedInstanceName,
         databaseName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,13 +123,13 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<ManagedDatabaseAdvancedThreatProtection> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       managedInstanceName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,13 +147,11 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
-  ): Promise<
-    ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse
-  > {
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
+  ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
@@ -170,7 +169,7 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     managedInstanceName: string,
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
   ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -178,9 +177,9 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
         managedInstanceName,
         databaseName,
         advancedThreatProtectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,10 +199,8 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     databaseName: string,
     advancedThreatProtectionName: AdvancedThreatProtectionName,
     parameters: ManagedDatabaseAdvancedThreatProtection,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
-  ): Promise<
-    ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
-  > {
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
+  ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,9 +208,9 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
         databaseName,
         advancedThreatProtectionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -231,19 +228,17 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
     managedInstanceName: string,
     databaseName: string,
     nextLink: string,
-    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams
-  ): Promise<
-    ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
-  > {
+    options?: ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams,
+  ): Promise<ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         managedInstanceName,
         databaseName,
         nextLink,
-        options
+        options,
       },
-      listByDatabaseNextOperationSpec
+      listByDatabaseNextOperationSpec,
     );
   }
 }
@@ -251,83 +246,80 @@ export class ManagedDatabaseAdvancedThreatProtectionSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtectionListResult
+      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtectionListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.databaseName,
-    Parameters.managedInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.advancedThreatProtectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.databaseName,
+    Parameters.managedInstanceName,
+    Parameters.advancedThreatProtectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/advancedThreatProtectionSettings/{advancedThreatProtectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection
+      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection,
     },
     201: {
-      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection
+      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtection,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters85,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters76,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.advancedThreatProtectionName
+    Parameters.advancedThreatProtectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtectionListResult
+      bodyMapper: Mappers.ManagedDatabaseAdvancedThreatProtectionListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -335,8 +327,8 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.nextLink,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

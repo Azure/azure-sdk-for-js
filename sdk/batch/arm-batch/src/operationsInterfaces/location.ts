@@ -10,13 +10,12 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SupportedSku,
   LocationListSupportedVirtualMachineSkusOptionalParams,
-  LocationListSupportedCloudServiceSkusOptionalParams,
   LocationGetQuotasOptionalParams,
   LocationGetQuotasResponse,
   CheckNameAvailabilityParameters,
   LocationCheckNameAvailabilityOptionalParams,
-  LocationCheckNameAvailabilityResponse
-} from "../models";
+  LocationCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Location. */
@@ -28,16 +27,7 @@ export interface Location {
    */
   listSupportedVirtualMachineSkus(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
-  ): PagedAsyncIterableIterator<SupportedSku>;
-  /**
-   * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
-   * @param locationName The region for which to retrieve Batch service supported SKUs.
-   * @param options The options parameters.
-   */
-  listSupportedCloudServiceSkus(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku>;
   /**
    * Gets the Batch service quotas for the specified subscription at the given location.
@@ -46,7 +36,7 @@ export interface Location {
    */
   getQuotas(
     locationName: string,
-    options?: LocationGetQuotasOptionalParams
+    options?: LocationGetQuotasOptionalParams,
   ): Promise<LocationGetQuotasResponse>;
   /**
    * Checks whether the Batch account name is available in the specified region.
@@ -57,6 +47,6 @@ export interface Location {
   checkNameAvailability(
     locationName: string,
     parameters: CheckNameAvailabilityParameters,
-    options?: LocationCheckNameAvailabilityOptionalParams
+    options?: LocationCheckNameAvailabilityOptionalParams,
   ): Promise<LocationCheckNameAvailabilityResponse>;
 }

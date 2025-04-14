@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Alerts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Alerts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorSimpleManagementClient } from "../storSimpleManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorSimpleManagementClient } from "../storSimpleManagementClient.js";
 import {
   Alert,
   AlertsListByManagerNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   SendTestAlertEmailRequest,
   AlertsSendTestEmailOptionalParams,
   AlertsListByManagerNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Alerts operations. */

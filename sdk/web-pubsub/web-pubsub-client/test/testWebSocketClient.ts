@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import EventEmitter from "events";
-import { WebPubSubClient } from "../src/webPubSubClient";
-import {
+import type { WebPubSubClient } from "../src/webPubSubClient.js";
+import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
-} from "../src/websocket/websocketClientLike";
+} from "../src/websocket/websocketClientLike.js";
 
 export class TestWebSocketClient implements WebSocketClientLike {
   private readonly _emitter: EventEmitter = new EventEmitter();

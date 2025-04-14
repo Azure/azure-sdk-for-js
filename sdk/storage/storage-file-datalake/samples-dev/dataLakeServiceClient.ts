@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use `DataLakeServiceClient` to create and read file systems and files
@@ -8,16 +8,15 @@
 import { DataLakeServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -44,7 +43,7 @@ export async function main() {
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("File Systems:");
@@ -58,7 +57,7 @@ export async function main() {
 
   const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`,
   );
 
   // Create a file
@@ -99,7 +98,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+      chunks.push(typeof data === "string" ? Buffer.from(data) : data);
     });
     readableStream.on("end", () => {
       resolve(Buffer.concat(chunks));

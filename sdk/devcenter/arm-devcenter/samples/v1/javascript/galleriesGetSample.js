@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a gallery
  *
  * @summary Gets a gallery
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Galleries_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Galleries_Get.json
  */
 async function galleriesGet() {
   const subscriptionId =

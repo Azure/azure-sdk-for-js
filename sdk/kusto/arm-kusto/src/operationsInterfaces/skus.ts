@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SkuDescription, SkusListOptionalParams } from "../models";
+import { SkuDescription, SkusListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Skus. */
 export interface Skus {
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription>;
 }

@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2023-10-25)
+
+### Features Added
+
+- Adds support for serializing and deserializing for `timestamp-millis` logical type as native `Date` objects.
+
 ## 1.0.0 (2022-05-10)
 
 ### Other Changes
@@ -8,8 +24,6 @@
 - Errors may include a `cause` field that stores inner errors if any.
 
 ## 1.0.0-beta.8 (2022-04-05)
-
-### Features Added
 
 ### Breaking Changes
 - The `encodeMessageData` method has been renamed to `serialize`.

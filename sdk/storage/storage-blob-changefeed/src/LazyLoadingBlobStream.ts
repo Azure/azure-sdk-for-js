@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Readable, ReadableOptions } from "stream";
-import { BlobClient, CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import type { ReadableOptions } from "node:stream";
+import { Readable } from "node:stream";
+import type { BlobClient, CommonOptions } from "@azure/storage-blob";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure the LazyLoadingBlobStream.
@@ -58,7 +59,7 @@ export class LazyLoadingBlobStream extends Readable {
     blobClient: BlobClient,
     offset: number,
     blockSize: number,
-    options?: LazyLoadingBlobStreamOptions
+    options?: LazyLoadingBlobStreamOptions,
   ) {
     super(options);
     this.blobClient = blobClient;
@@ -92,10 +93,10 @@ export class LazyLoadingBlobStream extends Readable {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
         this.offset += this.lastDownloadBytes;
-      }
+      },
     );
   }
 
@@ -137,7 +138,7 @@ export class LazyLoadingBlobStream extends Readable {
         if (count < size) {
           this.push(null);
         }
-      }
+      },
     );
   }
 }

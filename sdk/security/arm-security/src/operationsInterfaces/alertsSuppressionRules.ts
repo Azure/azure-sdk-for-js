@@ -14,8 +14,8 @@ import {
   AlertsSuppressionRulesGetResponse,
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesUpdateResponse,
-  AlertsSuppressionRulesDeleteOptionalParams
-} from "../models";
+  AlertsSuppressionRulesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AlertsSuppressionRules. */
@@ -25,7 +25,7 @@ export interface AlertsSuppressionRules {
    * @param options The options parameters.
    */
   list(
-    options?: AlertsSuppressionRulesListOptionalParams
+    options?: AlertsSuppressionRulesListOptionalParams,
   ): PagedAsyncIterableIterator<AlertsSuppressionRule>;
   /**
    * Get dismiss rule, with name: {alertsSuppressionRuleName}, for the given subscription
@@ -34,7 +34,7 @@ export interface AlertsSuppressionRules {
    */
   get(
     alertsSuppressionRuleName: string,
-    options?: AlertsSuppressionRulesGetOptionalParams
+    options?: AlertsSuppressionRulesGetOptionalParams,
   ): Promise<AlertsSuppressionRulesGetResponse>;
   /**
    * Update existing rule or create new rule if it doesn't exist
@@ -45,7 +45,7 @@ export interface AlertsSuppressionRules {
   update(
     alertsSuppressionRuleName: string,
     alertsSuppressionRule: AlertsSuppressionRule,
-    options?: AlertsSuppressionRulesUpdateOptionalParams
+    options?: AlertsSuppressionRulesUpdateOptionalParams,
   ): Promise<AlertsSuppressionRulesUpdateResponse>;
   /**
    * Delete dismiss alert rule for this subscription.
@@ -54,6 +54,6 @@ export interface AlertsSuppressionRules {
    */
   delete(
     alertsSuppressionRuleName: string,
-    options?: AlertsSuppressionRulesDeleteOptionalParams
+    options?: AlertsSuppressionRulesDeleteOptionalParams,
   ): Promise<void>;
 }

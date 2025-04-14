@@ -1,33 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-
+// Licensed under the MIT License.
 import {
+  configureStorageClient,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getSoftDeleteBSU,
+  getUniqueName,
   recorderEnvSetup,
-} from "./utils";
-import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
-import { Context } from "mocha";
-import { getYieldedValue } from "@azure/test-utils";
+  uriSanitizers,
+} from "./utils/index.js";
+import { delay, Recorder } from "@azure-tools/test-recorder";
+import type { ShareItem, ShareRootSquash } from "../src/index.js";
+import { ShareServiceClient } from "../src/index.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("ListShares with default parameters", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
 
     const result = (await serviceClient.listShares().byPage().next()).value;
 
@@ -48,7 +51,7 @@ describe("FileServiceClient", () => {
   });
 
   it("listShares with default parameters - empty prefix should not cause an error", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
 
     const result = (await serviceClient.listShares({ prefix: "" }).byPage().next()).value;
 
@@ -69,9 +72,9 @@ describe("FileServiceClient", () => {
   });
 
   it("ListShares with all parameters configured", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
 
-    const shareNamePrefix = recorder.getUniqueName("share");
+    const shareNamePrefix = recorder.variable("share", getUniqueName("share"));
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.getShareClient(shareName1);
@@ -124,8 +127,8 @@ describe("FileServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator for listShares", async () => {
-    const serviceClient = getBSU();
-    const shareNamePrefix = recorder.getUniqueName("share");
+    const serviceClient = getBSU(recorder);
+    const shareNamePrefix = recorder.variable("share", getUniqueName("share"));
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.getShareClient(shareName1);
@@ -149,9 +152,9 @@ describe("FileServiceClient", () => {
   });
 
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listShares", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
 
-    const shareNamePrefix = recorder.getUniqueName("share");
+    const shareNamePrefix = recorder.variable("share", getUniqueName("share"));
     const shareName1 = `${shareNamePrefix}x1`;
     const shareName2 = `${shareNamePrefix}x2`;
     const shareClient1 = serviceClient.getShareClient(shareName1);
@@ -182,8 +185,8 @@ describe("FileServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage()) for listShares", async () => {
     const shareClients = [];
-    const serviceClient = getBSU();
-    const shareNamePrefix = recorder.getUniqueName("share");
+    const serviceClient = getBSU(recorder);
+    const shareNamePrefix = recorder.variable("share", getUniqueName("share"));
 
     for (let i = 0; i < 4; i++) {
       const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
@@ -213,8 +216,8 @@ describe("FileServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listShares", async () => {
     const shareClients = [];
-    const serviceClient = getBSU();
-    const shareNamePrefix = recorder.getUniqueName("share");
+    const serviceClient = getBSU(recorder);
+    const shareNamePrefix = recorder.variable("share", getUniqueName("share"));
 
     for (let i = 0; i < 4; i++) {
       const shareClient = serviceClient.getShareClient(`${shareNamePrefix}x${i}`);
@@ -267,7 +270,7 @@ describe("FileServiceClient", () => {
   });
 
   it("GetProperties", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
     const result = await serviceClient.getProperties();
 
     assert.ok(typeof result.requestId);
@@ -285,7 +288,7 @@ describe("FileServiceClient", () => {
   });
 
   it("SetProperties", async () => {
-    const serviceClient = getBSU();
+    const serviceClient = getBSU(recorder);
 
     const serviceProperties = await serviceClient.getProperties();
 
@@ -341,8 +344,8 @@ describe("FileServiceClient", () => {
   });
 
   it("createShare and deleteShare", async () => {
-    const serviceClient = getBSU();
-    const shareName = recorder.getUniqueName("share");
+    const serviceClient = getBSU(recorder);
+    const shareName = recorder.variable("share", getUniqueName("share"));
     const metadata = { key: "value" };
 
     const { shareClient } = await serviceClient.createShare(shareName, { metadata });
@@ -353,7 +356,7 @@ describe("FileServiceClient", () => {
     try {
       await shareClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -362,8 +365,9 @@ describe("FileServiceClient", () => {
 
   it("can be created from a sas connection string", async () => {
     const newClient = ShareServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment()
+      getSASConnectionStringFromEnvironment(recorder),
     );
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -373,13 +377,14 @@ describe("FileServiceClient", () => {
 
   it("can be created from a sas connection string and an option bag", async () => {
     const newClient = ShareServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(),
+      getSASConnectionStringFromEnvironment(recorder),
       {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -388,26 +393,30 @@ describe("FileServiceClient", () => {
   });
 });
 
-describe("FileServiceClient", () => {
+describe("FileServiceClient - soft delete", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
     try {
-      serviceClient = getSoftDeleteBSU();
+      serviceClient = getSoftDeleteBSU(recorder);
     } catch (error: any) {
-      this.skip();
+      ctx.skip();
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("ListShares with deleted share", async function () {
-    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+  it("ListShares with deleted share", async () => {
+    const shareClient = serviceClient.getShareClient(
+      recorder.variable("share", getUniqueName("share")),
+    );
     await shareClient.create();
     await shareClient.delete();
 
@@ -422,8 +431,10 @@ describe("FileServiceClient", () => {
     assert.ok(found);
   });
 
-  it("Undelete share positive", async function () {
-    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+  it("Undelete share positive", async () => {
+    const shareClient = serviceClient.getShareClient(
+      recorder.variable("share", getUniqueName("share")),
+    );
     await shareClient.create();
     await shareClient.delete();
 
@@ -448,15 +459,17 @@ describe("FileServiceClient", () => {
 
     const restoredShareClient = await serviceClient.undeleteShare(
       shareDeleted!.name,
-      shareDeleted!.version!
+      shareDeleted!.version!,
     );
     await restoredShareClient.getProperties();
 
     await restoredShareClient.delete();
   });
 
-  it("Undelete share negative", async function () {
-    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+  it("Undelete share negative", async () => {
+    const shareClient = serviceClient.getShareClient(
+      recorder.variable("share", getUniqueName("share")),
+    );
     const invalidVersion = "01D60F8BB59A4652";
 
     try {
@@ -472,25 +485,24 @@ describe("FileServiceClient Premium", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     try {
-      serviceClient = getGenericBSU("PREMIUM_FILE_");
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
       console.log(error);
-      this.skip();
+      ctx.skip();
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("SMB Multichannel", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skipped for now as it needs be enabled on the account.
-      this.skip();
-    }
+  // Skipped for now as it needs be enabled on the account.
+  it.skip("SMB Multichannel", async function () {
     await serviceClient.setProperties({
       protocol: { smb: { multichannel: { enabled: true } } },
     });
@@ -498,13 +510,8 @@ describe("FileServiceClient Premium", () => {
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 
-  it("Share Enable Protocol & Share Squash Root", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skipped for now as this feature is not available in our test account's region yet.
-      this.skip();
-    }
-
-    const shareName = recorder.getUniqueName("share");
+  it.skip("Share Enable Protocol & Share Squash Root", async function () {
+    const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
     // create share
@@ -515,6 +522,7 @@ describe("FileServiceClient Premium", () => {
         nfsEnabled: true,
       },
       rootSquash,
+      enableSnapshotVirtualDirectoryAccess: true,
     });
 
     // get properties
@@ -522,13 +530,14 @@ describe("FileServiceClient Premium", () => {
     const getRes = await shareClient.getProperties();
     assert.deepStrictEqual(getRes.protocols, expectedProtocols);
     assert.deepStrictEqual(getRes.rootSquash, rootSquash);
+    assert.ok(getRes.enableSnapshotVirtualDirectoryAccess);
 
     // set properties
     rootSquash = "AllSquash";
     await shareClient.setProperties({ rootSquash });
 
     // list share
-    const shareName1 = recorder.getUniqueName("share1");
+    const shareName1 = recorder.variable("share1", getUniqueName("share1"));
     const protocols = { smbEnabled: true };
     await serviceClient.createShare(shareName1, {
       protocols,
@@ -538,18 +547,16 @@ describe("FileServiceClient Premium", () => {
       if (share.name === shareName) {
         assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
         assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
+        assert.ok(share.properties.enableSnapshotVirtualDirectoryAccess);
       } else if (share.name === shareName1) {
         assert.deepStrictEqual(share.properties.protocols, protocols);
       }
     }
   });
 
-  it("Premium Share getProperties", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skip this case until the feature is enabled in production.
-      this.skip();
-    }
-    const shareName = recorder.getUniqueName("share");
+  // Skip this case until the feature is enabled in production.
+  it.skip("Premium Share getProperties", async function () {
+    const shareName = recorder.variable("share", getUniqueName("share"));
     const shareClient = serviceClient.getShareClient(shareName);
 
     // create share

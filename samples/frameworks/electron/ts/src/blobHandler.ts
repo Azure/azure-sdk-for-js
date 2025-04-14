@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how we can interact with
   Azure Blob Storage in an Electron application.

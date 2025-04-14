@@ -15,6 +15,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                                   | **Description**                                                                                                                                                                                                                                                                                                                                                                                                   |
 | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [helloworld.js][helloworld]                                     | Demonstrates the CRUD operations on the configuration settings.                                                                                                                                                                                                                                                                                                                                                   |
+| [snapshot.js][snapshot]                                         | Demonstrates the CRUD operations on the snapshot.                                                                                                                                                                                                                                                                                                                                                                 |
 | [helloworldWithLabels.js][helloworldwithlabels]                 | This sample builds on concepts in helloworld.ts and shows you how to use labels.                                                                                                                                                                                                                                                                                                                                  |
 | [optimisticConcurrencyViaEtag.js][optimisticconcurrencyviaetag] | Demonstrates implementing optimistic concurrency using App Configuration and etags.                                                                                                                                                                                                                                                                                                                               |
 | [setReadOnlySample.js][setreadonlysample]                       | Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.                                                                                                                                                                                                                                                                                    |
@@ -58,7 +59,7 @@ node helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node helloworld.js
+npx dev-tool run vendored cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node helloworld.js
 ```
 
 ## Next Steps
@@ -66,6 +67,7 @@ npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node h
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/helloworld.js
+[snapshot]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/snapshot.js
 [helloworldwithlabels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/helloworldWithLabels.js
 [optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/optimisticConcurrencyViaEtag.js
 [setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/setReadOnlySample.js
@@ -75,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/listRevisions.js
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/secretReference.js
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/featureFlag.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
+[createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md

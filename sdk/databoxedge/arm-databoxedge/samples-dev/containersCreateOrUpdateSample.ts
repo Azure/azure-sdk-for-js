@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Container, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { Container } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -17,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new container or updates an existing container on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/ContainerPut.json
  */
-async function containerPut() {
+async function containerPut(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const storageAccountName = "storageaccount1";
@@ -31,7 +30,7 @@ async function containerPut() {
     storageAccountName,
     containerName,
     resourceGroupName,
-    container
+    container,
   );
   console.log(result);
 }

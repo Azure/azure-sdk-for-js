@@ -8,9 +8,13 @@
 
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  AddToGroupsRequest,
+  WebPubSubAddConnectionsToGroupsOptionalParams,
   WebPubSubCloseAllConnectionsOptionalParams,
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
+  RemoveFromGroupsRequest,
+  WebPubSubRemoveConnectionsFromGroupsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
@@ -35,11 +39,23 @@ import {
   WebPubSubSendToUser$textOptionalParams,
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
   WebPubSubRemoveUserFromGroupOptionalParams,
-  WebPubSubAddUserToGroupOptionalParams
-} from "../models";
+  WebPubSubAddUserToGroupOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a WebPubSub. */
 export interface WebPubSub {
+  /**
+   * Add filtered connections to multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToAdd Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  addConnectionsToGroups(
+    hub: string,
+    groupsToAdd: AddToGroupsRequest,
+    options?: WebPubSubAddConnectionsToGroupsOptionalParams,
+  ): Promise<void>;
   /**
    * Close the connections in the hub.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
@@ -48,7 +64,7 @@ export interface WebPubSub {
    */
   closeAllConnections(
     hub: string,
-    options?: WebPubSubCloseAllConnectionsOptionalParams
+    options?: WebPubSubCloseAllConnectionsOptionalParams,
   ): Promise<void>;
   /**
    * Generate token for the client to connect Azure Web PubSub service.
@@ -58,8 +74,20 @@ export interface WebPubSub {
    */
   generateClientToken(
     hub: string,
-    options?: WebPubSubGenerateClientTokenOptionalParams
+    options?: WebPubSubGenerateClientTokenOptionalParams,
   ): Promise<WebPubSubGenerateClientTokenResponse>;
+  /**
+   * Remove filtered connections from multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToRemove Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  removeConnectionsFromGroups(
+    hub: string,
+    groupsToRemove: RemoveFromGroupsRequest,
+    options?: WebPubSubRemoveConnectionsFromGroupsOptionalParams,
+  ): Promise<void>;
   /**
    * Broadcast content inside request body to all the connected client connections.
    * @param args Includes all the parameters for this operation.
@@ -70,7 +98,7 @@ export interface WebPubSub {
           string,
           ContentType,
           coreRestPipeline.RequestBodyType,
-          WebPubSubSendToAll$binaryOptionalParams?
+          WebPubSubSendToAll$binaryOptionalParams?,
         ]
       | [string, "text/plain", string, WebPubSubSendToAll$textOptionalParams?]
   ): Promise<void>;
@@ -84,7 +112,7 @@ export interface WebPubSub {
   closeConnection(
     hub: string,
     connectionId: string,
-    options?: WebPubSubCloseConnectionOptionalParams
+    options?: WebPubSubCloseConnectionOptionalParams,
   ): Promise<void>;
   /**
    * Check if the connection with the given connectionId exists.
@@ -96,7 +124,7 @@ export interface WebPubSub {
   connectionExists(
     hub: string,
     connectionId: string,
-    options?: WebPubSubConnectionExistsOptionalParams
+    options?: WebPubSubConnectionExistsOptionalParams,
   ): Promise<void>;
   /**
    * Send content inside request body to the specific connection.
@@ -109,14 +137,14 @@ export interface WebPubSub {
           string,
           ContentType,
           coreRestPipeline.RequestBodyType,
-          WebPubSubSendToConnection$binaryOptionalParams?
+          WebPubSubSendToConnection$binaryOptionalParams?,
         ]
       | [
           string,
           string,
           "text/plain",
           string,
-          WebPubSubSendToConnection$textOptionalParams?
+          WebPubSubSendToConnection$textOptionalParams?,
         ]
   ): Promise<void>;
   /**
@@ -129,7 +157,7 @@ export interface WebPubSub {
   removeConnectionFromAllGroups(
     hub: string,
     connectionId: string,
-    options?: WebPubSubRemoveConnectionFromAllGroupsOptionalParams
+    options?: WebPubSubRemoveConnectionFromAllGroupsOptionalParams,
   ): Promise<void>;
   /**
    * Check if there are any client connections inside the given group
@@ -141,7 +169,7 @@ export interface WebPubSub {
   groupExists(
     hub: string,
     group: string,
-    options?: WebPubSubGroupExistsOptionalParams
+    options?: WebPubSubGroupExistsOptionalParams,
   ): Promise<void>;
   /**
    * Close connections in the specific group.
@@ -153,7 +181,7 @@ export interface WebPubSub {
   closeGroupConnections(
     hub: string,
     group: string,
-    options?: WebPubSubCloseGroupConnectionsOptionalParams
+    options?: WebPubSubCloseGroupConnectionsOptionalParams,
   ): Promise<void>;
   /**
    * Send content inside request body to a group of connections.
@@ -166,14 +194,14 @@ export interface WebPubSub {
           string,
           ContentType,
           coreRestPipeline.RequestBodyType,
-          WebPubSubSendToGroup$binaryOptionalParams?
+          WebPubSubSendToGroup$binaryOptionalParams?,
         ]
       | [
           string,
           string,
           "text/plain",
           string,
-          WebPubSubSendToGroup$textOptionalParams?
+          WebPubSubSendToGroup$textOptionalParams?,
         ]
   ): Promise<void>;
   /**
@@ -188,7 +216,7 @@ export interface WebPubSub {
     hub: string,
     group: string,
     connectionId: string,
-    options?: WebPubSubRemoveConnectionFromGroupOptionalParams
+    options?: WebPubSubRemoveConnectionFromGroupOptionalParams,
   ): Promise<void>;
   /**
    * Add a connection to the target group.
@@ -202,7 +230,7 @@ export interface WebPubSub {
     hub: string,
     group: string,
     connectionId: string,
-    options?: WebPubSubAddConnectionToGroupOptionalParams
+    options?: WebPubSubAddConnectionToGroupOptionalParams,
   ): Promise<void>;
   /**
    * Revoke permission for the connection.
@@ -216,7 +244,7 @@ export interface WebPubSub {
     hub: string,
     permission: WebPubSubPermission,
     connectionId: string,
-    options?: WebPubSubRevokePermissionOptionalParams
+    options?: WebPubSubRevokePermissionOptionalParams,
   ): Promise<void>;
   /**
    * Check if a connection has permission to the specified action.
@@ -230,7 +258,7 @@ export interface WebPubSub {
     hub: string,
     permission: WebPubSubPermission,
     connectionId: string,
-    options?: WebPubSubCheckPermissionOptionalParams
+    options?: WebPubSubCheckPermissionOptionalParams,
   ): Promise<void>;
   /**
    * Grant permission to the connection.
@@ -244,7 +272,7 @@ export interface WebPubSub {
     hub: string,
     permission: WebPubSubPermission,
     connectionId: string,
-    options?: WebPubSubGrantPermissionOptionalParams
+    options?: WebPubSubGrantPermissionOptionalParams,
   ): Promise<void>;
   /**
    * Check if there are any client connections connected for the given user.
@@ -256,7 +284,7 @@ export interface WebPubSub {
   userExists(
     hub: string,
     userId: string,
-    options?: WebPubSubUserExistsOptionalParams
+    options?: WebPubSubUserExistsOptionalParams,
   ): Promise<void>;
   /**
    * Close connections for the specific user.
@@ -268,7 +296,7 @@ export interface WebPubSub {
   closeUserConnections(
     hub: string,
     userId: string,
-    options?: WebPubSubCloseUserConnectionsOptionalParams
+    options?: WebPubSubCloseUserConnectionsOptionalParams,
   ): Promise<void>;
   /**
    * Send content inside request body to the specific user.
@@ -281,14 +309,14 @@ export interface WebPubSub {
           string,
           ContentType,
           coreRestPipeline.RequestBodyType,
-          WebPubSubSendToUser$binaryOptionalParams?
+          WebPubSubSendToUser$binaryOptionalParams?,
         ]
       | [
           string,
           string,
           "text/plain",
           string,
-          WebPubSubSendToUser$textOptionalParams?
+          WebPubSubSendToUser$textOptionalParams?,
         ]
   ): Promise<void>;
   /**
@@ -301,7 +329,7 @@ export interface WebPubSub {
   removeUserFromAllGroups(
     hub: string,
     userId: string,
-    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams
+    options?: WebPubSubRemoveUserFromAllGroupsOptionalParams,
   ): Promise<void>;
   /**
    * Remove a user from the target group.
@@ -315,7 +343,7 @@ export interface WebPubSub {
     hub: string,
     group: string,
     userId: string,
-    options?: WebPubSubRemoveUserFromGroupOptionalParams
+    options?: WebPubSubRemoveUserFromGroupOptionalParams,
   ): Promise<void>;
   /**
    * Add a user to the target group.
@@ -329,6 +357,6 @@ export interface WebPubSub {
     hub: string,
     group: string,
     userId: string,
-    options?: WebPubSubAddUserToGroupOptionalParams
+    options?: WebPubSubAddUserToGroupOptionalParams,
   ): Promise<void>;
 }

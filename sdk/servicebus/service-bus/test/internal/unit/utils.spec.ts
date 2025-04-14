@@ -1,36 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   checkAndRegisterWithAbortSignal,
   waitForTimeoutOrAbortOrResolve,
-} from "../../../src/util/utils";
+} from "../../../src/util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
-} from "../../../src/diagnostics/instrumentServiceBusMessage";
-import { ServiceBusReceivedMessage } from "../../../src";
-import Sinon from "sinon";
-import { tracingClient } from "../../../src/diagnostics/tracing";
-
-chai.use(chaiAsPromised);
-const assert = chai.assert;
+} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+import type { ServiceBusReceivedMessage } from "../../../src/index.js";
+import { tracingClient } from "../../../src/diagnostics/tracing.js";
+import { describe, it, vi, beforeEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
-    let ourTimerId: NodeJS.Timer | undefined;
+    let ourTimerId: NodeJS.Timeout | undefined;
     let timerWasCleared: boolean;
 
     let timeoutFunctions: {
       setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
-      clearTimeoutFn: (timeoutId: NodeJS.Timer) => void;
+      clearTimeoutFn: (timeoutId: NodeJS.Timeout) => void;
     };
 
     const neverFireMs = 10 * 1000;
@@ -50,14 +46,14 @@ describe("utils", () => {
 
         assert.notExists(
           ourTimerId,
-          "Definitely shouldn't schedule our timeout callback more than once"
+          "Definitely shouldn't schedule our timeout callback more than once",
         );
 
         ourTimerId = id;
         return id;
       };
 
-      const clearTimeoutFn = (timerIdToClear: NodeJS.Timer): any => {
+      const clearTimeoutFn = (timerIdToClear: NodeJS.Timeout): any => {
         assert.exists(timerIdToClear);
         assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
         timerWasCleared = true;
@@ -95,7 +91,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -122,7 +118,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       // the abort signal is checked early, so the timeout never gets set up here.
       assert.notExists(ourTimerId);
@@ -168,7 +164,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -188,7 +184,7 @@ describe("utils", () => {
       assert.equal(result, 100);
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -212,7 +208,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -328,7 +324,7 @@ describe("utils", () => {
 
   describe("extractSpanContextFromServiceBusMessage", function () {
     it("should use diagnostic id from a properly instrumented ServiceBusMessage", function () {
-      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
+      const tracingClientSpy = vi.spyOn(tracingClient, "parseTraceparentHeader");
       const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
@@ -341,7 +337,7 @@ describe("utils", () => {
       };
 
       extractSpanContextFromServiceBusMessage(receivedMessage);
-      assert.isTrue(tracingClientSpy.calledWith(traceparent));
+      expect(tracingClientSpy).toHaveBeenCalledWith(traceparent);
     });
 
     it("should return undefined when ServiceBusMessage is not instrumented", function () {
@@ -356,14 +352,14 @@ describe("utils", () => {
 
       assert.notExists(
         spanContext,
-        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`
+        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`,
       );
     });
   });
 });
 
 function getAbortSignalWithTracking(
-  abortController: AbortController
+  abortController: AbortController,
 ): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
   const signal = abortController.signal as any as ReturnType<typeof getAbortSignalWithTracking>;
 

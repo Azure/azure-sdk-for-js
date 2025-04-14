@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ComponentLinkedStorageAccounts,
-  ApplicationInsightsManagementClient
+  ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Replace current linked storage account for an Application Insights component.
@@ -20,27 +19,36 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Replace current linked storage account for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2020-03-01-preview/examples/ComponentLinkedStorageAccountsCreateAndUpdate.json
  */
-async function componentLinkedStorageAccountsCreateAndUpdate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
-  const resourceGroupName = "someResourceGroupName";
+async function componentLinkedStorageAccountsCreateAndUpdate(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] ||
+    "someResourceGroupName";
   const resourceName = "myComponent";
   const storageType = "ServiceProfiler";
   const linkedStorageAccountsProperties: ComponentLinkedStorageAccounts = {
     linkedStorageAccount:
-      "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/someResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname"
+      "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/someResourceGroupName/providers/Microsoft.Storage/storageAccounts/storageaccountname",
   };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
-  const result = await client.componentLinkedStorageAccountsOperations.createAndUpdate(
-    resourceGroupName,
-    resourceName,
-    storageType,
-    linkedStorageAccountsProperties
-  );
+  const result =
+    await client.componentLinkedStorageAccountsOperations.createAndUpdate(
+      resourceGroupName,
+      resourceName,
+      storageType,
+      linkedStorageAccountsProperties,
+    );
   console.log(result);
 }
 
-componentLinkedStorageAccountsCreateAndUpdate().catch(console.error);
+async function main(): Promise<void> {
+  await componentLinkedStorageAccountsCreateAndUpdate();
+}
+
+main().catch(console.error);

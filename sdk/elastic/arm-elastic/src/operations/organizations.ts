@@ -6,15 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Organizations } from "../operationsInterfaces";
+import { Organizations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse
-} from "../models";
+  OrganizationsGetApiKeyResponse,
+  OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  OrganizationsGetElasticToAzureSubscriptionMappingResponse,
+} from "../models/index.js";
 
 /** Class containing Organizations operations. */
 export class OrganizationsImpl implements Organizations {
@@ -34,11 +36,24 @@ export class OrganizationsImpl implements Organizations {
    * @param options The options parameters.
    */
   getApiKey(
-    options?: OrganizationsGetApiKeyOptionalParams
+    options?: OrganizationsGetApiKeyOptionalParams,
   ): Promise<OrganizationsGetApiKeyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getApiKeyOperationSpec
+      getApiKeyOperationSpec,
+    );
+  }
+
+  /**
+   * Get Elastic Organization To Azure Subscription Mapping details for the logged-in user.
+   * @param options The options parameters.
+   */
+  getElasticToAzureSubscriptionMapping(
+    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getElasticToAzureSubscriptionMappingOperationSpec,
     );
   }
 }
@@ -46,21 +61,38 @@ export class OrganizationsImpl implements Organizations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getApiKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UserApiKeyResponse
+      bodyMapper: Mappers.UserApiKeyResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
+const getElasticToAzureSubscriptionMappingOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getElasticOrganizationToAzureSubscriptionMapping",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper:
+          Mappers.ElasticOrganizationToAzureSubscriptionMappingResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

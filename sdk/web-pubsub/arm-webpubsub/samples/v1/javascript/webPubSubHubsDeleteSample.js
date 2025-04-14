@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a hub setting.
  *
  * @summary Delete a hub setting.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubHubs_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubHubs_Delete.json
  */
 async function webPubSubHubsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubHubsDelete() {
   const result = await client.webPubSubHubs.beginDeleteAndWait(
     hubName,
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

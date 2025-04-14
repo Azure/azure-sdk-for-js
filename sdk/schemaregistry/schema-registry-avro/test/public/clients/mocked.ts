@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MessagingTestClient } from "./models";
+import type { MessagingTestClient } from "./models.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 /**
@@ -10,7 +10,7 @@ import { isLiveMode } from "@azure-tools/test-recorder";
  * @returns a client that can work in both live and playback modes
  */
 export function createMockedMessagingClient<MessageT>(
-  createLiveClient: () => MessagingTestClient<MessageT>
+  createLiveClient: () => MessagingTestClient<MessageT>,
 ): MessagingTestClient<MessageT> {
   if (isLiveMode()) {
     return createLiveClient();

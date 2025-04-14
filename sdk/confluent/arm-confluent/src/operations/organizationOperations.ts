@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { OrganizationOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { OrganizationOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConfluentManagementClient } from "../confluentManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConfluentManagementClient } from "../confluentManagementClient.js";
 import {
   OperationResult,
   OrganizationOperationsListNextOptionalParams,
   OrganizationOperationsListOptionalParams,
   OrganizationOperationsListResponse,
-  OrganizationOperationsListNextResponse
-} from "../models";
+  OrganizationOperationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OrganizationOperations operations. */
@@ -39,7 +39,7 @@ export class OrganizationOperationsImpl implements OrganizationOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: OrganizationOperationsListOptionalParams
+    options?: OrganizationOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationResult> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class OrganizationOperationsImpl implements OrganizationOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: OrganizationOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationResult[]> {
     let result: OrganizationOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class OrganizationOperationsImpl implements OrganizationOperations {
   }
 
   private async *listPagingAll(
-    options?: OrganizationOperationsListOptionalParams
+    options?: OrganizationOperationsListOptionalParams,
   ): AsyncIterableIterator<OperationResult> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class OrganizationOperationsImpl implements OrganizationOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: OrganizationOperationsListOptionalParams
+    options?: OrganizationOperationsListOptionalParams,
   ): Promise<OrganizationOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class OrganizationOperationsImpl implements OrganizationOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: OrganizationOperationsListNextOptionalParams
+    options?: OrganizationOperationsListNextOptionalParams,
   ): Promise<OrganizationOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,30 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

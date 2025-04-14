@@ -14,7 +14,7 @@ import {
   PolicySetModelResponse,
   PolicyResetOptionalParams,
   PolicyResetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Policy. */
 export interface Policy {

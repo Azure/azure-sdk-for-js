@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PipelineResource,
   PipelineGetPipelinesByWorkspaceOptionalParams,
   PipelineCreateOrUpdatePipelineOptionalParams,
@@ -19,102 +19,101 @@ import {
   ArtifactRenameRequest,
   PipelineRenamePipelineOptionalParams,
   PipelineCreatePipelineRunOptionalParams,
-  PipelineCreatePipelineRunResponse
-} from "../models";
+  PipelineCreatePipelineRunResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PipelineOperations. */
 export interface PipelineOperations {
   /**
    * Lists pipelines.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listPipelinesByWorkspace(
-    options?: PipelineGetPipelinesByWorkspaceOptionalParams
+    options?: PipelineGetPipelinesByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PipelineResource>;
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param pipeline Pipeline resource definition.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param pipeline - Pipeline resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdatePipeline(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineCreateOrUpdatePipelineOptionalParams
+    options?: PipelineCreateOrUpdatePipelineOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PipelineCreateOrUpdatePipelineResponse>,
+    SimplePollerLike<
+      OperationState<PipelineCreateOrUpdatePipelineResponse>,
       PipelineCreateOrUpdatePipelineResponse
     >
   >;
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param pipeline Pipeline resource definition.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param pipeline - Pipeline resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdatePipelineAndWait(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineCreateOrUpdatePipelineOptionalParams
+    options?: PipelineCreateOrUpdatePipelineOptionalParams,
   ): Promise<PipelineCreateOrUpdatePipelineResponse>;
   /**
    * Gets a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   getPipeline(
     pipelineName: string,
-    options?: PipelineGetPipelineOptionalParams
+    options?: PipelineGetPipelineOptionalParams,
   ): Promise<PipelineGetPipelineResponse>;
   /**
    * Deletes a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   beginDeletePipeline(
     pipelineName: string,
-    options?: PipelineDeletePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PipelineDeletePipelineOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   beginDeletePipelineAndWait(
     pipelineName: string,
-    options?: PipelineDeletePipelineOptionalParams
+    options?: PipelineDeletePipelineOptionalParams,
   ): Promise<void>;
   /**
    * Renames a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenamePipeline(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineRenamePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PipelineRenamePipelineOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenamePipelineAndWait(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineRenamePipelineOptionalParams
+    options?: PipelineRenamePipelineOptionalParams,
   ): Promise<void>;
   /**
    * Creates a run of a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   createPipelineRun(
     pipelineName: string,
-    options?: PipelineCreatePipelineRunOptionalParams
+    options?: PipelineCreatePipelineRunOptionalParams,
   ): Promise<PipelineCreatePipelineRunResponse>;
 }

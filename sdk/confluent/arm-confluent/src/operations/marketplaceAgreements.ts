@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MarketplaceAgreements } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MarketplaceAgreements } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConfluentManagementClient } from "../confluentManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConfluentManagementClient } from "../confluentManagementClient.js";
 import {
   ConfluentAgreementResource,
   MarketplaceAgreementsListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   MarketplaceAgreementsListResponse,
   MarketplaceAgreementsCreateOptionalParams,
   MarketplaceAgreementsCreateResponse,
-  MarketplaceAgreementsListNextResponse
-} from "../models";
+  MarketplaceAgreementsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MarketplaceAgreements operations. */
@@ -41,7 +41,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   public list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfluentAgreementResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MarketplaceAgreementsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfluentAgreementResource[]> {
     let result: MarketplaceAgreementsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
   }
 
   private async *listPagingAll(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): AsyncIterableIterator<ConfluentAgreementResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   private _list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): Promise<MarketplaceAgreementsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,7 +105,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   create(
-    options?: MarketplaceAgreementsCreateOptionalParams
+    options?: MarketplaceAgreementsCreateOptionalParams,
   ): Promise<MarketplaceAgreementsCreateResponse> {
     return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
@@ -117,11 +117,11 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    */
   private _listNext(
     nextLink: string,
-    options?: MarketplaceAgreementsListNextOptionalParams
+    options?: MarketplaceAgreementsListNextOptionalParams,
   ): Promise<MarketplaceAgreementsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -129,58 +129,55 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfluentAgreementResourceListResponse
+      bodyMapper: Mappers.ConfluentAgreementResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfluentAgreementResource
+      bodyMapper: Mappers.ConfluentAgreementResource,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfluentAgreementResourceListResponse
+      bodyMapper: Mappers.ConfluentAgreementResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

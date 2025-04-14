@@ -6,9 +6,19 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AbusePenalty {
+    action?: AbusePenaltyAction;
+    expiration?: Date;
+    rateLimitPercentage?: number;
+}
+
+// @public
+export type AbusePenaltyAction = string;
 
 // @public
 export interface Account extends AzureEntityResource {
@@ -39,8 +49,10 @@ export interface AccountModel extends DeploymentModel {
     finetuneCapabilities?: {
         [propertyName: string]: string;
     };
+    isDefaultVersion?: boolean;
     lifecycleStatus?: ModelLifecycleStatus;
     maxCapacity?: number;
+    skus?: ModelSku[];
     readonly systemData?: SystemData;
 }
 
@@ -52,8 +64,10 @@ export interface AccountModelListResult {
 
 // @public
 export interface AccountProperties {
+    readonly abusePenalty?: AbusePenalty;
     // (undocumented)
     allowedFqdnList?: string[];
+    amlWorkspace?: UserOwnedAmlWorkspace;
     apiProperties?: ApiProperties;
     readonly callRateLimit?: CallRateLimit;
     readonly capabilities?: SkuCapability[];
@@ -78,6 +92,7 @@ export interface AccountProperties {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly quotaLimit?: QuotaLimit;
+    raiMonitorConfig?: RaiMonitorConfig;
     // (undocumented)
     restore?: boolean;
     // (undocumented)
@@ -89,11 +104,11 @@ export interface AccountProperties {
 
 // @public
 export interface Accounts {
-    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<PollerLike<PollOperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<AccountsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
     list(options?: AccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
@@ -247,12 +262,67 @@ export interface AzureEntityResource extends Resource {
     readonly etag?: string;
 }
 
+// @public (undocumented)
+export interface BillingMeterInfo {
+    // (undocumented)
+    meterId?: string;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    unit?: string;
+}
+
+// @public
+export type ByPassSelection = string;
+
+// @public
+export interface CalculateModelCapacityOptionalParams extends coreClient.OperationOptions {
+    model?: DeploymentModel;
+    skuName?: string;
+    workloads?: ModelCapacityCalculatorWorkload[];
+}
+
+// @public
+export interface CalculateModelCapacityParameter {
+    model?: DeploymentModel;
+    skuName?: string;
+    workloads?: ModelCapacityCalculatorWorkload[];
+}
+
+// @public
+export type CalculateModelCapacityResponse = CalculateModelCapacityResult;
+
+// @public
+export interface CalculateModelCapacityResult {
+    estimatedCapacity?: CalculateModelCapacityResultEstimatedCapacity;
+    model?: DeploymentModel;
+    // (undocumented)
+    skuName?: string;
+}
+
+// @public
+export interface CalculateModelCapacityResultEstimatedCapacity {
+    // (undocumented)
+    deployableValue?: number;
+    // (undocumented)
+    value?: number;
+}
+
 // @public
 export interface CallRateLimit {
     count?: number;
     renewalPeriod?: number;
     // (undocumented)
     rules?: ThrottlingRule[];
+}
+
+// @public
+export interface CapacityConfig {
+    allowedValues?: number[];
+    default?: number;
+    maximum?: number;
+    minimum?: number;
+    step?: number;
 }
 
 // @public
@@ -293,6 +363,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     accounts: Accounts;
     // (undocumented)
     apiVersion: string;
+    calculateModelCapacity(options?: CalculateModelCapacityOptionalParams): Promise<CalculateModelCapacityResponse>;
     checkDomainAvailability(subdomainName: string, typeParam: string, options?: CheckDomainAvailabilityOptionalParams): Promise<CheckDomainAvailabilityResponse>;
     checkSkuAvailability(location: string, skus: string[], kind: string, typeParam: string, options?: CheckSkuAvailabilityOptionalParams): Promise<CheckSkuAvailabilityResponse>;
     // (undocumented)
@@ -300,9 +371,21 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     commitmentTiers: CommitmentTiers;
     // (undocumented)
+    defenderForAISettings: DefenderForAISettings;
+    // (undocumented)
     deletedAccounts: DeletedAccounts;
     // (undocumented)
     deployments: Deployments;
+    // (undocumented)
+    encryptionScopes: EncryptionScopes;
+    // (undocumented)
+    locationBasedModelCapacities: LocationBasedModelCapacities;
+    // (undocumented)
+    modelCapacities: ModelCapacities;
+    // (undocumented)
+    models: Models;
+    // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -310,9 +393,19 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    raiBlocklistItems: RaiBlocklistItems;
+    // (undocumented)
+    raiBlocklists: RaiBlocklists;
+    // (undocumented)
+    raiContentFilters: RaiContentFilters;
+    // (undocumented)
+    raiPolicies: RaiPolicies;
+    // (undocumented)
     resourceSkus: ResourceSkus;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -355,6 +448,9 @@ export interface CommitmentPlanAccountAssociation extends ProxyResource {
     accountId?: string;
     readonly etag?: string;
     readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -384,6 +480,7 @@ export interface CommitmentPlanProperties {
     readonly last?: CommitmentPeriod;
     next?: CommitmentPeriod;
     planType?: string;
+    readonly provisioningIssues?: string[];
     readonly provisioningState?: CommitmentPlanProvisioningState;
 }
 
@@ -392,17 +489,17 @@ export type CommitmentPlanProvisioningState = string;
 
 // @public
 export interface CommitmentPlans {
-    beginCreateOrUpdateAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>, CommitmentPlansCreateOrUpdateAssociationResponse>>;
+    beginCreateOrUpdateAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>, CommitmentPlansCreateOrUpdateAssociationResponse>>;
     beginCreateOrUpdateAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<CommitmentPlansCreateOrUpdateAssociationResponse>;
-    beginCreateOrUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>, CommitmentPlansCreateOrUpdatePlanResponse>>;
+    beginCreateOrUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansCreateOrUpdatePlanResponse>, CommitmentPlansCreateOrUpdatePlanResponse>>;
     beginCreateOrUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<CommitmentPlansCreateOrUpdatePlanResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<void>;
-    beginDeleteAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<void>;
-    beginDeletePlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeletePlanAndWait(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<void>;
-    beginUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansUpdatePlanResponse>, CommitmentPlansUpdatePlanResponse>>;
+    beginUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansUpdatePlanResponse>, CommitmentPlansUpdatePlanResponse>>;
     beginUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<CommitmentPlansUpdatePlanResponse>;
     createOrUpdate(resourceGroupName: string, accountName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdateOptionalParams): Promise<CommitmentPlansCreateOrUpdateResponse>;
     get(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansGetOptionalParams): Promise<CommitmentPlansGetResponse>;
@@ -605,11 +702,81 @@ export interface CommitmentTiersListOptionalParams extends coreClient.OperationO
 export type CommitmentTiersListResponse = CommitmentTierListResult;
 
 // @public
+export type ContentLevel = string;
+
+// @public
 export type CreatedByType = string;
 
 // @public
+export interface CustomBlocklistConfig extends RaiBlocklistConfig {
+    source?: RaiPolicyContentSource;
+}
+
+// @public
+export interface DefenderForAISetting extends ProxyResource {
+    readonly etag?: string;
+    state?: DefenderForAISettingState;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DefenderForAISettingResult {
+    nextLink?: string;
+    value?: DefenderForAISetting[];
+}
+
+// @public
+export interface DefenderForAISettings {
+    createOrUpdate(resourceGroupName: string, accountName: string, defenderForAISettingName: string, defenderForAISettings: DefenderForAISetting, options?: DefenderForAISettingsCreateOrUpdateOptionalParams): Promise<DefenderForAISettingsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, defenderForAISettingName: string, options?: DefenderForAISettingsGetOptionalParams): Promise<DefenderForAISettingsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: DefenderForAISettingsListOptionalParams): PagedAsyncIterableIterator<DefenderForAISetting>;
+    update(resourceGroupName: string, accountName: string, defenderForAISettingName: string, defenderForAISettings: DefenderForAISetting, options?: DefenderForAISettingsUpdateOptionalParams): Promise<DefenderForAISettingsUpdateResponse>;
+}
+
+// @public
+export interface DefenderForAISettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForAISettingsCreateOrUpdateResponse = DefenderForAISetting;
+
+// @public
+export interface DefenderForAISettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForAISettingsGetResponse = DefenderForAISetting;
+
+// @public
+export interface DefenderForAISettingsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForAISettingsListNextResponse = DefenderForAISettingResult;
+
+// @public
+export interface DefenderForAISettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForAISettingsListResponse = DefenderForAISettingResult;
+
+// @public
+export type DefenderForAISettingState = string;
+
+// @public
+export interface DefenderForAISettingsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DefenderForAISettingsUpdateResponse = DefenderForAISetting;
+
+// @public
 export interface DeletedAccounts {
-    beginPurge(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurge(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeAndWait(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<void>;
     get(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsGetOptionalParams): Promise<DeletedAccountsGetResponse>;
     list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
@@ -646,7 +813,17 @@ export interface DeletedAccountsPurgeOptionalParams extends coreClient.Operation
 export interface Deployment extends ProxyResource {
     readonly etag?: string;
     properties?: DeploymentProperties;
+    sku?: Sku;
     readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DeploymentCapacitySettings {
+    designatedCapacity?: number;
+    priority?: number;
 }
 
 // @public
@@ -660,8 +837,14 @@ export interface DeploymentModel {
     readonly callRateLimit?: CallRateLimit;
     format?: string;
     name?: string;
+    publisher?: string;
+    source?: string;
+    sourceAccount?: string;
     version?: string;
 }
+
+// @public
+export type DeploymentModelVersionUpgradeOption = string;
 
 // @public
 export interface DeploymentProperties {
@@ -669,10 +852,16 @@ export interface DeploymentProperties {
     readonly capabilities?: {
         [propertyName: string]: string;
     };
+    capacitySettings?: DeploymentCapacitySettings;
+    currentCapacity?: number;
+    readonly dynamicThrottlingEnabled?: boolean;
     model?: DeploymentModel;
+    parentDeploymentName?: string;
     readonly provisioningState?: DeploymentProvisioningState;
     raiPolicyName?: string;
+    readonly rateLimits?: ThrottlingRule[];
     scaleSettings?: DeploymentScaleSettings;
+    versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
 }
 
 // @public
@@ -680,12 +869,15 @@ export type DeploymentProvisioningState = string;
 
 // @public
 export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: PatchResourceTagsAndSku, options?: DeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, deploymentName: string, deployment: PatchResourceTagsAndSku, options?: DeploymentsUpdateOptionalParams): Promise<DeploymentsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<Deployment>;
+    listSkus(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsListSkusOptionalParams): PagedAsyncIterableIterator<SkuResource>;
 }
 
 // @public
@@ -721,6 +913,12 @@ export interface DeploymentsGetOptionalParams extends coreClient.OperationOption
 export type DeploymentsGetResponse = Deployment;
 
 // @public
+export interface DeploymentSkuListResult {
+    nextLink?: string;
+    readonly value?: SkuResource[];
+}
+
+// @public
 export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -733,6 +931,35 @@ export interface DeploymentsListOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type DeploymentsListResponse = DeploymentListResult;
+
+// @public
+export interface DeploymentsListSkusNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeploymentsListSkusNextResponse = DeploymentSkuListResult;
+
+// @public
+export interface DeploymentsListSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeploymentsListSkusResponse = DeploymentSkuListResult;
+
+// @public
+export interface DeploymentsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeploymentsUpdateResponse = Deployment;
 
 // @public
 export interface DomainAvailability {
@@ -748,6 +975,86 @@ export interface Encryption {
     keySource?: KeySource;
     keyVaultProperties?: KeyVaultProperties;
 }
+
+// @public
+export interface EncryptionScope extends ProxyResource {
+    readonly etag?: string;
+    properties?: EncryptionScopeProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface EncryptionScopeListResult {
+    nextLink?: string;
+    value?: EncryptionScope[];
+}
+
+// @public
+export interface EncryptionScopeProperties extends Encryption {
+    readonly provisioningState?: EncryptionScopeProvisioningState;
+    state?: EncryptionScopeState;
+}
+
+// @public
+export type EncryptionScopeProvisioningState = string;
+
+// @public
+export interface EncryptionScopes {
+    beginDelete(resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<EncryptionScopesDeleteResponse>, EncryptionScopesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesDeleteOptionalParams): Promise<EncryptionScopesDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: EncryptionScope, options?: EncryptionScopesCreateOrUpdateOptionalParams): Promise<EncryptionScopesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: EncryptionScopesGetOptionalParams): Promise<EncryptionScopesGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: EncryptionScopesListOptionalParams): PagedAsyncIterableIterator<EncryptionScope>;
+}
+
+// @public
+export interface EncryptionScopesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionScopesCreateOrUpdateResponse = EncryptionScope;
+
+// @public
+export interface EncryptionScopesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface EncryptionScopesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EncryptionScopesDeleteResponse = EncryptionScopesDeleteHeaders;
+
+// @public
+export interface EncryptionScopesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionScopesGetResponse = EncryptionScope;
+
+// @public
+export interface EncryptionScopesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
+
+// @public
+export interface EncryptionScopesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EncryptionScopesListResponse = EncryptionScopeListResult;
+
+// @public
+export type EncryptionScopeState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -806,8 +1113,20 @@ export interface KeyVaultProperties {
 }
 
 // @public
+export enum KnownAbusePenaltyAction {
+    Block = "Block",
+    Throttle = "Throttle"
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownByPassSelection {
+    AzureServices = "AzureServices",
+    None = "None"
 }
 
 // @public
@@ -822,6 +1141,13 @@ export enum KnownCommitmentPlanProvisioningState {
 }
 
 // @public
+export enum KnownContentLevel {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -830,10 +1156,25 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDefenderForAISettingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDeploymentModelVersionUpgradeOption {
+    NoAutoUpgrade = "NoAutoUpgrade",
+    OnceCurrentVersionExpired = "OnceCurrentVersionExpired",
+    OnceNewDefaultVersionAvailable = "OnceNewDefaultVersionAvailable"
+}
+
+// @public
 export enum KnownDeploymentProvisioningState {
     Accepted = "Accepted",
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
+    Disabled = "Disabled",
     Failed = "Failed",
     Moving = "Moving",
     Succeeded = "Succeeded"
@@ -846,9 +1187,27 @@ export enum KnownDeploymentScaleType {
 }
 
 // @public
+export enum KnownEncryptionScopeProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Moving = "Moving",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownEncryptionScopeState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownHostingModel {
     ConnectedContainer = "ConnectedContainer",
     DisconnectedContainer = "DisconnectedContainer",
+    ProvisionedWeb = "ProvisionedWeb",
     Web = "Web"
 }
 
@@ -860,14 +1219,23 @@ export enum KnownKeySource {
 
 // @public
 export enum KnownModelLifecycleStatus {
+    Deprecated = "Deprecated",
+    Deprecating = "Deprecating",
     GenerallyAvailable = "GenerallyAvailable",
-    Preview = "Preview"
+    Preview = "Preview",
+    Stable = "Stable"
 }
 
 // @public
 export enum KnownNetworkRuleAction {
     Allow = "Allow",
     Deny = "Deny"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -918,6 +1286,26 @@ export enum KnownQuotaUsageStatus {
 }
 
 // @public
+export enum KnownRaiPolicyContentSource {
+    Completion = "Completion",
+    Prompt = "Prompt"
+}
+
+// @public
+export enum KnownRaiPolicyMode {
+    AsynchronousFilter = "Asynchronous_filter",
+    Blocking = "Blocking",
+    Default = "Default",
+    Deferred = "Deferred"
+}
+
+// @public
+export enum KnownRaiPolicyType {
+    SystemManaged = "SystemManaged",
+    UserManaged = "UserManaged"
+}
+
+// @public
 export enum KnownResourceSkuRestrictionsReasonCode {
     NotAvailableForSubscription = "NotAvailableForSubscription",
     QuotaId = "QuotaId"
@@ -951,9 +1339,79 @@ export enum KnownUnitType {
 }
 
 // @public
+export interface LocationBasedModelCapacities {
+    list(location: string, modelFormat: string, modelName: string, modelVersion: string, options?: LocationBasedModelCapacitiesListOptionalParams): PagedAsyncIterableIterator<ModelCapacityListResultValueItem>;
+}
+
+// @public
+export interface LocationBasedModelCapacitiesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocationBasedModelCapacitiesListNextResponse = ModelCapacityListResult;
+
+// @public
+export interface LocationBasedModelCapacitiesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LocationBasedModelCapacitiesListResponse = ModelCapacityListResult;
+
+// @public
 export interface MetricName {
     localizedValue?: string;
     value?: string;
+}
+
+// @public
+export interface Model {
+    description?: string;
+    kind?: string;
+    model?: AccountModel;
+    skuName?: string;
+}
+
+// @public
+export interface ModelCapacities {
+    list(modelFormat: string, modelName: string, modelVersion: string, options?: ModelCapacitiesListOptionalParams): PagedAsyncIterableIterator<ModelCapacityListResultValueItem>;
+}
+
+// @public
+export interface ModelCapacitiesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelCapacitiesListNextResponse = ModelCapacityListResult;
+
+// @public
+export interface ModelCapacitiesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelCapacitiesListResponse = ModelCapacityListResult;
+
+// @public
+export interface ModelCapacityCalculatorWorkload {
+    requestParameters?: ModelCapacityCalculatorWorkloadRequestParam;
+    requestPerMinute?: number;
+}
+
+// @public
+export interface ModelCapacityCalculatorWorkloadRequestParam {
+    avgGeneratedTokens?: number;
+    avgPromptTokens?: number;
+}
+
+// @public
+export interface ModelCapacityListResult {
+    nextLink?: string;
+    value?: ModelCapacityListResultValueItem[];
+}
+
+// @public (undocumented)
+export interface ModelCapacityListResultValueItem extends ProxyResource {
+    location?: string;
+    properties?: ModelSkuCapacityProperties;
 }
 
 // @public
@@ -964,6 +1422,50 @@ export interface ModelDeprecationInfo {
 
 // @public
 export type ModelLifecycleStatus = string;
+
+// @public
+export interface ModelListResult {
+    nextLink?: string;
+    value?: Model[];
+}
+
+// @public
+export interface Models {
+    list(location: string, options?: ModelsListOptionalParams): PagedAsyncIterableIterator<Model>;
+}
+
+// @public
+export interface ModelSku {
+    capacity?: CapacityConfig;
+    cost?: BillingMeterInfo[];
+    deprecationDate?: Date;
+    name?: string;
+    rateLimits?: CallRateLimit[];
+    usageName?: string;
+}
+
+// @public
+export interface ModelSkuCapacityProperties {
+    availableCapacity?: number;
+    availableFinetuneCapacity?: number;
+    model?: DeploymentModel;
+    // (undocumented)
+    skuName?: string;
+}
+
+// @public
+export interface ModelsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelsListNextResponse = ModelListResult;
+
+// @public
+export interface ModelsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelsListResponse = ModelListResult;
 
 // @public
 export interface MultiRegionSettings {
@@ -977,10 +1479,121 @@ export type NetworkRuleAction = string;
 
 // @public
 export interface NetworkRuleSet {
+    bypass?: ByPassSelection;
     defaultAction?: NetworkRuleAction;
     ipRules?: IpRule[];
     virtualNetworkRules?: VirtualNetworkRule[];
 }
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRule {
+    name?: string;
+    properties?: NetworkSecurityPerimeterAccessRuleProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationAssociationInfo {
+    accessMode?: string;
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityPerimeterProfileInfo;
+    provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: string;
+    resourceAssociation?: NetworkSecurityPerimeterConfigurationAssociationInfo;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, accountName: string, nspConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListNextResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterProfileInfo {
+    // (undocumented)
+    accessRules?: NetworkSecurityPerimeterAccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
 
 // @public
 export interface Operation {
@@ -1069,9 +1682,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
@@ -1146,6 +1759,21 @@ export interface PrivateLinkServiceConnectionState {
     status?: PrivateEndpointServiceConnectionStatus;
 }
 
+// @public (undocumented)
+export interface ProvisioningIssue {
+    name?: string;
+    properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
+    severity?: string;
+    suggestedAccessRules?: NetworkSecurityPerimeterAccessRule[];
+    suggestedResourceIds?: string[];
+}
+
 // @public
 export type ProvisioningState = string;
 
@@ -1168,6 +1796,325 @@ export interface QuotaLimit {
 
 // @public
 export type QuotaUsageStatus = string;
+
+// @public
+export interface RaiBlocklist extends ProxyResource {
+    readonly etag?: string;
+    properties?: RaiBlocklistProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface RaiBlocklistConfig {
+    blocking?: boolean;
+    blocklistName?: string;
+}
+
+// @public
+export interface RaiBlocklistItem extends ProxyResource {
+    readonly etag?: string;
+    properties?: RaiBlocklistItemProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface RaiBlocklistItemBulkRequest {
+    // (undocumented)
+    name?: string;
+    properties?: RaiBlocklistItemProperties;
+}
+
+// @public
+export interface RaiBlocklistItemProperties {
+    isRegex?: boolean;
+    pattern?: string;
+}
+
+// @public
+export interface RaiBlocklistItems {
+    batchAdd(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItems: RaiBlocklistItemBulkRequest[], options?: RaiBlocklistItemsBatchAddOptionalParams): Promise<RaiBlocklistItemsBatchAddResponse>;
+    batchDelete(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemsNames: string[], options?: RaiBlocklistItemsBatchDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RaiBlocklistItemsDeleteResponse>, RaiBlocklistItemsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsDeleteOptionalParams): Promise<RaiBlocklistItemsDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, raiBlocklistItem: RaiBlocklistItem, options?: RaiBlocklistItemsCreateOrUpdateOptionalParams): Promise<RaiBlocklistItemsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklistItemName: string, options?: RaiBlocklistItemsGetOptionalParams): Promise<RaiBlocklistItemsGetResponse>;
+    list(resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistItemsListOptionalParams): PagedAsyncIterableIterator<RaiBlocklistItem>;
+}
+
+// @public
+export interface RaiBlocklistItemsBatchAddOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistItemsBatchAddResponse = RaiBlocklist;
+
+// @public
+export interface RaiBlocklistItemsBatchDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface RaiBlocklistItemsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistItemsCreateOrUpdateResponse = RaiBlocklistItem;
+
+// @public
+export interface RaiBlocklistItemsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface RaiBlocklistItemsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RaiBlocklistItemsDeleteResponse = RaiBlocklistItemsDeleteHeaders;
+
+// @public
+export interface RaiBlocklistItemsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistItemsGetResponse = RaiBlocklistItem;
+
+// @public
+export interface RaiBlocklistItemsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistItemsListNextResponse = RaiBlockListItemsResult;
+
+// @public
+export interface RaiBlocklistItemsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistItemsListResponse = RaiBlockListItemsResult;
+
+// @public
+export interface RaiBlockListItemsResult {
+    nextLink?: string;
+    value?: RaiBlocklistItem[];
+}
+
+// @public
+export interface RaiBlocklistProperties {
+    description?: string;
+}
+
+// @public
+export interface RaiBlockListResult {
+    nextLink?: string;
+    value?: RaiBlocklist[];
+}
+
+// @public
+export interface RaiBlocklists {
+    beginDelete(resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RaiBlocklistsDeleteResponse>, RaiBlocklistsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsDeleteOptionalParams): Promise<RaiBlocklistsDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, accountName: string, raiBlocklistName: string, raiBlocklist: RaiBlocklist, options?: RaiBlocklistsCreateOrUpdateOptionalParams): Promise<RaiBlocklistsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, raiBlocklistName: string, options?: RaiBlocklistsGetOptionalParams): Promise<RaiBlocklistsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: RaiBlocklistsListOptionalParams): PagedAsyncIterableIterator<RaiBlocklist>;
+}
+
+// @public
+export interface RaiBlocklistsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistsCreateOrUpdateResponse = RaiBlocklist;
+
+// @public
+export interface RaiBlocklistsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface RaiBlocklistsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RaiBlocklistsDeleteResponse = RaiBlocklistsDeleteHeaders;
+
+// @public
+export interface RaiBlocklistsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistsGetResponse = RaiBlocklist;
+
+// @public
+export interface RaiBlocklistsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistsListNextResponse = RaiBlockListResult;
+
+// @public
+export interface RaiBlocklistsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiBlocklistsListResponse = RaiBlockListResult;
+
+// @public
+export interface RaiContentFilter extends ProxyResource {
+    properties?: RaiContentFilterProperties;
+}
+
+// @public
+export interface RaiContentFilterListResult {
+    nextLink?: string;
+    value?: RaiContentFilter[];
+}
+
+// @public
+export interface RaiContentFilterProperties {
+    isMultiLevelFilter?: boolean;
+    name?: string;
+    source?: RaiPolicyContentSource;
+}
+
+// @public
+export interface RaiContentFilters {
+    get(location: string, filterName: string, options?: RaiContentFiltersGetOptionalParams): Promise<RaiContentFiltersGetResponse>;
+    list(location: string, options?: RaiContentFiltersListOptionalParams): PagedAsyncIterableIterator<RaiContentFilter>;
+}
+
+// @public
+export interface RaiContentFiltersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiContentFiltersGetResponse = RaiContentFilter;
+
+// @public
+export interface RaiContentFiltersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiContentFiltersListNextResponse = RaiContentFilterListResult;
+
+// @public
+export interface RaiContentFiltersListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiContentFiltersListResponse = RaiContentFilterListResult;
+
+// @public
+export interface RaiMonitorConfig {
+    adxStorageResourceId?: string;
+    identityClientId?: string;
+}
+
+// @public
+export interface RaiPolicies {
+    beginDelete(resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RaiPoliciesDeleteResponse>, RaiPoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesDeleteOptionalParams): Promise<RaiPoliciesDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, accountName: string, raiPolicyName: string, raiPolicy: RaiPolicy, options?: RaiPoliciesCreateOrUpdateOptionalParams): Promise<RaiPoliciesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, raiPolicyName: string, options?: RaiPoliciesGetOptionalParams): Promise<RaiPoliciesGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: RaiPoliciesListOptionalParams): PagedAsyncIterableIterator<RaiPolicy>;
+}
+
+// @public
+export interface RaiPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiPoliciesCreateOrUpdateResponse = RaiPolicy;
+
+// @public
+export interface RaiPoliciesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface RaiPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RaiPoliciesDeleteResponse = RaiPoliciesDeleteHeaders;
+
+// @public
+export interface RaiPoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiPoliciesGetResponse = RaiPolicy;
+
+// @public
+export interface RaiPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiPoliciesListNextResponse = RaiPolicyListResult;
+
+// @public
+export interface RaiPoliciesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RaiPoliciesListResponse = RaiPolicyListResult;
+
+// @public
+export interface RaiPolicy extends ProxyResource {
+    readonly etag?: string;
+    properties?: RaiPolicyProperties;
+    readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface RaiPolicyContentFilter {
+    blocking?: boolean;
+    enabled?: boolean;
+    name?: string;
+    severityThreshold?: ContentLevel;
+    source?: RaiPolicyContentSource;
+}
+
+// @public
+export type RaiPolicyContentSource = string;
+
+// @public
+export interface RaiPolicyListResult {
+    nextLink?: string;
+    value?: RaiPolicy[];
+}
+
+// @public
+export type RaiPolicyMode = string;
+
+// @public
+export interface RaiPolicyProperties {
+    basePolicyName?: string;
+    contentFilters?: RaiPolicyContentFilter[];
+    customBlocklists?: CustomBlocklistConfig[];
+    mode?: RaiPolicyMode;
+    readonly type?: RaiPolicyType;
+}
+
+// @public
+export type RaiPolicyType = string;
 
 // @public
 export interface RegenerateKeyParameters {
@@ -1295,6 +2242,13 @@ export interface SkuChangeInfo {
 }
 
 // @public
+export interface SkuResource {
+    capacity?: CapacityConfig;
+    resourceType?: string;
+    sku?: Sku;
+}
+
+// @public
 export type SkuTier = string;
 
 // @public
@@ -1339,13 +2293,40 @@ export interface Usage {
 
 // @public
 export interface UsageListResult {
+    nextLink?: string;
     value?: Usage[];
 }
+
+// @public
+export interface Usages {
+    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListNextResponse = UsageListResult;
+
+// @public
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type UsagesListResponse = UsageListResult;
 
 // @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface UserOwnedAmlWorkspace {
+    identityClientId?: string;
+    resourceId?: string;
 }
 
 // @public

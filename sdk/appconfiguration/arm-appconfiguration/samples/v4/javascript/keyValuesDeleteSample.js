@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a key-value.
+ * This sample demonstrates how to Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  *
- * @summary Deletes a key-value.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresDeleteKeyValue.json
+ * @summary Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDeleteKeyValue.json
  */
 async function keyValuesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function keyValuesDelete() {
   const result = await client.keyValues.beginDeleteAndWait(
     resourceGroupName,
     configStoreName,
-    keyValueName
+    keyValueName,
   );
   console.log(result);
 }

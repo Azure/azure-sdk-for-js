@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TrafficFiltersDeleteOptionalParams } from "../models";
+import { TrafficFiltersDeleteOptionalParams } from "../models/index.js";
 
 /** Interface representing a TrafficFilters. */
 export interface TrafficFilters {
   /**
    * Delete traffic filter from the account.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: TrafficFiltersDeleteOptionalParams
+    options?: TrafficFiltersDeleteOptionalParams,
   ): Promise<void>;
 }

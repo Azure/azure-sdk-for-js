@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CapabilityProperties,
-  LocationBasedCapabilitiesListOptionalParams
-} from "../models";
+  LocationBasedCapabilitiesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LocationBasedCapabilities. */
@@ -22,6 +22,6 @@ export interface LocationBasedCapabilities {
    */
   list(
     locationName: string,
-    options?: LocationBasedCapabilitiesListOptionalParams
+    options?: LocationBasedCapabilitiesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityProperties>;
 }

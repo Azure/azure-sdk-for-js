@@ -1,39 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   SendRequest,
   PipelineResponse,
-  isRestError,
-  RestError,
 } from "@azure/core-rest-pipeline";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
-import { logger } from "../log";
+import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { URLConstants } from "../utils/constants.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { logger } from "../log.js";
 
 /**
  * Name of the {@link storageRetryPolicy}
  */
 export const storageRetryPolicyName = "storageRetryPolicy";
-
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
-}
 
 // Default values of StorageRetryOptions
 const DEFAULT_RETRY_OPTIONS = {
@@ -101,11 +86,12 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         error?.message.startsWith(`Error "Error: Unclosed root tag`)
       ) {
         logger.info(
-          "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+          "RetryPolicy: Incomplete XML response likely due to service timeout, will retry.",
         );
         return true;
       }
     }
+
     // If attempt was against the secondary & it returned a StatusNotFound (404), then
     // the resource was not found. This may be due to replication delay. So, in this
     // case, we'll never try the secondary again for this operation.
@@ -123,6 +109,22 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
       }
     }
 
+    // [Copy source error code] Feature is pending on service side, skip retry on copy source error for now.
+    // if (response) {
+    //   // Retry select Copy Source Error Codes.
+    //   if (response?.status >= 400) {
+    //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+    //     if (copySourceError !== undefined) {
+    //       switch (copySourceError) {
+    //         case "InternalError":
+    //         case "OperationTimedOut":
+    //         case "ServerBusy":
+    //           return true;
+    //       }
+    //     }
+    //   }
+    // }
+
     return false;
   }
   function calculateDelay(isPrimaryRetry: boolean, attempt: number): number {
@@ -133,7 +135,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         case StorageRetryPolicyType.EXPONENTIAL:
           delayTimeInMs = Math.min(
             (Math.pow(2, attempt - 1) - 1) * retryDelayInMs,
-            maxRetryDelayInMs
+            maxRetryDelayInMs,
           );
           break;
         case StorageRetryPolicyType.FIXED:
@@ -155,7 +157,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         request.url = setURLParameter(
           request.url,
           URLConstants.Parameters.TIMEOUT,
-          String(Math.floor(tryTimeoutInMs / 1000))
+          String(Math.floor(tryTimeoutInMs / 1000)),
         );
       }
       const primaryUrl = request.url;
@@ -176,7 +178,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         error = undefined;
         try {
           logger.info(
-            `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
+            `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`,
           );
           response = await next(request);
           secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
@@ -194,7 +196,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
           await delay(
             calculateDelay(isPrimaryRetry, attempt),
             request.abortSignal,
-            RETRY_ABORT_ERROR
+            RETRY_ABORT_ERROR,
           );
         }
         attempt++;

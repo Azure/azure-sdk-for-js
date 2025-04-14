@@ -11,22 +11,24 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ApiKeysImpl,
   CertificatesImpl,
   ConfigurationsImpl,
   DeploymentsImpl,
-  OperationsImpl
-} from "./operations";
+  OperationsImpl,
+} from "./operations/index.js";
 import {
+  ApiKeys,
   Certificates,
   Configurations,
   Deployments,
-  Operations
-} from "./operationsInterfaces";
-import { NginxManagementClientOptionalParams } from "./models";
+  Operations,
+} from "./operationsInterfaces/index.js";
+import { NginxManagementClientOptionalParams } from "./models/index.js";
 
 export class NginxManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -36,13 +38,13 @@ export class NginxManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the NginxManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: NginxManagementClientOptionalParams
+    options?: NginxManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -57,10 +59,10 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     }
     const defaults: NginxManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-nginx/2.0.2`;
+    const packageDetails = `azsdk-js-arm-nginx/4.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -70,20 +72,21 @@ export class NginxManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -93,7 +96,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -103,9 +106,9 @@ export class NginxManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -113,7 +116,8 @@ export class NginxManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
+    this.apiKeys = new ApiKeysImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
@@ -130,7 +134,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -144,11 +148,12 @@ export class NginxManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  apiKeys: ApiKeys;
   certificates: Certificates;
   configurations: Configurations;
   deployments: Deployments;

@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a specified task.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Deletes a specified task.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksDelete.json
  */
-async function tasksDelete() {
+async function tasksDelete(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -31,18 +27,18 @@ async function tasksDelete() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    taskName
+    taskName,
   );
   console.log(result);
 }
 
-async function main() {
-  tasksDelete();
+async function main(): Promise<void> {
+  await tasksDelete();
 }
 
 main().catch(console.error);

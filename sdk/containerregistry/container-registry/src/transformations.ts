@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ArtifactTagOrderBy as ServiceTagOrderBy,
   ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
   ArtifactManifestProperties as ServiceArtifactManifestProperties,
-} from "./generated/models";
-import { ArtifactManifestProperties, ArtifactTagOrder, ArtifactManifestOrder } from "./models";
+} from "./generated/models/index.js";
+import type {
+  ArtifactManifestProperties,
+  ArtifactTagOrder,
+  ArtifactManifestOrder,
+} from "./models.js";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {
@@ -22,7 +26,7 @@ interface ManifestWriteableProperties {
 }
 
 export function toManifestWritableProperties(
-  from?: ServiceManifestWritableProperties
+  from?: ServiceManifestWritableProperties,
 ): ManifestWriteableProperties | undefined {
   // don't return unwanted properties, namely `quarantineState` and `quarantineDetails`
   return from
@@ -38,7 +42,7 @@ export function toManifestWritableProperties(
 export function toArtifactManifestProperties(
   from: ServiceArtifactManifestProperties,
   repositoryName: string,
-  registryLoginServer: string
+  registryLoginServer: string,
 ): ArtifactManifestProperties {
   return {
     registryLoginServer,
@@ -59,16 +63,16 @@ export function toServiceTagOrderBy(orderBy?: ArtifactTagOrder): ServiceTagOrder
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
-    ? "timedesc"
-    : undefined;
+      ? "timedesc"
+      : undefined;
 }
 
 export function toServiceManifestOrderBy(
-  orderBy?: ArtifactManifestOrder
+  orderBy?: ArtifactManifestOrder,
 ): ServiceManifestOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
-    ? "timedesc"
-    : undefined;
+      ? "timedesc"
+      : undefined;
 }

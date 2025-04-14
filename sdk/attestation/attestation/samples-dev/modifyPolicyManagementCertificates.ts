@@ -31,17 +31,18 @@
 
 import { AttestationAdministrationClient } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils";
+import { createRSAKey, createX509Certificate, generateSha1Hash } from "./utils/cryptoUtils.js";
 import { X509 } from "jsrsasign";
-
+import { writeBanner } from "./utils/helpers.js";
 // Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
-import { writeBanner } from "./utils/helpers";
-import { byteArrayToHex } from "../src/utils/base64";
-dotenv.config();
+import "dotenv/config";
 
-async function modifyPolicyManagementCertificates() {
-  writeBanner("Get Current Attestation Policy Management Certificates.");
+function byteArrayToHex(value: Uint8Array): string {
+  return value.reduce((str, byte) => str + byte.toString(16).padStart(2, "0"), "");
+}
+
+async function modifyPolicyManagementCertificates(): Promise<void> {
+  await writeBanner("Get Current Attestation Policy Management Certificates.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -64,7 +65,7 @@ async function modifyPolicyManagementCertificates() {
 
   // Decode the PEM encoded certificate for validation later.
   const cert = new X509();
-  cert.readCertPEM(rsaCertificate);
+  await cert.readCertPEM(rsaCertificate);
 
   const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
 
@@ -81,7 +82,7 @@ async function modifyPolicyManagementCertificates() {
     const setResult = await client.addPolicyManagementCertificate(
       rsaCertificate,
       privateKey,
-      certificate
+      certificate,
     );
 
     console.log("Certificate modification result: ", setResult.body.certificateResolution);
@@ -93,7 +94,7 @@ async function modifyPolicyManagementCertificates() {
     const removeResult = await client.removePolicyManagementCertificate(
       rsaCertificate,
       privateKey,
-      certificate
+      certificate,
     );
     console.log("Certificate modification result: ", removeResult.body.certificateResolution);
     console.log("Modified Certificate Thumbprint: ", removeResult.body.certificateThumbprint);
@@ -119,7 +120,7 @@ export function pemFromBase64(base64: string, pemType: PemType): string {
   return pem;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await modifyPolicyManagementCertificates();
 }
 

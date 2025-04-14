@@ -28,7 +28,7 @@ async function accessPoliciesDelete() {
   const result = await client.accessPolicies.delete(
     resourceGroupName,
     environmentName,
-    accessPolicyName
+    accessPolicyName,
   );
   console.log(result);
 }

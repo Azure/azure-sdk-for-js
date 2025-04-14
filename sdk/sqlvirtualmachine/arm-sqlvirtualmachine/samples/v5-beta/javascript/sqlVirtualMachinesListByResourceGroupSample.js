@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all SQL virtual machines in a resource group.
  *
  * @summary Gets all SQL virtual machines in a resource group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListByResourceGroupSqlVirtualMachine.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListByResourceGroupSqlVirtualMachine.json
  */
 async function getsAllSqlVirtualMachinesInAResourceGroup() {
   const subscriptionId =

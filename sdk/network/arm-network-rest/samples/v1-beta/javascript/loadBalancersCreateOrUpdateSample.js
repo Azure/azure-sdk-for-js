@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -97,7 +97,7 @@ async function createLoadBalancer() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -196,7 +196,7 @@ async function createLoadBalancerWithFrontendIPInZone1() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -297,7 +297,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -402,7 +402,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -411,7 +411,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
 }
 
 createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -496,7 +496,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -505,7 +505,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
 }
 
 createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a load balancer.
@@ -595,7 +595,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -693,7 +693,7 @@ async function createLoadBalancerWithStandardSku() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -764,7 +764,7 @@ async function createLoadBalancerWithInboundNatPool() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -878,7 +878,7 @@ async function createLoadBalancerWithOutboundRules() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

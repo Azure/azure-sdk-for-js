@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete the specified shared private link resource
  *
  * @summary Delete the specified shared private link resource
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubSharedPrivateLinkResources_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubSharedPrivateLinkResources_Delete.json
  */
 async function webPubSubSharedPrivateLinkResourcesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubSharedPrivateLinkResourcesDelete() {
   const result = await client.webPubSubSharedPrivateLinkResources.beginDeleteAndWait(
     sharedPrivateLinkResourceName,
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

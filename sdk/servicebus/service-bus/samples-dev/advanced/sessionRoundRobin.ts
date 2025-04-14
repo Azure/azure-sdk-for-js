@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how you can continually read through all the available
@@ -11,20 +11,12 @@
  * @azsdk-weight 60
  */
 
-import {
-  ServiceBusClient,
-  delay,
-  ServiceBusSessionReceiver,
-  ServiceBusReceivedMessage,
-  isServiceBusError,
-} from "@azure/service-bus";
-import * as dotenv from "dotenv";
-import { AbortController } from "@azure/abort-controller";
+import type { ServiceBusSessionReceiver, ServiceBusReceivedMessage } from "@azure/service-bus";
+import { ServiceBusClient, delay, isServiceBusError } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
-dotenv.config();
-
-const serviceBusConnectionString =
-  process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+import "dotenv/config";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
@@ -37,22 +29,24 @@ const delayOnErrorMs = 5 * 1000;
 // by calling abortController.abort().
 const abortController = new AbortController();
 
+const credential = new DefaultAzureCredential();
+
 // Called just before we start processing the first message of a session.
 // NOTE: This function is used only in the sample and is not part of the Service Bus library.
-async function sessionAccepted(sessionId: string) {
+async function sessionAccepted(sessionId: string): Promise<void> {
   console.log(`[${sessionId}] will start processing...`);
 }
 
 // Called by the ServiceBusSessionReceiver when a message is received.
 // This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
-async function processMessage(msg: ServiceBusReceivedMessage) {
+async function processMessage(msg: ServiceBusReceivedMessage): Promise<void> {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
 // Called by the ServiceBusSessionReceiver when an error occurs.
 // This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
-async function processError(err: Error, sessionId?: string) {
+async function processError(err: Error, sessionId?: string): Promise<void> {
   if (sessionId) {
     console.log(`Error when receiving messages from the session ${sessionId}: `, err);
   } else {
@@ -67,7 +61,7 @@ async function processError(err: Error, sessionId?: string) {
 // * 'idle_timeout' if `sessionIdleTimeoutMs` milliseconds pass without
 //   any messages being received (ie, session can be considered empty).
 // NOTE: This function is used only in the sample and is not part of the Service Bus library.
-async function sessionClosed(reason: "error" | "idle_timeout", sessionId: string) {
+async function sessionClosed(reason: "error" | "idle_timeout", sessionId: string): Promise<void> {
   console.log(`[${sessionId}] was closed because of ${reason}`);
 }
 
@@ -121,7 +115,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       },
       {
         abortSignal: abortController.signal,
-      }
+      },
     );
   });
 
@@ -137,7 +131,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 }
 
 async function roundRobinThroughAvailableSessions(): Promise<void> {
-  const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
+  const serviceBusClient = new ServiceBusClient(fqdn, credential);
 
   const receiverPromises: Promise<void>[] = [];
 
@@ -147,7 +141,7 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
         while (!abortController.signal.aborted) {
           await receiveFromNextSession(serviceBusClient);
         }
-      })()
+      })(),
     );
   }
 
@@ -160,5 +154,5 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
 
 // To stop the round-robin processing you can just call abortController.abort()
 roundRobinThroughAvailableSessions().catch((err) =>
-  console.log(`Session RoundRobin - Fatal error: ${err}`)
+  console.log(`Session RoundRobin - Fatal error: ${err}`),
 );

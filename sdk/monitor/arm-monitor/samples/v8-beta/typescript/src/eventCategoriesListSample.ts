@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the list of available event categories supported in the Activity Logs Service.<br>The current list includes the following: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy.
@@ -20,12 +18,9 @@ dotenv.config();
  * @summary Get the list of available event categories supported in the Activity Logs Service.<br>The current list includes the following: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetEventCategories.json
  */
-async function getEventCategories() {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+async function getEventCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential, subscriptionId);
+  const client = new MonitorClient(credential);
   const resArray = new Array();
   for await (let item of client.eventCategories.list()) {
     resArray.push(item);
@@ -33,7 +28,7 @@ async function getEventCategories() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getEventCategories();
 }
 

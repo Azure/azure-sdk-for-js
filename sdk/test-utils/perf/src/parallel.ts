@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Repeats the "async function" task for a "count" number of times by awaiting on
@@ -13,13 +13,13 @@
 export async function executeParallel(
   func: (count: number, parallelIndex: number) => Promise<void>,
   count: number,
-  parallel: number
+  parallel: number,
 ): Promise<void> {
   async function executeParallelHelper(
     func: (count: number, parallelIndex: number) => Promise<void>,
     count: number,
     parallelIndex: number,
-    completed: { count: number }
+    completed: { count: number },
   ) {
     while (completed.count < count) {
       const currentCount = completed.count++;

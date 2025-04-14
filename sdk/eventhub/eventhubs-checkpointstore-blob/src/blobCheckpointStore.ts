@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CheckpointStore,
   PartitionOwnership,
   Checkpoint,
   OperationOptions,
 } from "@azure/event-hubs";
-import { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
-import { logger, logErrorStackTrace } from "./log";
-import { ContainerClientLike } from "./storageBlobInterfaces";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
+import type { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
+import { logger, logErrorStackTrace } from "./log.js";
+import type { ContainerClientLike } from "./storageBlobInterfaces.js";
+import { throwTypeErrorIfParameterMissing } from "./util/error.js";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
@@ -43,7 +43,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
     const { abortSignal, tracingOptions } = options;
@@ -108,7 +108,7 @@ export class BlobCheckpointStore implements CheckpointStore {
    */
   async claimOwnership(
     partitionOwnership: PartitionOwnership[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
@@ -120,7 +120,7 @@ export class BlobCheckpointStore implements CheckpointStore {
             ownerid: ownership.ownerId,
           },
           ownership.etag,
-          options
+          options,
         );
 
         if (updatedBlobResponse.lastModified) {
@@ -131,7 +131,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         partitionOwnershipArray.push(ownership);
         logger.info(
           `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
-          `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
+          `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`,
         );
       } catch (err: any) {
         const restError = err as RestError;
@@ -141,14 +141,14 @@ export class BlobCheckpointStore implements CheckpointStore {
           // as multiple consumers attempt to claim the same partition (first one wins)
           // and losers get this error.
           logger.verbose(
-            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
+            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`,
           );
           continue;
         }
 
         logger.warning(
           `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
-          err.message
+          err.message,
         );
         logErrorStackTrace(err);
 
@@ -173,7 +173,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroup: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<Checkpoint[]> {
     const { abortSignal, tracingOptions } = options;
     const blobPrefix = BlobCheckpointStore.getBlobPrefix({
@@ -198,11 +198,14 @@ export class BlobCheckpointStore implements CheckpointStore {
 
       const checkpointMetadata = (blob.metadata as CheckpointMetadata) ?? {};
 
-      const offset = parseIntOrThrow(blob.name, "offset", checkpointMetadata.offset);
+      const offset = checkpointMetadata.offset;
+      if (offset == null) {
+        throw new Error(`Missing metadata property 'offset' on blob '${blob.name}'`);
+      }
       const sequenceNumber = parseIntOrThrow(
         blob.name,
         "sequencenumber",
-        checkpointMetadata.sequencenumber
+        checkpointMetadata.sequencenumber,
       );
 
       checkpoints.push({
@@ -231,7 +234,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     throwTypeErrorIfParameterMissing(
       "updateCheckpoint",
       "sequenceNumber",
-      checkpoint.sequenceNumber
+      checkpoint.sequenceNumber,
     );
     throwTypeErrorIfParameterMissing("updateCheckpoint", "offset", checkpoint.offset);
 
@@ -244,28 +247,26 @@ export class BlobCheckpointStore implements CheckpointStore {
           offset: checkpoint.offset.toString(),
         },
         undefined,
-        options
+        options,
       );
 
       logger.verbose(
         `Updated checkpoint successfully for partition: ${checkpoint.partitionId}`,
         `LastModifiedTime: ${metadataResponse.lastModified!.toISOString()}, ETag: ${
           metadataResponse.etag
-        }`
+        }`,
       );
       return;
     } catch (err: any) {
       logger.warning(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
-        err.message
+        `Error occurred while updating the checkpoint for partition: ${checkpoint.partitionId}.`,
+        err.message,
       );
       logErrorStackTrace(err);
 
       if (err?.name === "AbortError") throw err;
 
-      throw new Error(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}, ${err}`
-      );
+      throw err;
     }
   }
 
@@ -293,7 +294,7 @@ export class BlobCheckpointStore implements CheckpointStore {
     blobName: string,
     metadata: OwnershipMetadata | CheckpointMetadata,
     etag: string | undefined,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<BlobSetMetadataResponse> {
     const { abortSignal, tracingOptions } = options;
     const blockBlobClient = this._containerClient.getBlobClient(blobName).getBlockBlobClient();
@@ -352,7 +353,7 @@ type CheckpointMetadata = {
 export function parseIntOrThrow(
   blobName: string,
   fieldName: string,
-  numStr: string | undefined
+  numStr: string | undefined,
 ): number {
   if (numStr == null) {
     throw new Error(`Missing metadata property '${fieldName}' on blob '${blobName}'`);
@@ -362,7 +363,7 @@ export function parseIntOrThrow(
 
   if (isNaN(num)) {
     throw new Error(
-      `Failed to parse metadata property '${fieldName}' on blob '${blobName}' as a number`
+      `Failed to parse metadata property '${fieldName}' on blob '${blobName}' as a number`,
     );
   }
 

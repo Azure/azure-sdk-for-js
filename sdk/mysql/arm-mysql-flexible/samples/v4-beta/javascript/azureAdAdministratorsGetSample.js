@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about an azure ad administrator.
  *
  * @summary Gets information about an azure ad administrator.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorGet.json
  */
 async function getAnAzureAdAdministrator() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getAnAzureAdAdministrator() {
   const result = await client.azureADAdministrators.get(
     resourceGroupName,
     serverName,
-    administratorName
+    administratorName,
   );
   console.log(result);
 }

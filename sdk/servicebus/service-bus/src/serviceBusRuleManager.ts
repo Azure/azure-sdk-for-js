@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { ConnectionContext } from "./connectionContext";
-import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { CorrelationRuleFilter } from "./core/managementClient";
-import { ruleManagerLogger as logger } from "./log";
-import {
-  isSqlRuleAction,
-  RuleProperties,
-  SqlRuleAction,
-} from "./serializers/ruleResourceSerializer";
-import { getUniqueName } from "./util/utils";
-import { throwErrorIfConnectionClosed } from "./util/errors";
-import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
-import { tracingClient } from "./diagnostics/tracing";
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
-import { OperationOptions } from "@azure/core-client";
-import { ListRequestOptions } from "./serviceBusAtomManagementClient";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
+import type { CorrelationRuleFilter } from "./core/managementClient.js";
+import { ruleManagerLogger as logger } from "./log.js";
+import type { RuleProperties, SqlRuleAction } from "./serializers/ruleResourceSerializer.js";
+import { isSqlRuleAction } from "./serializers/ruleResourceSerializer.js";
+import { getUniqueName } from "./util/utils.js";
+import { throwErrorIfConnectionClosed } from "./util/errors.js";
+import type { SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
+import { tracingClient } from "./diagnostics/tracing.js";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure/core-client";
+import type { ListRequestOptions } from "./serviceBusAtomManagementClient.js";
 
 /**
  * Allows rules for a subscription to be managed. This rule manager requires only Listen claims, whereas the
@@ -34,7 +33,7 @@ export interface ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
   /**
    * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
@@ -48,7 +47,7 @@ export interface ServiceBusRuleManager {
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction?: SqlRuleAction,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
   /**
    * Deletes a rule.
@@ -64,10 +63,7 @@ export interface ServiceBusRuleManager {
    *
    * @returns An asyncIterableIterator that supports paging.
    */
-  listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleProperties>;
+  listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
 }
 
 /**
@@ -88,7 +84,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   constructor(
     private _context: ConnectionContext,
     private _entityPath: string,
-    private _retryOptions: RetryOptions = {}
+    private _retryOptions: RetryOptions = {},
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
@@ -109,7 +105,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<void>;
   /**
    * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
@@ -123,13 +119,13 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction?: SqlRuleAction,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<void>;
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptionsBase,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     let sqlRuleAction: SqlRuleAction | undefined = undefined;
     let operOptions: OperationOptions | undefined;
@@ -166,7 +162,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<void>(config);
-      }
+      },
     );
   }
 
@@ -174,7 +170,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    * Get all rules associated with the subscription.
    */
   private async getRules(
-    options?: ListRequestOptions & OperationOptions
+    options?: ListRequestOptions & OperationOptions,
   ): Promise<RuleProperties[]> {
     return tracingClient.withSpan(
       "ServiceBusRuleManager.getRules",
@@ -196,7 +192,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<RuleProperties[]>(config);
-      }
+      },
     );
   }
 
@@ -209,8 +205,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);
     const pagedResult: PagedResult<RuleProperties[], { maxPageSize?: number }, number> = {
@@ -258,7 +253,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<void>(config);
-      }
+      },
     );
   }
 }

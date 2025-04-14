@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-naming-drop-noun rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-naming-drop-noun";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-naming-drop-noun.js";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-naming-drop-noun", rule, {
   valid: [

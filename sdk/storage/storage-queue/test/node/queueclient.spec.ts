@@ -1,32 +1,87 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { recorderEnvSetup } from "../utils/testutils.common";
-import { Context } from "mocha";
+import {
+  getQSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
+  configureStorageClient,
+  SimpleTokenCredential,
+} from "../utils/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import type { QueueServiceClient } from "../../src/index.js";
+import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient Node.js only", () => {
   let queueName: string;
+  let queueServiceClient: QueueServiceClient;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await queueClient.delete();
     await recorder.stop();
+  });
+
+  it("QueueClient default audience should work", async () => {
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("QueueClient customized audience should work", async () => {
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential(), {
+      audience: getQueueServiceAccountAudience(queueServiceClient.accountName),
+    });
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("QueueClient Bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const queueClientWithPlainOAuthToken = new QueueClient(
+      queueClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+
+    configureStorageClient(recorder, queueClientWithPlainOAuthToken);
+
+    try {
+      await queueClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential(), {
+      audience: "https://badaudience.blob.core.windows.net/.default",
+    });
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+    const exist = await queueClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("getAccessPolicy", async () => {
@@ -79,9 +134,9 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const newClient = new QueueClient(queueClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -92,13 +147,13 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -109,10 +164,10 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -124,6 +179,7 @@ describe("QueueClient Node.js only", () => {
 
   it("can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -138,6 +194,7 @@ describe("QueueClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -156,8 +213,9 @@ describe("QueueClient Node.js only", () => {
     };
     const newClient = new QueueClient(
       `https://myaccount.queue.core.windows.net/` + queueName,
-      tokenCredential
+      tokenCredential,
     );
+    configureStorageClient(recorder, newClient);
     assertClientUsesTokenCredential(newClient);
   });
 });

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.4 (Unreleased)
+## 1.4.6 (Unreleased)
 
 ### Features Added
 
@@ -10,11 +10,54 @@
 
 ### Other Changes
 
+## 1.4.5 (2025-03-06)
+
+### Bugs Fixed
+
+- Fix an issue where leading and trailing spaces are not preserved in parsed result [PR #33020](https://github.com/Azure/azure-sdk-for-js/pull/33020)
+
+## 1.4.4 (2024-10-03)
+
+### Bugs Fixed
+
+- Fix an issue on Firefox where "xmlns" namespace is missing from the result of `stringifyXML()` [Issue #11655](https://github.com/Azure/azure-sdk-for-js/issues/11655)
+
+## 1.4.3 (2024-08-01)
+
+### Other Changes
+
+- Adding React-Native support at top level [PR #30493](https://github.com/Azure/azure-sdk-for-js/pull/30493)
+
+## 1.4.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.4.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.4.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 1.3.4 (2023-06-20)
+
+### Other Changes
+
+- Bump dependency `fast-xml-parser` version to `^4.2.4` to address security issue https://security.snyk.io/vuln/SNYK-JS-FASTXMLPARSER-5668858
+
 ## 1.3.3 (2023-03-02)
 
 ### Other Changes
 
-- port https://github.com/Azure/ms-rest-js/pull/475 [PR # 24962](https://github.com/Azure/azure-sdk-for-js/pull/24962)
+- port https://github.com/Azure/ms-rest-js/pull/475 [PR #24962](https://github.com/Azure/azure-sdk-for-js/pull/24962)
 
 ## 1.3.2 (2023-01-05)
 

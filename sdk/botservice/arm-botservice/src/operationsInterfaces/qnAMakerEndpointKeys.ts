@@ -10,7 +10,7 @@ import {
   QnAMakerEndpointKeysRequestBody,
   QnAMakerEndpointKeysGetOptionalParams,
   QnAMakerEndpointKeysGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a QnAMakerEndpointKeys. */
 export interface QnAMakerEndpointKeys {

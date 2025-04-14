@@ -35,7 +35,7 @@ async function privateEndpointConnectionUpdate() {
     resourceGroupName,
     environmentName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

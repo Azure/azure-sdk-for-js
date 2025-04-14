@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List hub settings.
  *
  * @summary List hub settings.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubHubs_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubHubs_List.json
  */
 async function webPubSubHubsList() {
   const subscriptionId =

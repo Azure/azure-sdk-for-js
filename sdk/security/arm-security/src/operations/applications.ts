@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Applications } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Applications } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   Application,
   ApplicationsListNextOptionalParams,
   ApplicationsListOptionalParams,
   ApplicationsListResponse,
-  ApplicationsListNextResponse
-} from "../models";
+  ApplicationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Applications operations. */
@@ -39,7 +39,7 @@ export class ApplicationsImpl implements Applications {
    * @param options The options parameters.
    */
   public list(
-    options?: ApplicationsListOptionalParams
+    options?: ApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ApplicationsImpl implements Applications {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ApplicationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Application[]> {
     let result: ApplicationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   private async *listPagingAll(
-    options?: ApplicationsListOptionalParams
+    options?: ApplicationsListOptionalParams,
   ): AsyncIterableIterator<Application> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ApplicationsImpl implements Applications {
    * @param options The options parameters.
    */
   private _list(
-    options?: ApplicationsListOptionalParams
+    options?: ApplicationsListOptionalParams,
   ): Promise<ApplicationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ApplicationsImpl implements Applications {
    */
   private _listNext(
     nextLink: string,
-    options?: ApplicationsListNextOptionalParams
+    options?: ApplicationsListNextOptionalParams,
   ): Promise<ApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class ApplicationsImpl implements Applications {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList
+      bodyMapper: Mappers.ApplicationsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion17],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList
+      bodyMapper: Mappers.ApplicationsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

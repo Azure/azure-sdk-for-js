@@ -6,8 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./reports";
-export * from "./report";
-export * from "./snapshots";
-export * from "./snapshot";
+export * from "./providerActions.js";
+export * from "./operations.js";
+export * from "./report.js";
+export * from "./evidence.js";
+export * from "./scopingConfiguration.js";
+export * from "./snapshot.js";
+export * from "./webhook.js";

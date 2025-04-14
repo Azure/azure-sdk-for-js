@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   SparkConfigurationResource,
   SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams,
   SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams,
@@ -17,95 +17,93 @@ import {
   SparkConfigurationGetSparkConfigurationResponse,
   SparkConfigurationDeleteSparkConfigurationOptionalParams,
   ArtifactRenameRequest,
-  SparkConfigurationRenameSparkConfigurationOptionalParams
-} from "../models";
+  SparkConfigurationRenameSparkConfigurationOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SparkConfigurationOperations. */
 export interface SparkConfigurationOperations {
   /**
    * Lists sparkconfigurations.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listSparkConfigurationsByWorkspace(
-    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+    options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SparkConfigurationResource>;
   /**
    * Creates or updates a sparkconfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param sparkConfiguration SparkConfiguration resource definition.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param sparkConfiguration - SparkConfiguration resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSparkConfiguration(
     sparkConfigurationName: string,
     sparkConfiguration: SparkConfigurationResource,
-    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
+    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SparkConfigurationCreateOrUpdateSparkConfigurationResponse
-      >,
+    SimplePollerLike<
+      OperationState<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>,
       SparkConfigurationCreateOrUpdateSparkConfigurationResponse
     >
   >;
   /**
    * Creates or updates a sparkconfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param sparkConfiguration SparkConfiguration resource definition.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param sparkConfiguration - SparkConfiguration resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateSparkConfigurationAndWait(
     sparkConfigurationName: string,
     sparkConfiguration: SparkConfigurationResource,
-    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
+    options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams,
   ): Promise<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>;
   /**
    * Gets a sparkConfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param options - The options parameters.
    */
   getSparkConfiguration(
     sparkConfigurationName: string,
-    options?: SparkConfigurationGetSparkConfigurationOptionalParams
+    options?: SparkConfigurationGetSparkConfigurationOptionalParams,
   ): Promise<SparkConfigurationGetSparkConfigurationResponse>;
   /**
    * Deletes a sparkConfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param options - The options parameters.
    */
   beginDeleteSparkConfiguration(
     sparkConfigurationName: string,
-    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sparkConfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param options - The options parameters.
    */
   beginDeleteSparkConfigurationAndWait(
     sparkConfigurationName: string,
-    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
+    options?: SparkConfigurationDeleteSparkConfigurationOptionalParams,
   ): Promise<void>;
   /**
    * Renames a sparkConfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSparkConfiguration(
     sparkConfigurationName: string,
     request: ArtifactRenameRequest,
-    options?: SparkConfigurationRenameSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SparkConfigurationRenameSparkConfigurationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sparkConfiguration.
-   * @param sparkConfigurationName The spark Configuration name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sparkConfigurationName - The spark Configuration name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenameSparkConfigurationAndWait(
     sparkConfigurationName: string,
     request: ArtifactRenameRequest,
-    options?: SparkConfigurationRenameSparkConfigurationOptionalParams
+    options?: SparkConfigurationRenameSparkConfigurationOptionalParams,
   ): Promise<void>;
 }

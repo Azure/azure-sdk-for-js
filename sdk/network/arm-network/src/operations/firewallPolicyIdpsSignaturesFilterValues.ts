@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FirewallPolicyIdpsSignaturesFilterValues } from "../operationsInterfaces";
+import { FirewallPolicyIdpsSignaturesFilterValues } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SignatureOverridesFilterValuesQuery,
   FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
-  FirewallPolicyIdpsSignaturesFilterValuesListResponse
-} from "../models";
+  FirewallPolicyIdpsSignaturesFilterValuesListResponse,
+} from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignaturesFilterValues operations. */
 export class FirewallPolicyIdpsSignaturesFilterValuesImpl
-  implements FirewallPolicyIdpsSignaturesFilterValues {
+  implements FirewallPolicyIdpsSignaturesFilterValues
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -41,11 +42,11 @@ export class FirewallPolicyIdpsSignaturesFilterValuesImpl
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignatureOverridesFilterValuesQuery,
-    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesFilterValuesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -53,16 +54,15 @@ export class FirewallPolicyIdpsSignaturesFilterValuesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SignatureOverridesFilterValuesResponse
+      bodyMapper: Mappers.SignatureOverridesFilterValuesResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
@@ -70,9 +70,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an environment type.
  *
  * @summary Deletes an environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/EnvironmentTypes_Delete.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_Delete.json
  */
 async function environmentTypesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function environmentTypesDelete() {
   const result = await client.environmentTypes.delete(
     resourceGroupName,
     devCenterName,
-    environmentTypeName
+    environmentTypeName,
   );
   console.log(result);
 }

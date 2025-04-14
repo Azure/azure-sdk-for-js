@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   TriggerResource,
   TriggerGetTriggersByWorkspaceOptionalParams,
   TriggerCreateOrUpdateTriggerOptionalParams,
@@ -23,162 +23,161 @@ import {
   TriggerUnsubscribeTriggerFromEventsOptionalParams,
   TriggerUnsubscribeTriggerFromEventsResponse,
   TriggerStartTriggerOptionalParams,
-  TriggerStopTriggerOptionalParams
-} from "../models";
+  TriggerStopTriggerOptionalParams,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a TriggerOperations. */
 export interface TriggerOperations {
   /**
    * Lists triggers.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listTriggersByWorkspace(
-    options?: TriggerGetTriggersByWorkspaceOptionalParams
+    options?: TriggerGetTriggersByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<TriggerResource>;
   /**
    * Creates or updates a trigger.
-   * @param triggerName The trigger name.
-   * @param trigger Trigger resource definition.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param trigger - Trigger resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateTrigger(
     triggerName: string,
     trigger: TriggerResource,
-    options?: TriggerCreateOrUpdateTriggerOptionalParams
+    options?: TriggerCreateOrUpdateTriggerOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerCreateOrUpdateTriggerResponse>,
+    SimplePollerLike<
+      OperationState<TriggerCreateOrUpdateTriggerResponse>,
       TriggerCreateOrUpdateTriggerResponse
     >
   >;
   /**
    * Creates or updates a trigger.
-   * @param triggerName The trigger name.
-   * @param trigger Trigger resource definition.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param trigger - Trigger resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateTriggerAndWait(
     triggerName: string,
     trigger: TriggerResource,
-    options?: TriggerCreateOrUpdateTriggerOptionalParams
+    options?: TriggerCreateOrUpdateTriggerOptionalParams,
   ): Promise<TriggerCreateOrUpdateTriggerResponse>;
   /**
    * Gets a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   getTrigger(
     triggerName: string,
-    options?: TriggerGetTriggerOptionalParams
+    options?: TriggerGetTriggerOptionalParams,
   ): Promise<TriggerGetTriggerResponse>;
   /**
    * Deletes a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginDeleteTrigger(
     triggerName: string,
-    options?: TriggerDeleteTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: TriggerDeleteTriggerOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginDeleteTriggerAndWait(
     triggerName: string,
-    options?: TriggerDeleteTriggerOptionalParams
+    options?: TriggerDeleteTriggerOptionalParams,
   ): Promise<void>;
   /**
    * Subscribe event trigger to events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginSubscribeTriggerToEvents(
     triggerName: string,
-    options?: TriggerSubscribeTriggerToEventsOptionalParams
+    options?: TriggerSubscribeTriggerToEventsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerSubscribeTriggerToEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerSubscribeTriggerToEventsResponse>,
       TriggerSubscribeTriggerToEventsResponse
     >
   >;
   /**
    * Subscribe event trigger to events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginSubscribeTriggerToEventsAndWait(
     triggerName: string,
-    options?: TriggerSubscribeTriggerToEventsOptionalParams
+    options?: TriggerSubscribeTriggerToEventsOptionalParams,
   ): Promise<TriggerSubscribeTriggerToEventsResponse>;
   /**
    * Get a trigger's event subscription status.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   getEventSubscriptionStatus(
     triggerName: string,
-    options?: TriggerGetEventSubscriptionStatusOptionalParams
+    options?: TriggerGetEventSubscriptionStatusOptionalParams,
   ): Promise<TriggerGetEventSubscriptionStatusResponse>;
   /**
    * Unsubscribe event trigger from events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginUnsubscribeTriggerFromEvents(
     triggerName: string,
-    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
+    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
       TriggerUnsubscribeTriggerFromEventsResponse
     >
   >;
   /**
    * Unsubscribe event trigger from events.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginUnsubscribeTriggerFromEventsAndWait(
     triggerName: string,
-    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
+    options?: TriggerUnsubscribeTriggerFromEventsOptionalParams,
   ): Promise<TriggerUnsubscribeTriggerFromEventsResponse>;
   /**
    * Starts a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStartTrigger(
     triggerName: string,
-    options?: TriggerStartTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: TriggerStartTriggerOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStartTriggerAndWait(
     triggerName: string,
-    options?: TriggerStartTriggerOptionalParams
+    options?: TriggerStartTriggerOptionalParams,
   ): Promise<void>;
   /**
    * Stops a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStopTrigger(
     triggerName: string,
-    options?: TriggerStopTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: TriggerStopTriggerOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a trigger.
-   * @param triggerName The trigger name.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param options - The options parameters.
    */
   beginStopTriggerAndWait(
     triggerName: string,
-    options?: TriggerStopTriggerOptionalParams
+    options?: TriggerStopTriggerOptionalParams,
   ): Promise<void>;
 }

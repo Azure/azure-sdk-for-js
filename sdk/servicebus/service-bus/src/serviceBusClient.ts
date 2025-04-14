@@ -1,32 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConnectionConfig } from "@azure/core-amqp";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ConnectionConfig } from "@azure/core-amqp";
+import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
-  ServiceBusClientOptions,
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
-} from "./constructorHelpers";
-import { ConnectionContext } from "./connectionContext";
-import {
+} from "./constructorHelpers.js";
+import { ConnectionContext } from "./connectionContext.js";
+import type {
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
   ServiceBusSenderOptions,
-} from "./models";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
-import {
-  ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl,
-} from "./receivers/sessionReceiver";
-import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager";
-import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
-import { entityPathMisMatchError } from "./util/errors";
-import { MessageSession } from "./session/messageSession";
+} from "./models.js";
+import type { ServiceBusReceiver } from "./receivers/receiver.js";
+import { ServiceBusReceiverImpl } from "./receivers/receiver.js";
+import type { ServiceBusSessionReceiver } from "./receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "./receivers/sessionReceiver.js";
+import type { ServiceBusRuleManager } from "./serviceBusRuleManager.js";
+import { ServiceBusRuleManagerImpl } from "./serviceBusRuleManager.js";
+import type { ServiceBusSender } from "./sender.js";
+import { ServiceBusSenderImpl } from "./sender.js";
+import { entityPathMisMatchError } from "./util/errors.js";
+import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { ensureValidIdentifier } from "./util/utils";
+import { isCredential } from "./util/typeGuards.js";
+import { ensureValidIdentifier } from "./util/utils.js";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -77,7 +78,7 @@ export class ServiceBusClient {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options?: ServiceBusClientOptions
+    options?: ServiceBusClientOptions,
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -86,7 +87,7 @@ export class ServiceBusClient {
       | NamedKeyCredential
       | SASCredential
       | ServiceBusClientOptions,
-    options3?: ServiceBusClientOptions
+    options3?: ServiceBusClientOptions,
   ) {
     if (isCredential(credentialOrOptions2)) {
       const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
@@ -96,7 +97,7 @@ export class ServiceBusClient {
       this._connectionContext = createConnectionContextForCredential(
         credential,
         fullyQualifiedNamespace,
-        this._clientOptions
+        this._clientOptions,
       );
     } else {
       const connectionString: string = fullyQualifiedNamespaceOrConnectionString1;
@@ -104,13 +105,13 @@ export class ServiceBusClient {
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
-        this._clientOptions
+        this._clientOptions,
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this.identifier = ensureValidIdentifier(
       this.fullyQualifiedNamespace,
-      this._clientOptions.identifier
+      this._clientOptions.identifier,
     );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
@@ -129,7 +130,7 @@ export class ServiceBusClient {
    *
    * To target sub queues like the dead letter queue or the transfer dead letter queue, provide the
    * `subQueue` in the options. To learn more about dead letter queues, see
-   * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
@@ -144,7 +145,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param options - Options to pass the receiveMode, defaulted to peekLock.
@@ -158,7 +159,7 @@ export class ServiceBusClient {
    *
    * To target sub queues like the dead letter queue or the transfer dead letter queue, provide the
    * `subQueue` in the options. To learn more about dead letter queues, see
-   * https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * You can choose between two receive modes:  "peekLock" (default) and "receiveAndDelete".
    * - In peekLock mode, the receiver has a lock on the message for the duration specified on the
@@ -173,7 +174,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
@@ -184,13 +185,13 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusReceiverOptions
+    options?: ServiceBusReceiverOptions,
   ): ServiceBusReceiver;
   createReceiver(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: ServiceBusReceiverOptions
+    options3?: ServiceBusReceiverOptions,
   ): ServiceBusReceiver {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -199,7 +200,7 @@ export class ServiceBusClient {
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
-      options3
+      options3,
     );
 
     let entityPathWithSubQueue = entityPath;
@@ -213,7 +214,7 @@ export class ServiceBusClient {
           break;
         default:
           throw new Error(
-            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
+            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
           );
       }
     }
@@ -231,7 +232,7 @@ export class ServiceBusClient {
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions,
-      options?.identifier
+      options?.identifier,
     );
   }
 
@@ -250,7 +251,7 @@ export class ServiceBusClient {
     return new ServiceBusRuleManagerImpl(
       this._connectionContext,
       entityPath,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
   }
 
@@ -266,7 +267,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param sessionId - The id of the session from which messages need to be received
@@ -277,7 +278,7 @@ export class ServiceBusClient {
     queueName: string,
     sessionId: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription.
@@ -291,7 +292,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
@@ -304,14 +305,14 @@ export class ServiceBusClient {
     subscriptionName: string,
     sessionId: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   async acceptSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionNameOrSessionId2?: ServiceBusSessionReceiverOptions | string,
     optionsOrSessionId3?: ServiceBusSessionReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options4?: ServiceBusSessionReceiverOptions
+    options4?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -332,7 +333,7 @@ export class ServiceBusClient {
         queueOrTopicName1,
         optionsOrSubscriptionNameOrSessionId2,
         // skip the session ID parameter (3)
-        options4
+        options4,
       ));
     } else if (
       typeof queueOrTopicName1 === "string" &&
@@ -346,7 +347,7 @@ export class ServiceBusClient {
         queueOrTopicName1,
         // skip the session ID parameter (2)
         optionsOrSessionId3,
-        undefined
+        undefined,
       ));
     } else {
       throw new Error("Unhandled set of parameters");
@@ -364,7 +365,7 @@ export class ServiceBusClient {
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
         skipConvertingDate: options?.skipConvertingDate ?? false,
-      }
+      },
     );
 
     const sessionReceiver = new ServiceBusSessionReceiverImpl(
@@ -374,7 +375,7 @@ export class ServiceBusClient {
       receiveMode,
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
 
     return sessionReceiver;
@@ -392,7 +393,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param queueName - The name of the queue to receive from.
    * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
@@ -401,7 +402,7 @@ export class ServiceBusClient {
   acceptNextSession(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription.
@@ -415,7 +416,7 @@ export class ServiceBusClient {
    * deadletterMessage() methods on the receiver.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    * @param topicName - Name of the topic for the subscription we want to receive from.
    * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
@@ -426,20 +427,20 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   async acceptNextSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusSessionReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: ServiceBusSessionReceiverOptions
+    options3?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
-      options3
+      options3,
     );
 
     const messageSession = await MessageSession.create(
@@ -454,7 +455,7 @@ export class ServiceBusClient {
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
         skipConvertingDate: options?.skipConvertingDate ?? false,
-      }
+      },
     );
 
     const sessionReceiver = new ServiceBusSessionReceiverImpl(
@@ -464,7 +465,7 @@ export class ServiceBusClient {
       receiveMode,
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
 
     return sessionReceiver;
@@ -476,6 +477,7 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
@@ -483,7 +485,7 @@ export class ServiceBusClient {
       this._connectionContext,
       queueOrTopicName,
       this._clientOptions.retryOptions,
-      options.identifier
+      options.identifier,
     );
   }
 
@@ -509,7 +511,7 @@ export class ServiceBusClient {
 export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveMode }>(
   queueOrTopicName1: string,
   optionsOrSubscriptionName2: string | OptionsT | undefined,
-  definitelyOptions3?: OptionsT
+  definitelyOptions3?: OptionsT,
 ): {
   entityPath: string;
   receiveMode: ReceiveMode;
@@ -533,7 +535,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     receiveMode = "receiveAndDelete";
   } else {
     throw new TypeError(
-      `Invalid receiveMode '${options?.receiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
+      `Invalid receiveMode '${options?.receiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
     );
   }
   delete options?.receiveMode;

@@ -11,25 +11,24 @@
  * @azsdk-weight 100
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
   "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Recognize Linked Entities Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.analyze("EntityLinking", documents);
 
@@ -39,12 +38,12 @@ export async function main() {
       console.log("\tEntities:");
       for (const entity of result.entities) {
         console.log(
-          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`,
         );
         console.log("\t\tMatches:");
         for (const match of entity.matches) {
           console.log(
-            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
+            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`,
           );
         }
       }

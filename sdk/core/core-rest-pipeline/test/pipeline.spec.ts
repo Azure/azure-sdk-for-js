@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
+import { describe, it, assert, expectTypeOf } from "vitest";
+import type { HttpClient, HttpHeaders, PipelinePolicy, PipelineResponse } from "../src/index.js";
 import {
-  HttpClient,
-  PipelinePolicy,
+  createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,
-} from "../src";
+} from "../src/index.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {
@@ -371,7 +371,7 @@ describe("HttpsPipeline", function () {
 
     const response = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "initialUrl" })
+      createPipelineRequest({ url: "initialUrl" }),
     );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);
@@ -438,5 +438,29 @@ describe("HttpsPipeline", function () {
     pipeline.addPolicy(testPolicy2, { phase: "Sign" });
     const policies = pipeline.getOrderedPolicies();
     assert.deepStrictEqual(policies, [testPolicy, testPolicy2]);
+  });
+
+  it("assert pipeline response shape", async function () {
+    const p = createEmptyPipeline();
+    p.addPolicy({
+      name: "test",
+      sendRequest: async (request) => {
+        return {
+          headers: {} as HttpHeaders,
+          status: 0 as number,
+          request,
+          bodyAsText: "" as string,
+          readableStreamBody: {} as NodeJS.ReadableStream,
+          blobBody: {} as Promise<Blob>,
+          browserStreamBody: {} as ReadableStream<Uint8Array<ArrayBufferLike>>,
+        };
+      },
+    });
+    expectTypeOf(
+      await p.sendRequest(
+        createDefaultHttpClient(),
+        createPipelineRequest({ url: "https://example.com" }),
+      ),
+    ).toEqualTypeOf<PipelineResponse>();
   });
 });

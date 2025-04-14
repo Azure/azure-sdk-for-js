@@ -12,7 +12,7 @@
 
 ## 2.0.0 (2022-11-24)
     
-**Features**
+### Features Added
 
   - Added operation CollectorPolicies.updateTags
   - Added Interface CollectorPoliciesUpdateTagsOptionalParams
@@ -21,7 +21,7 @@
   - Interface CollectorPoliciesCreateOrUpdateOptionalParams has a new optional parameter tags
   - Added Enum KnownApiVersionParameter
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation AzureTrafficCollectors.beginCreateOrUpdate has a new signature
   - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature
@@ -35,4 +35,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

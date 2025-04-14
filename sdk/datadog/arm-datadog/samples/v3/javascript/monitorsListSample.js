@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all monitors under the specified subscription.
  *
  * @summary List all monitors under the specified subscription.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/Monitors_List.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_List.json
  */
 async function monitorsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function monitorsList() {
   console.log(resArray);
 }
 
-monitorsList().catch(console.error);
+async function main() {
+  monitorsList();
+}
+
+main().catch(console.error);

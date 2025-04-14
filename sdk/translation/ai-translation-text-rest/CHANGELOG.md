@@ -1,5 +1,25 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.1 (2025-02-10)
+
+### Features Added
+- refresh @azure-rest/ai-translation-text sdk
+
+## 1.0.0 (2024-05-21)
+
+### Features Added
+- Added support for AAD authentication.
+
 ## 1.0.0-beta.1 (2023-04-18)
 Initial release
 

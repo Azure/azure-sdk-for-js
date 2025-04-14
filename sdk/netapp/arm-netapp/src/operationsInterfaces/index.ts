@@ -6,17 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./netAppResource";
-export * from "./netAppResourceQuotaLimits";
-export * from "./accounts";
-export * from "./pools";
-export * from "./volumes";
-export * from "./snapshots";
-export * from "./snapshotPolicies";
-export * from "./backups";
-export * from "./accountBackups";
-export * from "./backupPolicies";
-export * from "./volumeQuotaRules";
-export * from "./volumeGroups";
-export * from "./subvolumes";
+export * from "./operations.js";
+export * from "./netAppResource.js";
+export * from "./netAppResourceQuotaLimits.js";
+export * from "./netAppResourceRegionInfos.js";
+export * from "./accounts.js";
+export * from "./pools.js";
+export * from "./volumes.js";
+export * from "./snapshots.js";
+export * from "./snapshotPolicies.js";
+export * from "./backupPolicies.js";
+export * from "./volumeQuotaRules.js";
+export * from "./volumeGroups.js";
+export * from "./subvolumes.js";
+export * from "./backups.js";
+export * from "./backupVaults.js";
+export * from "./backupsUnderBackupVault.js";
+export * from "./backupsUnderVolume.js";
+export * from "./backupsUnderAccount.js";

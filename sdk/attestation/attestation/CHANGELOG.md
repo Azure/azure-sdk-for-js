@@ -13,6 +13,8 @@ Fixed a bug where the client options are ignored when passed along with an AAD c
 
 ### Other Changes
 
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31433](https://github.com/Azure/azure-sdk-for-js/pull/31433)
+
 ## 1.0.0 (2021-08-10)
 
 ### Features Added

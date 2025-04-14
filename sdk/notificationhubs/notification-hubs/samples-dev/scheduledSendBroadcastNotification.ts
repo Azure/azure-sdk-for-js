@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -7,7 +7,7 @@
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.  Note this is only
  * available in the Standard SKU namespaces and above.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled
  * to learn about scheduled send.
  *
  *
@@ -15,18 +15,15 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
-import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
+import "dotenv/config";
+import { createClientContext, scheduleBroadcastNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs/models";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -42,11 +39,11 @@ async function main() {
   // Schedule 8 hours from nows
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
-  const result = await scheduleNotification(context, scheduledTime, notification);
+  const result = await scheduleBroadcastNotification(context, scheduledTime, notification);
 
-  console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
-  console.log(`Scheduled send Correlation ID: ${result.correlationId}`);
-  console.log(`Scheduled send Notification ID: ${result.notificationId}`);
+  console.log(`Scheduled broadcast send Tracking ID: ${result.trackingId}`);
+  console.log(`Scheduled broadcast send Correlation ID: ${result.correlationId}`);
+  console.log(`Scheduled broadcast send Notification ID: ${result.notificationId}`);
 }
 
 main().catch((err) => {

@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TrafficManagerUserMetricsKeys } from "../operationsInterfaces";
+import { TrafficManagerUserMetricsKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TrafficManagerManagementClient } from "../trafficManagerManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TrafficManagerManagementClient } from "../trafficManagerManagementClient.js";
 import {
   TrafficManagerUserMetricsKeysGetOptionalParams,
   TrafficManagerUserMetricsKeysGetResponse,
@@ -18,7 +18,7 @@ import {
   TrafficManagerUserMetricsKeysCreateOrUpdateResponse,
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
   TrafficManagerUserMetricsKeysDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing TrafficManagerUserMetricsKeys operations. */
 export class TrafficManagerUserMetricsKeysImpl

@@ -27,7 +27,7 @@ async function aggregatedCostListForBillingPeriodByManagementGroup() {
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.aggregatedCost.getForBillingPeriodByManagementGroup(
     managementGroupId,
-    billingPeriodName
+    billingPeriodName,
   );
   console.log(result);
 }

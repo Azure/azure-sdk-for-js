@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { paginate } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
@@ -34,7 +34,7 @@ async function listVmssvmPublicIP() {
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

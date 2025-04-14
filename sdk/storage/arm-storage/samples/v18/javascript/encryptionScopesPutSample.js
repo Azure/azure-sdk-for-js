@@ -6,21 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountPutEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountPutEncryptionScope.json
  */
 async function storageAccountPutEncryptionScope() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "resource-group-name";
-  const accountName = "{storage-account-name}";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
+  const accountName = "accountname";
   const encryptionScopeName = "{encryption-scope-name}";
   const encryptionScope = {};
   const credential = new DefaultAzureCredential();
@@ -29,23 +28,21 @@ async function storageAccountPutEncryptionScope() {
     resourceGroupName,
     accountName,
     encryptionScopeName,
-    encryptionScope
+    encryptionScope,
   );
   console.log(result);
 }
-
-storageAccountPutEncryptionScope().catch(console.error);
 
 /**
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
  */
 async function storageAccountPutEncryptionScopeWithInfrastructureEncryption() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "resource-group-name";
-  const accountName = "{storage-account-name}";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
+  const accountName = "accountname";
   const encryptionScopeName = "{encryption-scope-name}";
   const encryptionScope = {
     requireInfrastructureEncryption: true,
@@ -56,9 +53,14 @@ async function storageAccountPutEncryptionScopeWithInfrastructureEncryption() {
     resourceGroupName,
     accountName,
     encryptionScopeName,
-    encryptionScope
+    encryptionScope,
   );
   console.log(result);
 }
 
-storageAccountPutEncryptionScopeWithInfrastructureEncryption().catch(console.error);
+async function main() {
+  await storageAccountPutEncryptionScope();
+  await storageAccountPutEncryptionScopeWithInfrastructureEncryption();
+}
+
+main().catch(console.error);

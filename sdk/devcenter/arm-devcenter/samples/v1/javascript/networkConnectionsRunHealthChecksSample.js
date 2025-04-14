@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Triggers a new health check run. The execution and health check result can be tracked via the network Connection health check details
  *
  * @summary Triggers a new health check run. The execution and health check result can be tracked via the network Connection health check details
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_RunHealthChecks.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_RunHealthChecks.json
  */
 async function networkConnectionsRunHealthChecks() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function networkConnectionsRunHealthChecks() {
   const client = new DevCenterClient(credential, subscriptionId);
   const result = await client.networkConnections.beginRunHealthChecksAndWait(
     resourceGroupName,
-    networkConnectionName
+    networkConnectionName,
   );
   console.log(result);
 }

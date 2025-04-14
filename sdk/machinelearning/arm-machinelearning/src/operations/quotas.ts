@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Quotas } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Quotas } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   ResourceQuota,
   QuotasListNextOptionalParams,
@@ -21,19 +21,19 @@ import {
   QuotaUpdateParameters,
   QuotasUpdateOptionalParams,
   QuotasUpdateResponse,
-  QuotasListNextResponse
-} from "../models";
+  QuotasListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Quotas operations. */
 export class QuotasImpl implements Quotas {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class Quotas class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -44,7 +44,7 @@ export class QuotasImpl implements Quotas {
    */
   public list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceQuota> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -59,14 +59,14 @@ export class QuotasImpl implements Quotas {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: QuotasListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceQuota[]> {
     let result: QuotasListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class QuotasImpl implements Quotas {
 
   private async *listPagingAll(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): AsyncIterableIterator<ResourceQuota> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -104,11 +104,11 @@ export class QuotasImpl implements Quotas {
   update(
     location: string,
     parameters: QuotaUpdateParameters,
-    options?: QuotasUpdateOptionalParams
+    options?: QuotasUpdateOptionalParams,
   ): Promise<QuotasUpdateResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -119,11 +119,11 @@ export class QuotasImpl implements Quotas {
    */
   private _list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): Promise<QuotasListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -136,11 +136,11 @@ export class QuotasImpl implements Quotas {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: QuotasListNextOptionalParams
+    options?: QuotasListNextOptionalParams,
   ): Promise<QuotasListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -148,67 +148,64 @@ export class QuotasImpl implements Quotas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/updateQuotas",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/updateQuotas",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateWorkspaceQuotasResult
+      bodyMapper: Mappers.UpdateWorkspaceQuotasResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListWorkspaceQuotas
+      bodyMapper: Mappers.ListWorkspaceQuotas,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListWorkspaceQuotas
+      bodyMapper: Mappers.ListWorkspaceQuotas,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

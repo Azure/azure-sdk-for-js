@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the specified shared private link resource
  *
  * @summary Get the specified shared private link resource
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubSharedPrivateLinkResources_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubSharedPrivateLinkResources_Get.json
  */
 async function webPubSubSharedPrivateLinkResourcesGet() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubSharedPrivateLinkResourcesGet() {
   const result = await client.webPubSubSharedPrivateLinkResources.get(
     sharedPrivateLinkResourceName,
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

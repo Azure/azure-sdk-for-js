@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Helper TypeGuard that checks if something is defined or not.
@@ -16,7 +16,7 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
  */
 export function isObjectWithProperties<Thing, PropertyName extends string>(
   thing: Thing,
-  properties: PropertyName[]
+  properties: PropertyName[],
 ): thing is Thing & Record<PropertyName, unknown> {
   if (!isDefined(thing) || typeof thing !== "object") {
     return false;
@@ -38,7 +38,7 @@ export function isObjectWithProperties<Thing, PropertyName extends string>(
  */
 export function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
-  property: PropertyName
+  property: PropertyName,
 ): thing is Thing & Record<PropertyName, unknown> {
   return (
     isDefined(thing) && typeof thing === "object" && property in (thing as Record<string, unknown>)

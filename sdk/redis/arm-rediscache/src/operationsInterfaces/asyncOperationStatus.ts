@@ -8,8 +8,8 @@
 
 import {
   AsyncOperationStatusGetOptionalParams,
-  AsyncOperationStatusGetResponse
-} from "../models";
+  AsyncOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a AsyncOperationStatus. */
 export interface AsyncOperationStatus {
@@ -22,6 +22,6 @@ export interface AsyncOperationStatus {
   get(
     location: string,
     operationId: string,
-    options?: AsyncOperationStatusGetOptionalParams
+    options?: AsyncOperationStatusGetOptionalParams,
   ): Promise<AsyncOperationStatusGetResponse>;
 }

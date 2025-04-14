@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import {
-  AccessToken,
-  DeviceCodeCredential,
-  TokenCredential,
-  UsernamePasswordCredential,
-} from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, env } from "@azure-tools/test-recorder";
+import type { AccessToken, TokenCredential } from "../../../src/index.js";
+import { DeviceCodeCredential, UsernamePasswordCredential } from "../../../src/index.js";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, env } from "@azure-tools/test-recorder";
 import {
   bearerTokenAuthenticationPolicy,
   createDefaultHttpClient,
   createEmptyPipeline,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { Context } from "mocha";
-import { DeveloperSignOnClientId } from "../../../src/constants";
-import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "chai";
+import { DeveloperSignOnClientId } from "../../../src/constants.js";
+import { IdentityClient } from "../../../src/client/identityClient.js";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /**
  * Sequence of events needed to test the CAE challenges on the Graph endpoint.
@@ -34,7 +31,7 @@ import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  */
 async function challengeFlow(
   credential: TokenCredential,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<AccessToken[]> {
   const managementScope = "https://management.azure.com/.default";
   const graphScope = "User.ReadWrite.All";
@@ -86,7 +83,7 @@ async function challengeFlow(
     // This log line helps us see how long this is taking on record mode.
     console.log(
       "Waiting for the revocation of the token. Retrying in 30 seconds. Retry number",
-      ++count
+      ++count,
     );
     await delay(30000);
   }
@@ -104,7 +101,7 @@ async function challengeFlow(
         },
         authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,
       },
-    })
+    }),
   );
   pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
   const httpClient = createDefaultHttpClient();
@@ -119,7 +116,7 @@ async function challengeFlow(
     createPipelineRequest({
       url: managementSubscriptions,
       method: "GET",
-    })
+    }),
   );
   assert.equal(finalResponse.status, 200, "Final response failed.");
 
@@ -139,8 +136,8 @@ describe.skip("CAE", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });
@@ -148,16 +145,16 @@ describe.skip("CAE", function () {
     await cleanup();
   });
 
-  it("DeviceCodeCredential", async function (this: Context) {
+  it("DeviceCodeCredential", async function () {
     const [firstAccessToken, finalAccessToken] = await challengeFlow(
       new DeviceCodeCredential(recorder.configureClientOptions({ tenantId: env.AZURE_TENANT_ID })),
-      recorder
+      recorder,
     );
 
     assert.notDeepEqual(firstAccessToken, finalAccessToken);
   });
 
-  it("UsernamePasswordCredential", async function (this: Context) {
+  it("UsernamePasswordCredential", async function () {
     // Important: Recording this test may only work in certain tenants.
 
     const [firstAccessToken, finalAccessToken] = await challengeFlow(
@@ -166,9 +163,9 @@ describe.skip("CAE", function () {
         DeveloperSignOnClientId,
         env.AZURE_USERNAME!,
         env.AZURE_PASSWORD!,
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       ),
-      recorder
+      recorder,
     );
 
     assert.notDeepEqual(firstAccessToken, finalAccessToken);

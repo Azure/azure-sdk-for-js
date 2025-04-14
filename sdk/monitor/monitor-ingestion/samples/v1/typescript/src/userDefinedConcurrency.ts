@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to control the number of concurrent requests using the maxConcurrency option.
@@ -10,7 +10,7 @@ import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-
 
 require("dotenv").config();
 
-async function main() {
+async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
@@ -35,7 +35,7 @@ async function main() {
       let aggregateErrors = e.errors;
       console.log(
         "Some logs have failed to complete ingestion. Length of errors =",
-        aggregateErrors.length
+        aggregateErrors.length,
       );
       for (const errors of aggregateErrors) {
         console.log(`Error - ${JSON.stringify(errors.cause)}`);

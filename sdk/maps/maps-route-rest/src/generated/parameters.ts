@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   RouteMatrixQuery,
   RouteDirectionParameters,
-  BatchRequest
-} from "./models";
+  BatchRequest,
+} from "./models.js";
 
 export interface RouteRequestRouteMatrixBodyParam {
   /** The matrix of origin and destination coordinates to compute the route distance, travel time and other summary for each cell of the matrix based on the input parameters. The minimum and the maximum cell count supported are 1 and **700** for async and **100** for sync respectively. For example, it can be 35 origins and 20 destinations or 25 origins and 25 destinations for async API. */
@@ -18,8 +18,8 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
   computeTravelTimeFor?: "none" | "all";
-  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  sectionType?:
+  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Can be specified multiple times in one request, for example, '&sectionType=carTrain&sectionType=pedestrian&sectionType=motorway'. The default sectionType refers to the travelMode input. By default travelMode is set to car */
+  sectionType?: Array<
     | "carTrain"
     | "country"
     | "ferry"
@@ -31,10 +31,29 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
     | "travelMode"
     | "tunnel"
     | "carpool"
-    | "urban";
-  /** The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime. */
+    | "urban"
+  >;
+  /**
+   * The date and time of arrival at the destination point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified it will be assumed to be that of the destination point.
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `arriveAt` parameter cannot be used in conjunction with `departAt`, `minDeviationDistance` or `minDeviationTime`.
+   */
   arriveAt?: Date | string;
-  /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
+  /**
+   * The date and time of departure from the origin point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified, it will be assumed to be that of the origin point.
+   *   * Default value: now
+   *   * Other value: `dateTime`
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `departAt` parameter cannot be used in conjunction with `arriveAt`.
+   */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
   vehicleAxleWeight?: number;
@@ -58,7 +77,7 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   hilliness?: "low" | "normal" | "high";
-  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
+  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. */
   travelMode?:
     | "car"
     | "truck"
@@ -68,7 +87,7 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
     | "motorcycle"
     | "bicycle"
     | "pedestrian";
-  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
+  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In Route Range requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
     | "motorways"
@@ -87,7 +106,7 @@ export interface RouteRequestRouteMatrixQueryParamProperties {
   traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
+  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries/regions. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries/regions. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
     | "USHazmatClass2"
@@ -112,10 +131,11 @@ export interface RouteRequestRouteMatrixMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteRequestRouteMatrixParameters = RouteRequestRouteMatrixQueryParam &
-  RouteRequestRouteMatrixMediaTypesParam &
-  RouteRequestRouteMatrixBodyParam &
-  RequestParameters;
+export type RouteRequestRouteMatrixParameters =
+  RouteRequestRouteMatrixQueryParam &
+    RouteRequestRouteMatrixMediaTypesParam &
+    RouteRequestRouteMatrixBodyParam &
+    RequestParameters;
 export type RouteGetRouteMatrixParameters = RequestParameters;
 
 export interface RouteRequestRouteMatrixSyncBodyParam {
@@ -128,8 +148,8 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   waitForResults?: boolean;
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
   computeTravelTimeFor?: "none" | "all";
-  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  sectionType?:
+  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Can be specified multiple times in one request, for example, '&sectionType=carTrain&sectionType=pedestrian&sectionType=motorway'. The default sectionType refers to the travelMode input. By default travelMode is set to car */
+  sectionType?: Array<
     | "carTrain"
     | "country"
     | "ferry"
@@ -141,10 +161,29 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
     | "travelMode"
     | "tunnel"
     | "carpool"
-    | "urban";
-  /** The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime. */
+    | "urban"
+  >;
+  /**
+   * The date and time of arrival at the destination point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified it will be assumed to be that of the destination point.
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `arriveAt` parameter cannot be used in conjunction with `departAt`, `minDeviationDistance` or `minDeviationTime`.
+   */
   arriveAt?: Date | string;
-  /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
+  /**
+   * The date and time of departure from the origin point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified, it will be assumed to be that of the origin point.
+   *   * Default value: now
+   *   * Other value: `dateTime`
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `departAt` parameter cannot be used in conjunction with `arriveAt`.
+   */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
   vehicleAxleWeight?: number;
@@ -168,7 +207,7 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   hilliness?: "low" | "normal" | "high";
-  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
+  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. */
   travelMode?:
     | "car"
     | "truck"
@@ -178,7 +217,7 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
     | "motorcycle"
     | "bicycle"
     | "pedestrian";
-  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
+  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In Route Range requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
     | "motorways"
@@ -197,7 +236,7 @@ export interface RouteRequestRouteMatrixSyncQueryParamProperties {
   traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
+  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries/regions. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries/regions. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
     | "USHazmatClass2"
@@ -222,10 +261,11 @@ export interface RouteRequestRouteMatrixSyncMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteRequestRouteMatrixSyncParameters = RouteRequestRouteMatrixSyncQueryParam &
-  RouteRequestRouteMatrixSyncMediaTypesParam &
-  RouteRequestRouteMatrixSyncBodyParam &
-  RequestParameters;
+export type RouteRequestRouteMatrixSyncParameters =
+  RouteRequestRouteMatrixSyncQueryParam &
+    RouteRequestRouteMatrixSyncMediaTypesParam &
+    RouteRequestRouteMatrixSyncBodyParam &
+    RequestParameters;
 
 export interface RouteGetRouteDirectionsQueryParamProperties {
   /** The Coordinates through which the route is calculated, delimited by a colon.  A minimum of two coordinates is required.  The first one is the origin and the last is the destination of the route. Optional coordinates in-between act as WayPoints in the route.  You can pass up to 150 WayPoints. */
@@ -236,9 +276,27 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   alternativeType?: "anyRoute" | "betterRoute";
   /** All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of meters. Can only be used when reconstructing a route. The minDeviationDistance parameter cannot be used in conjunction with arriveAt */
   minDeviationDistance?: number;
-  /** The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime. */
+  /**
+   * The date and time of arrival at the destination point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified it will be assumed to be that of the destination point.
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `arriveAt` parameter cannot be used in conjunction with `departAt`, `minDeviationDistance` or `minDeviationTime`.
+   */
   arriveAt?: Date | string;
-  /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
+  /**
+   * The date and time of departure from the origin point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified, it will be assumed to be that of the origin point.
+   *   * Default value: now
+   *   * Other value: `dateTime`
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `departAt` parameter cannot be used in conjunction with `arriveAt`.
+   */
   departAt?: Date | string;
   /**
    * All alternative routes returned will follow the reference route (see section POST Requests) from the origin point of the calculateRoute request for at least this number of seconds. Can only be used when reconstructing a route. The minDeviationTime parameter cannot be used in conjunction with arriveAt. Default value is 0. Setting )minDeviationTime_ to a value greater than zero has the following consequences:
@@ -259,7 +317,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
    *   - The _vehicleHeading_ is ignored.
    */
   minDeviationTime?: number;
-  /** If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none */
+  /** If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none. */
   instructionsType?: "coded" | "text" | "tagged";
   /**
    * The language parameter determines the language of the guidance messages. Proper nouns (the names of streets, plazas, etc.) are returned in the specified  language, or if that is not available, they are returned in an available language  that is close to it. Allowed values are (a subset of) the IETF language tags. The currently supported  languages are listed in the [Supported languages  section](https://docs.microsoft.com/azure/azure-maps/supported-languages).
@@ -269,7 +327,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
   computeBestOrder?: boolean;
-  /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
+  /** Specifies the representation of the set of routes provided as response. */
   routeRepresentation?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
   computeTravelTimeFor?: "none" | "all";
@@ -277,8 +335,8 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   vehicleHeading?: number;
   /** Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller. */
   report?: "effectiveSettings";
-  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  sectionType?:
+  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Can be specified multiple times in one request, for example, '&sectionType=carTrain&sectionType=pedestrian&sectionType=motorway'. The default sectionType refers to the travelMode input. By default travelMode is set to car */
+  sectionType?: Array<
     | "carTrain"
     | "country"
     | "ferry"
@@ -290,7 +348,8 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
     | "travelMode"
     | "tunnel"
     | "carpool"
-    | "urban";
+    | "urban"
+  >;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
   vehicleAxleWeight?: number;
   /** Width of the vehicle in meters. A value of 0 means that width restrictions are not considered. */
@@ -327,7 +386,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   hilliness?: "low" | "normal" | "high";
-  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
+  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. */
   travelMode?:
     | "car"
     | "truck"
@@ -337,7 +396,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
     | "motorcycle"
     | "bicycle"
     | "pedestrian";
-  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
+  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In Route Range requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
     | "motorways"
@@ -356,7 +415,7 @@ export interface RouteGetRouteDirectionsQueryParamProperties {
   traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
+  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries/regions. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries/regions. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
     | "USHazmatClass2"
@@ -513,8 +572,8 @@ export interface RouteGetRouteDirectionsQueryParam {
   queryParameters: RouteGetRouteDirectionsQueryParamProperties;
 }
 
-export type RouteGetRouteDirectionsParameters = RouteGetRouteDirectionsQueryParam &
-  RequestParameters;
+export type RouteGetRouteDirectionsParameters =
+  RouteGetRouteDirectionsQueryParam & RequestParameters;
 
 export interface RouteGetRouteDirectionsWithAdditionalParametersBodyParam {
   /**
@@ -559,13 +618,13 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
    *   - The _vehicleHeading_ is ignored.
    */
   minDeviationTime?: number;
-  /** If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none */
+  /** If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none. */
   instructionsType?: "coded" | "text" | "tagged";
   /** The language parameter determines the language of the guidance messages. It does not affect proper nouns (the names of streets, plazas, etc.) It has no effect when instructionsType=coded. Allowed values are (a subset of) the IETF language tags described */
   language?: string;
   /** Re-order the route waypoints using a fast heuristic algorithm to reduce the route length. Yields best results when used in conjunction with routeType _shortest_. Notice that origin and destination are excluded from the optimized waypoint indices. To include origin and destination in the response, please increase all the indices by 1 to account for the origin, and then add the destination as the final index. Possible values are true or false. True computes a better order if possible, but is not allowed to be used in conjunction with maxAlternatives value greater than 0 or in conjunction with circle waypoints. False will use the locations in the given order and not allowed to be used in conjunction with routeRepresentation _none_. */
   computeBestOrder?: boolean;
-  /** Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true. */
+  /** Specifies the representation of the set of routes provided as response. */
   routeRepresentation?: "polyline" | "summaryOnly" | "none";
   /** Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time. */
   computeTravelTimeFor?: "none" | "all";
@@ -573,8 +632,8 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   vehicleHeading?: number;
   /** Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller. */
   report?: "effectiveSettings";
-  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car */
-  sectionType?:
+  /** Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Can be specified multiple times in one request, for example, '&sectionType=carTrain&sectionType=pedestrian&sectionType=motorway'. The default sectionType refers to the travelMode input. By default travelMode is set to car */
+  sectionType?: Array<
     | "carTrain"
     | "country"
     | "ferry"
@@ -586,10 +645,29 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
     | "travelMode"
     | "tunnel"
     | "carpool"
-    | "urban";
-  /** The date and time of arrival at the destination point. It must be specified as a dateTime. When a time zone offset is not specified it will be assumed to be that of the destination point. The arriveAt value must be in the future. The arriveAt parameter cannot be used in conjunction with departAt, minDeviationDistance or minDeviationTime. */
+    | "urban"
+  >;
+  /**
+   * The date and time of arrival at the destination point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified it will be assumed to be that of the destination point.
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `arriveAt` parameter cannot be used in conjunction with `departAt`, `minDeviationDistance` or `minDeviationTime`.
+   */
   arriveAt?: Date | string;
-  /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
+  /**
+   * The date and time of departure from the origin point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified, it will be assumed to be that of the origin point.
+   *   * Default value: now
+   *   * Other value: `dateTime`
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `departAt` parameter cannot be used in conjunction with `arriveAt`.
+   */
   departAt?: Date | string;
   /** Weight per axle of the vehicle in kg. A value of 0 means that weight restrictions per axle are not considered. */
   vehicleAxleWeight?: number;
@@ -627,7 +705,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   windingness?: "low" | "normal" | "high";
   /** Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling. */
   hilliness?: "low" | "normal" | "high";
-  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
+  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. */
   travelMode?:
     | "car"
     | "truck"
@@ -637,7 +715,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
     | "motorcycle"
     | "bicycle"
     | "pedestrian";
-  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
+  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In Route Range requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
     | "motorways"
@@ -656,7 +734,7 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersQueryParamProper
   traffic?: boolean;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
-  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
+  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries/regions. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries/regions. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
     | "USHazmatClass2"
@@ -818,10 +896,11 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam 
   contentType?: "application/json";
 }
 
-export type RouteGetRouteDirectionsWithAdditionalParametersParameters = RouteGetRouteDirectionsWithAdditionalParametersQueryParam &
-  RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam &
-  RouteGetRouteDirectionsWithAdditionalParametersBodyParam &
-  RequestParameters;
+export type RouteGetRouteDirectionsWithAdditionalParametersParameters =
+  RouteGetRouteDirectionsWithAdditionalParametersQueryParam &
+    RouteGetRouteDirectionsWithAdditionalParametersMediaTypesParam &
+    RouteGetRouteDirectionsWithAdditionalParametersBodyParam &
+    RequestParameters;
 
 export interface RouteGetRouteRangeQueryParamProperties {
   /** The Coordinate from which the range calculation should start. */
@@ -834,7 +913,17 @@ export interface RouteGetRouteRangeQueryParamProperties {
   timeBudgetInSec?: number;
   /** Distance budget in meters that determines maximal range which can be travelled using driving distance.  The Consumption Model will only affect the range when routeType is eco.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used. */
   distanceBudgetInMeters?: number;
-  /** The date and time of departure from the origin point. Departure times apart from now must be specified as a dateTime. When a time zone offset is not specified, it will be assumed to be that of the origin point. The departAt value must be in the future in the date-time format (1996-12-19T16:39:57-08:00). */
+  /**
+   * The date and time of departure from the origin point formatted as a `dateTime` value as defined in [RFC 3339, section 5.6](https://www.rfc-editor.org/rfc/rfc3339#section-5.6), with an optional time zone offset. When a time zone offset is not specified, it will be assumed to be that of the origin point.
+   *   * Default value: now
+   *   * Other value: `dateTime`
+   *
+   * Examples:
+   *   * 2023-12-19T16:39:57
+   *   * 2023-12-19T16:39:57-08:00
+   *
+   * The `departAt` parameter cannot be used in conjunction with `arriveAt`.
+   */
   departAt?: Date | string;
   /** The type of route requested. */
   routeType?: "fastest" | "shortest" | "eco" | "thrilling";
@@ -845,7 +934,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
    *   during routing, the effect of historic traffic on effective road speeds is still incorporated.
    */
   traffic?: boolean;
-  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used. */
+  /** Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In Route Range requests, the value alreadyUsedRoads must not be used. */
   avoid?: Array<
     | "tollRoads"
     | "motorways"
@@ -855,7 +944,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
     | "alreadyUsedRoads"
     | "borderCrossings"
   >;
-  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used. */
+  /** The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. */
   travelMode?:
     | "car"
     | "truck"
@@ -901,7 +990,7 @@ export interface RouteGetRouteRangeQueryParamProperties {
   vehicleWeight?: number;
   /** Whether the vehicle is used for commercial purposes. Commercial vehicles may not be allowed to drive on some roads. */
   vehicleCommercial?: boolean;
-  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
+  /** Types of cargo that may be classified as hazardous materials and restricted from some roads. Available vehicleLoadType values are US Hazmat classes 1 through 9, plus generic classifications for use in other countries/regions. Values beginning with USHazmat are for US routing while otherHazmat should be used for all other countries/regions. vehicleLoadType can be specified multiple times. This parameter is currently only considered for travelMode=truck. */
   vehicleLoadType?:
     | "USHazmatClass1"
     | "USHazmatClass2"
@@ -1071,9 +1160,10 @@ export interface RouteRequestRouteDirectionsBatchMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteRequestRouteDirectionsBatchParameters = RouteRequestRouteDirectionsBatchMediaTypesParam &
-  RouteRequestRouteDirectionsBatchBodyParam &
-  RequestParameters;
+export type RouteRequestRouteDirectionsBatchParameters =
+  RouteRequestRouteDirectionsBatchMediaTypesParam &
+    RouteRequestRouteDirectionsBatchBodyParam &
+    RequestParameters;
 export type RouteGetRouteDirectionsBatchParameters = RequestParameters;
 
 export interface RouteRequestRouteDirectionsBatchSyncBodyParam {
@@ -1086,6 +1176,7 @@ export interface RouteRequestRouteDirectionsBatchSyncMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type RouteRequestRouteDirectionsBatchSyncParameters = RouteRequestRouteDirectionsBatchSyncMediaTypesParam &
-  RouteRequestRouteDirectionsBatchSyncBodyParam &
-  RequestParameters;
+export type RouteRequestRouteDirectionsBatchSyncParameters =
+  RouteRequestRouteDirectionsBatchSyncMediaTypesParam &
+    RouteRequestRouteDirectionsBatchSyncBodyParam &
+    RequestParameters;

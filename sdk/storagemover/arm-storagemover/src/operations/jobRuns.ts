@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { JobRuns } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { JobRuns } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageMoverClient } from "../storageMoverClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageMoverClient } from "../storageMoverClient.js";
 import {
   JobRun,
   JobRunsListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   JobRunsListResponse,
   JobRunsGetOptionalParams,
   JobRunsGetResponse,
-  JobRunsListNextResponse
-} from "../models";
+  JobRunsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing JobRuns operations. */
@@ -49,14 +49,14 @@ export class JobRunsImpl implements JobRuns {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobRunsListOptionalParams
+    options?: JobRunsListOptionalParams,
   ): PagedAsyncIterableIterator<JobRun> {
     const iter = this.listPagingAll(
       resourceGroupName,
       storageMoverName,
       projectName,
       jobDefinitionName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class JobRunsImpl implements JobRuns {
           projectName,
           jobDefinitionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class JobRunsImpl implements JobRuns {
     projectName: string,
     jobDefinitionName: string,
     options?: JobRunsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobRun[]> {
     let result: JobRunsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class JobRunsImpl implements JobRuns {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class JobRunsImpl implements JobRuns {
         projectName,
         jobDefinitionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,14 +125,14 @@ export class JobRunsImpl implements JobRuns {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobRunsListOptionalParams
+    options?: JobRunsListOptionalParams,
   ): AsyncIterableIterator<JobRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       storageMoverName,
       projectName,
       jobDefinitionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,7 +151,7 @@ export class JobRunsImpl implements JobRuns {
     storageMoverName: string,
     projectName: string,
     jobDefinitionName: string,
-    options?: JobRunsListOptionalParams
+    options?: JobRunsListOptionalParams,
   ): Promise<JobRunsListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -159,9 +159,9 @@ export class JobRunsImpl implements JobRuns {
         storageMoverName,
         projectName,
         jobDefinitionName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -180,7 +180,7 @@ export class JobRunsImpl implements JobRuns {
     projectName: string,
     jobDefinitionName: string,
     jobRunName: string,
-    options?: JobRunsGetOptionalParams
+    options?: JobRunsGetOptionalParams,
   ): Promise<JobRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -189,9 +189,9 @@ export class JobRunsImpl implements JobRuns {
         projectName,
         jobDefinitionName,
         jobRunName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -210,7 +210,7 @@ export class JobRunsImpl implements JobRuns {
     projectName: string,
     jobDefinitionName: string,
     nextLink: string,
-    options?: JobRunsListNextOptionalParams
+    options?: JobRunsListNextOptionalParams,
   ): Promise<JobRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -219,9 +219,9 @@ export class JobRunsImpl implements JobRuns {
         projectName,
         jobDefinitionName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -229,40 +229,15 @@ export class JobRunsImpl implements JobRuns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobRunList
+      bodyMapper: Mappers.JobRunList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageMoverName,
-    Parameters.projectName,
-    Parameters.jobDefinitionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns/{jobRunName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobRun
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -272,21 +247,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.storageMoverName,
     Parameters.projectName,
     Parameters.jobDefinitionName,
-    Parameters.jobRunName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/projects/{projectName}/jobDefinitions/{jobDefinitionName}/jobRuns/{jobRunName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobRun,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageMoverName,
+    Parameters.projectName,
+    Parameters.jobDefinitionName,
+    Parameters.jobRunName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobRunList
+      bodyMapper: Mappers.JobRunList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -295,8 +293,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageMoverName,
     Parameters.projectName,
-    Parameters.jobDefinitionName
+    Parameters.jobDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

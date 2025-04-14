@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectionPolicyOperationStatuses } from "../operationsInterfaces";
+import { ProtectionPolicyOperationStatuses } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   ProtectionPolicyOperationStatusesGetOptionalParams,
-  ProtectionPolicyOperationStatusesGetResponse
-} from "../models";
+  ProtectionPolicyOperationStatusesGetResponse,
+} from "../models/index.js";
 
 /** Class containing ProtectionPolicyOperationStatuses operations. */
 export class ProtectionPolicyOperationStatusesImpl
-  implements ProtectionPolicyOperationStatuses {
+  implements ProtectionPolicyOperationStatuses
+{
   private readonly client: RecoveryServicesBackupClient;
 
   /**
@@ -47,11 +48,11 @@ export class ProtectionPolicyOperationStatusesImpl
     resourceGroupName: string,
     policyName: string,
     operationId: string,
-    options?: ProtectionPolicyOperationStatusesGetOptionalParams
+    options?: ProtectionPolicyOperationStatusesGetOptionalParams,
   ): Promise<ProtectionPolicyOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, policyName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -59,16 +60,15 @@ export class ProtectionPolicyOperationStatusesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -77,8 +77,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * The default AAD permissions scope for Cognitive Services.
@@ -10,4 +10,6 @@ export const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.def
 /**
  * @internal
  */
-export const SDK_VERSION = "4.1.0-beta.1";
+export const SDK_VERSION = "5.0.0";
+
+export const FORM_RECOGNIZER_API_VERSION = "2023-07-31";

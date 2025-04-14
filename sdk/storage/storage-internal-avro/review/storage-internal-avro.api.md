@@ -4,9 +4,12 @@
 
 ```ts
 
-/// <reference types="node" />
+import type { AbortSignalLike } from '@azure/abort-controller';
 
-import { AbortSignalLike } from '@azure/abort-controller';
+// @public
+export interface AvroParseOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public (undocumented)
 export abstract class AvroReadable {
@@ -37,8 +40,6 @@ export class AvroReader {
     hasNext(): boolean;
     // (undocumented)
     get objectIndex(): number;
-    // Warning: (ae-forgotten-export) The symbol "AvroParseOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     parseObjects(options?: AvroParseOptions): AsyncIterableIterator<Record<string, any> | null>;
 }

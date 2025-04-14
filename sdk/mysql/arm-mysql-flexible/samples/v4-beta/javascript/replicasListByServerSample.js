@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the replicas for a given server.
  *
  * @summary List all the replicas for a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ReplicasListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ReplicasListByServer.json
  */
 async function listReplicasForAServer() {
   const subscriptionId =

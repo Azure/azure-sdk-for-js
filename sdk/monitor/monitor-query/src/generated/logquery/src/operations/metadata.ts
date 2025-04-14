@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Metadata } from "../operationsInterfaces";
+import { Metadata } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext.js";
 import {
   MetadataGetOptionalParams,
   MetadataGetResponse,
   MetadataPostOptionalParams,
   MetadataPostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Metadata operations. */
 export class MetadataImpl implements Metadata {
@@ -33,8 +33,8 @@ export class MetadataImpl implements Metadata {
   /**
    * Retrieve the metadata information for the workspace, including its schema, functions, workspace
    * info, categories etc.
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param options The options parameters.
    */
   get(
@@ -50,8 +50,8 @@ export class MetadataImpl implements Metadata {
   /**
    * Retrieve the metadata information for the workspace, including its schema, functions, workspace
    * info, categories etc.
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param options The options parameters.
    */
   post(

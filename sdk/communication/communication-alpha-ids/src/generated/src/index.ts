@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { AlphaIDsClient } from "./alphaIDsClient";
-export * from "./operationsInterfaces";
+/// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AlphaIDsClient } from "./alphaIDsClient.js";
+export * from "./operationsInterfaces/index.js";

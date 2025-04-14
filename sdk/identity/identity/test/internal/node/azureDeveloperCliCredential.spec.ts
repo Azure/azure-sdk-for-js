@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import Sinon, { createSandbox } from "sinon";
-import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential";
-import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "chai";
-import child_process from "child_process";
+// Licensed under the MIT License.
+import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential.js";
+import type { GetTokenOptions } from "@azure/core-auth";
+import child_process, { type ChildProcess } from "node:child_process";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
-  let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
   let azdArgs: string[][] = [];
-  let azdOptions: { cwd: string; shell: boolean }[] = [];
+  let azdOptions: { cwd: string }[] = [];
 
   beforeEach(async function () {
-    sandbox = createSandbox();
     azdArgs = [];
     azdOptions = [];
-    sandbox
-      .stub(child_process, "execFile")
-      .callsFake((_file, args, options, callback): child_process.ChildProcess => {
+    vi.spyOn(child_process, "execFile").mockImplementation(
+      (_file, args, options, callback): ChildProcess => {
         azdArgs.push(args as string[]);
-        azdOptions.push(options as { cwd: string; shell: boolean });
+        azdOptions.push(options as { cwd: string });
         if (callback) {
           callback(null, stdout, stderr);
         }
         // Bypassing the type check. We don't use this return value in our code.
-        return {} as child_process.ChildProcess;
-      });
+        return {} as ChildProcess;
+      },
+    );
   });
 
   afterEach(async function () {
-    sandbox?.restore();
+    vi.restoreAllMocks();
   });
 
   it("get access token without error", async function () {
@@ -48,9 +44,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true },
     );
   });
 
@@ -78,9 +73,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true },
     );
   });
 
@@ -108,9 +102,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
-        shell: azdOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true },
     );
   });
 
@@ -125,7 +118,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
         );
       }
     } else {
@@ -138,7 +131,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
         );
       }
     }
@@ -166,4 +159,51 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       assert.equal(error.message, "mock other access token error");
     }
   });
+
+  for (const tenantId of [
+    "&quot;invalid-tenant-id&quot;",
+    " ",
+    "12345678-1234-1234-1234-123456789012|",
+    "12345678-1234-1234-1234-123456789012 |",
+    "<",
+    ">",
+    "\0",
+    "<12345678-1234-1234-1234-123456789012>",
+    "12345678-1234-1234-1234-123456789012&",
+    "12345678-1234-1234-1234-123456789012;",
+    "12345678-1234-1234-1234-123456789012'",
+  ]) {
+    const tenantIdErrorMessage =
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
+      const credential = new AzureDeveloperCliCredential();
+      await expect(
+        credential.getToken("https://service/.default", {
+          tenantId: tenantId,
+        }),
+      ).rejects.toThrow(tenantIdErrorMessage);
+    });
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
+      assert.throws(() => {
+        new AzureDeveloperCliCredential({ tenantId: tenantId });
+      }, tenantIdErrorMessage);
+    });
+  }
+
+  for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+          ? "null character"
+          : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
+      const credential = new AzureDeveloperCliCredential();
+      await expect(credential.getToken(inputScope)).rejects.toThrow(
+        "Invalid scope was specified by the user or calling client",
+      );
+    });
+  }
 });

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** An error response from the service. */
 export interface CloudErrorOutput {
@@ -24,7 +24,7 @@ export interface ApplicationGatewayOutput extends ResourceOutput {
   /** Properties of the application gateway. */
   properties?: ApplicationGatewayPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: Array<string>;
   /** The identity of the application gateway, if configured. */
@@ -38,7 +38,7 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** SSL policy of the application gateway resource. */
   sslPolicy?: ApplicationGatewaySslPolicyOutput;
   /** Operational state of the application gateway resource. */
-  operationalState?: "Stopped" | "Starting" | "Running" | "Stopping";
+  readonly operationalState?: "Stopped" | "Starting" | "Running" | "Stopping";
   /** Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   gatewayIPConfigurations?: Array<ApplicationGatewayIPConfigurationOutput>;
   /** Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
@@ -90,11 +90,11 @@ export interface ApplicationGatewayPropertiesFormatOutput {
   /** PrivateLink configurations on application gateway. */
   privateLinkConfigurations?: Array<ApplicationGatewayPrivateLinkConfigurationOutput>;
   /** Private Endpoint connections on application gateway. */
-  privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
+  readonly privateEndpointConnections?: Array<ApplicationGatewayPrivateEndpointConnectionOutput>;
   /** The resource GUID property of the application gateway resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the application gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Custom error configurations of the application gateway resource. */
   customErrorConfigurations?: Array<ApplicationGatewayCustomErrorOutput>;
   /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
@@ -177,9 +177,9 @@ export interface ApplicationGatewayIPConfigurationOutput extends SubResourceOutp
   /** Name of the IP configuration that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of IP configuration of an application gateway. */
@@ -187,7 +187,7 @@ export interface ApplicationGatewayIPConfigurationPropertiesFormatOutput {
   /** Reference to the subnet resource. A subnet from where application gateway gets its private address. */
   subnet?: SubResourceOutput;
   /** The provisioning state of the application gateway IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Reference to another subresource. */
@@ -203,9 +203,9 @@ export interface ApplicationGatewayAuthenticationCertificateOutput extends SubRe
   /** Name of the authentication certificate that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Authentication certificates properties of an application gateway. */
@@ -213,7 +213,7 @@ export interface ApplicationGatewayAuthenticationCertificatePropertiesFormatOutp
   /** Certificate public data. */
   data?: string;
   /** The provisioning state of the authentication certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Trusted Root certificates of an application gateway. */
@@ -223,9 +223,9 @@ export interface ApplicationGatewayTrustedRootCertificateOutput extends SubResou
   /** Name of the trusted root certificate that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Trusted Root certificates properties of an application gateway. */
@@ -235,7 +235,7 @@ export interface ApplicationGatewayTrustedRootCertificatePropertiesFormatOutput 
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the trusted root certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Trusted client certificates of an application gateway. */
@@ -245,9 +245,9 @@ export interface ApplicationGatewayTrustedClientCertificateOutput extends SubRes
   /** Name of the trusted client certificate that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Trusted client certificates properties of an application gateway. */
@@ -255,11 +255,11 @@ export interface ApplicationGatewayTrustedClientCertificatePropertiesFormatOutpu
   /** Certificate public data. */
   data?: string;
   /** Validated certificate data. */
-  validatedCertData?: string;
+  readonly validatedCertData?: string;
   /** Distinguished name of client certificate issuer. */
-  clientCertIssuerDN?: string;
+  readonly clientCertIssuerDN?: string;
   /** The provisioning state of the trusted client certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** SSL certificates of an application gateway. */
@@ -269,9 +269,9 @@ export interface ApplicationGatewaySslCertificateOutput extends SubResourceOutpu
   /** Name of the SSL certificate that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of SSL certificates of an application gateway. */
@@ -281,11 +281,11 @@ export interface ApplicationGatewaySslCertificatePropertiesFormatOutput {
   /** Password for the pfx file specified in data. Only applicable in PUT request. */
   password?: string;
   /** Base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request. */
-  publicCertData?: string;
+  readonly publicCertData?: string;
   /** Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault. */
   keyVaultSecretId?: string;
   /** The provisioning state of the SSL certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Frontend IP configuration of an application gateway. */
@@ -295,9 +295,9 @@ export interface ApplicationGatewayFrontendIPConfigurationOutput extends SubReso
   /** Name of the frontend IP configuration that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Frontend IP configuration of an application gateway. */
@@ -313,7 +313,7 @@ export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormatOutput
   /** Reference to the application gateway private link configuration. */
   privateLinkConfiguration?: SubResourceOutput;
   /** The provisioning state of the frontend IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Frontend port of an application gateway. */
@@ -323,9 +323,9 @@ export interface ApplicationGatewayFrontendPortOutput extends SubResourceOutput 
   /** Name of the frontend port that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Frontend port of an application gateway. */
@@ -333,7 +333,7 @@ export interface ApplicationGatewayFrontendPortPropertiesFormatOutput {
   /** Frontend port. */
   port?: number;
   /** The provisioning state of the frontend port resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Probe of the application gateway. */
@@ -343,9 +343,9 @@ export interface ApplicationGatewayProbeOutput extends SubResourceOutput {
   /** Name of the probe that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of probe of an application gateway. */
@@ -371,7 +371,7 @@ export interface ApplicationGatewayProbePropertiesFormatOutput {
   /** Criterion for classifying a healthy probe response. */
   match?: ApplicationGatewayProbeHealthResponseMatchOutput;
   /** The provisioning state of the probe resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Standard_v2 and WAF_v2 only. */
   port?: number;
 }
@@ -391,19 +391,19 @@ export interface ApplicationGatewayBackendAddressPoolOutput extends SubResourceO
   /** Name of the backend address pool that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Backend Address Pool of an application gateway. */
 export interface ApplicationGatewayBackendAddressPoolPropertiesFormatOutput {
   /** Collection of references to IPs defined in network interfaces. */
-  backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
+  readonly backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
   /** Backend addresses. */
   backendAddresses?: Array<ApplicationGatewayBackendAddressOutput>;
   /** The provisioning state of the backend address pool resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** IPConfiguration in a network interface. */
@@ -413,7 +413,7 @@ export interface NetworkInterfaceIPConfigurationOutput extends SubResourceOutput
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
   type?: string;
 }
@@ -445,9 +445,9 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormatOutput {
   /** Application security groups in which the IP configuration is included. */
   applicationSecurityGroups?: Array<ApplicationSecurityGroupOutput>;
   /** The provisioning state of the network interface IP configuration. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** PrivateLinkConnection properties for the network interface. */
-  privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput;
+  readonly privateLinkConnectionProperties?: NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput;
 }
 
 /** Virtual Network Tap resource. */
@@ -455,17 +455,17 @@ export interface VirtualNetworkTapOutput extends ResourceOutput {
   /** Virtual Network Tap Properties. */
   properties?: VirtualNetworkTapPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Virtual Network Tap properties. */
 export interface VirtualNetworkTapPropertiesFormatOutput {
   /** Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped. */
-  networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
+  readonly networkInterfaceTapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
   /** The resource GUID property of the virtual network tap resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the virtual network tap resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The reference to the private IP Address of the collector nic that will receive the tap. */
   destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
   /** The reference to the private IP address on the internal Load Balancer that will receive the tap. */
@@ -481,9 +481,9 @@ export interface NetworkInterfaceTapConfigurationOutput extends SubResourceOutpu
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Sub Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Virtual Network Tap configuration. */
@@ -491,7 +491,7 @@ export interface NetworkInterfaceTapConfigurationPropertiesFormatOutput {
   /** The reference to the Virtual Network Tap resource. */
   virtualNetworkTap?: VirtualNetworkTapOutput;
   /** The provisioning state of the network interface tap configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Frontend IP address of the load balancer. */
@@ -501,9 +501,9 @@ export interface FrontendIPConfigurationOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
   /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
   zones?: Array<string>;
 }
@@ -511,13 +511,13 @@ export interface FrontendIPConfigurationOutput extends SubResourceOutput {
 /** Properties of Frontend IP Configuration of the load balancer. */
 export interface FrontendIPConfigurationPropertiesFormatOutput {
   /** An array of references to inbound rules that use this frontend IP. */
-  inboundNatRules?: Array<SubResourceOutput>;
+  readonly inboundNatRules?: Array<SubResourceOutput>;
   /** An array of references to inbound pools that use this frontend IP. */
-  inboundNatPools?: Array<SubResourceOutput>;
+  readonly inboundNatPools?: Array<SubResourceOutput>;
   /** An array of references to outbound rules that use this frontend IP. */
-  outboundRules?: Array<SubResourceOutput>;
+  readonly outboundRules?: Array<SubResourceOutput>;
   /** An array of references to load balancing rules that use this frontend IP. */
-  loadBalancingRules?: Array<SubResourceOutput>;
+  readonly loadBalancingRules?: Array<SubResourceOutput>;
   /** The private IP address of the IP configuration. */
   privateIPAddress?: string;
   /** The Private IP allocation method. */
@@ -533,7 +533,7 @@ export interface FrontendIPConfigurationPropertiesFormatOutput {
   /** The reference to gateway load balancer frontend IP. */
   gatewayLoadBalancer?: SubResourceOutput;
   /** The provisioning state of the frontend IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Subnet in a virtual network resource. */
@@ -543,7 +543,7 @@ export interface SubnetOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
   type?: string;
 }
@@ -565,23 +565,23 @@ export interface SubnetPropertiesFormatOutput {
   /** An array of service endpoint policies. */
   serviceEndpointPolicies?: Array<ServiceEndpointPolicyOutput>;
   /** An array of references to private endpoints. */
-  privateEndpoints?: Array<PrivateEndpointOutput>;
+  readonly privateEndpoints?: Array<PrivateEndpointOutput>;
   /** An array of references to the network interface IP configurations using subnet. */
-  ipConfigurations?: Array<IPConfigurationOutput>;
+  readonly ipConfigurations?: Array<IPConfigurationOutput>;
   /** Array of IP configuration profiles which reference this subnet. */
-  ipConfigurationProfiles?: Array<IPConfigurationProfileOutput>;
+  readonly ipConfigurationProfiles?: Array<IPConfigurationProfileOutput>;
   /** Array of IpAllocation which reference this subnet. */
   ipAllocations?: Array<SubResourceOutput>;
   /** An array of references to the external resources using subnet. */
-  resourceNavigationLinks?: Array<ResourceNavigationLinkOutput>;
+  readonly resourceNavigationLinks?: Array<ResourceNavigationLinkOutput>;
   /** An array of references to services injecting into this subnet. */
-  serviceAssociationLinks?: Array<ServiceAssociationLinkOutput>;
+  readonly serviceAssociationLinks?: Array<ServiceAssociationLinkOutput>;
   /** An array of references to the delegations on the subnet. */
   delegations?: Array<DelegationOutput>;
   /** A read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties. */
-  purpose?: string;
+  readonly purpose?: string;
   /** The provisioning state of the subnet resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Enable or Disable apply network policies on private end point in the subnet. */
   privateEndpointNetworkPolicies?: "Enabled" | "Disabled";
   /** Enable or Disable apply network policies on private link service in the subnet. */
@@ -595,7 +595,7 @@ export interface NetworkSecurityGroupOutput extends ResourceOutput {
   /** Properties of the network security group. */
   properties?: NetworkSecurityGroupPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Network Security Group resource. */
@@ -605,17 +605,17 @@ export interface NetworkSecurityGroupPropertiesFormatOutput {
   /** A collection of security rules of the network security group. */
   securityRules?: Array<SecurityRuleOutput>;
   /** The default security rules of network security group. */
-  defaultSecurityRules?: Array<SecurityRuleOutput>;
+  readonly defaultSecurityRules?: Array<SecurityRuleOutput>;
   /** A collection of references to network interfaces. */
-  networkInterfaces?: Array<NetworkInterfaceOutput>;
+  readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
   /** A collection of references to subnets. */
-  subnets?: Array<SubnetOutput>;
+  readonly subnets?: Array<SubnetOutput>;
   /** A collection of references to flow log resources. */
-  flowLogs?: Array<FlowLogOutput>;
+  readonly flowLogs?: Array<FlowLogOutput>;
   /** The resource GUID property of the network security group resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the network security group resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Network security rule. */
@@ -625,7 +625,7 @@ export interface SecurityRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The type of the resource. */
   type?: string;
 }
@@ -663,7 +663,7 @@ export interface SecurityRulePropertiesFormatOutput {
   /** The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic. */
   direction: "Inbound" | "Outbound";
   /** The provisioning state of the security rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** An application security group in a resource group. */
@@ -671,15 +671,15 @@ export interface ApplicationSecurityGroupOutput extends ResourceOutput {
   /** Properties of the application security group. */
   properties?: ApplicationSecurityGroupPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Application security group properties. */
 export interface ApplicationSecurityGroupPropertiesFormatOutput {
   /** The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the application security group resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Common resource representation. */
@@ -687,9 +687,9 @@ export interface ResourceOutput {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource location. */
   location?: string;
   /** Resource tags. */
@@ -703,7 +703,7 @@ export interface NetworkInterfaceOutput extends ResourceOutput {
   /** Properties of the network interface. */
   properties?: NetworkInterfacePropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** ExtendedLocation complex type. */
@@ -717,23 +717,23 @@ export interface ExtendedLocationOutput {
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormatOutput {
   /** The reference to a virtual machine. */
-  virtualMachine?: SubResourceOutput;
+  readonly virtualMachine?: SubResourceOutput;
   /** The reference to the NetworkSecurityGroup resource. */
   networkSecurityGroup?: NetworkSecurityGroupOutput;
   /** A reference to the private endpoint to which the network interface is linked. */
-  privateEndpoint?: PrivateEndpointOutput;
+  readonly privateEndpoint?: PrivateEndpointOutput;
   /** A list of IPConfigurations of the network interface. */
   ipConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
   /** A list of TapConfigurations of the network interface. */
-  tapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
+  readonly tapConfigurations?: Array<NetworkInterfaceTapConfigurationOutput>;
   /** The DNS settings in network interface. */
   dnsSettings?: NetworkInterfaceDnsSettingsOutput;
   /** The MAC address of the network interface. */
-  macAddress?: string;
+  readonly macAddress?: string;
   /** Whether this is a primary network interface on a virtual machine. */
-  primary?: boolean;
+  readonly primary?: boolean;
   /** Whether the virtual machine this nic is attached to supports encryption. */
-  vnetEncryptionSupported?: boolean;
+  readonly vnetEncryptionSupported?: boolean;
   /** If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking. */
   enableAcceleratedNetworking?: boolean;
   /** Indicates whether to disable tcp state tracking. */
@@ -741,13 +741,13 @@ export interface NetworkInterfacePropertiesFormatOutput {
   /** Indicates whether IP forwarding is enabled on this network interface. */
   enableIPForwarding?: boolean;
   /** A list of references to linked BareMetal resources. */
-  hostedWorkloads?: Array<string>;
+  readonly hostedWorkloads?: Array<string>;
   /** A reference to the dscp configuration to which the network interface is linked. */
-  dscpConfiguration?: SubResourceOutput;
+  readonly dscpConfiguration?: SubResourceOutput;
   /** The resource GUID property of the network interface resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the network interface resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** WorkloadType of the NetworkInterface for BareMetal resources */
   workloadType?: string;
   /** Type of Network Interface resource. */
@@ -767,7 +767,7 @@ export interface PrivateEndpointOutput extends ResourceOutput {
   /** Properties of the private endpoint. */
   properties?: PrivateEndpointPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the private endpoint. */
@@ -775,9 +775,9 @@ export interface PrivateEndpointPropertiesOutput {
   /** The ID of the subnet from which the private IP will be allocated. */
   subnet?: SubnetOutput;
   /** An array of references to the network interfaces created for this private endpoint. */
-  networkInterfaces?: Array<NetworkInterfaceOutput>;
+  readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
   /** The provisioning state of the private endpoint resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** A grouping of information about the connection to the remote resource. */
   privateLinkServiceConnections?: Array<PrivateLinkServiceConnectionOutput>;
   /** A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource. */
@@ -799,15 +799,15 @@ export interface PrivateLinkServiceConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** The resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the PrivateLinkServiceConnection. */
 export interface PrivateLinkServiceConnectionPropertiesOutput {
   /** The provisioning state of the private link service connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The resource id of private link service. */
   privateLinkServiceId?: string;
   /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. */
@@ -843,9 +843,9 @@ export interface PrivateEndpointIPConfigurationOutput {
   /** The name of the resource that is unique within a resource group. */
   name?: string;
   /** The resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of an IP Configuration of the private endpoint. */
@@ -863,13 +863,13 @@ export interface NetworkInterfaceDnsSettingsOutput {
   /** List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection. */
   dnsServers?: Array<string>;
   /** If the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs. */
-  appliedDnsServers?: Array<string>;
+  readonly appliedDnsServers?: Array<string>;
   /** Relative DNS name for this NIC used for internal communications between VMs in the same virtual network. */
   internalDnsNameLabel?: string;
   /** Fully qualified DNS name supporting internal communications between VMs in the same virtual network. */
-  internalFqdn?: string;
+  readonly internalFqdn?: string;
   /** Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix. */
-  internalDomainNameSuffix?: string;
+  readonly internalDomainNameSuffix?: string;
 }
 
 /** Private link service resource. */
@@ -879,7 +879,7 @@ export interface PrivateLinkServiceOutput extends ResourceOutput {
   /** Properties of the private link service. */
   properties?: PrivateLinkServicePropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the private link service. */
@@ -889,11 +889,11 @@ export interface PrivateLinkServicePropertiesOutput {
   /** An array of private link service IP configurations. */
   ipConfigurations?: Array<PrivateLinkServiceIpConfigurationOutput>;
   /** An array of references to the network interfaces created for this private link service. */
-  networkInterfaces?: Array<NetworkInterfaceOutput>;
+  readonly networkInterfaces?: Array<NetworkInterfaceOutput>;
   /** The provisioning state of the private link service resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** An array of list about connections to the private endpoint. */
-  privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
+  readonly privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
   /** The visibility list of the private link service. */
   visibility?: PrivateLinkServicePropertiesVisibilityOutput;
   /** The auto-approval list of the private link service. */
@@ -901,7 +901,7 @@ export interface PrivateLinkServicePropertiesOutput {
   /** The list of Fqdn. */
   fqdns?: Array<string>;
   /** The alias of the private link service. */
-  alias?: string;
+  readonly alias?: string;
   /** Whether the private link service is enabled for proxy protocol or not. */
   enableProxyProtocol?: boolean;
 }
@@ -913,9 +913,9 @@ export interface PrivateLinkServiceIpConfigurationOutput extends SubResourceOutp
   /** The name of private link service ip configuration. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of private link service IP configuration. */
@@ -929,7 +929,7 @@ export interface PrivateLinkServiceIpConfigurationPropertiesOutput {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the private link service IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. */
   privateIPAddressVersion?: "IPv4" | "IPv6";
 }
@@ -941,21 +941,21 @@ export interface PrivateEndpointConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** The resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesOutput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointOutput;
+  readonly privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The consumer link id. */
-  linkIdentifier?: string;
+  readonly linkIdentifier?: string;
 }
 
 /** The visibility list of the private link service. */
@@ -975,7 +975,7 @@ export interface FlowLogOutput extends ResourceOutput {
   /** Properties of the flow log. */
   properties?: FlowLogPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters that define the configuration of flow log. */
@@ -983,7 +983,7 @@ export interface FlowLogPropertiesFormatOutput {
   /** ID of network security group to which flow log will be applied. */
   targetResourceId: string;
   /** Guid of network security group to which flow log will be applied. */
-  targetResourceGuid?: string;
+  readonly targetResourceGuid?: string;
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
   /** Flag to enable/disable flow logging. */
@@ -995,7 +995,7 @@ export interface FlowLogPropertiesFormatOutput {
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsPropertiesOutput;
   /** The provisioning state of the flow log. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Parameters that define the retention policy for flow log. */
@@ -1039,7 +1039,7 @@ export interface RouteTableOutput extends ResourceOutput {
   /** Properties of the route table. */
   properties?: RouteTablePropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Route Table resource. */
@@ -1047,13 +1047,13 @@ export interface RouteTablePropertiesFormatOutput {
   /** Collection of routes contained within a route table. */
   routes?: Array<RouteOutput>;
   /** A collection of references to subnets. */
-  subnets?: Array<SubnetOutput>;
+  readonly subnets?: Array<SubnetOutput>;
   /** Whether to disable the routes learned by BGP on that route table. True means disable. */
   disableBgpRoutePropagation?: boolean;
   /** The provisioning state of the route table resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The resource GUID property of the route table. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
 }
 
 /** Route resource. */
@@ -1063,7 +1063,7 @@ export interface RouteOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The type of the resource. */
   type?: string;
 }
@@ -1077,7 +1077,7 @@ export interface RoutePropertiesFormatOutput {
   /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
   nextHopIpAddress?: string;
   /** The provisioning state of the route resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** A value indicating whether this route overrides overlapping BGP routes regardless of LPM. */
   hasBgpOverride?: boolean;
 }
@@ -1089,7 +1089,7 @@ export interface ServiceEndpointPropertiesFormatOutput {
   /** A list of locations. */
   locations?: Array<string>;
   /** The provisioning state of the service endpoint resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Service End point policy resource. */
@@ -1097,9 +1097,9 @@ export interface ServiceEndpointPolicyOutput extends ResourceOutput {
   /** Properties of the service end point policy. */
   properties?: ServiceEndpointPolicyPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Kind of service endpoint policy. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  readonly kind?: string;
 }
 
 /** Service Endpoint Policy resource. */
@@ -1107,11 +1107,11 @@ export interface ServiceEndpointPolicyPropertiesFormatOutput {
   /** A collection of service endpoint policy definitions of the service endpoint policy. */
   serviceEndpointPolicyDefinitions?: Array<ServiceEndpointPolicyDefinitionOutput>;
   /** A collection of references to subnets. */
-  subnets?: Array<SubnetOutput>;
+  readonly subnets?: Array<SubnetOutput>;
   /** The resource GUID property of the service endpoint policy resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the service endpoint policy resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The alias indicating if the policy belongs to a service */
   serviceAlias?: string;
   /** A collection of contextual service endpoint policy. */
@@ -1125,7 +1125,7 @@ export interface ServiceEndpointPolicyDefinitionOutput extends SubResourceOutput
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The type of the resource. */
   type?: string;
 }
@@ -1139,7 +1139,7 @@ export interface ServiceEndpointPolicyDefinitionPropertiesFormatOutput {
   /** A list of service resources. */
   serviceResources?: Array<string>;
   /** The provisioning state of the service endpoint policy definition resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** IP configuration. */
@@ -1149,7 +1149,7 @@ export interface IPConfigurationOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of IP configuration. */
@@ -1163,7 +1163,7 @@ export interface IPConfigurationPropertiesFormatOutput {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddressOutput;
   /** The provisioning state of the IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Public IP address resource. */
@@ -1175,7 +1175,7 @@ export interface PublicIPAddressOutput extends ResourceOutput {
   /** Public IP address properties. */
   properties?: PublicIPAddressPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
   zones?: Array<string>;
 }
@@ -1195,7 +1195,7 @@ export interface PublicIPAddressPropertiesFormatOutput {
   /** The public IP address version. */
   publicIPAddressVersion?: "IPv4" | "IPv6";
   /** The IP configuration associated with the public IP address. */
-  ipConfiguration?: IPConfigurationOutput;
+  readonly ipConfiguration?: IPConfigurationOutput;
   /** The FQDN of the DNS record associated with the public IP address. */
   dnsSettings?: PublicIPAddressDnsSettingsOutput;
   /** The DDoS protection custom policy associated with the public IP address. */
@@ -1209,9 +1209,9 @@ export interface PublicIPAddressPropertiesFormatOutput {
   /** The idle timeout of the public IP address. */
   idleTimeoutInMinutes?: number;
   /** The resource GUID property of the public IP address resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the public IP address resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The service public IP address of the public IP address resource. */
   servicePublicIPAddress?: PublicIPAddressOutput;
   /** The NatGateway for the Public IP address. */
@@ -1259,7 +1259,7 @@ export interface NatGatewayOutput extends ResourceOutput {
   /** A list of availability zones denoting the zone in which Nat Gateway should be deployed. */
   zones?: Array<string>;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** SKU of nat gateway. */
@@ -1277,11 +1277,11 @@ export interface NatGatewayPropertiesFormatOutput {
   /** An array of public ip prefixes associated with the nat gateway resource. */
   publicIpPrefixes?: Array<SubResourceOutput>;
   /** An array of references to the subnets using this nat gateway resource. */
-  subnets?: Array<SubResourceOutput>;
+  readonly subnets?: Array<SubResourceOutput>;
   /** The resource GUID property of the NAT gateway resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the NAT gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** IP configuration profile child resource. */
@@ -1291,9 +1291,9 @@ export interface IPConfigurationProfileOutput extends SubResourceOutput {
   /** The name of the resource. This name can be used to access the resource. */
   name?: string;
   /** Sub Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** IP configuration profile properties. */
@@ -1301,7 +1301,7 @@ export interface IPConfigurationProfilePropertiesFormatOutput {
   /** The reference to the subnet resource to create a container network interface ip configuration. */
   subnet?: SubnetOutput;
   /** The provisioning state of the IP configuration profile resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** ResourceNavigationLink resource. */
@@ -1311,9 +1311,9 @@ export interface ResourceNavigationLinkOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of ResourceNavigationLink. */
@@ -1323,7 +1323,7 @@ export interface ResourceNavigationLinkFormatOutput {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the resource navigation link resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** ServiceAssociationLink resource. */
@@ -1333,9 +1333,9 @@ export interface ServiceAssociationLinkOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of ServiceAssociationLink. */
@@ -1345,7 +1345,7 @@ export interface ServiceAssociationLinkPropertiesFormatOutput {
   /** Link to the external resource. */
   link?: string;
   /** The provisioning state of the service association link resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** If true, the resource can be deleted. */
   allowDelete?: boolean;
   /** A list of locations. */
@@ -1359,7 +1359,7 @@ export interface DelegationOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a subnet. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
   type?: string;
 }
@@ -1369,9 +1369,9 @@ export interface ServiceDelegationPropertiesFormatOutput {
   /** The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers). */
   serviceName?: string;
   /** The actions permitted to the service upon delegation. */
-  actions?: Array<string>;
+  readonly actions?: Array<string>;
   /** The provisioning state of the service delegation resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Pool of backend IP addresses. */
@@ -1381,9 +1381,9 @@ export interface BackendAddressPoolOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the backend address pool. */
@@ -1395,17 +1395,17 @@ export interface BackendAddressPoolPropertiesFormatOutput {
   /** An array of backend addresses. */
   loadBalancerBackendAddresses?: Array<LoadBalancerBackendAddressOutput>;
   /** An array of references to IP addresses defined in network interfaces. */
-  backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
+  readonly backendIPConfigurations?: Array<NetworkInterfaceIPConfigurationOutput>;
   /** An array of references to load balancing rules that use this backend address pool. */
-  loadBalancingRules?: Array<SubResourceOutput>;
+  readonly loadBalancingRules?: Array<SubResourceOutput>;
   /** A reference to an outbound rule that uses this backend address pool. */
-  outboundRule?: SubResourceOutput;
+  readonly outboundRule?: SubResourceOutput;
   /** An array of references to outbound rules that use this backend address pool. */
-  outboundRules?: Array<SubResourceOutput>;
+  readonly outboundRules?: Array<SubResourceOutput>;
   /** An array of references to inbound NAT rules that use this backend address pool. */
-  inboundNatRules?: Array<SubResourceOutput>;
+  readonly inboundNatRules?: Array<SubResourceOutput>;
   /** The provisioning state of the backend address pool resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Amount of seconds Load Balancer waits for before sending RESET to client and backend address. */
   drainPeriodInSeconds?: number;
 }
@@ -1439,11 +1439,11 @@ export interface LoadBalancerBackendAddressPropertiesFormatOutput {
   /** IP Address belonging to the referenced virtual network. */
   ipAddress?: string;
   /** Reference to IP address defined in network interfaces. */
-  networkInterfaceIPConfiguration?: SubResourceOutput;
+  readonly networkInterfaceIPConfiguration?: SubResourceOutput;
   /** Reference to the frontend ip address configuration defined in regional loadbalancer. */
   loadBalancerFrontendIPConfiguration?: SubResourceOutput;
   /** Collection of inbound NAT rule port mappings. */
-  inboundNatRulesPortMapping?: Array<NatRulePortMappingOutput>;
+  readonly inboundNatRulesPortMapping?: Array<NatRulePortMappingOutput>;
   /** A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections. */
   adminState?: "None" | "Up" | "Down" | "Drain";
 }
@@ -1465,9 +1465,9 @@ export interface InboundNatRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the inbound NAT rule. */
@@ -1475,7 +1475,7 @@ export interface InboundNatRulePropertiesFormatOutput {
   /** A reference to frontend IP addresses. */
   frontendIPConfiguration?: SubResourceOutput;
   /** A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP. */
-  backendIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
+  readonly backendIPConfiguration?: NetworkInterfaceIPConfigurationOutput;
   /** The reference to the transport protocol used by the load balancing rule. */
   protocol?: "Udp" | "Tcp" | "All";
   /** The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534. */
@@ -1495,17 +1495,17 @@ export interface InboundNatRulePropertiesFormatOutput {
   /** A reference to backendAddressPool resource. */
   backendAddressPool?: SubResourceOutput;
   /** The provisioning state of the inbound NAT rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** PrivateLinkConnection properties for the network interface. */
 export interface NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesOutput {
   /** The group ID for current private link connection. */
-  groupId?: string;
+  readonly groupId?: string;
   /** The required member name for current private link connection. */
-  requiredMemberName?: string;
+  readonly requiredMemberName?: string;
   /** List of FQDNs for current private link connection. */
-  fqdns?: Array<string>;
+  readonly fqdns?: Array<string>;
 }
 
 /** Backend address of an application gateway. */
@@ -1523,9 +1523,9 @@ export interface ApplicationGatewayBackendHttpSettingsOutput extends SubResource
   /** Name of the backend http settings that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Backend address pool settings of an application gateway. */
@@ -1557,7 +1557,7 @@ export interface ApplicationGatewayBackendHttpSettingsPropertiesFormatOutput {
   /** Path which should be used as a prefix for all HTTP requests. Null means no path will be prefixed. Default value is null. */
   path?: string;
   /** The provisioning state of the backend HTTP settings resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Connection draining allows open connections to a backend server to be active for a specified time after the backend server got removed from the configuration. */
@@ -1575,9 +1575,9 @@ export interface ApplicationGatewayBackendSettingsOutput extends SubResourceOutp
   /** Name of the backend settings that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Backend address pool settings of an application gateway. */
@@ -1597,7 +1597,7 @@ export interface ApplicationGatewayBackendSettingsPropertiesFormatOutput {
   /** Whether to pick server name indication from the host name of the backend server for Tls protocol. Default value is false. */
   pickHostNameFromBackendAddress?: boolean;
   /** The provisioning state of the backend HTTP settings resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Http listener of an application gateway. */
@@ -1607,9 +1607,9 @@ export interface ApplicationGatewayHttpListenerOutput extends SubResourceOutput 
   /** Name of the HTTP listener that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of HTTP listener of an application gateway. */
@@ -1629,7 +1629,7 @@ export interface ApplicationGatewayHttpListenerPropertiesFormatOutput {
   /** Applicable only if protocol is https. Enables SNI for multi-hosting. */
   requireServerNameIndication?: boolean;
   /** The provisioning state of the HTTP listener resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Custom error configurations of the HTTP listener. */
   customErrorConfigurations?: Array<ApplicationGatewayCustomErrorOutput>;
   /** Reference to the FirewallPolicy resource. */
@@ -1653,9 +1653,9 @@ export interface ApplicationGatewayListenerOutput extends SubResourceOutput {
   /** Name of the listener that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of listener of an application gateway. */
@@ -1671,7 +1671,7 @@ export interface ApplicationGatewayListenerPropertiesFormatOutput {
   /** SSL profile resource of the application gateway. */
   sslProfile?: SubResourceOutput;
   /** The provisioning state of the listener resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** SSL profile of an application gateway. */
@@ -1681,9 +1681,9 @@ export interface ApplicationGatewaySslProfileOutput extends SubResourceOutput {
   /** Name of the SSL profile that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of SSL profile of an application gateway. */
@@ -1695,7 +1695,7 @@ export interface ApplicationGatewaySslProfilePropertiesFormatOutput {
   /** Client authentication configuration of the application gateway resource. */
   clientAuthConfiguration?: ApplicationGatewayClientAuthConfigurationOutput;
   /** The provisioning state of the HTTP listener resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Application gateway client authentication configuration. */
@@ -1713,9 +1713,9 @@ export interface ApplicationGatewayUrlPathMapOutput extends SubResourceOutput {
   /** Name of the URL path map that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of UrlPathMap of the application gateway. */
@@ -1733,7 +1733,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormatOutput {
   /** Path rule of URL path map resource. */
   pathRules?: Array<ApplicationGatewayPathRuleOutput>;
   /** The provisioning state of the URL path map resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Path rule of URL path map of an application gateway. */
@@ -1743,9 +1743,9 @@ export interface ApplicationGatewayPathRuleOutput extends SubResourceOutput {
   /** Name of the path rule that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of path rule of an application gateway. */
@@ -1763,7 +1763,7 @@ export interface ApplicationGatewayPathRulePropertiesFormatOutput {
   /** Load Distribution Policy resource of URL path map path rule. */
   loadDistributionPolicy?: SubResourceOutput;
   /** The provisioning state of the path rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Reference to the FirewallPolicy resource. */
   firewallPolicy?: SubResourceOutput;
 }
@@ -1775,9 +1775,9 @@ export interface ApplicationGatewayRequestRoutingRuleOutput extends SubResourceO
   /** Name of the request routing rule that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of request routing rule of the application gateway. */
@@ -1801,7 +1801,7 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormatOutput {
   /** Load Distribution Policy resource of the application gateway. */
   loadDistributionPolicy?: SubResourceOutput;
   /** The provisioning state of the request routing rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Routing rule of an application gateway. */
@@ -1811,9 +1811,9 @@ export interface ApplicationGatewayRoutingRuleOutput extends SubResourceOutput {
   /** Name of the routing rule that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of routing rule of the application gateway. */
@@ -1829,7 +1829,7 @@ export interface ApplicationGatewayRoutingRulePropertiesFormatOutput {
   /** Listener resource of the application gateway. */
   listener?: SubResourceOutput;
   /** The provisioning state of the request routing rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Rewrite rule set of an application gateway. */
@@ -1839,7 +1839,7 @@ export interface ApplicationGatewayRewriteRuleSetOutput extends SubResourceOutpu
   /** Name of the rewrite rule set that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of rewrite rule set of the application gateway. */
@@ -1847,7 +1847,7 @@ export interface ApplicationGatewayRewriteRuleSetPropertiesFormatOutput {
   /** Rewrite rules in the rewrite rule set. */
   rewriteRules?: Array<ApplicationGatewayRewriteRuleOutput>;
   /** The provisioning state of the rewrite rule set resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Rewrite rule of an application gateway. */
@@ -1909,9 +1909,9 @@ export interface ApplicationGatewayRedirectConfigurationOutput extends SubResour
   /** Name of the redirect configuration that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of redirect configuration of the application gateway. */
@@ -1991,9 +1991,9 @@ export interface ApplicationGatewayPrivateLinkConfigurationOutput extends SubRes
   /** Name of the private link configuration that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of private link configuration on an application gateway. */
@@ -2001,7 +2001,7 @@ export interface ApplicationGatewayPrivateLinkConfigurationPropertiesOutput {
   /** An array of application gateway private link ip configurations. */
   ipConfigurations?: Array<ApplicationGatewayPrivateLinkIpConfigurationOutput>;
   /** The provisioning state of the application gateway private link configuration. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** The application gateway private link ip configuration. */
@@ -2011,9 +2011,9 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationOutput extends SubR
   /** The name of application gateway private link ip configuration. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of an application gateway private link IP configuration. */
@@ -2027,7 +2027,7 @@ export interface ApplicationGatewayPrivateLinkIpConfigurationPropertiesOutput {
   /** Whether the ip configuration is primary or not. */
   primary?: boolean;
   /** The provisioning state of the application gateway private link IP configuration. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Private Endpoint connection on an application gateway. */
@@ -2037,21 +2037,21 @@ export interface ApplicationGatewayPrivateEndpointConnectionOutput extends SubRe
   /** Name of the private endpoint connection on an application gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Private Link Resource of an application gateway. */
 export interface ApplicationGatewayPrivateEndpointConnectionPropertiesOutput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointOutput;
+  readonly privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateOutput;
   /** The provisioning state of the application gateway private endpoint connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The consumer link id. */
-  linkIdentifier?: string;
+  readonly linkIdentifier?: string;
 }
 
 /** Load Distribution Policy of an application gateway. */
@@ -2061,9 +2061,9 @@ export interface ApplicationGatewayLoadDistributionPolicyOutput extends SubResou
   /** Name of the load distribution policy that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Load Distribution Policy of an application gateway. */
@@ -2073,7 +2073,7 @@ export interface ApplicationGatewayLoadDistributionPolicyPropertiesFormatOutput 
   /** Load Distribution Targets resource of an application gateway. */
   loadDistributionAlgorithm?: "RoundRobin" | "LeastConnections" | "IpHash";
   /** The provisioning state of the Load Distribution Policy resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Load Distribution Target of an application gateway. */
@@ -2083,9 +2083,9 @@ export interface ApplicationGatewayLoadDistributionTargetOutput extends SubResou
   /** Name of the load distribution policy that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 export interface ApplicationGatewayLoadDistributionTargetPropertiesFormatOutput {
@@ -2106,9 +2106,9 @@ export interface ApplicationGatewayGlobalConfigurationOutput {
 /** Identity for the resource. */
 export interface ManagedServiceIdentityOutput {
   /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -2120,9 +2120,9 @@ export interface ManagedServiceIdentityOutput {
 
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesOutput {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  readonly clientId?: string;
 }
 
 /** Response for ListApplicationGateways API service call. */
@@ -2190,17 +2190,17 @@ export interface ApplicationGatewayPrivateLinkResourceOutput extends SubResource
   /** Name of the private link resource that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of a private link resource. */
 export interface ApplicationGatewayPrivateLinkResourcePropertiesOutput {
   /** Group identifier of private link resource. */
-  groupId?: string;
+  readonly groupId?: string;
   /** Required member names of private link resource. */
-  requiredMembers?: Array<string>;
+  readonly requiredMembers?: Array<string>;
   /** Required DNS zone names of the the private link resource. */
   requiredZoneNames?: Array<string>;
 }
@@ -2252,7 +2252,7 @@ export interface ApplicationGatewayFirewallRuleSetOutput extends ResourceOutput 
 /** Properties of the web application firewall rule set. */
 export interface ApplicationGatewayFirewallRuleSetPropertiesFormatOutput {
   /** The provisioning state of the web application firewall rule set. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of the web application firewall rule set. */
   ruleSetType: string;
   /** The version of the web application firewall rule set type. */
@@ -2397,9 +2397,9 @@ export interface ApplicationGatewayWafDynamicManifestResultOutput {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Properties of the ApplicationGatewayWafDynamicManifest . */
   properties?: ApplicationGatewayWafDynamicManifestPropertiesResultOutput;
 }
@@ -2447,7 +2447,7 @@ export interface ApplicationSecurityGroupListResultOutput {
   /** A list of application security groups. */
   value?: Array<ApplicationSecurityGroupOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** An array of available delegations. */
@@ -2455,7 +2455,7 @@ export interface AvailableDelegationsResultOutput {
   /** An array of available delegations. */
   value?: Array<AvailableDelegationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The serviceName of an AvailableDelegation indicates a possible delegation for a subnet. */
@@ -2477,7 +2477,7 @@ export interface AvailableServiceAliasesResultOutput {
   /** An array of available service aliases. */
   value?: Array<AvailableServiceAliasOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The available service alias. */
@@ -2499,7 +2499,7 @@ export interface AzureFirewallOutput extends ResourceOutput {
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: Array<string>;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the Azure Firewall. */
@@ -2515,7 +2515,7 @@ export interface AzureFirewallPropertiesFormatOutput {
   /** IP configuration of the Azure Firewall used for management traffic. */
   managementIpConfiguration?: AzureFirewallIPConfigurationOutput;
   /** The provisioning state of the Azure firewall resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The operation mode for Threat Intelligence. */
   threatIntelMode?: "Alert" | "Deny" | "Off";
   /** The virtualHub to which the firewall belongs. */
@@ -2525,7 +2525,7 @@ export interface AzureFirewallPropertiesFormatOutput {
   /** IP addresses associated with AzureFirewall. */
   hubIPAddresses?: HubIPAddressesOutput;
   /** IpGroups associated with AzureFirewall. */
-  ipGroups?: Array<AzureFirewallIpGroupsOutput>;
+  readonly ipGroups?: Array<AzureFirewallIpGroupsOutput>;
   /** The Azure Firewall Resource SKU. */
   sku?: AzureFirewallSkuOutput;
   /** The additional properties used to further config this azure firewall. */
@@ -2539,7 +2539,7 @@ export interface AzureFirewallApplicationRuleCollectionOutput extends SubResourc
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the application rule collection. */
@@ -2551,7 +2551,7 @@ export interface AzureFirewallApplicationRuleCollectionPropertiesFormatOutput {
   /** Collection of rules used by a application rule collection. */
   rules?: Array<AzureFirewallApplicationRuleOutput>;
   /** The provisioning state of the application rule collection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Properties of the AzureFirewallRCAction. */
@@ -2593,7 +2593,7 @@ export interface AzureFirewallNatRuleCollectionOutput extends SubResourceOutput 
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the NAT rule collection. */
@@ -2605,7 +2605,7 @@ export interface AzureFirewallNatRuleCollectionPropertiesOutput {
   /** Collection of rules used by a NAT rule collection. */
   rules?: Array<AzureFirewallNatRuleOutput>;
   /** The provisioning state of the NAT rule collection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** AzureFirewall NAT Rule Collection Action. */
@@ -2645,7 +2645,7 @@ export interface AzureFirewallNetworkRuleCollectionOutput extends SubResourceOut
   /** The name of the resource that is unique within the Azure firewall. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the network rule collection. */
@@ -2657,7 +2657,7 @@ export interface AzureFirewallNetworkRuleCollectionPropertiesFormatOutput {
   /** Collection of rules used by a network rule collection. */
   rules?: Array<AzureFirewallNetworkRuleOutput>;
   /** The provisioning state of the network rule collection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Properties of the network rule. */
@@ -2689,21 +2689,21 @@ export interface AzureFirewallIPConfigurationOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of IP configuration of an Azure Firewall. */
 export interface AzureFirewallIPConfigurationPropertiesFormatOutput {
   /** The Firewall Internal Load Balancer IP to be used as the next hop in User Defined Routes. */
-  privateIPAddress?: string;
+  readonly privateIPAddress?: string;
   /** Reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or 'AzureFirewallManagementSubnet'. */
   subnet?: SubResourceOutput;
   /** Reference to the PublicIP resource. This field is a mandatory input if subnet is not null. */
   publicIPAddress?: SubResourceOutput;
   /** The provisioning state of the Azure firewall IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** IP addresses associated with azure firewall. */
@@ -2731,9 +2731,9 @@ export interface AzureFirewallPublicIPAddressOutput {
 /** IpGroups associated with azure firewall. */
 export interface AzureFirewallIpGroupsOutput {
   /** Resource ID. */
-  id?: string;
+  readonly id?: string;
   /** The iteration number. */
-  changeNumber?: string;
+  readonly changeNumber?: string;
 }
 
 /** SKU of an Azure Firewall. */
@@ -2771,15 +2771,15 @@ export interface AzureFirewallFqdnTagOutput extends ResourceOutput {
   /** Properties of the azure firewall FQDN tag. */
   properties?: AzureFirewallFqdnTagPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Azure Firewall FQDN Tag Properties. */
 export interface AzureFirewallFqdnTagPropertiesFormatOutput {
   /** The provisioning state of the Azure firewall FQDN tag resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The name of this FQDN Tag. */
-  fqdnTagName?: string;
+  readonly fqdnTagName?: string;
 }
 
 /** Azure Web Category Resource. */
@@ -2789,17 +2789,17 @@ export interface AzureWebCategoryOutput {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Azure Web Category Properties. */
 export interface AzureWebCategoryPropertiesFormatOutput {
   /** The name of the group that the category belongs to. */
-  group?: string;
+  readonly group?: string;
 }
 
 /** Response for ListAzureWebCategories API service call. */
@@ -2815,7 +2815,7 @@ export interface BastionHostOutput extends ResourceOutput {
   /** Represents the bastion host resource. */
   properties?: BastionHostPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The sku of this Bastion Host. */
   sku?: SkuOutput;
 }
@@ -2827,7 +2827,7 @@ export interface BastionHostPropertiesFormatOutput {
   /** FQDN for the endpoint on which bastion host is accessible. */
   dnsName?: string;
   /** The provisioning state of the bastion host resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The scale units for the Bastion Host resource. */
   scaleUnits?: number;
   /** Enable/Disable Copy/Paste feature of the Bastion Host resource. */
@@ -2849,9 +2849,9 @@ export interface BastionHostIPConfigurationOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Ip configuration type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of IP configuration of an Bastion Host. */
@@ -2861,7 +2861,7 @@ export interface BastionHostIPConfigurationPropertiesFormatOutput {
   /** Reference of the PublicIP resource. */
   publicIPAddress: SubResourceOutput;
   /** The provisioning state of the bastion host IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Private IP allocation method. */
   privateIPAllocationMethod?: "Static" | "Dynamic";
 }
@@ -2885,11 +2885,11 @@ export interface BastionShareableLinkOutput {
   /** Reference of the virtual machine resource. */
   vm: VmOutput;
   /** The unique Bastion Shareable Link to the virtual machine. */
-  bsl?: string;
+  readonly bsl?: string;
   /** The time when the link was created. */
-  createdAt?: string;
+  readonly createdAt?: string;
   /** Optional field indicating the warning or error message related to the vm in case of partial failure. */
-  message?: string;
+  readonly message?: string;
 }
 
 /** Describes a Virtual Machine. */
@@ -2914,27 +2914,27 @@ export interface BastionActiveSessionListResultOutput {
 /** The session detail for a target. */
 export interface BastionActiveSessionOutput {
   /** A unique id for the session. */
-  sessionId?: string;
+  readonly sessionId?: string;
   /** The time when the session started. */
-  startTime?: Record<string, unknown>;
+  readonly startTime?: Record<string, unknown>;
   /** The subscription id for the target virtual machine. */
-  targetSubscriptionId?: string;
+  readonly targetSubscriptionId?: string;
   /** The type of the resource. */
-  resourceType?: string;
+  readonly resourceType?: string;
   /** The host name of the target. */
-  targetHostName?: string;
+  readonly targetHostName?: string;
   /** The resource group of the target. */
-  targetResourceGroup?: string;
+  readonly targetResourceGroup?: string;
   /** The user name who is active on this session. */
-  userName?: string;
+  readonly userName?: string;
   /** The IP Address of the target. */
-  targetIpAddress?: string;
+  readonly targetIpAddress?: string;
   /** The protocol used to connect to the target. */
-  protocol?: "SSH" | "RDP";
+  readonly protocol?: "SSH" | "RDP";
   /** The resource id of the target. */
-  targetResourceId?: string;
+  readonly targetResourceId?: string;
   /** Duration in mins the session has been active. */
-  sessionDurationInMins?: number;
+  readonly sessionDurationInMins?: number;
 }
 
 /** Response for DisconnectActiveSessions. */
@@ -2948,11 +2948,11 @@ export interface BastionSessionDeleteResultOutput {
 /** The session state detail for a target. */
 export interface BastionSessionStateOutput {
   /** A unique id for the session. */
-  sessionId?: string;
+  readonly sessionId?: string;
   /** Used for extra information. */
-  message?: string;
+  readonly message?: string;
   /** The state of the session. Disconnected/Failed/NotFound. */
-  state?: string;
+  readonly state?: string;
 }
 
 /** Response for the CheckDnsNameAvailability API service call. */
@@ -2966,7 +2966,7 @@ export interface NetworkInterfaceListResultOutput {
   /** A list of network interfaces in a resource group. */
   value?: Array<NetworkInterfaceOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListPublicIpAddresses API service call. */
@@ -2984,7 +2984,7 @@ export interface CustomIpPrefixOutput extends ResourceOutput {
   /** Custom IP prefix properties. */
   properties?: CustomIpPrefixPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
   zones?: Array<string>;
 }
@@ -3002,7 +3002,7 @@ export interface CustomIpPrefixPropertiesFormatOutput {
   /** The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix. */
   customIpPrefixParent?: SubResourceOutput;
   /** The list of all Children for IPv6 /48 CustomIpPrefix. */
-  childCustomIpPrefixes?: Array<SubResourceOutput>;
+  readonly childCustomIpPrefixes?: Array<SubResourceOutput>;
   /** The commissioned state of the Custom IP Prefix. */
   commissionedState?:
     | "Provisioning"
@@ -3022,13 +3022,13 @@ export interface CustomIpPrefixPropertiesFormatOutput {
   /** Type of custom IP prefix. Should be Singular, Parent, or Child. */
   prefixType?: "Singular" | "Parent" | "Child";
   /** The list of all referenced PublicIpPrefixes. */
-  publicIpPrefixes?: Array<SubResourceOutput>;
+  readonly publicIpPrefixes?: Array<SubResourceOutput>;
   /** The resource GUID property of the custom IP prefix resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The reason why resource is in failed state. */
-  failedReason?: string;
+  readonly failedReason?: string;
   /** The provisioning state of the custom IP prefix resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListCustomIpPrefixes API service call. */
@@ -3044,25 +3044,25 @@ export interface DdosCustomPolicyOutput extends ResourceOutput {
   /** Properties of the DDoS custom policy. */
   properties?: DdosCustomPolicyPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** DDoS custom policy properties. */
 export interface DdosCustomPolicyPropertiesFormatOutput {
   /** The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the DDoS custom policy resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** A DDoS protection plan in a resource group. */
 export interface DdosProtectionPlanOutput {
   /** Resource ID. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource location. */
   location?: string;
   /** Resource tags. */
@@ -3070,19 +3070,19 @@ export interface DdosProtectionPlanOutput {
   /** Properties of the DDoS protection plan. */
   properties?: DdosProtectionPlanPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** DDoS protection plan properties. */
 export interface DdosProtectionPlanPropertiesFormatOutput {
   /** The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the DDoS protection plan resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The list of public IPs associated with the DDoS protection plan resource. This list is read-only. */
-  publicIpAddresses?: Array<SubResourceOutput>;
+  readonly publicIpAddresses?: Array<SubResourceOutput>;
   /** The list of virtual networks associated with the DDoS protection plan resource. This list is read-only. */
-  virtualNetworks?: Array<SubResourceOutput>;
+  readonly virtualNetworks?: Array<SubResourceOutput>;
 }
 
 /** A list of DDoS protection plans. */
@@ -3090,7 +3090,7 @@ export interface DdosProtectionPlanListResultOutput {
   /** A list of DDoS protection plans. */
   value?: Array<DdosProtectionPlanOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Differentiated Services Code Point configuration for any given network interface */
@@ -3098,7 +3098,7 @@ export interface DscpConfigurationOutput extends ResourceOutput {
   /** Properties of the network interface. */
   properties?: DscpConfigurationPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Differentiated Services Code Point configuration properties. */
@@ -3118,13 +3118,13 @@ export interface DscpConfigurationPropertiesFormatOutput {
   /** QoS object definitions */
   qosDefinitionCollection?: Array<QosDefinitionOutput>;
   /** Qos Collection ID generated by RNM. */
-  qosCollectionId?: string;
+  readonly qosCollectionId?: string;
   /** Associated Network Interfaces to the DSCP Configuration. */
-  associatedNetworkInterfaces?: Array<NetworkInterfaceOutput>;
+  readonly associatedNetworkInterfaces?: Array<NetworkInterfaceOutput>;
   /** The resource GUID property of the DSCP Configuration resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the DSCP Configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Qos Traffic Profiler IP Range properties. */
@@ -3164,7 +3164,7 @@ export interface DscpConfigurationListResultOutput {
   /** A list of dscp configurations in a resource group. */
   value?: Array<DscpConfigurationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for the ListAvailableEndpointServices API service call. */
@@ -3178,9 +3178,9 @@ export interface EndpointServicesListResultOutput {
 /** Endpoint service. */
 export interface EndpointServiceResultOutput extends SubResourceOutput {
   /** Name of the endpoint service. */
-  name?: string;
+  readonly name?: string;
   /** Type of the endpoint service. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Authorization in an ExpressRouteCircuit resource. */
@@ -3190,9 +3190,9 @@ export interface ExpressRouteCircuitAuthorizationOutput extends SubResourceOutpu
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of ExpressRouteCircuitAuthorization. */
@@ -3202,7 +3202,7 @@ export interface AuthorizationPropertiesFormatOutput {
   /** The authorization use status. */
   authorizationUseStatus?: "Available" | "InUse";
   /** The provisioning state of the authorization resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListAuthorizations API service call retrieves all authorizations that belongs to an ExpressRouteCircuit. */
@@ -3220,9 +3220,9 @@ export interface ExpressRouteCircuitPeeringOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the express route circuit peering. */
@@ -3252,11 +3252,11 @@ export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
   /** The peering stats of express route circuit. */
   stats?: ExpressRouteCircuitStatsOutput;
   /** The provisioning state of the express route circuit peering resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
   /** The reference to the RouteFilter resource. */
   routeFilter?: SubResourceOutput;
   /** The IPv6 peering configuration. */
@@ -3266,7 +3266,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormatOutput {
   /** The list of circuit connections associated with Azure Private Peering for this circuit. */
   connections?: Array<ExpressRouteCircuitConnectionOutput>;
   /** The list of peered circuit connections associated with Azure Private Peering for this circuit. */
-  peeredConnections?: Array<PeerExpressRouteCircuitConnectionOutput>;
+  readonly peeredConnections?: Array<PeerExpressRouteCircuitConnectionOutput>;
 }
 
 /** Specifies the peering configuration. */
@@ -3276,7 +3276,7 @@ export interface ExpressRouteCircuitPeeringConfigOutput {
   /** The communities of bgp peering. Specified for microsoft peering. */
   advertisedCommunities?: Array<string>;
   /** The advertised public prefix state of the Peering resource. */
-  advertisedPublicPrefixesState?:
+  readonly advertisedPublicPrefixesState?:
     | "NotConfigured"
     | "Configuring"
     | "Configured"
@@ -3318,7 +3318,7 @@ export interface Ipv6ExpressRouteCircuitPeeringConfigOutput {
 /** The ID of the ExpressRouteConnection. */
 export interface ExpressRouteConnectionIdOutput {
   /** The ID of the ExpressRouteConnection. */
-  id?: string;
+  readonly id?: string;
 }
 
 /** Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
@@ -3328,9 +3328,9 @@ export interface ExpressRouteCircuitConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the express route circuit connection. */
@@ -3346,9 +3346,9 @@ export interface ExpressRouteCircuitConnectionPropertiesFormatOutput {
   /** IPv6 Address PrefixProperties of the express route circuit connection. */
   ipv6CircuitConnectionConfig?: Ipv6CircuitConnectionConfigOutput;
   /** Express Route Circuit connection state. */
-  circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+  readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
   /** The provisioning state of the express route circuit connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** IPv6 Circuit Connection properties for global reach. */
@@ -3356,7 +3356,7 @@ export interface Ipv6CircuitConnectionConfigOutput {
   /** /125 IP address space to carve out customer addresses for global reach. */
   addressPrefix?: string;
   /** Express Route Circuit connection state. */
-  circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+  readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
 }
 
 /** Peer Express Route Circuit Connection in an ExpressRouteCircuitPeering resource. */
@@ -3366,9 +3366,9 @@ export interface PeerExpressRouteCircuitConnectionOutput extends SubResourceOutp
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the peer express route circuit connection. */
@@ -3380,13 +3380,13 @@ export interface PeerExpressRouteCircuitConnectionPropertiesFormatOutput {
   /** /29 IP address space to carve out Customer addresses for tunnels. */
   addressPrefix?: string;
   /** Express Route Circuit connection state. */
-  circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
+  readonly circuitConnectionStatus?: "Connected" | "Connecting" | "Disconnected";
   /** The name of the express route circuit connection resource. */
   connectionName?: string;
   /** The resource guid of the authorization used for the express route circuit connection. */
   authResourceGuid?: string;
   /** The provisioning state of the peer express route circuit connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListPeering API service call retrieves all peerings that belong to an ExpressRouteCircuit. */
@@ -3420,7 +3420,7 @@ export interface ExpressRouteCircuitOutput extends ResourceOutput {
   /** Properties of the express route circuit. */
   properties?: ExpressRouteCircuitPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Contains SKU in an ExpressRouteCircuit. */
@@ -3460,9 +3460,9 @@ export interface ExpressRouteCircuitPropertiesFormatOutput {
   /** The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource. */
   bandwidthInGbps?: number;
   /** The identifier of the circuit traffic. Outer tag for QinQ encapsulation. */
-  stag?: number;
+  readonly stag?: number;
   /** The provisioning state of the express route circuit resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Flag denoting global reach status. */
@@ -3574,7 +3574,7 @@ export interface ExpressRouteServiceProviderPropertiesFormatOutput {
   /** A list of bandwidths offered. */
   bandwidthsOffered?: Array<ExpressRouteServiceProviderBandwidthsOfferedOutput>;
   /** The provisioning state of the express route service provider resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Contains bandwidths offered in ExpressRouteServiceProvider resources. */
@@ -3590,7 +3590,7 @@ export interface ExpressRouteCrossConnectionListResultOutput {
   /** A list of ExpressRouteCrossConnection resources. */
   value?: Array<ExpressRouteCrossConnectionOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** ExpressRouteCrossConnection resource. */
@@ -3598,21 +3598,21 @@ export interface ExpressRouteCrossConnectionOutput extends ResourceOutput {
   /** Properties of the express route cross connection. */
   properties?: ExpressRouteCrossConnectionPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of ExpressRouteCrossConnection. */
 export interface ExpressRouteCrossConnectionPropertiesOutput {
   /** The name of the primary port. */
-  primaryAzurePort?: string;
+  readonly primaryAzurePort?: string;
   /** The name of the secondary port. */
-  secondaryAzurePort?: string;
+  readonly secondaryAzurePort?: string;
   /** The identifier of the circuit traffic. */
-  sTag?: number;
+  readonly sTag?: number;
   /** The peering location of the ExpressRoute circuit. */
-  peeringLocation?: string;
+  readonly peeringLocation?: string;
   /** The circuit bandwidth In Mbps. */
-  bandwidthInMbps?: number;
+  readonly bandwidthInMbps?: number;
   /** The ExpressRouteCircuit. */
   expressRouteCircuit?: ExpressRouteCircuitReferenceOutput;
   /** The provisioning state of the circuit in the connectivity provider system. */
@@ -3624,7 +3624,7 @@ export interface ExpressRouteCrossConnectionPropertiesOutput {
   /** Additional read only notes set by the connectivity provider. */
   serviceProviderNotes?: string;
   /** The provisioning state of the express route cross connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The list of peerings. */
   peerings?: Array<ExpressRouteCrossConnectionPeeringOutput>;
 }
@@ -3642,7 +3642,7 @@ export interface ExpressRouteCrossConnectionPeeringOutput extends SubResourceOut
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of express route cross connection peering. */
@@ -3652,7 +3652,7 @@ export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   /** The peering state. */
   state?: "Disabled" | "Enabled";
   /** The Azure ASN. */
-  azureASN?: number;
+  readonly azureASN?: number;
   /** The peer ASN. */
   peerASN?: number;
   /** The primary address prefix. */
@@ -3660,9 +3660,9 @@ export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   /** The secondary address prefix. */
   secondaryPeerAddressPrefix?: string;
   /** The primary port. */
-  primaryAzurePort?: string;
+  readonly primaryAzurePort?: string;
   /** The secondary port. */
-  secondaryAzurePort?: string;
+  readonly secondaryAzurePort?: string;
   /** The shared key. */
   sharedKey?: string;
   /** The VLAN ID. */
@@ -3670,11 +3670,11 @@ export interface ExpressRouteCrossConnectionPeeringPropertiesOutput {
   /** The Microsoft peering configuration. */
   microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfigOutput;
   /** The provisioning state of the express route cross connection peering resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The GatewayManager Etag. */
   gatewayManagerEtag?: string;
   /** Who was the last to modify the peering. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
   /** The IPv6 peering configuration. */
   ipv6PeeringConfig?: Ipv6ExpressRouteCircuitPeeringConfigOutput;
 }
@@ -3684,7 +3684,7 @@ export interface ExpressRouteCrossConnectionPeeringListOutput {
   /** The peerings in an express route cross connection. */
   value?: Array<ExpressRouteCrossConnectionPeeringOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListRoutesTable associated with the Express Route Cross Connections. */
@@ -3692,7 +3692,7 @@ export interface ExpressRouteCrossConnectionsRoutesTableSummaryListResultOutput 
   /** A list of the routes table. */
   value?: Array<ExpressRouteCrossConnectionRoutesTableSummaryOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The routes table associated with the ExpressRouteCircuit. */
@@ -3724,21 +3724,21 @@ export interface ExpressRoutePortsLocationOutput extends ResourceOutput {
 /** Properties specific to ExpressRoutePorts peering location resources. */
 export interface ExpressRoutePortsLocationPropertiesFormatOutput {
   /** Address of peering location. */
-  address?: string;
+  readonly address?: string;
   /** Contact details of peering locations. */
-  contact?: string;
+  readonly contact?: string;
   /** The inventory of available ExpressRoutePort bandwidths. */
   availableBandwidths?: Array<ExpressRoutePortsLocationBandwidthsOutput>;
   /** The provisioning state of the express route port location resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Real-time inventory of available ExpressRoute port bandwidths. */
 export interface ExpressRoutePortsLocationBandwidthsOutput {
   /** Bandwidth descriptive name. */
-  offerName?: string;
+  readonly offerName?: string;
   /** Bandwidth value in Gbps. */
-  valueInGbps?: number;
+  readonly valueInGbps?: number;
 }
 
 /** ExpressRoutePort resource definition. */
@@ -3746,7 +3746,7 @@ export interface ExpressRoutePortOutput extends ResourceOutput {
   /** ExpressRoutePort properties. */
   properties?: ExpressRoutePortPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The identity of ExpressRoutePort, if configured. */
   identity?: ManagedServiceIdentityOutput;
 }
@@ -3758,23 +3758,23 @@ export interface ExpressRoutePortPropertiesFormatOutput {
   /** Bandwidth of procured ports in Gbps. */
   bandwidthInGbps?: number;
   /** Aggregate Gbps of associated circuit bandwidths. */
-  provisionedBandwidthInGbps?: number;
+  readonly provisionedBandwidthInGbps?: number;
   /** Maximum transmission unit of the physical port pair(s). */
-  mtu?: string;
+  readonly mtu?: string;
   /** Encapsulation method on physical ports. */
   encapsulation?: "Dot1Q" | "QinQ";
   /** Ether type of the physical port. */
-  etherType?: string;
+  readonly etherType?: string;
   /** Date of the physical port allocation to be used in Letter of Authorization. */
-  allocationDate?: string;
+  readonly allocationDate?: string;
   /** The set of physical links of the ExpressRoutePort resource. */
   links?: Array<ExpressRouteLinkOutput>;
   /** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource. */
-  circuits?: Array<SubResourceOutput>;
+  readonly circuits?: Array<SubResourceOutput>;
   /** The provisioning state of the express route port resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The resource GUID property of the express route port resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The billing type of the ExpressRoutePort resource. */
   billingType?: "MeteredData" | "UnlimitedData";
 }
@@ -3786,27 +3786,27 @@ export interface ExpressRouteLinkOutput extends SubResourceOutput {
   /** Name of child port resource that is unique among child port resources of the parent. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties specific to ExpressRouteLink resources. */
 export interface ExpressRouteLinkPropertiesFormatOutput {
   /** Name of Azure router associated with physical port. */
-  routerName?: string;
+  readonly routerName?: string;
   /** Name of Azure router interface. */
-  interfaceName?: string;
+  readonly interfaceName?: string;
   /** Mapping between physical port to patch panel port. */
-  patchPanelId?: string;
+  readonly patchPanelId?: string;
   /** Mapping of physical patch panel to rack. */
-  rackId?: string;
+  readonly rackId?: string;
   /** Cololocation for ExpressRoute Hybrid Direct. */
-  coloLocation?: string;
+  readonly coloLocation?: string;
   /** Physical fiber port type. */
-  connectorType?: "LC" | "SC";
+  readonly connectorType?: "LC" | "SC";
   /** Administrative state of the physical port. */
   adminState?: "Enabled" | "Disabled";
   /** The provisioning state of the express route link resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** MacSec configuration. */
   macSecConfig?: ExpressRouteLinkMacSecConfigOutput;
 }
@@ -3852,21 +3852,21 @@ export interface ExpressRoutePortAuthorizationOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of ExpressRoutePort Authorization. */
 export interface ExpressRoutePortAuthorizationPropertiesFormatOutput {
   /** The authorization key. */
-  authorizationKey?: string;
+  readonly authorizationKey?: string;
   /** The authorization use status. */
-  authorizationUseStatus?: "Available" | "InUse";
+  readonly authorizationUseStatus?: "Available" | "InUse";
   /** The reference to the ExpressRoute circuit resource using the authorization. */
-  circuitResourceUri?: string;
+  readonly circuitResourceUri?: string;
   /** The provisioning state of the authorization resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListExpressRoutePortAuthorizations API service call. */
@@ -3882,7 +3882,7 @@ export interface ExpressRouteProviderPortListResultOutput {
   /** A list of ExpressRouteProviderPort resources. */
   value?: Array<ExpressRouteProviderPortOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** ExpressRouteProviderPort resource. */
@@ -3890,17 +3890,17 @@ export interface ExpressRouteProviderPortOutput extends ResourceOutput {
   /** Properties of the express route Service Provider Port. */
   properties?: ExpressRouteProviderPortPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of ExpressRouteProviderPort. */
 export interface ExpressRouteProviderPortPropertiesOutput {
   /** The name of the port pair. */
-  portPairDescriptor?: string;
+  readonly portPairDescriptor?: string;
   /** The name of the primary port. */
-  primaryAzurePort?: string;
+  readonly primaryAzurePort?: string;
   /** The name of the secondary port. */
-  secondaryAzurePort?: string;
+  readonly secondaryAzurePort?: string;
   /** The peering location of the port pair. */
   peeringLocation?: string;
   /** Overprovisioning factor for the port pair. */
@@ -3918,7 +3918,7 @@ export interface FirewallPolicyOutput extends ResourceOutput {
   /** Properties of the firewall policy. */
   properties?: FirewallPolicyPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The identity of the firewall policy. */
   identity?: ManagedServiceIdentityOutput;
 }
@@ -3926,15 +3926,15 @@ export interface FirewallPolicyOutput extends ResourceOutput {
 /** Firewall Policy definition. */
 export interface FirewallPolicyPropertiesFormatOutput {
   /** List of references to FirewallPolicyRuleCollectionGroups. */
-  ruleCollectionGroups?: Array<SubResourceOutput>;
+  readonly ruleCollectionGroups?: Array<SubResourceOutput>;
   /** The provisioning state of the firewall policy resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The parent firewall policy from which rules are inherited. */
   basePolicy?: SubResourceOutput;
   /** List of references to Azure Firewalls that this Firewall Policy is associated with. */
-  firewalls?: Array<SubResourceOutput>;
+  readonly firewalls?: Array<SubResourceOutput>;
   /** List of references to Child Firewall Policies. */
-  childPolicies?: Array<SubResourceOutput>;
+  readonly childPolicies?: Array<SubResourceOutput>;
   /** The operation mode for Threat Intelligence. */
   threatIntelMode?: "Alert" | "Deny" | "Off";
   /** ThreatIntel Whitelist for Firewall Policy. */
@@ -4112,9 +4112,9 @@ export interface FirewallPolicyRuleCollectionGroupOutput extends SubResourceOutp
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Rule Group type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the rule collection group. */
@@ -4124,7 +4124,7 @@ export interface FirewallPolicyRuleCollectionGroupPropertiesOutput {
   /** Group of Firewall Policy rule collections. */
   ruleCollections?: Array<FirewallPolicyRuleCollectionOutput>;
   /** The provisioning state of the firewall policy rule collection group resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Properties of the rule collection. */
@@ -4215,15 +4215,15 @@ export interface IpAllocationOutput extends ResourceOutput {
   /** Properties of the IpAllocation. */
   properties?: IpAllocationPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the IpAllocation. */
 export interface IpAllocationPropertiesFormatOutput {
   /** The Subnet that using the prefix of this IpAllocation resource. */
-  subnet?: SubResourceOutput;
+  readonly subnet?: SubResourceOutput;
   /** The VirtualNetwork that using the prefix of this IpAllocation resource. */
-  virtualNetwork?: SubResourceOutput;
+  readonly virtualNetwork?: SubResourceOutput;
   /** The type for the IpAllocation. */
   type?: "Undefined" | "Hypernet";
   /** The address prefix for the IpAllocation. */
@@ -4251,19 +4251,19 @@ export interface IpGroupOutput extends ResourceOutput {
   /** Properties of the IpGroups. */
   properties?: IpGroupPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** The IpGroups property information. */
 export interface IpGroupPropertiesFormatOutput {
   /** The provisioning state of the IpGroups resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** IpAddresses/IpAddressPrefixes in the IpGroups resource. */
   ipAddresses?: Array<string>;
   /** List of references to Firewall resources that this IpGroups is associated with. */
-  firewalls?: Array<SubResourceOutput>;
+  readonly firewalls?: Array<SubResourceOutput>;
   /** List of references to Firewall Policies resources that this IpGroups is associated with. */
-  firewallPolicies?: Array<SubResourceOutput>;
+  readonly firewallPolicies?: Array<SubResourceOutput>;
 }
 
 /** Response for the ListIpGroups API service call. */
@@ -4283,7 +4283,7 @@ export interface LoadBalancerOutput extends ResourceOutput {
   /** Properties of load balancer. */
   properties?: LoadBalancerPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** SKU of a load balancer. */
@@ -4311,9 +4311,9 @@ export interface LoadBalancerPropertiesFormatOutput {
   /** The outbound rules. */
   outboundRules?: Array<OutboundRuleOutput>;
   /** The resource GUID property of the load balancer resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the load balancer resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** A load balancing rule for a load balancer. */
@@ -4323,9 +4323,9 @@ export interface LoadBalancingRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of load balancing rules used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the load balancer. */
@@ -4355,7 +4355,7 @@ export interface LoadBalancingRulePropertiesFormatOutput {
   /** Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule. */
   disableOutboundSnat?: boolean;
   /** The provisioning state of the load balancing rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** A load balancer probe. */
@@ -4365,15 +4365,15 @@ export interface ProbeOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Load balancer probe resource. */
 export interface ProbePropertiesFormatOutput {
   /** The load balancer rules that use this probe. */
-  loadBalancingRules?: Array<SubResourceOutput>;
+  readonly loadBalancingRules?: Array<SubResourceOutput>;
   /** The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be successful. */
   protocol: "Http" | "Tcp" | "Https";
   /** The port for communicating the probe. Possible values range from 1 to 65535, inclusive. */
@@ -4387,7 +4387,7 @@ export interface ProbePropertiesFormatOutput {
   /** The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed. There is no default value. */
   requestPath?: string;
   /** The provisioning state of the probe resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Inbound NAT pool of the load balancer. */
@@ -4397,9 +4397,9 @@ export interface InboundNatPoolOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of Inbound NAT pool. */
@@ -4421,7 +4421,7 @@ export interface InboundNatPoolPropertiesFormatOutput {
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
   enableTcpReset?: boolean;
   /** The provisioning state of the inbound NAT pool resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Outbound rule of the load balancer. */
@@ -4431,9 +4431,9 @@ export interface OutboundRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Type of the resource. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Outbound rule of the load balancer. */
@@ -4445,7 +4445,7 @@ export interface OutboundRulePropertiesFormatOutput {
   /** A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend IPs. */
   backendAddressPool: SubResourceOutput;
   /** The provisioning state of the outbound rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The protocol for the outbound rule in load balancer. */
   protocol: "Tcp" | "Udp" | "All";
   /** Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. */
@@ -4459,7 +4459,7 @@ export interface LoadBalancerListResultOutput {
   /** A list of load balancers in a resource group. */
   value?: Array<LoadBalancerOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListBackendAddressPool API service call. */
@@ -4467,7 +4467,7 @@ export interface LoadBalancerBackendAddressPoolListResultOutput {
   /** A list of backend address pools in a load balancer. */
   value?: Array<BackendAddressPoolOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListFrontendIPConfiguration API service call. */
@@ -4475,7 +4475,7 @@ export interface LoadBalancerFrontendIPConfigurationListResultOutput {
   /** A list of frontend IP configurations in a load balancer. */
   value?: Array<FrontendIPConfigurationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListInboundNatRule API service call. */
@@ -4483,7 +4483,7 @@ export interface InboundNatRuleListResultOutput {
   /** A list of inbound NAT rules in a load balancer. */
   value?: Array<InboundNatRuleOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListLoadBalancingRule API service call. */
@@ -4491,7 +4491,7 @@ export interface LoadBalancerLoadBalancingRuleListResultOutput {
   /** A list of load balancing rules in a load balancer. */
   value?: Array<LoadBalancingRuleOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListOutboundRule API service call. */
@@ -4499,7 +4499,7 @@ export interface LoadBalancerOutboundRuleListResultOutput {
   /** A list of outbound rules in a load balancer. */
   value?: Array<OutboundRuleOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListProbe API service call. */
@@ -4507,7 +4507,7 @@ export interface LoadBalancerProbeListResultOutput {
   /** A list of probes in a load balancer. */
   value?: Array<ProbeOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The response for a QueryInboundNatRulePortMapping API. */
@@ -4519,13 +4519,13 @@ export interface BackendAddressInboundNatRulePortMappingsOutput {
 /** Individual port mappings for inbound NAT rule created for backend pool. */
 export interface InboundNatRulePortMappingOutput {
   /** Name of inbound NAT rule. */
-  inboundNatRuleName?: string;
+  readonly inboundNatRuleName?: string;
   /** The reference to the transport protocol used by the inbound NAT rule. */
-  protocol?: "Udp" | "Tcp" | "All";
+  readonly protocol?: "Udp" | "Tcp" | "All";
   /** Frontend port. */
-  frontendPort?: number;
+  readonly frontendPort?: number;
   /** Backend port. */
-  backendPort?: number;
+  readonly backendPort?: number;
 }
 
 /** Response for ListNatGateways API service call. */
@@ -4541,7 +4541,7 @@ export interface EffectiveRouteListResultOutput {
   /** A list of effective routes. */
   value?: Array<EffectiveRouteOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Effective Route. */
@@ -4567,7 +4567,7 @@ export interface EffectiveNetworkSecurityGroupListResultOutput {
   /** A list of effective network security groups. */
   value?: Array<EffectiveNetworkSecurityGroupOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Effective network security group. */
@@ -4631,7 +4631,7 @@ export interface NetworkInterfaceIPConfigurationListResultOutput {
   /** A list of ip configurations. */
   value?: Array<NetworkInterfaceIPConfigurationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for list ip configurations API service call. */
@@ -4639,7 +4639,7 @@ export interface NetworkInterfaceLoadBalancerListResultOutput {
   /** A list of load balancers. */
   value?: Array<LoadBalancerOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for list tap configurations API service call. */
@@ -4647,7 +4647,7 @@ export interface NetworkInterfaceTapConfigurationListResultOutput {
   /** A list of tap configurations. */
   value?: Array<NetworkInterfaceTapConfigurationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The Managed Network resource */
@@ -4655,9 +4655,9 @@ export interface NetworkManagerOutput extends ResourceOutput {
   /** The network manager properties */
   properties?: NetworkManagerPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Properties of Managed Network */
@@ -4669,7 +4669,7 @@ export interface NetworkManagerPropertiesOutput {
   /** Scope Access. */
   networkManagerScopeAccesses: Array<"SecurityAdmin" | "Connectivity">;
   /** The provisioning state of the network manager resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Scope of Network Manager. */
@@ -4679,17 +4679,17 @@ export interface NetworkManagerPropertiesNetworkManagerScopesOutput {
   /** List of subscriptions. */
   subscriptions?: Array<string>;
   /** List of cross tenant scopes. */
-  crossTenantScopes?: Array<CrossTenantScopesOutput>;
+  readonly crossTenantScopes?: Array<CrossTenantScopesOutput>;
 }
 
 /** Cross tenant scopes. */
 export interface CrossTenantScopesOutput {
   /** Tenant ID. */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** List of management groups. */
-  managementGroups?: Array<string>;
+  readonly managementGroups?: Array<string>;
   /** List of subscriptions. */
-  subscriptions?: Array<string>;
+  readonly subscriptions?: Array<string>;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -4711,7 +4711,7 @@ export interface SystemDataOutput {
 /** Network Manager Commit. */
 export interface NetworkManagerCommitOutput {
   /** Commit Id. */
-  commitId?: string;
+  readonly commitId?: string;
   /** List of target locations. */
   targetLocations: Array<string>;
   /** List of configuration ids. */
@@ -4792,7 +4792,7 @@ export interface ConnectivityConfigurationPropertiesOutput {
   /** Groups for configuration */
   appliesToGroups: Array<ConnectivityGroupItemOutput>;
   /** The provisioning state of the connectivity configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: "False" | "True";
 }
@@ -4830,7 +4830,7 @@ export interface NetworkGroupPropertiesOutput {
   /** A description of the network group. */
   description?: string;
   /** The provisioning state of the scope assignment resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results. */
@@ -4871,7 +4871,7 @@ export interface NetworkManagerConnectionOutput extends ChildResourceOutput {
   /** The scope connection properties */
   properties?: NetworkManagerConnectionPropertiesOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Information about the network manager connection. */
@@ -4879,7 +4879,7 @@ export interface NetworkManagerConnectionPropertiesOutput {
   /** Network Manager Id. */
   networkManagerId?: string;
   /** Connection state. */
-  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
+  readonly connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the network manager connection. */
   description?: string;
 }
@@ -4887,13 +4887,13 @@ export interface NetworkManagerConnectionPropertiesOutput {
 /** Proxy resource representation. */
 export interface ChildResourceOutput {
   /** Resource ID. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** List of network manager connections. */
@@ -4909,7 +4909,7 @@ export interface ConnectivityConfigurationOutput extends ChildResourceOutput {
   /** Properties of a network manager connectivity configuration */
   properties?: ConnectivityConfigurationPropertiesOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Result of the request to list network manager connectivity configurations. It contains a list of configurations and a link to get the next set of results. */
@@ -4956,7 +4956,7 @@ export interface NetworkGroupOutput extends ChildResourceOutput {
   /** The Network Group properties */
   properties?: NetworkGroupPropertiesOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Result of the request to list NetworkGroup. It contains a list of groups and a URL link to get the next set of results. */
@@ -4972,7 +4972,7 @@ export interface StaticMemberOutput extends ChildResourceOutput {
   /** The Static Member properties */
   properties?: StaticMemberPropertiesOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Properties of static member. */
@@ -4980,9 +4980,9 @@ export interface StaticMemberPropertiesOutput {
   /** Resource Id. */
   resourceId?: string;
   /** Resource region. */
-  region?: string;
+  readonly region?: string;
   /** The provisioning state of the scope assignment resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Result of the request to list StaticMember. It contains a list of groups and a URL link to get the next set of results. */
@@ -4998,7 +4998,7 @@ export interface ScopeConnectionOutput extends ChildResourceOutput {
   /** The scope connection properties */
   properties?: ScopeConnectionPropertiesOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Scope connection. */
@@ -5008,7 +5008,7 @@ export interface ScopeConnectionPropertiesOutput {
   /** Resource ID. */
   resourceId?: string;
   /** Connection State */
-  connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
+  readonly connectionState?: "Connected" | "Pending" | "Conflict" | "Revoked" | "Rejected";
   /** A description of the scope connection. */
   description?: string;
 }
@@ -5034,7 +5034,7 @@ export interface SecurityAdminConfigurationOutput extends ChildResourceOutput {
   /** Indicates the properties for the network manager security admin configuration. */
   properties?: SecurityAdminConfigurationPropertiesFormatOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Defines the security admin configuration properties. */
@@ -5044,7 +5044,7 @@ export interface SecurityAdminConfigurationPropertiesFormatOutput {
   /** Enum list of network intent policy based services. */
   applyOnNetworkIntentPolicyBasedServices?: Array<"None" | "All" | "AllowRulesOnly">;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Security admin configuration rule collection list result. */
@@ -5060,7 +5060,7 @@ export interface AdminRuleCollectionOutput extends ChildResourceOutput {
   /** Indicates the properties for the network manager admin rule collection. */
   properties?: AdminRuleCollectionPropertiesFormatOutput;
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
 /** Defines the admin rule collection properties. */
@@ -5070,7 +5070,7 @@ export interface AdminRuleCollectionPropertiesFormatOutput {
   /** Groups for configuration */
   appliesToGroups: Array<NetworkManagerSecurityGroupItemOutput>;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** security configuration admin rule list result. */
@@ -5084,7 +5084,7 @@ export interface AdminRuleListResultOutput {
 /** Network base admin rule. */
 export interface BaseAdminRuleOutputParent extends ChildResourceOutput {
   /** The system metadata related to this resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
   kind: "BaseAdminRule" | "Custom" | "Default";
 }
 
@@ -5093,19 +5093,19 @@ export interface NetworkProfileOutput extends ResourceOutput {
   /** Network profile properties. */
   properties?: NetworkProfilePropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Network profile properties. */
 export interface NetworkProfilePropertiesFormatOutput {
   /** List of child container network interfaces. */
-  containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
+  readonly containerNetworkInterfaces?: Array<ContainerNetworkInterfaceOutput>;
   /** List of chid container network interface configurations. */
   containerNetworkInterfaceConfigurations?: Array<ContainerNetworkInterfaceConfigurationOutput>;
   /** The resource GUID property of the network profile resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the network profile resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Container network interface child resource. */
@@ -5115,21 +5115,21 @@ export interface ContainerNetworkInterfaceOutput extends SubResourceOutput {
   /** The name of the resource. This name can be used to access the resource. */
   name?: string;
   /** Sub Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of container network interface. */
 export interface ContainerNetworkInterfacePropertiesFormatOutput {
   /** Container network interface configuration from which this container network interface is created. */
-  containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfigurationOutput;
+  readonly containerNetworkInterfaceConfiguration?: ContainerNetworkInterfaceConfigurationOutput;
   /** Reference to the container to which this container network interface is attached. */
   container?: ContainerOutput;
   /** Reference to the ip configuration on this container nic. */
-  ipConfigurations?: Array<ContainerNetworkInterfaceIpConfigurationOutput>;
+  readonly ipConfigurations?: Array<ContainerNetworkInterfaceIpConfigurationOutput>;
   /** The provisioning state of the container network interface resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Container network interface configuration child resource. */
@@ -5139,9 +5139,9 @@ export interface ContainerNetworkInterfaceConfigurationOutput extends SubResourc
   /** The name of the resource. This name can be used to access the resource. */
   name?: string;
   /** Sub Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Container network interface configuration properties. */
@@ -5151,7 +5151,7 @@ export interface ContainerNetworkInterfaceConfigurationPropertiesFormatOutput {
   /** A list of container network interfaces created from this container network interface configuration. */
   containerNetworkInterfaces?: Array<SubResourceOutput>;
   /** The provisioning state of the container network interface configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Reference to container resource in remote resource provider. */
@@ -5164,15 +5164,15 @@ export interface ContainerNetworkInterfaceIpConfigurationOutput {
   /** The name of the resource. This name can be used to access the resource. */
   name?: string;
   /** Sub Resource type. */
-  type?: string;
+  readonly type?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the container network interface IP configuration. */
 export interface ContainerNetworkInterfaceIpConfigurationPropertiesFormatOutput {
   /** The provisioning state of the container network interface IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListNetworkProfiles API service call. */
@@ -5206,7 +5206,7 @@ export interface NetworkVirtualApplianceOutput extends ResourceOutput {
   /** The service principal that has read access to cloud-init and config blob. */
   identity?: ManagedServiceIdentityOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Network Virtual Appliance definition. */
@@ -5214,7 +5214,7 @@ export interface NetworkVirtualAppliancePropertiesFormatOutput {
   /** Network Virtual Appliance SKU. */
   nvaSku?: VirtualApplianceSkuPropertiesOutput;
   /** Address Prefix. */
-  addressPrefix?: string;
+  readonly addressPrefix?: string;
   /** BootStrapConfigurationBlobs storage URLs. */
   bootStrapConfigurationBlobs?: Array<string>;
   /** The Virtual Hub where Network Virtual Appliance is being deployed. */
@@ -5228,13 +5228,13 @@ export interface NetworkVirtualAppliancePropertiesFormatOutput {
   /** Public key for SSH login. */
   sshPublicKey?: string;
   /** List of Virtual Appliance Network Interfaces. */
-  virtualApplianceNics?: Array<VirtualApplianceNicPropertiesOutput>;
+  readonly virtualApplianceNics?: Array<VirtualApplianceNicPropertiesOutput>;
   /** List of references to VirtualApplianceSite. */
-  virtualApplianceSites?: Array<SubResourceOutput>;
+  readonly virtualApplianceSites?: Array<SubResourceOutput>;
   /** List of references to InboundSecurityRules. */
-  inboundSecurityRules?: Array<SubResourceOutput>;
+  readonly inboundSecurityRules?: Array<SubResourceOutput>;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Network Virtual Appliance Sku Properties. */
@@ -5250,11 +5250,11 @@ export interface VirtualApplianceSkuPropertiesOutput {
 /** Network Virtual Appliance NIC properties. */
 export interface VirtualApplianceNicPropertiesOutput {
   /** NIC name. */
-  name?: string;
+  readonly name?: string;
   /** Public IP address. */
-  publicIpAddress?: string;
+  readonly publicIpAddress?: string;
   /** Private IP address. */
-  privateIpAddress?: string;
+  readonly privateIpAddress?: string;
 }
 
 /** Response for ListNetworkVirtualAppliances API service call. */
@@ -5272,9 +5272,9 @@ export interface VirtualApplianceSiteOutput extends SubResourceOutput {
   /** Name of the virtual appliance site. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Site type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the rule group. */
@@ -5284,7 +5284,7 @@ export interface VirtualApplianceSitePropertiesOutput {
   /** Office 365 Policy. */
   o365Policy?: Office365PolicyPropertiesOutput;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Network Virtual Appliance Sku Properties. */
@@ -5324,15 +5324,15 @@ export interface NetworkVirtualApplianceSkuOutput extends ResourceOutput {
   /** NetworkVirtualApplianceSku properties. */
   properties?: NetworkVirtualApplianceSkuPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties specific to NetworkVirtualApplianceSkus. */
 export interface NetworkVirtualApplianceSkuPropertiesFormatOutput {
   /** Network Virtual Appliance Sku vendor. */
-  vendor?: string;
+  readonly vendor?: string;
   /** Available Network Virtual Appliance versions. */
-  availableVersions?: Array<string>;
+  readonly availableVersions?: Array<string>;
   /** The list of scale units available. */
   availableScaleUnits?: Array<NetworkVirtualApplianceSkuInstancesOutput>;
 }
@@ -5340,9 +5340,9 @@ export interface NetworkVirtualApplianceSkuPropertiesFormatOutput {
 /** List of available Sku and instances. */
 export interface NetworkVirtualApplianceSkuInstancesOutput {
   /** Scale Unit. */
-  scaleUnit?: string;
+  readonly scaleUnit?: string;
   /** Instance Count. */
-  instanceCount?: number;
+  readonly instanceCount?: number;
 }
 
 /** NVA Inbound Security Rule resource. */
@@ -5352,9 +5352,9 @@ export interface InboundSecurityRuleOutput extends SubResourceOutput {
   /** Name of security rule collection. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** NVA inbound security rule type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the Inbound Security Rules resource. */
@@ -5362,7 +5362,7 @@ export interface InboundSecurityRulePropertiesOutput {
   /** List of allowed rules. */
   rules?: Array<InboundSecurityRulesOutput>;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Properties of the Inbound Security Rules resource. */
@@ -5378,7 +5378,7 @@ export interface InboundSecurityRulesOutput {
 /** Network watcher in a resource group. */
 export interface NetworkWatcherOutput extends ResourceOutput {
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Properties of the network watcher. */
   properties?: NetworkWatcherPropertiesFormatOutput;
 }
@@ -5386,7 +5386,7 @@ export interface NetworkWatcherOutput extends ResourceOutput {
 /** The network watcher properties. */
 export interface NetworkWatcherPropertiesFormatOutput {
   /** The provisioning state of the network watcher resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** The error object. */
@@ -5404,11 +5404,11 @@ export interface NetworkWatcherListResultOutput {
 /** Topology of the specified resource group. */
 export interface TopologyOutput {
   /** GUID representing the operation id. */
-  id?: string;
+  readonly id?: string;
   /** The datetime when the topology was initially created for the resource group. */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The datetime when the topology was last modified. */
-  lastModified?: string;
+  readonly lastModified?: string;
   /** A list of topology resources. */
   resources?: Array<TopologyResourceOutput>;
 }
@@ -5488,7 +5488,7 @@ export interface SecurityRuleAssociationsOutput {
 /** Network interface and its custom security rules. */
 export interface NetworkInterfaceAssociationOutput {
   /** Network interface ID. */
-  id?: string;
+  readonly id?: string;
   /** Collection of custom security rules. */
   securityRules?: Array<SecurityRuleOutput>;
 }
@@ -5496,7 +5496,7 @@ export interface NetworkInterfaceAssociationOutput {
 /** Subnet and it's custom security rules. */
 export interface SubnetAssociationOutput {
   /** Subnet ID. */
-  id?: string;
+  readonly id?: string;
   /** Collection of custom security rules. */
   securityRules?: Array<SecurityRuleOutput>;
 }
@@ -5556,11 +5556,11 @@ export interface PacketCaptureFilterOutput {
 /** Information about packet capture session. */
 export interface PacketCaptureResultOutput {
   /** Name of the packet capture session. */
-  name?: string;
+  readonly name?: string;
   /** ID of the packet capture operation. */
-  id?: string;
+  readonly id?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Properties of the packet capture result. */
   properties?: PacketCaptureResultPropertiesOutput;
 }
@@ -5568,7 +5568,7 @@ export interface PacketCaptureResultOutput {
 /** The properties of a packet capture session. */
 export interface PacketCaptureResultPropertiesOutput extends PacketCaptureParametersOutput {
   /** The provisioning state of the packet capture session. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Status of packet capture session. */
@@ -5666,77 +5666,77 @@ export interface HttpHeaderOutput {
 /** Information on the connectivity status. */
 export interface ConnectivityInformationOutput {
   /** List of hops between the source and the destination. */
-  hops?: Array<ConnectivityHopOutput>;
+  readonly hops?: Array<ConnectivityHopOutput>;
   /** The connection status. */
-  connectionStatus?: "Unknown" | "Connected" | "Disconnected" | "Degraded";
+  readonly connectionStatus?: "Unknown" | "Connected" | "Disconnected" | "Degraded";
   /** Average latency in milliseconds. */
-  avgLatencyInMs?: number;
+  readonly avgLatencyInMs?: number;
   /** Minimum latency in milliseconds. */
-  minLatencyInMs?: number;
+  readonly minLatencyInMs?: number;
   /** Maximum latency in milliseconds. */
-  maxLatencyInMs?: number;
+  readonly maxLatencyInMs?: number;
   /** Total number of probes sent. */
-  probesSent?: number;
+  readonly probesSent?: number;
   /** Number of failed probes. */
-  probesFailed?: number;
+  readonly probesFailed?: number;
 }
 
 /** Information about a hop between the source and the destination. */
 export interface ConnectivityHopOutput {
   /** The type of the hop. */
-  type?: string;
+  readonly type?: string;
   /** The ID of the hop. */
-  id?: string;
+  readonly id?: string;
   /** The IP address of the hop. */
-  address?: string;
+  readonly address?: string;
   /** The ID of the resource corresponding to this hop. */
-  resourceId?: string;
+  readonly resourceId?: string;
   /** List of next hop identifiers. */
-  nextHopIds?: Array<string>;
+  readonly nextHopIds?: Array<string>;
   /** List of previous hop identifiers. */
-  previousHopIds?: Array<string>;
+  readonly previousHopIds?: Array<string>;
   /** List of hop links. */
-  links?: Array<HopLinkOutput>;
+  readonly links?: Array<HopLinkOutput>;
   /** List of previous hop links. */
-  previousLinks?: Array<HopLinkOutput>;
+  readonly previousLinks?: Array<HopLinkOutput>;
   /** List of issues. */
-  issues?: Array<ConnectivityIssueOutput>;
+  readonly issues?: Array<ConnectivityIssueOutput>;
 }
 
 /** Hop link. */
 export interface HopLinkOutput {
   /** The ID of the next hop. */
-  nextHopId?: string;
+  readonly nextHopId?: string;
   /** Link type. */
-  linkType?: string;
+  readonly linkType?: string;
   /** Hop link properties. */
   properties?: HopLinkPropertiesOutput;
   /** List of issues. */
-  issues?: Array<ConnectivityIssueOutput>;
+  readonly issues?: Array<ConnectivityIssueOutput>;
   /** Provides additional context on links. */
-  context?: Record<string, string>;
+  readonly context?: Record<string, string>;
   /** Resource ID. */
-  resourceId?: string;
+  readonly resourceId?: string;
 }
 
 /** Hop link properties. */
 export interface HopLinkPropertiesOutput {
   /** Minimum roundtrip time in milliseconds. */
-  roundTripTimeMin?: number;
+  readonly roundTripTimeMin?: number;
   /** Average roundtrip time in milliseconds. */
-  roundTripTimeAvg?: number;
+  readonly roundTripTimeAvg?: number;
   /** Maximum roundtrip time in milliseconds. */
-  roundTripTimeMax?: number;
+  readonly roundTripTimeMax?: number;
 }
 
 /** Information about an issue encountered in the process of checking for connectivity. */
 export interface ConnectivityIssueOutput {
   /** The origin of the issue. */
-  origin?: "Local" | "Inbound" | "Outbound";
+  readonly origin?: "Local" | "Inbound" | "Outbound";
   /** The severity of the issue. */
-  severity?: "Error" | "Warning";
+  readonly severity?: "Error" | "Warning";
   /** The type of issue. */
-  type?:
+  readonly type?:
     | "Unknown"
     | "AgentStopped"
     | "GuestFirewall"
@@ -5747,7 +5747,7 @@ export interface ConnectivityIssueOutput {
     | "PortThrottled"
     | "Platform";
   /** Provides additional context on the issue. */
-  context?: Array<Record<string, string>>;
+  readonly context?: Array<Record<string, string>>;
 }
 
 /** Parameters that define a geographic location. */
@@ -5839,7 +5839,7 @@ export interface NetworkConfigurationDiagnosticProfileOutput {
 /** Results of network configuration diagnostic on the target resource. */
 export interface NetworkConfigurationDiagnosticResponseOutput {
   /** List of network configuration diagnostic results. */
-  results?: Array<NetworkConfigurationDiagnosticResultOutput>;
+  readonly results?: Array<NetworkConfigurationDiagnosticResultOutput>;
 }
 
 /** Network configuration diagnostic result corresponded to provided traffic query. */
@@ -5855,7 +5855,7 @@ export interface NetworkSecurityGroupResultOutput {
   /** The network traffic is allowed or denied. */
   securityRuleAccessResult?: "Allow" | "Deny";
   /** List of results network security groups diagnostic. */
-  evaluatedNetworkSecurityGroups?: Array<EvaluatedNetworkSecurityGroupOutput>;
+  readonly evaluatedNetworkSecurityGroups?: Array<EvaluatedNetworkSecurityGroupOutput>;
 }
 
 /** Results of network security group evaluation. */
@@ -5867,7 +5867,7 @@ export interface EvaluatedNetworkSecurityGroupOutput {
   /** Matched network security rule. */
   matchedRule?: MatchedRuleOutput;
   /** List of network security rules evaluation results. */
-  rulesEvaluationResult?: Array<NetworkSecurityRulesEvaluationResultOutput>;
+  readonly rulesEvaluationResult?: Array<NetworkSecurityRulesEvaluationResultOutput>;
 }
 
 /** Matched rule. */
@@ -6081,13 +6081,13 @@ export interface ConnectionMonitorWorkspaceSettingsOutput {
 /** Information about the connection monitor. */
 export interface ConnectionMonitorResultOutput {
   /** Name of the connection monitor. */
-  name?: string;
+  readonly name?: string;
   /** ID of the connection monitor. */
-  id?: string;
+  readonly id?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Connection monitor type. */
-  type?: string;
+  readonly type?: string;
   /** Connection monitor location. */
   location?: string;
   /** Connection monitor tags. */
@@ -6099,13 +6099,13 @@ export interface ConnectionMonitorResultOutput {
 /** Describes the properties of a connection monitor. */
 export interface ConnectionMonitorResultPropertiesOutput extends ConnectionMonitorParametersOutput {
   /** The provisioning state of the connection monitor. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The date and time when the connection monitor was started. */
-  startTime?: string;
+  readonly startTime?: string;
   /** The monitoring status of the connection monitor. */
-  monitoringStatus?: string;
+  readonly monitoringStatus?: string;
   /** Type of connection monitor. */
-  connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
+  readonly connectionMonitorType?: "MultiEndpoint" | "SingleSourceDestination";
 }
 
 /** List of connection states snapshots. */
@@ -6137,7 +6137,7 @@ export interface ConnectionStateSnapshotOutput {
   /** The number of failed probes. */
   probesFailed?: number;
   /** List of hops between the source and the destination. */
-  hops?: Array<ConnectivityHopOutput>;
+  readonly hops?: Array<ConnectivityHopOutput>;
 }
 
 /** List of connection monitors. */
@@ -6151,7 +6151,7 @@ export interface FlowLogListResultOutput {
   /** Information about flow log resource. */
   value?: Array<FlowLogOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Result of the request to list Network operations. It contains a list of operations and a URL link to get the next set of results. */
@@ -6267,7 +6267,7 @@ export interface PrivateEndpointListResultOutput {
   /** A list of private endpoint resources in a resource group. */
   value?: Array<PrivateEndpointOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** An array of available PrivateEndpoint types. */
@@ -6275,7 +6275,7 @@ export interface AvailablePrivateEndpointTypesResultOutput {
   /** An array of available privateEndpoint type. */
   value?: Array<AvailablePrivateEndpointTypeOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The information of an AvailablePrivateEndpointType. */
@@ -6297,7 +6297,7 @@ export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Properties of the private dns zone group. */
   properties?: PrivateDnsZoneGroupPropertiesFormatOutput;
 }
@@ -6305,7 +6305,7 @@ export interface PrivateDnsZoneGroupOutput extends SubResourceOutput {
 /** Properties of the private dns zone group. */
 export interface PrivateDnsZoneGroupPropertiesFormatOutput {
   /** The provisioning state of the private dns zone group resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** A collection of private dns zone configurations of the private dns zone group. */
   privateDnsZoneConfigs?: Array<PrivateDnsZoneConfigOutput>;
 }
@@ -6323,7 +6323,7 @@ export interface PrivateDnsZonePropertiesFormatOutput {
   /** The resource id of the private dns zone. */
   privateDnsZoneId?: string;
   /** A collection of information regarding a recordSet, holding information to identify private resources. */
-  recordSets?: Array<RecordSetOutput>;
+  readonly recordSets?: Array<RecordSetOutput>;
 }
 
 /** A collective group of information about the record set information. */
@@ -6335,7 +6335,7 @@ export interface RecordSetOutput {
   /** Fqdn that resolves to private endpoint ip address. */
   fqdn?: string;
   /** The provisioning state of the recordset. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Recordset time to live. */
   ttl?: number;
   /** The private ip address of the private endpoint. */
@@ -6347,7 +6347,7 @@ export interface PrivateDnsZoneGroupListResultOutput {
   /** A list of private dns zone group resources in a private endpoint. */
   value?: Array<PrivateDnsZoneGroupOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for the ListPrivateLinkService API service call. */
@@ -6355,7 +6355,7 @@ export interface PrivateLinkServiceListResultOutput {
   /** A list of PrivateLinkService resources in a resource group. */
   value?: Array<PrivateLinkServiceOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for the ListPrivateEndpointConnection API service call. */
@@ -6363,7 +6363,7 @@ export interface PrivateEndpointConnectionListResultOutput {
   /** A list of PrivateEndpointConnection resources for a specific private link service. */
   value?: Array<PrivateEndpointConnectionOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for the CheckPrivateLinkServiceVisibility API service call. */
@@ -6377,7 +6377,7 @@ export interface AutoApprovedPrivateLinkServicesResultOutput {
   /** An array of auto approved private link service. */
   value?: Array<AutoApprovedPrivateLinkServiceOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The information of an AutoApprovedPrivateLinkService. */
@@ -6407,7 +6407,7 @@ export interface PublicIPPrefixOutput extends ResourceOutput {
   /** Public IP prefix properties. */
   properties?: PublicIPPrefixPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
   zones?: Array<string>;
 }
@@ -6429,17 +6429,17 @@ export interface PublicIPPrefixPropertiesFormatOutput {
   /** The Length of the Public IP Prefix. */
   prefixLength?: number;
   /** The allocated Prefix. */
-  ipPrefix?: string;
+  readonly ipPrefix?: string;
   /** The list of all referenced PublicIPAddresses. */
-  publicIPAddresses?: Array<ReferencedPublicIpAddressOutput>;
+  readonly publicIPAddresses?: Array<ReferencedPublicIpAddressOutput>;
   /** The reference to load balancer frontend IP configuration associated with the public IP prefix. */
-  loadBalancerFrontendIpConfiguration?: SubResourceOutput;
+  readonly loadBalancerFrontendIpConfiguration?: SubResourceOutput;
   /** The customIpPrefix that this prefix is associated with. */
   customIPPrefix?: SubResourceOutput;
   /** The resource GUID property of the public IP prefix resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the public IP prefix resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** NatGateway of Public IP Prefix. */
   natGateway?: NatGatewayOutput;
 }
@@ -6463,7 +6463,7 @@ export interface RouteFilterOutput extends ResourceOutput {
   /** Properties of the route filter. */
   properties?: RouteFilterPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Route Filter Resource. */
@@ -6471,11 +6471,11 @@ export interface RouteFilterPropertiesFormatOutput {
   /** Collection of RouteFilterRules contained within a route filter. */
   rules?: Array<RouteFilterRuleOutput>;
   /** A collection of references to express route circuit peerings. */
-  peerings?: Array<ExpressRouteCircuitPeeringOutput>;
+  readonly peerings?: Array<ExpressRouteCircuitPeeringOutput>;
   /** A collection of references to express route circuit ipv6 peerings. */
-  ipv6Peerings?: Array<ExpressRouteCircuitPeeringOutput>;
+  readonly ipv6Peerings?: Array<ExpressRouteCircuitPeeringOutput>;
   /** The provisioning state of the route filter resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Route Filter Rule Resource. */
@@ -6487,7 +6487,7 @@ export interface RouteFilterRuleOutput extends SubResourceOutput {
   /** Resource location. */
   location?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Route Filter Rule Resource. */
@@ -6499,7 +6499,7 @@ export interface RouteFilterRulePropertiesFormatOutput {
   /** The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']. */
   communities: Array<string>;
   /** The provisioning state of the route filter rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for the ListRouteFilters API service call. */
@@ -6539,17 +6539,17 @@ export interface SecurityPartnerProviderOutput extends ResourceOutput {
   /** Properties of the Security Partner Provider. */
   properties?: SecurityPartnerProviderPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the Security Partner Provider. */
 export interface SecurityPartnerProviderPropertiesFormatOutput {
   /** The provisioning state of the Security Partner Provider resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The security provider name. */
   securityProviderName?: "ZScaler" | "IBoss" | "Checkpoint";
   /** The connection status with the Security Partner Provider. */
-  connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "PartiallyConnected" | "Connected" | "NotConnected";
   /** The virtualHub to which the Security Partner Provider belongs. */
   virtualHub?: SubResourceOutput;
 }
@@ -6605,7 +6605,7 @@ export interface ServiceEndpointPolicyListResultOutput {
   /** A list of ServiceEndpointPolicy resources. */
   value?: Array<ServiceEndpointPolicyOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListServiceEndpointPolicyDefinition API service call. Retrieves all service endpoint policy definition that belongs to a service endpoint policy. */
@@ -6619,45 +6619,45 @@ export interface ServiceEndpointPolicyDefinitionListResultOutput {
 /** Response for the ListServiceTags API service call. */
 export interface ServiceTagsListResultOutput {
   /** The name of the cloud. */
-  name?: string;
+  readonly name?: string;
   /** The ID of the cloud. */
-  id?: string;
+  readonly id?: string;
   /** The azure resource type. */
-  type?: string;
+  readonly type?: string;
   /** The iteration number. */
-  changeNumber?: string;
+  readonly changeNumber?: string;
   /** The name of the cloud. */
-  cloud?: string;
+  readonly cloud?: string;
   /** The list of service tag information resources. */
-  values?: Array<ServiceTagInformationOutput>;
+  readonly values?: Array<ServiceTagInformationOutput>;
   /** The URL to get next page of service tag information resources. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The service tag information. */
 export interface ServiceTagInformationOutput {
   /** Properties of the service tag information. */
-  properties?: ServiceTagInformationPropertiesFormatOutput;
+  readonly properties?: ServiceTagInformationPropertiesFormatOutput;
   /** The name of service tag. */
-  name?: string;
+  readonly name?: string;
   /** The ID of service tag. */
-  id?: string;
+  readonly id?: string;
   /** The iteration number of service tag object for region. */
-  serviceTagChangeNumber?: string;
+  readonly serviceTagChangeNumber?: string;
 }
 
 /** Properties of the service tag information. */
 export interface ServiceTagInformationPropertiesFormatOutput {
   /** The iteration number of service tag. */
-  changeNumber?: string;
+  readonly changeNumber?: string;
   /** The region of service tag. */
-  region?: string;
+  readonly region?: string;
   /** The name of system service. */
-  systemService?: string;
+  readonly systemService?: string;
   /** The list of IP address prefixes. */
-  addressPrefixes?: Array<string>;
+  readonly addressPrefixes?: Array<string>;
   /** The state of the service tag. */
-  state?: string;
+  readonly state?: string;
 }
 
 /** Response for Get ServiceTagInformation API service call. Retrieves the list of service tag information resources. */
@@ -6665,7 +6665,7 @@ export interface ServiceTagInformationListResultOutput {
   /** The list of service tag information resources. */
   value?: Array<ServiceTagInformationOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The list usages operation response. */
@@ -6679,7 +6679,7 @@ export interface UsagesListResultOutput {
 /** The network resource usage. */
 export interface UsageOutput {
   /** Resource identifier. */
-  id?: string;
+  readonly id?: string;
   /** An enum describing the unit of measurement. */
   unit: "Count";
   /** The current value of the usage. */
@@ -6705,7 +6705,7 @@ export interface VirtualNetworkOutput extends ResourceOutput {
   /** Properties of the virtual network. */
   properties?: VirtualNetworkPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the virtual network. */
@@ -6721,9 +6721,9 @@ export interface VirtualNetworkPropertiesFormatOutput {
   /** A list of peerings in a Virtual Network. */
   virtualNetworkPeerings?: Array<VirtualNetworkPeeringOutput>;
   /** The resourceGuid property of the Virtual Network resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the virtual network resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
   enableDdosProtection?: boolean;
   /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
@@ -6757,7 +6757,7 @@ export interface VirtualNetworkPeeringOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
   type?: string;
 }
@@ -6781,7 +6781,7 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
   /** The reference to the remote virtual network's Bgp Communities. */
   remoteBgpCommunities?: VirtualNetworkBgpCommunitiesOutput;
   /** The reference to the remote virtual network's encryption */
-  remoteVirtualNetworkEncryption?: VirtualNetworkEncryptionOutput;
+  readonly remoteVirtualNetworkEncryption?: VirtualNetworkEncryptionOutput;
   /** The status of the virtual network peering. */
   peeringState?: "Initiated" | "Connected" | "Disconnected";
   /** The peering sync status of the virtual network peering. */
@@ -6791,11 +6791,11 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
     | "LocalNotInSync"
     | "LocalAndRemoteNotInSync";
   /** The provisioning state of the virtual network peering resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** If we need to verify the provisioning state of the remote gateway. */
   doNotVerifyRemoteGateways?: boolean;
   /** The resourceGuid property of the Virtual Network peering resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
 }
 
 /** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
@@ -6803,7 +6803,7 @@ export interface VirtualNetworkBgpCommunitiesOutput {
   /** The BGP community associated with the virtual network. */
   virtualNetworkCommunity: string;
   /** The BGP community associated with the region of the virtual network. */
-  regionalCommunity?: string;
+  readonly regionalCommunity?: string;
 }
 
 /** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
@@ -6825,7 +6825,7 @@ export interface VirtualNetworkListResultOutput {
 /** Network Intent Policy resource. */
 export interface NetworkIntentPolicyOutput extends ResourceOutput {
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Response for ResourceNavigationLinks_List operation. */
@@ -6833,7 +6833,7 @@ export interface ResourceNavigationLinksListResultOutput {
   /** The resource navigation links in a subnet. */
   value?: Array<ResourceNavigationLinkOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ServiceAssociationLinks_List operation. */
@@ -6841,7 +6841,7 @@ export interface ServiceAssociationLinksListResultOutput {
   /** The service association links in a subnet. */
   value?: Array<ServiceAssociationLinkOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for ListSubnets API service callRetrieves all subnet that belongs to a virtual network. */
@@ -6873,7 +6873,7 @@ export interface IPAddressAvailabilityResultOutput {
 /** Response for the virtual networks GetUsage API service call. */
 export interface VirtualNetworkListUsageResultOutput {
   /** VirtualNetwork usage stats. */
-  value?: Array<VirtualNetworkUsageOutput>;
+  readonly value?: Array<VirtualNetworkUsageOutput>;
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
@@ -6881,23 +6881,23 @@ export interface VirtualNetworkListUsageResultOutput {
 /** Usage details for subnet. */
 export interface VirtualNetworkUsageOutput {
   /** Indicates number of IPs used from the Subnet. */
-  currentValue?: number;
+  readonly currentValue?: number;
   /** Subnet identifier. */
-  id?: string;
+  readonly id?: string;
   /** Indicates the size of the subnet. */
-  limit?: number;
+  readonly limit?: number;
   /** The name containing common and localized value for usage. */
-  name?: VirtualNetworkUsageNameOutput;
+  readonly name?: VirtualNetworkUsageNameOutput;
   /** Usage units. Returns 'Count'. */
-  unit?: string;
+  readonly unit?: string;
 }
 
 /** Usage strings container. */
 export interface VirtualNetworkUsageNameOutput {
   /** Localized subnet size and usage string. */
-  localizedValue?: string;
+  readonly localizedValue?: string;
   /** Subnet size and usage string. */
-  value?: string;
+  readonly value?: string;
 }
 
 /** Response for GetVirtualNetworkDdosProtectionStatusOperation. */
@@ -6915,7 +6915,7 @@ export interface VirtualNetworkGatewayOutput extends ResourceOutput {
   /** The extended location of type local virtual network gateway. */
   extendedLocation?: ExtendedLocationOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** VirtualNetworkGateway properties. */
@@ -6949,13 +6949,13 @@ export interface VirtualNetworkGatewayPropertiesFormatOutput {
   /** The reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient. */
   customRoutes?: AddressSpaceOutput;
   /** The resource GUID property of the virtual network gateway resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Whether dns forwarding is enabled or not. */
   enableDnsForwarding?: boolean;
   /** The IP address allocated by the gateway to which dns requests can be sent. */
-  inboundDnsForwardingEndpoint?: string;
+  readonly inboundDnsForwardingEndpoint?: string;
   /** Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet. */
   vNetExtendedLocationResourceId?: string;
   /** NatRules for virtual network gateway. */
@@ -6971,7 +6971,7 @@ export interface VirtualNetworkGatewayIPConfigurationOutput extends SubResourceO
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of VirtualNetworkGatewayIPConfiguration. */
@@ -6983,9 +6983,9 @@ export interface VirtualNetworkGatewayIPConfigurationPropertiesFormatOutput {
   /** The reference to the public IP resource. */
   publicIPAddress?: SubResourceOutput;
   /** Private IP Address for this gateway. */
-  privateIPAddress?: string;
+  readonly privateIPAddress?: string;
   /** The provisioning state of the virtual network gateway IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** VirtualNetworkGatewaySku details. */
@@ -7029,7 +7029,7 @@ export interface VirtualNetworkGatewaySkuOutput {
     | "ErGw2AZ"
     | "ErGw3AZ";
   /** The capacity. */
-  capacity?: number;
+  readonly capacity?: number;
 }
 
 /** VpnClientConfiguration for P2S client. */
@@ -7069,7 +7069,7 @@ export interface VpnClientRootCertificateOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of SSL certificates of application gateway. */
@@ -7077,7 +7077,7 @@ export interface VpnClientRootCertificatePropertiesFormatOutput {
   /** The certificate public data. */
   publicCertData: string;
   /** The provisioning state of the VPN client root certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** VPN client revoked certificate of virtual network gateway. */
@@ -7087,7 +7087,7 @@ export interface VpnClientRevokedCertificateOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of the revoked VPN client certificate of virtual network gateway. */
@@ -7095,7 +7095,7 @@ export interface VpnClientRevokedCertificatePropertiesFormatOutput {
   /** The revoked VPN client certificate thumbprint. */
   thumbprint?: string;
   /** The provisioning state of the VPN client revoked certificate resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** An IPSec Policy configuration for a virtual network gateway connection. */
@@ -7161,7 +7161,7 @@ export interface VngClientConnectionConfigurationOutput extends SubResourceOutpu
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of VngClientConnectionConfiguration. */
@@ -7171,7 +7171,7 @@ export interface VngClientConnectionConfigurationPropertiesOutput {
   /** List of references to virtualNetworkGatewayPolicyGroups */
   virtualNetworkGatewayPolicyGroups: Array<SubResourceOutput>;
   /** The provisioning state of the VngClientConnectionConfiguration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Parameters for VirtualNetworkGatewayPolicyGroup. */
@@ -7181,7 +7181,7 @@ export interface VirtualNetworkGatewayPolicyGroupOutput extends SubResourceOutpu
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of VirtualNetworkGatewayPolicyGroup. */
@@ -7193,9 +7193,9 @@ export interface VirtualNetworkGatewayPolicyGroupPropertiesOutput {
   /** Multiple PolicyMembers for VirtualNetworkGatewayPolicyGroup. */
   policyMembers: Array<VirtualNetworkGatewayPolicyGroupMemberOutput>;
   /** List of references to vngClientConnectionConfigurations. */
-  vngClientConnectionConfigurations?: Array<SubResourceOutput>;
+  readonly vngClientConnectionConfigurations?: Array<SubResourceOutput>;
   /** The provisioning state of the VirtualNetworkGatewayPolicyGroup resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Vpn Client Connection configuration PolicyGroup member */
@@ -7225,11 +7225,11 @@ export interface IPConfigurationBgpPeeringAddressOutput {
   /** The ID of IP configuration which belongs to gateway. */
   ipconfigurationId?: string;
   /** The list of default BGP peering addresses which belong to IP configuration. */
-  defaultBgpIpAddresses?: Array<string>;
+  readonly defaultBgpIpAddresses?: Array<string>;
   /** The list of custom BGP peering addresses which belong to IP configuration. */
   customBgpIpAddresses?: Array<string>;
   /** The list of tunnel public IP addresses which belong to IP configuration. */
-  tunnelIpAddresses?: Array<string>;
+  readonly tunnelIpAddresses?: Array<string>;
 }
 
 /** VirtualNetworkGatewayNatRule Resource. */
@@ -7239,15 +7239,15 @@ export interface VirtualNetworkGatewayNatRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for VirtualNetworkGatewayNatRule. */
 export interface VirtualNetworkGatewayNatRulePropertiesOutput {
   /** The provisioning state of the NAT Rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of NAT rule for VPN NAT. */
   type?: "Static" | "Dynamic";
   /** The Source NAT direction of a VPN NAT. */
@@ -7273,7 +7273,7 @@ export interface VirtualNetworkGatewayListResultOutput {
   /** A list of VirtualNetworkGateway resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Response for the VirtualNetworkGatewayListConnections API service call. */
@@ -7281,7 +7281,7 @@ export interface VirtualNetworkGatewayListConnectionsResultOutput {
   /** A list of VirtualNetworkGatewayConnection resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayConnectionListEntityOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** A common class for general resource information. */
@@ -7289,7 +7289,7 @@ export interface VirtualNetworkGatewayConnectionListEntityOutput extends Resourc
   /** Properties of the virtual network gateway connection. */
   properties: VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** VirtualNetworkGatewayConnection properties. */
@@ -7313,13 +7313,13 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
   /** The IPSec shared key. */
   sharedKey?: string;
   /** Virtual Network Gateway connection status. */
-  connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
   /** Collection of all tunnels' connection health status. */
-  tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
+  readonly tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
   /** The egress bytes transferred in this connection. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** The ingress bytes transferred in this connection. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** The reference to peerings resource. */
   peer?: SubResourceOutput;
   /** EnableBgp flag. */
@@ -7333,9 +7333,9 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormatOutput
   /** The Traffic Selector Policies to be considered by this connection. */
   trafficSelectorPolicies?: Array<TrafficSelectorPolicyOutput>;
   /** The resource GUID property of the virtual network gateway connection resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -7351,15 +7351,15 @@ export interface VirtualNetworkConnectionGatewayReferenceOutput {
 /** VirtualNetworkGatewayConnection properties. */
 export interface TunnelConnectionHealthOutput {
   /** Tunnel name. */
-  tunnel?: string;
+  readonly tunnel?: string;
   /** Virtual Network Gateway connection status. */
-  connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
   /** The Ingress Bytes Transferred in this connection. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** The Egress Bytes Transferred in this connection. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** The time at which connection was established in Utc format. */
-  lastConnectionEstablishedUtcTime?: string;
+  readonly lastConnectionEstablishedUtcTime?: string;
 }
 
 /** GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection. */
@@ -7387,21 +7387,21 @@ export interface BgpPeerStatusListResultOutput {
 /** BGP peer status details. */
 export interface BgpPeerStatusOutput {
   /** The virtual network gateway's local address. */
-  localAddress?: string;
+  readonly localAddress?: string;
   /** The remote BGP peer. */
-  neighbor?: string;
+  readonly neighbor?: string;
   /** The autonomous system number of the remote BGP peer. */
-  asn?: number;
+  readonly asn?: number;
   /** The BGP peer state. */
-  state?: "Unknown" | "Stopped" | "Idle" | "Connecting" | "Connected";
+  readonly state?: "Unknown" | "Stopped" | "Idle" | "Connecting" | "Connected";
   /** For how long the peering has been up. */
-  connectedDuration?: string;
+  readonly connectedDuration?: string;
   /** The number of routes learned from this peer. */
-  routesReceived?: number;
+  readonly routesReceived?: number;
   /** The number of BGP messages sent. */
-  messagesSent?: number;
+  readonly messagesSent?: number;
   /** The number of BGP messages received. */
-  messagesReceived?: number;
+  readonly messagesReceived?: number;
 }
 
 /** List of virtual network gateway routes. */
@@ -7413,19 +7413,19 @@ export interface GatewayRouteListResultOutput {
 /** Gateway routing details. */
 export interface GatewayRouteOutput {
   /** The gateway's local address. */
-  localAddress?: string;
+  readonly localAddress?: string;
   /** The route's network prefix. */
-  network?: string;
+  readonly network?: string;
   /** The route's next hop. */
-  nextHop?: string;
+  readonly nextHop?: string;
   /** The peer this route was learned from. */
-  sourcePeer?: string;
+  readonly sourcePeer?: string;
   /** The source this route was learned from. */
-  origin?: string;
+  readonly origin?: string;
   /** The route's AS path sequence. */
-  asPath?: string;
+  readonly asPath?: string;
   /** The route's weight. */
-  weight?: number;
+  readonly weight?: number;
 }
 
 /** An IPSec parameters for a virtual network gateway P2S connection. */
@@ -7479,7 +7479,7 @@ export interface VirtualNetworkGatewayConnectionOutput extends ResourceOutput {
   /** Properties of the virtual network gateway connection. */
   properties: VirtualNetworkGatewayConnectionPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** VirtualNetworkGatewayConnection properties. */
@@ -7509,13 +7509,13 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
   /** The IPSec shared key. */
   sharedKey?: string;
   /** Virtual Network Gateway connection status. */
-  connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
   /** Collection of all tunnels' connection health status. */
-  tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
+  readonly tunnelConnectionStatus?: Array<TunnelConnectionHealthOutput>;
   /** The egress bytes transferred in this connection. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** The ingress bytes transferred in this connection. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** The reference to peerings resource. */
   peer?: SubResourceOutput;
   /** EnableBgp flag. */
@@ -7531,9 +7531,9 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatOutput {
   /** The Traffic Selector Policies to be considered by this connection. */
   trafficSelectorPolicies?: Array<TrafficSelectorPolicyOutput>;
   /** The resource GUID property of the virtual network gateway connection resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the virtual network gateway connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Bypass ExpressRoute Gateway for data forwarding. */
   expressRouteGatewayBypass?: boolean;
   /** Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled. */
@@ -7545,7 +7545,7 @@ export interface LocalNetworkGatewayOutput extends ResourceOutput {
   /** Properties of the local network gateway. */
   properties: LocalNetworkGatewayPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** LocalNetworkGateway properties. */
@@ -7559,9 +7559,9 @@ export interface LocalNetworkGatewayPropertiesFormatOutput {
   /** Local network gateway's BGP speaker settings. */
   bgpSettings?: BgpSettingsOutput;
   /** The resource GUID property of the local network gateway resource. */
-  resourceGuid?: string;
+  readonly resourceGuid?: string;
   /** The provisioning state of the local network gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for GetConnectionSharedKey API service call. */
@@ -7575,7 +7575,7 @@ export interface VirtualNetworkGatewayConnectionListResultOutput {
   /** A list of VirtualNetworkGatewayConnection resources that exists in a resource group. */
   value?: Array<VirtualNetworkGatewayConnectionOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The virtual network connection reset shared key. */
@@ -7589,7 +7589,7 @@ export interface LocalNetworkGatewayListResultOutput {
   /** A list of local network gateways that exists in a resource group. */
   value?: Array<LocalNetworkGatewayOutput>;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** List of virtual network gateway vpn client connection health. */
@@ -7601,29 +7601,29 @@ export interface VpnClientConnectionHealthDetailListResultOutput {
 /** VPN client connection health detail. */
 export interface VpnClientConnectionHealthDetailOutput {
   /** The vpn client Id. */
-  vpnConnectionId?: string;
+  readonly vpnConnectionId?: string;
   /** The duration time of a connected vpn client. */
-  vpnConnectionDuration?: number;
+  readonly vpnConnectionDuration?: number;
   /** The start time of a connected vpn client. */
-  vpnConnectionTime?: string;
+  readonly vpnConnectionTime?: string;
   /** The public Ip of a connected vpn client. */
-  publicIpAddress?: string;
+  readonly publicIpAddress?: string;
   /** The assigned private Ip of a connected vpn client. */
-  privateIpAddress?: string;
+  readonly privateIpAddress?: string;
   /** The user name of a connected vpn client. */
-  vpnUserName?: string;
+  readonly vpnUserName?: string;
   /** The max band width. */
-  maxBandwidth?: number;
+  readonly maxBandwidth?: number;
   /** The egress packets per second. */
-  egressPacketsTransferred?: number;
+  readonly egressPacketsTransferred?: number;
   /** The egress bytes per second. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** The ingress packets per second. */
-  ingressPacketsTransferred?: number;
+  readonly ingressPacketsTransferred?: number;
   /** The ingress bytes per second. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** The max packets transferred per second. */
-  maxPacketsPerSecond?: number;
+  readonly maxPacketsPerSecond?: number;
 }
 
 /** Result of the request to list all nat rules to a virtual network gateway. It contains a list of Nat rules and a URL nextLink to get the next set of results. */
@@ -7647,7 +7647,7 @@ export interface VirtualRouterOutput extends ResourceOutput {
   /** Properties of the Virtual Router. */
   properties?: VirtualRouterPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Virtual Router definition. */
@@ -7661,9 +7661,9 @@ export interface VirtualRouterPropertiesFormatOutput {
   /** The Gateway on which VirtualRouter is hosted. */
   hostedGateway?: SubResourceOutput;
   /** List of references to VirtualRouterPeerings. */
-  peerings?: Array<SubResourceOutput>;
+  readonly peerings?: Array<SubResourceOutput>;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListVirtualRouters API service call. */
@@ -7681,9 +7681,9 @@ export interface VirtualRouterPeeringOutput extends SubResourceOutput {
   /** Name of the virtual router peering that is unique within a virtual router. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Peering type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the rule group. */
@@ -7693,7 +7693,7 @@ export interface VirtualRouterPeeringPropertiesOutput {
   /** Peer IP. */
   peerIp?: string;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Response for ListVirtualRouterPeerings API service call. */
@@ -7709,7 +7709,7 @@ export interface VirtualWANOutput extends ResourceOutput {
   /** Properties of the virtual WAN. */
   properties?: VirtualWanPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VirtualWAN. */
@@ -7717,17 +7717,17 @@ export interface VirtualWanPropertiesOutput {
   /** Vpn encryption to be disabled or not. */
   disableVpnEncryption?: boolean;
   /** List of VirtualHubs in the VirtualWAN. */
-  virtualHubs?: Array<SubResourceOutput>;
+  readonly virtualHubs?: Array<SubResourceOutput>;
   /** List of VpnSites in the VirtualWAN. */
-  vpnSites?: Array<SubResourceOutput>;
+  readonly vpnSites?: Array<SubResourceOutput>;
   /** True if branch to branch traffic is allowed. */
   allowBranchToBranchTraffic?: boolean;
   /** True if Vnet to Vnet traffic is allowed. */
   allowVnetToVnetTraffic?: boolean;
   /** The office local breakout category. */
-  office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
+  readonly office365LocalBreakoutCategory?: "Optimize" | "OptimizeAndAllow" | "All" | "None";
   /** The provisioning state of the virtual WAN resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of the VirtualWAN. */
   type?: string;
 }
@@ -7745,7 +7745,7 @@ export interface VpnSiteOutput extends ResourceOutput {
   /** Properties of the VPN site. */
   properties?: VpnSitePropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VpnSite. */
@@ -7763,7 +7763,7 @@ export interface VpnSitePropertiesOutput {
   /** The set of bgp properties. */
   bgpProperties?: BgpSettingsOutput;
   /** The provisioning state of the VPN site resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** IsSecuritySite flag. */
   isSecuritySite?: boolean;
   /** List of all vpn site links. */
@@ -7787,11 +7787,11 @@ export interface VpnSiteLinkOutput extends SubResourceOutput {
   /** Properties of the VPN site link. */
   properties?: VpnSiteLinkPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for VpnSite. */
@@ -7805,7 +7805,7 @@ export interface VpnSiteLinkPropertiesOutput {
   /** The set of bgp properties. */
   bgpProperties?: VpnLinkBgpSettingsOutput;
   /** The provisioning state of the VPN site link resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** List of properties of a link provider. */
@@ -7869,7 +7869,7 @@ export interface VirtualWanSecurityProviderOutput {
   /** Url of the security provider. */
   url?: string;
   /** Name of the security provider. */
-  type?: "External" | "Native";
+  readonly type?: "External" | "Native";
 }
 
 /** VpnServerConfiguration Resource. */
@@ -7877,7 +7877,7 @@ export interface VpnServerConfigurationOutput extends ResourceOutput {
   /** Properties of the P2SVpnServer configuration. */
   properties?: VpnServerConfigurationPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VpnServerConfiguration. */
@@ -7907,13 +7907,13 @@ export interface VpnServerConfigurationPropertiesOutput {
   /** The set of aad vpn authentication parameters. */
   aadAuthenticationParameters?: AadAuthenticationParametersOutput;
   /** The provisioning state of the VpnServerConfiguration resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** List of references to P2SVpnGateways. */
-  p2SVpnGateways?: Array<P2SVpnGatewayOutput>;
+  readonly p2SVpnGateways?: Array<P2SVpnGatewayOutput>;
   /** List of all VpnServerConfigurationPolicyGroups. */
   configurationPolicyGroups?: Array<VpnServerConfigurationPolicyGroupOutput>;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Properties of VPN client root certificate of VpnServerConfiguration. */
@@ -7963,7 +7963,7 @@ export interface P2SVpnGatewayOutput extends ResourceOutput {
   /** Properties of the P2SVpnGateway. */
   properties?: P2SVpnGatewayPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for P2SVpnGateway. */
@@ -7973,13 +7973,13 @@ export interface P2SVpnGatewayPropertiesOutput {
   /** List of all p2s connection configurations of the gateway. */
   p2SConnectionConfigurations?: Array<P2SConnectionConfigurationOutput>;
   /** The provisioning state of the P2S VPN gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The scale unit for this p2s vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** The VpnServerConfiguration to which the p2sVpnGateway is attached to. */
   vpnServerConfiguration?: SubResourceOutput;
   /** All P2S VPN clients' connection health status. */
-  vpnClientConnectionHealth?: VpnClientConnectionHealthOutput;
+  readonly vpnClientConnectionHealth?: VpnClientConnectionHealthOutput;
   /** List of all customer specified DNS servers IP addresses. */
   customDnsServers?: Array<string>;
   /** Enable Routing Preference property for the Public IP Interface of the P2SVpnGateway. */
@@ -7993,7 +7993,7 @@ export interface P2SConnectionConfigurationOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for P2SConnectionConfiguration. */
@@ -8005,11 +8005,11 @@ export interface P2SConnectionConfigurationPropertiesOutput {
   /** Flag indicating whether the enable internet security flag is turned on for the P2S Connections or not. */
   enableInternetSecurity?: boolean;
   /** List of Configuration Policy Groups that this P2SConnectionConfiguration is attached to. */
-  configurationPolicyGroupAssociations?: Array<SubResourceOutput>;
+  readonly configurationPolicyGroupAssociations?: Array<SubResourceOutput>;
   /** List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to. */
-  previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroupOutput>;
+  readonly previousConfigurationPolicyGroupAssociations?: Array<VpnServerConfigurationPolicyGroupOutput>;
   /** The provisioning state of the P2SConnectionConfiguration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Routing Configuration indicating the associated and propagated route tables for this connection. */
@@ -8041,13 +8041,13 @@ export interface VnetRouteOutput {
   /** List of all Static Routes. */
   staticRoutes?: Array<StaticRouteOutput>;
   /** The list of references to HubBgpConnection objects. */
-  bgpConnections?: Array<SubResourceOutput>;
+  readonly bgpConnections?: Array<SubResourceOutput>;
 }
 
 /** Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection. */
 export interface StaticRoutesConfigOutput {
   /** Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to. */
-  propagateStaticRoutes?: boolean;
+  readonly propagateStaticRoutes?: boolean;
   /** Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke. */
   vnetLocalRouteOverrideCriteria?: "Contains" | "Equal";
 }
@@ -8067,11 +8067,11 @@ export interface VpnServerConfigurationPolicyGroupOutput extends SubResourceOutp
   /** Properties of the VpnServerConfigurationPolicyGroup. */
   properties?: VpnServerConfigurationPolicyGroupPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for VpnServerConfigurationPolicyGroup. */
@@ -8083,9 +8083,9 @@ export interface VpnServerConfigurationPolicyGroupPropertiesOutput {
   /** Multiple PolicyMembers for VpnServerConfigurationPolicyGroup. */
   policyMembers?: Array<VpnServerConfigurationPolicyGroupMemberOutput>;
   /** List of references to P2SConnectionConfigurations. */
-  p2SConnectionConfigurations?: Array<SubResourceOutput>;
+  readonly p2SConnectionConfigurations?: Array<SubResourceOutput>;
   /** The provisioning state of the VpnServerConfigurationPolicyGroup resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** VpnServerConfiguration PolicyGroup member */
@@ -8101,9 +8101,9 @@ export interface VpnServerConfigurationPolicyGroupMemberOutput {
 /** VpnClientConnectionHealth properties. */
 export interface VpnClientConnectionHealthOutput {
   /** Total of the Ingress Bytes Transferred in this P2S Vpn connection. */
-  totalIngressBytesTransferred?: number;
+  readonly totalIngressBytesTransferred?: number;
   /** Total of the Egress Bytes Transferred in this connection. */
-  totalEgressBytesTransferred?: number;
+  readonly totalEgressBytesTransferred?: number;
   /** The total of p2s vpn clients connected at this time to this P2SVpnGateway. */
   vpnClientConnectionsCount?: number;
   /** List of allocated ip addresses to the connected p2s vpn clients. */
@@ -8131,9 +8131,9 @@ export interface VirtualHubOutput extends ResourceOutput {
   /** Properties of the virtual hub. */
   properties?: VirtualHubPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Kind of service virtual hub. This is metadata used for the Azure portal experience for Route Server. */
-  kind?: string;
+  readonly kind?: string;
 }
 
 /** Parameters for VirtualHub. */
@@ -8155,7 +8155,7 @@ export interface VirtualHubPropertiesOutput {
   /** The routeTable associated with this virtual hub. */
   routeTable?: VirtualHubRouteTableOutput;
   /** The provisioning state of the virtual hub resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The Security Provider name. */
   securityProviderName?: string;
   /** List of all virtual hub route table v2s associated with this VirtualHub. */
@@ -8163,13 +8163,13 @@ export interface VirtualHubPropertiesOutput {
   /** The sku of this VirtualHub. */
   sku?: string;
   /** The routing state. */
-  routingState?: "None" | "Provisioned" | "Provisioning" | "Failed";
+  readonly routingState?: "None" | "Provisioned" | "Provisioning" | "Failed";
   /** List of references to Bgp Connections. */
-  bgpConnections?: Array<SubResourceOutput>;
+  readonly bgpConnections?: Array<SubResourceOutput>;
   /** List of references to IpConfigurations. */
-  ipConfigurations?: Array<SubResourceOutput>;
+  readonly ipConfigurations?: Array<SubResourceOutput>;
   /** List of references to RouteMaps. */
-  routeMaps?: Array<SubResourceOutput>;
+  readonly routeMaps?: Array<SubResourceOutput>;
   /** VirtualRouter ASN. */
   virtualRouterAsn?: number;
   /** VirtualRouter IPs. */
@@ -8205,7 +8205,7 @@ export interface VirtualHubRouteTableV2Output extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VirtualHubRouteTableV2. */
@@ -8215,7 +8215,7 @@ export interface VirtualHubRouteTableV2PropertiesOutput {
   /** List of all connections attached to this route table v2. */
   attachedConnections?: Array<string>;
   /** The provisioning state of the virtual hub route table v2 resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** VirtualHubRouteTableV2 route. */
@@ -8249,11 +8249,11 @@ export interface RouteMapOutput extends SubResourceOutput {
   /** Properties of the RouteMap resource. */
   properties?: RouteMapPropertiesOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
-  name?: string;
+  readonly name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of RouteMap resource */
@@ -8265,7 +8265,7 @@ export interface RouteMapPropertiesOutput {
   /** List of RouteMap rules to be applied. */
   rules?: Array<RouteMapRuleOutput>;
   /** The provisioning state of the RouteMap resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** A RouteMap Rule. */
@@ -8325,7 +8325,7 @@ export interface HubVirtualNetworkConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for HubVirtualNetworkConnection. */
@@ -8341,7 +8341,7 @@ export interface HubVirtualNetworkConnectionPropertiesOutput {
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
   routingConfiguration?: RoutingConfigurationOutput;
   /** The provisioning state of the hub virtual network connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** List of HubVirtualNetworkConnections and a URL nextLink to get the next set of results. */
@@ -8357,7 +8357,7 @@ export interface VpnGatewayOutput extends ResourceOutput {
   /** Properties of the VPN gateway. */
   properties?: VpnGatewayPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VpnGateway. */
@@ -8369,11 +8369,11 @@ export interface VpnGatewayPropertiesOutput {
   /** Local network gateway's BGP speaker settings. */
   bgpSettings?: BgpSettingsOutput;
   /** The provisioning state of the VPN gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The scale unit for this vpn gateway. */
   vpnGatewayScaleUnit?: number;
   /** List of all IPs configured on the gateway. */
-  ipConfigurations?: Array<VpnGatewayIpConfigurationOutput>;
+  readonly ipConfigurations?: Array<VpnGatewayIpConfigurationOutput>;
   /** Enable BGP routes translation for NAT on this VpnGateway. */
   enableBgpRouteTranslationForNat?: boolean;
   /** Enable Routing Preference property for the Public IP Interface of the VpnGateway. */
@@ -8389,7 +8389,7 @@ export interface VpnConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Parameters for VpnConnection. */
@@ -8401,13 +8401,13 @@ export interface VpnConnectionPropertiesOutput {
   /** DPD timeout in seconds for vpn connection. */
   dpdTimeoutSeconds?: number;
   /** The connection status. */
-  connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
   /** Connection protocol used for this connection. */
   vpnConnectionProtocolType?: "IKEv2" | "IKEv1";
   /** Ingress bytes transferred. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** Egress bytes transferred. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number;
   /** SharedKey for the vpn connection. */
@@ -8427,7 +8427,7 @@ export interface VpnConnectionPropertiesOutput {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** List of all vpn site link connections to the gateway. */
   vpnLinkConnections?: Array<VpnSiteLinkConnectionOutput>;
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
@@ -8441,9 +8441,9 @@ export interface VpnSiteLinkConnectionOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for VpnConnection. */
@@ -8455,13 +8455,13 @@ export interface VpnSiteLinkConnectionPropertiesOutput {
   /** Vpn link connection mode. */
   vpnLinkConnectionMode?: "Default" | "ResponderOnly" | "InitiatorOnly";
   /** The connection status. */
-  connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionStatus?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
   /** Connection protocol used for this connection. */
   vpnConnectionProtocolType?: "IKEv2" | "IKEv1";
   /** Ingress bytes transferred. */
-  ingressBytesTransferred?: number;
+  readonly ingressBytesTransferred?: number;
   /** Egress bytes transferred. */
-  egressBytesTransferred?: number;
+  readonly egressBytesTransferred?: number;
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number;
   /** SharedKey for the vpn connection. */
@@ -8479,7 +8479,7 @@ export interface VpnSiteLinkConnectionPropertiesOutput {
   /** Use local azure ip to initiate connection. */
   useLocalAzureIpAddress?: boolean;
   /** The provisioning state of the VPN site link connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** List of ingress NatRules. */
   ingressNatRules?: Array<SubResourceOutput>;
   /** List of egress NatRules. */
@@ -8503,15 +8503,15 @@ export interface VpnGatewayNatRuleOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for VpnGatewayNatRule. */
 export interface VpnGatewayNatRulePropertiesOutput {
   /** The provisioning state of the NAT Rule resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The type of NAT rule for VPN NAT. */
   type?: "Static" | "Dynamic";
   /** The Source NAT direction of a VPN NAT. */
@@ -8523,9 +8523,9 @@ export interface VpnGatewayNatRulePropertiesOutput {
   /** The IP Configuration ID this NAT rule applies to. */
   ipConfigurationId?: string;
   /** List of egress VpnSiteLinkConnections. */
-  egressVpnSiteLinkConnections?: Array<SubResourceOutput>;
+  readonly egressVpnSiteLinkConnections?: Array<SubResourceOutput>;
   /** List of ingress VpnSiteLinkConnections. */
-  ingressVpnSiteLinkConnections?: Array<SubResourceOutput>;
+  readonly ingressVpnSiteLinkConnections?: Array<SubResourceOutput>;
 }
 
 /** Result of the request to list VpnGateways. It contains a list of VpnGateways and a URL nextLink to get the next set of results. */
@@ -8605,7 +8605,7 @@ export interface ExpressRouteGatewayOutput extends ResourceOutput {
   /** Properties of the express route gateway. */
   properties?: ExpressRouteGatewayPropertiesOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** ExpressRoute gateway resource properties. */
@@ -8615,7 +8615,7 @@ export interface ExpressRouteGatewayPropertiesOutput {
   /** List of ExpressRoute connections to the ExpressRoute gateway. */
   expressRouteConnections?: Array<ExpressRouteConnectionOutput>;
   /** The provisioning state of the express route gateway resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
   virtualHub: VirtualHubIdOutput;
 }
@@ -8645,7 +8645,7 @@ export interface ExpressRouteConnectionOutput extends SubResourceOutput {
 /** Properties of the ExpressRouteConnection subresource. */
 export interface ExpressRouteConnectionPropertiesOutput {
   /** The provisioning state of the express route connection resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The ExpressRoute circuit peering. */
   expressRouteCircuitPeering: ExpressRouteCircuitPeeringIdOutput;
   /** Authorization key to establish the connection. */
@@ -8687,9 +8687,9 @@ export interface BgpConnectionOutput extends SubResourceOutput {
   /** Name of the connection. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Connection type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of the bgp connection. */
@@ -8701,9 +8701,9 @@ export interface BgpConnectionPropertiesOutput {
   /** The reference to the HubVirtualNetworkConnection resource. */
   hubVirtualNetworkConnection?: SubResourceOutput;
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** The current state of the VirtualHub to Peer. */
-  connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
+  readonly connectionState?: "Unknown" | "Connecting" | "Connected" | "NotConnected";
 }
 
 /** VirtualHubBgpConnections list. */
@@ -8723,19 +8723,19 @@ export interface PeerRouteListOutput {
 /** Peer routing details. */
 export interface PeerRouteOutput {
   /** The peer's local address. */
-  localAddress?: string;
+  readonly localAddress?: string;
   /** The route's network prefix. */
-  network?: string;
+  readonly network?: string;
   /** The route's next hop. */
-  nextHop?: string;
+  readonly nextHop?: string;
   /** The peer this route was learned from. */
-  sourcePeer?: string;
+  readonly sourcePeer?: string;
   /** The source this route was learned from. */
-  origin?: string;
+  readonly origin?: string;
   /** The route's AS path sequence. */
-  asPath?: string;
+  readonly asPath?: string;
   /** The route's weight. */
-  weight?: number;
+  readonly weight?: number;
 }
 
 /** IpConfigurations. */
@@ -8745,9 +8745,9 @@ export interface HubIpConfigurationOutput extends SubResourceOutput {
   /** Name of the Ip Configuration. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Ipconfiguration type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Properties of IP configuration. */
@@ -8761,7 +8761,7 @@ export interface HubIPConfigurationPropertiesFormatOutput {
   /** The reference to the public IP resource. */
   publicIPAddress?: PublicIPAddressOutput;
   /** The provisioning state of the IP configuration resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** VirtualHubIpConfigurations list. */
@@ -8779,9 +8779,9 @@ export interface HubRouteTableOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** Parameters for RouteTable. */
@@ -8791,11 +8791,11 @@ export interface HubRouteTablePropertiesOutput {
   /** List of labels associated with this route table. */
   labels?: Array<string>;
   /** List of all connections associated with this route table. */
-  associatedConnections?: Array<string>;
+  readonly associatedConnections?: Array<string>;
   /** List of all connections that advertise to this route table. */
-  propagatingConnections?: Array<string>;
+  readonly propagatingConnections?: Array<string>;
   /** The provisioning state of the RouteTable resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** RouteTable route. */
@@ -8827,9 +8827,9 @@ export interface RoutingIntentOutput extends SubResourceOutput {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
 }
 
 /** The properties of a RoutingIntent resource. */
@@ -8837,7 +8837,7 @@ export interface RoutingIntentPropertiesOutput {
   /** List of routing policies. */
   routingPolicies?: Array<RoutingPolicyOutput>;
   /** The provisioning state of the RoutingIntent resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** The routing policy object used in a RoutingIntent resource. */
@@ -8861,9 +8861,9 @@ export interface ListRoutingIntentResultOutput {
 /** Result of the request to list WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
 export interface WebApplicationFirewallPolicyListResultOutput {
   /** List of WebApplicationFirewallPolicies within a resource group. */
-  value?: Array<WebApplicationFirewallPolicyOutput>;
+  readonly value?: Array<WebApplicationFirewallPolicyOutput>;
   /** URL to get the next set of WebApplicationFirewallPolicy objects if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Defines web application firewall policy. */
@@ -8871,7 +8871,7 @@ export interface WebApplicationFirewallPolicyOutput extends ResourceOutput {
   /** Properties of the web application firewall policy. */
   properties?: WebApplicationFirewallPolicyPropertiesFormatOutput;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Defines web application firewall policy properties. */
@@ -8881,17 +8881,23 @@ export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
   /** The custom rules inside the policy. */
   customRules?: Array<WebApplicationFirewallCustomRuleOutput>;
   /** A collection of references to application gateways. */
-  applicationGateways?: Array<ApplicationGatewayOutput>;
+  readonly applicationGateways?: Array<ApplicationGatewayOutput>;
   /** The provisioning state of the web application firewall policy resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Resource status of the policy. */
-  resourceState?: "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
+  readonly resourceState?:
+    | "Creating"
+    | "Enabling"
+    | "Enabled"
+    | "Disabling"
+    | "Disabled"
+    | "Deleting";
   /** Describes the managedRules structure. */
   managedRules: ManagedRulesDefinitionOutput;
   /** A collection of references to application gateway http listeners. */
-  httpListeners?: Array<SubResourceOutput>;
+  readonly httpListeners?: Array<SubResourceOutput>;
   /** A collection of references to application gateway path rules. */
-  pathBasedRules?: Array<SubResourceOutput>;
+  readonly pathBasedRules?: Array<SubResourceOutput>;
 }
 
 /** Defines contents of a web application firewall global configuration. */
@@ -8913,7 +8919,7 @@ export interface WebApplicationFirewallCustomRuleOutput {
   /** The name of the resource that is unique within a policy. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
   priority: number;
   /** The rule type. */
@@ -9058,11 +9064,11 @@ export interface ManagedRuleOverrideOutput {
 /** SwapResource to represent slot type on the specified cloud service. */
 export interface SwapResourceOutput {
   /** Resource Id. */
-  id?: string;
+  readonly id?: string;
   /** Resource name. */
-  name?: string;
+  readonly name?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Swap resource properties */
   properties?: SwapResourcePropertiesOutput;
 }
@@ -9218,7 +9224,7 @@ export interface AdminPropertiesFormatOutput {
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
   direction: "Inbound" | "Outbound";
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Address prefix item. */
@@ -9240,27 +9246,27 @@ export interface ActiveDefaultSecurityAdminRuleOutput
 /** Security default admin rule resource. */
 export interface DefaultAdminPropertiesFormatOutput {
   /** A description for this rule. Restricted to 140 chars. */
-  description?: string;
+  readonly description?: string;
   /** Default rule flag. */
   flag?: string;
   /** Network protocol this rule applies to. */
-  protocol?: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
+  readonly protocol?: "Tcp" | "Udp" | "Icmp" | "Esp" | "Any" | "Ah";
   /** The CIDR or source IP ranges. */
-  sources?: Array<AddressPrefixItemOutput>;
+  readonly sources?: Array<AddressPrefixItemOutput>;
   /** The destination address prefixes. CIDR or destination IP ranges. */
-  destinations?: Array<AddressPrefixItemOutput>;
+  readonly destinations?: Array<AddressPrefixItemOutput>;
   /** The source port ranges. */
-  sourcePortRanges?: Array<string>;
+  readonly sourcePortRanges?: Array<string>;
   /** The destination port ranges. */
-  destinationPortRanges?: Array<string>;
+  readonly destinationPortRanges?: Array<string>;
   /** Indicates the access allowed for this particular rule */
-  access?: "Allow" | "Deny" | "AlwaysAllow";
+  readonly access?: "Allow" | "Deny" | "AlwaysAllow";
   /** The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. */
-  priority?: number;
+  readonly priority?: number;
   /** Indicates if the traffic matched against the rule in inbound or outbound. */
-  direction?: "Inbound" | "Outbound";
+  readonly direction?: "Inbound" | "Outbound";
   /** The provisioning state of the resource. */
-  provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
+  readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
 }
 
 /** Network admin rule. */
@@ -9298,9 +9304,9 @@ export interface PatchRouteFilterRuleOutput extends SubResourceOutput {
   /** Properties of the route filter rule. */
   properties?: RouteFilterRulePropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
-  name?: string;
+  readonly name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
 }
 
 /** Route Filter Resource. */
@@ -9308,11 +9314,11 @@ export interface PatchRouteFilterOutput extends SubResourceOutput {
   /** Properties of the route filter. */
   properties?: RouteFilterPropertiesFormatOutput;
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
-  name?: string;
+  readonly name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  readonly etag?: string;
   /** Resource type. */
-  type?: string;
+  readonly type?: string;
   /** Resource tags. */
   tags?: Record<string, string>;
 }

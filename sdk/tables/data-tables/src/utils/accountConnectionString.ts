@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
+import type { ClientParamsFromConnectionString, ConnectionString } from "./internalModels.js";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import { TableServiceClientOptions } from "..";
+import type { TableServiceClientOptions } from "../index.js";
 
 /**
  * Gets client parameters from an Account Connection String
@@ -13,11 +13,11 @@ import { TableServiceClientOptions } from "..";
  */
 export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
-  options: TableServiceClientOptions = {}
+  options: TableServiceClientOptions = {},
 ): ClientParamsFromConnectionString {
   const sharedKeyCredential = new AzureNamedKeyCredential(
     extractedCreds.accountName!,
-    extractedCreds.accountKey
+    extractedCreds.accountKey,
   );
 
   return {
@@ -32,7 +32,7 @@ export function getAccountConnectionString(
   accountKey: string,
   defaultEndpointsProtocol: string,
   endpointSuffix?: string,
-  tableEndpoint?: string
+  tableEndpoint?: string,
 ): ConnectionString {
   if (!tableEndpoint) {
     // TableEndpoint is not present in the Account connection string
@@ -40,7 +40,7 @@ export function getAccountConnectionString(
     const protocol = defaultEndpointsProtocol.toLowerCase();
     if (protocol !== "https" && protocol !== "http") {
       throw new Error(
-        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
       );
     }
     if (!endpointSuffix) {

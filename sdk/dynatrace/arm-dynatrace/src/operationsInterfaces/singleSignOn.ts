@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DynatraceSingleSignOnResource,
   SingleSignOnListOptionalParams,
@@ -15,7 +15,7 @@ import {
   SingleSignOnCreateOrUpdateResponse,
   SingleSignOnGetOptionalParams,
   SingleSignOnGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SingleSignOn. */
@@ -46,8 +46,8 @@ export interface SingleSignOn {
     resource: DynatraceSingleSignOnResource,
     options?: SingleSignOnCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SingleSignOnCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SingleSignOnCreateOrUpdateResponse>,
       SingleSignOnCreateOrUpdateResponse
     >
   >;

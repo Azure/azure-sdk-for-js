@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AuthorityValidationOptions } from "./authorityValidationOptions";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import type { AuthorityValidationOptions } from "./authorityValidationOptions.js";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
 
 /**
  * Options for the {@link WorkloadIdentityCredential}
@@ -11,11 +11,11 @@ export interface WorkloadIdentityCredentialOptions
   extends MultiTenantTokenCredentialOptions,
     AuthorityValidationOptions {
   /**
-   * ID of the application's Azure Active Directory tenant. Also called its directory ID.
+   * ID of the application's Microsoft Entra tenant. Also called its directory ID.
    */
   tenantId?: string;
   /**
-   * The client ID of an Azure AD app registration.
+   * The client ID of a Microsoft Entra app registration.
    */
   clientId?: string;
   /**

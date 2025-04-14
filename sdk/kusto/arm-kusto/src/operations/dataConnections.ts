@@ -7,13 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { DataConnections } from "../operationsInterfaces";
+import { DataConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DataConnectionUnion,
   DataConnectionsListByDatabaseOptionalParams,
@@ -30,8 +34,8 @@ import {
   DataConnectionsCreateOrUpdateResponse,
   DataConnectionsUpdateOptionalParams,
   DataConnectionsUpdateResponse,
-  DataConnectionsDeleteOptionalParams
-} from "../models";
+  DataConnectionsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataConnections operations. */
@@ -48,7 +52,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Returns the list of data connections of the given Kusto database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -57,13 +61,13 @@ export class DataConnectionsImpl implements DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DataConnectionsListByDatabaseOptionalParams
+    options?: DataConnectionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectionUnion> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +85,9 @@ export class DataConnectionsImpl implements DataConnections {
           clusterName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,14 +96,14 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     options?: DataConnectionsListByDatabaseOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DataConnectionUnion[]> {
     let result: DataConnectionsListByDatabaseResponse;
     result = await this._listByDatabase(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -108,13 +112,13 @@ export class DataConnectionsImpl implements DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DataConnectionsListByDatabaseOptionalParams
+    options?: DataConnectionsListByDatabaseOptionalParams,
   ): AsyncIterableIterator<DataConnectionUnion> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       clusterName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,7 +126,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Returns the list of data connections of the given Kusto database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -131,17 +135,17 @@ export class DataConnectionsImpl implements DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DataConnectionsListByDatabaseOptionalParams
+    options?: DataConnectionsListByDatabaseOptionalParams,
   ): Promise<DataConnectionsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, options },
-      listByDatabaseOperationSpec
+      listByDatabaseOperationSpec,
     );
   }
 
   /**
    * Checks that the data connection parameters are valid.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -152,30 +156,29 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: DataConnectionsDataConnectionValidationOptionalParams
+    options?: DataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsDataConnectionValidationResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsDataConnectionValidationResponse>,
       DataConnectionsDataConnectionValidationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataConnectionsDataConnectionValidationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +187,8 @@ export class DataConnectionsImpl implements DataConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,20 +196,28 @@ export class DataConnectionsImpl implements DataConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, databaseName, parameters, options },
-      dataConnectionValidationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        databaseName,
+        parameters,
+        options,
+      },
+      spec: dataConnectionValidationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsDataConnectionValidationResponse,
+      OperationState<DataConnectionsDataConnectionValidationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -214,7 +225,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Checks that the data connection parameters are valid.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -225,21 +236,21 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: DataConnectionsDataConnectionValidationOptionalParams
+    options?: DataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<DataConnectionsDataConnectionValidationResponse> {
     const poller = await this.beginDataConnectionValidation(
       resourceGroupName,
       clusterName,
       databaseName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Checks that the data connection name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -250,7 +261,7 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: DataConnectionCheckNameRequest,
-    options?: DataConnectionsCheckNameAvailabilityOptionalParams
+    options?: DataConnectionsCheckNameAvailabilityOptionalParams,
   ): Promise<DataConnectionsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
@@ -258,15 +269,15 @@ export class DataConnectionsImpl implements DataConnections {
         clusterName,
         databaseName,
         dataConnectionName,
-        options
+        options,
       },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
   /**
    * Returns a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -277,7 +288,7 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsGetOptionalParams
+    options?: DataConnectionsGetOptionalParams,
   ): Promise<DataConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -285,15 +296,15 @@ export class DataConnectionsImpl implements DataConnections {
         clusterName,
         databaseName,
         dataConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -306,30 +317,29 @@ export class DataConnectionsImpl implements DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsCreateOrUpdateOptionalParams
+    options?: DataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsCreateOrUpdateResponse>,
       DataConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -338,8 +348,8 @@ export class DataConnectionsImpl implements DataConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -347,26 +357,29 @@ export class DataConnectionsImpl implements DataConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
         dataConnectionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsCreateOrUpdateResponse,
+      OperationState<DataConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -374,7 +387,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Creates or updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -387,7 +400,7 @@ export class DataConnectionsImpl implements DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsCreateOrUpdateOptionalParams
+    options?: DataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<DataConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -395,14 +408,14 @@ export class DataConnectionsImpl implements DataConnections {
       databaseName,
       dataConnectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -415,30 +428,29 @@ export class DataConnectionsImpl implements DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsUpdateOptionalParams
+    options?: DataConnectionsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsUpdateResponse>,
       DataConnectionsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataConnectionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -447,8 +459,8 @@ export class DataConnectionsImpl implements DataConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -456,26 +468,29 @@ export class DataConnectionsImpl implements DataConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
         dataConnectionName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DataConnectionsUpdateResponse,
+      OperationState<DataConnectionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -483,7 +498,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -496,7 +511,7 @@ export class DataConnectionsImpl implements DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsUpdateOptionalParams
+    options?: DataConnectionsUpdateOptionalParams,
   ): Promise<DataConnectionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -504,14 +519,14 @@ export class DataConnectionsImpl implements DataConnections {
       databaseName,
       dataConnectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deletes the data connection with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -522,25 +537,24 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DataConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -549,8 +563,8 @@ export class DataConnectionsImpl implements DataConnections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -558,25 +572,25 @@ export class DataConnectionsImpl implements DataConnections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         databaseName,
         dataConnectionName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -584,7 +598,7 @@ export class DataConnectionsImpl implements DataConnections {
 
   /**
    * Deletes the data connection with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -595,14 +609,14 @@ export class DataConnectionsImpl implements DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsDeleteOptionalParams
+    options?: DataConnectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       databaseName,
       dataConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -611,16 +625,15 @@ export class DataConnectionsImpl implements DataConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectionListResult
+      bodyMapper: Mappers.DataConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -628,56 +641,54 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const dataConnectionValidationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
+      bodyMapper: Mappers.DataConnectionValidationListResult,
     },
     201: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
+      bodyMapper: Mappers.DataConnectionValidationListResult,
     },
     202: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
+      bodyMapper: Mappers.DataConnectionValidationListResult,
     },
     204: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
+      bodyMapper: Mappers.DataConnectionValidationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.dataConnectionName,
   queryParameters: [Parameters.apiVersion],
@@ -686,23 +697,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -711,33 +721,32 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.dataConnectionName1
+    Parameters.dataConnectionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     201: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     202: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     204: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -745,34 +754,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.dataConnectionName1
+    Parameters.dataConnectionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     201: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     202: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     204: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.DataConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -780,15 +788,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.dataConnectionName1
+    Parameters.dataConnectionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -796,8 +803,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -806,8 +813,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.subscriptionId,
     Parameters.databaseName,
-    Parameters.dataConnectionName1
+    Parameters.dataConnectionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

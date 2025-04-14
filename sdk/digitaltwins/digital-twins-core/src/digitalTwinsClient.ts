@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   OperationOptions,
   InternalClientPipelineOptions,
   CommonClientOptions,
 } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { v4 as generateUuid } from "uuid";
-import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { randomUUID } from "@azure/core-util";
+import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI.js";
+import type {
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
   DigitalTwinsAddResponse,
@@ -33,15 +33,17 @@ import {
   EventRoutesGetByIdResponse,
   EventRoute,
   QueryQueryTwinsResponse,
+} from "./generated/models/index.js";
+import {
   DigitalTwinModelsGetByIdOptionalParams as GetModelOptions,
   DigitalTwinModelsListOptionalParams as ListModelsOptions,
   QueryQueryTwinsOptionalParams as QueryTwinsOptions,
   EventRoutesListOptionalParams as ListEventRoutesOptions,
   DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
   DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
-} from "./generated/models";
-import { tracingClient } from "./tracing";
-import { logger } from "./logger";
+} from "./generated/models/index.js";
+import { tracingClient } from "./tracing.js";
+import { logger } from "./logger.js";
 export {
   GetModelOptions,
   ListModelsOptions,
@@ -71,13 +73,13 @@ export class DigitalTwinsClient {
    * Creates an instance of AzureDigitalTwinsAPI.
    *
    * Example usage:
-   * ```ts
-   * const { DigitalTwinsClient, ServiceClientCredentials } = require("@azure/digital-twins-core");
+   * ```ts snippet:ReadmeSampleCreateClient_Node
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DigitalTwinsClient } from "@azure/digital-twins-core";
    *
-   * const client = new DigitalTwinsClient(
-   *   "<endpoint>",
-   *   new DefaultAzureCredential();
-   * );
+   * const url = "<URL to Azure Digital Twins instance>";
+   * const credential = new DefaultAzureCredential();
+   * const serviceClient = new DigitalTwinsClient(url, credential);
    * ```
    * @param endpointUrl - The endpoint URL of the service.
    * @param credential - Used to authenticate requests to the service.
@@ -86,7 +88,7 @@ export class DigitalTwinsClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options: DigitalTwinsClientOptions = {}
+    options: DigitalTwinsClientOptions = {},
   ) {
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
@@ -113,14 +115,14 @@ export class DigitalTwinsClient {
    */
   public getDigitalTwin(
     digitalTwinId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DigitalTwinsGetByIdResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getDigitalTwin",
       options,
       async (updatedOptions) => {
         return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -136,7 +138,7 @@ export class DigitalTwinsClient {
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
-    options: DigitalTwinsAddOptionalParams = {}
+    options: DigitalTwinsAddOptionalParams = {},
   ): Promise<DigitalTwinsAddResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertDigitalTwin",
@@ -144,7 +146,7 @@ export class DigitalTwinsClient {
       async (updatedOptions) => {
         const payload = JSON.parse(digitalTwinJson);
         return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
-      }
+      },
     );
   }
 
@@ -162,14 +164,14 @@ export class DigitalTwinsClient {
   public updateDigitalTwin(
     digitalTwinId: string,
     jsonPatch: Array<Record<string, unknown>>,
-    options: DigitalTwinsUpdateOptionalParams = {}
+    options: DigitalTwinsUpdateOptionalParams = {},
   ): Promise<DigitalTwinsUpdateResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.updateDigitalTwin",
       options,
       async (updatedOptions) => {
         return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
-      }
+      },
     );
   }
 
@@ -183,14 +185,14 @@ export class DigitalTwinsClient {
    */
   public deleteDigitalTwin(
     digitalTwinId: string,
-    options: DigitalTwinsDeleteOptionalParams = {}
+    options: DigitalTwinsDeleteOptionalParams = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteDigitalTwin",
       options,
       async (updatedOptions) => {
         return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -205,14 +207,14 @@ export class DigitalTwinsClient {
   public getComponent(
     digitalTwinId: string,
     componentName: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DigitalTwinsGetComponentResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getComponent",
       options,
       async (updatedOptions) => {
         return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
-      }
+      },
     );
   }
 
@@ -231,7 +233,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     componentName: string,
     jsonPatch: Array<Record<string, unknown>>,
-    options: DigitalTwinsUpdateComponentOptionalParams = {}
+    options: DigitalTwinsUpdateComponentOptionalParams = {},
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.updateComponent",
@@ -241,9 +243,9 @@ export class DigitalTwinsClient {
           digitalTwinId,
           componentName,
           jsonPatch,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -258,7 +260,7 @@ export class DigitalTwinsClient {
   public getRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getRelationship",
@@ -267,9 +269,9 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.getRelationshipById(
           digitalTwinId,
           relationshipId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -286,7 +288,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     relationshipId: string,
     relationship: Record<string, unknown>,
-    options: DigitalTwinsAddRelationshipOptionalParams = {}
+    options: DigitalTwinsAddRelationshipOptionalParams = {},
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertRelationship",
@@ -296,9 +298,9 @@ export class DigitalTwinsClient {
           digitalTwinId,
           relationshipId,
           relationship,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -315,7 +317,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     relationshipId: string,
     jsonPatch: Array<Record<string, unknown>>,
-    options: DigitalTwinsUpdateRelationshipOptionalParams = {}
+    options: DigitalTwinsUpdateRelationshipOptionalParams = {},
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.updateRelationship",
@@ -325,9 +327,9 @@ export class DigitalTwinsClient {
           digitalTwinId,
           relationshipId,
           jsonPatch,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -343,7 +345,7 @@ export class DigitalTwinsClient {
   public deleteRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    options: DigitalTwinsDeleteRelationshipOptionalParams = {}
+    options: DigitalTwinsDeleteRelationshipOptionalParams = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.deleteRelationship",
@@ -352,9 +354,9 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.deleteRelationship(
           digitalTwinId,
           relationshipId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -365,7 +367,7 @@ export class DigitalTwinsClient {
    */
   public listRelationships(
     digitalTwinId: string,
-    options?: ListRelationshipsOptions
+    options?: ListRelationshipsOptions,
   ): PagedAsyncIterableIterator<Record<string, unknown>> {
     return this.client.digitalTwins.listRelationships(digitalTwinId, options);
   }
@@ -377,7 +379,7 @@ export class DigitalTwinsClient {
    */
   public listIncomingRelationships(
     digitalTwinId: string,
-    options?: ListIncomingRelationshipsOptions
+    options?: ListIncomingRelationshipsOptions,
   ): PagedAsyncIterableIterator<IncomingRelationship> {
     return this.client.digitalTwins.listIncomingRelationships(digitalTwinId, options);
   }
@@ -395,7 +397,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     payload: Record<string, unknown>,
     messageId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.publishTelemetry",
@@ -403,14 +405,14 @@ export class DigitalTwinsClient {
       async (updatedOptions) => {
         return this.client.digitalTwins.sendTelemetry(
           digitalTwinId,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
           {
             ...updatedOptions,
             telemetrySourceTime: new Date().toISOString(),
-          }
+          },
         );
-      }
+      },
     );
   }
 
@@ -429,7 +431,7 @@ export class DigitalTwinsClient {
     componentName: string,
     payload: Record<string, unknown>,
     messageId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.publishComponentTelemetry",
@@ -438,11 +440,11 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.sendComponentTelemetry(
           digitalTwinId,
           componentName,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
-          { ...updatedOptions, telemetrySourceTime: new Date().toISOString() }
+          { ...updatedOptions, telemetrySourceTime: new Date().toISOString() },
         );
-      }
+      },
     );
   }
 
@@ -455,7 +457,7 @@ export class DigitalTwinsClient {
    */
   public getModel(
     modelId: string,
-    options: GetModelOptions = {}
+    options: GetModelOptions = {},
   ): Promise<DigitalTwinModelsGetByIdResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getModel",
@@ -465,7 +467,7 @@ export class DigitalTwinsClient {
       },
       async (updatedOptions) => {
         return this.client.digitalTwinModels.getById(modelId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -476,7 +478,7 @@ export class DigitalTwinsClient {
    * @returns A pageable set of application/json models.
    */
   public listModels(
-    options: ListModelsOptions = {}
+    options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DigitalTwinsModelData> {
     return this.client.digitalTwinModels.list({
       ...options,
@@ -493,7 +495,7 @@ export class DigitalTwinsClient {
    */
   public createModels(
     dtdlModels: Array<Record<string, unknown>>,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DigitalTwinModelsAddResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.createModels",
@@ -503,7 +505,7 @@ export class DigitalTwinsClient {
       },
       async (updatedOptions) => {
         return this.client.digitalTwinModels.add(updatedOptions);
-      }
+      },
     );
   }
 
@@ -527,7 +529,7 @@ export class DigitalTwinsClient {
       options,
       async (updatedOptions) => {
         return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
-      }
+      },
     );
   }
 
@@ -544,7 +546,7 @@ export class DigitalTwinsClient {
       options,
       async (updatedOptions) => {
         return this.client.digitalTwinModels.delete(modelId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -557,14 +559,14 @@ export class DigitalTwinsClient {
    */
   public getEventRoute(
     eventRouteId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<EventRoutesGetByIdResponse> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.getEventRoute",
       options,
       async (updatedOptions) => {
         return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -591,7 +593,7 @@ export class DigitalTwinsClient {
     eventRouteId: string,
     endpointId: string,
     filter: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertEventRoute",
@@ -604,7 +606,7 @@ export class DigitalTwinsClient {
       },
       async (updatedOptions) => {
         return this.client.eventRoutes.add(eventRouteId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -621,7 +623,7 @@ export class DigitalTwinsClient {
       options,
       async (updatedOptions) => {
         return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -636,7 +638,7 @@ export class DigitalTwinsClient {
   private async *queryTwinsPage(
     query: string,
     options: QueryTwinsOptions,
-    continuationState?: PageSettings
+    continuationState?: PageSettings,
   ): AsyncIterableIterator<QueryQueryTwinsResponse> {
     let { continuationToken } = continuationState ?? {};
     if (!continuationToken) {
@@ -658,7 +660,7 @@ export class DigitalTwinsClient {
    */
   private async *queryTwinsAll(
     query: string,
-    options: QueryTwinsOptions
+    options: QueryTwinsOptions,
   ): AsyncIterableIterator<Record<string, unknown>> {
     for await (const page of this.queryTwinsPage(query, options)) {
       if (page.value) {
@@ -676,7 +678,7 @@ export class DigitalTwinsClient {
    */
   public queryTwins(
     query: string,
-    options: QueryTwinsOptions = {}
+    options: QueryTwinsOptions = {},
   ): PagedAsyncIterableIterator<Record<string, unknown>, QueryQueryTwinsResponse> {
     const iter = this.queryTwinsAll(query, options);
 

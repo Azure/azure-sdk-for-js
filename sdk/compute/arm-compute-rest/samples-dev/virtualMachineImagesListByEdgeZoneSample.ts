@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineImagesListByEdgeZoneParameters,
-} from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import type { VirtualMachineImagesListByEdgeZoneParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -31,7 +26,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
       subscriptionId,
       location,
-      edgeZone
+      edgeZone,
     )
     .get(options);
   console.log(result);
@@ -44,7 +39,7 @@ virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen().catch(console.error);
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -58,7 +53,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
       subscriptionId,
       location,
-      edgeZone
+      edgeZone,
     )
     .get(options);
   console.log(result);

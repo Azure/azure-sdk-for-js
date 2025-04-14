@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary list queues in the account, showing options for paging, resuming paging, etc.
@@ -21,7 +21,7 @@ async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Queues:");

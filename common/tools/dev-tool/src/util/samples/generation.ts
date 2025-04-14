@@ -1,9 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import fs from "fs-extra";
-import path from "path";
+import { stat as statFile } from "fs/promises";
+import path from "node:path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
-import { ProjectInfo, resolveRoot } from "../resolveProject";
+import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
@@ -17,10 +21,11 @@ import {
   SampleGenerationInfo,
 } from "./info";
 import { processSources } from "./processor";
-
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
+import { Config, resolveConfig } from "../resolveTsConfig";
+import { CompilerOptions } from "typescript";
 
 const log = createPrinter("generator");
 
@@ -84,17 +89,22 @@ export async function makeSampleGenerationInfo(
   projectInfo: ProjectInfo,
   sampleSourcesPath: string,
   topLevelDirectory: string,
-  onError: () => void
+  onError: () => void,
 ): Promise<SampleGenerationInfo> {
   const sampleSources = await collect(
-    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts"))
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
 
-  const baseName = projectInfo.name.split("/").slice(-1)[0];
-
-  log.debug("Determined project baseName:", baseName);
+  let scope, baseName: string | undefined;
+  [scope, baseName] = projectInfo.name.split("/");
+  if (baseName === undefined) {
+    log.debug(`unscoped package name: ${projectInfo.name}`);
+    baseName = scope;
+    scope = undefined;
+  }
+  log.debug(`Determined project scope: ${scope}, baseName: ${baseName}`);
 
   // A helper to handle configuration errors.
   function fail(...values: unknown[]): never {
@@ -103,19 +113,14 @@ export async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const requireInScope = (moduleSpecifier: string) => {
-    try {
-      return require(path.join(
-        projectInfo.path,
-        "node_modules",
-        moduleSpecifier.split("/").join(path.sep)
-      ));
-    } catch {
-      return require(moduleSpecifier);
-    }
-  };
+  const requireInScope = bindRequireFunction(projectInfo);
 
-  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
+  const moduleInfos = await processSources(
+    sampleSourcesPath,
+    sampleSources.sort(),
+    fail,
+    requireInScope,
+  );
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"
@@ -129,16 +134,17 @@ export async function makeSampleGenerationInfo(
   if (!sampleConfiguration.productSlugs && !sampleConfiguration.disableDocsMs) {
     log.error("No extra product slugs provided (`productSlugs` in the sample configuration).");
     log.warn(
-      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform."
+      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform.",
     );
     log.warn(
-      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.'
+      'If you do not want to publish samples to learn.microsoft.com, set `"disableDocsMs": true` in the sample configuration.',
     );
     onError();
   }
 
   return {
     ...sampleConfiguration,
+    scope,
     baseName,
     packageKeywords:
       projectInfo.packageJson.keywords ??
@@ -169,7 +175,7 @@ export async function makeSampleGenerationInfo(
 
         try {
           contents = fs.readFileSync(path.resolve(projectInfo.path, file));
-        } catch (ex: any) {
+        } catch (ex: unknown) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
         return {
@@ -177,7 +183,7 @@ export async function makeSampleGenerationInfo(
           [name]: contents,
         };
       },
-      {} as SampleConfiguration["customSnippets"]
+      {} as SampleConfiguration["customSnippets"],
     ),
     computeSampleDependencies(outputKind: OutputKind) {
       // Store the `@types/*` packages the TS samples might need.
@@ -193,10 +199,10 @@ export async function makeSampleGenerationInfo(
                 packageJson.dependencies[dependency];
               if (dependencyVersion === undefined) {
                 log.error(
-                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`
+                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`,
                 );
                 log.error(
-                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`
+                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`,
                 );
               }
 
@@ -242,14 +248,14 @@ export async function makeSampleGenerationInfo(
  * Calls the template to instantiate the sample README for this configuration
  * and output kind.
  */
-export function createReadme(
+export async function createReadme(
   outputKind: OutputKind,
   info: SampleGenerationInfo,
-  publicationDirectory: string
-): string {
+  publicationDirectory: string,
+): Promise<string> {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
 
-  return instantiateSampleReadme({
+  return await instantiateSampleReadme({
     frontmatter: info.disableDocsMs
       ? undefined
       : {
@@ -265,6 +271,63 @@ export function createReadme(
   });
 }
 
+// Helper for writing JSON files with a terminating newline
+function jsonify(value: unknown) {
+  let output = JSON.stringify(value, undefined, 2);
+  if (!output.endsWith("\n")) {
+    output += "\n";
+  }
+  return output;
+}
+
+/**
+ * Checks if a file exists.
+ * @param filePath - The path to the file
+ * @returns Whether the file exists
+ */
+async function fileExists(filePath: string) {
+  try {
+    await statFile(filePath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+/**
+ * Creates a tsconfig file for the samples.
+ * @param projectInfo - The project information
+ * @returns The contents of a tsconfig file for the samples
+ */
+export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> {
+  const tsconfigFilePath = path.join(projectInfo.path, "tsconfig.samples.json");
+  if (!(await fileExists(tsconfigFilePath))) {
+    return jsonify(DEFAULT_TYPESCRIPT_CONFIG);
+  }
+  type SerializableConfig = Omit<Config, "compilerOptions"> & {
+    compilerOptions: Omit<CompilerOptions, "moduleResolution" | "module"> & {
+      moduleResolution?: string;
+      module?: string;
+    };
+  };
+  const tsconfig = (await resolveConfig(tsconfigFilePath)) as SerializableConfig;
+  delete tsconfig.compilerOptions.paths;
+  delete tsconfig.exclude;
+  delete tsconfig.compilerOptions.composite;
+  delete tsconfig.compilerOptions.noEmit;
+  delete tsconfig.compilerOptions.declaration;
+  delete tsconfig.compilerOptions.declarationMap;
+  delete tsconfig.compilerOptions.inlineSources;
+  delete tsconfig.compilerOptions.sourceMap;
+  tsconfig.include = ["./src"];
+  tsconfig.compilerOptions.outDir = "./dist";
+  tsconfig.compilerOptions.resolveJsonModule = true;
+
+  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
+  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
+  return jsonify(tsconfig);
+}
+
 /**
  * Create a filesystem tree factory representing a camera-ready samples
  * tree.
@@ -275,7 +338,7 @@ export function createReadme(
  */
 export async function makeSamplesFactory(
   projectInfo: ProjectInfo,
-  sourcePath?: string
+  sourcePath?: string,
 ): Promise<FileTreeFactory> {
   let hadError = false;
 
@@ -307,15 +370,6 @@ export async function makeSamplesFactory(
     throw new Error("Instantiation of sample metadata information failed with errors.");
   }
 
-  // Helper for writing JSON files with a terminating newline
-  const jsonify = (value: unknown) => {
-    let output = JSON.stringify(value, undefined, 2);
-    if (!output.endsWith("\n")) {
-      output += "\n";
-    }
-    return output;
-  };
-
   /**
    * Helper to remove azsdk- directives from the resulting module code.
    */
@@ -344,25 +398,25 @@ export async function makeSamplesFactory(
           dir(".", [
             dir("typescript", [
               file("README.md", () =>
-                createReadme(OutputKind.TypeScript, info, path.relative(repoRoot, outputDirectory))
+                createReadme(OutputKind.TypeScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
-              file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
+              file("tsconfig.json", () => createTsconfig(projectInfo)),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
+                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
                 ),
                 ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, fs.readFileSync(absolute))
+                  file(relative, fs.readFileSync(absolute)),
                 ),
               ]),
             ]),
             dir("javascript", [
               file("README.md", () =>
-                createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory))
+                createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
@@ -371,7 +425,7 @@ export async function makeSamplesFactory(
                 // Only include the modules if they were not skipped
                 .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
                 .map(({ relativeSourcePath, jsModuleText }) =>
-                  file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+                  file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText)),
                 ),
             ]),
             // Copy extraFiles by reducing all configured destinations for each input file
@@ -380,11 +434,11 @@ export async function makeSamplesFactory(
                 ...accum,
                 ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source))),
               ],
-              [] as FileTreeFactory[]
+              [] as FileTreeFactory[],
             ),
-          ])
-        )
-      )
-    )
+          ]),
+        ),
+      ),
+    ),
   );
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @azsdk-util
@@ -8,8 +8,8 @@
 
 // Model:       prebuilt-idDocument
 // Description: Extract key information from passports and ID cards.
-// API Version: 2023-02-28-preview
-// Created:     Thu Apr 06 2023
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from passports and ID cards.
  */
 export const PrebuiltIdDocumentModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltIdDocumentResult>;
 
 export interface PrebuiltIdDocumentResult extends fr.AnalyzeResultCommon {
@@ -491,6 +491,10 @@ export interface IdDocumentResidencePermitFields {
    * Permit category
    */
   category?: fr.DocumentStringField;
+  /**
+   * Address
+   */
+  address?: fr.DocumentStringField;
 }
 
 /**
@@ -548,12 +552,12 @@ export interface IdDocumentFields {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-idDocument",
     description: "Extract key information from passports and ID cards.",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       "idDocument.driverLicense": {
         buildMode: "template",
@@ -918,6 +922,11 @@ function modelInfo() {
             type: "string",
             description: "Permit category",
             example: "DV2",
+          },
+          Address: {
+            type: "string",
+            description: "Address",
+            example: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
           },
         },
       },

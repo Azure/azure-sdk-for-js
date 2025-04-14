@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { isReadRequest, OperationType, ResourceType } from "../common";
-import { ConnectionPolicy } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ErrorResponse } from "../request";
-import { RetryContext } from "./RetryContext";
-import { RetryPolicy } from "./RetryPolicy";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { OperationType, ResourceType } from "../common/index.js";
+import { isReadRequest } from "../common/index.js";
+import type { ConnectionPolicy } from "../documents/index.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * This class implements the retry policy for session consistent reads.
@@ -24,7 +26,7 @@ export class SessionRetryPolicy implements RetryPolicy {
     private globalEndpointManager: GlobalEndpointManager,
     private resourceType: ResourceType,
     private operationType: OperationType,
-    private connectionPolicy: ConnectionPolicy
+    private connectionPolicy: ConnectionPolicy,
   ) {}
 
   /**
@@ -33,7 +35,11 @@ export class SessionRetryPolicy implements RetryPolicy {
    * @param callback - The callback function which takes bool argument which specifies whether the request
    * will be retried or not.
    */
-  public async shouldRetry(err: ErrorResponse, retryContext?: RetryContext): Promise<boolean> {
+  public async shouldRetry(
+    err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
+    retryContext?: RetryContext,
+  ): Promise<boolean> {
     if (!err) {
       return false;
     }
@@ -61,6 +67,7 @@ export class SessionRetryPolicy implements RetryPolicy {
         retryContext.retryRequestOnPreferredLocations = this.currentRetryAttemptCount > 1;
         retryContext.clearSessionTokenNotAvailable =
           this.currentRetryAttemptCount === endpoints.length;
+        diagnosticNode.addData({ successfulRetryPolicy: "session" });
         return true;
       }
     } else {
@@ -71,6 +78,7 @@ export class SessionRetryPolicy implements RetryPolicy {
         retryContext.retryCount++;
         retryContext.retryRequestOnPreferredLocations = false; // Forces all operations to primary write endpoint
         retryContext.clearSessionTokenNotAvailable = true;
+        diagnosticNode.addData({ successfulRetryPolicy: "session" });
         return true;
       }
     }

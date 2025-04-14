@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyCredential } from "@azure/core-auth";
-import {
+import type { KeyCredential } from "@azure/core-auth";
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -16,7 +16,7 @@ export const keyCredentialAuthenticationPolicyName = "keyCredentialAuthenticatio
 
 export function keyCredentialAuthenticationPolicy(
   credential: KeyCredential,
-  apiKeyHeaderName: string
+  apiKeyHeaderName: string,
 ): PipelinePolicy {
   return {
     name: keyCredentialAuthenticationPolicyName,

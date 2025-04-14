@@ -83,6 +83,13 @@ export const StorageError: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -216,6 +223,13 @@ export const Path: coreClient.CompositeMapper = {
       expiryTime: {
         serializedName: "expiryTime",
         xmlName: "expiryTime",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionContext: {
+        serializedName: "EncryptionContext",
+        xmlName: "EncryptionContext",
         type: {
           name: "String"
         }

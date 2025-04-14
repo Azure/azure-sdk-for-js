@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -35,7 +35,7 @@ async function createOrUpdateAProximityPlacementGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
       subscriptionId,
       resourceGroupName,
-      proximityPlacementGroupName
+      proximityPlacementGroupName,
     )
     .put(options);
   console.log(result);

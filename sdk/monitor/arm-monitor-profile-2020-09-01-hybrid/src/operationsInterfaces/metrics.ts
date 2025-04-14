@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricsListOptionalParams, MetricsListResponse } from "../models";
+import { MetricsListOptionalParams, MetricsListResponse } from "../models/index.js";
 
 /** Interface representing a Metrics. */
 export interface Metrics {

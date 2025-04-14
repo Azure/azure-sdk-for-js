@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -38,7 +38,7 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
       edgeZone,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);
@@ -71,7 +71,7 @@ async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
       edgeZone,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);

@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { WebResourceLike, toPipelineRequest, toWebResourceLike } from "../util";
-import { CompatResponse, toCompatResponse, toPipelineResponse } from "../response";
+import type { WebResourceLike } from "../util.js";
+import { toPipelineRequest, toWebResourceLike } from "../util.js";
+import type { CompatResponse } from "../response.js";
+import { toCompatResponse, toPipelineResponse } from "../response.js";
 
 /**
  * A compatible interface for core-http request policies
@@ -61,7 +63,7 @@ export const requestPolicyFactoryPolicyName = "RequestPolicyFactoryPolicy";
  * @param factories - An array of `RequestPolicyFactory` objects from a core-http pipeline
  */
 export function createRequestPolicyFactoryPolicy(
-  factories: RequestPolicyFactory[]
+  factories: RequestPolicyFactory[],
 ): PipelinePolicy {
   const orderedFactories = factories.slice().reverse();
 

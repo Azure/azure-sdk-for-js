@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists allowed environment types for a project.
  *
  * @summary Lists allowed environment types for a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ProjectAllowedEnvironmentTypes_List.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectAllowedEnvironmentTypes_List.json
  */
 async function projectAllowedEnvironmentTypesList() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function projectAllowedEnvironmentTypesList() {
   const resArray = new Array();
   for await (let item of client.projectAllowedEnvironmentTypes.list(
     resourceGroupName,
-    projectName
+    projectName,
   )) {
     resArray.push(item);
   }

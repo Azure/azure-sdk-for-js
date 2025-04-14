@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CloseReason } from "./models/public";
-import { EventPosition } from "./eventPosition";
-import { LastEnqueuedEventProperties } from "./partitionReceiver";
-import { MessagingError } from "@azure/core-amqp";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { ReceivedEventData } from "./eventData";
+import type { CloseReason } from "./models/public.js";
+import type { EventPosition } from "./eventPosition.js";
+import type { LastEnqueuedEventProperties } from "./partitionReceiver.js";
+import type { MessagingError } from "@azure/core-amqp";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { ReceivedEventData } from "./eventData.js";
 
 /**
  * @internal
@@ -78,7 +78,7 @@ export interface PartitionContext {
  */
 export type ProcessEventsHandler = (
   events: ReceivedEventData[],
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**
@@ -87,7 +87,7 @@ export type ProcessEventsHandler = (
  */
 export type ProcessErrorHandler = (
   error: Error | MessagingError,
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**

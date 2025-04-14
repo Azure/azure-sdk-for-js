@@ -28,7 +28,7 @@ async function privateEndpointConnectionDelete() {
   const result = await client.privateEndpointConnections.delete(
     resourceGroupName,
     environmentName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

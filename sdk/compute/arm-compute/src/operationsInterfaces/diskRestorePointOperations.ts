@@ -16,8 +16,8 @@ import {
   GrantAccessData,
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointGrantAccessResponse,
-  DiskRestorePointRevokeAccessOptionalParams
-} from "../models";
+  DiskRestorePointRevokeAccessOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiskRestorePointOperations. */
@@ -34,7 +34,7 @@ export interface DiskRestorePointOperations {
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointListByRestorePointOptionalParams
+    options?: DiskRestorePointListByRestorePointOptionalParams,
   ): PagedAsyncIterableIterator<DiskRestorePoint>;
   /**
    * Get disk restorePoint resource
@@ -50,7 +50,7 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointGetOptionalParams
+    options?: DiskRestorePointGetOptionalParams,
   ): Promise<DiskRestorePointGetResponse>;
   /**
    * Grants access to a diskRestorePoint.
@@ -68,7 +68,7 @@ export interface DiskRestorePointOperations {
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointGrantAccessOptionalParams
+    options?: DiskRestorePointGrantAccessOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiskRestorePointGrantAccessResponse>,
@@ -91,7 +91,7 @@ export interface DiskRestorePointOperations {
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointGrantAccessOptionalParams
+    options?: DiskRestorePointGrantAccessOptionalParams,
   ): Promise<DiskRestorePointGrantAccessResponse>;
   /**
    * Revokes access to a diskRestorePoint.
@@ -107,7 +107,7 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a diskRestorePoint.
@@ -123,6 +123,6 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams,
   ): Promise<void>;
 }

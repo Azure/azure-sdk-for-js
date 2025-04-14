@@ -37,7 +37,7 @@ node getPagedAsyncIteratorSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node getPagedAsyncIteratorSample.js
+npx dev-tool run vendored cross-env  node getPagedAsyncIteratorSample.js
 ```
 
 ## Next Steps
@@ -45,6 +45,6 @@ npx cross-env  node getPagedAsyncIteratorSample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getpagedasynciteratorsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-paging/samples/v1/javascript/getPagedAsyncIteratorSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/core-paging
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/core-paging
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md

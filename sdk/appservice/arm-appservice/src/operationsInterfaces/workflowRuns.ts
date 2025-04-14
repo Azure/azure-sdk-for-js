@@ -12,8 +12,8 @@ import {
   WorkflowRunsListOptionalParams,
   WorkflowRunsGetOptionalParams,
   WorkflowRunsGetResponse,
-  WorkflowRunsCancelOptionalParams
-} from "../models";
+  WorkflowRunsCancelOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRuns. */
@@ -29,7 +29,7 @@ export interface WorkflowRuns {
     resourceGroupName: string,
     name: string,
     workflowName: string,
-    options?: WorkflowRunsListOptionalParams
+    options?: WorkflowRunsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRun>;
   /**
    * Gets a workflow run.
@@ -44,7 +44,7 @@ export interface WorkflowRuns {
     name: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsGetOptionalParams
+    options?: WorkflowRunsGetOptionalParams,
   ): Promise<WorkflowRunsGetResponse>;
   /**
    * Cancels a workflow run.
@@ -59,6 +59,6 @@ export interface WorkflowRuns {
     name: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunsCancelOptionalParams
+    options?: WorkflowRunsCancelOptionalParams,
   ): Promise<void>;
 }

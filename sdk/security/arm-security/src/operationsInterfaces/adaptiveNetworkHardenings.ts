@@ -14,8 +14,8 @@ import {
   AdaptiveNetworkHardeningsGetOptionalParams,
   AdaptiveNetworkHardeningsGetResponse,
   AdaptiveNetworkHardeningEnforceRequest,
-  AdaptiveNetworkHardeningsEnforceOptionalParams
-} from "../models";
+  AdaptiveNetworkHardeningsEnforceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AdaptiveNetworkHardenings. */
@@ -34,7 +34,7 @@ export interface AdaptiveNetworkHardenings {
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
+    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams,
   ): PagedAsyncIterableIterator<AdaptiveNetworkHardening>;
   /**
    * Gets a single Adaptive Network Hardening resource
@@ -52,7 +52,7 @@ export interface AdaptiveNetworkHardenings {
     resourceType: string,
     resourceName: string,
     adaptiveNetworkHardeningResourceName: string,
-    options?: AdaptiveNetworkHardeningsGetOptionalParams
+    options?: AdaptiveNetworkHardeningsGetOptionalParams,
   ): Promise<AdaptiveNetworkHardeningsGetResponse>;
   /**
    * Enforces the given rules on the NSG(s) listed in the request
@@ -72,7 +72,7 @@ export interface AdaptiveNetworkHardenings {
     resourceName: string,
     adaptiveNetworkHardeningResourceName: string,
     body: AdaptiveNetworkHardeningEnforceRequest,
-    options?: AdaptiveNetworkHardeningsEnforceOptionalParams
+    options?: AdaptiveNetworkHardeningsEnforceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enforces the given rules on the NSG(s) listed in the request
@@ -92,6 +92,6 @@ export interface AdaptiveNetworkHardenings {
     resourceName: string,
     adaptiveNetworkHardeningResourceName: string,
     body: AdaptiveNetworkHardeningEnforceRequest,
-    options?: AdaptiveNetworkHardeningsEnforceOptionalParams
+    options?: AdaptiveNetworkHardeningsEnforceOptionalParams,
   ): Promise<void>;
 }

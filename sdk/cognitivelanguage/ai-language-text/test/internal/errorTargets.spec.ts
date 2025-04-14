@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import { assert } from "@azure/test-utils";
-import { KnownErrorCode } from "../../src/generated";
-import { AnalyzeBatchActionNames } from "../../src/models";
-import { TextAnalysisClient } from "../../src/textAnalysisClient";
-import { extractErrorPointerIndex } from "../../src/util";
-import { expectation73 } from "../public/expectations";
-import { assertActionsResults } from "../public/utils/resultHelper";
+import type { HttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { KnownErrorCode } from "../../src/generated/index.js";
+import { AnalyzeBatchActionNames } from "../../src/models.js";
+import { TextAnalysisClient } from "../../src/textAnalysisClient.js";
+import { extractErrorPointerIndex } from "../../src/util.js";
+import { expectation73 } from "../public/expectations.js";
+import { assertActionsResults } from "../public/utils/resultHelper.js";
+import { describe, it, assert } from "vitest";
 
-describe("Error targets", function () {
-  it("handles a mix of action results with failed actions", async function () {
+describe("Error targets", () => {
+  it("handles a mix of action results with failed actions", async () => {
     const client = mockClientResponse();
     const docs = ["I will go to the park."];
     const poller = await client.beginAnalyzeBatch(
@@ -24,14 +25,14 @@ describe("Error targets", function () {
         },
       ],
       docs,
-      "en"
+      "en",
     );
     assertActionsResults(await poller.pollUntilDone(), expectation73);
   });
 });
 
-describe("extractErrorPointerIndex", function () {
-  it("Successful parsing the index", async function () {
+describe("extractErrorPointerIndex", () => {
+  it("Successful parsing the index", async () => {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
@@ -40,18 +41,18 @@ describe("extractErrorPointerIndex", function () {
     assert.equal(extractErrorPointerIndex(error), 2);
   });
 
-  it("Throws an error if no target field present", async function () {
+  it("Throws an error if no target field present", async () => {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
     };
     assert.Throw(
       () => extractErrorPointerIndex(error),
-      "Unexpected response from service - no target present"
+      "Unexpected response from service - no target present",
     );
   });
 
-  it("Throw error on invalid format target string", async function () {
+  it("Throw error on invalid format target string", async () => {
     const error = {
       code: KnownErrorCode.InvalidRequest,
       message: "error",
@@ -59,7 +60,7 @@ describe("extractErrorPointerIndex", function () {
     };
     assert.Throw(
       () => extractErrorPointerIndex(error),
-      'Unexpected response from service - action pointer "invalid target" is not a valid action pointer.'
+      'Unexpected response from service - action pointer "invalid target" is not a valid action pointer.',
     );
   });
 });
@@ -69,7 +70,13 @@ describe("extractErrorPointerIndex", function () {
  * @returns a client that mocks the response of the service
  */
 function mockClientResponse(): TextAnalysisClient {
-  const response1 = (request: PipelineRequest) => ({
+  const response1 = (
+    request: PipelineRequest,
+  ): {
+    request: PipelineRequest;
+    headers: HttpHeaders;
+    status: number;
+  } => ({
     request,
     headers: createHttpHeaders({
       "operation-location":
@@ -77,7 +84,14 @@ function mockClientResponse(): TextAnalysisClient {
     }),
     status: 202,
   });
-  const response2 = (request: PipelineRequest) => ({
+  const response2 = (
+    request: PipelineRequest,
+  ): {
+    request: PipelineRequest;
+    headers: HttpHeaders;
+    status: number;
+    bodyAsText: string;
+  } => ({
     request,
     headers: createHttpHeaders(),
     status: 200,

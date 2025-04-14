@@ -1,18 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable sort-imports */
-
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
-import assert from "assert";
-import sinon from "sinon";
+import { describe, it, assert, vi, beforeEach } from "vitest";
 
 const mockedResponse = [
   {
@@ -22,18 +14,11 @@ const mockedResponse = [
 ];
 
 // TODO: Enable again once the VisualStudio cache bug is fixed.
-describe.skip("VisualStudioCodeCredential", function (this: Mocha.Suite) {
-  let cleanup: MsalTestCleanup;
+describe.skip("VisualStudioCodeCredential", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-    recorder = setup.recorder;
-  });
-
-  afterEach(async function () {
-    await cleanup();
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
   });
 
   const scope = "https://graph.microsoft.com/.default";
@@ -42,8 +27,12 @@ describe.skip("VisualStudioCodeCredential", function (this: Mocha.Suite) {
     if (!isRecordMode()) {
       // In live CI or playback CI, we need to avoid actually using keytar
       // to try to read the Azure Account state, since it won't be available
-      const mock = sinon.mock(require("keytar"));
-      mock.expects("findCredentials").onFirstCall().returns(mockedResponse);
+      vi.mock("keytar", (importActual) => {
+        return {
+          ...importActual,
+          findCredentials: async () => mockedResponse,
+        };
+      });
     }
 
     const cred = new VisualStudioCodeCredential(recorder.configureClientOptions({}));

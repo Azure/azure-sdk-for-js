@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { BackupInstances } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { BackupInstances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   BackupInstanceResource,
   BackupInstancesListNextOptionalParams,
@@ -37,6 +37,12 @@ import {
   BackupInstancesValidateForBackupResponse,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
+  CrossRegionRestoreRequestObject,
+  BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  BackupInstancesTriggerCrossRegionRestoreResponse,
+  ValidateCrossRegionRestoreRequestObject,
+  BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  BackupInstancesValidateCrossRegionRestoreResponse,
   AzureBackupRehydrationRequest,
   BackupInstancesTriggerRehydrateOptionalParams,
   BackupInstancesTriggerRehydrateResponse,
@@ -52,8 +58,8 @@ import {
   ValidateRestoreRequestObject,
   BackupInstancesValidateForRestoreOptionalParams,
   BackupInstancesValidateForRestoreResponse,
-  BackupInstancesListNextResponse
-} from "../models";
+  BackupInstancesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupInstances operations. */
@@ -77,7 +83,7 @@ export class BackupInstancesImpl implements BackupInstances {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupInstancesListOptionalParams
+    options?: BackupInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupInstanceResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -95,9 +101,9 @@ export class BackupInstancesImpl implements BackupInstances {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -105,7 +111,7 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     options?: BackupInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BackupInstanceResource[]> {
     let result: BackupInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -121,7 +127,7 @@ export class BackupInstancesImpl implements BackupInstances {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,12 +139,12 @@ export class BackupInstancesImpl implements BackupInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupInstancesListOptionalParams
+    options?: BackupInstancesListOptionalParams,
   ): AsyncIterableIterator<BackupInstanceResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +159,11 @@ export class BackupInstancesImpl implements BackupInstances {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupInstancesListOptionalParams
+    options?: BackupInstancesListOptionalParams,
   ): Promise<BackupInstancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -172,11 +178,11 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesGetOptionalParams
+    options?: BackupInstancesGetOptionalParams,
   ): Promise<BackupInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -193,7 +199,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: BackupInstanceResource,
-    options?: BackupInstancesCreateOrUpdateOptionalParams
+    options?: BackupInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesCreateOrUpdateResponse>,
@@ -202,21 +208,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -225,8 +230,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -234,8 +239,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -246,16 +251,16 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesCreateOrUpdateResponse,
       OperationState<BackupInstancesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -274,14 +279,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: BackupInstanceResource,
-    options?: BackupInstancesCreateOrUpdateOptionalParams
+    options?: BackupInstancesCreateOrUpdateOptionalParams,
   ): Promise<BackupInstancesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -297,25 +302,24 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesDeleteOptionalParams
+    options?: BackupInstancesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -324,8 +328,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -333,19 +337,19 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -362,13 +366,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesDeleteOptionalParams
+    options?: BackupInstancesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -386,7 +390,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: TriggerBackupRequest,
-    options?: BackupInstancesAdhocBackupOptionalParams
+    options?: BackupInstancesAdhocBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesAdhocBackupResponse>,
@@ -395,21 +399,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesAdhocBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -418,8 +421,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -427,8 +430,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -439,16 +442,17 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: adhocBackupOperationSpec
+      spec: adhocBackupOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesAdhocBackupResponse,
       OperationState<BackupInstancesAdhocBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -467,14 +471,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: TriggerBackupRequest,
-    options?: BackupInstancesAdhocBackupOptionalParams
+    options?: BackupInstancesAdhocBackupOptionalParams,
   ): Promise<BackupInstancesAdhocBackupResponse> {
     const poller = await this.beginAdhocBackup(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -490,7 +494,7 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     parameters: ValidateForBackupRequest,
-    options?: BackupInstancesValidateForBackupOptionalParams
+    options?: BackupInstancesValidateForBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesValidateForBackupResponse>,
@@ -499,21 +503,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesValidateForBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -522,8 +525,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -531,22 +534,23 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, parameters, options },
-      spec: validateForBackupOperationSpec
+      spec: validateForBackupOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesValidateForBackupResponse,
       OperationState<BackupInstancesValidateForBackupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -563,13 +567,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     parameters: ValidateForBackupRequest,
-    options?: BackupInstancesValidateForBackupOptionalParams
+    options?: BackupInstancesValidateForBackupOptionalParams,
   ): Promise<BackupInstancesValidateForBackupResponse> {
     const poller = await this.beginValidateForBackup(
       resourceGroupName,
       vaultName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -587,7 +591,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     operationId: string,
-    options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams
+    options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   ): Promise<BackupInstancesGetBackupInstanceOperationResultResponse> {
     return this.client.sendOperationRequest(
       {
@@ -595,10 +599,200 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         operationId,
-        options
+        options,
       },
-      getBackupInstanceOperationResultOperationSpec
+      getBackupInstanceOperationResultOperationSpec,
     );
+  }
+
+  /**
+   * Triggers Cross Region Restore for BackupInstance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  async beginTriggerCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>,
+      BackupInstancesTriggerCrossRegionRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, parameters, options },
+      spec: triggerCrossRegionRestoreOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesTriggerCrossRegionRestoreResponse,
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers Cross Region Restore for BackupInstance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  async beginTriggerCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse> {
+    const poller = await this.beginTriggerCrossRegionRestore(
+      resourceGroupName,
+      location,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates whether Cross Region Restore can be triggered for DataSource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>,
+      BackupInstancesValidateCrossRegionRestoreResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BackupInstancesValidateCrossRegionRestoreResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, parameters, options },
+      spec: validateCrossRegionRestoreOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BackupInstancesValidateCrossRegionRestoreResponse,
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates whether Cross Region Restore can be triggered for DataSource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginValidateCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  ): Promise<BackupInstancesValidateCrossRegionRestoreResponse> {
+    const poller = await this.beginValidateCrossRegionRestore(
+      resourceGroupName,
+      location,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -614,7 +808,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRehydrationRequest,
-    options?: BackupInstancesTriggerRehydrateOptionalParams
+    options?: BackupInstancesTriggerRehydrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesTriggerRehydrateResponse>,
@@ -623,21 +817,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesTriggerRehydrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -646,8 +839,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -655,8 +848,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -667,16 +860,16 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: triggerRehydrateOperationSpec
+      spec: triggerRehydrateOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesTriggerRehydrateResponse,
       OperationState<BackupInstancesTriggerRehydrateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -695,14 +888,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRehydrationRequest,
-    options?: BackupInstancesTriggerRehydrateOptionalParams
+    options?: BackupInstancesTriggerRehydrateOptionalParams,
   ): Promise<BackupInstancesTriggerRehydrateResponse> {
     const poller = await this.beginTriggerRehydrate(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -720,7 +913,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRestoreRequestUnion,
-    options?: BackupInstancesTriggerRestoreOptionalParams
+    options?: BackupInstancesTriggerRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesTriggerRestoreResponse>,
@@ -729,21 +922,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesTriggerRestoreResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -752,8 +944,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -761,8 +953,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -773,16 +965,17 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: triggerRestoreOperationSpec
+      spec: triggerRestoreOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesTriggerRestoreResponse,
       OperationState<BackupInstancesTriggerRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -801,14 +994,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupRestoreRequestUnion,
-    options?: BackupInstancesTriggerRestoreOptionalParams
+    options?: BackupInstancesTriggerRestoreOptionalParams,
   ): Promise<BackupInstancesTriggerRestoreResponse> {
     const poller = await this.beginTriggerRestore(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -824,25 +1017,24 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeBackupsOptionalParams
+    options?: BackupInstancesResumeBackupsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -851,8 +1043,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -860,19 +1052,19 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: resumeBackupsOperationSpec
+      spec: resumeBackupsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -889,13 +1081,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeBackupsOptionalParams
+    options?: BackupInstancesResumeBackupsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginResumeBackups(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -911,25 +1103,24 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeProtectionOptionalParams
+    options?: BackupInstancesResumeProtectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -938,8 +1129,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -947,19 +1138,19 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: resumeProtectionOperationSpec
+      spec: resumeProtectionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -976,13 +1167,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesResumeProtectionOptionalParams
+    options?: BackupInstancesResumeProtectionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginResumeProtection(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -998,25 +1189,24 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesStopProtectionOptionalParams
+    options?: BackupInstancesStopProtectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1025,8 +1215,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1034,19 +1224,19 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: stopProtectionOperationSpec
+      spec: stopProtectionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1063,13 +1253,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesStopProtectionOptionalParams
+    options?: BackupInstancesStopProtectionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStopProtection(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1086,25 +1276,24 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesSuspendBackupsOptionalParams
+    options?: BackupInstancesSuspendBackupsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1113,8 +1302,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1122,19 +1311,19 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: suspendBackupsOperationSpec
+      spec: suspendBackupsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1152,13 +1341,13 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: BackupInstancesSuspendBackupsOptionalParams
+    options?: BackupInstancesSuspendBackupsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginSuspendBackups(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1177,25 +1366,24 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
-    options?: BackupInstancesSyncBackupInstanceOptionalParams
+    options?: BackupInstancesSyncBackupInstanceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1204,8 +1392,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1213,8 +1401,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1225,13 +1413,13 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: syncBackupInstanceOperationSpec
+      spec: syncBackupInstanceOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1251,14 +1439,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: SyncBackupInstanceRequest,
-    options?: BackupInstancesSyncBackupInstanceOptionalParams
+    options?: BackupInstancesSyncBackupInstanceOptionalParams,
   ): Promise<void> {
     const poller = await this.beginSyncBackupInstance(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1276,7 +1464,7 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: ValidateRestoreRequestObject,
-    options?: BackupInstancesValidateForRestoreOptionalParams
+    options?: BackupInstancesValidateForRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupInstancesValidateForRestoreResponse>,
@@ -1285,21 +1473,20 @@ export class BackupInstancesImpl implements BackupInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupInstancesValidateForRestoreResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1308,8 +1495,8 @@ export class BackupInstancesImpl implements BackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1317,8 +1504,8 @@ export class BackupInstancesImpl implements BackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1329,16 +1516,17 @@ export class BackupInstancesImpl implements BackupInstances {
         vaultName,
         backupInstanceName,
         parameters,
-        options
+        options,
       },
-      spec: validateForRestoreOperationSpec
+      spec: validateForRestoreOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupInstancesValidateForRestoreResponse,
       OperationState<BackupInstancesValidateForRestoreResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1357,14 +1545,14 @@ export class BackupInstancesImpl implements BackupInstances {
     vaultName: string,
     backupInstanceName: string,
     parameters: ValidateRestoreRequestObject,
-    options?: BackupInstancesValidateForRestoreOptionalParams
+    options?: BackupInstancesValidateForRestoreOptionalParams,
   ): Promise<BackupInstancesValidateForRestoreResponse> {
     const poller = await this.beginValidateForRestore(
       resourceGroupName,
       vaultName,
       backupInstanceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1380,11 +1568,11 @@ export class BackupInstancesImpl implements BackupInstances {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: BackupInstancesListNextOptionalParams
+    options?: BackupInstancesListNextOptionalParams,
   ): Promise<BackupInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -1392,38 +1580,15 @@ export class BackupInstancesImpl implements BackupInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupInstanceResourceList
+      bodyMapper: Mappers.BackupInstanceResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupInstanceResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1431,31 +1596,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupInstanceResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupInstanceResource
+      bodyMapper: Mappers.BackupInstanceResource,
     },
     201: {
-      bodyMapper: Mappers.BackupInstanceResource
+      bodyMapper: Mappers.BackupInstanceResource,
     },
     202: {
-      bodyMapper: Mappers.BackupInstanceResource
+      bodyMapper: Mappers.BackupInstanceResource,
     },
     204: {
-      bodyMapper: Mappers.BackupInstanceResource
+      bodyMapper: Mappers.BackupInstanceResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -1464,15 +1649,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1480,8 +1668,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1489,31 +1677,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.accept, Parameters.xMsAuthorizationAuxiliary],
+  serializer,
 };
 const adhocBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/backup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/backup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     201: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     204: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -1522,32 +1709,31 @@ const adhocBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateForBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/validateForBackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/validateForBackup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     201: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     204: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -1555,57 +1741,56 @@ const validateForBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const getBackupInstanceOperationResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/operationResults/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupInstanceResource
+const getBackupInstanceOperationResultOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/operationResults/{operationId}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BackupInstanceResource,
+      },
+      202: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.operationId,
-    Parameters.backupInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/rehydrate",
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.vaultName,
+      Parameters.operationId,
+      Parameters.backupInstanceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const triggerCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/crossRegionRestore",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     201: {
-      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     204: {
-      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -1613,33 +1798,31 @@ const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const triggerRestoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/restore",
+const validateCrossRegionRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/validateCrossRegionRestore",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     201: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     204: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -1647,121 +1830,31 @@ const triggerRestoreOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const resumeBackupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeBackups",
+const triggerRehydrateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/rehydrate",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BackupInstancesTriggerRehydrateHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const resumeProtectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeProtection",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const stopProtectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/stopProtection",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const suspendBackupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/suspendBackups",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.backupInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const syncBackupInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/sync",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -1770,32 +1863,31 @@ const syncBackupInstanceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const validateForRestoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateRestore",
+const triggerRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/restore",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     201: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     202: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     204: {
-      bodyMapper: Mappers.OperationJobExtendedInfo
+      bodyMapper: Mappers.OperationJobExtendedInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -1804,30 +1896,196 @@ const validateForRestoreOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const resumeBackupsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeBackups",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const resumeProtectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeProtection",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const stopProtectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/stopProtection",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const suspendBackupsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/suspendBackups",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const syncBackupInstanceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/sync",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const validateForRestoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateRestore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationJobExtendedInfo,
+    },
+    201: {
+      bodyMapper: Mappers.OperationJobExtendedInfo,
+    },
+    202: {
+      bodyMapper: Mappers.OperationJobExtendedInfo,
+    },
+    204: {
+      bodyMapper: Mappers.OperationJobExtendedInfo,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupInstanceResourceList
+      bodyMapper: Mappers.BackupInstanceResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Handles requests to list all resources in a subscription.
  *
  * @summary Handles requests to list all resources in a subscription.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_ListBySubscription.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_ListBySubscription.json
  */
 async function webPubSubListBySubscription() {
   const subscriptionId =

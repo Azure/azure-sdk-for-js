@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-/// <reference lib="esnext.asynciterable" />
+import type { PurviewScanningRestClient } from "../../../src/index.js";
+import PurviewScanning from "../../../src/index.js";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -22,13 +22,13 @@ const recorderOptions: RecorderStartOptions = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewScanningRestClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
   return PurviewScanning(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ ...options })
+    recorder.configureClientOptions({ ...options }),
   );
 }

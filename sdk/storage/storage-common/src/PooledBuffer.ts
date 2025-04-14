@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BuffersStream } from "./BuffersStream";
-import { Readable } from "stream";
+import { BuffersStream } from "./BuffersStream.js";
+import type { Readable } from "node:stream";
+import buffer from "node:buffer";
 
 /**
  * maxBufferLength is max size of each buffer in the pooled buffers.
  */
-// Can't use import as Typescript doesn't recognize "buffer".
-const maxBufferLength = require("buffer").constants.MAX_LENGTH;
+
+const maxBufferLength = buffer.constants.MAX_LENGTH;
 
 /**
  * This class provides a buffer container which conceptually has no hard size limit.
@@ -90,7 +91,7 @@ export class PooledBuffer {
    * @param totalLength - Total length of the data to be filled in.
    *
    */
-  public fill(buffers: Buffer[], totalLength: number) {
+  public fill(buffers: Buffer[], totalLength: number): void {
     this._size = Math.min(this.capacity, totalLength);
 
     let i = 0,

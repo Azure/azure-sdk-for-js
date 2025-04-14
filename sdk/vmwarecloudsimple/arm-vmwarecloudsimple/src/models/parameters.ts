@@ -17,7 +17,7 @@ import {
   DedicatedCloudService as DedicatedCloudServiceMapper,
   VirtualMachine as VirtualMachineMapper,
   VirtualMachineStopMode as VirtualMachineStopModeMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

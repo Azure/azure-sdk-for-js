@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to update an exiting resource.
  *
  * @summary Operation to update an exiting resource.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSub_Update.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSub_Update.json
  */
 async function webPubSubUpdate() {
   const subscriptionId =
@@ -27,6 +27,7 @@ async function webPubSubUpdate() {
     disableAadAuth: false,
     disableLocalAuth: false,
     identity: { type: "SystemAssigned" },
+    kind: "WebPubSub",
     liveTraceConfiguration: {
       categories: [{ name: "ConnectivityLogs", enabled: "true" }],
       enabled: "false",
@@ -44,6 +45,7 @@ async function webPubSubUpdate() {
     },
     publicNetworkAccess: "Enabled",
     sku: { name: "Premium_P1", capacity: 1, tier: "Premium" },
+    socketIO: { serviceMode: "Serverless" },
     tags: { key1: "value1" },
     tls: { clientCertEnabled: false },
   };
@@ -52,7 +54,7 @@ async function webPubSubUpdate() {
   const result = await client.webPubSub.beginUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

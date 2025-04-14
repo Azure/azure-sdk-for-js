@@ -79,7 +79,7 @@ node dist/accountsCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/accountsCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env  node dist/accountsCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -117,7 +117,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageaccountslistsastokenssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/typescript/src/storageAccountsListSasTokensSample.ts
 [storageaccountsliststoragecontainerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/typescript/src/storageAccountsListStorageContainersSample.ts
 [storageaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/typescript/src/storageAccountsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datalake-analytics/arm-datalake-analytics/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

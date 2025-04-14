@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListBySubscriptionOptionalParams,
@@ -23,8 +23,17 @@ import {
   UploadCertificateRequest,
   ClustersUploadCertificateOptionalParams,
   ClustersCreateIdentityOptionalParams,
-  ClustersCreateIdentityResponse
-} from "../models";
+  ClustersCreateIdentityResponse,
+  SoftwareAssuranceChangeRequest,
+  ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ClustersExtendSoftwareAssuranceBenefitResponse,
+  LogCollectionRequest,
+  ClustersTriggerLogCollectionOptionalParams,
+  ClustersTriggerLogCollectionResponse,
+  RemoteSupportRequest,
+  ClustersConfigureRemoteSupportOptionalParams,
+  ClustersConfigureRemoteSupportResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
@@ -34,7 +43,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
+    options?: ClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * List all HCI clusters in a resource group.
@@ -43,7 +52,7 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Get HCI cluster.
@@ -54,7 +63,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Create an HCI cluster.
@@ -67,7 +76,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<ClustersCreateResponse>;
   /**
    * Update an HCI cluster.
@@ -80,7 +89,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: ClusterPatch,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Delete an HCI cluster.
@@ -91,8 +100,8 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an HCI cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,7 +111,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Upload certificate.
@@ -115,8 +124,8 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     uploadCertificateRequest: UploadCertificateRequest,
-    options?: ClustersUploadCertificateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersUploadCertificateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upload certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -128,7 +137,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     uploadCertificateRequest: UploadCertificateRequest,
-    options?: ClustersUploadCertificateOptionalParams
+    options?: ClustersUploadCertificateOptionalParams,
   ): Promise<void>;
   /**
    * Create cluster identity.
@@ -139,10 +148,10 @@ export interface Clusters {
   beginCreateIdentity(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersCreateIdentityOptionalParams
+    options?: ClustersCreateIdentityOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateIdentityResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateIdentityResponse>,
       ClustersCreateIdentityResponse
     >
   >;
@@ -155,6 +164,99 @@ export interface Clusters {
   beginCreateIdentityAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersCreateIdentityOptionalParams
+    options?: ClustersCreateIdentityOptionalParams,
   ): Promise<ClustersCreateIdentityResponse>;
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  beginExtendSoftwareAssuranceBenefit(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersExtendSoftwareAssuranceBenefitResponse>,
+      ClustersExtendSoftwareAssuranceBenefitResponse
+    >
+  >;
+  /**
+   * Extends Software Assurance Benefit to a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param softwareAssuranceChangeRequest Software Assurance Change Request Payload
+   * @param options The options parameters.
+   */
+  beginExtendSoftwareAssuranceBenefitAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
+    options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams,
+  ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
+  /**
+   * Trigger Log Collection on a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param logCollectionRequest Trigger Log Collection Request Payload
+   * @param options The options parameters.
+   */
+  beginTriggerLogCollection(
+    resourceGroupName: string,
+    clusterName: string,
+    logCollectionRequest: LogCollectionRequest,
+    options?: ClustersTriggerLogCollectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersTriggerLogCollectionResponse>,
+      ClustersTriggerLogCollectionResponse
+    >
+  >;
+  /**
+   * Trigger Log Collection on a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param logCollectionRequest Trigger Log Collection Request Payload
+   * @param options The options parameters.
+   */
+  beginTriggerLogCollectionAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    logCollectionRequest: LogCollectionRequest,
+    options?: ClustersTriggerLogCollectionOptionalParams,
+  ): Promise<ClustersTriggerLogCollectionResponse>;
+  /**
+   * Configure RemoteSupport on a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param remoteSupportRequest Configure Remote Support Request Payload
+   * @param options The options parameters.
+   */
+  beginConfigureRemoteSupport(
+    resourceGroupName: string,
+    clusterName: string,
+    remoteSupportRequest: RemoteSupportRequest,
+    options?: ClustersConfigureRemoteSupportOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersConfigureRemoteSupportResponse>,
+      ClustersConfigureRemoteSupportResponse
+    >
+  >;
+  /**
+   * Configure RemoteSupport on a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param remoteSupportRequest Configure Remote Support Request Payload
+   * @param options The options parameters.
+   */
+  beginConfigureRemoteSupportAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    remoteSupportRequest: RemoteSupportRequest,
+    options?: ClustersConfigureRemoteSupportOptionalParams,
+  ): Promise<ClustersConfigureRemoteSupportResponse>;
 }

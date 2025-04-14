@@ -11,8 +11,8 @@ import {
   CurrentUsagesBase,
   UsagesListOptionalParams,
   UsagesGetOptionalParams,
-  UsagesGetResponse
-} from "../models";
+  UsagesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
@@ -28,7 +28,7 @@ export interface Usages {
    */
   list(
     scope: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentUsagesBase>;
   /**
    * Get the current usage of a resource.
@@ -46,6 +46,6 @@ export interface Usages {
   get(
     resourceName: string,
     scope: string,
-    options?: UsagesGetOptionalParams
+    options?: UsagesGetOptionalParams,
   ): Promise<UsagesGetResponse>;
 }

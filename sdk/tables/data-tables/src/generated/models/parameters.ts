@@ -14,7 +14,7 @@ import {
 import {
   TableProperties as TablePropertiesMapper,
   TableServiceProperties as TableServicePropertiesMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AuthenticationError } from "../src";
-import { DefaultAuthorityHost } from "../src/constants";
-import { assert } from "chai";
+import type { AuthenticationError } from "../src/index.js";
+import { AzureAuthorityHosts } from "../src/index.js";
+import { assert } from "vitest";
 
+/**
+ * @internal
+ * The default authority host.
+ */
+export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 /**
  * Waits for the given promise to resolve, then returns the resulted error.
  * Throws an exception if the promise doesn't reject.
@@ -28,7 +33,7 @@ export function assertClientCredentials(
   requestBody: string,
   expectedTenantId: string,
   expectedClientId: string,
-  expectedClientSecret?: string
+  expectedClientSecret?: string,
 ): void {
   assert.ok(requestUrl.indexOf(DefaultAuthorityHost) > -1);
   assert.ok(requestUrl.indexOf(expectedTenantId) > -1);
@@ -36,14 +41,14 @@ export function assertClientCredentials(
   assert.strictEqual(
     requestBody.indexOf(`client_id=${expectedClientId}`) > -1,
     true,
-    "Request body doesn't contain expected clientId"
+    "Request body doesn't contain expected clientId",
   );
 
   if (expectedClientSecret) {
     assert.strictEqual(
       requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
-      "Request body doesn't contain expected clientSecret"
+      "Request body doesn't contain expected clientSecret",
     );
   }
 }

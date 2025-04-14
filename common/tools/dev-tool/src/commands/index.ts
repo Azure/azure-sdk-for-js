@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
-import { subCommand, makeCommandInfo } from "../framework/command";
+import { makeCommandInfo, subCommand } from "../framework/command";
+
 import { createPrinter } from "../util/printer";
 
 const log = createPrinter("dev-tool");
@@ -18,6 +19,7 @@ export const baseCommands = {
   run: () => import("./run"),
   migrate: () => import("./migrate"),
   customization: () => import("./customization"),
+  check: () => import("./check"),
 } as const;
 
 /**
@@ -33,7 +35,7 @@ export const baseCommand = async (...args: string[]): Promise<void> => {
   const status = await subCommand(baseCommandInfo, baseCommands)(...args);
 
   if (!status) {
-    log.error("Errors occured. See the output above.");
+    log.error("Errors occurred. See the output above.");
     process.exit(1);
   }
 };

@@ -1,17 +1,58 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import os from "os";
+import os from "node:os";
 import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
-  DbSystemValues,
+  SEMRESATTRS_DEVICE_ID,
+  SEMRESATTRS_DEVICE_MODEL_NAME,
+  SEMRESATTRS_SERVICE_VERSION,
+  SEMRESATTRS_K8S_POD_NAME,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  DBSYSTEMVALUES_DB2,
+  DBSYSTEMVALUES_DERBY,
+  DBSYSTEMVALUES_MARIADB,
+  DBSYSTEMVALUES_MSSQL,
+  DBSYSTEMVALUES_ORACLE,
+  DBSYSTEMVALUES_SQLITE,
+  DBSYSTEMVALUES_OTHER_SQL,
+  DBSYSTEMVALUES_HSQLDB,
+  SEMATTRS_PEER_SERVICE,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_K8S_DEPLOYMENT_NAME,
+  SEMRESATTRS_K8S_REPLICASET_NAME,
+  SEMRESATTRS_K8S_STATEFULSET_NAME,
+  SEMRESATTRS_K8S_JOB_NAME,
+  SEMRESATTRS_K8S_CRONJOB_NAME,
+  SEMRESATTRS_K8S_DAEMONSET_NAME,
+  ATTR_TELEMETRY_SDK_VERSION,
+  ATTR_TELEMETRY_SDK_LANGUAGE,
+  ATTR_TELEMETRY_SDK_NAME,
+  DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
-import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope } from "../generated";
-import { Resource } from "@opentelemetry/resources";
-import { Attributes } from "@opentelemetry/api";
+import type { Tags } from "../types.js";
+import { getInstance } from "../platform/index.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
+import { KnownContextTagKeys } from "../generated/index.js";
+import type { Resource } from "@opentelemetry/resources";
+import type { Attributes, HrTime } from "@opentelemetry/api";
+import { hrTimeToNanoseconds } from "@opentelemetry/core";
+import type { AnyValue } from "@opentelemetry/api-logs";
+import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
+import {
+  getHttpHost,
+  getHttpMethod,
+  getHttpScheme,
+  getHttpTarget,
+  getHttpUrl,
+  getNetPeerName,
+  getNetPeerPort,
+  getPeerIp,
+} from "./spanUtils.js";
+
+export function hrTimeToDate(hrTime: HrTime): Date {
+  return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
+}
 
 export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
@@ -19,9 +60,18 @@ export function createTagsFromResource(resource: Resource): Tags {
   if (resource && resource.attributes) {
     tags[KnownContextTagKeys.AiCloudRole] = getCloudRole(resource);
     tags[KnownContextTagKeys.AiCloudRoleInstance] = getCloudRoleInstance(resource);
-    const endUserId = resource.attributes[SemanticAttributes.ENDUSER_ID];
-    if (endUserId) {
-      tags[KnownContextTagKeys.AiUserId] = String(endUserId);
+    if (resource.attributes[SEMRESATTRS_DEVICE_ID]) {
+      tags[KnownContextTagKeys.AiDeviceId] = String(resource.attributes[SEMRESATTRS_DEVICE_ID]);
+    }
+    if (resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME]) {
+      tags[KnownContextTagKeys.AiDeviceModel] = String(
+        resource.attributes[SEMRESATTRS_DEVICE_MODEL_NAME],
+      );
+    }
+    if (resource.attributes[SEMRESATTRS_SERVICE_VERSION]) {
+      tags[KnownContextTagKeys.AiApplicationVer] = String(
+        resource.attributes[SEMRESATTRS_SERVICE_VERSION],
+      );
     }
   }
   return tags;
@@ -30,8 +80,8 @@ export function createTagsFromResource(resource: Resource): Tags {
 function getCloudRole(resource: Resource): string {
   let cloudRole = "";
   // Service attributes
-  const serviceName = resource.attributes[SemanticResourceAttributes.SERVICE_NAME];
-  const serviceNamespace = resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
+  const serviceName = resource.attributes[SEMRESATTRS_SERVICE_NAME];
+  const serviceNamespace = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE];
   if (serviceName) {
     // Custom Service name provided by customer is highest precedence
     if (!String(serviceName).startsWith("unknown_service")) {
@@ -50,31 +100,27 @@ function getCloudRole(resource: Resource): string {
     }
   }
   // Kubernetes attributes should take precedence
-  const kubernetesDeploymentName =
-    resource.attributes[SemanticResourceAttributes.K8S_DEPLOYMENT_NAME];
+  const kubernetesDeploymentName = resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
   if (kubernetesDeploymentName) {
     return String(kubernetesDeploymentName);
   }
-  const kuberneteReplicasetName =
-    resource.attributes[SemanticResourceAttributes.K8S_REPLICASET_NAME];
+  const kuberneteReplicasetName = resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
   if (kuberneteReplicasetName) {
     return String(kuberneteReplicasetName);
   }
-  const kubernetesStatefulSetName =
-    resource.attributes[SemanticResourceAttributes.K8S_STATEFULSET_NAME];
+  const kubernetesStatefulSetName = resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
   if (kubernetesStatefulSetName) {
     return String(kubernetesStatefulSetName);
   }
-  const kubernetesJobName = resource.attributes[SemanticResourceAttributes.K8S_JOB_NAME];
+  const kubernetesJobName = resource.attributes[SEMRESATTRS_K8S_JOB_NAME];
   if (kubernetesJobName) {
     return String(kubernetesJobName);
   }
-  const kubernetesCronjobName = resource.attributes[SemanticResourceAttributes.K8S_CRONJOB_NAME];
+  const kubernetesCronjobName = resource.attributes[SEMRESATTRS_K8S_CRONJOB_NAME];
   if (kubernetesCronjobName) {
     return String(kubernetesCronjobName);
   }
-  const kubernetesDaemonsetName =
-    resource.attributes[SemanticResourceAttributes.K8S_DAEMONSET_NAME];
+  const kubernetesDaemonsetName = resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
   if (kubernetesDaemonsetName) {
     return String(kubernetesDaemonsetName);
   }
@@ -83,12 +129,12 @@ function getCloudRole(resource: Resource): string {
 
 function getCloudRoleInstance(resource: Resource): string {
   // Kubernetes attributes should take precedence
-  const kubernetesPodName = resource.attributes[SemanticResourceAttributes.K8S_POD_NAME];
+  const kubernetesPodName = resource.attributes[SEMRESATTRS_K8S_POD_NAME];
   if (kubernetesPodName) {
     return String(kubernetesPodName);
   }
   // Service attributes
-  const serviceInstanceId = resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
+  const serviceInstanceId = resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
   if (serviceInstanceId) {
     return String(serviceInstanceId);
   }
@@ -96,17 +142,17 @@ function getCloudRoleInstance(resource: Resource): string {
   return os && os.hostname();
 }
 
-export function isSqlDB(dbSystem: string) {
+export function isSqlDB(dbSystem: string): boolean {
   return (
-    dbSystem === DbSystemValues.DB2 ||
-    dbSystem === DbSystemValues.DERBY ||
-    dbSystem === DbSystemValues.MARIADB ||
-    dbSystem === DbSystemValues.MSSQL ||
-    dbSystem === DbSystemValues.ORACLE ||
-    dbSystem === DbSystemValues.SQLITE ||
-    dbSystem === DbSystemValues.OTHER_SQL ||
-    dbSystem === DbSystemValues.HSQLDB ||
-    dbSystem === DbSystemValues.H2
+    dbSystem === DBSYSTEMVALUES_DB2 ||
+    dbSystem === DBSYSTEMVALUES_DERBY ||
+    dbSystem === DBSYSTEMVALUES_MARIADB ||
+    dbSystem === DBSYSTEMVALUES_MSSQL ||
+    dbSystem === DBSYSTEMVALUES_ORACLE ||
+    dbSystem === DBSYSTEMVALUES_SQLITE ||
+    dbSystem === DBSYSTEMVALUES_OTHER_SQL ||
+    dbSystem === DBSYSTEMVALUES_HSQLDB ||
+    dbSystem === DBSYSTEMVALUES_H2
   );
 }
 
@@ -114,26 +160,26 @@ export function getUrl(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const httpMethod = attributes[SemanticAttributes.HTTP_METHOD];
+  const httpMethod = getHttpMethod(attributes);
   if (httpMethod) {
-    const httpUrl = attributes[SemanticAttributes.HTTP_URL];
+    const httpUrl = getHttpUrl(attributes);
     if (httpUrl) {
       return String(httpUrl);
     } else {
-      const httpScheme = attributes[SemanticAttributes.HTTP_SCHEME];
-      const httpTarget = attributes[SemanticAttributes.HTTP_TARGET];
+      const httpScheme = getHttpScheme(attributes);
+      const httpTarget = getHttpTarget(attributes);
       if (httpScheme && httpTarget) {
-        const httpHost = attributes[SemanticAttributes.HTTP_HOST];
+        const httpHost = getHttpHost(attributes);
         if (httpHost) {
           return `${httpScheme}://${httpHost}${httpTarget}`;
         } else {
-          const netPeerPort = attributes[SemanticAttributes.NET_PEER_PORT];
+          const netPeerPort = getNetPeerPort(attributes);
           if (netPeerPort) {
-            const netPeerName = attributes[SemanticAttributes.NET_PEER_NAME];
+            const netPeerName = getNetPeerName(attributes);
             if (netPeerName) {
               return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
             } else {
-              const netPeerIp = attributes[SemanticAttributes.NET_PEER_IP];
+              const netPeerIp = getPeerIp(attributes);
               if (netPeerIp) {
                 return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
               }
@@ -150,11 +196,11 @@ export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const peerService = attributes[SemanticAttributes.PEER_SERVICE];
-  const httpHost = attributes[SemanticAttributes.HTTP_HOST];
-  const httpUrl = attributes[SemanticAttributes.HTTP_URL];
-  const netPeerName = attributes[SemanticAttributes.NET_PEER_NAME];
-  const netPeerIp = attributes[SemanticAttributes.NET_PEER_IP];
+  const peerService = attributes[SEMATTRS_PEER_SERVICE];
+  const httpHost = getHttpHost(attributes);
+  const httpUrl = getHttpUrl(attributes);
+  const netPeerName = getNetPeerName(attributes);
+  const netPeerIp = getPeerIp(attributes);
   if (peerService) {
     return String(peerService);
   } else if (httpHost) {
@@ -171,7 +217,7 @@ export function getDependencyTarget(attributes: Attributes): string {
 
 export function createResourceMetricEnvelope(
   resource: Resource,
-  instrumentationKey: string
+  instrumentationKey: string,
 ): Envelope | undefined {
   if (resource && resource.attributes) {
     const tags = createTagsFromResource(resource);
@@ -181,9 +227,9 @@ export function createResourceMetricEnvelope(
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_NAME
+          key === ATTR_TELEMETRY_SDK_VERSION ||
+          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+          key === ATTR_TELEMETRY_SDK_NAME
         )
       ) {
         resourceAttributes[key] = resource.attributes[key] as string;
@@ -191,18 +237,20 @@ export function createResourceMetricEnvelope(
     }
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
-      let envelope: Envelope = {
-        name: "_APPRESOURCEPREVIEW_",
+      const baseData: MetricsData = {
+        version: 2,
+        metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
+        properties: resourceAttributes,
+      };
+      const envelope: Envelope = {
+        name: "Microsoft.ApplicationInsights.Metric",
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled
         instrumentationKey: instrumentationKey,
         version: 1,
         data: {
           baseType: "MetricData",
-          baseData: {
-            version: 2,
-            properties: resourceAttributes,
-          },
+          baseData: baseData,
         },
         tags: tags,
       };
@@ -210,4 +258,32 @@ export function createResourceMetricEnvelope(
     }
   }
   return;
+}
+
+export function serializeAttribute(value: AnyValue): string {
+  if (typeof value === "object") {
+    if (value instanceof Error) {
+      try {
+        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    } else if (value instanceof Uint8Array) {
+      return String(value);
+    } else {
+      try {
+        return JSON.stringify(value);
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    }
+  }
+  // Return scalar and undefined values
+  return String(value);
+}
+
+export function shouldCreateResourceMetric(): boolean {
+  return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
 }

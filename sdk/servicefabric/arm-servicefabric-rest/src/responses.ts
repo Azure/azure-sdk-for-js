@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
-  ApplicationResourceListOutput,
-  ApplicationResourceOutput,
-  ApplicationTypeResourceListOutput,
-  ApplicationTypeResourceOutput,
-  ApplicationTypeVersionResourceListOutput,
-  ApplicationTypeVersionResourceOutput,
-  ClusterCodeVersionsListResultOutput,
-  ClusterListResultOutput,
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ClusterOutput,
   ErrorModelOutput,
-  OperationListResultOutput,
-  ServiceResourceListOutput,
-  ServiceResourceOutput,
+  ClusterListResultOutput,
   UpgradableVersionPathResultOutput,
-} from "./outputModels";
+  ClusterCodeVersionsListResultOutput,
+  OperationListResultOutput,
+  ApplicationTypeResourceOutput,
+  ApplicationTypeResourceListOutput,
+  ApplicationTypeVersionResourceOutput,
+  ApplicationTypeVersionResourceListOutput,
+  ApplicationResourceOutput,
+  ApplicationResourceListOutput,
+  ServiceResourceOutput,
+  ServiceResourceListOutput,
+} from "./outputModels.js";
 
 /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */
 export interface ClustersGet200Response extends HttpResponse {
@@ -26,7 +26,7 @@ export interface ClustersGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric cluster resource created or in the process of being created in the specified resource group. */
-export interface ClustersGetdefaultResponse extends HttpResponse {
+export interface ClustersGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -44,7 +44,7 @@ export interface ClustersCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a Service Fabric cluster resource with the specified name. */
-export interface ClustersCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ClustersCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -62,7 +62,7 @@ export interface ClustersUpdate202Response extends HttpResponse {
 }
 
 /** Update the configuration of a Service Fabric cluster resource with the specified name. */
-export interface ClustersUpdatedefaultResponse extends HttpResponse {
+export interface ClustersUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -70,17 +70,15 @@ export interface ClustersUpdatedefaultResponse extends HttpResponse {
 /** Delete a Service Fabric cluster resource with the specified name. */
 export interface ClustersDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric cluster resource with the specified name. */
 export interface ClustersDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric cluster resource with the specified name. */
-export interface ClustersDeletedefaultResponse extends HttpResponse {
+export interface ClustersDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -92,7 +90,7 @@ export interface ClustersListByResourceGroup200Response extends HttpResponse {
 }
 
 /** Gets all Service Fabric cluster resources created or in the process of being created in the resource group. */
-export interface ClustersListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ClustersListByResourceGroupDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -104,7 +102,7 @@ export interface ClustersList200Response extends HttpResponse {
 }
 
 /** Gets all Service Fabric cluster resources created or in the process of being created in the subscription. */
-export interface ClustersListdefaultResponse extends HttpResponse {
+export interface ClustersListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -116,7 +114,7 @@ export interface ClustersListUpgradableVersions200Response extends HttpResponse 
 }
 
 /** If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version. */
-export interface ClustersListUpgradableVersionsdefaultResponse extends HttpResponse {
+export interface ClustersListUpgradableVersionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -128,7 +126,7 @@ export interface ClusterVersionsGet200Response extends HttpResponse {
 }
 
 /** Gets information about an available Service Fabric cluster code version. */
-export interface ClusterVersionsGetdefaultResponse extends HttpResponse {
+export interface ClusterVersionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -140,7 +138,7 @@ export interface ClusterVersionsGetByEnvironment200Response extends HttpResponse
 }
 
 /** Gets information about an available Service Fabric cluster code version by environment. */
-export interface ClusterVersionsGetByEnvironmentdefaultResponse extends HttpResponse {
+export interface ClusterVersionsGetByEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -152,7 +150,7 @@ export interface ClusterVersionsList200Response extends HttpResponse {
 }
 
 /** Gets all available code versions for Service Fabric cluster resources by location. */
-export interface ClusterVersionsListdefaultResponse extends HttpResponse {
+export interface ClusterVersionsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -164,7 +162,7 @@ export interface ClusterVersionsListByEnvironment200Response extends HttpRespons
 }
 
 /** Gets all available code versions for Service Fabric cluster resources by environment. */
-export interface ClusterVersionsListByEnvironmentdefaultResponse extends HttpResponse {
+export interface ClusterVersionsListByEnvironmentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -176,7 +174,7 @@ export interface OperationsList200Response extends HttpResponse {
 }
 
 /** Get the list of available Service Fabric resource provider API operations. */
-export interface OperationsListdefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -188,7 +186,7 @@ export interface ApplicationTypesGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric cluster resource. */
-export interface ApplicationTypesGetdefaultResponse extends HttpResponse {
+export interface ApplicationTypesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -200,7 +198,7 @@ export interface ApplicationTypesCreateOrUpdate200Response extends HttpResponse 
 }
 
 /** Create or update a Service Fabric application type name resource with the specified name. */
-export interface ApplicationTypesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationTypesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -208,17 +206,15 @@ export interface ApplicationTypesCreateOrUpdatedefaultResponse extends HttpRespo
 /** Delete a Service Fabric application type name resource with the specified name. */
 export interface ApplicationTypesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application type name resource with the specified name. */
 export interface ApplicationTypesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application type name resource with the specified name. */
-export interface ApplicationTypesDeletedefaultResponse extends HttpResponse {
+export interface ApplicationTypesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -230,7 +226,7 @@ export interface ApplicationTypesList200Response extends HttpResponse {
 }
 
 /** Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource. */
-export interface ApplicationTypesListdefaultResponse extends HttpResponse {
+export interface ApplicationTypesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -242,7 +238,7 @@ export interface ApplicationTypeVersionsGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource. */
-export interface ApplicationTypeVersionsGetdefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -254,7 +250,7 @@ export interface ApplicationTypeVersionsCreateOrUpdate202Response extends HttpRe
 }
 
 /** Create or update a Service Fabric application type version resource with the specified name. */
-export interface ApplicationTypeVersionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -262,17 +258,15 @@ export interface ApplicationTypeVersionsCreateOrUpdatedefaultResponse extends Ht
 /** Delete a Service Fabric application type version resource with the specified name. */
 export interface ApplicationTypeVersionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application type version resource with the specified name. */
 export interface ApplicationTypeVersionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application type version resource with the specified name. */
-export interface ApplicationTypeVersionsDeletedefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -284,7 +278,7 @@ export interface ApplicationTypeVersionsList200Response extends HttpResponse {
 }
 
 /** Gets all application type version resources created or in the process of being created in the Service Fabric application type name resource. */
-export interface ApplicationTypeVersionsListdefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -296,7 +290,7 @@ export interface ApplicationsGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric application resource created or in the process of being created in the Service Fabric cluster resource. */
-export interface ApplicationsGetdefaultResponse extends HttpResponse {
+export interface ApplicationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -308,7 +302,7 @@ export interface ApplicationsCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a Service Fabric application resource with the specified name. */
-export interface ApplicationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -320,7 +314,7 @@ export interface ApplicationsUpdate202Response extends HttpResponse {
 }
 
 /** Update a Service Fabric application resource with the specified name. */
-export interface ApplicationsUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationsUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -328,17 +322,15 @@ export interface ApplicationsUpdatedefaultResponse extends HttpResponse {
 /** Delete a Service Fabric application resource with the specified name. */
 export interface ApplicationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application resource with the specified name. */
 export interface ApplicationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric application resource with the specified name. */
-export interface ApplicationsDeletedefaultResponse extends HttpResponse {
+export interface ApplicationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -350,7 +342,7 @@ export interface ApplicationsList200Response extends HttpResponse {
 }
 
 /** Gets all application resources created or in the process of being created in the Service Fabric cluster resource. */
-export interface ApplicationsListdefaultResponse extends HttpResponse {
+export interface ApplicationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -362,7 +354,7 @@ export interface ServicesGet200Response extends HttpResponse {
 }
 
 /** Get a Service Fabric service resource created or in the process of being created in the Service Fabric application resource. */
-export interface ServicesGetdefaultResponse extends HttpResponse {
+export interface ServicesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -374,7 +366,7 @@ export interface ServicesCreateOrUpdate202Response extends HttpResponse {
 }
 
 /** Create or update a Service Fabric service resource with the specified name. */
-export interface ServicesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ServicesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -386,7 +378,7 @@ export interface ServicesUpdate202Response extends HttpResponse {
 }
 
 /** Update a Service Fabric service resource with the specified name. */
-export interface ServicesUpdatedefaultResponse extends HttpResponse {
+export interface ServicesUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -394,17 +386,15 @@ export interface ServicesUpdatedefaultResponse extends HttpResponse {
 /** Delete a Service Fabric service resource with the specified name. */
 export interface ServicesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric service resource with the specified name. */
 export interface ServicesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Service Fabric service resource with the specified name. */
-export interface ServicesDeletedefaultResponse extends HttpResponse {
+export interface ServicesDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }
@@ -416,7 +406,7 @@ export interface ServicesList200Response extends HttpResponse {
 }
 
 /** Gets all service resources created or in the process of being created in the Service Fabric application resource. */
-export interface ServicesListdefaultResponse extends HttpResponse {
+export interface ServicesListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorModelOutput;
 }

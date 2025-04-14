@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
-import { ConnectionContext } from "../connectionContext";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusReceiver } from "../receivers/receiver";
-import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
-import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
+import type { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
+import type { ConnectionContext } from "../connectionContext.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { ServiceBusReceiver } from "../receivers/receiver.js";
+import type { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage.js";
+import type { MessagingOperationNames } from "./tracing.js";
+import { toSpanOptions, tracingClient } from "./tracing.js";
 
 /**
  * @internal
@@ -34,7 +35,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   options: OperationOptionsBase,
   entityPath: string,
   host: string,
-  operation: MessagingOperationNames
+  operation: MessagingOperationNames,
 ): {
   /**
    * If instrumentation was done, a copy of the message with
@@ -61,7 +62,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, operation, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer"),
   );
 
   try {
@@ -73,7 +74,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
     }
 
     const traceParent = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions?.tracingContext
+      updatedOptions.tracingOptions?.tracingContext,
     )["traceparent"];
 
     if (traceParent) {
@@ -102,7 +103,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
  * @internal
  */
 export function extractSpanContextFromServiceBusMessage(
-  message: ServiceBusMessage
+  message: ServiceBusMessage,
 ): TracingContext | undefined {
   if (!message.applicationProperties || !message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return;
@@ -120,7 +121,7 @@ export function extractSpanContextFromServiceBusMessage(
  * @internal
  */
 function* getReceivedMessages(
-  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[]
+  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
 ): Iterable<ServiceBusReceivedMessage> {
   if (!Array.isArray(receivedMessages)) {
     yield receivedMessages;
@@ -138,7 +139,7 @@ export function toProcessingSpanOptions(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
-  operation: MessagingOperationNames
+  operation: MessagingOperationNames,
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {

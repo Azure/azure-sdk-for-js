@@ -6,17 +6,19 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "generate-doc": "node index.js"
+    "generate-doc": "node dist/index.js",
+    "format": "prettier --write \"index.ts\""
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typedoc": "^0.23.15",
-    "yargs": "^17.5.1"
+    "typedoc": "^0.26.3",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
-    "@types/yargs": "^17.0.12",
-    "typescript": "~5.0.0"
+    "@types/node": "^18.0.0",
+    "@types/yargs": "^17.0.32",
+    "prettier": "^3.4.2",
+    "typescript": "~5.6.2"
   }
 }

@@ -1,12 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpAuthorization } from "../models";
-import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
-import { isNode } from "@azure/core-util";
-import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
+  ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
+  ListHandlesResponse as ListHandlesResponseInternal,
+  SharePermission,
+  StringEncoded,
+} from "../generated/src/models/index.js";
+import type {
+  DirectoryItem,
+  FileItem,
+  HandleItem,
+  ListFilesAndDirectoriesSegmentResponse,
+  ListHandlesResponse,
+} from "../generatedModels.js";
+import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models.js";
+import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
+import { isNodeLike } from "@azure/core-util";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -55,8 +69,8 @@ import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -88,8 +102,8 @@ function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
-) {
+    | "SharedAccessSignature",
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -135,7 +149,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -160,17 +174,16 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     };
   } else {
     // SAS connection string
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(fileEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(fileEndpoint);
+    }
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    }
-
-    // remove test SAS
-    if (accountSas === "fakeSasToken") {
-      accountSas = "";
     }
 
     return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
@@ -182,6 +195,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"
@@ -359,7 +373,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -368,7 +382,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -381,27 +395,26 @@ export function base64decode(encodedString: string): string {
 export async function delay(
   timeInMs: number,
   aborter?: AbortSignalLike,
-  abortError?: Error
+  abortError?: Error,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
-    const abortHandler = () => {
+    const abortHandler = (): void => {
       if (timeout !== undefined) {
         clearTimeout(timeout);
       }
       reject(abortError);
     };
 
-    const resolveHandler = () => {
+    const resolveHandler = (): void => {
       if (aborter !== undefined) {
         aborter.removeEventListener("abort", abortHandler);
       }
       resolve();
     };
 
-    /* eslint-disable-next-line prefer-const */
     timeout = setTimeout(resolveHandler, timeInMs);
     if (aborter !== undefined) {
       aborter.addEventListener("abort", abortHandler);
@@ -467,12 +480,12 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -536,13 +549,13 @@ export function getShareNameAndPathFromUrl(url: string): {
     }
   } catch (error: any) {
     throw new Error(
-      "Unable to extract shareName and filePath/directoryPath with provided information."
+      "Unable to extract shareName and filePath/directoryPath with provided information.",
     );
   }
 }
 
 export function httpAuthorizationToString(
-  httpAuthorization?: HttpAuthorization
+  httpAuthorization?: HttpAuthorization,
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }
@@ -659,8 +672,8 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
   (Body extends object
     ? ResponseWithBody<Headers, Body>
     : Headers extends object
-    ? ResponseWithHeaders<Headers>
-    : ResponseLike);
+      ? ResponseWithHeaders<Headers>
+      : ResponseLike);
 
 /**
  * A typesafe helper for ensuring that a given response object has
@@ -669,11 +682,353 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function StringEncodedToString(name: StringEncoded): string {
+  if (name.encoded) {
+    return decodeURIComponent(name.content!);
+  } else {
+    return name.content!;
+  }
+}
+
+export function ConvertInternalResponseOfListFiles(
+  internalResponse: ListFilesAndDirectoriesSegmentResponseInternal,
+): ListFilesAndDirectoriesSegmentResponse {
+  const wrappedResponse = {
+    ...internalResponse,
+    prefix: undefined,
+    directoryPath: StringEncodedToString({
+      encoded: internalResponse.encoded,
+      content: internalResponse.directoryPath,
+    }),
+    segment: {
+      fileItems: internalResponse.segment.fileItems.map((fileItemInternal) => {
+        const fileItem: FileItem = {
+          ...fileItemInternal,
+          name: StringEncodedToString(fileItemInternal.name),
+        };
+        return fileItem;
+      }),
+      directoryItems: internalResponse.segment.directoryItems.map((directoryItemInternal) => {
+        const directoryItem: DirectoryItem = {
+          ...directoryItemInternal,
+          name: StringEncodedToString(directoryItemInternal.name),
+        };
+        return directoryItem;
+      }),
+    },
+  };
+
+  delete wrappedResponse.encoded;
+
+  const listResponse: ListFilesAndDirectoriesSegmentResponse = wrappedResponse as any;
+
+  if (internalResponse.prefix) {
+    listResponse.prefix = StringEncodedToString(internalResponse.prefix);
+  }
+
+  return listResponse;
+}
+
+export function ConvertInternalResponseOfListHandles(
+  internalResponse: ListHandlesResponseInternal,
+): ListHandlesResponse {
+  const wrappedResponse: ListHandlesResponse = {
+    ...internalResponse,
+    handleList: internalResponse.handleList
+      ? internalResponse.handleList.map((handleItemInternal) => {
+          const handleItem: HandleItem = {
+            ...handleItemInternal,
+            path: StringEncodedToString(handleItemInternal.path),
+          };
+          return handleItem;
+        })
+      : undefined,
+  };
+
+  return wrappedResponse;
+}
+
+/**
+ * A small helper to handle converting an empty string "" into undefined
+ * This is used in the case of query parameters (like continuation token) where
+ * we don't want to send an empty query parameter to the service since the signing
+ * policy for shared key will fail.
+ * @internal
+ */
+export function removeEmptyString(value: string | undefined): string | undefined {
+  return value ? value : undefined;
+}
+
+export function asSharePermission(value: string | SharePermission): SharePermission {
+  const castSharePermission = value as SharePermission;
+  if (castSharePermission["permission"] !== undefined) {
+    return {
+      permission: castSharePermission.permission,
+      format: castSharePermission.format,
+    };
+  }
+
+  return {
+    permission: value as string,
+  };
+}
+
+/**
+ * Parse 4-digit octal string representation of a File Mode to a {@link NfsFileMode} structure.
+ */
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
+  if (input === undefined) {
+    return undefined;
+  }
+
+  if (input?.length !== 4) {
+    throw new Error("Invalid format of input string");
+  }
+
+  const nfsFileMode: NfsFileMode = {
+    owner: parseOctalRolePermissions(input[1]),
+    group: parseOctalRolePermissions(input[2]),
+    other: parseOctalRolePermissions(input[3]),
+    effectiveUserIdentity: false,
+    effectiveGroupIdentity: false,
+    stickyBit: false,
+  };
+
+  const value: number = Number.parseInt(input[0]);
+
+  if ((value & 4) > 0) {
+    nfsFileMode.effectiveUserIdentity = true;
+  }
+
+  if ((value & 2) > 0) {
+    nfsFileMode.effectiveGroupIdentity = true;
+  }
+
+  if ((value & 1) > 0) {
+    nfsFileMode.stickyBit = true;
+  }
+
+  return nfsFileMode;
+}
+
+/**
+ * Convert {@link NfsFileMode} structure to a 4-digit octal string represenation.
+ */
+export function toOctalFileMode(input?: NfsFileMode): string | undefined {
+  if (input === undefined) return undefined;
+
+  let higherOrderDigit = 0;
+  if (input?.effectiveUserIdentity) {
+    higherOrderDigit |= 4;
+  }
+
+  if (input?.effectiveGroupIdentity) {
+    higherOrderDigit |= 2;
+  }
+
+  if (input?.stickyBit) {
+    higherOrderDigit |= 1;
+  }
+
+  let stringFileMode = higherOrderDigit.toString();
+  stringFileMode += toOctalRolePermissions(input!.owner);
+  stringFileMode += toOctalRolePermissions(input!.group);
+  stringFileMode += toOctalRolePermissions(input!.other);
+
+  return stringFileMode;
+}
+
+/**
+ * Convert a {@link NfsFileMode} to a string in symbolic notation.
+ */
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
+  if (input === undefined) return undefined;
+  let ownerPermissions = toSymbolicRolePermissions(input.owner);
+  let groupPermissions = toSymbolicRolePermissions(input.group);
+  let otherPermissions = toSymbolicRolePermissions(input.other);
+
+  if (input.effectiveUserIdentity) {
+    if (ownerPermissions[2] === "x") {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "s";
+    } else {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "S";
+    }
+  }
+
+  if (input.effectiveGroupIdentity) {
+    if (groupPermissions[2] === "x") {
+      groupPermissions = groupPermissions.substring(0, 2) + "s";
+    } else {
+      groupPermissions = groupPermissions.substring(0, 2) + "S";
+    }
+  }
+
+  if (input.stickyBit) {
+    if (otherPermissions[2] === "x") {
+      otherPermissions = otherPermissions.substring(0, 2) + "t";
+    } else {
+      otherPermissions = otherPermissions.substring(0, 2) + "T";
+    }
+  }
+  return ownerPermissions + groupPermissions + otherPermissions;
+}
+
+/**
+ * Parse a 9-character symbolic string representation of a File Mode to a {@link NfsFileMode} structure.
+ */
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined {
+  if (input === undefined) return undefined;
+
+  if (input?.length !== 9) {
+    throw new Error("Invalid format of input string");
+  }
+  const ownerPermissions = parseSymbolicRolePermissions(input.substring(0, 3));
+  const groupPermissions = parseSymbolicRolePermissions(input.substring(3, 6));
+  const otherPermissions = parseSymbolicRolePermissions(input.substring(6, 9));
+  const nfsFileMode: NfsFileMode = {
+    owner: ownerPermissions.rolePermissions,
+    group: groupPermissions.rolePermissions,
+    other: otherPermissions.rolePermissions,
+    effectiveUserIdentity: ownerPermissions.setSticky,
+    effectiveGroupIdentity: groupPermissions.setSticky,
+    stickyBit: otherPermissions.setSticky,
+  };
+
+  return nfsFileMode;
+}
+
+export function parseOctalRolePermissions(c: string): PosixRolePermissions {
+  const rolePermissions: PosixRolePermissions = {
+    read: false,
+    write: false,
+    execute: false,
+  };
+
+  const value = Number.parseInt(c);
+
+  if (value < 0 || value > 7) {
+    throw new Error("MustBeBetweenInclusive");
+  }
+
+  if ((value & 4) > 0) {
+    rolePermissions.read = true;
+  }
+
+  if ((value & 2) > 0) {
+    rolePermissions.write = true;
+  }
+
+  if ((value & 1) > 0) {
+    rolePermissions.execute = true;
+  }
+
+  return rolePermissions;
+}
+
+export function toOctalRolePermissions(rolePermissions: PosixRolePermissions): string {
+  let result = 0;
+  if (rolePermissions.read === true) {
+    result |= 4;
+  }
+
+  if (rolePermissions.write === true) {
+    result |= 2;
+  }
+
+  if (rolePermissions.execute === true) {
+    result |= 1;
+  }
+
+  return result.toString();
+}
+
+export function toSymbolicRolePermissions(rolePermissions: PosixRolePermissions): string {
+  let symbolicRolePermissions = "";
+
+  if (rolePermissions.read === true) {
+    symbolicRolePermissions += "r";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.write === true) {
+    symbolicRolePermissions += "w";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.execute === true) {
+    symbolicRolePermissions += "x";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+  return symbolicRolePermissions;
+}
+
+export function parseSymbolicRolePermissions(input: string): {
+  rolePermissions: PosixRolePermissions;
+  setSticky: boolean;
+} {
+  if (input.length !== 3) {
+    throw new Error("input must be 3 characters long");
+  }
+
+  const rolePermissions: PosixRolePermissions = {
+    read: false,
+    write: false,
+    execute: false,
+  };
+
+  let setSticky = false;
+
+  // Read character
+  if (input[0] === "r") {
+    rolePermissions.read = true;
+  } else if (input[0] !== "-") {
+    throw new Error(`Invalid character in symbolic role permission: ${input[0]}`);
+  }
+
+  // Write character
+  if (input[1] === "w") {
+    rolePermissions.write = true;
+  } else if (input[1] !== "-") {
+    throw new Error(`Invalid character in symbolic role permission: ${input[1]}`);
+  }
+
+  // Execute character
+  if (input[2] === "x" || input[2] === "s" || input[2] === "t") {
+    rolePermissions.execute = true;
+    if (input[2] === "s" || input[2] === "t") {
+      setSticky = true;
+    }
+  }
+
+  if (input[2] === "S" || input[2] === "T") {
+    setSticky = true;
+  }
+
+  if (
+    input[2] !== "x" &&
+    input[2] !== "s" &&
+    input[2] !== "S" &&
+    input[2] !== "t" &&
+    input[2] !== "T" &&
+    input[2] !== "-"
+  ) {
+    throw new Error(`Invalid character in symbolic role permission: ${input[2]}`);
+  }
+
+  return {
+    rolePermissions,
+    setSticky,
+  };
 }

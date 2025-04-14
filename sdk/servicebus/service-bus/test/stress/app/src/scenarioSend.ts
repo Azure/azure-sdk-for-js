@@ -58,7 +58,7 @@ async function main() {
     },
     {
       additionalEventProperties: testOptions,
-    }
+    },
   );
 }
 

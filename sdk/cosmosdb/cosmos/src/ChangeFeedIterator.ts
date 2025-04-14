@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
-import { ChangeFeedOptions } from "./ChangeFeedOptions";
-import { ChangeFeedResponse } from "./ChangeFeedResponse";
-import { Resource } from "./client";
-import { ClientContext } from "./ClientContext";
-import { Constants, ResourceType, StatusCodes } from "./common";
-import { FeedOptions } from "./request";
-import { Response } from "./request";
+import type { ChangeFeedOptions } from "./ChangeFeedOptions.js";
+import { ChangeFeedResponse } from "./ChangeFeedResponse.js";
+import type { Resource } from "./client/index.js";
+import type { ClientContext } from "./ClientContext.js";
+import { Constants, ResourceType, StatusCodes } from "./common/index.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { PartitionKey } from "./documents/index.js";
+import type { FeedOptions } from "./request/index.js";
+import type { Response } from "./request/index.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 
 /**
  * Provides iterator for change feed.
@@ -28,8 +31,8 @@ export class ChangeFeedIterator<T> {
     private clientContext: ClientContext,
     private resourceId: string,
     private resourceLink: string,
-    private partitionKey: string | number | boolean,
-    private changeFeedOptions: ChangeFeedOptions
+    private partitionKey: PartitionKey,
+    private changeFeedOptions: ChangeFeedOptions,
   ) {
     // partition key XOR partition key range id
     const partitionKeyValid = partitionKey !== undefined;
@@ -81,16 +84,20 @@ export class ChangeFeedIterator<T> {
    * Read feed and retrieves the next page of results in Azure Cosmos DB.
    */
   public async fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
-    const response = await this.getFeedResponse();
-    this.lastStatusCode = response.statusCode;
-    this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];
-    return response;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const response = await this.getFeedResponse(diagnosticNode);
+      this.lastStatusCode = response.statusCode;
+      this.nextIfNoneMatch = response.headers[Constants.HttpHeaders.ETag];
+      return response;
+    }, this.clientContext);
   }
 
-  private async getFeedResponse(): Promise<ChangeFeedResponse<Array<T & Resource>>> {
+  private async getFeedResponse(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     if (!this.isPartitionSpecified) {
       throw new Error(
-        "Container is partitioned, but no partition key or partition key range id was specified."
+        "Container is partitioned, but no partition key or partition key range id was specified.",
       );
     }
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
@@ -122,13 +129,15 @@ export class ChangeFeedIterator<T> {
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey,
+      diagnosticNode: diagnosticNode,
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(
       response.result,
       response.result ? response.result.length : 0,
       response.code,
-      response.headers
+      response.headers,
+      getEmptyCosmosDiagnostics(),
     );
   }
 }

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
-import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";
-import { logErrorStackTrace, logger } from "./log";
+import type { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
+import type { TableClient, TableInsertEntityHeaders } from "@azure/data-tables";
+import { odata } from "@azure/data-tables";
+import { logErrorStackTrace, logger } from "./log.js";
 
 /**
  *
  * Checks if the value contains a `Timestamp` field of type `string`.
  */
 function _hasTimestamp<T extends TableInsertEntityHeaders>(
-  value: T
+  value: T,
 ): value is T & { Timestamp: string } {
   return typeof (value as any).Timestamp === "string";
 }
@@ -80,7 +81,7 @@ export class TableCheckpointStore implements CheckpointStore {
   async listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
   ): Promise<PartitionOwnership[]> {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`;
     const partitionOwnershipArray: PartitionOwnership[] = [];
@@ -91,7 +92,7 @@ export class TableCheckpointStore implements CheckpointStore {
       for await (const entity of entitiesIter) {
         if (!entity.timestamp) {
           throw new Error(
-            `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entity.rowKey}"`
+            `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entity.rowKey}"`,
           );
         }
 
@@ -147,11 +148,11 @@ export class TableCheckpointStore implements CheckpointStore {
           });
           const entityRetrieved = await this._tableClient.getEntity(
             ownershipEntity.partitionKey,
-            ownershipEntity.rowKey
+            ownershipEntity.rowKey,
           );
           if (!entityRetrieved.timestamp) {
             throw new Error(
-              `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entityRetrieved.rowKey}"`
+              `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${entityRetrieved.rowKey}"`,
             );
           }
           updatedOwnership.lastModifiedTimeInMs = new Date(entityRetrieved.timestamp).getTime();
@@ -159,7 +160,7 @@ export class TableCheckpointStore implements CheckpointStore {
           partitionOwnershipArray.push(updatedOwnership);
           logger.info(
             `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
-            `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
+            `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`,
           );
         } else {
           const newOwnershipMetadata = await this._tableClient.createEntity(ownershipEntity, {
@@ -172,12 +173,12 @@ export class TableCheckpointStore implements CheckpointStore {
 
           if (!_hasTimestamp(newOwnershipMetadata)) {
             throw new Error(
-              `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${ownershipEntity.rowKey}"`
+              `Unable to retrieve timestamp from partitionKey "${partitionKey}", rowKey "${ownershipEntity.rowKey}"`,
             );
           }
 
           updatedOwnership.lastModifiedTimeInMs = new Date(
-            newOwnershipMetadata.Timestamp
+            newOwnershipMetadata.Timestamp,
           ).getTime();
           updatedOwnership.etag = newOwnershipMetadata.etag;
           partitionOwnershipArray.push(updatedOwnership);
@@ -188,13 +189,13 @@ export class TableCheckpointStore implements CheckpointStore {
           // as multiple consumers attempt to claim the same partition (first one wins)
           // and losers get this error.
           logger.verbose(
-            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
+            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`,
           );
           continue;
         }
         logger.warning(
           `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
-          err.message
+          err.message,
         );
         logErrorStackTrace(err);
       }
@@ -216,7 +217,7 @@ export class TableCheckpointStore implements CheckpointStore {
   async listCheckpoints(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
   ): Promise<Checkpoint[]> {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
@@ -229,7 +230,7 @@ export class TableCheckpointStore implements CheckpointStore {
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
-        offset: parseInt(entity.offset, 10),
+        offset: entity.offset,
         sequenceNumber: parseInt(entity.sequencenumber, 10),
       });
     }
@@ -259,8 +260,8 @@ export class TableCheckpointStore implements CheckpointStore {
       return;
     } catch (err: any) {
       logger.verbose(
-        `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
-        err.message
+        `Error occurred while updating the checkpoint for partition: ${checkpoint.partitionId}.`,
+        err.message,
       );
       throw err;
     }

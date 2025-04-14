@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SearchRequest as SearchRequestMapper,
   SuggestRequest as SuggestRequestMapper,
   IndexBatch as IndexBatchMapper,
-  AutocompleteRequest as AutocompleteRequestMapper
-} from "../models/mappers";
+  AutocompleteRequest as AutocompleteRequestMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -25,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -36,10 +36,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const indexName: OperationURLParameter = {
@@ -48,9 +48,9 @@ export const indexName: OperationURLParameter = {
     serializedName: "indexName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -59,9 +59,9 @@ export const apiVersion: OperationQueryParameter = {
     serializedName: "api-version",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const searchText: OperationQueryParameter = {
@@ -69,9 +69,9 @@ export const searchText: OperationQueryParameter = {
   mapper: {
     serializedName: "search",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const includeTotalResultCount: OperationQueryParameter = {
@@ -79,9 +79,9 @@ export const includeTotalResultCount: OperationQueryParameter = {
   mapper: {
     serializedName: "$count",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const facets: OperationQueryParameter = {
@@ -92,12 +92,12 @@ export const facets: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
 };
 
 export const filter: OperationQueryParameter = {
@@ -105,9 +105,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const highlightFields: OperationQueryParameter = {
@@ -118,12 +118,12 @@ export const highlightFields: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const highlightPostTag: OperationQueryParameter = {
@@ -131,9 +131,9 @@ export const highlightPostTag: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPostTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const highlightPreTag: OperationQueryParameter = {
@@ -141,9 +141,9 @@ export const highlightPreTag: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPreTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const minimumCoverage: OperationQueryParameter = {
@@ -151,9 +151,9 @@ export const minimumCoverage: OperationQueryParameter = {
   mapper: {
     serializedName: "minimumCoverage",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const orderBy: OperationQueryParameter = {
@@ -164,12 +164,12 @@ export const orderBy: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const queryType: OperationQueryParameter = {
@@ -178,9 +178,9 @@ export const queryType: OperationQueryParameter = {
     serializedName: "queryType",
     type: {
       name: "Enum",
-      allowedValues: ["simple", "full", "semantic"]
-    }
-  }
+      allowedValues: ["simple", "full", "semantic"],
+    },
+  },
 };
 
 export const scoringParameters: OperationQueryParameter = {
@@ -191,12 +191,12 @@ export const scoringParameters: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "Multi"
+  collectionFormat: "Multi",
 };
 
 export const scoringProfile: OperationQueryParameter = {
@@ -204,19 +204,9 @@ export const scoringProfile: OperationQueryParameter = {
   mapper: {
     serializedName: "scoringProfile",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const semanticConfiguration: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
-  mapper: {
-    serializedName: "semanticConfiguration",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const searchFields: OperationQueryParameter = {
@@ -227,42 +217,12 @@ export const searchFields: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
-};
-
-export const queryLanguage: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryLanguage"],
-  mapper: {
-    serializedName: "queryLanguage",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const speller: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "speller"],
-  mapper: {
-    serializedName: "speller",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const answers: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "answers"],
-  mapper: {
-    serializedName: "answers",
-    type: {
-      name: "String"
-    }
-  }
+  collectionFormat: "CSV",
 };
 
 export const searchMode: OperationQueryParameter = {
@@ -271,9 +231,9 @@ export const searchMode: OperationQueryParameter = {
     serializedName: "searchMode",
     type: {
       name: "Enum",
-      allowedValues: ["any", "all"]
-    }
-  }
+      allowedValues: ["any", "all"],
+    },
+  },
 };
 
 export const scoringStatistics: OperationQueryParameter = {
@@ -282,9 +242,9 @@ export const scoringStatistics: OperationQueryParameter = {
     serializedName: "scoringStatistics",
     type: {
       name: "Enum",
-      allowedValues: ["local", "global"]
-    }
-  }
+      allowedValues: ["local", "global"],
+    },
+  },
 };
 
 export const sessionId: OperationQueryParameter = {
@@ -292,9 +252,9 @@ export const sessionId: OperationQueryParameter = {
   mapper: {
     serializedName: "sessionId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const select: OperationQueryParameter = {
@@ -305,12 +265,12 @@ export const select: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const skip: OperationQueryParameter = {
@@ -318,9 +278,9 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -328,9 +288,52 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
+};
+
+export const semanticConfiguration: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
+  mapper: {
+    serializedName: "semanticConfiguration",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const semanticErrorHandling: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticErrorHandling"],
+  mapper: {
+    serializedName: "semanticErrorHandling",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const semanticMaxWaitInMilliseconds: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticMaxWaitInMilliseconds"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 700,
+    },
+    serializedName: "semanticMaxWaitInMilliseconds",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const answers: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "answers"],
+  mapper: {
+    serializedName: "answers",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const captions: OperationQueryParameter = {
@@ -338,9 +341,59 @@ export const captions: OperationQueryParameter = {
   mapper: {
     serializedName: "captions",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const semanticQuery: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticQuery"],
+  mapper: {
+    serializedName: "semanticQuery",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const queryRewrites: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "queryRewrites"],
+  mapper: {
+    serializedName: "queryRewrites",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const debug: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "debug"],
+  mapper: {
+    serializedName: "debug",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const queryLanguage: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "queryLanguage"],
+  mapper: {
+    serializedName: "queryLanguage",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const speller: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "speller"],
+  mapper: {
+    serializedName: "speller",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const semanticFields: OperationQueryParameter = {
@@ -351,12 +404,12 @@ export const semanticFields: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const contentType: OperationParameter = {
@@ -366,14 +419,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const searchRequest: OperationParameter = {
   parameterPath: "searchRequest",
-  mapper: SearchRequestMapper
+  mapper: SearchRequestMapper,
 };
 
 export const key: OperationURLParameter = {
@@ -382,9 +435,9 @@ export const key: OperationURLParameter = {
     serializedName: "key",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const selectedFields: OperationQueryParameter = {
@@ -395,12 +448,12 @@ export const selectedFields: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const searchText1: OperationQueryParameter = {
@@ -409,9 +462,9 @@ export const searchText1: OperationQueryParameter = {
     serializedName: "search",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const suggesterName: OperationQueryParameter = {
@@ -420,9 +473,9 @@ export const suggesterName: OperationQueryParameter = {
     serializedName: "suggesterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter1: OperationQueryParameter = {
@@ -430,9 +483,9 @@ export const filter1: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const useFuzzyMatching: OperationQueryParameter = {
@@ -440,9 +493,9 @@ export const useFuzzyMatching: OperationQueryParameter = {
   mapper: {
     serializedName: "fuzzy",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const highlightPostTag1: OperationQueryParameter = {
@@ -450,9 +503,9 @@ export const highlightPostTag1: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPostTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const highlightPreTag1: OperationQueryParameter = {
@@ -460,9 +513,9 @@ export const highlightPreTag1: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPreTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const minimumCoverage1: OperationQueryParameter = {
@@ -470,9 +523,9 @@ export const minimumCoverage1: OperationQueryParameter = {
   mapper: {
     serializedName: "minimumCoverage",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const orderBy1: OperationQueryParameter = {
@@ -483,12 +536,12 @@ export const orderBy1: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const searchFields1: OperationQueryParameter = {
@@ -499,12 +552,12 @@ export const searchFields1: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const select1: OperationQueryParameter = {
@@ -515,12 +568,12 @@ export const select1: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const top1: OperationQueryParameter = {
@@ -528,19 +581,19 @@ export const top1: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const suggestRequest: OperationParameter = {
   parameterPath: "suggestRequest",
-  mapper: SuggestRequestMapper
+  mapper: SuggestRequestMapper,
 };
 
 export const batch: OperationParameter = {
   parameterPath: "batch",
-  mapper: IndexBatchMapper
+  mapper: IndexBatchMapper,
 };
 
 export const autocompleteMode: OperationQueryParameter = {
@@ -549,9 +602,9 @@ export const autocompleteMode: OperationQueryParameter = {
     serializedName: "autocompleteMode",
     type: {
       name: "Enum",
-      allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"]
-    }
-  }
+      allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"],
+    },
+  },
 };
 
 export const filter2: OperationQueryParameter = {
@@ -559,9 +612,9 @@ export const filter2: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const useFuzzyMatching1: OperationQueryParameter = {
@@ -569,9 +622,9 @@ export const useFuzzyMatching1: OperationQueryParameter = {
   mapper: {
     serializedName: "fuzzy",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const highlightPostTag2: OperationQueryParameter = {
@@ -579,9 +632,9 @@ export const highlightPostTag2: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPostTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const highlightPreTag2: OperationQueryParameter = {
@@ -589,9 +642,9 @@ export const highlightPreTag2: OperationQueryParameter = {
   mapper: {
     serializedName: "highlightPreTag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const minimumCoverage2: OperationQueryParameter = {
@@ -599,9 +652,9 @@ export const minimumCoverage2: OperationQueryParameter = {
   mapper: {
     serializedName: "minimumCoverage",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const searchFields2: OperationQueryParameter = {
@@ -612,12 +665,12 @@ export const searchFields2: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const top2: OperationQueryParameter = {
@@ -625,12 +678,12 @@ export const top2: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const autocompleteRequest: OperationParameter = {
   parameterPath: "autocompleteRequest",
-  mapper: AutocompleteRequestMapper
+  mapper: AutocompleteRequestMapper,
 };

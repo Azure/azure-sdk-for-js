@@ -8,8 +8,8 @@
 
 import {
   CommunityGalleriesGetOptionalParams,
-  CommunityGalleriesGetResponse
-} from "../models";
+  CommunityGalleriesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a CommunityGalleries. */
 export interface CommunityGalleries {
@@ -22,6 +22,6 @@ export interface CommunityGalleries {
   get(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleriesGetOptionalParams
+    options?: CommunityGalleriesGetOptionalParams,
   ): Promise<CommunityGalleriesGetResponse>;
 }

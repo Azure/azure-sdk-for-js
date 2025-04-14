@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -6,7 +6,7 @@
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
+ * See https://learn.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
  * to learn about sending a notification to an Apple device.
  *
  *
@@ -14,12 +14,12 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
-  sendNotification,
+  sendBroadcastNotification,
 } from "@azure/notification-hubs/api";
 import {
   createAppleNotification,
@@ -28,14 +28,11 @@ import {
 } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
 
-// Load the .env file if it exists
-dotenv.config();
-
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
@@ -49,14 +46,14 @@ async function main() {
   });
 
   // Can set enableTestSend to true for debugging purposes
-  const result = await sendNotification(context, notification, { enableTestSend: false });
+  const result = await sendBroadcastNotification(context, notification, { enableTestSend: false });
 
-  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag List Correlation ID: ${result.correlationId}`);
+  console.log(`Broadcast send Tracking ID: ${result.trackingId}`);
+  console.log(`Broadcast send Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag List send Notification ID: ${result.notificationId}`);
+    console.log(`roadcast send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(context, result.notificationId);
     if (results) {
@@ -67,7 +64,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;
@@ -76,7 +73,7 @@ async function getNotificationDetails(
     try {
       result = await getNotificationOutcomeDetails(context, notificationId);
       state = result.state!;
-    } catch (e) {
+    } catch {
       // Possible to get 404 for when it doesn't exist yet.
     }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
  *
  * @summary Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/createOrUpdate.json
  */
 async function createOrUpdateDomainsResource() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createOrUpdateDomainsResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

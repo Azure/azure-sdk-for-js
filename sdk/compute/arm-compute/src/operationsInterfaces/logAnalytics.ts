@@ -13,8 +13,8 @@ import {
   LogAnalyticsExportRequestRateByIntervalResponse,
   ThrottledRequestsInput,
   LogAnalyticsExportThrottledRequestsOptionalParams,
-  LogAnalyticsExportThrottledRequestsResponse
-} from "../models";
+  LogAnalyticsExportThrottledRequestsResponse,
+} from "../models/index.js";
 
 /** Interface representing a LogAnalytics. */
 export interface LogAnalytics {
@@ -28,7 +28,7 @@ export interface LogAnalytics {
   beginExportRequestRateByInterval(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
@@ -45,7 +45,7 @@ export interface LogAnalytics {
   beginExportRequestRateByIntervalAndWait(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<LogAnalyticsExportRequestRateByIntervalResponse>;
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
@@ -56,7 +56,7 @@ export interface LogAnalytics {
   beginExportThrottledRequests(
     location: string,
     parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
+    options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogAnalyticsExportThrottledRequestsResponse>,
@@ -72,6 +72,6 @@ export interface LogAnalytics {
   beginExportThrottledRequestsAndWait(
     location: string,
     parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
+    options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse>;
 }

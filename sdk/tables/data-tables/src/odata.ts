@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
   let result = input;

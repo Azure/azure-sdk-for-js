@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete the specified private endpoint connection
  *
  * @summary Delete the specified private endpoint connection
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubPrivateEndpointConnections_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubPrivateEndpointConnections_Delete.json
  */
 async function webPubSubPrivateEndpointConnectionsDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubPrivateEndpointConnectionsDelete() {
   const result = await client.webPubSubPrivateEndpointConnections.beginDeleteAndWait(
     privateEndpointConnectionName,
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

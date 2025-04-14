@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   Document as GeneratedDocument,
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
   DocumentLine as GeneratedDocumentLine,
@@ -11,12 +11,10 @@ import {
   DocumentTable as GeneratedDocumentTable,
   DocumentTableCell as GeneratedDocumentTableCell,
   DocumentWord as GeneratedDocumentWord,
-  DocumentImage as GeneratedDocumentImage,
-  DocumentAnnotation as GeneratedDocumentAnnotation,
   DocumentBarcode as GeneratedDocumentBarcode,
   DocumentFormula as GeneratedDocumentFormula,
-} from "../../src/generated";
-import {
+} from "../../src/generated/index.js";
+import type {
   Document,
   DocumentKeyValueElement,
   DocumentLine,
@@ -26,15 +24,13 @@ import {
   DocumentTable,
   DocumentTableCell,
   DocumentWord,
-  DocumentImage,
-  DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
-} from "../../src/models/documentElements";
+} from "../../src/models/documentElements.js";
 
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in this test file.
 
-function checkAssign<T>(_model: T) {
+function checkAssign<T>(_model: T): void {
   /* intentionally empty */
 }
 
@@ -47,22 +43,18 @@ declare const documentTableCell: DocumentTableCell;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
-declare const documentImage: DocumentImage;
-declare const documentAnnotation: DocumentAnnotation;
 declare const documentBarcode: DocumentBarcode;
 declare const documentFormula: DocumentFormula;
 
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
-checkAssign<Omit<GeneratedDocumentImage, "polygon">>(documentImage);
-checkAssign<Omit<GeneratedDocumentAnnotation, "polygon">>(documentAnnotation);
 checkAssign<Omit<GeneratedDocumentBarcode, "polygon">>(documentBarcode);
 checkAssign<Omit<GeneratedDocumentFormula, "polygon">>(documentFormula);
 checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagraph);
 checkAssign<Omit<GeneratedDocumentTableCell, "boundingRegions">>(documentTableCell);
 checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
-  documentTable
+  documentTable,
 );
 checkAssign<Omit<GeneratedDocumentKeyValueElement, "boundingRegions">>(documentKeyValueElement);
 checkAssign<Omit<GeneratedDocument, "boundingRegions">>(document);
@@ -84,35 +76,21 @@ declare const generatedDocumentTableCell: GeneratedDocumentTableCell;
 declare const generatedDocumentKeyValueElement: GeneratedDocumentKeyValueElement;
 declare const generatedDocument: GeneratedDocument;
 declare const generatedDocumentPage: GeneratedDocumentPage;
-declare const generatedDocumentImage: GeneratedDocumentImage;
-declare const generatedDocumentAnnotation: GeneratedDocumentAnnotation;
 declare const generatedDocumentBarcode: GeneratedDocumentBarcode;
 declare const generatedDocumentFormula: GeneratedDocumentFormula;
 
 checkAssign<Omit<DocumentWord, "polygon">>(generatedWord);
 checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
-checkAssign<Omit<DocumentImage, "polygon">>(generatedDocumentImage);
-checkAssign<Omit<DocumentAnnotation, "polygon">>(generatedDocumentAnnotation);
 checkAssign<Omit<DocumentBarcode, "polygon">>(generatedDocumentBarcode);
 checkAssign<Omit<DocumentFormula, "polygon">>(generatedDocumentFormula);
 checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagraph);
 checkAssign<Omit<DocumentTableCell, "boundingRegions">>(generatedDocumentTableCell);
 checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
-  generatedDocumentTable
+  generatedDocumentTable,
 );
 checkAssign<Omit<DocumentKeyValueElement, "boundingRegions">>(generatedDocumentKeyValueElement);
 checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
 checkAssign<
-  Omit<
-    DocumentPage,
-    | "images"
-    | "words"
-    | "selectionMarks"
-    | "lines"
-    | "annotations"
-    | "barcodes"
-    | "formulas"
-    | "kind"
-  >
+  Omit<DocumentPage, "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas">
 >(generatedDocumentPage);

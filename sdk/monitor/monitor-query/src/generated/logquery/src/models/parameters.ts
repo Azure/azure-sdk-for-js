@@ -14,7 +14,7 @@ import {
 import {
   QueryBody as QueryBodyMapper,
   BatchRequest as BatchRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

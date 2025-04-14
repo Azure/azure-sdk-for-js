@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
  *
  * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionDelete.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionDelete.json
  */
 async function nameSpacePrivateEndPointConnectionDelete() {
   const subscriptionId =
@@ -29,13 +27,13 @@ async function nameSpacePrivateEndPointConnectionDelete() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  nameSpacePrivateEndPointConnectionDelete();
+  await nameSpacePrivateEndPointConnectionDelete();
 }
 
 main().catch(console.error);

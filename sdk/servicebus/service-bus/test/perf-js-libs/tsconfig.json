@@ -1,6 +1,0 @@
-{
-  "extends": "../../samples/tsconfig.json",
-  "compilerOptions": {
-    "lib": ["es2015"]
-  }
-}

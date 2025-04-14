@@ -8,10 +8,9 @@
 import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get All Short Code Costs Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -23,16 +22,16 @@ export async function main() {
   const client = new ShortCodesClient(connectionString);
 
   // get all short code costs for a resource
-  var shortCodeCosts = await client.listShortCodeCosts({
+  const shortCodeCosts = await client.listShortCodeCosts({
     onResponse:
       (response) =>
       (res = response) => {
-        if (!res || res.status != 201) {
+        if (!res || res.status !== 201) {
           throw new Error(
             `Short Code Cots listing failed.
             Status code cost: ${res.status}; 
             Error: ${res.bodyAsText}; 
-            CV: ${res.headers.get("MS-CV")}`
+            CV: ${res.headers.get("MS-CV")}`,
           );
         }
       },

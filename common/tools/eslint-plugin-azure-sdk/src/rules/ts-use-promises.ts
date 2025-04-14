@@ -1,30 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force usage of built-in promises over external ones.
- * @author Arpan Laha
+ *
  */
 
-import { ParserServices } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { ESLintUtils } from "@typescript-eslint/utils";
+import { createRule } from "../utils/index.js";
 import { isExternalModule } from "typescript";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData("ts-use-promises", "force usage of built-in promises over external ones"),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices: ParserServices = context.parserServices;
-    if (
-      parserServices.program === undefined ||
-      parserServices.esTreeNodeToTSNodeMap === undefined
-    ) {
-      return {};
-    }
+export default createRule({
+  name: "ts-use-promises",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "force usage of built-in promises over external ones",
+    },
+    messages: {
+      NoExternalPromise:
+        "promises should use the in-built Promise type, not libraries or polyfills",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
+    const parserServices = ESLintUtils.getParserServices(context);
     const typeChecker = parserServices.program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
     return {
@@ -43,11 +49,11 @@ export = {
 
         if (isExternalModule(declaration.getSourceFile())) {
           context.report({
-            node: node,
-            message: "promises should use the in-built Promise type, not libraries or polyfills",
+            node,
+            messageId: "NoExternalPromise",
           });
         }
       },
     };
   },
-};
+});

@@ -21,10 +21,16 @@ import {
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse,
   VolumesDeleteOptionalParams,
+  VolumesPopulateAvailabilityZoneOptionalParams,
+  VolumesPopulateAvailabilityZoneResponse,
   VolumeRevert,
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
+  VolumesResetCifsPasswordResponse,
   VolumesBreakFileLocksOptionalParams,
+  GetGroupIdListForLdapUserRequest,
+  VolumesListGetGroupIdListForLdapUserOptionalParams,
+  VolumesListGetGroupIdListForLdapUserResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -35,12 +41,21 @@ import {
   AuthorizeRequest,
   VolumesAuthorizeReplicationOptionalParams,
   VolumesReInitializeReplicationOptionalParams,
+  PeerClusterForVolumeMigrationRequest,
+  VolumesPeerExternalClusterOptionalParams,
+  VolumesPeerExternalClusterResponse,
+  VolumesAuthorizeExternalReplicationOptionalParams,
+  VolumesAuthorizeExternalReplicationResponse,
+  VolumesFinalizeExternalReplicationOptionalParams,
+  VolumesFinalizeExternalReplicationResponse,
+  VolumesPerformReplicationTransferOptionalParams,
+  VolumesPerformReplicationTransferResponse,
   PoolChangeRequest,
   VolumesPoolChangeOptionalParams,
   VolumesRelocateOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
-  VolumesRevertRelocationOptionalParams
-} from "../models";
+  VolumesRevertRelocationOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Volumes. */
@@ -56,7 +71,7 @@ export interface Volumes {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: VolumesListOptionalParams
+    options?: VolumesListOptionalParams,
   ): PagedAsyncIterableIterator<Volume>;
   /**
    * List all replications for a specified volume
@@ -71,7 +86,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesListReplicationsOptionalParams
+    options?: VolumesListReplicationsOptionalParams,
   ): PagedAsyncIterableIterator<Replication>;
   /**
    * Get the details of the specified volume
@@ -86,7 +101,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesGetOptionalParams
+    options?: VolumesGetOptionalParams,
   ): Promise<VolumesGetResponse>;
   /**
    * Create or update the specified volume within the capacity pool
@@ -103,7 +118,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams
+    options?: VolumesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesCreateOrUpdateResponse>,
@@ -125,7 +140,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams
+    options?: VolumesCreateOrUpdateOptionalParams,
   ): Promise<VolumesCreateOrUpdateResponse>;
   /**
    * Patch the specified volume
@@ -142,7 +157,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: VolumePatch,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesUpdateResponse>,
@@ -164,7 +179,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: VolumePatch,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<VolumesUpdateResponse>;
   /**
    * Delete the specified volume
@@ -179,7 +194,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified volume
@@ -194,8 +209,43 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * This operation will populate availability zone information for a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPopulateAvailabilityZone(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPopulateAvailabilityZoneResponse>,
+      VolumesPopulateAvailabilityZoneResponse
+    >
+  >;
+  /**
+   * This operation will populate availability zone information for a volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPopulateAvailabilityZoneAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPopulateAvailabilityZoneOptionalParams,
+  ): Promise<VolumesPopulateAvailabilityZoneResponse>;
   /**
    * Revert a volume to the snapshot specified in the body
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -211,7 +261,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: VolumeRevert,
-    options?: VolumesRevertOptionalParams
+    options?: VolumesRevertOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revert a volume to the snapshot specified in the body
@@ -228,7 +278,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: VolumeRevert,
-    options?: VolumesRevertOptionalParams
+    options?: VolumesRevertOptionalParams,
   ): Promise<void>;
   /**
    * Reset cifs password from volume
@@ -243,8 +293,13 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResetCifsPasswordOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: VolumesResetCifsPasswordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesResetCifsPasswordResponse>,
+      VolumesResetCifsPasswordResponse
+    >
+  >;
   /**
    * Reset cifs password from volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -258,8 +313,8 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResetCifsPasswordOptionalParams
-  ): Promise<void>;
+    options?: VolumesResetCifsPasswordOptionalParams,
+  ): Promise<VolumesResetCifsPasswordResponse>;
   /**
    * Break all the file locks on a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -273,7 +328,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakFileLocksOptionalParams
+    options?: VolumesBreakFileLocksOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Break all the file locks on a volume
@@ -288,8 +343,47 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakFileLocksOptionalParams
+    options?: VolumesBreakFileLocksOptionalParams,
   ): Promise<void>;
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  beginListGetGroupIdListForLdapUser(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesListGetGroupIdListForLdapUserResponse>,
+      VolumesListGetGroupIdListForLdapUserResponse
+    >
+  >;
+  /**
+   * Returns the list of group Ids for a specific LDAP User
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Returns group Id list for a specific LDAP user
+   * @param options The options parameters.
+   */
+  beginListGetGroupIdListForLdapUserAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: GetGroupIdListForLdapUserRequest,
+    options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
+  ): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
   /**
    * Break the replication connection on the destination volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -303,7 +397,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakReplicationOptionalParams
+    options?: VolumesBreakReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Break the replication connection on the destination volume
@@ -318,7 +412,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesBreakReplicationOptionalParams
+    options?: VolumesBreakReplicationOptionalParams,
   ): Promise<void>;
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
@@ -336,7 +430,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: ReestablishReplicationRequest,
-    options?: VolumesReestablishReplicationOptionalParams
+    options?: VolumesReestablishReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or
@@ -354,7 +448,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: ReestablishReplicationRequest,
-    options?: VolumesReestablishReplicationOptionalParams
+    options?: VolumesReestablishReplicationOptionalParams,
   ): Promise<void>;
   /**
    * Get the status of the replication
@@ -369,7 +463,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReplicationStatusOptionalParams
+    options?: VolumesReplicationStatusOptionalParams,
   ): Promise<VolumesReplicationStatusResponse>;
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
@@ -385,7 +479,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResyncReplicationOptionalParams
+    options?: VolumesResyncReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resync the connection on the destination volume. If the operation is ran on the source volume it
@@ -401,7 +495,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesResyncReplicationOptionalParams
+    options?: VolumesResyncReplicationOptionalParams,
   ): Promise<void>;
   /**
    * Delete the replication connection on the destination volume, and send release to the source
@@ -417,7 +511,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteReplicationOptionalParams
+    options?: VolumesDeleteReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the replication connection on the destination volume, and send release to the source
@@ -433,7 +527,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesDeleteReplicationOptionalParams
+    options?: VolumesDeleteReplicationOptionalParams,
   ): Promise<void>;
   /**
    * Authorize the replication connection on the source volume
@@ -450,7 +544,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: AuthorizeRequest,
-    options?: VolumesAuthorizeReplicationOptionalParams
+    options?: VolumesAuthorizeReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Authorize the replication connection on the source volume
@@ -467,7 +561,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: AuthorizeRequest,
-    options?: VolumesAuthorizeReplicationOptionalParams
+    options?: VolumesAuthorizeReplicationOptionalParams,
   ): Promise<void>;
   /**
    * Re-Initializes the replication connection on the destination volume
@@ -482,7 +576,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReInitializeReplicationOptionalParams
+    options?: VolumesReInitializeReplicationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Re-Initializes the replication connection on the destination volume
@@ -497,8 +591,156 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesReInitializeReplicationOptionalParams
+    options?: VolumesReInitializeReplicationOptionalParams,
   ): Promise<void>;
+  /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginPeerExternalCluster(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPeerExternalClusterResponse>,
+      VolumesPeerExternalClusterResponse
+    >
+  >;
+  /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  beginPeerExternalClusterAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<VolumesPeerExternalClusterResponse>;
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginAuthorizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesAuthorizeExternalReplicationResponse>,
+      VolumesAuthorizeExternalReplicationResponse
+    >
+  >;
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginAuthorizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<VolumesAuthorizeExternalReplicationResponse>;
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesFinalizeExternalReplicationResponse>,
+      VolumesFinalizeExternalReplicationResponse
+    >
+  >;
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginFinalizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<VolumesFinalizeExternalReplicationResponse>;
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPerformReplicationTransfer(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPerformReplicationTransferResponse>,
+      VolumesPerformReplicationTransferResponse
+    >
+  >;
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  beginPerformReplicationTransferAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<VolumesPerformReplicationTransferResponse>;
   /**
    * Moves volume to another pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -514,7 +756,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: PoolChangeRequest,
-    options?: VolumesPoolChangeOptionalParams
+    options?: VolumesPoolChangeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Moves volume to another pool
@@ -531,7 +773,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     body: PoolChangeRequest,
-    options?: VolumesPoolChangeOptionalParams
+    options?: VolumesPoolChangeOptionalParams,
   ): Promise<void>;
   /**
    * Relocates volume to a new stamp
@@ -546,7 +788,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRelocateOptionalParams
+    options?: VolumesRelocateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Relocates volume to a new stamp
@@ -561,7 +803,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRelocateOptionalParams
+    options?: VolumesRelocateOptionalParams,
   ): Promise<void>;
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
@@ -576,7 +818,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesFinalizeRelocationOptionalParams
+    options?: VolumesFinalizeRelocationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Finalizes the relocation of the volume and cleans up the old volume.
@@ -591,7 +833,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesFinalizeRelocationOptionalParams
+    options?: VolumesFinalizeRelocationOptionalParams,
   ): Promise<void>;
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
@@ -607,7 +849,7 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRevertRelocationOptionalParams
+    options?: VolumesRevertRelocationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reverts the volume relocation process, cleans up the new volume and starts using the former-existing
@@ -623,6 +865,6 @@ export interface Volumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumesRevertRelocationOptionalParams
+    options?: VolumesRevertRelocationOptionalParams,
   ): Promise<void>;
 }

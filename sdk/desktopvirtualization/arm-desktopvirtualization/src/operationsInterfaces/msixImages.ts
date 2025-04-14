@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ExpandMsixImage,
   MsixImageURI,
-  MsixImagesExpandOptionalParams
-} from "../models";
+  MsixImagesExpandOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MsixImages. */
@@ -27,6 +27,6 @@ export interface MsixImages {
     resourceGroupName: string,
     hostPoolName: string,
     msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams
+    options?: MsixImagesExpandOptionalParams,
   ): PagedAsyncIterableIterator<ExpandMsixImage>;
 }

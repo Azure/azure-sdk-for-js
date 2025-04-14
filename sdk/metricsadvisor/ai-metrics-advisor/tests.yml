@@ -6,8 +6,8 @@ parameters:
 
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/ai-metrics-advisor"
       Location: "${{ parameters.Location }}"

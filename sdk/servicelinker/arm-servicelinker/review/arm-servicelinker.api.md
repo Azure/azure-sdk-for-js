@@ -6,23 +6,45 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AccessKeyInfoBase extends AuthInfoBase {
+    authType: "accessKey";
+    permissions?: AccessKeyPermissions[];
+}
+
+// @public
+export type AccessKeyPermissions = string;
 
 // @public
 export type ActionType = string;
 
 // @public
+export type AllowType = string;
+
+// @public
 export interface AuthInfoBase {
-    authType: "secret" | "userAssignedIdentity" | "systemAssignedIdentity" | "servicePrincipalSecret" | "servicePrincipalCertificate";
+    authMode?: AuthMode;
+    authType: "accessKey" | "secret" | "userAssignedIdentity" | "systemAssignedIdentity" | "servicePrincipalSecret" | "servicePrincipalCertificate" | "userAccount" | "easyAuthMicrosoftEntraID";
 }
 
 // @public (undocumented)
-export type AuthInfoBaseUnion = AuthInfoBase | SecretAuthInfo | UserAssignedIdentityAuthInfo | SystemAssignedIdentityAuthInfo | ServicePrincipalSecretAuthInfo | ServicePrincipalCertificateAuthInfo;
+export type AuthInfoBaseUnion = AuthInfoBase | AccessKeyInfoBase | SecretAuthInfo | UserAssignedIdentityAuthInfo | SystemAssignedIdentityAuthInfo | ServicePrincipalSecretAuthInfo | ServicePrincipalCertificateAuthInfo | UserAccountAuthInfo | EasyAuthMicrosoftEntraIDAuthInfo;
+
+// @public
+export type AuthMode = string;
 
 // @public
 export type AuthType = string;
+
+// @public
+export interface AzureAppConfigProperties extends AzureResourcePropertiesBase {
+    connectWithKubernetesExtension?: boolean;
+    type: "AppConfig";
+}
 
 // @public
 export interface AzureKeyVaultProperties extends AzureResourcePropertiesBase {
@@ -39,17 +61,96 @@ export interface AzureResource extends TargetServiceBase {
 
 // @public
 export interface AzureResourcePropertiesBase {
-    type: "KeyVault";
+    type: "KeyVault" | "AppConfig";
 }
 
 // @public (undocumented)
-export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties;
+export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties | AzureAppConfigProperties;
 
 // @public
 export type AzureResourceType = string;
 
 // @public
+export interface BasicErrorDryrunPrerequisiteResult extends DryrunPrerequisiteResult {
+    code?: string;
+    message?: string;
+    type: "basicError";
+}
+
+// @public
 export type ClientType = string;
+
+// @public
+export interface ConfigurationInfo {
+    action?: ActionType;
+    additionalConfigurations?: {
+        [propertyName: string]: string;
+    };
+    additionalConnectionStringProperties?: {
+        [propertyName: string]: string;
+    };
+    configurationStore?: ConfigurationStore;
+    customizedKeys?: {
+        [propertyName: string]: string;
+    };
+    daprProperties?: DaprProperties;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+}
+
+// @public
+export interface ConfigurationName {
+    description?: string;
+    required?: boolean;
+    // (undocumented)
+    value?: string;
+}
+
+// @public (undocumented)
+export interface ConfigurationNameItem {
+    authType?: AuthType;
+    clientType?: ClientType;
+    daprProperties?: DaprProperties;
+    names?: ConfigurationName[];
+    secretType?: SecretSourceType;
+    targetService?: string;
+}
+
+// @public
+export interface ConfigurationNameResult {
+    readonly nextLink?: string;
+    value?: ConfigurationNameItem[];
+}
+
+// @public
+export interface ConfigurationNames {
+    list(options?: ConfigurationNamesListOptionalParams): PagedAsyncIterableIterator<ConfigurationNameItem>;
+}
+
+// @public
+export interface ConfigurationNamesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationNamesListNextResponse = ConfigurationNameResult;
+
+// @public
+export interface ConfigurationNamesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skipToken?: string;
+}
+
+// @public
+export type ConfigurationNamesListResponse = ConfigurationNameResult;
+
+// @public
+export interface ConfigurationResult {
+    configurations?: SourceConfiguration[];
+}
+
+// @public
+export interface ConfigurationStore {
+    appConfigurationId?: string;
+}
 
 // @public
 export interface ConfluentBootstrapServer extends TargetServiceBase {
@@ -64,7 +165,250 @@ export interface ConfluentSchemaRegistry extends TargetServiceBase {
 }
 
 // @public
+export interface Connector {
+    beginCreateDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateDryrunResponse>, ConnectorCreateDryrunResponse>>;
+    beginCreateDryrunAndWait(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<ConnectorCreateDryrunResponse>;
+    beginCreateOrUpdate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateOrUpdateResponse>, ConnectorCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<ConnectorCreateOrUpdateResponse>;
+    beginDelete(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<void>;
+    beginUpdate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateResponse>, ConnectorUpdateResponse>>;
+    beginUpdateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<ConnectorUpdateResponse>;
+    beginUpdateDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateDryrunResponse>, ConnectorUpdateDryrunResponse>>;
+    beginUpdateDryrunAndWait(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<ConnectorUpdateDryrunResponse>;
+    beginValidate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorValidateResponse>, ConnectorValidateResponse>>;
+    beginValidateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<ConnectorValidateResponse>;
+    deleteDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorDeleteDryrunOptionalParams): Promise<void>;
+    generateConfigurations(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGenerateConfigurationsOptionalParams): Promise<ConnectorGenerateConfigurationsResponse>;
+    get(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGetOptionalParams): Promise<ConnectorGetResponse>;
+    getDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorGetDryrunOptionalParams): Promise<ConnectorGetDryrunResponse>;
+    list(subscriptionId: string, resourceGroupName: string, location: string, options?: ConnectorListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
+    listDryrun(subscriptionId: string, resourceGroupName: string, location: string, options?: ConnectorListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+}
+
+// @public
+export interface ConnectorCreateDryrunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorCreateDryrunResponse = DryrunResource;
+
+// @public
+export interface ConnectorCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorCreateOrUpdateResponse = LinkerResource;
+
+// @public
+export interface ConnectorDeleteDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ConnectorDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectorGenerateConfigurationsOptionalParams extends coreClient.OperationOptions {
+    parameters?: ConfigurationInfo;
+}
+
+// @public
+export type ConnectorGenerateConfigurationsResponse = ConfigurationResult;
+
+// @public
+export interface ConnectorGetDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorGetDryrunResponse = DryrunResource;
+
+// @public
+export interface ConnectorGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorGetResponse = LinkerResource;
+
+// @public
+export interface ConnectorListDryrunNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListDryrunNextResponse = DryrunList;
+
+// @public
+export interface ConnectorListDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListDryrunResponse = DryrunList;
+
+// @public
+export interface ConnectorListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListNextResponse = ResourceList;
+
+// @public
+export interface ConnectorListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListResponse = ResourceList;
+
+// @public
+export interface ConnectorUpdateDryrunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorUpdateDryrunResponse = DryrunResource;
+
+// @public
+export interface ConnectorUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorUpdateResponse = LinkerResource;
+
+// @public
+export interface ConnectorValidateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorValidateResponse = ValidateOperationResult;
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateOrUpdateDryrunParameters extends DryrunParameters, LinkerProperties {
+    actionName: "createOrUpdate";
+}
+
+// @public
+export type DaprBindingComponentDirection = string;
+
+// @public
+export interface DaprConfigurationList {
+    readonly nextLink?: string;
+    value?: DaprConfigurationResource[];
+}
+
+// @public
+export interface DaprConfigurationResource {
+    authType?: AuthType;
+    daprProperties?: DaprProperties;
+    targetType?: string;
+}
+
+// @public
+export interface DaprMetadata {
+    description?: string;
+    name?: string;
+    required?: DaprMetadataRequired;
+    secretRef?: string;
+    value?: string;
+}
+
+// @public
+export type DaprMetadataRequired = string;
+
+// @public
+export interface DaprProperties {
+    readonly bindingComponentDirection?: DaprBindingComponentDirection;
+    componentType?: string;
+    metadata?: DaprMetadata[];
+    readonly runtimeVersion?: string;
+    scopes?: string[];
+    secretStoreComponent?: string;
+    version?: string;
+}
+
+// @public
+export interface DatabaseAadAuthInfo {
+    userName?: string;
+}
+
+// @public
+export type DeleteOrUpdateBehavior = string;
+
+// @public
+export type DryrunActionName = string;
+
+// @public
+export interface DryrunList {
+    nextLink?: string;
+    value?: DryrunResource[];
+}
+
+// @public
+export interface DryrunOperationPreview {
+    action?: string;
+    description?: string;
+    name?: string;
+    operationType?: DryrunPreviewOperationType;
+    scope?: string;
+}
+
+// @public
+export interface DryrunParameters {
+    actionName: "createOrUpdate";
+}
+
+// @public (undocumented)
+export type DryrunParametersUnion = DryrunParameters | CreateOrUpdateDryrunParameters;
+
+// @public
+export interface DryrunPatch {
+    readonly operationPreviews?: DryrunOperationPreview[];
+    parameters?: DryrunParametersUnion;
+    readonly prerequisiteResults?: DryrunPrerequisiteResultUnion[];
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface DryrunPrerequisiteResult {
+    type: "basicError" | "permissionsMissing";
+}
+
+// @public
+export type DryrunPrerequisiteResultType = string;
+
+// @public (undocumented)
+export type DryrunPrerequisiteResultUnion = DryrunPrerequisiteResult | BasicErrorDryrunPrerequisiteResult | PermissionsMissingDryrunPrerequisiteResult;
+
+// @public
+export type DryrunPreviewOperationType = string;
+
+// @public
+export interface DryrunResource extends ProxyResource {
+    readonly operationPreviews?: DryrunOperationPreview[];
+    parameters?: DryrunParametersUnion;
+    readonly prerequisiteResults?: DryrunPrerequisiteResultUnion[];
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface EasyAuthMicrosoftEntraIDAuthInfo extends AuthInfoBase {
+    authType: "easyAuthMicrosoftEntraID";
+    clientId?: string;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+    secret?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -87,6 +431,19 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface FabricPlatform extends TargetServiceBase {
+    endpoint?: string;
+    type: "FabricPlatform";
+}
+
+// @public
+export interface FirewallRules {
+    azureServices?: AllowType;
+    callerClientIP?: AllowType;
+    ipRanges?: string[];
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -103,30 +460,60 @@ export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
 }
 
 // @public
+export enum KnownAccessKeyPermissions {
+    Listen = "Listen",
+    Manage = "Manage",
+    Read = "Read",
+    Send = "Send",
+    Write = "Write"
+}
+
+// @public
 export enum KnownActionType {
-    Internal = "Internal"
+    Enable = "enable",
+    Internal = "Internal",
+    OptOut = "optOut"
+}
+
+// @public
+export enum KnownAllowType {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownAuthMode {
+    OptInAllAuth = "optInAllAuth",
+    OptOutAllAuth = "optOutAllAuth"
 }
 
 // @public
 export enum KnownAuthType {
+    AccessKey = "accessKey",
+    EasyAuthMicrosoftEntraID = "easyAuthMicrosoftEntraID",
     Secret = "secret",
     ServicePrincipalCertificate = "servicePrincipalCertificate",
     ServicePrincipalSecret = "servicePrincipalSecret",
     SystemAssignedIdentity = "systemAssignedIdentity",
+    UserAccount = "userAccount",
     UserAssignedIdentity = "userAssignedIdentity"
 }
 
 // @public
 export enum KnownAzureResourceType {
+    AppConfig = "AppConfig",
     KeyVault = "KeyVault"
 }
 
 // @public
 export enum KnownClientType {
+    Dapr = "dapr",
     Django = "django",
     Dotnet = "dotnet",
     Go = "go",
     Java = "java",
+    JmsSpringBoot = "jms-springBoot",
+    KafkaSpringBoot = "kafka-springBoot",
     Nodejs = "nodejs",
     None = "none",
     Php = "php",
@@ -144,10 +531,58 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDaprBindingComponentDirection {
+    Input = "input",
+    Output = "output"
+}
+
+// @public
+export enum KnownDaprMetadataRequired {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownDeleteOrUpdateBehavior {
+    Default = "Default",
+    ForcedCleanup = "ForcedCleanup"
+}
+
+// @public
+export enum KnownDryrunActionName {
+    CreateOrUpdate = "createOrUpdate"
+}
+
+// @public
+export enum KnownDryrunPrerequisiteResultType {
+    BasicError = "basicError",
+    PermissionsMissing = "permissionsMissing"
+}
+
+// @public
+export enum KnownDryrunPreviewOperationType {
+    ConfigAuth = "configAuth",
+    ConfigConnection = "configConnection",
+    ConfigNetwork = "configNetwork"
+}
+
+// @public
+export enum KnownLinkerConfigurationType {
+    Default = "Default",
+    KeyVaultSecret = "KeyVaultSecret"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownSecretSourceType {
+    KeyVaultSecret = "keyVaultSecret",
+    RawValue = "rawValue"
 }
 
 // @public
@@ -161,7 +596,9 @@ export enum KnownSecretType {
 export enum KnownTargetServiceType {
     AzureResource = "AzureResource",
     ConfluentBootstrapServer = "ConfluentBootstrapServer",
-    ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+    ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+    FabricPlatform = "FabricPlatform",
+    SelfHostedServer = "SelfHostedServer"
 }
 
 // @public
@@ -179,18 +616,21 @@ export enum KnownVNetSolutionType {
 
 // @public
 export interface Linker {
-    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<LinkerCreateOrUpdateResponse>;
-    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
+    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
     beginUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<LinkerUpdateResponse>;
-    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<PollerLike<PollOperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
+    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
     beginValidateAndWait(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<LinkerValidateResponse>;
     get(resourceUri: string, linkerName: string, options?: LinkerGetOptionalParams): Promise<LinkerGetResponse>;
     list(resourceUri: string, options?: LinkerListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
     listConfigurations(resourceUri: string, linkerName: string, options?: LinkerListConfigurationsOptionalParams): Promise<LinkerListConfigurationsResponse>;
 }
+
+// @public
+export type LinkerConfigurationType = string;
 
 // @public
 export interface LinkerCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -215,37 +655,46 @@ export interface LinkerGetOptionalParams extends coreClient.OperationOptions {
 export type LinkerGetResponse = LinkerResource;
 
 // @public
-export interface LinkerList {
-    nextLink?: string;
-    value?: LinkerResource[];
-}
-
-// @public
 export interface LinkerListConfigurationsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkerListConfigurationsResponse = SourceConfigurationResult;
+export type LinkerListConfigurationsResponse = ConfigurationResult;
 
 // @public
 export interface LinkerListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkerListNextResponse = LinkerList;
+export type LinkerListNextResponse = ResourceList;
 
 // @public
 export interface LinkerListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkerListResponse = LinkerList;
+export type LinkerListResponse = ResourceList;
 
 // @public
 export interface LinkerPatch {
     authInfo?: AuthInfoBaseUnion;
     clientType?: ClientType;
+    configurationInfo?: ConfigurationInfo;
     readonly provisioningState?: string;
+    publicNetworkSolution?: PublicNetworkSolution;
+    scope?: string;
+    secretStore?: SecretStore;
+    targetService?: TargetServiceBaseUnion;
+    vNetSolution?: VNetSolution;
+}
+
+// @public
+export interface LinkerProperties {
+    authInfo?: AuthInfoBaseUnion;
+    clientType?: ClientType;
+    configurationInfo?: ConfigurationInfo;
+    readonly provisioningState?: string;
+    publicNetworkSolution?: PublicNetworkSolution;
     scope?: string;
     secretStore?: SecretStore;
     targetService?: TargetServiceBaseUnion;
@@ -256,13 +705,92 @@ export interface LinkerPatch {
 export interface LinkerResource extends ProxyResource {
     authInfo?: AuthInfoBaseUnion;
     clientType?: ClientType;
+    configurationInfo?: ConfigurationInfo;
     readonly provisioningState?: string;
+    publicNetworkSolution?: PublicNetworkSolution;
     scope?: string;
     secretStore?: SecretStore;
-    readonly systemData?: SystemData;
     targetService?: TargetServiceBaseUnion;
     vNetSolution?: VNetSolution;
 }
+
+// @public
+export interface Linkers {
+    beginCreateDryrun(resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersCreateDryrunResponse>, LinkersCreateDryrunResponse>>;
+    beginCreateDryrunAndWait(resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<LinkersCreateDryrunResponse>;
+    beginUpdateDryrun(resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersUpdateDryrunResponse>, LinkersUpdateDryrunResponse>>;
+    beginUpdateDryrunAndWait(resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<LinkersUpdateDryrunResponse>;
+    deleteDryrun(resourceUri: string, dryrunName: string, options?: LinkersDeleteDryrunOptionalParams): Promise<void>;
+    generateConfigurations(resourceUri: string, linkerName: string, options?: LinkersGenerateConfigurationsOptionalParams): Promise<LinkersGenerateConfigurationsResponse>;
+    getDryrun(resourceUri: string, dryrunName: string, options?: LinkersGetDryrunOptionalParams): Promise<LinkersGetDryrunResponse>;
+    listDaprConfigurations(resourceUri: string, options?: LinkersListDaprConfigurationsOptionalParams): PagedAsyncIterableIterator<DaprConfigurationResource>;
+    listDryrun(resourceUri: string, options?: LinkersListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+}
+
+// @public
+export interface LinkersCreateDryrunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LinkersCreateDryrunResponse = DryrunResource;
+
+// @public
+export interface LinkersDeleteDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface LinkersGenerateConfigurationsOptionalParams extends coreClient.OperationOptions {
+    parameters?: ConfigurationInfo;
+}
+
+// @public
+export type LinkersGenerateConfigurationsResponse = ConfigurationResult;
+
+// @public
+export interface LinkersGetDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkersGetDryrunResponse = DryrunResource;
+
+// @public
+export interface LinkersListDaprConfigurationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkersListDaprConfigurationsNextResponse = DaprConfigurationList;
+
+// @public
+export interface LinkersListDaprConfigurationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkersListDaprConfigurationsResponse = DaprConfigurationList;
+
+// @public
+export interface LinkersListDryrunNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkersListDryrunNextResponse = DryrunList;
+
+// @public
+export interface LinkersListDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LinkersListDryrunResponse = DryrunList;
+
+// @public
+export interface LinkersUpdateDryrunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LinkersUpdateDryrunResponse = DryrunResource;
 
 // @public
 export interface LinkerUpdateOptionalParams extends coreClient.OperationOptions {
@@ -328,14 +856,36 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
+export interface PermissionsMissingDryrunPrerequisiteResult extends DryrunPrerequisiteResult {
+    permissions?: string[];
+    recommendedRole?: string;
+    scope?: string;
+    type: "permissionsMissing";
+}
+
+// @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface PublicNetworkSolution {
+    action?: ActionType;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+    firewallRules?: FirewallRules;
 }
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceList {
+    nextLink?: string;
+    value?: LinkerResource[];
 }
 
 // @public
@@ -354,12 +904,22 @@ export interface SecretInfoBase {
 export type SecretInfoBaseUnion = SecretInfoBase | ValueSecretInfo | KeyVaultSecretReferenceSecretInfo | KeyVaultSecretUriSecretInfo;
 
 // @public
+export type SecretSourceType = string;
+
+// @public
 export interface SecretStore {
     keyVaultId?: string;
+    keyVaultSecretName?: string;
 }
 
 // @public
 export type SecretType = string;
+
+// @public
+export interface SelfHostedServer extends TargetServiceBase {
+    endpoint?: string;
+    type: "SelfHostedServer";
+}
 
 // @public (undocumented)
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
@@ -369,7 +929,13 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    configurationNames: ConfigurationNames;
+    // (undocumented)
+    connector: Connector;
+    // (undocumented)
     linker: Linker;
+    // (undocumented)
+    linkers: Linkers;
     // (undocumented)
     operations: Operations;
 }
@@ -386,31 +952,35 @@ export interface ServicePrincipalCertificateAuthInfo extends AuthInfoBase {
     authType: "servicePrincipalCertificate";
     certificate: string;
     clientId: string;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     principalId: string;
+    roles?: string[];
 }
 
 // @public
-export interface ServicePrincipalSecretAuthInfo extends AuthInfoBase {
+export interface ServicePrincipalSecretAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
     authType: "servicePrincipalSecret";
     clientId: string;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     principalId: string;
+    roles?: string[];
     secret: string;
 }
 
 // @public
 export interface SourceConfiguration {
+    readonly configType?: LinkerConfigurationType;
+    description?: string;
+    keyVaultReferenceIdentity?: string;
     name?: string;
     value?: string;
 }
 
 // @public
-export interface SourceConfigurationResult {
-    configurations?: SourceConfiguration[];
-}
-
-// @public
-export interface SystemAssignedIdentityAuthInfo extends AuthInfoBase {
+export interface SystemAssignedIdentityAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
     authType: "systemAssignedIdentity";
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+    roles?: string[];
 }
 
 // @public
@@ -425,19 +995,29 @@ export interface SystemData {
 
 // @public
 export interface TargetServiceBase {
-    type: "AzureResource" | "ConfluentBootstrapServer" | "ConfluentSchemaRegistry";
+    type: "AzureResource" | "ConfluentBootstrapServer" | "FabricPlatform" | "SelfHostedServer" | "ConfluentSchemaRegistry";
 }
 
 // @public (undocumented)
-export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry;
+export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | FabricPlatform | SelfHostedServer | ConfluentSchemaRegistry;
 
 // @public
 export type TargetServiceType = string;
 
 // @public
-export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
+export interface UserAccountAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+    authType: "userAccount";
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+    principalId?: string;
+    roles?: string[];
+}
+
+// @public
+export interface UserAssignedIdentityAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
     authType: "userAssignedIdentity";
     clientId?: string;
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+    roles?: string[];
     subscriptionId?: string;
 }
 
@@ -475,6 +1055,7 @@ export interface ValueSecretInfo extends SecretInfoBase {
 
 // @public
 export interface VNetSolution {
+    deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     type?: VNetSolutionType;
 }
 

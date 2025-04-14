@@ -10,7 +10,7 @@ import {
   BookmarkExpandParameters,
   BookmarkExpandOptionalParams,
   BookmarkExpandOperationResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BookmarkOperations. */
 export interface BookmarkOperations {

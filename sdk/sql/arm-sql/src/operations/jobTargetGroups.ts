@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { JobTargetGroups } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { JobTargetGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   JobTargetGroup,
   JobTargetGroupsListByAgentNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   JobTargetGroupsCreateOrUpdateOptionalParams,
   JobTargetGroupsCreateOrUpdateResponse,
   JobTargetGroupsDeleteOptionalParams,
-  JobTargetGroupsListByAgentNextResponse
-} from "../models";
+  JobTargetGroupsListByAgentNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing JobTargetGroups operations. */
@@ -51,13 +51,13 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobTargetGroupsListByAgentOptionalParams
+    options?: JobTargetGroupsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobTargetGroup> {
     const iter = this.listByAgentPagingAll(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
           serverName,
           jobAgentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     options?: JobTargetGroupsListByAgentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobTargetGroup[]> {
     let result: JobTargetGroupsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
         resourceGroupName,
         serverName,
         jobAgentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +108,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
         serverName,
         jobAgentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +121,13 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobTargetGroupsListByAgentOptionalParams
+    options?: JobTargetGroupsListByAgentOptionalParams,
   ): AsyncIterableIterator<JobTargetGroup> {
     for await (const page of this.listByAgentPagingPage(
       resourceGroupName,
       serverName,
       jobAgentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,11 +145,11 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobTargetGroupsListByAgentOptionalParams
+    options?: JobTargetGroupsListByAgentOptionalParams,
   ): Promise<JobTargetGroupsListByAgentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, options },
-      listByAgentOperationSpec
+      listByAgentOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     targetGroupName: string,
-    options?: JobTargetGroupsGetOptionalParams
+    options?: JobTargetGroupsGetOptionalParams,
   ): Promise<JobTargetGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, targetGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -191,7 +191,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     jobAgentName: string,
     targetGroupName: string,
     parameters: JobTargetGroup,
-    options?: JobTargetGroupsCreateOrUpdateOptionalParams
+    options?: JobTargetGroupsCreateOrUpdateOptionalParams,
   ): Promise<JobTargetGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -200,9 +200,9 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
         jobAgentName,
         targetGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     targetGroupName: string,
-    options?: JobTargetGroupsDeleteOptionalParams
+    options?: JobTargetGroupsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, targetGroupName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     nextLink: string,
-    options?: JobTargetGroupsListByAgentNextOptionalParams
+    options?: JobTargetGroupsListByAgentNextOptionalParams,
   ): Promise<JobTargetGroupsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, jobAgentName, nextLink, options },
-      listByAgentNextOperationSpec
+      listByAgentNextOperationSpec,
     );
   }
 }
@@ -254,35 +254,13 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAgentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobTargetGroupListResult
+      bodyMapper: Mappers.JobTargetGroupListResult,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.jobAgentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobTargetGroup
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -291,25 +269,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.targetGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobTargetGroup,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.jobAgentName,
+    Parameters.targetGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobTargetGroup
+      bodyMapper: Mappers.JobTargetGroup,
     },
     201: {
-      bodyMapper: Mappers.JobTargetGroup
+      bodyMapper: Mappers.JobTargetGroup,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters29,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -317,15 +314,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.targetGroupName
+    Parameters.targetGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/targetGroups/{targetGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion3],
@@ -335,18 +331,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
-    Parameters.targetGroupName
+    Parameters.targetGroupName,
   ],
-  serializer
+  serializer,
 };
 const listByAgentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobTargetGroupListResult
+      bodyMapper: Mappers.JobTargetGroupListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -354,8 +350,8 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.nextLink,
-    Parameters.jobAgentName
+    Parameters.jobAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

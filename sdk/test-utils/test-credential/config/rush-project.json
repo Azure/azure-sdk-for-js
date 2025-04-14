@@ -1,0 +1,5 @@
+{
+  "extends": "../../../../common/config/rush-project.json",
+
+  //test 2
+}

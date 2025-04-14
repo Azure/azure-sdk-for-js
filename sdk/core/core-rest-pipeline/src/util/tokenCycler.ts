@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { delay } from "./helpers";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { delay } from "./helpers.js";
 
 /**
  * A function that gets a promise of an access token and allows providing
@@ -12,7 +12,7 @@ import { delay } from "./helpers";
  */
 export type AccessTokenGetter = (
   scopes: string | string[],
-  options: GetTokenOptions
+  options: GetTokenOptions,
 ) => Promise<AccessToken>;
 
 export interface TokenCyclerOptions {
@@ -56,7 +56,7 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 async function beginRefresh(
   getAccessToken: () => Promise<AccessToken | null>,
   retryIntervalInMs: number,
-  refreshTimeout: number
+  refreshTimeout: number,
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
@@ -106,7 +106,7 @@ async function beginRefresh(
  */
 export function createTokenCycler(
   credential: TokenCredential,
-  tokenCyclerOptions?: Partial<TokenCyclerOptions>
+  tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
@@ -133,10 +133,14 @@ export function createTokenCycler(
      * window and not already refreshing)
      */
     get shouldRefresh(): boolean {
-      return (
-        !cycler.isRefreshing &&
-        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
-      );
+      if (cycler.isRefreshing) {
+        return false;
+      }
+      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
+        return true;
+      }
+
+      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
     },
     /**
      * Produces true if the cycler MUST refresh (null or nearly-expired
@@ -155,7 +159,7 @@ export function createTokenCycler(
    */
   function refresh(
     scopes: string | string[],
-    getTokenOptions: GetTokenOptions
+    getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
@@ -168,7 +172,7 @@ export function createTokenCycler(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now()
+        token?.expiresOnTimestamp ?? Date.now(),
       )
         .then((_token) => {
           refreshWorker = null;
@@ -201,13 +205,23 @@ export function createTokenCycler(
     //   step 1.
     //
 
+    const hasClaimChallenge = Boolean(tokenOptions.claims);
+    const tenantIdChanged = tenantId !== tokenOptions.tenantId;
+
+    if (hasClaimChallenge) {
+      // If we've received a claim, we know the existing token isn't valid
+      // We want to clear it so that that refresh worker won't use the old expiration time as a timeout
+      token = null;
+    }
+
     // If the tenantId passed in token options is different to the one we have
     // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
     // refresh the token with the new tenantId or token.
-    const mustRefresh =
-      tenantId !== tokenOptions.tenantId || Boolean(tokenOptions.claims) || cycler.mustRefresh;
+    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
 
-    if (mustRefresh) return refresh(scopes, tokenOptions);
+    if (mustRefresh) {
+      return refresh(scopes, tokenOptions);
+    }
 
     if (cycler.shouldRefresh) {
       refresh(scopes, tokenOptions);

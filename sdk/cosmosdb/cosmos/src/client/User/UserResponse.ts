@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
-import { User } from "./User";
-import { UserDefinition } from "./UserDefinition";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { User } from "./User.js";
+import type { UserDefinition } from "./UserDefinition.js";
 
 export class UserResponse extends ResourceResponse<UserDefinition & Resource> {
   constructor(
@@ -13,7 +13,7 @@ export class UserResponse extends ResourceResponse<UserDefinition & Resource> {
     headers: CosmosHeaders,
     statusCode: number,
     user: User,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.user = user;

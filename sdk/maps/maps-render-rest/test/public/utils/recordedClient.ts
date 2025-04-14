@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
-import { AzureKeyCredential } from "@azure/core-auth";
-import MapsRender, { MapsRenderClient } from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
+import "./env.js";
+import type { MapsRenderClient } from "../../../src/index.js";
+import MapsRender from "../../../src/index.js";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  MAPS_CLIENT_ID: "azure_maps_client_id",
-  MAPS_SUBSCRIPTION_KEY: "azure_maps_subscription_key",
+  MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -25,13 +22,14 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
 
 export function createClient(options?: ClientOptions): MapsRenderClient {
-  const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] ?? "");
-  return MapsRender(credential, options);
+  const credential = createTestCredential();
+  const client = MapsRender(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
+  return client;
 }

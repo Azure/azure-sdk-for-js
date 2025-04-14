@@ -1,12 +1,12 @@
-# AzureMachineLearningWorkspaces client library for JavaScript
+# AzureMachineLearningServicesManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureMachineLearningWorkspaces client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureMachineLearningServicesManagement client.
 
 These APIs allow end users to operate on Azure Machine Learning Workspace resources.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-machinelearning) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-machinelearning` package
 
-Install the AzureMachineLearningWorkspaces client library for JavaScript with `npm`:
+Install the AzureMachineLearningServicesManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-machinelearning
 ```
 
-### Create and authenticate a `AzureMachineLearningWorkspaces`
+### Create and authenticate a `AzureMachineLearningServicesManagementClient`
 
-To create a client object to access the AzureMachineLearningWorkspaces API, you will need the `endpoint` of your AzureMachineLearningWorkspaces resource and a `credential`. The AzureMachineLearningWorkspaces client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your AzureMachineLearningWorkspaces resource in the [Azure Portal][azure_portal].
+To create a client object to access the AzureMachineLearningServicesManagement API, you will need the `endpoint` of your AzureMachineLearningServicesManagement resource and a `credential`. The AzureMachineLearningServicesManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your AzureMachineLearningServicesManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,36 +43,47 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to AzureMachineLearningWorkspaces** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to AzureMachineLearningServicesManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
-const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
-const { DefaultAzureCredential } = require("@azure/identity");
-// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureMachineLearningWorkspaces(new DefaultAzureCredential(), subscriptionId);
-
-// For client-side applications running in the browser, use this code instead:
-// const credential = new InteractiveBrowserCredential({
-//   tenantId: "<YOUR_TENANT_ID>",
-//   clientId: "<YOUR_CLIENT_ID>"
-// });
-// const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+const client = new AzureMachineLearningServicesManagementClient(
+  new DefaultAzureCredential(),
+  subscriptionId,
+);
 ```
 
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new AzureMachineLearningServicesManagementClient(credential, subscriptionId);
+```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### AzureMachineLearningWorkspaces
+### AzureMachineLearningServicesManagementClient
 
-`AzureMachineLearningWorkspaces` is the primary interface for developers using the AzureMachineLearningWorkspaces client library. Explore the methods on this client object to understand the different features of the AzureMachineLearningWorkspaces service that you can access.
+`AzureMachineLearningServicesManagementClient` is the primary interface for developers using the AzureMachineLearningServicesManagement client library. Explore the methods on this client object to understand the different features of the AzureMachineLearningServicesManagement service that you can access.
 
 ## Troubleshooting
 
@@ -80,8 +91,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 
@@ -99,9 +111,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmachinelearning%2Farm-machinelearning%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com

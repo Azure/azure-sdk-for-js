@@ -4,16 +4,14 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { AzureLogger } from '@azure/logger';
-import * as coreClient from '@azure/core-client';
-import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import type * as coreClient from '@azure-rest/core-client';
+import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AesCbcDecryptParameters {
@@ -181,6 +179,11 @@ export interface GetDeletedKeyOptions extends coreClient.OperationOptions {
 }
 
 // @public
+export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
+    version?: string;
+}
+
+// @public
 export interface GetKeyOptions extends coreClient.OperationOptions {
     version?: string;
 }
@@ -228,6 +231,14 @@ interface JsonWebKey_2 {
 export { JsonWebKey_2 as JsonWebKey }
 
 // @public
+export interface KeyAttestation {
+    certificatePemFile?: Uint8Array;
+    privateKeyAttestation?: Uint8Array;
+    publicKeyAttestation?: Uint8Array;
+    version?: string;
+}
+
+// @public
 export class KeyClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: KeyClientOptions);
     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
@@ -240,6 +251,7 @@ export class KeyClient {
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getKeyAttestation(name: string, options?: GetKeyAttestationOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(keyName: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
@@ -279,10 +291,12 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
+    attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
     exportable?: boolean;
+    readonly hsmPlatform?: string;
     id?: string;
     readonly managed?: boolean;
     name: string;
@@ -378,6 +392,8 @@ export enum KnownEncryptionAlgorithms {
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
+    CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+    CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
     RSA15 = "RSA1_5",
     RSAOaep = "RSA-OAEP",
     RSAOaep256 = "RSA-OAEP-256"
@@ -425,6 +441,9 @@ export enum KnownSignatureAlgorithms {
     ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
     PS256 = "PS256",
     PS384 = "PS384",
     PS512 = "PS512",

@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+/**
+ * The cluster resource
+ *
+ */
 export interface ClusterOutput extends ResourceOutput {
   /** The cluster resource properties */
   properties?: ClusterPropertiesOutput;
 }
 
+/** Describes the cluster resource properties. */
 export interface ClusterPropertiesOutput {
   /** The list of add-on features to enable in the cluster. */
   addOnFeatures?: Array<
     "RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService"
   >;
   /** The Service Fabric runtime versions available for this cluster. */
-  availableClusterVersions?: Array<ClusterVersionDetailsOutput>;
+  readonly availableClusterVersions?: Array<ClusterVersionDetailsOutput>;
   /** The AAD authentication settings of the cluster. */
   azureActiveDirectory?: AzureActiveDirectoryOutput;
   /** The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client. */
@@ -26,9 +31,9 @@ export interface ClusterPropertiesOutput {
   /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
   clusterCodeVersion?: string;
   /** The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint. */
-  clusterEndpoint?: string;
+  readonly clusterEndpoint?: string;
   /** A service generated unique identifier for the cluster resource. */
-  clusterId?: string;
+  readonly clusterId?: string;
   /**
    * The current state of the cluster.
    *
@@ -44,7 +49,7 @@ export interface ClusterPropertiesOutput {
    *   - Ready - Indicates that the cluster is in a stable state.
    *
    */
-  clusterState?:
+  readonly clusterState?:
     | "WaitingForNodes"
     | "Deploying"
     | "BaselineUpgrade"
@@ -66,7 +71,7 @@ export interface ClusterPropertiesOutput {
   /** The list of node types in the cluster. */
   nodeTypes: Array<NodeTypeDescriptionOutput>;
   /** The provisioning state of the cluster resource. */
-  provisioningState?: "Updating" | "Succeeded" | "Failed" | "Canceled";
+  readonly provisioningState?: "Updating" | "Succeeded" | "Failed" | "Canceled";
   /**
    * The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-capacity).
    *
@@ -108,6 +113,7 @@ export interface ClusterPropertiesOutput {
   notifications?: Array<NotificationOutput>;
 }
 
+/** The detail of the Service Fabric runtime version result */
 export interface ClusterVersionDetailsOutput {
   /** The Service Fabric runtime version of the cluster. */
   codeVersion?: string;
@@ -117,6 +123,7 @@ export interface ClusterVersionDetailsOutput {
   environment?: "Windows" | "Linux";
 }
 
+/** The settings to enable AAD authentication on the cluster. */
 export interface AzureActiveDirectoryOutput {
   /** Azure active directory tenant id. */
   tenantId?: string;
@@ -126,6 +133,7 @@ export interface AzureActiveDirectoryOutput {
   clientApplication?: string;
 }
 
+/** Describes the certificate details. */
 export interface CertificateDescriptionOutput {
   /** Thumbprint of the primary certificate. */
   thumbprint: string;
@@ -143,6 +151,7 @@ export interface CertificateDescriptionOutput {
     | "TrustedPublisher";
 }
 
+/** Describes a list of server certificates referenced by common name that are used to secure the cluster. */
 export interface ServerCertificateCommonNamesOutput {
   /** The list of server certificates referenced by common name that are used to secure the cluster. */
   commonNames?: Array<ServerCertificateCommonNameOutput>;
@@ -158,6 +167,7 @@ export interface ServerCertificateCommonNamesOutput {
     | "TrustedPublisher";
 }
 
+/** Describes the server certificate details using common name. */
 export interface ServerCertificateCommonNameOutput {
   /** The common name of the server certificate. */
   certificateCommonName: string;
@@ -165,6 +175,7 @@ export interface ServerCertificateCommonNameOutput {
   certificateIssuerThumbprint: string;
 }
 
+/** Describes the client certificate details using common name. */
 export interface ClientCertificateCommonNameOutput {
   /** Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster. */
   isAdmin: boolean;
@@ -174,6 +185,7 @@ export interface ClientCertificateCommonNameOutput {
   certificateIssuerThumbprint: string;
 }
 
+/** Describes the client certificate details using thumbprint. */
 export interface ClientCertificateThumbprintOutput {
   /** Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster. */
   isAdmin: boolean;
@@ -181,6 +193,7 @@ export interface ClientCertificateThumbprintOutput {
   certificateThumbprint: string;
 }
 
+/** The storage account information for storing Service Fabric diagnostic logs. */
 export interface DiagnosticsStorageAccountConfigOutput {
   /** The Azure storage account name. */
   storageAccountName: string;
@@ -196,6 +209,7 @@ export interface DiagnosticsStorageAccountConfigOutput {
   tableEndpoint: string;
 }
 
+/** Describes a section in the fabric settings of the cluster. */
 export interface SettingsSectionDescriptionOutput {
   /** The section name of the fabric settings. */
   name: string;
@@ -203,6 +217,7 @@ export interface SettingsSectionDescriptionOutput {
   parameters: Array<SettingsParameterDescriptionOutput>;
 }
 
+/** Describes a parameter in fabric settings of the cluster. */
 export interface SettingsParameterDescriptionOutput {
   /** The parameter name of fabric setting. */
   name: string;
@@ -210,6 +225,7 @@ export interface SettingsParameterDescriptionOutput {
   value: string;
 }
 
+/** Describes a node type in the cluster, each node type represents sub set of nodes in the cluster. */
 export interface NodeTypeDescriptionOutput {
   /** The name of the node type. */
   name: string;
@@ -246,6 +262,7 @@ export interface NodeTypeDescriptionOutput {
   multipleAvailabilityZones?: boolean;
 }
 
+/** Port range details */
 export interface EndpointRangeDescriptionOutput {
   /** Starting port of a range of ports */
   startPort: number;
@@ -253,6 +270,7 @@ export interface EndpointRangeDescriptionOutput {
   endPort: number;
 }
 
+/** Describes the policy used when upgrading the cluster. */
 export interface ClusterUpgradePolicyOutput {
   /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
   forceRestart?: boolean;
@@ -274,6 +292,10 @@ export interface ClusterUpgradePolicyOutput {
   deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicyOutput;
 }
 
+/**
+ * Defines a health policy used to evaluate the health of the cluster or of a cluster node.
+ *
+ */
 export interface ClusterHealthPolicyOutput {
   /**
    * The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
@@ -301,6 +323,10 @@ export interface ClusterHealthPolicyOutput {
   applicationHealthPolicies?: Record<string, ApplicationHealthPolicyOutput>;
 }
 
+/**
+ * Defines a health policy used to evaluate the health of an application or one of its children entities.
+ *
+ */
 export interface ApplicationHealthPolicyOutput {
   /** The health policy used by default to evaluate the health of a service type. */
   defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicyOutput;
@@ -308,6 +334,10 @@ export interface ApplicationHealthPolicyOutput {
   serviceTypeHealthPolicies?: Record<string, ServiceTypeHealthPolicyOutput>;
 }
 
+/**
+ * Represents the health policy used to evaluate the health of services belonging to a service type.
+ *
+ */
 export interface ServiceTypeHealthPolicyOutput {
   /**
    * The maximum percentage of services allowed to be unhealthy before your application is considered in error.
@@ -316,6 +346,7 @@ export interface ServiceTypeHealthPolicyOutput {
   maxPercentUnhealthyServices?: number;
 }
 
+/** Describes the delta health policies for the cluster upgrade. */
 export interface ClusterUpgradeDeltaHealthPolicyOutput {
   /**
    * The maximum allowed percentage of nodes health degradation allowed during cluster upgrades.
@@ -342,6 +373,10 @@ export interface ClusterUpgradeDeltaHealthPolicyOutput {
   applicationDeltaHealthPolicies?: Record<string, ApplicationDeltaHealthPolicyOutput>;
 }
 
+/**
+ * Defines a delta health policy used to evaluate the health of an application or one of its child entities when upgrading the cluster.
+ *
+ */
 export interface ApplicationDeltaHealthPolicyOutput {
   /** The delta health policy used by default to evaluate the health of a service type when upgrading the cluster. */
   defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicyOutput;
@@ -349,6 +384,10 @@ export interface ApplicationDeltaHealthPolicyOutput {
   serviceTypeDeltaHealthPolicies?: Record<string, ServiceTypeDeltaHealthPolicyOutput>;
 }
 
+/**
+ * Represents the delta health policy used to evaluate the health of services belonging to a service type when upgrading the cluster.
+ *
+ */
 export interface ServiceTypeDeltaHealthPolicyOutput {
   /**
    * The maximum allowed percentage of services health degradation allowed during cluster upgrades.
@@ -364,6 +403,7 @@ export interface ApplicationTypeVersionsCleanupPolicyOutput {
   maxUnusedVersionsToKeep: number;
 }
 
+/** Describes the notification channel for cluster events. */
 export interface NotificationOutput {
   /** Indicates if the notification is enabled. */
   isEnabled: boolean;
@@ -375,6 +415,7 @@ export interface NotificationOutput {
   notificationTargets: Array<NotificationTargetOutput>;
 }
 
+/** Describes the notification target properties. */
 export interface NotificationTargetOutput {
   /** The notification channel indicates the type of receivers subscribed to the notification, either user or subscription. */
   notificationChannel: "EmailUser" | "EmailSubscription";
@@ -382,23 +423,25 @@ export interface NotificationTargetOutput {
   receivers: Array<string>;
 }
 
+/** The resource model definition. */
 export interface ResourceOutput {
   /** Azure resource identifier. */
-  id?: string;
+  readonly id?: string;
   /** Azure resource name. */
-  name?: string;
+  readonly name?: string;
   /** Azure resource type. */
-  type?: string;
+  readonly type?: string;
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
   tags?: Record<string, string>;
   /** Azure resource etag. */
-  etag?: string;
+  readonly etag?: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemDataOutput {
   /** The identity that created the resource. */
   createdBy?: string;
@@ -414,11 +457,13 @@ export interface SystemDataOutput {
   lastModifiedAt?: string;
 }
 
+/** The structure of the error. */
 export interface ErrorModelOutput {
   /** The error details. */
   error?: ErrorModelErrorOutput;
 }
 
+/** The error details. */
 export interface ErrorModelErrorOutput {
   /** The error code. */
   code?: string;
@@ -426,18 +471,21 @@ export interface ErrorModelErrorOutput {
   message?: string;
 }
 
+/** Cluster list results */
 export interface ClusterListResultOutput {
   value?: Array<ClusterOutput>;
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
+/** The list results of the Service Fabric runtime versions. */
 export interface ClusterCodeVersionsListResultOutput {
   value?: Array<ClusterCodeVersionsResultOutput>;
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
+/** The result of the Service Fabric runtime versions */
 export interface ClusterCodeVersionsResultOutput {
   /** The identification of the result */
   id?: string;
@@ -449,17 +497,20 @@ export interface ClusterCodeVersionsResultOutput {
   properties?: ClusterVersionDetailsOutput;
 }
 
+/** The list of intermediate cluster code versions for an upgrade or downgrade. Or minimum and maximum upgradable version if no target was given */
 export interface UpgradableVersionPathResultOutput {
   supportedPath?: Array<string>;
 }
 
+/** Describes the result of the request to list Service Fabric resource provider operations. */
 export interface OperationListResultOutput {
   /** List of operations supported by the Service Fabric resource provider. */
   value?: Array<OperationResultOutput>;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
+/** Available operation list result */
 export interface OperationResultOutput {
   /** The name of the operation. */
   name?: string;
@@ -473,6 +524,7 @@ export interface OperationResultOutput {
   nextLink?: string;
 }
 
+/** Operation supported by the Service Fabric resource provider */
 export interface AvailableOperationDisplayOutput {
   /** The name of the provider. */
   provider?: string;
@@ -484,59 +536,67 @@ export interface AvailableOperationDisplayOutput {
   description?: string;
 }
 
+/** The application type name resource */
 export interface ApplicationTypeResourceOutput extends ProxyResourceOutput {
   /** The application type name properties */
   properties?: ApplicationTypeResourcePropertiesOutput;
 }
 
+/** The application type name properties */
 export interface ApplicationTypeResourcePropertiesOutput {
   /** The current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
 }
 
+/** The resource model definition for proxy-only resource. */
 export interface ProxyResourceOutput {
   /** Azure resource identifier. */
-  id?: string;
+  readonly id?: string;
   /** Azure resource name. */
-  name?: string;
+  readonly name?: string;
   /** Azure resource type. */
-  type?: string;
+  readonly type?: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
   location?: string;
   /** Azure resource tags. */
   tags?: Record<string, string>;
   /** Azure resource etag. */
-  etag?: string;
+  readonly etag?: string;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemDataOutput;
+  readonly systemData?: SystemDataOutput;
 }
 
+/** The list of application type names. */
 export interface ApplicationTypeResourceListOutput {
   value?: Array<ApplicationTypeResourceOutput>;
   /** URL to get the next set of application type list results if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
+/** An application type version resource for the specified application type name resource. */
 export interface ApplicationTypeVersionResourceOutput extends ProxyResourceOutput {
   /** The properties of the application type version resource. */
   properties?: ApplicationTypeVersionResourcePropertiesOutput;
 }
 
+/** The properties of the application type version resource. */
 export interface ApplicationTypeVersionResourcePropertiesOutput {
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The URL to the application package */
   appPackageUrl: string;
   /** List of application type parameters that can be overridden when creating or updating the application. */
-  defaultParameterList?: Record<string, string>;
+  readonly defaultParameterList?: Record<string, string>;
 }
 
+/** The list of application type version resources for the specified application type name resource. */
 export interface ApplicationTypeVersionResourceListOutput {
   value?: Array<ApplicationTypeVersionResourceOutput>;
   /** URL to get the next set of application type version list results if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
+/** The application resource. */
 export interface ApplicationResourceOutput extends ProxyResourceOutput {
   /** Describes the managed identities for an Azure resource. */
   identity?: ManagedIdentityOutput;
@@ -544,11 +604,12 @@ export interface ApplicationResourceOutput extends ProxyResourceOutput {
   properties?: ApplicationResourcePropertiesOutput;
 }
 
+/** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentityOutput {
   /** The principal id of the managed identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The tenant id of the managed identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  readonly tenantId?: string;
   /** The type of managed identity for the resource. */
   type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
   /**
@@ -561,19 +622,21 @@ export interface ManagedIdentityOutput {
 
 export interface UserAssignedIdentityOutput {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  readonly principalId?: string;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  readonly clientId?: string;
 }
 
+/** The application resource properties. */
 export interface ApplicationResourcePropertiesOutput
   extends ApplicationResourceUpdatePropertiesOutput {
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The application type name as defined in the application manifest. */
   typeName?: string;
 }
 
+/** The application resource properties for patch operations. */
 export interface ApplicationResourceUpdatePropertiesOutput {
   /** The version of the application type as defined in the application manifest. */
   typeVersion?: string;
@@ -593,6 +656,7 @@ export interface ApplicationResourceUpdatePropertiesOutput {
   managedIdentities?: Array<ApplicationUserAssignedIdentityOutput>;
 }
 
+/** Describes the policy for a monitored application upgrade. */
 export interface ApplicationUpgradePolicyOutput {
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
   upgradeReplicaSetCheckTimeout?: string;
@@ -611,6 +675,7 @@ export interface ApplicationUpgradePolicyOutput {
   recreateApplication?: boolean;
 }
 
+/** The policy used for monitoring the application upgrade */
 export interface ArmRollingUpgradeMonitoringPolicyOutput {
   /** The activation Mode of the service package */
   failureAction?: "Rollback" | "Manual";
@@ -626,6 +691,10 @@ export interface ArmRollingUpgradeMonitoringPolicyOutput {
   upgradeDomainTimeout?: string;
 }
 
+/**
+ * Defines a health policy used to evaluate the health of an application or one of its children entities.
+ *
+ */
 export interface ArmApplicationHealthPolicyOutput {
   /** Indicates whether warnings are treated with the same severity as errors. */
   considerWarningAsError?: boolean;
@@ -643,6 +712,10 @@ export interface ArmApplicationHealthPolicyOutput {
   serviceTypeHealthPolicyMap?: Record<string, ArmServiceTypeHealthPolicyOutput>;
 }
 
+/**
+ * Represents the health policy used to evaluate the health of services belonging to a service type.
+ *
+ */
 export interface ArmServiceTypeHealthPolicyOutput {
   /**
    * The maximum percentage of services allowed to be unhealthy before your application is considered in error.
@@ -661,6 +734,10 @@ export interface ArmServiceTypeHealthPolicyOutput {
   maxPercentUnhealthyReplicasPerPartition?: number;
 }
 
+/**
+ * Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
+ *
+ */
 export interface ApplicationMetricDescriptionOutput {
   /** The name of the metric. */
   name?: string;
@@ -698,25 +775,29 @@ export interface ApplicationUserAssignedIdentityOutput {
   principalId: string;
 }
 
+/** The application resource for patch operations. */
 export interface ApplicationResourceUpdateOutput extends ProxyResourceOutput {
   /** The application resource properties for patch operations. */
   properties?: ApplicationResourceUpdatePropertiesOutput;
 }
 
+/** The list of application resources. */
 export interface ApplicationResourceListOutput {
   value?: Array<ApplicationResourceOutput>;
   /** URL to get the next set of application list results if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
+/** The service resource. */
 export interface ServiceResourceOutput extends ProxyResourceOutput {
   /** The service resource properties. */
   properties?: ServiceResourcePropertiesOutput;
 }
 
+/** The service resource properties. */
 export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The name of the service type */
   serviceTypeName?: string;
   /** Describes how the service is partitioned. */
@@ -728,10 +809,12 @@ export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePr
   serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
 }
 
+/** Describes how the service is partitioned. */
 export interface PartitionSchemeDescriptionOutputParent {
   partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
+/** The common service resource properties. */
 export interface ServiceResourcePropertiesBaseOutput {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
   placementConstraints?: string;
@@ -745,6 +828,7 @@ export interface ServiceResourcePropertiesBaseOutput {
   defaultMoveCost?: "Zero" | "Low" | "Medium" | "High";
 }
 
+/** Creates a particular correlation between services. */
 export interface ServiceCorrelationDescriptionOutput {
   /** The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName. */
   scheme: "Invalid" | "Affinity" | "AlignedAffinity" | "NonAlignedAffinity";
@@ -752,6 +836,7 @@ export interface ServiceCorrelationDescriptionOutput {
   serviceName: string;
 }
 
+/** Specifies a metric to load balance a service during runtime. */
 export interface ServiceLoadMetricDescriptionOutput {
   /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive. */
   name: string;
@@ -765,26 +850,31 @@ export interface ServiceLoadMetricDescriptionOutput {
   defaultLoad?: number;
 }
 
+/** Describes the policy to be used for placement of a Service Fabric service. */
 export interface ServicePlacementPolicyDescriptionOutput {
   type: "ServicePlacementPolicyDescription";
 }
 
+/** The service resource for patch operations. */
 export interface ServiceResourceUpdateOutput extends ProxyResourceOutput {
   /** The service resource properties for patch operations. */
   properties?: ServiceResourceUpdatePropertiesOutput;
 }
 
+/** The service resource properties for patch operations. */
 export interface ServiceResourceUpdatePropertiesOutputParent
   extends ServiceResourcePropertiesBaseOutput {
   serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
 
+/** The list of service resources. */
 export interface ServiceResourceListOutput {
   value?: Array<ServiceResourceOutput>;
   /** URL to get the next set of service list results if there are any. */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
+/** Describes the named partition scheme of the service. */
 export interface NamedPartitionSchemeDescriptionOutput
   extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
@@ -794,11 +884,13 @@ export interface NamedPartitionSchemeDescriptionOutput
   partitionScheme: "Named";
 }
 
+/** SingletonPartitionSchemeDescription */
 export interface SingletonPartitionSchemeDescriptionOutput
   extends PartitionSchemeDescriptionOutputParent {
   partitionScheme: "Singleton";
 }
 
+/** The properties of a stateful service resource. */
 export interface StatefulServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
   /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
   hasPersistedState?: boolean;
@@ -815,6 +907,7 @@ export interface StatefulServicePropertiesOutput extends ServiceResourceProperti
   serviceKind: "Stateful";
 }
 
+/** The properties of a stateful service resource for patch operations. */
 export interface StatefulServiceUpdatePropertiesOutput
   extends ServiceResourceUpdatePropertiesOutputParent {
   /** The target replica set size as a number. */
@@ -830,6 +923,7 @@ export interface StatefulServiceUpdatePropertiesOutput
   serviceKind: "Stateful";
 }
 
+/** The properties of a stateless service resource. */
 export interface StatelessServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
   /** The instance count. */
   instanceCount?: number;
@@ -838,6 +932,7 @@ export interface StatelessServicePropertiesOutput extends ServiceResourcePropert
   serviceKind: "Stateless";
 }
 
+/** The properties of a stateless service resource for patch operations. */
 export interface StatelessServiceUpdatePropertiesOutput
   extends ServiceResourceUpdatePropertiesOutputParent {
   /** The instance count. */
@@ -847,6 +942,7 @@ export interface StatelessServiceUpdatePropertiesOutput
   serviceKind: "Stateless";
 }
 
+/** Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions. */
 export interface UniformInt64RangePartitionSchemeDescriptionOutput
   extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
@@ -866,13 +962,16 @@ export interface UniformInt64RangePartitionSchemeDescriptionOutput
   partitionScheme: "UniformInt64Range";
 }
 
+/** The service resource properties. */
 export type ServiceResourcePropertiesOutput =
   | StatefulServicePropertiesOutput
   | StatelessServicePropertiesOutput;
+/** Describes how the service is partitioned. */
 export type PartitionSchemeDescriptionOutput =
   | NamedPartitionSchemeDescriptionOutput
   | SingletonPartitionSchemeDescriptionOutput
   | UniformInt64RangePartitionSchemeDescriptionOutput;
+/** The service resource properties for patch operations. */
 export type ServiceResourceUpdatePropertiesOutput =
   | StatefulServiceUpdatePropertiesOutput
   | StatelessServiceUpdatePropertiesOutput;

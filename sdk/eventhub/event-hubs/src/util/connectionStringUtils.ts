@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseConnectionString } from "@azure/core-amqp";
 
@@ -41,6 +41,11 @@ export interface EventHubConnectionStringProperties {
    * user and appended to the connection string for ease of use.
    */
   sharedAccessSignature?: string;
+  /**
+   * This should be true only if the connection string contains the slug ";UseDevelopmentEmulator=true"
+   * and the endpoint is a loopback address.
+   */
+  useDevelopmentEmulator?: boolean;
 }
 
 /**
@@ -50,7 +55,7 @@ export interface EventHubConnectionStringProperties {
  * for the Event Hubs namespace.
  */
 export function parseEventHubConnectionString(
-  connectionString: string
+  connectionString: string,
 ): Readonly<EventHubConnectionStringProperties> {
   const parsedResult = parseConnectionString<{
     Endpoint: string;
@@ -58,13 +63,14 @@ export function parseEventHubConnectionString(
     SharedAccessSignature?: string;
     SharedAccessKey?: string;
     SharedAccessKeyName?: string;
+    UseDevelopmentEmulator?: string;
   }>(connectionString);
 
   validateProperties(
     parsedResult.Endpoint,
     parsedResult.SharedAccessSignature,
     parsedResult.SharedAccessKey,
-    parsedResult.SharedAccessKeyName
+    parsedResult.SharedAccessKeyName,
   );
 
   const output: EventHubConnectionStringProperties = {
@@ -95,7 +101,7 @@ function validateProperties(
   endpoint?: string,
   sharedAccessSignature?: string,
   sharedAccessKey?: string,
-  sharedAccessKeyName?: string
+  sharedAccessKeyName?: string,
 ): void {
   if (!endpoint) {
     throw new Error("Connection string should have an Endpoint key.");
@@ -104,14 +110,14 @@ function validateProperties(
   if (sharedAccessSignature) {
     if (sharedAccessKey || sharedAccessKeyName) {
       throw new Error(
-        "Connection string cannot have both SharedAccessSignature and SharedAccessKey keys."
+        "Connection string cannot have both SharedAccessSignature and SharedAccessKey keys.",
       );
     }
   } else if (sharedAccessKey && !sharedAccessKeyName) {
     throw new Error("Connection string with SharedAccessKey should have SharedAccessKeyName.");
   } else if (!sharedAccessKey && sharedAccessKeyName) {
     throw new Error(
-      "Connection string with SharedAccessKeyName should have SharedAccessKey as well."
+      "Connection string with SharedAccessKeyName should have SharedAccessKey as well.",
     );
   }
 }

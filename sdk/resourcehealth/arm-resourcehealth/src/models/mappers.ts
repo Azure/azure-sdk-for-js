@@ -1265,6 +1265,41 @@ export const EventImpactedResource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      resourceName: {
+        serializedName: "properties.resourceName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        serializedName: "properties.resourceGroup",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      maintenanceStartTime: {
+        serializedName: "properties.maintenanceStartTime",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      maintenanceEndTime: {
+        serializedName: "properties.maintenanceEndTime",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       info: {
         serializedName: "properties.info",
         type: {
@@ -1289,6 +1324,12 @@ export const Event: coreClient.CompositeMapper = {
       ...ProxyResource.type.modelProperties,
       eventType: {
         serializedName: "properties.eventType",
+        type: {
+          name: "String"
+        }
+      },
+      eventSubType: {
+        serializedName: "properties.eventSubType",
         type: {
           name: "String"
         }
@@ -1472,6 +1513,24 @@ export const Event: coreClient.CompositeMapper = {
       },
       impactType: {
         serializedName: "properties.impactType",
+        type: {
+          name: "String"
+        }
+      },
+      maintenanceId: {
+        serializedName: "properties.maintenanceId",
+        type: {
+          name: "String"
+        }
+      },
+      maintenanceType: {
+        serializedName: "properties.maintenanceType",
+        type: {
+          name: "String"
+        }
+      },
+      argQuery: {
+        serializedName: "properties.argQuery",
         type: {
           name: "String"
         }

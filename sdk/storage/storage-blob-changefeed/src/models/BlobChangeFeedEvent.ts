@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://msazure.visualstudio.com/One/_git/Storage-XStore?path=%2Fsrc%2FXTable%2FNotifications%2Flib%2FBlobChangeEventv4.json&version=GBmaster
 
@@ -20,7 +20,7 @@ export type BlobChangeFeedEventType =
 
 /**
  * Change feed event record. Contains response data for the {@link BlobChangeFeedClient.listChanges} operation.
- * @see https://docs.microsoft.com/en-us/azure/event-grid/event-schema-blob-storage?toc=/azure/storage/blobs/toc.json#event-properties
+ * @see https://learn.microsoft.com/en-us/azure/event-grid/event-schema-blob-storage?toc=/azure/storage/blobs/toc.json#event-properties
  */
 export interface BlobChangeFeedEvent {
   /**

@@ -15,7 +15,7 @@ import {
   FluidRelayServer as FluidRelayServerMapper,
   FluidRelayServerUpdate as FluidRelayServerUpdateMapper,
   RegenerateKeyRequest as RegenerateKeyRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isTokenCredential, KeyCredential, SASCredential } from "@azure/core-auth";
-import { OperationOptions, CommonClientOptions } from "@azure/core-client";
-
-import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
-import {
-  SendCloudEventInput,
-  SendEventGridEventInput,
-  cloudEventReservedPropertyNames,
-} from "./models";
-import { GeneratedClient } from "./generated/generatedClient";
-import {
+import type { KeyCredential, SASCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { OperationOptions, CommonClientOptions } from "@azure/core-client";
+import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy.js";
+import { DEFAULT_EVENTGRID_SCOPE } from "./constants.js";
+import type { SendCloudEventInput, SendEventGridEventInput } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel,
-  GeneratedClientPublishCloudEventEventsOptionalParams,
-} from "./generated/models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
-import { tracingClient } from "./tracing";
-import { v4 as uuidv4 } from "uuid";
-import { TokenCredential } from "@azure/core-auth";
+  PublishCloudEventEventsOptionalParams,
+} from "./generated/models/index.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
+import { tracingClient } from "./tracing.js";
+import { randomUUID } from "@azure/core-util";
+import type { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /**
@@ -112,13 +109,13 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * Creates an instance of EventGridPublisherClient which sends events using the Event Grid Schema.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
    * import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
    *
    * const client = new EventGridPublisherClient(
-   *    "<service endpoint>",
-   *    "EventGrid",
-   *    new AzureKeyCredential("<api key>")
+   *   "<endpoint>",
+   *   "EventGrid",
+   *   new AzureKeyCredential("<Access Key>"),
    * );
    * ```
    *
@@ -131,7 +128,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     endpointUrl: string,
     inputSchema: T,
     credential: KeyCredential | SASCredential | TokenCredential,
-    options: EventGridPublisherClientOptions = {}
+    options: EventGridPublisherClientOptions = {},
   ) {
     this.endpointUrl = endpointUrl;
     this.inputSchema = inputSchema;
@@ -157,7 +154,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
    */
   send(
     events: InputSchemaToInputTypeMap[T][],
-    options: InputSchemaToOptionsTypeMap[T] = {}
+    options: InputSchemaToOptionsTypeMap[T] = {},
   ): Promise<void> {
     return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
@@ -165,9 +162,9 @@ export class EventGridPublisherClient<T extends InputSchema> {
           return this.client.publishEventGridEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["EventGrid"][]).map(
-              convertEventGridEventToModelType
+              convertEventGridEventToModelType,
             ),
-            updatedOptions
+            updatedOptions,
           );
         }
         case "CloudEvent": {
@@ -177,7 +174,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
           const {
             channelName,
             ...sendOptions
-          }: { channelName?: string } & GeneratedClientPublishCloudEventEventsOptionalParams =
+          }: { channelName?: string } & PublishCloudEventEventsOptionalParams =
             updatedOptions as CloudEventSendOptions;
 
           if (channelName) {
@@ -187,14 +184,14 @@ export class EventGridPublisherClient<T extends InputSchema> {
           return this.client.publishCloudEventEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["CloudEvent"][]).map(convertCloudEventToModelType),
-            sendOptions
+            sendOptions,
           );
         }
         case "Custom": {
           return this.client.publishCustomEventEvents(
             this.endpointUrl,
             events as InputSchemaToInputTypeMap["Custom"][],
-            updatedOptions
+            updatedOptions,
           );
         }
         default: {
@@ -209,12 +206,12 @@ export class EventGridPublisherClient<T extends InputSchema> {
  * @internal
  */
 export function convertEventGridEventToModelType(
-  event: SendEventGridEventInput<any>
+  event: SendEventGridEventInput<any>,
 ): EventGridEventWireModel {
   return {
     eventType: event.eventType,
     eventTime: event.eventTime ?? new Date(),
-    id: event.id ?? uuidv4(),
+    id: event.id ?? randomUUID(),
     subject: event.subject,
     topic: event.topic,
     data: event.data,
@@ -244,7 +241,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
     specversion: "1.0",
     type: event.type,
     source: event.source,
-    id: event.id ?? uuidv4(),
+    id: event.id ?? randomUUID(),
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,
@@ -254,7 +251,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
   if (event.data instanceof Uint8Array) {
     if (!event.datacontenttype) {
       throw new Error(
-        "a data content type must be provided when sending an event with binary data"
+        "a data content type must be provided when sending an event with binary data",
       );
     }
 

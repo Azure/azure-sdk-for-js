@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CsmOperationDescription,
-  DomainRegistrationProviderListOperationsOptionalParams
-} from "../models";
+  DomainRegistrationProviderListOperationsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DomainRegistrationProvider. */
@@ -21,6 +21,6 @@ export interface DomainRegistrationProvider {
    * @param options The options parameters.
    */
   listOperations(
-    options?: DomainRegistrationProviderListOperationsOptionalParams
+    options?: DomainRegistrationProviderListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CsmOperationDescription>;
 }

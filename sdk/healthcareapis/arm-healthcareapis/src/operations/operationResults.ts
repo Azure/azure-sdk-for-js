@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationResults } from "../operationsInterfaces";
+import { OperationResults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HealthcareApisManagementClient } from "../healthcareApisManagementClient.js";
 import {
   OperationResultsGetOptionalParams,
-  OperationResultsGetResponse
-} from "../models";
+  OperationResultsGetResponse,
+} from "../models/index.js";
 
 /** Class containing OperationResults operations. */
 export class OperationResultsImpl implements OperationResults {
@@ -37,11 +37,11 @@ export class OperationResultsImpl implements OperationResults {
   get(
     locationName: string,
     operationResultId: string,
-    options?: OperationResultsGetOptionalParams
+    options?: OperationResultsGetOptionalParams,
   ): Promise<OperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, operationResultId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class OperationResultsImpl implements OperationResults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/locations/{locationName}/operationresults/{operationResultId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/locations/{locationName}/operationresults/{operationResultId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultsDescription
+      bodyMapper: Mappers.OperationResultsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.operationResultId
+    Parameters.operationResultId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

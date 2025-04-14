@@ -13,8 +13,8 @@ import {
   FlexibleServerTriggerLtrPreBackupResponse,
   LtrBackupRequest,
   FlexibleServerStartLtrBackupOptionalParams,
-  FlexibleServerStartLtrBackupResponse
-} from "../models";
+  FlexibleServerStartLtrBackupResponse,
+} from "../models/index.js";
 
 /** Interface representing a FlexibleServer. */
 export interface FlexibleServer {
@@ -30,7 +30,7 @@ export interface FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrPreBackupRequest,
-    options?: FlexibleServerTriggerLtrPreBackupOptionalParams
+    options?: FlexibleServerTriggerLtrPreBackupOptionalParams,
   ): Promise<FlexibleServerTriggerLtrPreBackupResponse>;
   /**
    * Start the Long Term Retention Backup operation
@@ -43,7 +43,7 @@ export interface FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrBackupRequest,
-    options?: FlexibleServerStartLtrBackupOptionalParams
+    options?: FlexibleServerStartLtrBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FlexibleServerStartLtrBackupResponse>,
@@ -61,6 +61,6 @@ export interface FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrBackupRequest,
-    options?: FlexibleServerStartLtrBackupOptionalParams
+    options?: FlexibleServerStartLtrBackupOptionalParams,
   ): Promise<FlexibleServerStartLtrBackupResponse>;
 }

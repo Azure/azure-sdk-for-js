@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a Dev Box definition.
  *
  * @summary Partially updates a Dev Box definition.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/DevBoxDefinitions_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Patch.json
  */
 async function devBoxDefinitionsPatch() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function devBoxDefinitionsPatch() {
     resourceGroupName,
     devCenterName,
     devBoxDefinitionName,
-    body
+    body,
   );
   console.log(result);
 }

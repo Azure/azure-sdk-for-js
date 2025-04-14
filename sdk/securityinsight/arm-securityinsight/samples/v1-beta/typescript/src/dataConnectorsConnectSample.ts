@@ -13,9 +13,7 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Connects a data connector.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Connects a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/ConnectAPIPollingV2Logs.json
  */
-async function connectAnApiPollingV2LogsDataConnector() {
+async function connectAnApiPollingV2LogsDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -63,7 +61,7 @@ async function connectAnApiPollingV2LogsDataConnector() {
  * @summary Connects a data connector.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/ConnectAPIPolling.json
  */
-async function connectAnApiPollingDataConnector() {
+async function connectAnApiPollingDataConnector(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -94,7 +92,7 @@ async function connectAnApiPollingDataConnector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectAnApiPollingV2LogsDataConnector();
   connectAnApiPollingDataConnector();
 }

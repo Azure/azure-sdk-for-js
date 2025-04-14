@@ -4,19 +4,19 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
-import { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AdlsGen2AccountSink extends SinkParent {
@@ -147,7 +147,7 @@ export interface BlobStorageArtifactPropertiesOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewSharingClient;
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewSharingClientOptions): PurviewSharingClient;
 export default createClient;
 
 // @public
@@ -157,7 +157,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -286,6 +286,9 @@ export function isUnexpected(response: SentSharesDeleteSentShareInvitation202Res
 // @public (undocumented)
 export function isUnexpected(response: SentSharesNotifyUserSentShareInvitation200Response | SentSharesNotifyUserSentShareInvitationDefaultResponse): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 
+// @public (undocumented)
+export function isUnexpected(response: ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse): response is ShareResourcesGetAllShareResourcesDefaultResponse;
+
 // @public
 export interface OperationResponseOutput {
     endTime?: string;
@@ -293,6 +296,18 @@ export interface OperationResponseOutput {
     id?: string;
     startTime?: string;
     status: "Running" | "TransientFailure" | "Succeeded" | "Failed" | "NotStarted";
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -337,6 +352,11 @@ export interface PurviewShareErrorOutput {
 export type PurviewSharingClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface PurviewSharingClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export type ReceivedShare = InPlaceReceivedShare;
@@ -547,7 +567,6 @@ export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties 
     filter?: string;
     orderby?: string;
     referenceName: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -591,7 +610,6 @@ export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParam {
 export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties {
     filter?: string;
     orderby?: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -681,6 +699,7 @@ export interface Routes {
     (path: "/sentShares/{sentShareId}/sentShareInvitations", sentShareId: string): SentSharesGetAllSentShareInvitations;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}", sentShareId: string, sentShareInvitationId: string): SentSharesGetSentShareInvitation;
     (path: "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify", sentShareId: string, sentShareInvitationId: string): SentSharesNotifyUserSentShareInvitation;
+    (path: "/shareResources"): ShareResourcesGetAllShareResources;
 }
 
 // @public
@@ -932,7 +951,6 @@ export interface SentSharesGetAllSentShareInvitationsQueryParam {
 export interface SentSharesGetAllSentShareInvitationsQueryParamProperties {
     filter?: string;
     orderby?: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -977,7 +995,6 @@ export interface SentSharesGetAllSentSharesQueryParamProperties {
     filter?: string;
     orderby?: string;
     referenceName: string;
-    skipToken?: string;
 }
 
 // @public (undocumented)
@@ -1121,6 +1138,93 @@ export interface ServiceInvitationPropertiesOutput {
     readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
     targetActiveDirectoryId: string;
     targetObjectId: string;
+}
+
+// @public
+export interface ShareResource extends ProxyResource {
+    receivedSharesCount?: number;
+    sentSharesCount?: number;
+    storeKind?: "AdlsGen2Account" | "BlobAccount";
+    storeReference?: StoreReference;
+}
+
+// @public
+export interface ShareResourceListOutput {
+    nextLink?: string;
+    value: Array<ShareResourceOutput>;
+}
+
+// @public
+export interface ShareResourceOutput extends ProxyResourceOutput {
+    receivedSharesCount?: number;
+    sentSharesCount?: number;
+    storeKind?: "AdlsGen2Account" | "BlobAccount";
+    storeReference?: StoreReferenceOutput;
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResources {
+    get(options?: ShareResourcesGetAllShareResourcesParameters): StreamableMethod<ShareResourcesGetAllShareResources200Response | ShareResourcesGetAllShareResourcesDefaultResponse>;
+}
+
+// @public
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
+    // (undocumented)
+    body: ShareResourceListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: PurviewShareErrorOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ShareResourcesGetAllShareResourcesParameters = ShareResourcesGetAllShareResourcesQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesQueryParam {
+    // (undocumented)
+    queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
+    filter?: string;
+    orderby?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

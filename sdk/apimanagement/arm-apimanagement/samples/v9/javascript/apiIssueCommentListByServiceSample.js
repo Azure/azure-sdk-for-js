@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all comments for the Issue associated with the specified API.
  *
  * @summary Lists all comments for the Issue associated with the specified API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiIssueComments.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiIssueComments.json
  */
 async function apiManagementListApiIssueComments() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

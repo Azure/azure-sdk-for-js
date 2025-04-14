@@ -31,7 +31,7 @@ import {
   LiveEventsImpl,
   LiveOutputsImpl,
   StreamingEndpointsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AccountFilters,
   Operations,
@@ -54,8 +54,8 @@ import {
   LiveEvents,
   LiveOutputs,
   StreamingEndpoints
-} from "./operationsInterfaces";
-import { AzureMediaServicesOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureMediaServicesOptionalParams } from "./models/index.js";
 
 export class AzureMediaServices extends coreClient.ServiceClient {
   $host: string;

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Host,
   HostsListOptionalParams,
@@ -19,7 +19,7 @@ import {
   HostsUpdateOptionalParams,
   HostsUpdateResponse,
   HostsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Hosts. */
@@ -49,7 +49,7 @@ export interface Hosts {
     hostName: string,
     options?: HostsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<HostsCreateResponse>, HostsCreateResponse>
+    SimplePollerLike<OperationState<HostsCreateResponse>, HostsCreateResponse>
   >;
   /**
    * Create Or Update host.
@@ -94,7 +94,7 @@ export interface Hosts {
     resourceGroupName: string,
     hostName: string,
     options?: HostsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements host DELETE method.
    * @param resourceGroupName The Resource Group Name.

@@ -1,24 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const should = chai.should();
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
+import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
-import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import {
-  ServiceBusSessionReceiverImpl,
-  ServiceBusSessionReceiver,
-} from "../../src/receivers/sessionReceiver";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
+import type { ServiceBusSessionReceiver } from "../../src/receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -27,7 +21,7 @@ describe("Retries - ManagementClient", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -38,7 +32,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -46,7 +40,7 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
@@ -62,10 +56,10 @@ describe("Retries - ManagementClient", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
     const senderMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
-      sender.entityPath
+      sender.entityPath,
     );
     const receiverMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
-      receiver.entityPath
+      receiver.entityPath,
     );
 
     senderMgmtClient["_makeManagementRequest"] = fakeFunction;
@@ -79,11 +73,16 @@ describe("Retries - ManagementClient", () => {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
+      should.exist(error.errors);
+      should.equal(error.errors.length, 3);
+      error.errors.forEach((err: any) => {
+        should.equal(err.name, "ServiceBusError");
+        should.equal(err.message, "Hello there, I'm an error");
+      });
       should.equal(
         numberOfTimesManagementClientInvoked,
         defaultMaxRetries + 1,
-        "Unexpected number of retries"
+        "Unexpected number of retries",
       );
     }
     should.equal(errorThrown, true, "Error was not thrown");
@@ -197,7 +196,7 @@ describe("Retries - MessageSender", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         timeoutInMs: 10000,
@@ -207,7 +206,7 @@ describe("Retries - MessageSender", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -215,7 +214,7 @@ describe("Retries - MessageSender", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
 
@@ -233,14 +232,23 @@ describe("Retries - MessageSender", () => {
     (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
-  async function mockInitAndVerifyRetries(func: () => Promise<void>): Promise<void> {
+  async function mockInitAndVerifyRetries(
+    func: () => Promise<void>,
+    expectedErrorType: string = "MessagingError",
+  ): Promise<void> {
     mockInitToThrowError();
     let errorThrown = false;
     try {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
+      should.exist(error.errors);
+      should.equal(error.errors.length, 3);
+      error.errors.forEach((err: any) => {
+        should.equal(err.name, expectedErrorType);
+        should.equal(err.message, "Hello there, I'm an error");
+      });
+
       should.equal(numberOfTimesInitInvoked, defaultMaxRetries + 1, "Unexpected number of retries");
     }
     should.equal(errorThrown, true, "Error was not thrown");
@@ -258,7 +266,7 @@ describe("Retries - MessageSender", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await sender.sendMessages(TestMessage.getSample());
-    });
+    }, "ServiceBusError");
   });
 
   it("Unpartitioned Queue: createBatch", async function (): Promise<void> {
@@ -283,7 +291,7 @@ describe("Retries - MessageSender", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await sender.sendMessages(TestMessage.getSample());
-    });
+    }, "ServiceBusError");
   });
 
   it("Unpartitioned Queue with Sessions: createBatch", async function (): Promise<void> {
@@ -311,7 +319,7 @@ describe("Retries - Receive methods", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -322,7 +330,7 @@ describe("Retries - Receive methods", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -355,7 +363,7 @@ describe("Retries - Receive methods", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
@@ -370,7 +378,12 @@ describe("Retries - Receive methods", () => {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
+      should.exist(error.errors);
+      should.equal(error.errors.length, 3);
+      error.errors.forEach((err: any) => {
+        should.equal(err.name, "MessagingError");
+        should.equal(err.message, "Hello there, I'm an error");
+      });
       should.equal(numberOfTimesTried, defaultMaxRetries + 1, "Unexpected number of retries");
     }
     should.equal(errorThrown, true, "Error was not thrown");

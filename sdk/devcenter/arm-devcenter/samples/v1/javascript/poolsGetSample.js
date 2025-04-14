@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a machine pool
  *
  * @summary Gets a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Get.json
  */
 async function poolsGet() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function poolsGet() {
  * This sample demonstrates how to Gets a machine pool
  *
  * @summary Gets a machine pool
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Pools_GetUnhealthyStatus.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_GetUnhealthyStatus.json
  */
 async function poolsGetUnhealthyStatus() {
   const subscriptionId =

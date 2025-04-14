@@ -14,13 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  AccountsImpl,
-  AccountImpl,
-  OperationOperationsImpl
-} from "./operations";
-import { Accounts, Account, OperationOperations } from "./operationsInterfaces";
-import { GraphServicesOptionalParams } from "./models";
+import { AccountsImpl, OperationsImpl } from "./operations/index.js";
+import { Accounts, Operations } from "./operationsInterfaces/index.js";
+import { GraphServicesOptionalParams } from "./models/index.js";
 
 export class GraphServices extends coreClient.ServiceClient {
   $host: string;
@@ -54,7 +50,7 @@ export class GraphServices extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-graphservices/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-graphservices/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -107,10 +103,9 @@ export class GraphServices extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-22-preview";
+    this.apiVersion = options.apiVersion || "2023-04-13";
     this.accounts = new AccountsImpl(this);
-    this.account = new AccountImpl(this);
-    this.operationOperations = new OperationOperationsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -143,6 +138,5 @@ export class GraphServices extends coreClient.ServiceClient {
   }
 
   accounts: Accounts;
-  account: Account;
-  operationOperations: OperationOperations;
+  operations: Operations;
 }

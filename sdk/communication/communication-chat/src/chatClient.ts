@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/// <reference lib="esnext.asynciterable" />
+// Licensed under the MIT License.
 
-import {
+import type {
   ChatClientOptions,
   CreateChatThreadOptions,
   DeleteChatThreadOptions,
   ListChatThreadsOptions,
-} from "./models/options";
-import {
+} from "./models/options.js";
+import type {
   ChatEventId,
   ChatMessageDeletedEvent,
   ChatMessageEditedEvent,
@@ -20,34 +19,38 @@ import {
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
   TypingIndicatorReceivedEvent,
-} from "./models/events";
-import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { ConnectionState, SignalingClient } from "@azure/communication-signaling";
+} from "./models/events.js";
+import type { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models.js";
+import type { SignalingClient, SignalingClientOptions } from "@azure/communication-signaling";
+import { ConnectionState } from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
   mapToCreateChatThreadResultSdkModel,
-} from "./models/mappers";
-
-import { ChatApiClient } from "./generated/src";
-import { ChatThreadClient } from "./chatThreadClient";
-import { CommunicationTokenCredential } from "@azure/communication-common";
-import { CreateChatThreadRequest } from "./models/requests";
+} from "./models/mappers.js";
+import { ChatApiClient } from "./generated/src/index.js";
+import { ChatThreadClient } from "./chatThreadClient.js";
+import type { CommunicationTokenCredential } from "@azure/communication-common";
+import type { CreateChatThreadRequest } from "./models/requests.js";
 import { EventEmitter } from "events";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { generateUuid } from "./models/uuid";
-import { getSignalingClient } from "./signaling/signalingClient";
-import { logger } from "./models/logger";
-import { tracingClient } from "./generated/src/tracing";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
+import { generateUuid } from "./models/uuid.js";
+import { getSignalingClient } from "./signaling/signalingClient.js";
+import { logger } from "./models/logger.js";
+import { tracingClient } from "./generated/src/tracing.js";
+
+declare interface InternalChatClientOptions extends ChatClientOptions {
+  signalingClientOptions?: SignalingClientOptions;
+}
 
 /**
  * The client to do chat operations
  */
 export class ChatClient {
   private readonly tokenCredential: CommunicationTokenCredential;
-  private readonly clientOptions: ChatClientOptions;
+  private readonly clientOptions: InternalChatClientOptions;
   private readonly client: ChatApiClient;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
@@ -63,10 +66,9 @@ export class ChatClient {
   constructor(
     private readonly endpoint: string,
     credential: CommunicationTokenCredential,
-    options: ChatClientOptions = {}
+    options: ChatClientOptions = {},
   ) {
     this.tokenCredential = credential;
-    this.clientOptions = { ...options };
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -85,10 +87,17 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
+    this.clientOptions = { ...options };
+    this.clientOptions.signalingClientOptions = {
+      ...this.clientOptions.signalingClientOptions,
+      resourceEndpoint: this.endpoint,
+      gatewayApiVersion: this.client.apiVersion,
+    };
+
     this.signalingClient = getSignalingClient(
       credential,
       logger,
-      (options as any).signalingClientOptions
+      this.clientOptions.signalingClientOptions,
     );
   }
 
@@ -108,7 +117,7 @@ export class ChatClient {
    */
   public async createChatThread(
     request: CreateChatThreadRequest,
-    options: CreateChatThreadOptions = {}
+    options: CreateChatThreadOptions = {},
   ): Promise<CreateChatThreadResult> {
     return tracingClient.withSpan(
       "ChatClient-CreateChatThread",
@@ -122,19 +131,19 @@ export class ChatClient {
           {
             topic: request.topic,
             participants: options.participants?.map((participant) =>
-              mapToChatParticipantRestModel(participant)
+              mapToChatParticipantRestModel(participant),
             ),
           },
-          updatedRestModelOptions
+          updatedRestModelOptions,
         );
         return mapToCreateChatThreadResultSdkModel(result);
-      }
+      },
     );
   }
 
   private async *listChatThreadsPage(
     continuationState: ListPageSettings,
-    options: ListChatThreadsOptions = {}
+    options: ListChatThreadsOptions = {},
   ): AsyncIterableIterator<ChatThreadItem[]> {
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreads(options);
@@ -147,7 +156,7 @@ export class ChatClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreadsNext(
         continuationState.continuationToken,
-        options
+        options,
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -159,7 +168,7 @@ export class ChatClient {
   }
 
   private async *listChatThreadsAll(
-    options: ListChatThreadsOptions
+    options: ListChatThreadsOptions,
   ): AsyncIterableIterator<ChatThreadItem> {
     for await (const page of this.listChatThreadsPage({}, options)) {
       yield* page;
@@ -171,7 +180,7 @@ export class ChatClient {
    * @param options - List chat threads options.
    */
   public listChatThreads(
-    options: ListChatThreadsOptions = {}
+    options: ListChatThreadsOptions = {},
   ): PagedAsyncIterableIterator<ChatThreadItem> {
     const { span, updatedOptions } = tracingClient.startSpan("ChatClient-ListChatThreads", options);
     try {
@@ -205,14 +214,14 @@ export class ChatClient {
    */
   public async deleteChatThread(
     threadId: string,
-    options: DeleteChatThreadOptions = {}
+    options: DeleteChatThreadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "ChatClient-DeleteChatThread",
       options,
       async (updatedOptions) => {
         await this.client.chat.deleteChatThread(threadId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -281,7 +290,7 @@ export class ChatClient {
    */
   public on(
     event: "typingIndicatorReceived",
-    listener: (e: TypingIndicatorReceivedEvent) => void
+    listener: (e: TypingIndicatorReceivedEvent) => void,
   ): void;
 
   /**
@@ -312,7 +321,7 @@ export class ChatClient {
    */
   public on(
     event: "chatThreadPropertiesUpdated",
-    listener: (e: ChatThreadPropertiesUpdatedEvent) => void
+    listener: (e: ChatThreadPropertiesUpdatedEvent) => void,
   ): void;
 
   /**
@@ -353,7 +362,7 @@ export class ChatClient {
       event !== "realTimeNotificationDisconnected"
     ) {
       throw new Error(
-        "You must call startRealtimeNotifications before you can subscribe to events."
+        "You must call startRealtimeNotifications before you can subscribe to events.",
       );
     }
 
@@ -388,7 +397,7 @@ export class ChatClient {
    */
   public off(
     event: "typingIndicatorReceived",
-    listener: (e: TypingIndicatorReceivedEvent) => void
+    listener: (e: TypingIndicatorReceivedEvent) => void,
   ): void;
 
   /**
@@ -419,7 +428,7 @@ export class ChatClient {
    */
   public off(
     event: "chatThreadPropertiesUpdated",
-    listener: (e: ChatThreadPropertiesUpdatedEvent) => void
+    listener: (e: ChatThreadPropertiesUpdatedEvent) => void,
   ): void;
 
   /**

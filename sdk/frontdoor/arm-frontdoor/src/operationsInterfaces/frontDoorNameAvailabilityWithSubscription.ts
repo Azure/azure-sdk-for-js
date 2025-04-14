@@ -9,8 +9,8 @@
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
-  FrontDoorNameAvailabilityWithSubscriptionCheckResponse
-} from "../models";
+  FrontDoorNameAvailabilityWithSubscriptionCheckResponse,
+} from "../models/index.js";
 
 /** Interface representing a FrontDoorNameAvailabilityWithSubscription. */
 export interface FrontDoorNameAvailabilityWithSubscription {
@@ -21,6 +21,6 @@ export interface FrontDoorNameAvailabilityWithSubscription {
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams
+    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityWithSubscriptionCheckResponse>;
 }

@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./customLocations";
-export * from "./resourceSyncRules";
+export * from "./customLocations.js";
+export * from "./resourceSyncRules.js";

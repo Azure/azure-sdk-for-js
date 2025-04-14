@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -10,7 +10,7 @@ import {
 
 const AcceptHeaderName = "Accept";
 
-export type MetadataLevel = "none" | "minimal";
+type MetadataLevel = "none" | "minimal";
 const odataMetadataPolicy = "OdataMetadataPolicy";
 
 /**

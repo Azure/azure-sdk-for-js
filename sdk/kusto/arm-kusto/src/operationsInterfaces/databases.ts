@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabaseUnion,
   DatabasesListByClusterOptionalParams,
@@ -27,26 +27,26 @@ import {
   DatabasesAddPrincipalsOptionalParams,
   DatabasesAddPrincipalsResponse,
   DatabasesRemovePrincipalsOptionalParams,
-  DatabasesRemovePrincipalsResponse
-} from "../models";
+  DatabasesRemovePrincipalsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Databases. */
 export interface Databases {
   /**
    * Returns the list of databases of the given Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUnion>;
   /**
    * Returns a list of database principals of the given Kusto cluster and database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -55,11 +55,11 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesListPrincipalsOptionalParams
+    options?: DatabasesListPrincipalsOptionalParams,
   ): PagedAsyncIterableIterator<DatabasePrincipal>;
   /**
    * Checks that the databases resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -68,11 +68,11 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     resourceName: CheckNameRequest,
-    options?: DatabasesCheckNameAvailabilityOptionalParams
+    options?: DatabasesCheckNameAvailabilityOptionalParams,
   ): Promise<DatabasesCheckNameAvailabilityResponse>;
   /**
    * Returns a database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -81,11 +81,11 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
   /**
    * Creates or updates a database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -96,16 +96,16 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesCreateOrUpdateResponse>,
       DatabasesCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -116,11 +116,11 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<DatabasesCreateOrUpdateResponse>;
   /**
    * Updates a database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The database parameters supplied to the Update operation.
@@ -131,16 +131,16 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesUpdateResponse>,
       DatabasesUpdateResponse
     >
   >;
   /**
    * Updates a database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The database parameters supplied to the Update operation.
@@ -151,11 +151,11 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<DatabasesUpdateResponse>;
   /**
    * Deletes the database with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -164,11 +164,11 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DatabasesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -177,11 +177,11 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Add Database principals permissions.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param databasePrincipalsToAdd List of database principals to add.
@@ -192,11 +192,11 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     databasePrincipalsToAdd: DatabasePrincipalListRequest,
-    options?: DatabasesAddPrincipalsOptionalParams
+    options?: DatabasesAddPrincipalsOptionalParams,
   ): Promise<DatabasesAddPrincipalsResponse>;
   /**
    * Remove Database principals permissions.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param databasePrincipalsToRemove List of database principals to remove.
@@ -207,6 +207,6 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     databasePrincipalsToRemove: DatabasePrincipalListRequest,
-    options?: DatabasesRemovePrincipalsOptionalParams
+    options?: DatabasesRemovePrincipalsOptionalParams,
   ): Promise<DatabasesRemovePrincipalsResponse>;
 }

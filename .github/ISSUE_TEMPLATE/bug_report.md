@@ -16,7 +16,7 @@ about: Create a report to help us improve
 - Is the bug related to **documentation** in
   - [ ] README.md
   - [ ] source code documentation
-  - [ ] SDK API docs on https://docs.microsoft.com
+  - [ ] SDK API docs on https://learn.microsoft.com
 
 **Describe the bug**
 A clear and concise description of what the bug is.

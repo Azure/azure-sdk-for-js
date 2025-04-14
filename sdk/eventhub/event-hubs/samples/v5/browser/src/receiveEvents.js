@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /*
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -129,7 +129,7 @@ export class AccountSASPermissions {
   public write: boolean = false;
 
   /**
-   * Permission to create blobs and files granted.
+   * Permission to delete blobs and files granted.
    */
   public delete: boolean = false;
 
@@ -190,12 +190,12 @@ export class AccountSASPermissions {
    * Using this method will guarantee the resource types are in
    * an order accepted by the service.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
    *
    */
   public toString(): string {
     // The order of the characters should be as specified here to ensure correctness:
-    // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+    // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
     // Use a string array instead of string concatenating += operator for performance
     const permissions: string[] = [];
     if (this.read) {

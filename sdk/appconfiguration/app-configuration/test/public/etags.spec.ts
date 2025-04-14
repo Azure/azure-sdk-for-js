@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
-} from "./utils/testHelpers";
-import { AppConfigurationClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "./utils/testHelpers.js";
+import type { AppConfigurationClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     await client.addConfigurationSetting({
@@ -27,7 +27,7 @@ describe("etags", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });
@@ -63,7 +63,7 @@ describe("etags", () => {
     // nothing has changed) will result in a 412 (precondition failed)
     await assertThrowsRestError(
       () => client.setConfigurationSetting(badEtagSetting, { onlyIfUnchanged: true }),
-      412
+      412,
     );
   });
 
@@ -87,7 +87,7 @@ describe("etags", () => {
           onlyIfUnchanged: true,
         }),
       412,
-      "Old etag will result in a failed update and error"
+      "Old etag will result in a failed update and error",
     );
   });
 
@@ -122,7 +122,7 @@ describe("etags", () => {
     assert.notEqual(
       originalSetting.etag,
       updatedSetting.etag,
-      "New content, new update, etags shouldn't match"
+      "New content, new update, etags shouldn't match",
     );
 
     assert.equal(200, updatedSetting.statusCode);
@@ -151,7 +151,7 @@ describe("etags", () => {
         client.setReadOnly(badEtagSetting, true, {
           onlyIfUnchanged: true,
         }),
-      412
+      412,
     );
 
     let actualSetting = await client.getConfigurationSetting(badEtagSetting);
@@ -170,7 +170,7 @@ describe("etags", () => {
         client.setReadOnly(badEtagSetting, false, {
           onlyIfUnchanged: true,
         }),
-      412
+      412,
     );
 
     // ...still readOnly
@@ -197,7 +197,7 @@ describe("etags", () => {
 
     await assertThrowsRestError(
       () => client.deleteConfigurationSetting(badEtagSetting, { onlyIfUnchanged: true }),
-      412
+      412,
     );
 
     // obviously the setting is still there (or else this would throw)
@@ -208,5 +208,24 @@ describe("etags", () => {
 
     // and now the setting isn't found
     await assertThrowsRestError(() => client.getConfigurationSetting({ key }), 404);
+  });
+
+  it("archive and recover using etags", async () => {
+    const snapshot1 = {
+      name: recorder.variable("snapshot", `snapshot${Math.floor(Math.random() * 1000)}`),
+      retentionPeriodInSeconds: 2592000,
+      filters: [{ keyFilter: key, valueFilter: "some value" }],
+    };
+    const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+    await assertThrowsRestError(
+      () => client.archiveSnapshot(newSnapshot.name, { etag: "badEtag" }),
+      412,
+    );
+    await client.archiveSnapshot(newSnapshot.name, { etag: newSnapshot.etag });
+
+    await assertThrowsRestError(
+      () => client.recoverSnapshot(newSnapshot.name, { etag: "badEtag" }),
+      412,
+    );
   });
 });

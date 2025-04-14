@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a custom certificate.
  *
  * @summary Delete a custom certificate.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/WebPubSubCustomCertificates_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomCertificates_Delete.json
  */
 async function webPubSubCustomCertificatesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function webPubSubCustomCertificatesDelete() {
   const result = await client.webPubSubCustomCertificates.delete(
     resourceGroupName,
     resourceName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }

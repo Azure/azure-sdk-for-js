@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary configure proxy settings when connecting to the storage service
@@ -40,7 +40,7 @@ async function main() {
       password: "<password>"
     }
     */
-    }
+    },
   );
 
   // Create a new queue
@@ -48,13 +48,13 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
   );
 }
 

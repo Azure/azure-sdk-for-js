@@ -6,7 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./arcSettings";
-export * from "./clusters";
-export * from "./extensions";
-export * from "./operations";
+export * from "./arcSettings.js";
+export * from "./clusters.js";
+export * from "./deploymentSettings.js";
+export * from "./edgeDevices.js";
+export * from "./extensions.js";
+export * from "./offers.js";
+export * from "./operations.js";
+export * from "./publishers.js";
+export * from "./securitySettings.js";
+export * from "./skus.js";
+export * from "./updateRuns.js";
+export * from "./updateSummariesOperations.js";
+export * from "./updates.js";

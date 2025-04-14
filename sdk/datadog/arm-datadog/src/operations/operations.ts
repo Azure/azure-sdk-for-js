@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftDatadogClient } from "../microsoftDatadogClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftDatadogClient } from "../microsoftDatadogClient.js";
 import {
   OperationResult,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
   OperationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
+   * List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
    * @param options The options parameters.
    */
   private _list(
@@ -143,7 +143,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

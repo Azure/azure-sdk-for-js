@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MdeOnboardings } from "../operationsInterfaces";
+import { MdeOnboardings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   MdeOnboardingsListOptionalParams,
   MdeOnboardingsListResponse,
   MdeOnboardingsGetOptionalParams,
-  MdeOnboardingsGetResponse
-} from "../models";
+  MdeOnboardingsGetResponse,
+} from "../models/index.js";
 
 /** Class containing MdeOnboardings operations. */
 export class MdeOnboardingsImpl implements MdeOnboardings {
@@ -35,7 +35,7 @@ export class MdeOnboardingsImpl implements MdeOnboardings {
    * @param options The options parameters.
    */
   list(
-    options?: MdeOnboardingsListOptionalParams
+    options?: MdeOnboardingsListOptionalParams,
   ): Promise<MdeOnboardingsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -45,7 +45,7 @@ export class MdeOnboardingsImpl implements MdeOnboardings {
    * @param options The options parameters.
    */
   get(
-    options?: MdeOnboardingsGetOptionalParams
+    options?: MdeOnboardingsGetOptionalParams,
   ): Promise<MdeOnboardingsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -54,36 +54,34 @@ export class MdeOnboardingsImpl implements MdeOnboardings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/mdeOnboardings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/mdeOnboardings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MdeOnboardingDataList
+      bodyMapper: Mappers.MdeOnboardingDataList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/mdeOnboardings/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/mdeOnboardings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MdeOnboardingData
+      bodyMapper: Mappers.MdeOnboardingData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

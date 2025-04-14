@@ -1,23 +1,23 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
  * appear on a Service Bus Queue/Subscription at a later time.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
  */
 
 const { delay, ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -34,7 +34,8 @@ const listOfScientists = [
 ];
 
 async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
   try {
     await sendScheduledMessages(sbClient);
 
@@ -58,7 +59,7 @@ async function sendScheduledMessages(sbClient) {
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`,
   );
 
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
@@ -94,7 +95,7 @@ async function receiveMessages(sbClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });

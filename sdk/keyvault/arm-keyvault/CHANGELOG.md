@@ -1,18 +1,26 @@
 # Release History
-
-## 3.0.1 (Unreleased)
-
+    
+## 3.2.0 (2025-03-12)
+    
 ### Features Added
 
-### Breaking Changes
+  - Enum KnownManagedHsmSkuFamily has a new value C
+    
+    
+## 3.1.0 (2023-10-18)
+    
+### Features Added
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface ManagedHsmResource has a new optional parameter identity
+  - Added Enum KnownManagedServiceIdentityType
+    
+    
 ## 3.0.0 (2023-04-10)
     
-**Features**
+### Features Added
 
   - Added operation group ManagedHsmKeys
   - Added operation group MhsmRegions
@@ -97,7 +105,7 @@
   - Interface ManagedHsmsListByResourceGroupNextOptionalParams no longer has parameter top
   - Interface ManagedHsmsListBySubscriptionNextOptionalParams no longer has parameter top
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface MhsmPrivateEndpointConnectionsDeleteHeaders no longer has parameter retryAfter
     
@@ -110,4 +118,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

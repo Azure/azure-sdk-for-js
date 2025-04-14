@@ -14,8 +14,8 @@ import {
   ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ExtendedServerBlobAuditingPoliciesGetResponse,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+  ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExtendedServerBlobAuditingPolicies. */
@@ -30,7 +30,7 @@ export interface ExtendedServerBlobAuditingPolicies {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
   /**
    * Gets an extended server's blob auditing policy.
@@ -42,7 +42,7 @@ export interface ExtendedServerBlobAuditingPolicies {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesGetResponse>;
   /**
    * Creates or updates an extended server's blob auditing policy.
@@ -56,7 +56,7 @@ export interface ExtendedServerBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>,
@@ -75,6 +75,6 @@ export interface ExtendedServerBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>;
 }

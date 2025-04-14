@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated";
+export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated/index.js";
 
-import { ArtifactTagProperties } from "./generated";
+import type { ArtifactTagProperties } from "./generated/index.js";
 
 /**
  * Defines known cloud audiences for Azure Container Registry.

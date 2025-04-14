@@ -1,0 +1,18 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/openai"
+    ServiceDirectory: openai
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests-openai
+    MatrixFilters:
+      - TestType=^(?!sample).*
+      - DependencyVersion=^$
+    TimeoutInMinutes: "120"
+    EnvVars:
+      SUBSCRIPTION_ID: $(SUBSCRIPTION-ID)
+      RESOURCE_GROUP: $(RESOURCE-GROUP)
+      DEBUG: "azure:openai:info"

@@ -13,8 +13,8 @@ import {
   CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
-  CloudServicesUpdateDomainGetUpdateDomainResponse
-} from "../models";
+  CloudServicesUpdateDomainGetUpdateDomainResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CloudServicesUpdateDomain. */
@@ -28,7 +28,7 @@ export interface CloudServicesUpdateDomain {
   listUpdateDomains(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams
+    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   ): PagedAsyncIterableIterator<UpdateDomain>;
   /**
    * Updates the role instances in the specified update domain.
@@ -43,7 +43,7 @@ export interface CloudServicesUpdateDomain {
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the role instances in the specified update domain.
@@ -58,7 +58,7 @@ export interface CloudServicesUpdateDomain {
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified update domain of a cloud service. Use nextLink property in the response to get
@@ -74,6 +74,6 @@ export interface CloudServicesUpdateDomain {
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainGetUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
   ): Promise<CloudServicesUpdateDomainGetUpdateDomainResponse>;
 }

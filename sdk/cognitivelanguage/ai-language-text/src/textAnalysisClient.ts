@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeActionName,
   AnalyzeActionParameters,
   AnalyzeBatchAction,
@@ -11,22 +11,24 @@ import {
   RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   AnalyzeBatchActionUnion,
   GeneratedClientOptionalParams,
   LanguageDetectionInput,
   TextDocumentInput,
-} from "./generated/models";
-import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+} from "./generated/models/index.js";
+import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import {
   convertToLanguageDetectionInput,
   convertToTextDocumentInput,
   getOperationOptions,
   isStringArray,
-} from "./util";
+} from "./util.js";
 import {
   createAnalyzeBatchLro,
   createCreateAnalyzeBatchPollerLro,
@@ -34,13 +36,13 @@ import {
   createUpdateAnalyzeState,
   getDocIDsFromState,
   processAnalyzeResult,
-} from "./lro";
-import { throwError, transformActionResult } from "./transforms";
-import { GeneratedClient } from "./generated/generatedClient";
+} from "./lro.js";
+import { throwError, transformActionResult } from "./transforms.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createHttpPoller } from "@azure/core-lro";
-import { logger } from "./logger";
-import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { logger } from "./logger.js";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy.js";
 
 /**
  * A client for interacting with the text analysis features in Azure Cognitive
@@ -55,12 +57,11 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
  *
  * #### API Key
  *
- * ```js
- * import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+ * ```ts snippet:ReadmeSampleCreateClient_Key
+ * import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
- *
  * const client = new TextAnalysisClient(endpoint, credential);
  * ```
  *
@@ -69,13 +70,12 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
  * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
  * package for more information about authenticating with Azure Active Directory.
  *
- * ```js
- * import { TextAnalysisClient } from "@azure/ai-language-text";
+ * ```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { TextAnalysisClient } from "@azure/ai-language-text";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
  * const client = new TextAnalysisClient(endpoint, credential);
  * ```
  */
@@ -95,12 +95,11 @@ export class TextAnalysisClient {
    *
    * ### Example
    *
-   * ```js
-   * import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+   * ```ts snippet:ReadmeSampleCreateClient_Key
+   * import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new AzureKeyCredential("<api key>");
-   *
    * const client = new TextAnalysisClient(endpoint, credential);
    * ```
    *
@@ -122,13 +121,12 @@ export class TextAnalysisClient {
    * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
    * package for more information about authenticating with Azure Active Directory.
    *
-   * ```js
-   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * ```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new DefaultAzureCredential();
-   *
    * const client = new TextAnalysisClient(endpoint, credential);
    * ```
    *
@@ -139,12 +137,12 @@ export class TextAnalysisClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options?: TextAnalysisClientOptions
+    options?: TextAnalysisClientOptions,
   );
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
-    options: TextAnalysisClientOptions = {}
+    options: TextAnalysisClientOptions = {},
   ) {
     const {
       defaultCountryHint = "us",
@@ -187,29 +185,41 @@ export class TextAnalysisClient {
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Language detection
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const countryHint = "us";
-   * const results = await client.analyze("LanguageDetection", documents, countryHint);
+   * ```ts snippet:Sample_LanguageDetection
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { name, confidenceScore, iso6391Name } = result.primaryLanguage;
+   * const documents = [
+   *   "This document is written in English.",
+   *   "Este es un document escrito en Español.",
+   *   "这是一个用中文写的文件",
+   *   "Dies ist ein Dokument in deutsche Sprache.",
+   *   "Detta är ett dokument skrivet på engelska.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const result = await client.analyze("LanguageDetection", documents, "us", {
+   *   modelVersion: "2022-04-10-preview",
+   * });
+   *
+   * for (const doc of result) {
+   *   if (!doc.error) {
+   *     console.log(
+   *       `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
+   *     );
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
    * for more information on language detection.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -223,7 +233,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends "LanguageDetection">(
     actionName: ActionName,
     documents: LanguageDetectionInput[],
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   /**
    * Runs a predictive model to determine the language that the passed-in
@@ -232,28 +242,41 @@ export class TextAnalysisClient {
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Language detection
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const countryHint = "us";
-   * const results = await client.analyze("LanguageDetection", documents, countryHint);
+   * ```ts snippet:Sample_LanguageDetection
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { name, confidenceScore, iso6391Name } = result.primaryLanguage;
+   * const documents = [
+   *   "This document is written in English.",
+   *   "Este es un document escrito en Español.",
+   *   "这是一个用中文写的文件",
+   *   "Dies ist ein Dokument in deutsche Sprache.",
+   *   "Detta är ett dokument skrivet på engelska.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const result = await client.analyze("LanguageDetection", documents, "us", {
+   *   modelVersion: "2022-04-10-preview",
+   * });
+   *
+   * for (const doc of result) {
+   *   if (!doc.error) {
+   *     console.log(
+   *       `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
+   *     );
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/language-detection/overview}
    * for more information on language detection.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -275,7 +298,7 @@ export class TextAnalysisClient {
     actionName: ActionName,
     documents: string[],
     countryHint?: string,
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   /**
    * Runs a predictive model to perform the action of choice on the input
@@ -288,66 +311,80 @@ export class TextAnalysisClient {
    * in the text and the latter is the original text after all such Pii entities
    * have been redacted from it.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Opinion mining
    *
-   * ```js
-   * const documents = [{
-   *  id: "1",
-   *  text: "The food and service aren't the best",
-   *  language: "en"
-   * }];
-   * const results = await client.analyze("SentimentAnalysis", documents, {
-   *   includeOpinionMining: true,
-   * });
+   * ```ts snippet:Sample_SentimentAnalysis
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { sentiment, confidenceScores, sentences } = result;
-   *     for (const { sentiment, confidenceScores, opinions } of sentences) {
-   *       for (const { target, assessments } of opinions) {
-   *         const { text, sentiment, confidenceScores } = target;
-   *         for (const { text, sentiment } of assessments) {
-   *           // Do something
-   *         }
-   *       }
+   * const documents = [
+   *   "I had the best day of my life.",
+   *   "This was a waste of my time. The speaker put me to sleep.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const results = await client.analyze("SentimentAnalysis", documents);
+   *
+   * for (let i = 0; i < results.length; i++) {
+   *   const result = results[i];
+   *   console.log(`- Document ${result.id}`);
+   *   if (!result.error) {
+   *     console.log(`\tDocument text: ${documents[i]}`);
+   *     console.log(`\tOverall Sentiment: ${result.sentiment}`);
+   *     console.log("\tSentiment confidence scores: ", result.confidenceScores);
+   *     console.log("\tSentences");
+   *     for (const { sentiment, confidenceScores, text } of result.sentences) {
+   *       console.log(`\t- Sentence text: ${text}`);
+   *       console.log(`\t  Sentence sentiment: ${sentiment}`);
+   *       console.log("\t  Confidence scores:", confidenceScores);
    *     }
+   *   } else {
+   *     console.error(`  Error: ${result.error}`);
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
    * for more information on opinion mining.
    *
    * #### Personally identifiable information
    *
-   * ```js
-   * const documents = [<input documents>];
-   * const categoriesFilter = [KnownPiiCategory.USSocialSecurityNumber];
-   * const domainFilter = KnownPiiDomain.Phi;
-   * const results = await client.analyze("PiiEntityRecognition", documents, {
-   *   domainFilter, categoriesFilter
+   * ```ts snippet:Sample_PIIEntityRecognition
+   * import {
+   *   TextAnalysisClient,
+   *   KnownPiiEntityDomain,
+   *   KnownPiiEntityCategory,
+   * } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const documents = ["My phone number is 555-5555"];
+   *
+   * const [result] = await client.analyze("PiiEntityRecognition", documents, "en", {
+   *   domainFilter: KnownPiiEntityDomain.Phi,
+   *   categoriesFilter: [
+   *     KnownPiiEntityCategory.PhoneNumber,
+   *     KnownPiiEntityCategory.USSocialSecurityNumber,
+   *   ],
    * });
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { entities, redactedText } = result;
-   *     for (const { text, category, confidenceScore, length, offset } of entities) {
-   *       // Do something
-   *     }
+   * if (!result.error) {
+   *   console.log(`Redacted text: "${result.redactedText}"`);
+   *   console.log("Pii Entities: ");
+   *   for (const entity of result.entities) {
+   *     console.log(`\t- "${entity.text}" of type ${entity.category}`);
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
    * for more information on personally identifiable information.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -360,7 +397,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
     actionName: ActionName,
     documents: TextDocumentInput[],
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
 
   /**
@@ -374,63 +411,80 @@ export class TextAnalysisClient {
    * in the text and the latter is the original text after all such Pii entities
    * have been redacted from it.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Opinion mining
    *
-   * ```js
-   * const documents = ["The food and service aren't the best"];
-   * const results = await client.analyze("SentimentAnalysis", documents, {
-   *   includeOpinionMining: true,
-   * });
+   * ```ts snippet:Sample_SentimentAnalysis
+   * import { TextAnalysisClient } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { sentiment, confidenceScores, sentences } = result;
-   *     for (const { sentiment, confidenceScores, opinions } of sentences) {
-   *       for (const { target, assessments } of opinions) {
-   *         const { text, sentiment, confidenceScores } = target;
-   *         for (const { text, sentiment } of assessments) {
-   *           // Do something
-   *         }
-   *       }
+   * const documents = [
+   *   "I had the best day of my life.",
+   *   "This was a waste of my time. The speaker put me to sleep.",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const results = await client.analyze("SentimentAnalysis", documents);
+   *
+   * for (let i = 0; i < results.length; i++) {
+   *   const result = results[i];
+   *   console.log(`- Document ${result.id}`);
+   *   if (!result.error) {
+   *     console.log(`\tDocument text: ${documents[i]}`);
+   *     console.log(`\tOverall Sentiment: ${result.sentiment}`);
+   *     console.log("\tSentiment confidence scores: ", result.confidenceScores);
+   *     console.log("\tSentences");
+   *     for (const { sentiment, confidenceScores, text } of result.sentences) {
+   *       console.log(`\t- Sentence text: ${text}`);
+   *       console.log(`\t  Sentence sentiment: ${sentiment}`);
+   *       console.log("\t  Confidence scores:", confidenceScores);
    *     }
+   *   } else {
+   *     console.error(`  Error: ${result.error}`);
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
    * for more information on opinion mining.
    *
    * #### Personally identifiable information
    *
-   * ```js
-   * const documents = [<input strings>];
-   * const languageCode = "en";
-   * const categoriesFilter = [KnownPiiCategory.USSocialSecurityNumber];
-   * const domainFilter = KnownPiiDomain.Phi;
-   * const results = await client.analyze("PiiEntityRecognition", documents, languageCode, {
-   *   domainFilter, categoriesFilter
+   * ```ts snippet:Sample_PIIEntityRecognition
+   * import {
+   *   TextAnalysisClient,
+   *   KnownPiiEntityDomain,
+   *   KnownPiiEntityCategory,
+   * } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const documents = ["My phone number is 555-5555"];
+   *
+   * const [result] = await client.analyze("PiiEntityRecognition", documents, "en", {
+   *   domainFilter: KnownPiiEntityDomain.Phi,
+   *   categoriesFilter: [
+   *     KnownPiiEntityCategory.PhoneNumber,
+   *     KnownPiiEntityCategory.USSocialSecurityNumber,
+   *   ],
    * });
    *
-   * for (const result of results) {
-   *   if (result.error) {
-   *     // a document has an error instead of results
-   *   } else {
-   *     const { entities, redactedText } = result;
-   *     for (const { text, category, confidenceScore, length, offset } of entities) {
-   *       // Do something
-   *     }
+   * if (!result.error) {
+   *   console.log(`Redacted text: "${result.redactedText}"`);
+   *   console.log("Pii Entities: ");
+   *   for (const entity of result.entities) {
+   *     console.log(`\t- "${entity.text}" of type ${entity.category}`);
    *   }
    * }
    * ```
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
    * for more information on personally identifiable information.
    *
    * @param actionName - the name of the action to be performed on the input
@@ -442,7 +496,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    found in {@link https://learn.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
    *    the input text.
    * @param options - optional action parameters and settings for the operation
@@ -453,7 +507,7 @@ export class TextAnalysisClient {
     actionName: ActionName,
     documents: string[],
     languageCode?: string,
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   // implementation
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
@@ -462,7 +516,7 @@ export class TextAnalysisClient {
     languageOrCountryHintOrOptions?:
       | string
       | (AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions),
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>> {
     let realOptions: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions;
 
@@ -477,14 +531,14 @@ export class TextAnalysisClient {
           documents,
           typeof languageOrCountryHintOrOptions === "string"
             ? languageOrCountryHintOrOptions
-            : this.defaultCountryHint
+            : this.defaultCountryHint,
         );
       } else {
         realInputs = convertToTextDocumentInput(
           documents,
           typeof languageOrCountryHintOrOptions === "string"
             ? languageOrCountryHintOrOptions
-            : this.defaultLanguage
+            : this.defaultLanguage,
         );
       }
       realOptions = options || ({} as any);
@@ -509,17 +563,17 @@ export class TextAnalysisClient {
                 },
                 parameters: action,
               } as any,
-              updatedOptions
+              updatedOptions,
             )
             .then(
               (result) =>
                 transformActionResult(
                   actionName,
                   realInputs.map(({ id }) => id),
-                  result
-                ) as AnalyzeResult<ActionName>
-            )
-        )
+                  result,
+                ) as AnalyzeResult<ActionName>,
+            ),
+        ),
     );
   }
 
@@ -532,38 +586,107 @@ export class TextAnalysisClient {
    * The results array contains the results for those input actions where each
    * item also has a `kind` field that specifies the type of the results.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Key phrase extraction and Pii entity recognition
    *
-   * ```js
-   * const poller = await client.beginAnalyzeBatch(
-   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
-   *  documents
-   * );
+   * ```ts snippet:Sample_ActionBatching
+   * import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const documents = [
+   *   "Microsoft was founded by Bill Gates and Paul Allen.",
+   *   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
+   *   "I need to take my cat to the veterinarian.",
+   *   "The employee's SSN is 555-55-5555.",
+   *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const actions: AnalyzeBatchAction[] = [
+   *   {
+   *     kind: "EntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "PiiEntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "KeyPhraseExtraction",
+   *     modelVersion: "latest",
+   *   },
+   * ];
+   * const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+   *
+   * poller.onProgress(() => {
+   *   console.log(
+   *     `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+   *   );
+   * });
+   *
+   * console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
+   *
+   * console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
+   *
    * const actionResults = await poller.pollUntilDone();
    *
    * for await (const actionResult of actionResults) {
-   *  if (actionResult.error) {
-   *    throw new Error(`Unexpected error`);
-   *  }
-   *  switch (actionResult.kind) {
-   *    case "KeyPhraseExtraction": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *    case "PiiEntityRecognition": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *  }
+   *   if (actionResult.error) {
+   *     const { code, message } = actionResult.error;
+   *     throw new Error(`Unexpected error (${code}): ${message}`);
+   *   }
+   *   switch (actionResult.kind) {
+   *     case "KeyPhraseExtraction": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tKey phrases:");
+   *           for (const phrase of doc.keyPhrases) {
+   *             console.log(`\t- ${phrase}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "EntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tEntities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "PiiEntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tPii Entities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     default: {
+   *       throw new Error(`Unexpected action results: ${actionResult.kind}`);
+   *     }
+   *   }
    * }
    * ```
    *
@@ -575,7 +698,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
+   *    found in {@link https://learn.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
    *    the input text.
    * @param options - optional settings for the operation
@@ -586,7 +709,7 @@ export class TextAnalysisClient {
     actions: AnalyzeBatchAction[],
     documents: string[],
     languageCode?: string,
-    options?: BeginAnalyzeBatchOptions
+    options?: BeginAnalyzeBatchOptions,
   ): Promise<AnalyzeBatchPoller>;
   /**
    * Performs an array (batch) of actions on the input documents. Each action has
@@ -597,38 +720,107 @@ export class TextAnalysisClient {
    * The results array contains the results for those input actions where each
    * item also has a `kind` field that specifies the type of the results.
    *
-   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * See {@link https://learn.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
    *
    * ### Examples
    *
    * #### Keyphrase extraction and Pii entity recognition
    *
-   * ```js
-   * const poller = await client.beginAnalyzeBatch(
-   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
-   *  documents
-   * );
+   * ```ts snippet:Sample_ActionBatching
+   * import { TextAnalysisClient, AnalyzeBatchAction } from "@azure/ai-language-text";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const documents = [
+   *   "Microsoft was founded by Bill Gates and Paul Allen.",
+   *   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
+   *   "I need to take my cat to the veterinarian.",
+   *   "The employee's SSN is 555-55-5555.",
+   *   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!",
+   * ];
+   *
+   * const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+   *
+   * const actions: AnalyzeBatchAction[] = [
+   *   {
+   *     kind: "EntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "PiiEntityRecognition",
+   *     modelVersion: "latest",
+   *   },
+   *   {
+   *     kind: "KeyPhraseExtraction",
+   *     modelVersion: "latest",
+   *   },
+   * ];
+   * const poller = await client.beginAnalyzeBatch(actions, documents, "en");
+   *
+   * poller.onProgress(() => {
+   *   console.log(
+   *     `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+   *   );
+   * });
+   *
+   * console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
+   *
+   * console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
+   *
    * const actionResults = await poller.pollUntilDone();
    *
    * for await (const actionResult of actionResults) {
-   *  if (actionResult.error) {
-   *    throw new Error(`Unexpected error`);
-   *  }
-   *  switch (actionResult.kind) {
-   *    case "KeyPhraseExtraction": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *    case "PiiEntityRecognition": {
-   *      for (const doc of actionResult.results) {
-   *        // do something
-   *      }
-   *      break;
-   *    }
-   *  }
+   *   if (actionResult.error) {
+   *     const { code, message } = actionResult.error;
+   *     throw new Error(`Unexpected error (${code}): ${message}`);
+   *   }
+   *   switch (actionResult.kind) {
+   *     case "KeyPhraseExtraction": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tKey phrases:");
+   *           for (const phrase of doc.keyPhrases) {
+   *             console.log(`\t- ${phrase}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "EntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tEntities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     case "PiiEntityRecognition": {
+   *       for (const doc of actionResult.results) {
+   *         console.log(`- Document ${doc.id}`);
+   *         if (!doc.error) {
+   *           console.log("\tPii Entities:");
+   *           for (const entity of doc.entities) {
+   *             console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+   *           }
+   *         } else {
+   *           console.error("\tError:", doc.error);
+   *         }
+   *       }
+   *       break;
+   *     }
+   *     default: {
+   *       throw new Error(`Unexpected action results: ${actionResult.kind}`);
+   *     }
+   *   }
    * }
    * ```
    *
@@ -641,14 +833,14 @@ export class TextAnalysisClient {
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeBatchOptions
+    options?: BeginAnalyzeBatchOptions,
   ): Promise<AnalyzeBatchPoller>;
   // implementation
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[] | string[],
     languageOrOptions?: BeginAnalyzeBatchOptions | string,
-    options: BeginAnalyzeBatchOptions = {}
+    options: BeginAnalyzeBatchOptions = {},
   ): Promise<AnalyzeBatchPoller> {
     let realOptions: BeginAnalyzeBatchOptions;
     let realInputs: TextDocumentInput[];
@@ -670,7 +862,7 @@ export class TextAnalysisClient {
         kind,
         actionName,
         parameters: rest,
-      })
+      }),
     );
     const { includeStatistics, updateIntervalInMs, displayName, ...rest } = realOptions;
     const lro = createAnalyzeBatchLro({
@@ -722,25 +914,15 @@ export class TextAnalysisClient {
    *                          result of `poller.toString()`
    * @param options - optional settings for the operation
    *
-   * # Example
-   *
-   * `client.beginAnalyzeBatch` returns a promise that will resolve to a poller.
-   * The state of the poller can be serialized and used to create another as follows:
-   *
-   * ```js
-   * const serializedState = poller.toString();
-   * const rehydratedPoller = await client.createAnalyzeBatchPoller(serializedState);
-   * const actionResults = await rehydratedPoller.pollUntilDone();
-   * ```
    */
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options?: RestoreAnalyzeBatchPollerOptions
+    options?: RestoreAnalyzeBatchPollerOptions,
   ): Promise<AnalyzeBatchPoller>;
   // implementation
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options: RestoreAnalyzeBatchPollerOptions = {}
+    options: RestoreAnalyzeBatchPollerOptions = {},
   ): Promise<AnalyzeBatchPoller> {
     const { includeStatistics, updateIntervalInMs, ...rest } = options;
     const docIds = getDocIDsFromState(serializedState);

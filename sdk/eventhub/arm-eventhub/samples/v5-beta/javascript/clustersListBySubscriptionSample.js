@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the available Event Hubs Clusters within an ARM resource group
  *
  * @summary Lists the available Event Hubs Clusters within an ARM resource group
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClustersListBySubscription.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClustersListBySubscription.json
  */
 async function clustersListBySubscription() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function clustersListBySubscription() {
 }
 
 async function main() {
-  clustersListBySubscription();
+  await clustersListBySubscription();
 }
 
 main().catch(console.error);

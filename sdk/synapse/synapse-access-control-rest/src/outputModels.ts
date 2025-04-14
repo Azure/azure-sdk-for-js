@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+/** Check access response details */
 export interface CheckPrincipalAccessResponseOutput {
   /** To check if the current user, group, or service principal has permission to read artifacts in the specified workspace. */
   AccessDecisions?: Array<CheckAccessDecisionOutput>;
 }
 
+/** Check access response details */
 export interface CheckAccessDecisionOutput {
   /** Access Decision. */
   accessDecision?: string;
@@ -15,6 +17,7 @@ export interface CheckAccessDecisionOutput {
   roleAssignment?: RoleAssignmentDetailsOutput;
 }
 
+/** Role Assignment response details */
 export interface RoleAssignmentDetailsOutput {
   /** Role Assignment ID */
   id?: string;
@@ -36,31 +39,35 @@ export interface RoleAssignmentDetailsOutput {
   principalType?: string;
 }
 
+/** Contains details when the response code indicates an error. */
 export interface ErrorContractOutput {
   /** The error details. */
   error?: ErrorResponseOutput;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
 export interface ErrorResponseOutput {
   /** The error code. */
-  code?: string;
+  readonly code?: string;
   /** The error message. */
-  message?: string;
+  readonly message?: string;
   /** The error target. */
-  target?: string;
+  readonly target?: string;
   /** The error details. */
-  details?: Array<ErrorResponseOutput>;
+  readonly details?: Array<ErrorResponseOutput>;
   /** The error additional info. */
-  additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+  readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
 }
 
+/** The resource management error additional info. */
 export interface ErrorAdditionalInfoOutput {
   /** The additional info type. */
-  type?: string;
+  readonly type?: string;
   /** The additional info. */
-  info?: Record<string, unknown>;
+  readonly info?: Record<string, unknown>;
 }
 
+/** Role Assignment response details */
 export interface RoleAssignmentDetailsListOutput {
   /** Number of role assignments */
   count?: number;
@@ -68,6 +75,7 @@ export interface RoleAssignmentDetailsListOutput {
   value?: Array<RoleAssignmentDetailsOutput>;
 }
 
+/** Synapse role definition details */
 export interface SynapseRoleDefinitionOutput {
   /**
    * Role Definition ID
@@ -89,6 +97,7 @@ export interface SynapseRoleDefinitionOutput {
   availabilityStatus?: string;
 }
 
+/** Synapse role definition details */
 export interface SynapseRbacPermissionOutput {
   /** List of actions */
   actions?: Array<string>;

@@ -14,8 +14,10 @@ import {
   CallRecordingGetRecordingPropertiesResponse,
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
-  CallRecordingResumeRecordingOptionalParams
-} from "../models";
+  CallRecordingResumeRecordingOptionalParams,
+  CallRecordingGetRecordingResultOptionalParams,
+  CallRecordingGetRecordingResultResponse,
+} from "../models/index.js";
 
 /** Interface representing a CallRecording. */
 export interface CallRecording {
@@ -26,7 +28,7 @@ export interface CallRecording {
    */
   startRecording(
     startCallRecording: StartCallRecordingRequest,
-    options?: CallRecordingStartRecordingOptionalParams
+    options?: CallRecordingStartRecordingOptionalParams,
   ): Promise<CallRecordingStartRecordingResponse>;
   /**
    * Get call recording properties.
@@ -35,7 +37,7 @@ export interface CallRecording {
    */
   getRecordingProperties(
     recordingId: string,
-    options?: CallRecordingGetRecordingPropertiesOptionalParams
+    options?: CallRecordingGetRecordingPropertiesOptionalParams,
   ): Promise<CallRecordingGetRecordingPropertiesResponse>;
   /**
    * Stop recording the call.
@@ -44,7 +46,7 @@ export interface CallRecording {
    */
   stopRecording(
     recordingId: string,
-    options?: CallRecordingStopRecordingOptionalParams
+    options?: CallRecordingStopRecordingOptionalParams,
   ): Promise<void>;
   /**
    * Pause recording the call.
@@ -53,7 +55,7 @@ export interface CallRecording {
    */
   pauseRecording(
     recordingId: string,
-    options?: CallRecordingPauseRecordingOptionalParams
+    options?: CallRecordingPauseRecordingOptionalParams,
   ): Promise<void>;
   /**
    * Resume recording the call.
@@ -62,6 +64,15 @@ export interface CallRecording {
    */
   resumeRecording(
     recordingId: string,
-    options?: CallRecordingResumeRecordingOptionalParams
+    options?: CallRecordingResumeRecordingOptionalParams,
   ): Promise<void>;
+  /**
+   * Get recording result. This includes the download URLs for the recording chunks.
+   * @param recordingId The recording id.
+   * @param options The options parameters.
+   */
+  getRecordingResult(
+    recordingId: string,
+    options?: CallRecordingGetRecordingResultOptionalParams,
+  ): Promise<CallRecordingGetRecordingResultResponse>;
 }

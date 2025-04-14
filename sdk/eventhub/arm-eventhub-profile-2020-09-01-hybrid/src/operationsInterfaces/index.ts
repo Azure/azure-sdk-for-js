@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./namespaces";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./disasterRecoveryConfigs";
-export * from "./eventHubs";
-export * from "./consumerGroups";
-export * from "./operations";
-export * from "./regions";
+export * from "./clusters.js";
+export * from "./namespaces.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./disasterRecoveryConfigs.js";
+export * from "./eventHubs.js";
+export * from "./consumerGroups.js";
+export * from "./operations.js";
+export * from "./regions.js";

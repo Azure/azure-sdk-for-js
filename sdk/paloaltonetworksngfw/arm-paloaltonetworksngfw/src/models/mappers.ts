@@ -1443,6 +1443,17 @@ export const NetworkProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      trustedRanges: {
+        serializedName: "trustedRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -2272,6 +2283,57 @@ export const SupportInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallStatusResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallStatusResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FirewallStatusResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PanoramaStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PanoramaStatus",
+    modelProperties: {
+      panoramaServerStatus: {
+        serializedName: "panoramaServerStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      panoramaServer2Status: {
+        serializedName: "panoramaServer2Status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const LocalRulestackResourceUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3031,6 +3093,51 @@ export const PreRulesResource: coreClient.CompositeMapper = {
               className: "TagInfo"
             }
           }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FirewallStatusResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallStatusResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      isPanoramaManaged: {
+        serializedName: "properties.isPanoramaManaged",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      healthStatus: {
+        serializedName: "properties.healthStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      healthReason: {
+        serializedName: "properties.healthReason",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      panoramaStatus: {
+        serializedName: "properties.panoramaStatus",
+        type: {
+          name: "Composite",
+          className: "PanoramaStatus"
         }
       },
       provisioningState: {

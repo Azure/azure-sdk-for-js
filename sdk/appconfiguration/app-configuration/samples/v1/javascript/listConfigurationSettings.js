@@ -5,39 +5,46 @@
  * @summary Demonstrates listing multiple configuration settings using a filter for a key or label.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log(`Running listConfigurationSettings sample`);
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   await client.setConfigurationSetting({
     key: "sample key",
     value: "sample value",
-    label: "production"
+    label: "production",
   });
 
   await client.setConfigurationSetting({
     key: "sample key",
     value: "sample value",
-    label: "developmentA"
+    label: "developmentA",
+    tags: {
+      production: "prodA",
+    },
   });
 
   await client.setConfigurationSetting({
     key: "key only for development",
     value: "value",
-    label: "developmentB"
+    label: "developmentB",
+    tags: {
+      production: "prodB",
+    },
   });
 
   // ex: using a keyFilter
   const sampleKeys = client.listConfigurationSettings({
-    keyFilter: "sample*"
+    keyFilter: "sample*",
   });
 
   console.log(`Settings matching keyFilter 'sample*'`);
@@ -48,13 +55,24 @@ async function main() {
 
   // ex: using a labelFilter
   const samplesWithDevelopmentLabel = client.listConfigurationSettings({
-    labelFilter: "development*"
+    labelFilter: "development*",
   });
 
   console.log(`Settings matching labelFilter 'development*'`);
 
   for await (const setting of samplesWithDevelopmentLabel) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
+  }
+
+  // ex: using a tagFilter
+  const samplesWithProdTag = client.listConfigurationSettings({
+    tagsFilter: ["production=prodB"],
+  });
+
+  console.log(`Settings matching tagsFilter 'prodB'`);
+
+  for await (const setting of samplesWithProdTag) {
+    console.log(`  Found key: ${setting.key}, label: ${setting.label}, tags: ${setting.tags}`);
   }
 
   ////////////////////////////////////////////////////////
@@ -73,7 +91,7 @@ async function main() {
   let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage({
-    continuationToken: marker
+    continuationToken: marker,
   });
   response = await iterator.next();
   if (response.done) {
@@ -91,3 +109,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

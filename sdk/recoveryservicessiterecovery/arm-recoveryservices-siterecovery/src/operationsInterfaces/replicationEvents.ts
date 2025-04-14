@@ -11,8 +11,8 @@ import {
   Event,
   ReplicationEventsListOptionalParams,
   ReplicationEventsGetOptionalParams,
-  ReplicationEventsGetResponse
-} from "../models";
+  ReplicationEventsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationEvents. */
@@ -27,7 +27,7 @@ export interface ReplicationEvents {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationEventsListOptionalParams
+    options?: ReplicationEventsListOptionalParams,
   ): PagedAsyncIterableIterator<Event>;
   /**
    * The operation to get the details of an Azure Site recovery event.
@@ -41,6 +41,6 @@ export interface ReplicationEvents {
     resourceName: string,
     resourceGroupName: string,
     eventName: string,
-    options?: ReplicationEventsGetOptionalParams
+    options?: ReplicationEventsGetOptionalParams,
   ): Promise<ReplicationEventsGetResponse>;
 }

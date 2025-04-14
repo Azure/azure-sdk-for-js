@@ -15,7 +15,7 @@ import {
   SapMonitor as SapMonitorMapper,
   Tags as TagsMapper,
   ProviderInstance as ProviderInstanceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

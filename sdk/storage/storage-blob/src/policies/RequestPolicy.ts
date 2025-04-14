@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyOptionsLike,
@@ -24,7 +24,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
     /**
      * The options that can be passed to a given request policy.
      */
-    readonly _options: RequestPolicyOptionsLike
+    readonly _options: RequestPolicyOptionsLike,
   ) {}
 
   /**

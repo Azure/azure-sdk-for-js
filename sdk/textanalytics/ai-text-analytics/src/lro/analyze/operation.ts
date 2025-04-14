@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
-import {
+import type {
   AnalyzeStatusOptionalParams as AnalyzeActionsOperationStatusOptions,
   AnalyzeJobState,
   AnalyzeResponse as BeginAnalyzeResponse,
   JobManifestTasks as GeneratedActions,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "../../generated/models";
-import {
+} from "../../generated/models/index.js";
+import type {
   AnalyzeActionsResult,
   PagedAnalyzeActionsResult,
   PagedAsyncIterableAnalyzeActionsResult,
-  createAnalyzeActionsResult,
-} from "../../analyzeActionsResult";
-import { PageSettings } from "@azure/core-paging";
-import { getOperationId, nextLinkToTopAndSkip, throwError } from "../../util";
-import { AnalysisPollOperation, AnalysisPollOperationState, OperationMetadata } from "../poller";
-import { GeneratedClient as Client } from "../../generated";
-import { logger } from "../../logger";
-import { TracingClient } from "@azure/core-tracing";
+} from "../../analyzeActionsResult.js";
+import { createAnalyzeActionsResult } from "../../analyzeActionsResult.js";
+import type { PageSettings } from "@azure/core-paging";
+import { getOperationId, nextLinkToTopAndSkip, throwError } from "../../util.js";
+import type { AnalysisPollOperationState, OperationMetadata } from "../poller.js";
+import { AnalysisPollOperation } from "../poller.js";
+import type { GeneratedClient as Client } from "../../generated/index.js";
+import { logger } from "../../logger.js";
+import type { TracingClient } from "@azure/core-tracing";
 
 /**
  * @internal
@@ -111,7 +112,7 @@ export interface AnalyzeActionsOperationState
  * @internal
  */
 function getMetaInfoFromResponse(
-  response: AnalyzeJobState
+  response: AnalyzeJobState,
 ): Omit<AnalyzeActionsOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
@@ -141,7 +142,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
     private tracing: TracingClient,
     private documents: TextDocumentInput[],
     private actions: GeneratedActions,
-    private options: BeginAnalyzeActionsOptions = {}
+    private options: BeginAnalyzeActionsOptions = {},
   ) {
     super(state);
   }
@@ -153,7 +154,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
    */
   private listAnalyzeActionsResults(
     operationId: string,
-    options: AnalyzeActionsOperationStatusOptions = {}
+    options: AnalyzeActionsOperationStatusOptions = {},
   ): PagedAsyncIterableAnalyzeActionsResult {
     const iter = this._listAnalyzeActionsResultsPaged(operationId, options);
     return {
@@ -175,7 +176,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
    */
   private async *_listAnalyzeActionsResultsPaged(
     operationId: string,
-    options?: AnalyzeActionsOperationStatusOptions
+    options?: AnalyzeActionsOperationStatusOptions,
   ): AsyncIterableIterator<AnalyzeActionsResult> {
     let response = await this._listAnalyzeActionsResultsSinglePage(operationId, options);
     yield response.result;
@@ -187,7 +188,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
       };
       response = await this._listAnalyzeActionsResultsSinglePage(
         operationId,
-        optionsWithContinuation
+        optionsWithContinuation,
       );
       yield response.result;
     }
@@ -198,12 +199,12 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
    */
   private async _listAnalyzeActionsResultsSinglePage(
     operationId: string,
-    options?: AnalyzeActionsOperationStatusOptions
+    options?: AnalyzeActionsOperationStatusOptions,
   ): Promise<AnalyzeResultsWithPagination> {
     const response = await this.tracing.withSpan(
       "TextAnalyticsClient-_listAnalyzeActionsResultsSinglePage",
       options || {},
-      (finalOptions) => this.client.analyzeStatus(operationId, finalOptions)
+      (finalOptions) => this.client.analyzeStatus(operationId, finalOptions),
     );
     const result = createAnalyzeActionsResult(response, this.documents);
     return response.nextLink ? { result, ...nextLinkToTopAndSkip(response.nextLink) } : { result };
@@ -215,12 +216,12 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
    */
   private async getAnalyzeActionsOperationStatus(
     operationId: string,
-    options?: AnalyzeActionsOperationStatusOptions
+    options?: AnalyzeActionsOperationStatusOptions,
   ): Promise<AnalyzeActionsOperationStatus> {
     const response = await this.tracing.withSpan(
       "TextAnalyticsClient-getAnalyzeActionsOperationStatus",
       options || {},
-      (finalOptions) => this.client.analyzeStatus(operationId, finalOptions)
+      (finalOptions) => this.client.analyzeStatus(operationId, finalOptions),
     );
     switch (response.status) {
       case "notStarted":
@@ -240,7 +241,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   private async beginAnalyzeActions(
     documents: TextDocumentInput[],
     actions: GeneratedActions,
-    options?: BeginAnalyzeInternalOptions
+    options?: BeginAnalyzeInternalOptions,
   ): Promise<BeginAnalyzeResponse> {
     return this.tracing.withSpan(
       "TextAnalyticsClient-beginAnalyze",
@@ -254,8 +255,8 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
               displayName: options?.displayName,
             },
             ...finalOptions,
-          })
-        )
+          }),
+        ),
     );
   }
 
@@ -263,7 +264,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: AnalyzeActionsOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<BeginAnalyzeActionsPollerOperation> {
     const state = this.state;
     const updatedAbortSignal = options.abortSignal;
@@ -277,7 +278,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
       });
       if (!response.operationLocation) {
         throw new Error(
-          "Expects a valid 'operationLocation' to retrieve analyze results but did not find any"
+          "Expects a valid 'operationLocation' to retrieve analyze results but did not find any",
         );
       }
       state.operationId = getOperationId(response.operationLocation);

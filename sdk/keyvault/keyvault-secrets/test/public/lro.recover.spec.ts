@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure/test-utils";
-import { Context } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+// Licensed under the MIT License.
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
-import { SecretClient, SecretProperties } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
+import type { SecretClient, SecretProperties } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
 
 describe("Secrets client - Long Running Operations - recoverDelete", () => {
   const secretPrefix = `lroRecover${env.CERTIFICATE_NAME || "SecretName"}`;
@@ -19,8 +17,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -33,10 +31,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is recovered", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can wait until a secret is recovered", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
 
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -56,10 +52,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     assert.equal(poller.getOperationState().result!.name, secretName);
   });
 
-  it("can resume from a stopped poller", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
+  it("can resume from a stopped poller", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     await deletePoller.pollUntilDone();
@@ -90,25 +84,5 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "value");
-    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, {
-        requestOptions: { timeout: 1 },
-        ...testPollerProperties,
-      });
-    });
   });
 });

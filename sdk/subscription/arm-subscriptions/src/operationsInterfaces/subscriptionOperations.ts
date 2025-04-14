@@ -20,7 +20,7 @@ import {
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
   SubscriptionAcceptOwnershipStatusResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SubscriptionOperations. */
 export interface SubscriptionOperations {

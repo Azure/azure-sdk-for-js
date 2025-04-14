@@ -15,7 +15,7 @@ import {
   RegisteredAsnsCreateOrUpdateOptionalParams,
   RegisteredAsnsCreateOrUpdateResponse,
   RegisteredAsnsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegisteredAsns. */

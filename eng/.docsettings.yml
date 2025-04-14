@@ -23,6 +23,7 @@ omitted_paths:
   - sdk/storage/storage-datalake/README.md
   - sdk/storage/storage-internal-avro/*
   - sdk/test-utils/*/README.md
+  - sdk/identity/identity/integration/*
 
 language: js
 root_check_enabled: True

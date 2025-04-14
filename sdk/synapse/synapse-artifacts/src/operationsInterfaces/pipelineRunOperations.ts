@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   RunFilterParameters,
   PipelineRunQueryPipelineRunsByWorkspaceOptionalParams,
   PipelineRunQueryPipelineRunsByWorkspaceResponse,
@@ -14,49 +14,49 @@ import {
   PipelineRunGetPipelineRunResponse,
   PipelineRunQueryActivityRunsOptionalParams,
   PipelineRunQueryActivityRunsResponse,
-  PipelineRunCancelPipelineRunOptionalParams
-} from "../models";
+  PipelineRunCancelPipelineRunOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a PipelineRunOperations. */
 export interface PipelineRunOperations {
   /**
    * Query pipeline runs in the workspace based on input filter conditions.
-   * @param filterParameters Parameters to filter the pipeline run.
-   * @param options The options parameters.
+   * @param filterParameters - Parameters to filter the pipeline run.
+   * @param options - The options parameters.
    */
   queryPipelineRunsByWorkspace(
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
+    options?: PipelineRunQueryPipelineRunsByWorkspaceOptionalParams,
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
   /**
    * Get a pipeline run by its run ID.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   getPipelineRun(
     runId: string,
-    options?: PipelineRunGetPipelineRunOptionalParams
+    options?: PipelineRunGetPipelineRunOptionalParams,
   ): Promise<PipelineRunGetPipelineRunResponse>;
   /**
    * Query activity runs based on input filter conditions.
-   * @param pipelineName The pipeline name.
-   * @param runId The pipeline run identifier.
-   * @param filterParameters Parameters to filter the activity runs.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param runId - The pipeline run identifier.
+   * @param filterParameters - Parameters to filter the activity runs.
+   * @param options - The options parameters.
    */
   queryActivityRuns(
     pipelineName: string,
     runId: string,
     filterParameters: RunFilterParameters,
-    options?: PipelineRunQueryActivityRunsOptionalParams
+    options?: PipelineRunQueryActivityRunsOptionalParams,
   ): Promise<PipelineRunQueryActivityRunsResponse>;
   /**
    * Cancel a pipeline run by its run ID.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   cancelPipelineRun(
     runId: string,
-    options?: PipelineRunCancelPipelineRunOptionalParams
+    options?: PipelineRunCancelPipelineRunOptionalParams,
   ): Promise<void>;
 }

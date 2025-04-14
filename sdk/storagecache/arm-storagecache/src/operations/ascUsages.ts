@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AscUsages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AscUsages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageCacheManagementClient } from "../storageCacheManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageCacheManagementClient } from "../storageCacheManagementClient.js";
 import {
   ResourceUsage,
   AscUsagesListNextOptionalParams,
   AscUsagesListOptionalParams,
   AscUsagesListResponse,
-  AscUsagesListNextResponse
-} from "../models";
+  AscUsagesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AscUsages operations. */
@@ -41,7 +41,7 @@ export class AscUsagesImpl implements AscUsages {
    */
   public list(
     location: string,
-    options?: AscUsagesListOptionalParams
+    options?: AscUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class AscUsagesImpl implements AscUsages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: AscUsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceUsage[]> {
     let result: AscUsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class AscUsagesImpl implements AscUsages {
 
   private async *listPagingAll(
     location: string,
-    options?: AscUsagesListOptionalParams
+    options?: AscUsagesListOptionalParams,
   ): AsyncIterableIterator<ResourceUsage> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class AscUsagesImpl implements AscUsages {
    */
   private _list(
     location: string,
-    options?: AscUsagesListOptionalParams
+    options?: AscUsagesListOptionalParams,
   ): Promise<AscUsagesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class AscUsagesImpl implements AscUsages {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: AscUsagesListNextOptionalParams
+    options?: AscUsagesListNextOptionalParams,
   ): Promise<AscUsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class AscUsagesImpl implements AscUsages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsagesListResult
+      bodyMapper: Mappers.ResourceUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsagesListResult
+      bodyMapper: Mappers.ResourceUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.nextLink,
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

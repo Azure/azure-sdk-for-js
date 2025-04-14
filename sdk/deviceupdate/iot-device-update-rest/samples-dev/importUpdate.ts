@@ -9,19 +9,16 @@
  */
 
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
-import { readFileSync, statSync } from "fs";
-
+import { readFileSync, statSync } from "node:fs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { computeSha256Hash } from "@azure/core-util";
-import dotenv from "dotenv";
-import { parse } from "path";
-
-dotenv.config();
+import { parse } from "node:path";
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Import update ==");
   const payloadFile = process.env["DEVICEUPDATE_PAYLOAD_FILE"] || "";
   const payloadUrl = process.env["DEVICEUPDATE_PAYLOAD_URL"] || "";
@@ -57,7 +54,7 @@ async function main() {
       ],
     });
 
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
 
   if (isUnexpected(result)) {
@@ -68,17 +65,17 @@ async function main() {
   console.log(`Import succeeded!`);
 }
 
-function getFileSize(filePath: string) {
+function getFileSize(filePath: string): number {
   const stats = statSync(filePath);
   return stats.size;
 }
 
-function getFileName(filePath: string) {
+function getFileName(filePath: string): string {
   const fileName = parse(filePath).base;
   return fileName;
 }
 
-function getFileHash(filePath: string) {
+function getFileHash(filePath: string): Promise<string> {
   const fileContent = readFileSync(filePath, { encoding: "utf8" });
   return computeSha256Hash(fileContent, "base64");
 }

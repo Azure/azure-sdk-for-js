@@ -10,12 +10,10 @@
 // Licensed under the MIT License.
 import {
   SecureScoreControlsListBySecureScoreOptionalParams,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all security controls for a specific initiative within a scope
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get all security controls for a specific initiative within a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForName_builtin_example.json
  */
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative() {
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -32,7 +30,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.secureScoreControls.listBySecureScore(
-    secureScoreName
+    secureScoreName,
   )) {
     resArray.push(item);
   }
@@ -45,28 +43,28 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(
  * @summary Get all security controls for a specific initiative within a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScores/ListSecureScoreControlsForNameWithExpand_builtin_example.json
  */
-async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter() {
+async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const secureScoreName = "ascScore";
   const expand = "definition";
   const options: SecureScoreControlsListBySecureScoreOptionalParams = {
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.secureScoreControls.listBySecureScore(
     secureScoreName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
   getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter();
 }

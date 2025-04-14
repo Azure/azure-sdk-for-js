@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { PermissionMode } from "../../../src";
-import { PermissionDefinition } from "../../../src";
+// Licensed under the MIT License.
+
+import { PermissionMode } from "../../../src/index.js";
+import type { PermissionDefinition } from "../../../src/index.js";
 import {
   createOrUpsertPermission,
   getTestContainer,
   removeAllDatabases,
   replaceOrUpsertPermission,
-} from "../common/TestHelpers";
+} from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
-  describe("Validate Permission CRUD", function () {
+
+  describe("Validate Permission CRUD", () => {
     const permissionCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create container & database
       const container = await getTestContainer("Validate Permission Crud");
@@ -39,7 +39,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       let permission = user.permission(createdPermission.id);
       assert.equal(createdPermission.id, "new permission", "permission name error");
@@ -66,16 +66,16 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert.equal(
         replacedPermission.permissionMode,
         PermissionMode.All,
-        "permission mode should change"
+        "permission mode should change",
       );
       assert.equal(permissionDef.id, replacedPermission.id, "permission id should stay the same");
 
-      // to change the id of an existing resourcewe have to use replace
+      // to change the id of an existing resource we have to use replace
       permissionDef.id = "replaced permission";
       const { resource: replacedPermission2 } = await permission.replace(permissionDef);
       assert.equal(replacedPermission2.id, "replaced permission", "permission name should change");
@@ -100,7 +100,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     };
 
     const permissionCRUDOverMultiplePartitionsTest = async function (
-      isUpsertTest: boolean
+      isUpsertTest: boolean,
     ): Promise<void> {
       // create database
       // create container
@@ -112,7 +112,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       const container = await getTestContainer(
         "permission CRUD over multiple partitions",
         undefined,
-        containerDefinition
+        containerDefinition,
       );
 
       // create user
@@ -135,7 +135,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDefinition,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       const permissionDef = response.resource;
       let permission = user.permission(permissionDef.id);
@@ -143,7 +143,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         JSON.stringify(permissionDef.resourcePartitionKey),
         JSON.stringify(permissionDefinition.resourcePartitionKey),
-        "permission resource partition key error"
+        "permission resource partition key error",
       );
 
       // list permissions after creation
@@ -169,21 +169,21 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert.equal(
         replacedPermission.permissionMode,
         PermissionMode.All,
-        "permission mode should change"
+        "permission mode should change",
       );
       assert.equal(replacedPermission.id, permissionDef.id, "permission id should stay the same");
       assert.equal(
         JSON.stringify(replacedPermission.resourcePartitionKey),
         JSON.stringify(permissionDef.resourcePartitionKey),
-        "permission resource partition key error"
+        "permission resource partition key error",
       );
 
-      // to change the id of an existing resourcewe have to use replace
+      // to change the id of an existing resource we have to use replace
       permissionDef.id = "replaced permission";
       const { resource: replacedPermission2 } = await permission.replace(permissionDef);
       assert.equal(replacedPermission2.id, permissionDef.id);
@@ -206,19 +206,19 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       }
     };
 
-    it("nativeApi Should do Permission CRUD operations successfully name based", async function () {
+    it("nativeApi Should do Permission CRUD operations successfully name based", async () => {
       await permissionCRUDTest(false);
     });
 
-    it("nativeApi Should do Permission CRUD operations successfully name based with upsert", async function () {
+    it("nativeApi Should do Permission CRUD operations successfully name based with upsert", async () => {
       await permissionCRUDTest(true);
     });
 
-    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based", async function () {
+    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based", async () => {
       await permissionCRUDOverMultiplePartitionsTest(false);
     });
 
-    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully with upsert", async function () {
+    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully with upsert", async () => {
       await permissionCRUDOverMultiplePartitionsTest(true);
     });
   });

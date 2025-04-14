@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
+import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import {
+} from "./textAnalyticsResult.js";
+import type {
   DocumentSentiment,
   DocumentSentimentLabel,
   SentenceSentiment as GeneratedSentenceSentiment,
@@ -19,8 +21,9 @@ import {
   TargetConfidenceScoreLabel,
   TargetRelation,
   TextAnalyticsError,
-} from "./generated/models";
-import { AssessmentIndex, parseAssessmentIndex } from "./util";
+} from "./generated/models/index.js";
+import type { AssessmentIndex } from "./util.js";
+import { parseAssessmentIndex } from "./util.js";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -48,7 +51,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 /**
- * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
  */
 export interface SentenceSentiment {
   /**
@@ -144,7 +147,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeAnalyzeSentimentResult(
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -167,7 +170,7 @@ export function makeAnalyzeSentimentResult(
  */
 export function makeAnalyzeSentimentErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): AnalyzeSentimentErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
@@ -183,7 +186,7 @@ export function makeAnalyzeSentimentErrorResult(
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
@@ -204,7 +207,7 @@ function convertGeneratedSentenceSentiment(
             assessments: target.relations
               .filter((relation) => relation.relationType === "assessment")
               .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result)),
-          })
+          }),
         )
       : [],
   };
@@ -222,7 +225,7 @@ function convertGeneratedSentenceSentiment(
  */
 function convertTargetRelationToAssessmentSentiment(
   targetRelation: TargetRelation,
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): AssessmentSentiment {
   const assessmentPtr = targetRelation.ref;
   const assessmentIndex: AssessmentIndex = parseAssessmentIndex(assessmentPtr);

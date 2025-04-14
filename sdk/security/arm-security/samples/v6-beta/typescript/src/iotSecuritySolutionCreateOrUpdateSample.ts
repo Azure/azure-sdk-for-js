@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IoTSecuritySolutionModel, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Use this method to create or update yours IoT Security solution
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Use this method to create or update yours IoT Security solution
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutions/CreateIoTSecuritySolution.json
  */
-async function createOrUpdateAIoTSecuritySolution() {
+async function createOrUpdateAIoTSecuritySolution(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -31,12 +29,12 @@ async function createOrUpdateAIoTSecuritySolution() {
     displayName: "Solution Default",
     export: [],
     iotHubs: [
-      "/subscriptions/075423e9-7d33-4166-8bdf-3920b04e3735/resourceGroups/myRg/providers/Microsoft.Devices/IotHubs/FirstIotHub"
+      "/subscriptions/075423e9-7d33-4166-8bdf-3920b04e3735/resourceGroups/myRg/providers/Microsoft.Devices/IotHubs/FirstIotHub",
     ],
     location: "East Us",
     recommendationsConfiguration: [
       { recommendationType: "IoT_OpenPorts", status: "Disabled" },
-      { recommendationType: "IoT_SharedCredentials", status: "Disabled" }
+      { recommendationType: "IoT_SharedCredentials", status: "Disabled" },
     ],
     status: "Enabled",
     tags: {},
@@ -44,22 +42,22 @@ async function createOrUpdateAIoTSecuritySolution() {
     userDefinedResources: {
       query:
         'where type != "microsoft.devices/iothubs" | where name contains "iot"',
-      querySubscriptions: ["075423e9-7d33-4166-8bdf-3920b04e3735"]
+      querySubscriptions: ["075423e9-7d33-4166-8bdf-3920b04e3735"],
     },
     workspace:
-      "/subscriptions/c4930e90-cd72-4aa5-93e9-2d081d129569/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace1"
+      "/subscriptions/c4930e90-cd72-4aa5-93e9-2d081d129569/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace1",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.iotSecuritySolution.createOrUpdate(
     resourceGroupName,
     solutionName,
-    iotSecuritySolutionData
+    iotSecuritySolutionData,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAIoTSecuritySolution();
 }
 

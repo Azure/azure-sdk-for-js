@@ -61,7 +61,7 @@ node availabilityStatusesGetByResourceSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RESOURCEHEALTH_SUBSCRIPTION_ID="<resourcehealth subscription id>" node availabilityStatusesGetByResourceSample.js
+npx dev-tool run vendored cross-env RESOURCEHEALTH_SUBSCRIPTION_ID="<resourcehealth subscription id>" node availabilityStatusesGetByResourceSample.js
 ```
 
 ## Next Steps
@@ -93,6 +93,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/javascript/operationsListSample.js
 [securityadvisoryimpactedresourceslistbysubscriptionidandeventidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/javascript/securityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdSample.js
 [securityadvisoryimpactedresourceslistbytenantidandeventidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/javascript/securityAdvisoryImpactedResourcesListByTenantIdAndEventIdSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcehealth/arm-resourcehealth/README.md

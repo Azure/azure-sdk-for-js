@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import util from "util";
 import { SnapshotOptions } from "./utils";
@@ -35,7 +35,7 @@ export function captureConsoleOutputToAppInsights() {
 export class EventHubsStressTester {
   public eventsSentCount = 0;
   public eventsReceivedCount = 0;
-  private snapshotTimer: NodeJS.Timer;
+  private snapshotTimer: NodeJS.Timeout;
   private startedAt!: Date;
   public _numErrors = 0;
   public eventProperties: Record<string, string | boolean | number> = {};

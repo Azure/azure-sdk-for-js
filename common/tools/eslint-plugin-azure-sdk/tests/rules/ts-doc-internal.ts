@@ -1,28 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-doc-internal rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-doc-internal";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-doc-internal.js";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-  settings: {
-    exported: [],
-  },
-});
+const ruleTester = createRuleTester({ settings: { exported: [] } });
 
 ruleTester.run("ts-doc-internal", rule, {
   valid: [
@@ -83,6 +74,15 @@ ruleTester.run("ts-doc-internal", rule, {
             function ExampleFunction() {}`,
       filename: "src/test.ts",
     },
+    {
+      code: `
+            /**
+             * Other documentation
+             * @hidden
+             */
+            function ExampleFunction() {}`,
+      filename: "src/test-browser.mts",
+    },
   ],
   invalid: [
     // class
@@ -122,6 +122,21 @@ ruleTester.run("ts-doc-internal", rule, {
              */
             function ExampleFunction() {}`,
       filename: "src/test.ts",
+      errors: [
+        {
+          message: "internal items with TSDoc comments should include an @internal or @hidden tag",
+        },
+      ],
+    },
+    // .mts file
+    {
+      code: `
+            /**
+             * Other documentation
+             * @ignore
+             */
+            function ExampleFunction() {}`,
+      filename: "src/test-browser.mts",
       errors: [
         {
           message: "internal items with TSDoc comments should include an @internal or @hidden tag",

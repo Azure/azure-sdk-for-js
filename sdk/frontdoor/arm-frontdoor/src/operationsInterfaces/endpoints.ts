@@ -9,8 +9,8 @@
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PurgeParameters,
-  EndpointsPurgeContentOptionalParams
-} from "../models";
+  EndpointsPurgeContentOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a Endpoints. */
 export interface Endpoints {
@@ -27,7 +27,7 @@ export interface Endpoints {
     resourceGroupName: string,
     frontDoorName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams
+    options?: EndpointsPurgeContentOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a content from Front Door.
@@ -42,6 +42,6 @@ export interface Endpoints {
     resourceGroupName: string,
     frontDoorName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams
+    options?: EndpointsPurgeContentOptionalParams,
   ): Promise<void>;
 }

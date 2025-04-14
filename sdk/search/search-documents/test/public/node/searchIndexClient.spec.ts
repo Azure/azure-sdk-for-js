@@ -1,38 +1,79 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { Suite } from "mocha";
-import { assert } from "chai";
-import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
-import { Hotel } from "../utils/interfaces";
-import { createClients } from "../utils/recordedClient";
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure/core-util";
+import type {
+  AzureOpenAIVectorizer,
+  SearchIndex,
+  SynonymMap,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchProfile,
+} from "../../../src/index.js";
+import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
+import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+import type { Hotel } from "../utils/interfaces.js";
+import { createClients } from "../utils/recordedClient.js";
 import {
-  WAIT_TIME,
   createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
-} from "../utils/setup";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { versionsToTest } from "@azure/test-utils";
+  WAIT_TIME,
+} from "../utils/setup.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
+describe("SearchIndexClient", { timeout: 20_000 }, () => {
+  describe("constructor", () => {
+    const credential = new AzureKeyCredential("key");
+
+    describe("Passing serviceVersion", () => {
+      const [correctServiceVersion, incorrectServiceVersion] = ["correct", "incorrect"];
+      it("supports passing serviceVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("supports passing the deprecated apiVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          apiVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("prioritizes `serviceVersion` over `apiVersion", () => {
+        const client = new SearchIndexClient("", credential, {
+          apiVersion: incorrectServiceVersion,
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("defaults to the current apiVersion", () => {
+        const client = new SearchIndexClient("", credential);
+        assert.equal(defaultServiceVersion, client.serviceVersion);
+        assert.equal(defaultServiceVersion, client.apiVersion);
+      });
+    });
+  });
+
+  describe("stable", { skip: true }, () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
 
-    this.timeout(99999);
-
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        serviceVersion,
+        defaultServiceVersion,
         recorder,
-        TEST_INDEX_NAME
+        TEST_INDEX_NAME,
       ));
 
       await createSynonymMaps(indexClient);
@@ -40,22 +81,20 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       await delay(WAIT_TIME);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
-    describe("#synonymmaps", function () {
-      it("gets the list of synonymmaps", async function () {
+    describe("#synonymmaps", () => {
+      it("gets the list of synonymmaps", async () => {
         const synonymMaps = await indexClient.listSynonymMaps();
         assert.isAtLeast(synonymMaps.length, 2);
       });
 
-      it("gets the list of synonymmaps names", async function () {
+      it("gets the list of synonymmaps names", async () => {
         const synonymMapNames = await indexClient.listSynonymMapsNames();
         assert.isAtLeast(synonymMapNames.length, 2);
         for (let i = 1; i <= 2; i++) {
@@ -63,7 +102,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("gets the correct synonymmap object", async function () {
+      it("gets the correct synonymmap object", async () => {
         const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         assert.equal(synonymMap.name, "my-azure-synonymmap-1");
         assert.equal(synonymMap.synonyms.length, 2);
@@ -75,7 +114,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.include(synonyms, synonymMap.synonyms[1]);
       });
 
-      it("throws error for invalid synonymmap object", async function () {
+      it("throws error for invalid synonymmap object", async () => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getSynonymMap("garbxyz");
@@ -85,7 +124,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the synonymmap object using createOrUpdateSynonymMap", async function () {
+      it("creates the synonymmap object using createOrUpdateSynonymMap", async () => {
         let synonymMap: SynonymMap = {
           name: `my-azure-synonymmap-3`,
           synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
@@ -106,7 +145,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("modify and updates the synonymmap object", async function () {
+      it("modify and updates the synonymmap object", async () => {
         let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         synonymMap.synonyms.push("California, Clif. => CA");
         await indexClient.createOrUpdateSynonymMap(synonymMap);
@@ -123,8 +162,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    describe("#indexes", function () {
-      it("gets the list of indexes", async function () {
+    describe("#indexes", () => {
+      it("gets the list of indexes", async () => {
         const result = await indexClient.listIndexes();
         let listOfIndexes = await result.next();
         const indexNames: string[] = [];
@@ -135,7 +174,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the list of indexes names", async function () {
+      it("gets the list of indexes names", async () => {
         const result = await indexClient.listIndexesNames();
         let listOfIndexNames = await result.next();
         const indexNames: string[] = [];
@@ -146,13 +185,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the correct index object", async function () {
+      it("gets the correct index object", async () => {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
         assert.equal(index.fields.length, 5);
       });
 
-      it("throws error for invalid index object", async function () {
+      it("throws error for invalid index object", async () => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getIndex("garbxyz");
@@ -162,7 +201,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the index object using createOrUpdateIndex", async function () {
+      it("creates the index object using createOrUpdateIndex", async () => {
         const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
         let index: SearchIndex = {
           name: indexName,
@@ -212,7 +251,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("modify and updates the index object", async function () {
+      it("modify and updates the index object", async () => {
         let index = await indexClient.getIndex(TEST_INDEX_NAME);
         index.fields.push({
           type: "Edm.DateTimeOffset",
@@ -223,6 +262,65 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.fields.length, 6);
       });
+    });
+
+    it("creates the index object vector fields", async () => {
+      const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
+
+      const algorithm: VectorSearchAlgorithmConfiguration = {
+        name: "algorithm-configuration",
+        kind: "hnsw",
+        parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
+      };
+      const vectorizer: AzureOpenAIVectorizer = {
+        kind: "azureOpenAI",
+        vectorizerName: "vectorizer",
+        parameters: {
+          deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+          resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+          modelName: "text-embedding-ada-002",
+        },
+      };
+      const profile: VectorSearchProfile = {
+        name: "profile",
+        algorithmConfigurationName: algorithm.name,
+        vectorizerName: vectorizer.vectorizerName,
+      };
+
+      let index: SearchIndex = {
+        name: indexName,
+        fields: [
+          {
+            type: "Edm.String",
+            name: "id",
+            key: true,
+          },
+          {
+            type: "Collection(Edm.Single)",
+            name: "descriptionVector",
+            vectorSearchDimensions: 1536,
+            searchable: true,
+            vectorSearchProfileName: profile.name,
+          },
+        ],
+        vectorSearch: {
+          algorithms: [algorithm],
+          vectorizers: [vectorizer],
+          profiles: [profile],
+        },
+      };
+      try {
+        await indexClient.createOrUpdateIndex(index);
+        index = await indexClient.getIndex(indexName);
+        assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
+        assert.deepEqual(
+          index.vectorSearch?.vectorizers?.[0].vectorizerName,
+          vectorizer.vectorizerName,
+        );
+        assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
+      } finally {
+        await indexClient.deleteIndex(index);
+      }
     });
   });
 });

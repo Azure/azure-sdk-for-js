@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Partially updates a Network Connection
  *
  * @summary Partially updates a Network Connection
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_Patch.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_Patch.json
  */
 async function networkConnectionsUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function networkConnectionsUpdate() {
   const result = await client.networkConnections.beginUpdateAndWait(
     resourceGroupName,
     networkConnectionName,
-    body
+    body,
   );
   console.log(result);
 }

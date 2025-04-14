@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import fs from "fs-extra";
-import path from "path";
-
+import path from "node:path";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
 import { getSampleConfiguration } from "../../util/samples/configuration";
+import { pathToFileURL } from "node:url";
 
 const log = createPrinter("run-samples");
 
@@ -16,7 +16,7 @@ const IGNORE = ["node_modules"];
 
 export const commandInfo = makeCommandInfo(
   "run",
-  "execute a sample or all samples within a directory"
+  "execute a sample or all samples within a directory",
 );
 
 /**
@@ -27,18 +27,19 @@ export const commandInfo = makeCommandInfo(
  */
 async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
+  const url = pathToFileURL(name).href;
   try {
     if (/.*[\\/]samples(-dev)?[\\/].*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
-      await import(name);
+      await import(url);
     } else if (!/.*[\\/]dist-samples[\\/].*/.exec(name)) {
       // This is not an unprepared or a prepared sample
       log.error("Skipped. This file is not in any samples folder.");
     } else {
-      const { main: sampleMain } = await import(name);
+      const { main: sampleMain } = await import(url);
       await sampleMain();
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     const truncatedError: string = (err as Error).toString().split("\n")[0].slice(0, 100);
     accumulatedErrors.push([path.basename(name), truncatedError]);
     log.warn(`Error in ${name}:`);
@@ -64,7 +65,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   if (sampleConfiguration.skipFolder) {
     log.warn(
-      "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
+      "`skipFolder` is specified in the sample configuration, but it is ignored in this context.",
     );
     log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
   }
@@ -85,7 +86,7 @@ export default leafCommand(commandInfo, async (options) => {
         {
           ignore: IGNORE,
           skips,
-        }
+        },
       )) {
         await runSingle(fileName, errors);
       }

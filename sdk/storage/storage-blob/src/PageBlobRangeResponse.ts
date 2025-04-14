@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponseModel,
   PageBlobGetPageRangesDiffResponseModel,
-} from "./generatedModels";
-import { Range } from "./Range";
-import { ResponseWithBody } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Range } from "./Range.js";
+import type { ResponseWithBody } from "./utils/utils.common.js";
 
 /**
  * List of page ranges for a blob.
@@ -48,7 +48,7 @@ export interface PageBlobGetPageRangesDiffResponse
  * @param response - Model PageBlob Range response
  */
 export function rangeResponseFromModel(
-  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel
+  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel,
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,

@@ -1,14 +1,472 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 3.17.4 (Unreleased)
+## 4.3.0 (2025-03-18)
 
 ### Features Added
+#### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
+Add support for Client-Side Encryption. Read more here: [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-always-encrypted)
+ 
+Example of using Client-Side Encryption:
+ ```js
+  const credentials = new DefaultAzureCredential();
+  const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+  const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
+  const database = cosmosClient.database("my-database");
+  const metadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault, 
+      name: "akvKey", 
+      value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
+  };
 
-### Breaking Changes
+  await database.createClientEncryptionKey(
+      "my-key",
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+      metadata);
+
+  const path1 : ClientEncryptionIncludedPath = {
+    path: "/property1",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const path2 : ClientEncryptionIncludedPath = {
+    path: "/property2",
+    clientEncryptionKeyId: "my-key",
+    encryptionType: EncryptionType.DETERMINISTIC,
+    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+  };
+  const paths = [path1, path2];
+  const clientEncryptionPolicy = {
+      includedPaths: [path],
+      policyFormatVersion: 2,
+  };
+  const containerDefinition = {
+      id: "my-container",
+      partitionKey: {
+        paths: ["/id"],
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+  };
+  await database.containers.createIfNotExists(containerDefinition);
+ ```
+
+#### New Query Pipeline
+Introduced `enableQueryControl` flag to enhance query pipeline, giving users more control over their query execution.
+
+By default, value of `enableQueryControl` is set as `false` keeping query pipeline older behavior as default, as explained below:
+
+Previously, the SDK guaranteed that each fetchNext call would return `maxItemCount` number of results, provided those many results existed in the backend. While this behavior ensured a predictable output, the SDK may query backend partitions multiple times in a single `fetchNext` iteration. This can sometimes lead to higher RU consumption with no user control, especially when results are scattered across partitions. Also queries could run for extended periods as the SDK worked to fulfil the `maxItemCount` guarantee.
+
+When `enableQueryControl` is set to `true`, Each `fetchNext` call will now query up to `maxDegreeOfParallelism` physical partitions. If no results are found, the SDK will return empty pages instead of continuing to search all partitions. Returning fewer or empty results in each iteration consumes less RUs and hands control back to the users, allowing them to decide whether to continue fetching more data. This approach provides more granular control over RU consumption.
+
+Eg. usage of this flag to enable new query pipeline:
+```js
+const options : FeedOptions = {
+  enableQueryControl: true, // Flag to enable new query pipeline. Default value is false
+  maxItemCount: 100,
+  maxDegreeOfParallelism: 10,
+  forceQueryPlan: true,
+}
+const queryIterator = container.items.query("query text", options);
+const res = await queryIterator.fetchNext();
+```
+
+#### Partition merge support
+ This feature adds support for Partition merge (preview) feature. Requests from SDK will not be blocked, when the feature is enabled on the CosmosDB account. 
+ Read more about merge here: [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
+
+#### RU Bucketing (Preview)
+Read more about RU Bucketing here: https://aka.ms/cosmsodb-bucketing
+
+#### Partial hierarchical partition key support in Change Feed [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
+This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial Hierarchical partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator. 
+
+Eg. Container has partition key ["/name", "/zip", "/state"], change feed will work if, only value of name and zip is provided eg: ["john", "11011"]
+
+#### Index Metrics V2 support
+This feature adds support for V2 version of index metrics that returns the response in JSON format.
+
+Example output of older version
+
+```js
+Index Utilization Information
+  Utilized Single Indexes
+    Index Spec: /Item/?
+    Index Impact Score: High
+    ---
+    Index Spec: /Price/?
+    Index Impact Score: High
+    ---
+  Potential Single Indexes
+  Utilized Composite Indexes
+  Potential Composite Indexes
+    Index Spec: /Item ASC, /Price ASC
+    Index Impact Score: High
+    ---
+```
+
+Example output of version V2
+
+```js
+{"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
+```
+
+#### Add `connectionString` in CosmosClientOptions
+ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.
+Eg. usage: 
+```js
+const options = {
+  connectionString: "<ConnectionString>",
+  consistencyLevel: ConsistencyLevel.Strong
+}
+```
 
 ### Bugs Fixed
 
+- Fixed issue for incorrect `ParallelizeCrossPartitionQuery` header value. It was set to true if `maxDegreeOfParallelism` was set to 0 or 1 in `FeedOptions` while executing a query. [#31232](https://github.com/Azure/azure-sdk-for-js/issues/31232)
+- Fixed the issue for incorrect results in Changefeed in case of internal TimeoutErrors [#32652](https://github.com/Azure/azure-sdk-for-js/issues/32652)
+- Fix RequestOptions and SharedOptions [#27336](https://github.com/Azure/azure-sdk-for-js/issues/27336)
+- Set default values in RetryOptions [#27312](https://github.com/Azure/azure-sdk-for-js/issues/27312)
 ### Other Changes
+- Deprecate the older `changeFeed` iterator in favor of the newer `getChangeFeedIterator()` method. [#32650](https://github.com/Azure/azure-sdk-for-js/issues/32650)
+
+## 4.2.0 (2024-11-19)
+
+### Features Added
+
+- Full Text Support: This feature adds support for full text search policy and indexing policy. It also enables performing full text search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/full-text-search)
+- Hybrid Search Support: This feature adds support for performing hybrid search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/hybrid-search)
+- Added support for three optional properties to support `quantizedFlat` and `diskANN` vector indexing policies. The properties are: `quantizationByteSize`, `vectorIndexShardKey` and `indexingSearchListSize`.
+
+## 4.1.1 (2024-08-30)
+
+### Bugs Fixed
+
+- Fixed a issue caused by accessing `process` without checking its existence in the global scope, it was leading to crashes in non-Node environments.
+- The default value of `continueOnError` of BulkRequestOptions is now set to true. Pass `{ continueOnError: false }` in `bulkOptions` to stop executing operations when one fails.
+
+## 4.1.0 (2024-08-07)
+
+### Features Added
+
+- Vector Search: This feature introduces vector indexes, vector embedding policy and vector queries to enable vector similarity search in JS SDK. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search)
+- All versions and deletes mode in change feed: The All versions and deletes mode is added in change feed mode which captures every version and every change (create, update, and delete) made to items. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
+- Bypassing integrated cache: The option to bypass integrated cache is now available in `RequestOptions`. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
+- Computed Properties: Support for adding Computed Properties in items is added. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties)
+- Composite Indexing: The JS SDK now supports including composite indexes in the indexing policy, improving query performance on multiple fields. [docs](https://learn.microsoft.com/azure/cosmos-db/index-overview#composite-indexes)
+- Correlated Activity Id: Correlated Activity Id is added in header of every query request on Items. This helps in troubleshooting by linking all requests for a query that involves multiple server interactions and partitions. Correlated Activity Id can be accessed through query response headers or `response.correlatedActivityId`.
+- Split proof Bulk API: Earlier, whenever Bulk API encountered a partition split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition split. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
+- Improved samples: The samples have been updated in this release, now organized into two folders: `v3` for features up to the v3 release, and `v4` for features up to the v4 release.
+- Added support for MakeList and MakeSet query aggregators
+
+#### Vector Search
+
+- The following sample shows how to create a container with vector embedding and indexing policies.
+
+```js
+// define vector indexing policy
+const vectorEmbeddingPolicy = {
+  vectorEmbeddings: [
+    {
+      path: "/vector1",
+      dataType: VectorEmbeddingDataType.UInt8,
+      dimensions: 1000,
+      distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+    },
+    {
+      path: "/vector2",
+      dataType: VectorEmbeddingDataType.Int8,
+      dimensions: 200,
+      distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+    },
+    {
+      path: "/vector3",
+      dataType: VectorEmbeddingDataType.UInt8,
+      dimensions: 400,
+      distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+    },
+  ],
+};
+
+// add vector indexes in Indexing Policy
+const indexingPolicy = {
+  automatic: true,
+  indexingMode: "consistent",
+  vectorIndexes: [
+    { path: "/vector1", type: VectorIndexType.Flat },
+    { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+    { path: "/vector3", type: VectorIndexType.DiskANN },
+  ],
+};
+
+// define and create container with vector Embedding Policy
+const containerDefinition = {
+  id: containerId,
+  partitionKey: { paths: ["/id"] },
+  indexingPolicy: indexingPolicy,
+  vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+};
+await database.containers.createIfNotExists(containerDefinition);
+```
+
+- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using `allowUnboundedNonStreamingQueries` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the `vectorSearchBufferSize` option from query FeedOptions.
+
+#### Change Feed - All versions and deletes mode
+
+- The AllVersionsAndDeletes mode is only supported with `ChangeFeedStartFrom.Now` and `ChangeFeedStartFrom.Continuation`.
+- To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
+
+```js
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+```
+
+#### Bypassing Integrated Cache
+
+- Here is a sample showing how to enable `bypassIntegratedCache` in RequestOptions.
+
+```js
+  const options: RequestOptions = {bypassIntegratedCache: true};
+  const response = await container.item("1").read(options);
+```
+
+#### Computed Properties
+
+- The following snippet configures computed properties for a container:
+
+```js
+    const computedProperties: ComputedProperty[] = [{
+      name: "lowerLastName",
+      query:
+        "SELECT VALUE LOWER(IS_DEFINED(c.lastName) ? c.lastName : c.parents[0].familyName) FROM c",
+    },];
+    const { resource: containerdef } = await database.containers.createIfNotExists({
+      id: containerName,
+      computedProperties: computedProperties,
+      indexingPolicy: indexingPolicy,
+    });
+    const container: Container = database.container(containerdef.id);
+```
+
+#### Composite Indexing
+
+- Here's a sample of adding composite indexes for a container:
+
+```js
+    const containerDefinition: ContainerDefinition = {
+      id: "containerWithCompositeIndexingPolicy",
+      indexingPolicy: {
+        automatic: true,
+        indexingMode: IndexingMode.consistent,
+        includedPaths: [
+          {
+            path: "/*",
+          },
+        ],
+        excludedPaths: [],
+        compositeIndexes: [
+          [
+            { path: "/key", order: "ascending" },
+            { path: "/field", order: "ascending" },
+          ],
+        ],
+      },
+    };
+    await database.containers.create(containerDefinition);
+```
+
+- Added support for passing a custom `HttpClient` when constructing a `CosmosClient`.
+
+### Breaking Changes
+
+#### Dropped Support for TypeScript 4.1
+
+- We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
+
+### Bugs Fixed
+
+- Fix Bulk operations(Read, Delete, and Patch) failing due to wrong format of partition key in non-partitioned container.
+
+## 4.0.0 (2023-09-12)
+
+🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
+
+- Summary of new added features
+  - Diagnostics: A diagnostic object has been added to responses of api operations ie. point lookups, bulk & batch operations, query and error responses, which contains information related to metadata lookups, retries, request and reponse latencies and payload siezes.
+  - Hierarchical Partitioning: Containers with hierarchical partitions are now supported. [docs](https://learn.microsoft.com/azure/cosmos-db/hierarchical-partition-keys)
+  - Index metrics: can be enabled to show both utilized indexed paths and recommended indexed paths. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/index-metrics?tabs=javascript)
+  - New Changefeed iterator: which can consume changes for a specific partition key, a feed range or an entire container. [docs](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript)
+  - Priority based throttling is now supported. [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/)
+
+### New Features
+
+#### Diagnostics
+
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows.
+
+```js
+  // For point look up operations
+  const { container, diagnostics: containerCreateDiagnostic } =
+    await database.containers.createIfNotExists({
+      id: containerId,
+      partitionKey: {
+        paths: ["/key1"],
+      },
+  });
+
+  // For Batch operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.batch(operations, "A");
+  const diagnostics = response.diagnostics
+
+  // For Bulk operations
+   const operations: OperationInput[] = [
+    {
+      operationType: BulkOperationType.Create,
+      resourceBody: { id: 'A', key: "A", school: "high" },
+    },
+  ];
+  const response = await container.items.bulk(operations);;
+  const diagnostics = response.diagnostics
+
+  // For query operations
+  const queryIterator = container.items.query("select * from c");
+  const { resources, diagnostics } = await queryIterator.fetchAll();
+
+  // While error handling
+  try {
+    // Some operation that might fail
+  } catch (err) {
+    const diagnostics = err.diagnostics
+  }
+```
+
+#### Hierarchical Partitioning
+
+- Here is a sampele for creating container with Hierarchical Partitions
+
+  ```js
+  const containerDefinition = {
+    id: "Test Database",
+    partitionKey: {
+      paths: ["/name", "/address/zip"],
+      version: PartitionKeyDefinitionVersion.V2,
+      kind: PartitionKeyKind.MultiHash,
+    },
+  };
+  const { container } = await database.containers.createIfNotExists(containerDefinition);
+  console.log(container.id);
+  ```
+
+- Definition of PartitionKey has been changed to support Hierarchical partitioning. Here is how to use the new definition.
+
+  - The operations for which PartitionKey can be derived from Request body, providing PartitionKey is optional as always i.e
+    ```js
+    const item = {
+      id: 1,
+      name: "foo",
+      address: {
+        zip: 100,
+      },
+      active: true,
+    };
+    await container.items.create(item);
+    ```
+  - Here is sample for operations which require hierarchical partition to be passed.
+
+    ```js
+    await container.item("1", ["foo", 100]).read();
+    ```
+
+    OR
+
+    ```js
+    const partitionKey: PartitionKey = new PartitionKeyBuilder()
+      .addValue("foo")
+      .addValue(100)
+      .build();
+    await container.item("1", partitionKey).read();
+    ```
+
+  - If you are not using Hierarchical Partitioning feature, Definition of Partition Key is practically backward compatible.
+    ```js
+    await container.item("1", "1").read();
+    ```
+
+#### New Change feed Iterator
+
+The v4 SDK now supports [Change feed pull model](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-pull-model?tabs=JavaScript).
+
+**_Note: There are no breaking changes, the old change feed iterator is still supported._**
+
+Major Differences:
+
+- The new iterator allows fetching change feed for a partition key, a feed range, or an entire container, compared to the older iterator, which was limited to fetching change feed for a partition key only.
+
+- The new implementation is effectively an infinite list of items that encompasses all future writes and updates. The `hasMoreResults` property now always returns `true`, unlike the older implementation, which returned `false` when a `NotModified` status code was received from the backend.
+
+Here is an example of creating and using the new change feed iterator:
+
+```js
+const changeFeedOptions = {
+  changeFeedStartFrom: ChangeFeedStartFrom.Beginning("partition key or feed range"),
+  maxItemCount: 10,
+};
+const iterator = container.items.getChangeFeedIterator(changeFeedOptions);
+while (iterator.hasMoreResults) {
+  const res = await iterator.readNext();
+  // process res
+}
+```
+
+#### Index Metrics [#20194](https://github.com/Azure/azure-sdk-for-js/issues/20194)
+
+Azure Cosmos DB provides indexing metrics for optimizing query performance, especially when you're unsure about adjusting the indexing policy.
+You can enable indexing metrics for a query by setting the PopulateIndexMetrics property to true(default=false).
+
+```js
+const { resources: resultsIndexMetrics, indexMetrics } = await container.items
+  .query(querySpec, { populateIndexMetrics: true })
+  .fetchAll();
+```
+
+We only recommend enabling the index metrics for troubleshooting query performance.
+
+#### Enhanced Retry Utility for Improved SDK Reliability [#23475](https://github.com/Azure/azure-sdk-for-js/issues/23475)
+
+Improved the retry utility to align with other language SDKs. Now, it automatically retries requests on the next available region when encountering HTTP 503 errors (Service Unavailable)
+and handles HTTP timeouts more effectively, enhancing the SDK's reliability.
+
+#### Priority based throttling [docs](https://devblogs.microsoft.com/cosmosdb/introducing-priority-based-execution-in-azure-cosmos-db-preview/) [#26393](https://github.com/Azure/azure-sdk-for-js/pull/26393/files)
+
+Priority-based execution is a capability which allows users to specify priority for the request sent to Azure Cosmos DB. Based on the priority specified by the user, if there are more requests than the configured RU/s in a second, then Azure Cosmos DB will throttle low priority requests to allow high priority requests to execute.
+You can enable priority based throttling by setting priorityLevel property.
+
+```js
+const response =
+  (await container.item(document.id).read) < TestItem > { priorityLevel: PriorityLevel.Low };
+```
+
+### Bugs Fixed
+
+- Updated response codes for the getDatabase() method. [#25932](https://github.com/Azure/azure-sdk-for-js/issues/25932)
+- Fix Upsert operation failing when partition key of container is `/id` and `/id` is missing in the document. [#21383](https://github.com/Azure/azure-sdk-for-js/issues/21383)
+
+### Breaking Changes
+
+- The definition of PartitionKey is changed, PartitionKeyDefinition is now a independent type. [#23416](https://github.com/Azure/azure-sdk-for-js/issues/23416)
 
 ## 3.17.3 (2023-02-13)
 
@@ -18,6 +476,7 @@
 - Enriched Timeout error response. We had defined Timeout error as custom error in our sdk but we were not sending up any message along with it, now we are throwing the specific Error. [#23025](https://github.com/Azure/azure-sdk-for-js/issues/23025)
 - Added functionality to delete entire data for a partition id. [#22091](https://github.com/Azure/azure-sdk-for-js/issues/22091)
 - SDK now defines all possible error types, namely Export RestError, AbortError, TimeoutError, and ErrorResponse. [22789](https://github.com/Azure/azure-sdk-for-js/issues/22789)
+
 ### Bugs Fixed
 
 - Removed excessive log warnings during bulk operations on a container with no partitionkey set.
@@ -25,7 +484,9 @@
 - Fix issue that caused parallel queries to break when returning a result of 0 or false. [#24493](https://github.com/Azure/azure-sdk-for-js/issues/24493)
 
 ### Other Changes
+
 - Error handling guidelines are added in README.md
+
 ## 3.17.2 (2022-11-15)
 
 ### Bugs Fixed
@@ -522,7 +983,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - DISTINCT queries
   - LIMIT/OFFSET queries
   - User cancelable requests
-- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
+- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://learn.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
 - Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
@@ -596,7 +1057,7 @@ container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchA
 
 #### Fixed Containers are now Paritioned (#308)
 
-[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
+[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://learn.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
 
 #### `upsert` removed for Stored Procedures (#356)
 
@@ -664,7 +1125,7 @@ It is now possible to pass a connection string copied from the Azure portal:
 
 ```js
 const client = new CosmosClient(
-  "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;"
+  "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;",
 );
 ```
 
@@ -896,7 +1357,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.3 (2015-06-04)
 
-- Issue [#40](https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
+- Issue [#40](https://github.com/Azure/azure-cosmosdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
 
 ## 1.0.2 (2015-05-23)
 

@@ -12,8 +12,8 @@ import {
   ProtectedItemResource,
   ProtectedItemsCreateOrUpdateOptionalParams,
   ProtectedItemsCreateOrUpdateResponse,
-  ProtectedItemsDeleteOptionalParams
-} from "../models";
+  ProtectedItemsDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ProtectedItems. */
 export interface ProtectedItems {
@@ -35,7 +35,7 @@ export interface ProtectedItems {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: ProtectedItemsGetOptionalParams
+    options?: ProtectedItemsGetOptionalParams,
   ): Promise<ProtectedItemsGetResponse>;
   /**
    * Enables backup of an item or to modifies the backup policy information of an already backed up item.
@@ -57,7 +57,7 @@ export interface ProtectedItems {
     containerName: string,
     protectedItemName: string,
     parameters: ProtectedItemResource,
-    options?: ProtectedItemsCreateOrUpdateOptionalParams
+    options?: ProtectedItemsCreateOrUpdateOptionalParams,
   ): Promise<ProtectedItemsCreateOrUpdateResponse>;
   /**
    * Used to disable backup of an item within a container. This is an asynchronous operation. To know the
@@ -77,6 +77,6 @@ export interface ProtectedItems {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: ProtectedItemsDeleteOptionalParams
+    options?: ProtectedItemsDeleteOptionalParams,
   ): Promise<void>;
 }

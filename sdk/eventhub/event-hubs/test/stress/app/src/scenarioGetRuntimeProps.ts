@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils";
 import parsedArgs from "minimist";
@@ -13,7 +13,7 @@ interface scenarioGetRuntimePropertiesOptions {
 function sanitizeOptions(args: string[]): Required<scenarioGetRuntimePropertiesOptions> {
   const options = parsedArgs<scenarioGetRuntimePropertiesOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 10 * 60 * 60 * 1000, // Default = 10 hrs
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
   };
 }
 

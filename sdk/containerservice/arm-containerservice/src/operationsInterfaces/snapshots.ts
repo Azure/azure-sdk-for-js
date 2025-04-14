@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   Snapshot,
   SnapshotsListOptionalParams,
   SnapshotsListByResourceGroupOptionalParams,
@@ -18,8 +18,8 @@ import {
   TagsObject,
   SnapshotsUpdateTagsOptionalParams,
   SnapshotsUpdateTagsResponse,
-  SnapshotsDeleteOptionalParams
-} from "../models";
+  SnapshotsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Snapshots. */
@@ -28,9 +28,7 @@ export interface Snapshots {
    * Gets a list of snapshots in the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: SnapshotsListOptionalParams
-  ): PagedAsyncIterableIterator<Snapshot>;
+  list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Lists snapshots in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -38,7 +36,7 @@ export interface Snapshots {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
+    options?: SnapshotsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Gets a snapshot.
@@ -49,7 +47,7 @@ export interface Snapshots {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsGetOptionalParams
+    options?: SnapshotsGetOptionalParams,
   ): Promise<SnapshotsGetResponse>;
   /**
    * Creates or updates a snapshot.
@@ -62,7 +60,7 @@ export interface Snapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: Snapshot,
-    options?: SnapshotsCreateOrUpdateOptionalParams
+    options?: SnapshotsCreateOrUpdateOptionalParams,
   ): Promise<SnapshotsCreateOrUpdateResponse>;
   /**
    * Updates tags on a snapshot.
@@ -75,7 +73,7 @@ export interface Snapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: SnapshotsUpdateTagsOptionalParams
+    options?: SnapshotsUpdateTagsOptionalParams,
   ): Promise<SnapshotsUpdateTagsResponse>;
   /**
    * Deletes a snapshot.
@@ -86,6 +84,6 @@ export interface Snapshots {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsDeleteOptionalParams
+    options?: SnapshotsDeleteOptionalParams,
   ): Promise<void>;
 }

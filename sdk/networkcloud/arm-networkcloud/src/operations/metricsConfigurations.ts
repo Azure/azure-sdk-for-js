@@ -7,32 +7,33 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MetricsConfigurations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MetricsConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkCloud } from "../networkCloud";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkCloud } from "../networkCloud.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ClusterMetricsConfiguration,
-  MetricsConfigurationsListByResourceGroupNextOptionalParams,
-  MetricsConfigurationsListByResourceGroupOptionalParams,
-  MetricsConfigurationsListByResourceGroupResponse,
+  MetricsConfigurationsListByClusterNextOptionalParams,
+  MetricsConfigurationsListByClusterOptionalParams,
+  MetricsConfigurationsListByClusterResponse,
   MetricsConfigurationsGetOptionalParams,
   MetricsConfigurationsGetResponse,
   MetricsConfigurationsCreateOrUpdateOptionalParams,
   MetricsConfigurationsCreateOrUpdateResponse,
   MetricsConfigurationsDeleteOptionalParams,
+  MetricsConfigurationsDeleteResponse,
   MetricsConfigurationsUpdateOptionalParams,
   MetricsConfigurationsUpdateResponse,
-  MetricsConfigurationsListByResourceGroupNextResponse
-} from "../models";
+  MetricsConfigurationsListByClusterNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MetricsConfigurations operations. */
@@ -48,20 +49,20 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
   }
 
   /**
-   * Get a list of metrics configurations of the clusters in the provided resource group.
+   * Get a list of metrics configurations for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: MetricsConfigurationsListByResourceGroupOptionalParams
+    options?: MetricsConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<ClusterMetricsConfiguration> {
-    const iter = this.listByResourceGroupPagingAll(
+    const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,29 +75,29 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: MetricsConfigurationsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: MetricsConfigurationsListByClusterOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<ClusterMetricsConfiguration[]> {
-    let result: MetricsConfigurationsListByResourceGroupResponse;
+    let result: MetricsConfigurationsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
+      result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,11 +105,11 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByClusterNext(
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,34 +118,34 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: MetricsConfigurationsListByResourceGroupOptionalParams
+    options?: MetricsConfigurationsListByClusterOptionalParams,
   ): AsyncIterableIterator<ClusterMetricsConfiguration> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get a list of metrics configurations of the clusters in the provided resource group.
+   * Get a list of metrics configurations for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: MetricsConfigurationsListByResourceGroupOptionalParams
-  ): Promise<MetricsConfigurationsListByResourceGroupResponse> {
+    options?: MetricsConfigurationsListByClusterOptionalParams,
+  ): Promise<MetricsConfigurationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByResourceGroupOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -159,16 +160,16 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     resourceGroupName: string,
     clusterName: string,
     metricsConfigurationName: string,
-    options?: MetricsConfigurationsGetOptionalParams
+    options?: MetricsConfigurationsGetOptionalParams,
   ): Promise<MetricsConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, metricsConfigurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Update the metrics configuration of the provided cluster.
+   * Create new or update the existing metrics configuration of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param metricsConfigurationName The name of the metrics configuration for the cluster.
@@ -180,7 +181,7 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     metricsConfigurationParameters: ClusterMetricsConfiguration,
-    options?: MetricsConfigurationsCreateOrUpdateOptionalParams
+    options?: MetricsConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MetricsConfigurationsCreateOrUpdateResponse>,
@@ -189,21 +190,20 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MetricsConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +212,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,8 +221,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,9 +233,9 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         clusterName,
         metricsConfigurationName,
         metricsConfigurationParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MetricsConfigurationsCreateOrUpdateResponse,
@@ -243,14 +243,14 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the metrics configuration of the provided cluster.
+   * Create new or update the existing metrics configuration of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param metricsConfigurationName The name of the metrics configuration for the cluster.
@@ -262,14 +262,14 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     clusterName: string,
     metricsConfigurationName: string,
     metricsConfigurationParameters: ClusterMetricsConfiguration,
-    options?: MetricsConfigurationsCreateOrUpdateOptionalParams
+    options?: MetricsConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<MetricsConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       metricsConfigurationName,
       metricsConfigurationParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,25 +285,29 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     resourceGroupName: string,
     clusterName: string,
     metricsConfigurationName: string,
-    options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: MetricsConfigurationsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MetricsConfigurationsDeleteResponse>,
+      MetricsConfigurationsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<MetricsConfigurationsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +316,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,8 +325,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -332,14 +336,17 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         resourceGroupName,
         clusterName,
         metricsConfigurationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MetricsConfigurationsDeleteResponse,
+      OperationState<MetricsConfigurationsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -356,13 +363,13 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     resourceGroupName: string,
     clusterName: string,
     metricsConfigurationName: string,
-    options?: MetricsConfigurationsDeleteOptionalParams
-  ): Promise<void> {
+    options?: MetricsConfigurationsDeleteOptionalParams,
+  ): Promise<MetricsConfigurationsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       metricsConfigurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -379,7 +386,7 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     resourceGroupName: string,
     clusterName: string,
     metricsConfigurationName: string,
-    options?: MetricsConfigurationsUpdateOptionalParams
+    options?: MetricsConfigurationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MetricsConfigurationsUpdateResponse>,
@@ -388,21 +395,20 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MetricsConfigurationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +417,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,8 +426,8 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -431,9 +437,9 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
         resourceGroupName,
         clusterName,
         metricsConfigurationName,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       MetricsConfigurationsUpdateResponse,
@@ -441,7 +447,7 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -459,72 +465,49 @@ export class MetricsConfigurationsImpl implements MetricsConfigurations {
     resourceGroupName: string,
     clusterName: string,
     metricsConfigurationName: string,
-    options?: MetricsConfigurationsUpdateOptionalParams
+    options?: MetricsConfigurationsUpdateOptionalParams,
   ): Promise<MetricsConfigurationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       metricsConfigurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByClusterNext(
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: MetricsConfigurationsListByResourceGroupNextOptionalParams
-  ): Promise<MetricsConfigurationsListByResourceGroupNextResponse> {
+    options?: MetricsConfigurationsListByClusterNextOptionalParams,
+  ): Promise<MetricsConfigurationsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations",
+const listByClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMetricsConfigurationList
+      bodyMapper: Mappers.ClusterMetricsConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -532,31 +515,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.metricsConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.metricsConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     201: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     202: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     204: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.metricsConfigurationParameters,
   queryParameters: [Parameters.apiVersion],
@@ -565,24 +568,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.metricsConfigurationName
+    Parameters.metricsConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -590,31 +600,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.metricsConfigurationName
+    Parameters.metricsConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/metricsConfigurations/{metricsConfigurationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     201: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     202: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     204: {
-      bodyMapper: Mappers.ClusterMetricsConfiguration
+      bodyMapper: Mappers.ClusterMetricsConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.metricsConfigurationUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -623,30 +632,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.metricsConfigurationName
+    Parameters.metricsConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMetricsConfigurationList
+      bodyMapper: Mappers.ClusterMetricsConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -77,7 +77,7 @@ async function createJitNetworkAccessPolicy() {
     resourceGroupName,
     ascLocation,
     jitNetworkAccessPolicyName,
-    body
+    body,
   );
   console.log(result);
 }

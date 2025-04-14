@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Removes the specified developer portal's content item.
  *
  * @summary Removes the specified developer portal's content item.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteContentTypeContentItem.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteContentTypeContentItem.json
  */
 async function apiManagementDeleteContentTypeContentItem() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

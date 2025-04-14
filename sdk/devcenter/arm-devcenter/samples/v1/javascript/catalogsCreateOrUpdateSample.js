@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_CreateAdo.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateAdo.json
  */
 async function catalogsCreateOrUpdateAdo() {
   const subscriptionId =
@@ -31,6 +31,7 @@ async function catalogsCreateOrUpdateAdo() {
       secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
       uri: "https://contoso@dev.azure.com/contoso/contosoOrg/_git/centralrepo-fakecontoso",
     },
+    syncType: "Scheduled",
   };
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
@@ -38,7 +39,7 @@ async function catalogsCreateOrUpdateAdo() {
     resourceGroupName,
     devCenterName,
     catalogName,
-    body
+    body,
   );
   console.log(result);
 }
@@ -47,7 +48,7 @@ async function catalogsCreateOrUpdateAdo() {
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_CreateGitHub.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateGitHub.json
  */
 async function catalogsCreateOrUpdateGitHub() {
   const subscriptionId =
@@ -62,6 +63,7 @@ async function catalogsCreateOrUpdateGitHub() {
       secretIdentifier: "https://contosokv.vault.azure.net/secrets/CentralRepoPat",
       uri: "https://github.com/Contoso/centralrepo-fake.git",
     },
+    syncType: "Manual",
   };
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
@@ -69,7 +71,7 @@ async function catalogsCreateOrUpdateGitHub() {
     resourceGroupName,
     devCenterName,
     catalogName,
-    body
+    body,
   );
   console.log(result);
 }

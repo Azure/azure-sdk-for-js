@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine")]
 export const masterKey =

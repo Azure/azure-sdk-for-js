@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { Automation, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates the security automation model before create or update. Any validation errors are returned to the client.
  *
  * @summary Validates the security automation model before create or update. Any validation errors are returned to the client.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/ValidateAutomation_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/ValidateAutomation_example.json
  */
-async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
+async function validateTheSecurityAutomationModelBeforeCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "a5caac9c-5c04-49af-b3d0-e204f40345d5";
@@ -35,8 +33,8 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
         actionType: "LogicApp",
         logicAppResourceId:
           "/subscriptions/e54a4a18-5b94-4f90-9471-bd3decad8a2e/resourceGroups/sample/providers/Microsoft.Logic/workflows/MyTest1",
-        uri: "https://exampleTriggerUri1.com"
-      }
+        uri: "https://exampleTriggerUri1.com",
+      },
     ],
     isEnabled: true,
     location: "Central US",
@@ -45,8 +43,8 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
         description:
           "A description that helps to identify this scope - for example: security assessments that relate to the resource group myResourceGroup within the subscription a5caac9c-5c04-49af-b3d0-e204f40345d5",
         scopePath:
-          "/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/myResourceGroup"
-      }
+          "/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/myResourceGroup",
+      },
     ],
     sources: [
       {
@@ -58,26 +56,26 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
                 expectedValue: "customAssessment",
                 operator: "Equals",
                 propertyJPath: "$.Entity.AssessmentType",
-                propertyType: "String"
-              }
-            ]
-          }
-        ]
-      }
+                propertyType: "String",
+              },
+            ],
+          },
+        ],
+      },
     ],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.automations.validate(
     resourceGroupName,
     automationName,
-    automation
+    automation,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateTheSecurityAutomationModelBeforeCreateOrUpdate();
 }
 

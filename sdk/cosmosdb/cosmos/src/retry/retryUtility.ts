@@ -1,25 +1,35 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Constants } from "../common/constants";
-import { sleep } from "../common/helper";
-import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { Response } from "../request";
-import { RequestContext } from "../request/RequestContext";
-import { DefaultRetryPolicy } from "./defaultRetryPolicy";
-import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
-import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
-import { RetryContext } from "./RetryContext";
-import { RetryPolicy } from "./RetryPolicy";
-import { SessionRetryPolicy } from "./sessionRetryPolicy";
+// Licensed under the MIT License.
+import { Constants } from "../common/constants.js";
+import { sleep } from "../common/helper.js";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
+import type { RequestContext } from "../request/RequestContext.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import { addDignosticChild } from "../utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
+import { DefaultRetryPolicy } from "./defaultRetryPolicy.js";
+import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy.js";
+import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
+import { SessionRetryPolicy } from "./sessionRetryPolicy.js";
+import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy.js";
 
 /**
  * @hidden
  */
 interface ExecuteArgs {
   retryContext?: RetryContext;
+  diagnosticNode: DiagnosticNodeInternal;
   retryPolicies?: RetryPolicies;
   requestContext: RequestContext;
-  executeRequest: (requestContext: RequestContext) => Promise<Response<any>>;
+  executeRequest: (
+    diagnosticNode: DiagnosticNodeInternal,
+    requestContext: RequestContext,
+  ) => Promise<Response<any>>;
 }
 
 /**
@@ -30,98 +40,146 @@ interface RetryPolicies {
   resourceThrottleRetryPolicy: ResourceThrottleRetryPolicy;
   sessionReadRetryPolicy: SessionRetryPolicy;
   defaultRetryPolicy: DefaultRetryPolicy;
+  timeoutFailoverRetryPolicy: TimeoutFailoverRetryPolicy;
 }
 
 /**
  * @hidden
  */
 export async function execute({
+  diagnosticNode,
   retryContext = { retryCount: 0 },
   retryPolicies,
   requestContext,
   executeRequest,
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
-  if (!retryPolicies) {
-    retryPolicies = {
-      endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
-        requestContext.globalEndpointManager,
-        requestContext.operationType
-      ),
-      resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
-      ),
-      sessionReadRetryPolicy: new SessionRetryPolicy(
-        requestContext.globalEndpointManager,
-        requestContext.resourceType,
-        requestContext.operationType,
-        requestContext.connectionPolicy
-      ),
-      defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
-    };
-  }
-  if (retryContext && retryContext.clearSessionTokenNotAvailable) {
-    requestContext.client.clearSessionToken(requestContext.path);
-    delete requestContext.headers["x-ms-session-token"];
-  }
-  requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
-    requestContext.resourceType,
-    requestContext.operationType
-  );
-  try {
-    const response = await executeRequest(requestContext);
-    response.headers[Constants.ThrottleRetryCount] =
-      retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
-    response.headers[Constants.ThrottleRetryWaitTimeInMs] =
-      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
-    return response;
-  } catch (err: any) {
-    // TODO: any error
-    let retryPolicy: RetryPolicy = null;
-    const headers = err.headers || {};
-    if (
-      err.code === StatusCodes.ENOTFOUND ||
-      err.code === "REQUEST_SEND_ERROR" ||
-      (err.code === StatusCodes.Forbidden &&
-        (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
-          err.substatus === SubStatusCodes.WriteForbidden))
-    ) {
-      retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
-    } else if (err.code === StatusCodes.TooManyRequests) {
-      retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
-    } else if (
-      err.code === StatusCodes.NotFound &&
-      err.substatus === SubStatusCodes.ReadSessionNotAvailable
-    ) {
-      retryPolicy = retryPolicies.sessionReadRetryPolicy;
-    } else {
-      retryPolicy = retryPolicies.defaultRetryPolicy;
-    }
-    const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
-    if (!results) {
-      headers[Constants.ThrottleRetryCount] =
-        retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
-      headers[Constants.ThrottleRetryWaitTimeInMs] =
-        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
-      err.headers = { ...err.headers, ...headers };
-      err.diagnostics = requestContext.diagnosticContext.getDiagnostics();
-      throw err;
-    } else {
-      requestContext.retryCount++;
-      const newUrl = (results as any)[1]; // TODO: any hack
-      if (newUrl !== undefined) {
-        requestContext.endpoint = newUrl;
+  return addDignosticChild(
+    async (localDiagnosticNode: DiagnosticNodeInternal) => {
+      localDiagnosticNode.addData({ requestAttempNumber: retryContext.retryCount });
+      if (!retryPolicies) {
+        retryPolicies = {
+          endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
+            requestContext.globalEndpointManager,
+            requestContext.operationType,
+          ),
+          resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
+            requestContext.connectionPolicy.retryOptions ?? {},
+          ),
+          sessionReadRetryPolicy: new SessionRetryPolicy(
+            requestContext.globalEndpointManager,
+            requestContext.resourceType,
+            requestContext.operationType,
+            requestContext.connectionPolicy,
+          ),
+          defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
+          timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(
+            requestContext.globalEndpointManager,
+            requestContext.headers,
+            requestContext.method,
+            requestContext.resourceType,
+            requestContext.operationType,
+            requestContext.connectionPolicy.enableEndpointDiscovery,
+          ),
+        };
       }
-      await sleep(retryPolicy.retryAfterInMs);
-      requestContext.diagnosticContext.recordFailedAttempt(err.code);
-      return execute({
-        executeRequest,
-        requestContext,
-        retryContext,
-        retryPolicies,
-      });
-    }
-  }
+      if (retryContext && retryContext.clearSessionTokenNotAvailable) {
+        requestContext.client.clearSessionToken(requestContext.path);
+        delete requestContext.headers["x-ms-session-token"];
+      }
+      if (retryContext && retryContext.retryLocationServerIndex) {
+        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+          localDiagnosticNode,
+          requestContext.resourceType,
+          requestContext.operationType,
+          retryContext.retryLocationServerIndex,
+        );
+      } else {
+        requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+          localDiagnosticNode,
+          requestContext.resourceType,
+          requestContext.operationType,
+        );
+      }
+      const startTimeUTCInMs = getCurrentTimestampInMs();
+      const correlatedActivityId =
+        requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
+      try {
+        const response = await executeRequest(localDiagnosticNode, requestContext);
+        response.headers[Constants.ThrottleRetryCount] =
+          retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
+        response.headers[Constants.ThrottleRetryWaitTimeInMs] =
+          retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
+        if (correlatedActivityId) {
+          response.headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+        }
+        return response;
+      } catch (err: any) {
+        // TODO: any error
+        let retryPolicy: RetryPolicy = null;
+        const headers = err.headers || {};
+        if (correlatedActivityId) {
+          headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+        }
+        if (
+          err.code === StatusCodes.ENOTFOUND ||
+          err.code === "REQUEST_SEND_ERROR" ||
+          (err.code === StatusCodes.Forbidden &&
+            (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+              err.substatus === SubStatusCodes.WriteForbidden))
+        ) {
+          retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
+        } else if (err.code === StatusCodes.TooManyRequests) {
+          retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
+        } else if (
+          err.code === StatusCodes.NotFound &&
+          err.substatus === SubStatusCodes.ReadSessionNotAvailable
+        ) {
+          retryPolicy = retryPolicies.sessionReadRetryPolicy;
+        } else if (err.code === StatusCodes.ServiceUnavailable || err.code === TimeoutErrorCode) {
+          retryPolicy = retryPolicies.timeoutFailoverRetryPolicy;
+        } else {
+          retryPolicy = retryPolicies.defaultRetryPolicy;
+        }
+        const results = await retryPolicy.shouldRetry(
+          err,
+          localDiagnosticNode,
+          retryContext,
+          requestContext.endpoint,
+        );
+        if (!results) {
+          headers[Constants.ThrottleRetryCount] =
+            retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
+          headers[Constants.ThrottleRetryWaitTimeInMs] =
+            retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
+          err.headers = { ...err.headers, ...headers };
+          throw err;
+        } else {
+          requestContext.retryCount++;
+          const newUrl = (results as any)[1]; // TODO: any hack
+          if (newUrl !== undefined) {
+            requestContext.endpoint = newUrl;
+          }
+          localDiagnosticNode.recordFailedNetworkCall(
+            startTimeUTCInMs,
+            requestContext,
+            retryContext.retryCount,
+            err.code,
+            err.subsstatusCode,
+            headers,
+          );
+          await sleep(retryPolicy.retryAfterInMs);
+          return execute({
+            diagnosticNode,
+            executeRequest,
+            requestContext,
+            retryContext,
+            retryPolicies,
+          });
+        }
+      }
+    },
+    diagnosticNode,
+    DiagnosticNodeType.HTTP_REQUEST,
+  );
 }

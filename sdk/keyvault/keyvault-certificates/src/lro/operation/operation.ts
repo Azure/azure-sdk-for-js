@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
   CancelCertificateOperationOptions,
   CertificateOperation,
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy,
-} from "../../certificatesModels";
-import {
-  cleanState,
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
+} from "../../certificatesModels.js";
+import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
+import { cleanState, KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
-} from "../../transformations";
-import { tracingClient } from "../../tracing";
+} from "../../transformations.js";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
@@ -43,9 +40,8 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
 > {
   constructor(
     public state: CertificateOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state);
   }
@@ -55,21 +51,19 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private cancelCertificateOperation(
     certificateName: string,
-    options: CancelCertificateOperationOptions = {}
+    options: CancelCertificateOperationOptions = {},
   ): Promise<CertificateOperation> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.cancelCertificateOperation",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
-      }
+        const response = await this.client.updateCertificateOperation(
+          certificateName,
+          { cancellationRequested: true },
+          updatedOptions,
+        );
+        return getCertificateOperationFromCoreOperation(certificateName, response);
+      },
     );
   }
 
@@ -78,20 +72,15 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private getCertificate(
     certificateName: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -100,21 +89,15 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private getPlainCertificateOperation(
     certificateName: string,
-    options: GetPlainCertificateOperationOptions = {}
+    options: GetPlainCertificateOperationOptions = {},
   ): Promise<CertificateOperation> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.getPlainCertificateOperation",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
-      }
+        const response = await this.client.getCertificateOperation(certificateName, updatedOptions);
+        return getCertificateOperationFromCoreOperation(certificateName, response);
+      },
     );
   }
 
@@ -125,7 +108,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: CertificateOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<CertificateOperationPollOperation> {
     const state = this.state;
     const certificateName = state.certificateName!;
@@ -139,12 +122,12 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       state.result = await this.getCertificate(certificateName, this.operationOptions);
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.operationOptions
+        this.operationOptions,
       );
     } else if (!state.isCompleted) {
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.operationOptions
+        this.operationOptions,
       );
     }
 
@@ -164,7 +147,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   async cancel(
     this: CertificateOperationPollOperation,
-    options: { abortSignal?: AbortSignal } = {}
+    options: { abortSignal?: AbortSignal } = {},
   ): Promise<CertificateOperationPollOperation> {
     const state = this.state;
     const certificateName = state.certificateName!;
@@ -175,7 +158,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
 
     state.certificateOperation = await this.cancelCertificateOperation(
       certificateName,
-      this.operationOptions
+      this.operationOptions,
     );
 
     this.state.isCancelled = true;

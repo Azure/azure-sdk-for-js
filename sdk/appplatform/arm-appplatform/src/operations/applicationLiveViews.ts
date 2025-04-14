@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationLiveViews } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationLiveViews } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClient } from "../appPlatformManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApplicationLiveViewResource,
   ApplicationLiveViewsListNextOptionalParams,
@@ -29,8 +29,9 @@ import {
   ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ApplicationLiveViewsCreateOrUpdateResponse,
   ApplicationLiveViewsDeleteOptionalParams,
+  ApplicationLiveViewsDeleteResponse,
   ApplicationLiveViewsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationLiveViews operations. */
@@ -281,11 +282,16 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationLiveViewsDeleteResponse>,
+      ApplicationLiveViewsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ApplicationLiveViewsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -331,7 +337,10 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ApplicationLiveViewsDeleteResponse,
+      OperationState<ApplicationLiveViewsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -352,7 +361,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<ApplicationLiveViewsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -469,10 +478,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -72,7 +72,7 @@ import {
   ClusterPrincipalAssignment as ClusterPrincipalAssignmentMapper,
   DatabasePrincipalAssignmentCheckNameRequest as DatabasePrincipalAssignmentCheckNameRequestMapper,
   DatabasePrincipalAssignment as DatabasePrincipalAssignmentMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

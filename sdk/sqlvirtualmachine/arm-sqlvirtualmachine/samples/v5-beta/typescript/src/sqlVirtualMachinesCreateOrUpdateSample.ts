@@ -13,17 +13,15 @@ import {
   SqlVirtualMachineManagementClient
 } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
  */
-async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup() {
+async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -60,9 +58,9 @@ async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineG
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
  */
-async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp() {
+async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -132,9 +130,9 @@ async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithW
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
  */
-async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool() {
+async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -167,9 +165,9 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
  */
-async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool() {
+async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -213,9 +211,9 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
  */
-async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
+async function createsOrUpdatesASqlVirtualMachineWithMaxParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -261,6 +259,9 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
     location: "northeurope",
     serverConfigurationsManagementSettings: {
       additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
+      azureAdAuthenticationSettings: {
+        clientId: "11111111-2222-3333-4444-555555555555"
+      },
       sqlConnectivityUpdateSettings: {
         connectivityType: "PRIVATE",
         port: 1433,
@@ -306,9 +307,9 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
  * This sample demonstrates how to Creates or updates a SQL virtual machine.
  *
  * @summary Creates or updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
  */
-async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
+async function createsOrUpdatesASqlVirtualMachineWithMinParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -333,7 +334,7 @@ async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup();
   createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp();
   createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool();

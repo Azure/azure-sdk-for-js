@@ -11,8 +11,8 @@ import {
   PrivateLinkResource,
   PrivateLinkResourceListByBatchAccountOptionalParams,
   PrivateLinkResourceGetOptionalParams,
-  PrivateLinkResourceGetResponse
-} from "../models";
+  PrivateLinkResourceGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResourceOperations. */
@@ -26,7 +26,7 @@ export interface PrivateLinkResourceOperations {
   listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourceListByBatchAccountOptionalParams
+    options?: PrivateLinkResourceListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets information about the specified private link resource.
@@ -40,6 +40,6 @@ export interface PrivateLinkResourceOperations {
     resourceGroupName: string,
     accountName: string,
     privateLinkResourceName: string,
-    options?: PrivateLinkResourceGetOptionalParams
+    options?: PrivateLinkResourceGetOptionalParams,
   ): Promise<PrivateLinkResourceGetResponse>;
 }

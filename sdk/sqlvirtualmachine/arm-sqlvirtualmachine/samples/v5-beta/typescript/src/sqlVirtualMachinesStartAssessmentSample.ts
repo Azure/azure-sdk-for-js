@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Starts Assessment on SQL virtual machine.
+ * This sample demonstrates how to Starts SQL best practices Assessment on SQL virtual machine.
  *
- * @summary Starts Assessment on SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/StartAssessmentOnSqlVirtualMachine.json
+ * @summary Starts SQL best practices Assessment on SQL virtual machine.
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/StartAssessmentOnSqlVirtualMachine.json
  */
-async function startsAssessmentOnSqlVirtualMachine() {
+async function startsSqlBestPracticesAssessmentOnSqlVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -39,8 +37,8 @@ async function startsAssessmentOnSqlVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
-  startsAssessmentOnSqlVirtualMachine();
+async function main(): Promise<void> {
+  startsSqlBestPracticesAssessmentOnSqlVirtualMachine();
 }
 
 main().catch(console.error);

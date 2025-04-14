@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage, ServiceBusSender } from "../../src";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+// Licensed under the MIT License.
+import type { ServiceBusMessage, ServiceBusSender } from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import type { TestClientType } from "../public/utils/testUtils.js";
+import { TestMessage } from "../public/utils/testUtils.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import {
-  DispositionType,
+} from "../public/utils/testutils2.js";
+import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../src/serviceBusMessage";
-import { testLogger } from "./utils/misc";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+} from "../../src/serviceBusMessage.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import { testLogger } from "./utils/misc.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 // const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -35,11 +32,11 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -48,7 +45,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -59,7 +56,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   });
 
   async function sendReceiveMsg(
-    testMessages: ServiceBusMessage
+    testMessages: ServiceBusMessage,
   ): Promise<ServiceBusReceivedMessage> {
     await sender.sendMessages(testMessages);
     const msgs = await receiver.receiveMessages(1);
@@ -97,7 +94,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         err.message,
         `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
       errorWasThrown = true;
     }
@@ -148,7 +145,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         err.message,
         `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
       errorWasThrown = true;
     }
@@ -173,7 +170,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testAbandon();
-    }
+    },
   );
 
   //   it(
@@ -213,7 +210,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         err.message,
         `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
       errorWasThrown = true;
     }
@@ -242,7 +239,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDefer();
-    }
+    },
   );
 
   //   it(
@@ -279,7 +276,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     }
 
     testLogger.info(
-      `Underlying link should be closed: ${receiver.isClosed}. This will force us to use the management link to settle. Will now attempt to dead letter.`
+      `Underlying link should be closed: ${receiver.isClosed}. This will force us to use the management link to settle. Will now attempt to dead letter.`,
     );
 
     let errorWasThrown = false;
@@ -293,7 +290,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         err.message,
         `Failed to ${DispositionType.deadletter} the message as the AMQP link with which the message was received is no longer alive.`,
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
       errorWasThrown = true;
     }
@@ -305,7 +302,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     }
 
     testLogger.info(
-      `Creating a peek lock dead letter receiver and attempting to receive the dead lettered message`
+      `Creating a peek lock dead letter receiver and attempting to receive the dead lettered message`,
     );
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
@@ -315,18 +312,18 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
         true,
-        "`ReceivedMessages` from Deadletter is not an array"
+        "`ReceivedMessages` from Deadletter is not an array",
       );
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
         deadLetterMsgsBatch[0].body,
         testMessages.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       testLogger.info(`Attempting to complete the message: ${deadLetterMsgsBatch[0].messageId}`);
@@ -348,7 +345,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDeadletter();
-    }
+    },
   );
 
   //   it(
@@ -384,7 +381,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(
         lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
         true,
-        "MessageLock did not get renewed!"
+        "MessageLock did not get renewed!",
       );
       await receiver.completeMessage(msg);
     } catch (err: any) {
@@ -394,7 +391,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
         should.equal(
           err.message,
           `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
-          "Unexpected error thrown"
+          "Unexpected error thrown",
         );
       }
       errorWasThrown = true;

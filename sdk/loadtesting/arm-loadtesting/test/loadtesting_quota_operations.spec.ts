@@ -6,29 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  RecorderStartOptions,
-  Recorder
-} from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { LoadTestClient } from "../src/loadTestClient";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
+import { LoadTestClient } from "../src/loadTestClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
+import type {
   QuotaBucketRequest,
-  QuotaBucketRequestPropertiesDimensions
-} from "../src/models";
+  QuotaBucketRequestPropertiesDimensions,
+} from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
+  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 describe("Load Testing Quota Operations", () => {
@@ -40,31 +37,31 @@ describe("Load Testing Quota Operations", () => {
   let quotaBucketRequestDimensions: QuotaBucketRequestPropertiesDimensions;
   let quotaBucketName: string;
 
-  before(function () {
+  beforeAll(() => {
     // Quota bucket request payload
     quotaBucketRequestDimensions = {
       location: location,
-      subscriptionId: subscriptionId
+      subscriptionId: subscriptionId,
     };
 
     // Set the global variables to be used in the tests
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     location = env.LOCATION || "westus2";
     quotaBucketName = "maxEngineInstancesPerTestRun";
-  })
+  });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000";
     const credential = createTestCredential();
     client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("list quota buckets", async function () {
+  it("list quota buckets", async () => {
     // Get the quota bucket
     const result = client.quotas.list(location);
 
@@ -78,7 +75,7 @@ describe("Load Testing Quota Operations", () => {
     }
   });
 
-  it("get quota bucket", async function () {
+  it("get quota bucket", async () => {
     // Get the quota bucket
     const result = await client.quotas.get(location, quotaBucketName);
 
@@ -90,7 +87,7 @@ describe("Load Testing Quota Operations", () => {
     assert.isNotNull(result.usage);
   });
 
-  it("check quota bucket availability", async function () {
+  it("check quota bucket availability", async () => {
     // Get the quota bucket
     const result = await client.quotas.get(location, quotaBucketName);
 
@@ -106,11 +103,15 @@ describe("Load Testing Quota Operations", () => {
       currentQuota: result.limit,
       currentUsage: result.usage,
       newQuota: result.limit,
-      dimensions: quotaBucketRequestDimensions
+      dimensions: quotaBucketRequestDimensions,
     };
 
     // Check the quota bucket availability
-    const availability = await client.quotas.checkAvailability(location, quotaBucketName, quotaBucketRequestPayload);
+    const availability = await client.quotas.checkAvailability(
+      location,
+      quotaBucketName,
+      quotaBucketRequestPayload,
+    );
 
     // Verify the response
     assert.equal(availability.name, quotaBucketName);

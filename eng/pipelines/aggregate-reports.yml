@@ -23,7 +23,7 @@ stages:
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 16.x
+              NodeVersion: 18.x
 
           - task: PowerShell@2
             inputs:
@@ -47,11 +47,7 @@ stages:
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
             displayName: 'Validate dependencies'
 
-          - pwsh: |
-              copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
-            displayName: 'Copy static file'
-
-          - task: AzureFileCopy@4
+          - task: AzureFileCopy@6
             displayName: 'Upload Dependency Report'
             inputs:
               sourcePath: '$(Build.ArtifactStagingDirectory)/*'
@@ -62,7 +58,7 @@ stages:
               blobPrefix: dependencies
               AdditionalArgumentsForBlobCopy: '--exclude-pattern=*data.js*'
 
-          - task: AzureFileCopy@4
+          - task: AzureFileCopy@6
             displayName: 'Upload Dependency Graph'
             inputs:
               sourcePath: '$(Build.ArtifactStagingDirectory)/*'

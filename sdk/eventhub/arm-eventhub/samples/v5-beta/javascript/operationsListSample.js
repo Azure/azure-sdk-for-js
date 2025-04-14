@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all of the available Event Hub REST API operations.
  *
  * @summary Lists all of the available Event Hub REST API operations.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/EHOperations_List.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EHOperations_List.json
  */
 async function ehOperationsList() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function ehOperationsList() {
 }
 
 async function main() {
-  ehOperationsList();
+  await ehOperationsList();
 }
 
 main().catch(console.error);

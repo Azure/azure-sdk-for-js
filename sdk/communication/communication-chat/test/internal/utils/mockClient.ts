@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
-import * as RestModel from "../../../src/generated/src/models";
-import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
-import { CommunicationIdentifierModel } from "../../../src/generated/src";
-import { baseUri, generateToken } from "../../public/utils/connectionUtils";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type * as RestModel from "../../../src/generated/src/models/index.js";
+import type { ChatParticipant } from "../../../src/index.js";
+import { ChatClient, ChatThreadClient } from "../../../src/index.js";
+import type { CommunicationIdentifierModel } from "../../../src/generated/src/index.js";
+import { baseUri, generateToken } from "../../public/utils/connectionUtils.js";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" },
@@ -72,6 +69,54 @@ export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   readOn: new Date("2020-06-26T18:06:06Z"),
 };
 
+export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [
+      {
+        id: "id",
+        attachmentType: "image",
+        name: "",
+        url: "url",
+        previewUrl: "previewUrl",
+      },
+    ],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+};
+
+export const mockMessageWithFileAttachment: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [
+      {
+        id: "id",
+        attachmentType: "file",
+        previewUrl: "previewUrl",
+      },
+    ],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+};
+
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
@@ -94,7 +139,7 @@ export const createChatClient = (mockHttpClient: HttpClient): ChatClient => {
 
 export const createChatThreadClient = (
   threadId: string,
-  mockHttpClient: HttpClient
+  mockHttpClient: HttpClient,
 ): ChatThreadClient => {
   return new ChatThreadClient(
     baseUri,
@@ -102,6 +147,6 @@ export const createChatThreadClient = (
     new AzureCommunicationTokenCredential(generateToken()),
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };

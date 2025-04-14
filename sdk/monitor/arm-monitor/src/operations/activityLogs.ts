@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ActivityLogs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ActivityLogs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   EventData,
   ActivityLogsListNextOptionalParams,
   ActivityLogsListOptionalParams,
   ActivityLogsListResponse,
-  ActivityLogsListNextResponse
-} from "../models";
+  ActivityLogsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ActivityLogs operations. */
@@ -53,7 +53,7 @@ export class ActivityLogsImpl implements ActivityLogs {
    */
   public list(
     filter: string,
-    options?: ActivityLogsListOptionalParams
+    options?: ActivityLogsListOptionalParams,
   ): PagedAsyncIterableIterator<EventData> {
     const iter = this.listPagingAll(filter, options);
     return {
@@ -68,14 +68,14 @@ export class ActivityLogsImpl implements ActivityLogs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(filter, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     filter: string,
     options?: ActivityLogsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventData[]> {
     let result: ActivityLogsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ActivityLogsImpl implements ActivityLogs {
 
   private async *listPagingAll(
     filter: string,
-    options?: ActivityLogsListOptionalParams
+    options?: ActivityLogsListOptionalParams,
   ): AsyncIterableIterator<EventData> {
     for await (const page of this.listPagingPage(filter, options)) {
       yield* page;
@@ -123,11 +123,11 @@ export class ActivityLogsImpl implements ActivityLogs {
    */
   private _list(
     filter: string,
-    options?: ActivityLogsListOptionalParams
+    options?: ActivityLogsListOptionalParams,
   ): Promise<ActivityLogsListResponse> {
     return this.client.sendOperationRequest(
       { filter, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -138,11 +138,11 @@ export class ActivityLogsImpl implements ActivityLogs {
    */
   private _listNext(
     nextLink: string,
-    options?: ActivityLogsListNextOptionalParams
+    options?: ActivityLogsListNextOptionalParams,
   ): Promise<ActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,42 +150,41 @@ export class ActivityLogsImpl implements ActivityLogs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventDataCollection
+      bodyMapper: Mappers.EventDataCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.select
+    Parameters.apiVersion3,
+    Parameters.filter1,
+    Parameters.select,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventDataCollection
+      bodyMapper: Mappers.EventDataCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

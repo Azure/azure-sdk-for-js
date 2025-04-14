@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { PerfTestBase } from "./perfTestBase";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { PerfTestBase } from "./perfTestBase.js";
 import { isDefined } from "@azure/core-util";
 
 /**
@@ -10,7 +10,7 @@ import { isDefined } from "@azure/core-util";
  * - Typically, such APIs("subscribe" method) offered by the AMQP based SDKs - event-hubs/service-bus.
  */
 export abstract class EventPerfTest<
-  TOptions = Record<string, unknown>
+  TOptions = Record<string, unknown>,
 > extends PerfTestBase<TOptions> {
   startTime: bigint;
   private testDuration = 0;
@@ -34,7 +34,7 @@ export abstract class EventPerfTest<
    */
   public async runAll(
     durationMilliseconds: number,
-    abortController: AbortController
+    abortController: AbortController,
   ): Promise<void> {
     this.startTime = process.hrtime.bigint(); // process.hrtime.bigint() method returns the current high-resolution real-time in nanoseconds as a bigint
     this.completedOperations = 0;
@@ -43,7 +43,7 @@ export abstract class EventPerfTest<
     this.abortController = abortController;
     try {
       await delay(this.testDuration, this.abortController.signal);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.warn(error);
     }
   }
@@ -51,12 +51,16 @@ export abstract class EventPerfTest<
   public eventRaised() {
     this.completedOperations++;
     this.lastMillisecondsElapsed = this.getTimeElapsedInMilliseconds();
-    this.isTimeExceeded() && !this.abortController?.signal.aborted && this.abortController?.abort();
+    if (this.isTimeExceeded() && !this.abortController?.signal.aborted) {
+      this.abortController?.abort();
+    }
   }
 
   public errorRaised(error: Error) {
     console.warn(`Error occurred:\n ${error}`);
-    !this.abortController?.signal.aborted && this.abortController?.abort();
+    if (!this.abortController?.signal.aborted) {
+      this.abortController?.abort();
+    }
   }
 
   private getTimeElapsedInMilliseconds() {

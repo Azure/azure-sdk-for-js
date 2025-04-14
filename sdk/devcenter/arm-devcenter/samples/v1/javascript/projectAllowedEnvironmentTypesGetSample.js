@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an allowed environment type.
  *
  * @summary Gets an allowed environment type.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/ProjectAllowedEnvironmentTypes_Get.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/ProjectAllowedEnvironmentTypes_Get.json
  */
 async function projectAllowedEnvironmentTypesGet() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function projectAllowedEnvironmentTypesGet() {
   const result = await client.projectAllowedEnvironmentTypes.get(
     resourceGroupName,
     projectName,
-    environmentTypeName
+    environmentTypeName,
   );
   console.log(result);
 }

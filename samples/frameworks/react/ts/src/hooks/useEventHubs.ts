@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how to create a React hook integrating
   with Azure Event Hubs. 
@@ -68,7 +68,7 @@ const useEventHubs: Hook = (callback) => {
     if (!consumer.current) {
       // Create a new consumer using the default consumer group.
       // For more information about consumer groups please refer to
-      // https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features#consumer-groups
+      // https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-features#consumer-groups
       consumer.current = new EventHubConsumerClient(
         "$Default",
         namespace,

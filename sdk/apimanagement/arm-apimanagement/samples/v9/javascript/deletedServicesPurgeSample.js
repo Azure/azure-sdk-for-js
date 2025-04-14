@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Purges Api Management Service (deletes it with no option to undelete).
  *
  * @summary Purges Api Management Service (deletes it with no option to undelete).
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeletedServicesPurge.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeletedServicesPurge.json
  */
 async function apiManagementDeletedServicesPurge() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

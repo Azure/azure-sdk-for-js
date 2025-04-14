@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-
-import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters";
-
-import {
+import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
+import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
   AddParticipantFailed,
@@ -26,12 +24,34 @@ import {
   ContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped,
-  SendDtmfCompleted,
-  SendDtmfFailed,
-} from "./models/events";
+  SendDtmfTonesCompleted,
+  SendDtmfTonesFailed,
+  CancelAddParticipantSucceeded,
+  CancelAddParticipantFailed,
+  TranscriptionStarted,
+  TranscriptionStopped,
+  TranscriptionUpdated,
+  TranscriptionFailed,
+  CreateCallFailed,
+  AnswerFailed,
+  HoldFailed,
+  ConnectFailed,
+  MediaStreamingStarted,
+  MediaStreamingStopped,
+  MediaStreamingFailed,
+  StartRecordingFailed,
+  PlayStarted,
+  PlayPaused,
+  PlayResumed,
+  HoldAudioStarted,
+  HoldAudioPaused,
+  HoldAudioResumed,
+  HoldAudioCompleted,
+  IncomingCall,
+} from "./models/events.js";
 
-import { CloudEventMapper } from "./models/mapper";
-import { CallParticipantInternal } from "./generated/src";
+import { CloudEventMapper } from "./models/mapper.js";
+import type { CallParticipantInternal } from "./generated/src/index.js";
 
 const serializer = createSerializer();
 
@@ -39,7 +59,7 @@ const serializer = createSerializer();
  * Helper function for parsing Acs callback events.
  */
 export function parseCallAutomationEvent(
-  encodedEvents: string | Record<string, unknown>
+  encodedEvents: string | Record<string, unknown>,
 ): CallAutomationEvent {
   const decodedInput = parseAndWrap(encodedEvents);
 
@@ -70,6 +90,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CallConnected":
       callbackEvent = { kind: "CallConnected" } as CallConnected;
+      break;
+    case "Microsoft.Communication.IncomingCall":
+      callbackEvent = { kind: "IncomingCall" } as IncomingCall;
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
@@ -120,11 +143,74 @@ export function parseCallAutomationEvent(
         kind: "ContinuousDtmfRecognitionStopped",
       } as ContinuousDtmfRecognitionStopped;
       break;
-    case "Microsoft.Communication.SendDtmfCompleted":
-      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
+    case "Microsoft.Communication.SendDtmfTonesCompleted":
+      callbackEvent = { kind: "SendDtmfTonesCompleted" } as SendDtmfTonesCompleted;
       break;
-    case "Microsoft.Communication.SendDtmfFailed":
-      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
+    case "Microsoft.Communication.SendDtmfTonesFailed":
+      callbackEvent = { kind: "SendDtmfTonesFailed" } as SendDtmfTonesFailed;
+      break;
+    case "Microsoft.Communication.CancelAddParticipantSucceeded":
+      callbackEvent = { kind: "CancelAddParticipantSucceeded" } as CancelAddParticipantSucceeded;
+      break;
+    case "Microsoft.Communication.CancelAddParticipantFailed":
+      callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
+      break;
+    case "Microsoft.Communication.TranscriptionStarted":
+      callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
+      break;
+    case "Microsoft.Communication.TranscriptionStopped":
+      callbackEvent = { kind: "TranscriptionStopped" } as TranscriptionStopped;
+      break;
+    case "Microsoft.Communication.TranscriptionUpdated":
+      callbackEvent = { kind: "TranscriptionUpdated" } as TranscriptionUpdated;
+      break;
+    case "Microsoft.Communication.TranscriptionFailed":
+      callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
+      break;
+    case "Microsoft.Communication.CreateCallFailed":
+      callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
+      break;
+    case "Microsoft.Communication.AnswerFailed":
+      callbackEvent = { kind: "AnswerFailed" } as AnswerFailed;
+      break;
+    case "Microsoft.Communication.HoldFailed":
+      callbackEvent = { kind: "HoldFailed" } as HoldFailed;
+      break;
+    case "Microsoft.Communication.ConnectFailed":
+      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
+      break;
+    case "Microsoft.Communication.MediaStreamingStarted":
+      callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
+      break;
+    case "Microsoft.Communication.MediaStreamingStopped":
+      callbackEvent = { kind: "MediaStreamingStopped" } as MediaStreamingStopped;
+      break;
+    case "Microsoft.Communication.MediaStreamingFailed":
+      callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
+      break;
+    case "Microsoft.Communication.StartRecordingFailed":
+      callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
+      break;
+    case "Microsoft.Communication.PlayStarted":
+      callbackEvent = { kind: "PlayStarted" } as PlayStarted;
+      break;
+    case "Microsoft.Communication.PlayPaused":
+      callbackEvent = { kind: "PlayPaused" } as PlayPaused;
+      break;
+    case "Microsoft.Communication.PlayResumed":
+      callbackEvent = { kind: "PlayResumed" } as PlayResumed;
+      break;
+    case "Microsoft.Communication.HoldAudioStarted":
+      callbackEvent = { kind: "HoldAudioStarted" } as HoldAudioStarted;
+      break;
+    case "Microsoft.Communication.HoldAudioPaused":
+      callbackEvent = { kind: "HoldAudioPaused" } as HoldAudioPaused;
+      break;
+    case "Microsoft.Communication.HoldAudioResumed":
+      callbackEvent = { kind: "HoldAudioResumed" } as HoldAudioResumed;
+      break;
+    case "Microsoft.Communication.HoldAudioCompleted":
+      callbackEvent = { kind: "HoldAudioCompleted" } as HoldAudioCompleted;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
@@ -161,7 +247,7 @@ function participantsParserForEvent(data: any): any {
   return {
     ...rest,
     participants: participants?.map((participant: CallParticipantInternal) =>
-      callParticipantConverter(participant)
+      callParticipantConverter(participant),
     ),
   };
 }

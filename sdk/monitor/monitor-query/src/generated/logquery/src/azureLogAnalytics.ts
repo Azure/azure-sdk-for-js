@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { QueryImpl, MetadataImpl } from "./operations";
-import { Query, Metadata } from "./operationsInterfaces";
-import { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext";
-import { AzureLogAnalyticsOptionalParams } from "./models";
+import { QueryImpl, MetadataImpl } from "./operations/index.js";
+import { Query, Metadata } from "./operationsInterfaces/index.js";
+import { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext.js";
+import { AzureLogAnalyticsOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class AzureLogAnalytics extends AzureLogAnalyticsContext {

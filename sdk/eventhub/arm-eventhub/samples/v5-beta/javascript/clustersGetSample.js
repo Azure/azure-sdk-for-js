@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the resource description of the specified Event Hubs Cluster.
  *
  * @summary Gets the resource description of the specified Event Hubs Cluster.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/Clusters/ClusterGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClusterGet.json
  */
 async function clusterGet() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function clusterGet() {
 }
 
 async function main() {
-  clusterGet();
+  await clusterGet();
 }
 
 main().catch(console.error);

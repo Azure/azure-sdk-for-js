@@ -1,5 +1,18 @@
 # Release History
 
+## 1.0.1-beta.2 (2024-12-23)
+
+### Other Changes
+
+- Updated the README with inline images example.
+
+## 1.0.1-beta.1 (2024-08-26)
+
+### Features Added
+
+- Consumers can now provide a value for the `contentId` property when sending emails with attachments.
+  This allows consumers to reference attachments in the email body using the `cid` scheme. The `contentId` property can be set on the `EmailAttachment` object.
+
 ## 1.0.0 (2023-03-31)
 
 The public release of the Azure Communication Services SDK for Email has the following features:

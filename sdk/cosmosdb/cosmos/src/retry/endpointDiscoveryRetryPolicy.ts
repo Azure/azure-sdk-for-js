@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { OperationType } from "../common";
-import { isReadRequest } from "../common/helper";
-import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ErrorResponse } from "../request";
-import { RetryContext } from "./RetryContext";
-import { RetryPolicy } from "./RetryPolicy";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { OperationType } from "../common/index.js";
+import { isReadRequest } from "../common/helper.js";
+import type { GlobalEndpointManager } from "../globalEndpointManager.js";
+import type { ErrorResponse } from "../request/index.js";
+import type { RetryContext } from "./RetryContext.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * This class implements the retry policy for endpoint discovery.
@@ -27,7 +28,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
    */
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
-    private operationType: OperationType
+    private operationType: OperationType,
   ) {
     this.maxTries = EndpointDiscoveryRetryPolicy.maxTries;
     this.currentRetryAttemptCount = 0;
@@ -40,8 +41,9 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
    */
   public async shouldRetry(
     err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
-    locationEndpoint?: string
+    locationEndpoint?: string,
   ): Promise<boolean | [boolean, string]> {
     if (!err) {
       return false;
@@ -62,15 +64,21 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     this.currentRetryAttemptCount++;
 
     if (isReadRequest(this.operationType)) {
-      await this.globalEndpointManager.markCurrentLocationUnavailableForRead(locationEndpoint);
+      await this.globalEndpointManager.markCurrentLocationUnavailableForRead(
+        diagnosticNode,
+        locationEndpoint,
+      );
     } else {
-      await this.globalEndpointManager.markCurrentLocationUnavailableForWrite(locationEndpoint);
+      await this.globalEndpointManager.markCurrentLocationUnavailableForWrite(
+        diagnosticNode,
+        locationEndpoint,
+      );
     }
 
     retryContext.retryCount = this.currentRetryAttemptCount;
     retryContext.clearSessionTokenNotAvailable = false;
     retryContext.retryRequestOnPreferredLocations = false;
-
+    diagnosticNode.addData({ successfulRetryPolicy: "endpointDiscovery" });
     return true;
   }
 }

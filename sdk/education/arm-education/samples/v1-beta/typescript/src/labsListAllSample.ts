@@ -13,9 +13,7 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of labs associated with the provided billing account name and billing profile name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get a list of labs associated with the provided billing account name and billing profile name.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/LabList.json
  */
-async function labList() {
+async function labList(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const includeBudget = false;
@@ -47,7 +45,7 @@ async function labList() {
  * @summary Get a list of labs associated with the provided billing account name and billing profile name.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/LabListIncludeBudget.json
  */
-async function labListIncludeBudget() {
+async function labListIncludeBudget(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const includeBudget = true;
@@ -65,7 +63,7 @@ async function labListIncludeBudget() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   labList();
   labListIncludeBudget();
 }

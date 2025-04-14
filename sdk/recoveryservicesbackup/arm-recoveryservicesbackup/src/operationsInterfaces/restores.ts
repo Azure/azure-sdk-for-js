@@ -9,8 +9,8 @@
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestoreRequestResource,
-  RestoresTriggerOptionalParams
-} from "../models";
+  RestoresTriggerOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a Restores. */
 export interface Restores {
@@ -36,7 +36,7 @@ export interface Restores {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: RestoreRequestResource,
-    options?: RestoresTriggerOptionalParams
+    options?: RestoresTriggerOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restores the specified backed up data. This is an asynchronous operation. To know the status of this
@@ -60,6 +60,6 @@ export interface Restores {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: RestoreRequestResource,
-    options?: RestoresTriggerOptionalParams
+    options?: RestoresTriggerOptionalParams,
   ): Promise<void>;
 }

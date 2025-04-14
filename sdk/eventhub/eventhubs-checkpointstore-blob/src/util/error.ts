@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { logger, logErrorStackTrace } from "../log";
+import { logger, logErrorStackTrace } from "../log.js";
 
 /**
  * @internal
@@ -13,11 +13,11 @@ import { logger, logErrorStackTrace } from "../log";
 export function throwTypeErrorIfParameterMissing(
   methodName: string,
   parameterName: string,
-  parameterValue: unknown
+  parameterValue: unknown,
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(
-      `${methodName} called without required argument "${parameterName}"`
+      `${methodName} called without required argument "${parameterName}"`,
     );
     logger.warning(error.message);
     logErrorStackTrace(error);

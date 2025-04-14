@@ -1,16 +1,18 @@
 # Testing azure-identity in Azure Kubernetes
 
 # prerequisite tools
+
 - Azure CLI
-  - https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+  - https://learn.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
 - Docker CLI
   - https://hub.docker.com/search?q=&type=edition&offering=community
 - Helm 2.x (3.x doesn't handle CRDs properly at time of writing)
   - https://github.com/helm/helm/releases
 
-
 # Azure resources
+
 This test requires instances of these Azure resources:
+
 - Azure Key Vault
 - Azure Managed Identity
   - with secrets/set and secrets/delete permission for the Key Vault
@@ -23,6 +25,7 @@ This test requires instances of these Azure resources:
 The rest of this section is a walkthrough of deploying these resources.
 
 ### set environment variables to simplify copy-pasting
+
 - RESOURCE_GROUP
   - name of an Azure resource group
   - must be unique in the Azure subscription
@@ -44,17 +47,21 @@ The rest of this section is a walkthrough of deploying these resources.
   - must be globally unique
 
 ### resource group
+
 ```sh
 az group create -n $RESOURCE_GROUP --location westus2
 ```
 
 ### managed identity
+
 Create the managed identity:
+
 ```sh
 az identity create -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME
 ```
 
 Save its `clientId`, `id` (ARM URI), and `principalId` (object ID) for later:
+
 ```sh
 $MANAGED_IDENTITY_CLIENT_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query clientId -o tsv
 $MANAGED_IDENTITY_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query id -o tsv
@@ -62,53 +69,65 @@ $MANAGED_IDENTITY_PRINCIPAL_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_I
 ```
 
 ### Key Vault
+
 Create the Vault:
+
 ```sh
 az keyvault create -g $RESOURCE_GROUP -n $KEY_VAULT_NAME --sku standard
 ```
 
 Add an access policy for the managed identity:
+
 ```sh
 az keyvault set-policy -n $KEY_VAULT_NAME --object-id $MANAGED_IDENTITY_PRINCIPAL_ID --secret-permissions set delete
 ```
 
 ### container registry
+
 ```sh
 az acr create -g $RESOURCE_GROUP -n $ACR_NAME --admin-enabled --sku basic
 ```
 
 ### Kubernetes
+
 Deploy the cluster (this will take several minutes):
+
 ```sh
 az aks create -g $RESOURCE_GROUP -n $AKS_NAME --generate-ssh-keys --node-count 1 --disable-rbac --attach-acr $ACR_NAME
 ```
 
 Grant the cluster's service principal permission to use the managed identity:
+
 ```sh
 az role assignment create --role "Managed Identity Operator" --assignee $(az aks show -g $RESOURCE_GROUP -n $AKS_NAME --query servicePrincipalProfile.clientId -o tsv) --scope $MANAGED_IDENTITY_ID
 ```
 
-
 # build images
+
 The test application must be packaged as a Docker image before deployment.
 
 ### authenticate to ACR
+
 ```sh
 az acr login -n $ACR_NAME
 ```
 
 ### acquire the test code
+
 ```sh
 git clone https://github.com/Azure/azure-sdk-for-js/ --branch master --single-branch --depth 1
 ```
 
 The rest of this section assumes this working directory:
+
 ```sh
 cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/kubernetes
 ```
 
 ### build images and push them to the container registry
+
 Set environment variables:
+
 ```sh
 $REPOSITORY="$($ACR_NAME).azurecr.io"
 $IMAGE_NAME="test-pod-identity"
@@ -116,11 +135,13 @@ $NODE_VERSION=10
 ```
 
 Build an image:
+
 ```sh
 docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" .
 ```
 
 Push it to ACR:
+
 ```sh
 docker push "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)"
 ```
@@ -128,21 +149,25 @@ docker push "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)"
 # run the test
 
 ### install kubectl
+
 ```sh
 az aks install-cli
 ```
 
 ### authenticate kubectl and helm
+
 ```sh
 az aks get-credentials -g $RESOURCE_GROUP -n $AKS_NAME
 ```
 
 ### install tiller
+
 ```sh
 helm init --wait
 ```
 
 ### run the test script
+
 ```sh
 npm install
 ```
@@ -162,6 +187,7 @@ az keyvault secret show -n "secret-name-pod" --vault-name "$($KEY_VAULT_NAME)"
 ```
 
 ### delete Azure resources
+
 ```sh
 az group delete -n $RESOURCE_GROUP -y --no-wait
 ```

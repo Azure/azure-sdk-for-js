@@ -14,10 +14,9 @@ import {
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -31,7 +30,7 @@ export async function main() {
   // create ChatClient
   const chatClient = new ChatClient(
     endpoint,
-    new AzureCommunicationTokenCredential(userToken.token)
+    new AzureCommunicationTokenCredential(userToken.token),
   );
   const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";

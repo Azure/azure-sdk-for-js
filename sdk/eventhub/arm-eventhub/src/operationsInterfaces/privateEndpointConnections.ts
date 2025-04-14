@@ -15,8 +15,8 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse
-} from "../models";
+  PrivateEndpointConnectionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Creates or updates PrivateEndpointConnections of service namespace.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnections {
     namespaceName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
@@ -60,7 +60,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
@@ -74,7 +74,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a description for the specified Private Endpoint Connection name.
@@ -87,6 +87,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
 }

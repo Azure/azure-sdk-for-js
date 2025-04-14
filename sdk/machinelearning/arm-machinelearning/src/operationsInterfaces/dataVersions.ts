@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataVersionBase,
   DataVersionsListOptionalParams,
@@ -14,8 +15,10 @@ import {
   DataVersionsGetOptionalParams,
   DataVersionsGetResponse,
   DataVersionsCreateOrUpdateOptionalParams,
-  DataVersionsCreateOrUpdateResponse
-} from "../models";
+  DataVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  DataVersionsPublishOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataVersions. */
@@ -31,7 +34,7 @@ export interface DataVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DataVersionsListOptionalParams
+    options?: DataVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<DataVersionBase>;
   /**
    * Delete version.
@@ -46,7 +49,7 @@ export interface DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsDeleteOptionalParams
+    options?: DataVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +64,7 @@ export interface DataVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: DataVersionsGetOptionalParams
+    options?: DataVersionsGetOptionalParams,
   ): Promise<DataVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +81,40 @@ export interface DataVersions {
     name: string,
     version: string,
     body: DataVersionBase,
-    options?: DataVersionsCreateOrUpdateOptionalParams
+    options?: DataVersionsCreateOrUpdateOptionalParams,
   ): Promise<DataVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: DataVersionsPublishOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: DataVersionsPublishOptionalParams,
+  ): Promise<void>;
 }

@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary resume listing changes using a continuation token
  */
 
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { BlobChangeFeedClient, BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
+import type { BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -23,7 +23,7 @@ export async function main() {
   const changeFeedClient = new BlobChangeFeedClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const changeFeedEvents: BlobChangeFeedEvent[] = [];

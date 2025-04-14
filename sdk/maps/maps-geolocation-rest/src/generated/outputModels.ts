@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** This object is returned from a successful call to IP Address to country/region API */
 export interface IpAddressToLocationResultOutput {
   /** The object containing the country/region information. */
-  countryRegion?: CountryRegionOutput;
+  readonly countryRegion?: CountryRegionOutput;
   /** The IP Address of the request. */
-  ipAddress?: string;
+  readonly ipAddress?: string;
 }
 
 /** The object containing the country/region information. */
 export interface CountryRegionOutput {
   /** The IP Address's 2-character code [(ISO 3166-1)](https://www.iso.org/iso-3166-country-codes.html) of the country or region. Please note, IP address in ranges reserved for special purpose will return Null for country/region. */
-  isoCode?: string;
+  readonly isoCode?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -24,21 +24,21 @@ export interface ErrorResponseOutput {
 /** The error detail. */
 export interface ErrorDetailOutput {
   /** The error code. */
-  code?: string;
+  readonly code?: string;
   /** The error message. */
-  message?: string;
+  readonly message?: string;
   /** The error target. */
-  target?: string;
+  readonly target?: string;
   /** The error details. */
-  details?: Array<ErrorDetailOutput>;
+  readonly details?: Array<ErrorDetailOutput>;
   /** The error additional info. */
-  additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+  readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
 }
 
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfoOutput {
   /** The additional info type. */
-  type?: string;
+  readonly type?: string;
   /** The additional info. */
-  info?: Record<string, unknown>;
+  readonly info?: Record<string, unknown>;
 }

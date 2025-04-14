@@ -11,8 +11,8 @@ import {
   PeerExpressRouteCircuitConnection,
   PeerExpressRouteCircuitConnectionsListOptionalParams,
   PeerExpressRouteCircuitConnectionsGetOptionalParams,
-  PeerExpressRouteCircuitConnectionsGetResponse
-} from "../models";
+  PeerExpressRouteCircuitConnectionsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PeerExpressRouteCircuitConnections. */
@@ -29,7 +29,7 @@ export interface PeerExpressRouteCircuitConnections {
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: PeerExpressRouteCircuitConnectionsListOptionalParams
+    options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PeerExpressRouteCircuitConnection>;
   /**
    * Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
@@ -44,6 +44,6 @@ export interface PeerExpressRouteCircuitConnections {
     circuitName: string,
     peeringName: string,
     connectionName: string,
-    options?: PeerExpressRouteCircuitConnectionsGetOptionalParams
+    options?: PeerExpressRouteCircuitConnectionsGetOptionalParams,
   ): Promise<PeerExpressRouteCircuitConnectionsGetResponse>;
 }

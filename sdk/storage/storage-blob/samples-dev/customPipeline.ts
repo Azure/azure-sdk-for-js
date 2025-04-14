@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use custom HTTP pipeline options when connecting to the service
@@ -9,10 +9,9 @@
 import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountKey = process.env.ACCOUNT_KEY || "<account key>";
@@ -31,7 +30,7 @@ async function main() {
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   let i = 1;

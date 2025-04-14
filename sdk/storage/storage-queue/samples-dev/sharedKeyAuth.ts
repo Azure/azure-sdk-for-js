@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary authenticate using an account name and a static key
@@ -9,10 +9,9 @@
 import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -23,7 +22,7 @@ export async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   // Create a new queue
@@ -31,13 +30,13 @@ export async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
   );
 }
 

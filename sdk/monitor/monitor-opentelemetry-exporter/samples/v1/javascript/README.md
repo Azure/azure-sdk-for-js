@@ -49,7 +49,7 @@ node basicTracerNode.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node basicTracerNode.js
+npx dev-tool run vendored cross-env APPLICATIONINSIGHTS_CONNECTION_STRING="<applicationinsights connection string>" node basicTracerNode.js
 ```
 
 ## Next Steps
@@ -58,7 +58,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [basictracernode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1/javascript/basicTracerNode.js
 [httpsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples/v1/javascript/httpSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-opentelemetry-exporter
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureapplicationinsightsworkspaceinstance]: https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview
+[createinstance_azureapplicationinsightsworkspaceinstance]: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/README.md

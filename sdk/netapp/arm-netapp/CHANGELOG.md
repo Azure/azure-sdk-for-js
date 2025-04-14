@@ -1,6 +1,6 @@
 # Release History
 
-## 18.0.1 (Unreleased)
+## 21.4.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,457 @@
 
 ### Other Changes
 
+## 21.4.0 (2025-02-17)
+    
+### Features Added
+
+  - Added operation Accounts.beginChangeKeyVault
+  - Added operation Accounts.beginChangeKeyVaultAndWait
+  - Added operation Accounts.beginGetChangeKeyVaultInformation
+  - Added operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Added operation Accounts.beginTransitionToCmk
+  - Added operation Accounts.beginTransitionToCmkAndWait
+  - Added Interface AccountsChangeKeyVaultHeaders
+  - Added Interface AccountsChangeKeyVaultOptionalParams
+  - Added Interface AccountsGetChangeKeyVaultInformationHeaders
+  - Added Interface AccountsGetChangeKeyVaultInformationOptionalParams
+  - Added Interface AccountsTransitionToCmkHeaders
+  - Added Interface AccountsTransitionToCmkOptionalParams
+  - Added Interface ChangeKeyVault
+  - Added Interface EncryptionTransitionRequest
+  - Added Interface GetKeyVaultStatusResponse
+  - Added Interface KeyVaultPrivateEndpoint
+  - Added Type Alias AccountsChangeKeyVaultResponse
+  - Added Type Alias AccountsGetChangeKeyVaultInformationResponse
+  - Added Type Alias AccountsTransitionToCmkResponse
+  - Added Type Alias CoolAccessTieringPolicy
+  - Interface Volume has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumePatch has a new optional parameter coolAccessTieringPolicy
+  - Added Enum KnownCoolAccessTieringPolicy
+    
+    
+## 21.4.0-beta.1 (2024-11-18)
+Compared with version 21.3.0
+    
+### Features Added
+
+  - Added operation Accounts.beginChangeKeyVault
+  - Added operation Accounts.beginChangeKeyVaultAndWait
+  - Added operation Accounts.beginGetChangeKeyVaultInformation
+  - Added operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Added operation Accounts.beginTransitionToCmk
+  - Added operation Accounts.beginTransitionToCmkAndWait
+  - Added operation Volumes.beginListQuotaReport
+  - Added operation Volumes.beginListQuotaReportAndWait
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface AccountsChangeKeyVaultHeaders
+  - Added Interface AccountsChangeKeyVaultOptionalParams
+  - Added Interface AccountsGetChangeKeyVaultInformationHeaders
+  - Added Interface AccountsGetChangeKeyVaultInformationOptionalParams
+  - Added Interface AccountsTransitionToCmkHeaders
+  - Added Interface AccountsTransitionToCmkOptionalParams
+  - Added Interface ChangeKeyVault
+  - Added Interface DestinationReplication
+  - Added Interface EncryptionTransitionRequest
+  - Added Interface KeyVaultPrivateEndpoint
+  - Added Interface ListQuotaReportResponse
+  - Added Interface QuotaReport
+  - Added Interface VolumesListQuotaReportHeaders
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Added Type Alias AcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Type Alias AccountsChangeKeyVaultResponse
+  - Added Type Alias AccountsGetChangeKeyVaultInformationResponse
+  - Added Type Alias AccountsTransitionToCmkResponse
+  - Added Type Alias ReplicationType
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumesListQuotaReportResponse
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Interface Backup has a new optional parameter isLargeVolume
+  - Interface CapacityPool has a new optional parameter customThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter customThroughputMibps
+  - Interface EncryptionIdentity has a new optional parameter federatedClientId
+  - Interface NetAppAccount has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface ReplicationObject has a new optional parameter destinationReplications
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface Volume has a new optional parameter language
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter language
+  - Added Enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Enum KnownReplicationType
+  - Added Enum KnownVolumeLanguage
+  - Enum KnownServiceLevel has a new value Flexible
+    
+    
+## 21.3.0 (2024-10-24)
+    
+### Features Added
+
+  - Added operation Volumes.beginAuthorizeExternalReplication
+  - Added operation Volumes.beginAuthorizeExternalReplicationAndWait
+  - Added operation Volumes.beginFinalizeExternalReplication
+  - Added operation Volumes.beginFinalizeExternalReplicationAndWait
+  - Added operation Volumes.beginPeerExternalCluster
+  - Added operation Volumes.beginPeerExternalClusterAndWait
+  - Added operation Volumes.beginPerformReplicationTransfer
+  - Added operation Volumes.beginPerformReplicationTransferAndWait
+  - Added Interface ClusterPeerCommandResponse
+  - Added Interface PeerClusterForVolumeMigrationRequest
+  - Added Interface RemotePath
+  - Added Interface SvmPeerCommandResponse
+  - Added Interface VolumesAuthorizeExternalReplicationHeaders
+  - Added Interface VolumesAuthorizeExternalReplicationOptionalParams
+  - Added Interface VolumesFinalizeExternalReplicationHeaders
+  - Added Interface VolumesFinalizeExternalReplicationOptionalParams
+  - Added Interface VolumesPeerExternalClusterHeaders
+  - Added Interface VolumesPeerExternalClusterOptionalParams
+  - Added Interface VolumesPerformReplicationTransferHeaders
+  - Added Interface VolumesPerformReplicationTransferOptionalParams
+  - Added Type Alias VolumesAuthorizeExternalReplicationResponse
+  - Added Type Alias VolumesFinalizeExternalReplicationResponse
+  - Added Type Alias VolumesPeerExternalClusterResponse
+  - Added Type Alias VolumesPerformReplicationTransferResponse
+  - Interface FilePathAvailabilityRequest has a new optional parameter availabilityZone
+  - Interface NetAppResourceCheckFilePathAvailabilityOptionalParams has a new optional parameter availabilityZone
+  - Interface ReplicationObject has a new optional parameter remotePath
+  - Interface Volume has a new optional parameter effectiveNetworkFeatures
+  - Interface VolumeGroupVolumeProperties has a new optional parameter effectiveNetworkFeatures
+    
+    
+## 21.2.0 (2024-08-12)
+    
+### Features Added
+
+  - Interface Replication has a new optional parameter replicationId
+    
+    
+## 21.1.0 (2024-07-17)
+    
+### Features Added
+
+  - Interface VolumePatch has a new optional parameter protocolTypes
+    
+    
+## 21.0.0 (2024-05-14)
+    
+### Features Added
+
+  - Added operation group BackupsUnderAccount
+  - Added operation group BackupsUnderBackupVault
+  - Added operation group BackupsUnderVolume
+  - Added operation group BackupVaults
+  - Added operation group NetAppResourceRegionInfos
+  - Added operation Backups.beginCreate
+  - Added operation Backups.beginCreateAndWait
+  - Added operation Backups.beginDelete
+  - Added operation Backups.beginDeleteAndWait
+  - Added operation Backups.beginUpdate
+  - Added operation Backups.beginUpdateAndWait
+  - Added operation Backups.get
+  - Added operation Backups.getLatestStatus
+  - Added operation Backups.getVolumeLatestRestoreStatus
+  - Added operation Backups.listByVault
+  - Added Interface Backup
+  - Added Interface BackupPatch
+  - Added Interface BackupRestoreFiles
+  - Added Interface BackupsCreateOptionalParams
+  - Added Interface BackupsDeleteHeaders
+  - Added Interface BackupsDeleteOptionalParams
+  - Added Interface BackupsGetLatestStatusOptionalParams
+  - Added Interface BackupsGetOptionalParams
+  - Added Interface BackupsGetVolumeLatestRestoreStatusOptionalParams
+  - Added Interface BackupsList
+  - Added Interface BackupsListByVaultNextOptionalParams
+  - Added Interface BackupsListByVaultOptionalParams
+  - Added Interface BackupsMigrationRequest
+  - Added Interface BackupStatus
+  - Added Interface BackupsUnderAccountMigrateBackupsHeaders
+  - Added Interface BackupsUnderAccountMigrateBackupsOptionalParams
+  - Added Interface BackupsUnderBackupVaultRestoreFilesHeaders
+  - Added Interface BackupsUnderBackupVaultRestoreFilesOptionalParams
+  - Added Interface BackupsUnderVolumeMigrateBackupsHeaders
+  - Added Interface BackupsUnderVolumeMigrateBackupsOptionalParams
+  - Added Interface BackupsUpdateHeaders
+  - Added Interface BackupsUpdateOptionalParams
+  - Added Interface BackupVault
+  - Added Interface BackupVaultPatch
+  - Added Interface BackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface BackupVaultsDeleteHeaders
+  - Added Interface BackupVaultsDeleteOptionalParams
+  - Added Interface BackupVaultsGetOptionalParams
+  - Added Interface BackupVaultsList
+  - Added Interface BackupVaultsListByNetAppAccountNextOptionalParams
+  - Added Interface BackupVaultsListByNetAppAccountOptionalParams
+  - Added Interface BackupVaultsUpdateHeaders
+  - Added Interface BackupVaultsUpdateOptionalParams
+  - Added Interface NetAppResourceRegionInfosGetOptionalParams
+  - Added Interface NetAppResourceRegionInfosListNextOptionalParams
+  - Added Interface NetAppResourceRegionInfosListOptionalParams
+  - Added Interface RegionInfoResource
+  - Added Interface RegionInfosList
+  - Added Interface VolumeBackupProperties
+  - Added Type Alias BackupsCreateResponse
+  - Added Type Alias BackupsDeleteResponse
+  - Added Type Alias BackupsGetLatestStatusResponse
+  - Added Type Alias BackupsGetResponse
+  - Added Type Alias BackupsGetVolumeLatestRestoreStatusResponse
+  - Added Type Alias BackupsListByVaultNextResponse
+  - Added Type Alias BackupsListByVaultResponse
+  - Added Type Alias BackupsUnderAccountMigrateBackupsResponse
+  - Added Type Alias BackupsUnderBackupVaultRestoreFilesResponse
+  - Added Type Alias BackupsUnderVolumeMigrateBackupsResponse
+  - Added Type Alias BackupsUpdateResponse
+  - Added Type Alias BackupType
+  - Added Type Alias BackupVaultsCreateOrUpdateResponse
+  - Added Type Alias BackupVaultsDeleteResponse
+  - Added Type Alias BackupVaultsGetResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountNextResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountResponse
+  - Added Type Alias BackupVaultsUpdateResponse
+  - Added Type Alias NetAppResourceRegionInfosGetResponse
+  - Added Type Alias NetAppResourceRegionInfosListNextResponse
+  - Added Type Alias NetAppResourceRegionInfosListResponse
+  - Interface VolumeBackups has a new optional parameter volumeResourceId
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter backup
+  - Interface VolumePropertiesDataProtection has a new optional parameter backup
+  - Added Enum KnownBackupType
+
+### Breaking Changes
+
+  - Removed operation Backups.getVolumeRestoreStatus
+    
+    
+## 20.0.0 (2024-03-05)
+    
+### Features Added
+
+  - Added Interface VolumesResetCifsPasswordHeaders
+  - Added Type Alias VolumesResetCifsPasswordResponse
+  - Enum KnownRelationshipStatus has a new value Failed
+  - Enum KnownRelationshipStatus has a new value Unknown
+
+### Breaking Changes
+
+  - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+    
+    
+## 20.0.0-beta.1 (2023-12-14)
+    
+### Features Added
+
+  - Added operation group AccountBackups
+  - Added operation group BackupsUnderAccount
+  - Added operation group BackupsUnderBackupVault
+  - Added operation group BackupsUnderVolume
+  - Added operation group BackupVaults
+  - Added operation group NetAppResourceRegionInfos
+  - Added operation Accounts.beginMigrateEncryptionKey
+  - Added operation Accounts.beginMigrateEncryptionKeyAndWait
+  - Added operation Backups.beginCreate
+  - Added operation Backups.beginCreateAndWait
+  - Added operation Backups.beginDelete
+  - Added operation Backups.beginDeleteAndWait
+  - Added operation Backups.beginUpdate
+  - Added operation Backups.beginUpdateAndWait
+  - Added operation Backups.get
+  - Added operation Backups.getLatestStatus
+  - Added operation Backups.listByVault
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface AccountBackupsDeleteHeaders
+  - Added Interface AccountBackupsDeleteOptionalParams
+  - Added Interface AccountBackupsGetOptionalParams
+  - Added Interface AccountBackupsListByNetAppAccountOptionalParams
+  - Added Interface AccountsMigrateEncryptionKeyHeaders
+  - Added Interface AccountsMigrateEncryptionKeyOptionalParams
+  - Added Interface Backup
+  - Added Interface BackupPatch
+  - Added Interface BackupRestoreFiles
+  - Added Interface BackupsCreateOptionalParams
+  - Added Interface BackupsDeleteHeaders
+  - Added Interface BackupsDeleteOptionalParams
+  - Added Interface BackupsGetLatestStatusOptionalParams
+  - Added Interface BackupsGetOptionalParams
+  - Added Interface BackupsList
+  - Added Interface BackupsListByVaultNextOptionalParams
+  - Added Interface BackupsListByVaultOptionalParams
+  - Added Interface BackupsMigrationRequest
+  - Added Interface BackupStatus
+  - Added Interface BackupsUnderAccountMigrateBackupsHeaders
+  - Added Interface BackupsUnderAccountMigrateBackupsOptionalParams
+  - Added Interface BackupsUnderBackupVaultRestoreFilesHeaders
+  - Added Interface BackupsUnderBackupVaultRestoreFilesOptionalParams
+  - Added Interface BackupsUnderVolumeMigrateBackupsHeaders
+  - Added Interface BackupsUnderVolumeMigrateBackupsOptionalParams
+  - Added Interface BackupsUpdateHeaders
+  - Added Interface BackupsUpdateOptionalParams
+  - Added Interface BackupVault
+  - Added Interface BackupVaultPatch
+  - Added Interface BackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface BackupVaultsDeleteHeaders
+  - Added Interface BackupVaultsDeleteOptionalParams
+  - Added Interface BackupVaultsGetOptionalParams
+  - Added Interface BackupVaultsList
+  - Added Interface BackupVaultsListByNetAppAccountNextOptionalParams
+  - Added Interface BackupVaultsListByNetAppAccountOptionalParams
+  - Added Interface BackupVaultsUpdateHeaders
+  - Added Interface BackupVaultsUpdateOptionalParams
+  - Added Interface EncryptionMigrationRequest
+  - Added Interface NetAppResourceRegionInfosGetOptionalParams
+  - Added Interface NetAppResourceRegionInfosListNextOptionalParams
+  - Added Interface NetAppResourceRegionInfosListOptionalParams
+  - Added Interface RegionInfoResource
+  - Added Interface RegionInfosList
+  - Added Interface RemotePath
+  - Added Interface VolumeBackupProperties
+  - Added Interface VolumesResetCifsPasswordHeaders
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Added Type Alias AccountBackupsDeleteResponse
+  - Added Type Alias AccountBackupsGetResponse
+  - Added Type Alias AccountBackupsListByNetAppAccountResponse
+  - Added Type Alias AccountsMigrateEncryptionKeyResponse
+  - Added Type Alias BackupsCreateResponse
+  - Added Type Alias BackupsDeleteResponse
+  - Added Type Alias BackupsGetLatestStatusResponse
+  - Added Type Alias BackupsGetResponse
+  - Added Type Alias BackupsListByVaultNextResponse
+  - Added Type Alias BackupsListByVaultResponse
+  - Added Type Alias BackupsUnderAccountMigrateBackupsResponse
+  - Added Type Alias BackupsUnderBackupVaultRestoreFilesResponse
+  - Added Type Alias BackupsUnderVolumeMigrateBackupsResponse
+  - Added Type Alias BackupsUpdateResponse
+  - Added Type Alias BackupType
+  - Added Type Alias BackupVaultsCreateOrUpdateResponse
+  - Added Type Alias BackupVaultsDeleteResponse
+  - Added Type Alias BackupVaultsGetResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountNextResponse
+  - Added Type Alias BackupVaultsListByNetAppAccountResponse
+  - Added Type Alias BackupVaultsUpdateResponse
+  - Added Type Alias NetAppResourceRegionInfosGetResponse
+  - Added Type Alias NetAppResourceRegionInfosListNextResponse
+  - Added Type Alias NetAppResourceRegionInfosListResponse
+  - Added Type Alias VolumesResetCifsPasswordResponse
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Interface NetAppAccount has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface ReplicationObject has a new optional parameter remotePath
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter backup
+  - Interface VolumePropertiesDataProtection has a new optional parameter backup
+  - Added Enum KnownBackupType
+
+### Breaking Changes
+
+  - Interface VolumeGroupMetaData no longer has parameter deploymentSpecId
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+    
+   
+## 19.0.0 (2023-09-25)
+    
+### Features Added
+
+  - Added operation NetAppResource.beginUpdateNetworkSiblingSet
+  - Added operation NetAppResource.beginUpdateNetworkSiblingSetAndWait
+  - Added operation NetAppResource.queryNetworkSiblingSet
+  - Added operation Volumes.beginPopulateAvailabilityZone
+  - Added operation Volumes.beginPopulateAvailabilityZoneAndWait
+  - Added Interface NetAppResourceQueryNetworkSiblingSetOptionalParams
+  - Added Interface NetAppResourceUpdateNetworkSiblingSetHeaders
+  - Added Interface NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  - Added Interface NetworkSiblingSet
+  - Added Interface NicInfo
+  - Added Interface QueryNetworkSiblingSetRequest
+  - Added Interface UpdateNetworkSiblingSetRequest
+  - Added Interface VolumesPopulateAvailabilityZoneHeaders
+  - Added Interface VolumesPopulateAvailabilityZoneOptionalParams
+  - Added Type Alias CoolAccessRetrievalPolicy
+  - Added Type Alias NetAppResourceQueryNetworkSiblingSetResponse
+  - Added Type Alias NetAppResourceUpdateNetworkSiblingSetResponse
+  - Added Type Alias NetworkSiblingSetProvisioningState
+  - Added Type Alias VolumesPopulateAvailabilityZoneResponse
+  - Interface Volume has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter zones
+  - Interface VolumePatch has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumePatch has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumePatch has a new optional parameter smbNonBrowsable
+  - Added Enum KnownCoolAccessRetrievalPolicy
+  - Added Enum KnownNetworkSiblingSetProvisioningState
+  - Enum KnownApplicationType has a new value Oracle
+  - Enum KnownNetworkFeatures has a new value BasicStandard
+  - Enum KnownNetworkFeatures has a new value StandardBasic
+
+### Breaking Changes
+
+  - Removed operation group AccountBackups
+  - Removed operation Backups.beginCreate
+  - Removed operation Backups.beginCreateAndWait
+  - Removed operation Backups.beginDelete
+  - Removed operation Backups.beginDeleteAndWait
+  - Removed operation Backups.beginRestoreFiles
+  - Removed operation Backups.beginRestoreFilesAndWait
+  - Removed operation Backups.beginUpdate
+  - Removed operation Backups.beginUpdateAndWait
+  - Removed operation Backups.get
+  - Removed operation Backups.getStatus
+  - Removed operation Backups.list
+  - Interface VolumePatchPropertiesDataProtection no longer has parameter backup
+  - Interface VolumePropertiesDataProtection no longer has parameter backup
+  - Class NetAppManagementClient no longer has parameter accountBackups
+  - Removed Enum KnownBackupType
+    
+    
+## 18.1.0 (2023-07-03)
+    
+### Features Added
+
+  - Added operation Volumes.beginListGetGroupIdListForLdapUser
+  - Added operation Volumes.beginListGetGroupIdListForLdapUserAndWait
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GetGroupIdListForLdapUserRequest
+  - Added Interface GetGroupIdListForLdapUserResponse
+  - Added Interface VolumesListGetGroupIdListForLdapUserHeaders
+  - Added Interface VolumesListGetGroupIdListForLdapUserOptionalParams
+  - Added Type Alias VolumesListGetGroupIdListForLdapUserResponse
+  - Interface NetAppAccountPatch has a new optional parameter identity
+  - Interface Volume has a new optional parameter actualThroughputMibps
+  - Interface Volume has a new optional parameter originatingResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter actualThroughputMibps
+  - Interface VolumeGroupVolumeProperties has a new optional parameter originatingResourceId
+  - Interface VolumePatch has a new optional parameter snapshotDirectoryVisible
+  - Enum KnownRegionStorageToNetworkProximity has a new value AcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T1AndAcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T1AndT2AndAcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T2AndAcrossT2
+  - Enum KnownVolumeStorageToNetworkProximity has a new value AcrossT2
+    
+    
 ## 18.0.0 (2023-03-08)
     
-**Features**
+### Features Added
 
   - Added operation Backups.beginRestoreFiles
   - Added operation Backups.beginRestoreFilesAndWait
@@ -42,7 +490,7 @@
   - Added Enum KnownFileAccessLogs
   - Added Enum KnownManagedServiceIdentityType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Vaults
   - Operation NetAppResource.checkNameAvailability has a new signature
@@ -66,17 +514,17 @@
     
 ## 17.0.1 (2023-02-01)
     
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
     
 ## 17.0.0 (2022-09-21)
     
-**Features**
+### Features Added
 
   - Added operation Accounts.beginRenewCredentials
   - Added operation Accounts.beginRenewCredentialsAndWait
@@ -116,14 +564,14 @@
   - Added Enum KnownSmbAccessBasedEnumeration
   - Added Enum KnownSmbNonBrowsable
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Vault no longer has parameter location
     
     
 ## 16.1.0 (2022-07-21)
     
-**Features**
+### Features Added
 
   - Added operation Volumes.beginReestablishReplication
   - Added operation Volumes.beginReestablishReplicationAndWait
@@ -148,7 +596,7 @@
     
 ## 16.0.0 (2022-06-13)
     
-**Features**
+### Features Added
 
   - Added operation group VolumeQuotaRules
   - Added operation Volumes.beginFinalizeRelocation
@@ -196,7 +644,7 @@
   - Added Enum KnownEncryptionKeySource
   - Added Enum KnownType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface VolumeGroup no longer has parameter tags
   - Interface VolumeGroupDetails no longer has parameter tags
@@ -205,13 +653,13 @@
     
 ## 15.1.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 15.1.0 (2022-03-02)
     
-**Features**
+### Features Added
 
   - Added operation group Subvolumes
   - Added operation Snapshots.beginRestoreFiles
@@ -260,4 +708,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

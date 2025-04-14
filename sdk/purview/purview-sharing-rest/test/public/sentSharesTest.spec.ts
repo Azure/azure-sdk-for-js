@@ -1,44 +1,43 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  getLongRunningPoller,
+import type {
   InPlaceSentShareOutput,
-  isUnexpected,
   OperationResponseOutput,
   PurviewSharingClient,
   SentShareInvitationListOutput,
   SentShareListOutput,
   ServiceInvitationOutput,
   UserInvitationOutput,
-} from "../../src";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Sent Shares Operations", () => {
   let recorder: Recorder;
   let client: PurviewSharingClient;
 
-  const pollingIntervalMs = 30000;
-  const sentShareId = "5eb6b8b8-bada-415c-abaa-6a61511570b7";
-  const sentShareUserInvitationId = "66b75a2f-9a36-434e-a3e0-0c39dafb39ce";
-  const sentShareServiceInvitationId = "b798b80f-b945-424f-834e-7c55a1ec34a8";
-  const targetActiveDirectoryId = "cf5f72d3-1204-4980-ab81-21d1ed8804ef";
-  const targetObjectId = "2a702475-98ac-43cc-993f-cb6029205292";
-  const targetEmail = "user@domain.com";
+  const pollingIntervalMs = isPlaybackMode() ? 0 : 30000;
+  const sentShareId = "172e29c5-ce5d-4c5f-9cfb-6c2748114aa4";
+  const sentShareUserInvitationId = "3b5fc276-5114-4ee1-a958-16347dce51f0";
+  const sentShareServiceInvitationId = "34e3b512-14e9-482e-b254-d1c5caaef09d";
+  const targetActiveDirectoryId = "00000000-000-000-00000-000000000000";
+  const targetObjectId = "6a9dd6e0-9a06-47bf-a9a2-0647130a7422";
+  const targetEmail = "faisalaltell@microsoft.com";
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Create a new Sent Share", async function () {
+  it("Create a new Sent Share", async () => {
     const displayName = "JS-SDK-Sent-Share";
     const response = await client.path("/sentShares/{sentShareId}", sentShareId).put({
       body: {
@@ -47,7 +46,7 @@ describe("Sent Shares Operations", () => {
           displayName: displayName,
           description: "Sent share created by and for JS SDK tests.",
           artifact: {
-            storeKind: "BlobAccount",
+            storeKind: "AdlsGen2Account",
             storeReference: {
               referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "",
               type: "ArmResourceReference",
@@ -55,9 +54,9 @@ describe("Sent Shares Operations", () => {
             properties: {
               paths: [
                 {
-                  containerName: "sharedcontainer",
-                  senderPath: "Folder/File.txt",
-                  receiverPath: "ReceiverVisibleFileName.txt",
+                  containerName: "container1",
+                  senderPath: "folder1/test (6) (1).csv",
+                  receiverPath: "test.csv",
                 },
               ],
             },
@@ -79,7 +78,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Get a Sent Share", async function () {
+  it("Get a Sent Share", async () => {
     const response = await client.path("/sentShares/{sentShareId}", sentShareId).get();
 
     assert.strictEqual(response.status, "200");
@@ -93,11 +92,11 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.shareKind, "InPlace");
     assert.strictEqual(sentShareResponse.id, sentShareId);
     assert.strictEqual(sentShareResponse.properties.state, "Succeeded");
-    assert.strictEqual(sentShareResponse.properties.artifact.storeKind, "BlobAccount");
+    assert.strictEqual(sentShareResponse.properties.artifact.storeKind, "AdlsGen2Account");
     assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Update an existing Sent Share", async function () {
+  it("Update an existing Sent Share", async () => {
     const displayName = "JS-SDK-Sent-Share-Updated";
     const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).put({
       body: {
@@ -106,7 +105,7 @@ describe("Sent Shares Operations", () => {
           displayName: displayName,
           description: "Sent share updated by and for JS SDK tests.",
           artifact: {
-            storeKind: "BlobAccount",
+            storeKind: "AdlsGen2Account",
             storeReference: {
               referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "",
               type: "ArmResourceReference",
@@ -114,14 +113,9 @@ describe("Sent Shares Operations", () => {
             properties: {
               paths: [
                 {
-                  containerName: "sharedcontainer",
-                  senderPath: "Folder/File.txt",
-                  receiverPath: "ReceiverVisibleFileName.txt",
-                },
-                {
-                  containerName: "newsharedcontainer",
-                  senderPath: "NewFolder/NewFile.txt",
-                  receiverPath: "ReceiverVisibleNewFileName.txt",
+                  containerName: "container1",
+                  senderPath: "folder1",
+                  receiverPath: "folder1",
                 },
               ],
             },
@@ -148,10 +142,11 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.id, sentShareId);
     assert.strictEqual(sentShareResponse.properties.state, "Succeeded");
     assert.strictEqual(sentShareResponse.properties.displayName, displayName);
-    assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 2);
+    assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("List all Sent Shares", async function () {
+  it("List all Sent Shares", async () => {
+    console.log(env.STORAGE_ACCOUNT_RESOURCE_ID);
     const response = await client
       .path("/sentShares")
       .get({ queryParameters: { referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "" } });
@@ -168,16 +163,16 @@ describe("Sent Shares Operations", () => {
     const sentshare = sentsharesListResponse.value[0];
     assert.strictEqual(sentshare.id, sentShareId);
     assert.strictEqual(sentshare.properties.state, "Succeeded");
-    assert.strictEqual(sentshare.properties.displayName, "JS-SDK-Sent-Share-Updated");
-    assert.strictEqual(sentshare.properties.artifact.properties.paths.length, 2);
+    assert.strictEqual(sentshare.properties.displayName, "JS-SDK-Sent-Share");
+    assert.strictEqual(sentshare.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Create a new User Invitation", async function () {
+  it("Create a new User Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareUserInvitationId
+        sentShareUserInvitationId,
       )
       .put({
         body: {
@@ -192,7 +187,7 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "201");
     console.log(
-      `Sent Share invitation ${sentShareUserInvitationId} for user ${targetEmail} created.`
+      `Sent Share invitation ${sentShareUserInvitationId} for user ${targetEmail} created.`,
     );
     if (isUnexpected(response)) {
       throw response.body.error;
@@ -209,12 +204,12 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetEmail, targetEmail);
   });
 
-  it("Notify an invited User", async function () {
+  it("Notify an invited User", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify",
         sentShareId,
-        sentShareUserInvitationId
+        sentShareUserInvitationId,
       )
       .post();
 
@@ -235,12 +230,12 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetEmail, targetEmail);
   });
 
-  it("Create a new Service Invitation", async function () {
+  it("Create a new Service Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .put({
         body: {
@@ -255,7 +250,7 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "201");
     console.log(
-      `Sent Share invitation ${sentShareServiceInvitationId} for service ${targetActiveDirectoryId}_${targetObjectId} created.`
+      `Sent Share invitation ${sentShareServiceInvitationId} for service ${targetActiveDirectoryId}_${targetObjectId} created.`,
     );
     if (isUnexpected(response)) {
       throw response.body.error;
@@ -271,17 +266,17 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
     assert.strictEqual(
       invitationResponse.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
 
-  it("Get a Sent Share Invitation", async function () {
+  it("Get a Sent Share Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .get();
 
@@ -301,12 +296,12 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
     assert.strictEqual(
       invitationResponse.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
 
-  it("List all Sent Share Invitations", async function () {
+  it("List all Sent Share Invitations", async () => {
     const response = await client
       .path("/sentShares/{sentShareId}/sentShareInvitations", sentShareId)
       .get();
@@ -321,7 +316,7 @@ describe("Sent Shares Operations", () => {
     console.log("Retrieved Sent Share Invitations.");
 
     const sentshareInvitation = sentsharesListResponse.value.find(
-      (i) => i.invitationKind === "Service"
+      (i) => i.invitationKind === "Service",
     ) as ServiceInvitationOutput;
 
     assert.isDefined(sentshareInvitation);
@@ -329,17 +324,17 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentshareInvitation.properties.state, "Succeeded");
     assert.strictEqual(
       sentshareInvitation.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(sentshareInvitation.properties.targetObjectId, targetObjectId);
   });
 
-  it("Delete a Sent Share Invitation", async function () {
+  it("Delete a Sent Share Invitation", async () => {
     const initialResponse = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .delete();
 
@@ -368,7 +363,7 @@ describe("Sent Shares Operations", () => {
     console.log(`Sent Share Invitation ${sentShareId} deleted.`);
   });
 
-  it("Delete a Sent Share", async function () {
+  it("Delete a Sent Share", async () => {
     const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).delete();
 
     assert.strictEqual(initialResponse.status, "202");

@@ -2,12 +2,8 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import WebSiteManagementClient, {
-  AppServicePlansUpdateParameters,
-} from "@azure-rest/arm-appservice";
+import type { AppServicePlansUpdateParameters } from "@azure-rest/arm-appservice";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -28,7 +24,7 @@ async function patchServicePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .patch(appServicePlan);
   console.log(result);

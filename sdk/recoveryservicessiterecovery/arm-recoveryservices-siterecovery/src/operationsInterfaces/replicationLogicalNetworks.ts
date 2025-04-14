@@ -11,8 +11,8 @@ import {
   LogicalNetwork,
   ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
   ReplicationLogicalNetworksGetOptionalParams,
-  ReplicationLogicalNetworksGetResponse
-} from "../models";
+  ReplicationLogicalNetworksGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationLogicalNetworks. */
@@ -29,7 +29,7 @@ export interface ReplicationLogicalNetworks {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetwork>;
   /**
    * Gets the details of a logical network.
@@ -45,6 +45,6 @@ export interface ReplicationLogicalNetworks {
     resourceGroupName: string,
     fabricName: string,
     logicalNetworkName: string,
-    options?: ReplicationLogicalNetworksGetOptionalParams
+    options?: ReplicationLogicalNetworksGetOptionalParams,
   ): Promise<ReplicationLogicalNetworksGetResponse>;
 }

@@ -1,43 +1,43 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { logger } from "./logger";
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
+import { GeneratedClient } from "./generated/generatedClient.js";
+import { logger } from "./logger.js";
 
-import {
+import type {
   AttestationCertificateManagementBody,
   GeneratedClientOptionalParams,
   JsonWebKey,
   PolicyCertificatesResult,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import { bytesToString } from "./utils/utf8";
+import { bytesToString } from "./utils/utf8.js";
 
-import {
+import type {
   AttestationResponse,
   AttestationSigner,
   AttestationTokenValidationOptions,
   AttestationType,
   PolicyCertificatesModificationResult,
   PolicyResult,
-} from "./models";
-import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
+} from "./models/index.js";
+import { StoredAttestationPolicy } from "./models/storedAttestationPolicy.js";
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { TypeDeserializer } from "./utils/typeDeserializer";
-import * as Mappers from "./generated/models/mappers";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { TypeDeserializer } from "./utils/typeDeserializer.js";
+import * as Mappers from "./generated/models/mappers.js";
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/helpers";
-import { _policyResultFromGenerated } from "./models/policyResult";
-import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { verifyAttestationSigningKey } from "./utils/helpers";
-import { createAttestationResponse } from "./models/attestationResponse";
-import { AttestationTokenImpl } from "./models/attestationToken";
-import { tracingClient } from "./generated/tracing";
+import { hexToBase64 } from "./utils/helpers.js";
+import { _policyResultFromGenerated } from "./models/policyResult.js";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
+import { verifyAttestationSigningKey } from "./utils/helpers.js";
+import { createAttestationResponse } from "./models/attestationResponse.js";
+import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { tracingClient } from "./generated/tracing.js";
 
 /**
  * Attestation Client Construction Options.
@@ -107,13 +107,12 @@ export class AttestationAdministrationClient {
    * Creates an instance of AttestationAdministrationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:AttestationAdministrationClient_Constructor
    * import { AttestationAdministrationClient } from "@azure/attestation";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new AttestationAdministrationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>")
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
    * ```
    *
    * @param endpoint - The attestation instance endpoint, for example https://mytenant.attest.azure.net.
@@ -124,7 +123,7 @@ export class AttestationAdministrationClient {
   constructor(
     endpoint: string,
     credentials: TokenCredential,
-    options: AttestationAdministrationClientOptions = {}
+    options: AttestationAdministrationClientOptions = {},
   ) {
     this._validationOptions = options.validationOptions;
 
@@ -155,7 +154,7 @@ export class AttestationAdministrationClient {
    */
   public async getPolicy(
     attestationType: AttestationType,
-    options: AttestationAdministrationClientPolicyOperationOptions = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {},
   ): Promise<AttestationResponse<string>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-getPolicy",
@@ -170,7 +169,7 @@ export class AttestationAdministrationClient {
         // Validate the token returned from the service.
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -195,9 +194,9 @@ export class AttestationAdministrationClient {
         // as the AttestationResponse to the caller.
         return createAttestationResponse<string>(
           token,
-          bytesToString(storedPolicy.attestationPolicy)
+          bytesToString(storedPolicy.attestationPolicy),
         );
-      }
+      },
     );
   }
 
@@ -223,7 +222,7 @@ export class AttestationAdministrationClient {
   public async setPolicy(
     attestationType: AttestationType,
     newPolicyDocument: string,
-    options: AttestationAdministrationClientPolicyOperationOptions = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {},
   ): Promise<AttestationResponse<PolicyResult>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-setPolicy",
@@ -234,7 +233,7 @@ export class AttestationAdministrationClient {
           (options.privateKey && !options.certificate)
         ) {
           throw new Error(
-            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
           );
         }
 
@@ -251,7 +250,7 @@ export class AttestationAdministrationClient {
         const setPolicyResult = await this._client.policy.set(
           attestationType,
           setPolicyToken.serialize(),
-          updatedOptions
+          updatedOptions,
         );
 
         // The attestation token returned from the service has a PolicyResult
@@ -259,7 +258,7 @@ export class AttestationAdministrationClient {
         const token = new AttestationTokenImpl(setPolicyResult.token);
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -273,7 +272,7 @@ export class AttestationAdministrationClient {
         // the actual policy object being retrieved. Serialize the token to an
         // AttestationToken object so we can access the body properties on the token.
         return createAttestationResponse<PolicyResult>(token, policyResult);
-      }
+      },
     );
   }
 
@@ -299,7 +298,7 @@ export class AttestationAdministrationClient {
 
   public async resetPolicy(
     attestationType: AttestationType,
-    options: AttestationAdministrationClientPolicyOperationOptions = {}
+    options: AttestationAdministrationClientPolicyOperationOptions = {},
   ): Promise<AttestationResponse<PolicyResult>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-setPolicy",
@@ -310,7 +309,7 @@ export class AttestationAdministrationClient {
           (options.privateKey && !options.certificate)
         ) {
           throw new Error(
-            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
           );
         }
 
@@ -326,7 +325,7 @@ export class AttestationAdministrationClient {
         const resetPolicyResult = await this._client.policy.reset(
           attestationType,
           resetPolicyToken.serialize(),
-          updatedOptions
+          updatedOptions,
         );
 
         // The attestation token returned from the service has a PolicyResult
@@ -334,7 +333,7 @@ export class AttestationAdministrationClient {
         const token = new AttestationTokenImpl(resetPolicyResult.token);
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -348,7 +347,7 @@ export class AttestationAdministrationClient {
         // the actual policy object being retrieved. Serialize the token to an
         // AttestationToken object so we can access the body properties on the token.
         return createAttestationResponse<PolicyResult>(token, policyResult);
-      }
+      },
     );
   }
 
@@ -361,7 +360,7 @@ export class AttestationAdministrationClient {
    * @returns AttestationResponse wrapping a list of Attestation Signers.
    */
   public async getPolicyManagementCertificates(
-    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {},
   ): Promise<AttestationResponse<AttestationSigner[]>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-getPolicyManagementCertificates",
@@ -373,7 +372,7 @@ export class AttestationAdministrationClient {
         const token = new AttestationTokenImpl(getCertificatesResult.token);
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -388,7 +387,7 @@ export class AttestationAdministrationClient {
             JsonWebKeySet: Mappers.JsonWebKeySet,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "PolicyCertificatesResult"
+          "PolicyCertificatesResult",
         ) as PolicyCertificatesResult;
 
         const policyCertificates = new Array<AttestationSigner>();
@@ -397,7 +396,7 @@ export class AttestationAdministrationClient {
         });
 
         return createAttestationResponse<AttestationSigner[]>(token, policyCertificates);
-      }
+      },
     );
   }
 
@@ -423,7 +422,7 @@ export class AttestationAdministrationClient {
     pemCertificate: string,
     privateKey: string,
     certificate: string,
-    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {},
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-addPolicyManagementCertificate",
@@ -431,7 +430,7 @@ export class AttestationAdministrationClient {
       async (updatedOptions) => {
         if ((!privateKey && certificate) || (privateKey && !certificate)) {
           throw new Error(
-            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
           );
         }
 
@@ -459,7 +458,7 @@ export class AttestationAdministrationClient {
               AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
               JsonWebKey: Mappers.JsonWebKey,
             },
-            Mappers.AttestationCertificateManagementBody
+            Mappers.AttestationCertificateManagementBody,
           ),
           privateKey: privateKey,
           certificate: certificate,
@@ -467,14 +466,14 @@ export class AttestationAdministrationClient {
 
         const addCertificateResult = await this._client.policyCertificates.add(
           addCertToken.serialize(),
-          updatedOptions
+          updatedOptions,
         );
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(addCertificateResult.token);
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -488,11 +487,11 @@ export class AttestationAdministrationClient {
             JsonWebKeySet: Mappers.JsonWebKeySet,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "PolicyCertificatesModificationResult"
+          "PolicyCertificatesModificationResult",
         ) as PolicyCertificatesModificationResult;
 
         return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-      }
+      },
     );
   }
 
@@ -536,7 +535,7 @@ export class AttestationAdministrationClient {
     pemCertificate: string,
     privateKey: string,
     certificate: string,
-    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {}
+    options: AttestationAdministrationClientPolicyCertificateOperationOptions = {},
   ): Promise<AttestationResponse<PolicyCertificatesModificationResult>> {
     return tracingClient.withSpan(
       "AttestationAdministrationClient-removePolicyManagementCertificate",
@@ -544,7 +543,7 @@ export class AttestationAdministrationClient {
       async (updatedOptions) => {
         if ((!privateKey && certificate) || (privateKey && !certificate)) {
           throw new Error(
-            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided."
+            "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
           );
         }
 
@@ -572,7 +571,7 @@ export class AttestationAdministrationClient {
               AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
               JsonWebKey: Mappers.JsonWebKey,
             },
-            Mappers.AttestationCertificateManagementBody
+            Mappers.AttestationCertificateManagementBody,
           ),
           privateKey: privateKey,
           certificate: certificate,
@@ -580,14 +579,14 @@ export class AttestationAdministrationClient {
 
         const removeCertificateResult = await this._client.policyCertificates.remove(
           removeCertToken.serialize(),
-          updatedOptions
+          updatedOptions,
         );
         // The attestation token returned from the service has a PolicyResult
         // object as the body.
         const token = new AttestationTokenImpl(removeCertificateResult.token);
         const problems = token.getTokenProblems(
           await this.signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -601,11 +600,11 @@ export class AttestationAdministrationClient {
             JsonWebKeySet: Mappers.JsonWebKeySet,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "PolicyCertificatesModificationResult"
+          "PolicyCertificatesModificationResult",
         ) as PolicyCertificatesModificationResult;
 
         return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-      }
+      },
     );
   }
 

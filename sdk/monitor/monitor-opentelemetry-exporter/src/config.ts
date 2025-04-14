@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
-import { ServiceApiVersion } from "./Declarations/Constants";
-import { ApplicationInsightsClientOptionalParams } from "./generated";
+// Licensed under the MIT License.
+import type { TokenCredential } from "@azure/core-auth";
+import type { ServiceApiVersion } from "./Declarations/Constants.js";
+import type { ApplicationInsightsClientOptionalParams } from "./generated/index.js";
 
 /**
  * Provides configuration options for AzureMonitorTraceExporter.
@@ -18,9 +18,9 @@ export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOp
    */
   apiVersion?: ServiceApiVersion;
   /**
-   * Azure Active Directory Credential
+   * Token Credential
    */
-  aadTokenCredential?: TokenCredential;
+  credential?: TokenCredential;
   /**
    * Directory to store retriable telemetry when it fails to export.
    */

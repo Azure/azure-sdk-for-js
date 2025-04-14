@@ -11,8 +11,8 @@ import {
   RestorableDroppedManagedDatabase,
   RestorableDroppedManagedDatabasesListByInstanceOptionalParams,
   RestorableDroppedManagedDatabasesGetOptionalParams,
-  RestorableDroppedManagedDatabasesGetResponse
-} from "../models";
+  RestorableDroppedManagedDatabasesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableDroppedManagedDatabases. */
@@ -27,7 +27,7 @@ export interface RestorableDroppedManagedDatabases {
   listByInstance(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: RestorableDroppedManagedDatabasesListByInstanceOptionalParams
+    options?: RestorableDroppedManagedDatabasesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedManagedDatabase>;
   /**
    * Gets a restorable dropped managed database.
@@ -41,6 +41,6 @@ export interface RestorableDroppedManagedDatabases {
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: RestorableDroppedManagedDatabasesGetOptionalParams
+    options?: RestorableDroppedManagedDatabasesGetOptionalParams,
   ): Promise<RestorableDroppedManagedDatabasesGetResponse>;
 }

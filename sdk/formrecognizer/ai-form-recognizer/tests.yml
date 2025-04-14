@@ -6,12 +6,12 @@ parameters:
   - name: Location
     displayName: Location
     type: string
-    default: eastus
+    default: centralus
 
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/ai-form-recognizer"
       ServiceDirectory: formrecognizer

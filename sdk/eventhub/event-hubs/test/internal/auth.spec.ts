@@ -1,194 +1,154 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
-  EventHubConnectionStringProperties,
-  EventHubConsumerClient,
-  EventHubProducerClient,
   parseEventHubConnectionString,
-} from "../../src";
-import chai from "chai";
-import { createMockServer } from "../public/utils/mockService";
-import { createSasTokenProvider } from "@azure/core-amqp";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+  EventHubConsumerClient,
+  type EventHubProducerClient,
+} from "../../src/index.js";
+import { createConsumer, createProducer } from "../utils/clients.js";
+import { isSasTokenProvider } from "@azure/core-amqp";
+import { should, assert } from "../utils/chai.js";
+import { describe, it, afterEach, beforeEach, beforeAll } from "vitest";
+import { getConnectionStringWithKey } from "../utils/vars.js";
+import { getConnectionStringWithSAS } from "../utils/sas.js";
 
-const should = chai.should();
-
-testWithServiceTypes((serviceVersion) => {
-  const env = getEnvVars();
-  if (serviceVersion === "mock") {
-    let service: ReturnType<typeof createMockServer>;
-    before("Starting mock service", () => {
-      service = createMockServer();
-      return service.start();
-    });
-
-    after("Stopping mock service", () => {
-      return service?.stop();
-    });
+function getCredential(client: EventHubConsumerClient | EventHubProducerClient): any {
+  const cred =
+    // typescript doesn't allow access to a shared member between the two classes.
+    client instanceof EventHubConsumerClient
+      ? client["_context"].tokenCredential
+      : client["_context"].tokenCredential;
+  if (!isSasTokenProvider(cred)) {
+    assert.fail("Expected a SasTokenProviderImpl instance.");
   }
+  // cred is of type SasTokenProviderImpl which is not exported.
+  return (cred as any)["_credential"];
+}
 
-  describe("Authentication via", () => {
-    const { endpoint, fullyQualifiedNamespace, sharedAccessKey, sharedAccessKeyName } =
-      parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
-    const service = {
-      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME],
-      endpoint: endpoint.replace(/\/+$/, ""),
-    };
+describe("Authentication via", () => {
+  let client: EventHubConsumerClient | EventHubProducerClient;
+  let connectionString: string;
+  afterEach(async () => {
+    const properties = await client.getEventHubProperties();
+    should.exist(properties);
+    await client.close();
+  });
 
-    before(() => {
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
-      );
-      should.exist(
-        env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
-      );
-    });
+  describe("Keys", () => {
+    let sharedAccessKeyName: string;
+    let sharedAccessKey: string;
 
-    describe("Keys", () => {
-      describe("using connection string", () => {
-        it("EventHubConsumerClient", async () => {
-          const consumerClient = new EventHubConsumerClient(
-            "$Default",
-            service.connectionString,
-            service.path
-          );
-
-          const properties = await consumerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await consumerClient.close();
-        });
-
-        it("EventHubProducerClient", async () => {
-          const producerClient = new EventHubProducerClient(service.connectionString, service.path);
-
-          const properties = await producerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await producerClient.close();
-        });
-      });
-
-      describe("using NamedKeyCredential", () => {
-        it("EventHubConsumerClient", async () => {
-          const namedKeyCredential = new AzureNamedKeyCredential(
-            sharedAccessKeyName!,
-            sharedAccessKey!
-          );
-
-          const consumerClient = new EventHubConsumerClient(
-            "$Default",
-            fullyQualifiedNamespace,
-            service.path,
-            namedKeyCredential
-          );
-
-          const properties = await consumerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await consumerClient.close();
-        });
-
-        it("EventHubProducerClient", async () => {
-          const namedKeyCredential = new AzureNamedKeyCredential(
-            sharedAccessKeyName!,
-            sharedAccessKey!
-          );
-
-          const producerClient = new EventHubProducerClient(
-            fullyQualifiedNamespace,
-            service.path,
-            namedKeyCredential
-          );
-
-          const properties = await producerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await producerClient.close();
-        });
-      });
-    });
-
-    describe("SAS", () => {
-      function getSas(): string {
-        const parsed = parseEventHubConnectionString(service.connectionString) as Required<
-          | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
-          | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
-        >;
-        return createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
+    beforeAll(async () => {
+      connectionString = getConnectionStringWithKey();
+      const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
+        parseEventHubConnectionString(connectionString);
+      if (!t1 || !t2) {
+        assert.fail("Failed to parse connection string.");
       }
+      sharedAccessKeyName = t1;
+      sharedAccessKey = t2;
+    });
 
-      describe("using connection string", () => {
-        function getSasConnectionString(): string {
-          const sas = getSas();
-
-          return `Endpoint=${service.endpoint}/;SharedAccessSignature=${sas}`;
-        }
-
-        it("EventHubConsumerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
-
-          const consumerClient = new EventHubConsumerClient(
-            "$Default",
-            sasConnectionString,
-            service.path
-          );
-
-          const properties = await consumerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await consumerClient.close();
-        });
-
-        it("EventHubProducerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
-
-          const producerClient = new EventHubProducerClient(sasConnectionString, service.path);
-
-          const properties = await producerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await producerClient.close();
+    describe("using connection string", () => {
+      afterEach(async () => {
+        assert.deepEqual(getCredential(client), {
+          name: sharedAccessKeyName,
+          key: sharedAccessKey,
         });
       });
 
-      describe("using SASCredential", () => {
-        it("EventHubConsumerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
-
-          const consumerClient = new EventHubConsumerClient(
-            "$Default",
-            fullyQualifiedNamespace,
-            service.path,
-            sasCredential
-          );
-
-          const properties = await consumerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await consumerClient.close();
+      it("EventHubConsumerClient", async () => {
+        const { consumer } = createConsumer({
+          connectionString,
         });
+        client = consumer;
+      });
 
-        it("EventHubProducerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
-
-          const producerClient = new EventHubProducerClient(
-            fullyQualifiedNamespace,
-            service.path,
-            sasCredential
-          );
-
-          const properties = await producerClient.getEventHubProperties();
-          should.exist(properties);
-
-          await producerClient.close();
+      it("EventHubProducerClient", async () => {
+        const { producer } = createProducer({
+          connectionString,
         });
+        client = producer;
+      });
+    });
+
+    describe("using NamedKeyCredential", () => {
+      let namedKeyCredential: AzureNamedKeyCredential;
+      beforeAll(async () => {
+        namedKeyCredential = new AzureNamedKeyCredential(sharedAccessKeyName, sharedAccessKey);
+      });
+
+      afterEach(async () => {
+        assert.deepEqual(getCredential(client), namedKeyCredential);
+      });
+
+      it("EventHubConsumerClient", async () => {
+        const { consumer } = createConsumer({ credential: namedKeyCredential });
+        client = consumer;
+      });
+
+      it("EventHubProducerClient", async () => {
+        const { producer } = createProducer({ credential: namedKeyCredential });
+        client = producer;
+      });
+    });
+  });
+
+  describe("SAS", () => {
+    let sharedAccessSignature: string;
+
+    beforeEach(async () => {
+      connectionString = await getConnectionStringWithSAS();
+      const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
+      if (!t) {
+        assert.fail("Failed to parse connection string.");
+      }
+      sharedAccessSignature = t;
+    });
+
+    describe("using connection string", () => {
+      afterEach(async () => {
+        assert.deepEqual(getCredential(client), {
+          signature: sharedAccessSignature,
+        });
+      });
+
+      it("EventHubConsumerClient", async () => {
+        const { consumer } = createConsumer({
+          connectionString,
+        });
+        client = consumer;
+      });
+
+      it("EventHubProducerClient", async () => {
+        const { producer } = createProducer({
+          connectionString,
+        });
+        client = producer;
+      });
+    });
+
+    describe("using SASCredential", () => {
+      let sasCredential: AzureSASCredential;
+
+      beforeEach(async () => {
+        sasCredential = new AzureSASCredential(sharedAccessSignature);
+      });
+
+      afterEach(async () => {
+        assert.deepEqual(getCredential(client), sasCredential);
+      });
+
+      it("EventHubConsumerClient", async () => {
+        const { consumer } = createConsumer({ credential: sasCredential });
+        client = consumer;
+      });
+
+      it("EventHubProducerClient", async () => {
+        const { producer } = createProducer({ credential: sasCredential });
+        client = producer;
       });
     });
   });

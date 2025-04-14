@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src";
+import { describe, it, assert } from "vitest";
+import {
+  getPagedAsyncIterator,
+  type PagedAsyncIterableIterator,
+  type PagedResult,
+  type PageSettings,
+} from "../src/index.js";
 
-function buildIterator<T>(input: T) {
+function buildIterator<T>(input: T): PagedAsyncIterableIterator<unknown, T, PageSettings> {
   return getPagedAsyncIterator({
     firstPageLink: 0,
     getPage: async () => ({ page: input }),
@@ -60,7 +65,7 @@ describe("getPagedAsyncIterator", function () {
       },
     };
     const iterator = getPagedAsyncIterator(pagedResult);
-    let receivedItems = [];
+    const receivedItems = [];
     for await (const val of iterator) {
       receivedItems.push(val);
     }
@@ -82,8 +87,8 @@ describe("getPagedAsyncIterator", function () {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     const pagedResult: PagedResult<Record<string, unknown>, PageSettings, number> = {
       firstPageLink: 0,
-      async getPage(pageLink, maxPageSize) {
-        const top = maxPageSize || 5;
+      async getPage(pageLink, innerMaxPageSize) {
+        const top = innerMaxPageSize || 5;
         if (pageLink < collection.length) {
           return Promise.resolve({
             page: {
@@ -102,7 +107,7 @@ describe("getPagedAsyncIterator", function () {
       PageSettings,
       number
     >(pagedResult);
-    let receivedItems = []; // they're pages too
+    const receivedItems = []; // they're pages too
     let pagesCount = 0;
     for await (const val of iterator) {
       ++pagesCount;
@@ -122,17 +127,17 @@ describe("getPagedAsyncIterator", function () {
   });
 
   describe("Iterator over object", function () {
-    interface collectionObject {
+    interface CollectionObject {
       elements: number[];
       next: number;
     }
 
     it("should return an iterator over an object that can extract elements", async function () {
-      const collection: collectionObject = {
+      const collection: CollectionObject = {
         elements: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         next: 0,
       };
-      const pagedResult: PagedResult<collectionObject, PageSettings, number> = {
+      const pagedResult: PagedResult<CollectionObject, PageSettings, number> = {
         firstPageLink: 0,
         getPage: async () => ({ page: collection }),
         toElements: (page) => page.elements,

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
@@ -12,24 +13,32 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * @param executionContext - Underlying Execution Context
    * @hidden
    */
-  constructor(private executionContext: ExecutionContext) {}
-  /**
-   * Execute a provided function on the next element in the OrderByEndpointComponent.
-   */
-  public async nextItem(): Promise<Response<any>> {
-    const { result: item, headers, diagnostics } = await this.executionContext.nextItem();
-    return {
-      result: item !== undefined ? item.payload : undefined,
-      headers,
-      diagnostics,
-    };
-  }
-
+  constructor(
+    private executionContext: ExecutionContext,
+    private emitRawOrderByPayload: boolean = false,
+  ) {}
   /**
    * Determine if there are still remaining resources to processs.
    * @returns true if there is other elements to process in the OrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
+  }
+
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+    const buffer: any[] = [];
+    const response = await this.executionContext.fetchMore(diagnosticNode);
+    if (response === undefined || response.result === undefined) {
+      return { result: undefined, headers: response.headers };
+    }
+    for (const item of response.result) {
+      if (this.emitRawOrderByPayload) {
+        buffer.push(item);
+      } else {
+        buffer.push(item.payload);
+      }
+    }
+
+    return { result: buffer, headers: response.headers };
   }
 }

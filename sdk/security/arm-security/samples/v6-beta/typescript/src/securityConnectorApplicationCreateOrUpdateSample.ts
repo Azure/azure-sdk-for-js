@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Application, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or update a security Application on the given security connector.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or update a security Application on the given security connector.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-07-01-preview/examples/Applications/PutSecurityConnectorApplication_example.json
  */
-async function createApplication() {
+async function createApplication(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -33,12 +31,12 @@ async function createApplication() {
     conditionSets: [
       {
         conditions: [
-          { operator: "contains", property: "$.Id", value: "-prod-" }
-        ]
-      }
+          { operator: "contains", property: "$.Id", value: "-prod-" },
+        ],
+      },
     ],
     displayName: "GCP Admin's application",
-    sourceResourceType: "Assessments"
+    sourceResourceType: "Assessments",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -46,12 +44,12 @@ async function createApplication() {
     resourceGroupName,
     securityConnectorName,
     applicationId,
-    application
+    application,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createApplication();
 }
 

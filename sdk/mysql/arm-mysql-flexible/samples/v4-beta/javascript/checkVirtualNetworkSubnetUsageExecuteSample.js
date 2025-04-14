@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get virtual network subnet usage for a given vNet resource id.
  *
  * @summary Get virtual network subnet usage for a given vNet resource id.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/preview/2021-12-01-preview/examples/CheckVirtualNetworkSubnetUsage.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckVirtualNetworkSubnetUsage.json
  */
 async function checkVirtualNetworkSubnetUsage() {
   const subscriptionId =

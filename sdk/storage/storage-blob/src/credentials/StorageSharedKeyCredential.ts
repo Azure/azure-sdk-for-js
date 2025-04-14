@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { createHmac } from "crypto";
-import {
+import { createHmac } from "node:crypto";
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-
-import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy";
-import { Credential } from "./Credential";
+import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy.js";
+import { Credential } from "./Credential.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -45,7 +44,7 @@ export class StorageSharedKeyCredential extends Credential {
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptions,
   ): StorageSharedKeyCredentialPolicy {
     return new StorageSharedKeyCredentialPolicy(nextPolicy, options, this);
   }

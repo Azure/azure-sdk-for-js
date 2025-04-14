@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This method is used while generating the file/folder path using the describe/it block titles.
@@ -34,7 +34,7 @@ export function formatPath(path: string): string {
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
   testSuiteTitle: string,
-  testTitle: string
+  testTitle: string,
 ): string {
   // File Extension
   return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.json`;

@@ -29,7 +29,7 @@ async function deletesAScopedResourceWithAGivenName() {
   const result = await client.privateLinkScopedResources.beginDeleteAndWait(
     resourceGroupName,
     scopeName,
-    name
+    name,
   );
   console.log(result);
 }

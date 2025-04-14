@@ -1,26 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
-import { AzureDevCenterClient } from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
-import { DefaultAzureCredential } from "@azure/identity";
-import createClient from "../../../src/index";
+import { type TestContext } from "vitest";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { AzureDeveloperDevCenterClient } from "../../../src/clientDefinitions.js";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { AzurePowerShellCredential } from "@azure/identity";
+import createClient from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT:
-    "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd",
-  SUBSCRIPTION_ID: "azure_subscription_id",
+  ENDPOINT: "https://endpoint",
+  DEFAULT_PROJECT_NAME: "project",
+  DEFAULT_POOL_NAME: "pool",
+  DEFAULT_DEVBOX_NAME: "devbox",
+  DEFAULT_USER_NAME: "me",
+  DEFAULT_CATALOG_NAME: "catalog",
+  DEFAULT_ENVIRONMENT_TYPE_NAME: "env_type",
+  DEFAULT_ENVIRONMENT_DEFINITION_NAME: "env_definition",
+  DEFAULT_ENVIRONMENT_NAME: "environment",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: envSetupForPlayback,
+  //  https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy/Common/SanitizerDictionary.cs
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030",
+  ],
 };
 
 /**
@@ -28,8 +36,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestContext | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -37,9 +45,9 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 export function createRecordedClient(
   recorder: Recorder,
   endpoint: string,
-  options: ClientOptions = {}
-): AzureDevCenterClient {
+  options: ClientOptions = {},
+): AzureDeveloperDevCenterClient {
   // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
-  const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();
+  const credential = isPlaybackMode() ? createTestCredential() : new AzurePowerShellCredential();
   return createClient(endpoint, credential, recorder.configureClientOptions(options));
 }

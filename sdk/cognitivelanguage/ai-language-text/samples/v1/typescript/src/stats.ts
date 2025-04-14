@@ -7,29 +7,25 @@
  * @summary access statistics about documents and transactions
  */
 
-import {
-  TextAnalysisClient,
-  AzureKeyCredential,
-  TextDocumentBatchStatistics,
-} from "@azure/ai-language-text";
+import type { TextDocumentBatchStatistics } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
   "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Statistics Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const results = await client.analyze("EntityLinking", documents, "en", {
     /**
@@ -76,7 +72,7 @@ export async function main() {
     "en",
     {
       includeStatistics: true,
-    }
+    },
   );
   const actions = await poller.pollUntilDone();
   console.log("Statistics for beginAnalyzeActions:");
@@ -94,9 +90,9 @@ export async function main() {
       for (const doc of action.results) {
         if (!doc.error) {
           console.log(`\t\t- Document ID: ${doc.id}`);
-          const stats = doc.statistics!;
-          console.log(`\t\t\t- Character count: ${stats.characterCount}`);
-          console.log(`\t\t\t- Transaction count: ${stats.transactionCount}`);
+          const docStats = doc.statistics!;
+          console.log(`\t\t\t- Character count: ${docStats.characterCount}`);
+          console.log(`\t\t\t- Transaction count: ${docStats.transactionCount}`);
         }
       }
     }

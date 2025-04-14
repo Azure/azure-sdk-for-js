@@ -1,25 +1,42 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-
-import { ClientContext } from "./ClientContext";
-import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import type { ClientContext } from "./ClientContext.js";
 import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal.js";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common/index.js";
+import type {
   CosmosHeaders,
-  DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
+  SqlQuerySpec,
+} from "./queryExecutionContext/index.js";
+import {
+  DefaultQueryExecutionContext,
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec,
-} from "./queryExecutionContext";
-import { Response } from "./request";
-import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { FeedOptions } from "./request/FeedOptions";
-import { FeedResponse } from "./request/FeedResponse";
+} from "./queryExecutionContext/index.js";
+import type { Response } from "./request/index.js";
+import type {
+  ErrorResponse,
+  PartitionedQueryExecutionInfo,
+  QueryRange,
+} from "./request/ErrorResponse.js";
+import type { FeedOptions } from "./request/FeedOptions.js";
+import { FeedResponse } from "./request/FeedResponse.js";
+import {
+  getEmptyCosmosDiagnostics,
+  withDiagnostics,
+  withMetadataDiagnostics,
+} from "./utils/diagnostics.js";
+import { MetadataLookUpType } from "./CosmosDiagnostics.js";
+import { randomUUID } from "@azure/core-util";
+import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
+import { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -32,6 +49,8 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
+  private correlatedActivityId: string;
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
    * @hidden
    */
@@ -40,9 +59,8 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
     private resourceLink?: string,
-    private resourceType?: ResourceType
+    private resourceType?: ResourceType,
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
@@ -51,6 +69,7 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
   /**
@@ -62,31 +81,50 @@ export class QueryIterator<T> {
    * If you're using TypeScript, you can use the following polyfill as long
    * as you target ES6 or higher and are running on Node 6 or higher.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * if (!Symbol || !Symbol.asyncIterator) {
    *   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
    * }
    * ```
    *
    * @example Iterate over all databases
-   * ```typescript
-   * for await(const { resources: db } of client.databases.readAll().getAsyncIterator()) {
+   * ```ts snippet:QueryIteratorIterateDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * for await (const { resources: db } of client.databases.readAll().getAsyncIterator()) {
    *   console.log(`Got ${db} from AsyncIterator`);
    * }
    * ```
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
+    const diagnosticNode = new DiagnosticNodeInternal(
+      this.clientContext.diagnosticLevel,
+      DiagnosticNodeType.CLIENT_REQUEST_NODE,
+      null,
+    );
+    yield* this.getAsyncIteratorInternal(diagnosticNode);
+  }
+  /**
+   * @internal
+   */
+  public async *getAsyncIteratorInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): AsyncIterable<FeedResponse<T>> {
     this.reset();
-    this.queryPlanPromise = this.fetchQueryPlan();
+    this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore();
+        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createPipelinedExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
-            response = await this.queryExecutionContext.fetchMore();
+            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -94,11 +132,17 @@ export class QueryIterator<T> {
           throw error;
         }
       }
+
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
         this.queryExecutionContext.hasMoreResults(),
-        this.diagnosticContext.resetAndGetDiagnostics()
+        diagnosticNode.toDiagnostic(this.clientContext.getClientConfig()),
+      );
+      diagnosticNode = new DiagnosticNodeInternal(
+        this.clientContext.diagnosticLevel,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null,
       );
       if (response.result !== undefined) {
         yield feedResponse;
@@ -107,7 +151,7 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation token or the
+   * Determine if there are still remaining resources to process based on the value of the continuation token or the
    * elements remaining on the current batch in the QueryIterator.
    * @returns true if there is other elements to process in the QueryIterator.
    */
@@ -120,11 +164,19 @@ export class QueryIterator<T> {
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.fetchAllInternal(diagnosticNode);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
     this.reset();
-    this.fetchAllTempResources = [];
     let response: FeedResponse<T>;
     try {
-      response = await this.toArrayImplementation();
+      response = await this.toArrayImplementation(diagnosticNode);
     } catch (error: any) {
       this.handleSplitError(error);
     }
@@ -139,19 +191,32 @@ export class QueryIterator<T> {
    * before returning the first batch of responses.
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
-    this.queryPlanPromise = this.fetchQueryPlan();
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.fetchNextInternal(diagnosticNode);
+    }, this.clientContext);
+  }
+  /**
+   * @internal
+   */
+  public async fetchNextInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = withMetadataDiagnostics(
+      async (metadataNode: DiagnosticNodeInternal) => {
+        return this.fetchQueryPlan(metadataNode);
+      },
+      diagnosticNode,
+      MetadataLookUpType.QueryPlanLookUp,
+    );
     if (!this.isInitialized) {
-      await this.init();
+      await this.init(diagnosticNode);
     }
-
     let response: Response<any>;
     try {
-      response = await this.queryExecutionContext.fetchMore();
+      response = await this.queryExecutionContext.fetchMore(diagnosticNode);
     } catch (error: any) {
       if (this.needsQueryPlan(error)) {
-        await this.createPipelinedExecutionContext();
+        await this.createExecutionContext(diagnosticNode);
         try {
-          response = await this.queryExecutionContext.fetchMore();
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
         } catch (queryError: any) {
           this.handleSplitError(queryError);
         }
@@ -163,7 +228,7 @@ export class QueryIterator<T> {
       response.result,
       response.headers,
       this.queryExecutionContext.hasMoreResults(),
-      this.diagnosticContext.resetAndGetDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -171,27 +236,39 @@ export class QueryIterator<T> {
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset(): void {
+    this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
+    this.fetchAllLastResHeaders = getInitialHeader();
+    this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions,
-      this.diagnosticContext
+      this.correlatedActivityId,
     );
   }
 
-  private async toArrayImplementation(): Promise<FeedResponse<T>> {
-    this.queryPlanPromise = this.fetchQueryPlan();
+  private async toArrayImplementation(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = withMetadataDiagnostics(
+      async (metadataNode: DiagnosticNodeInternal) => {
+        return this.fetchQueryPlan(metadataNode);
+      },
+      diagnosticNode,
+      MetadataLookUpType.QueryPlanLookUp,
+    );
+    // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     if (!this.isInitialized) {
-      await this.init();
+      await this.init(diagnosticNode);
     }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem();
+        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createPipelinedExecutionContext();
-          response = await this.queryExecutionContext.nextItem();
+          await this.createExecutionContext(diagnosticNode);
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
         } else {
           throw error;
         }
@@ -199,20 +276,19 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-
-      if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
+      if (result) {
+        this.fetchAllTempResources.push(...result);
       }
     }
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
       this.queryExecutionContext.hasMoreResults(),
-      this.diagnosticContext.resetAndGetDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 
-  private async createPipelinedExecutionContext(): Promise<void> {
+  private async createExecutionContext(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     const queryPlanResponse = await this.queryPlanPromise;
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
@@ -220,7 +296,45 @@ export class QueryIterator<T> {
       throw queryPlanResponse;
     }
 
-    const queryPlan = queryPlanResponse.result;
+    const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
+    if (queryPlan.hybridSearchQueryInfo && queryPlan.hybridSearchQueryInfo !== null) {
+      await this.createHybridQueryExecutionContext(queryPlan, diagnosticNode);
+    } else {
+      await this.createPipelinedExecutionContext(queryPlan);
+    }
+  }
+
+  private async createHybridQueryExecutionContext(
+    queryPlan: PartitionedQueryExecutionInfo,
+    diagnosticNode?: DiagnosticNodeInternal,
+  ): Promise<void> {
+    const allPartitionKeyRanges = (
+      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
+
+    // convert allPartitionKeyRanges to QueryRanges
+    const queryRanges: QueryRange[] = allPartitionKeyRanges.map((partitionKeyRange) => {
+      return {
+        min: partitionKeyRange.minInclusive,
+        max: partitionKeyRange.maxExclusive,
+        isMinInclusive: true,
+        isMaxInclusive: false,
+      };
+    });
+
+    this.queryExecutionContext = new HybridQueryExecutionContext(
+      this.clientContext,
+      this.resourceLink,
+      this.options,
+      queryPlan,
+      this.correlatedActivityId,
+      queryRanges,
+    );
+  }
+
+  private async createPipelinedExecutionContext(
+    queryPlan: PartitionedQueryExecutionInfo,
+  ): Promise<void> {
     const queryInfo = queryPlan.queryInfo;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
@@ -231,11 +345,11 @@ export class QueryIterator<T> {
       this.query,
       this.options,
       queryPlan,
-      this.diagnosticContext
+      this.correlatedActivityId,
     );
   }
 
-  private async fetchQueryPlan(): Promise<any> {
+  private async fetchQueryPlan(diagnosticNode: DiagnosticNodeInternal): Promise<any> {
     if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
       return this.clientContext
         .getQueryPlan(
@@ -243,7 +357,9 @@ export class QueryIterator<T> {
           ResourceType.item,
           this.resourceLink,
           this.query,
-          this.options
+          this.options,
+          diagnosticNode,
+          this.correlatedActivityId,
         )
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }
@@ -262,18 +378,21 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init(): Promise<void> {
+  /**
+   * @internal
+   */
+  public async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }
     if (this.initPromise === undefined) {
-      this.initPromise = this._init();
+      this.initPromise = this._init(diagnosticNode);
     }
     return this.initPromise;
   }
-  private async _init(): Promise<void> {
+  private async _init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
-      await this.createPipelinedExecutionContext();
+      await this.createExecutionContext(diagnosticNode);
     }
     this.isInitialized = true;
   }
@@ -281,7 +400,7 @@ export class QueryIterator<T> {
   private handleSplitError(err: any): void {
     if (err.code === 410) {
       const error = new Error(
-        "Encountered partition split and could not recover. This request is retryable"
+        "Encountered partition split and could not recover. This request is retryable",
       ) as any;
       error.code = 503;
       error.originalError = err;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists health check status details
  *
  * @summary Lists health check status details
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/NetworkConnections_ListHealthDetails.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_ListHealthDetails.json
  */
 async function networkConnectionsListHealthDetails() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function networkConnectionsListHealthDetails() {
   const resArray = new Array();
   for await (let item of client.networkConnections.listHealthDetails(
     resourceGroupName,
-    networkConnectionName
+    networkConnectionName,
   )) {
     resArray.push(item);
   }

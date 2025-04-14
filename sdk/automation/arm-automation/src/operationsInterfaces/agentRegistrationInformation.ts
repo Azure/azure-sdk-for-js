@@ -12,7 +12,7 @@ import {
   AgentRegistrationRegenerateKeyParameter,
   AgentRegistrationInformationRegenerateKeyOptionalParams,
   AgentRegistrationInformationRegenerateKeyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AgentRegistrationInformation. */
 export interface AgentRegistrationInformation {

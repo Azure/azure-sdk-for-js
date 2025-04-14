@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./locations";
-export * from "./privateClouds";
-export * from "./clusters";
-export * from "./datastores";
-export * from "./hcxEnterpriseSites";
-export * from "./authorizations";
-export * from "./globalReachConnections";
-export * from "./workloadNetworks";
-export * from "./cloudLinks";
-export * from "./addons";
-export * from "./virtualMachines";
-export * from "./placementPolicies";
-export * from "./scriptPackages";
-export * from "./scriptCmdlets";
-export * from "./scriptExecutions";
+export * from "./operations.js";
+export * from "./locations.js";
+export * from "./privateClouds.js";
+export * from "./addons.js";
+export * from "./authorizations.js";
+export * from "./cloudLinks.js";
+export * from "./clusters.js";
+export * from "./datastores.js";
+export * from "./placementPolicies.js";
+export * from "./virtualMachines.js";
+export * from "./globalReachConnections.js";
+export * from "./hcxEnterpriseSites.js";
+export * from "./iscsiPaths.js";
+export * from "./scriptExecutions.js";
+export * from "./scriptPackages.js";
+export * from "./scriptCmdlets.js";
+export * from "./workloadNetworks.js";

@@ -1,35 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import {
-  InputTextItem,
-  TextTranslationClient,
-  TransliteratedTextOutput,
-  TransliterateQueryParamProperties,
-  isUnexpected,
-} from "../../src";
-import { createTranslationClient, startRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { editDistance } from "./utils/testHelper";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import { editDistance } from "./utils/testHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Transliterate tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("transliterate basic", async () => {
-    const inputText: InputTextItem[] = [{ text: "这里怎么一回事?" }];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "这里怎么一回事?" }];
+    const parameters = {
       language: "zh-Hans",
       fromScript: "Hans",
       toScript: "Latn",
@@ -44,17 +38,14 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
 
   it("multiple text array", async () => {
-    const inputText: InputTextItem[] = [
-      { text: "यहएककसौटीहैयहएककसौटीहै" },
-      { text: "यहएककसौटीहै" },
-    ];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "यहएककसौटीहैयहएककसौटीहै" }, { text: "यहएककसौटीहै" }];
+    const parameters = {
       language: "hi",
       fromScript: "Deva",
       toScript: "Latn",
@@ -69,18 +60,14 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].script !== null);
     assert.isTrue(translations[0].text !== null);
   });
 
   it("with edit distance", async () => {
-    const inputText: InputTextItem[] = [
-      { text: "gujarat" },
-      { text: "hadman" },
-      { text: "hukkabar" },
-    ];
-    const parameters: TransliterateQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "gujarat" }, { text: "hadman" }, { text: "hukkabar" }];
+    const parameters = {
       language: "gu",
       fromScript: "Latn",
       toScript: "gujr",
@@ -95,7 +82,7 @@ describe("Transliterate tests", () => {
       throw response.body;
     }
 
-    const translations = response.body as TransliteratedTextOutput[];
+    const translations = response.body;
     assert.isTrue(translations[0].text !== null);
     assert.isTrue(translations[1].text !== null);
     assert.isTrue(translations[2].text !== null);

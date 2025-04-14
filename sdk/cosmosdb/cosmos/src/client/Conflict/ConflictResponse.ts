@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
-import { Conflict } from "./Conflict";
-import { ConflictDefinition } from "./ConflictDefinition";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { Conflict } from "./Conflict.js";
+import type { ConflictDefinition } from "./ConflictDefinition.js";
 
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
   constructor(
@@ -13,7 +13,7 @@ export class ConflictResponse extends ResourceResponse<ConflictDefinition & Reso
     headers: CosmosHeaders,
     statusCode: number,
     conflict: Conflict,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.conflict = conflict;

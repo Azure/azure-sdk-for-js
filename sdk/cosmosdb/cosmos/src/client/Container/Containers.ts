@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext.js";
 import {
   Constants,
   getIdFromLink,
@@ -8,18 +8,23 @@ import {
   isResourceValid,
   ResourceType,
   StatusCodes,
-} from "../../common";
-import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Database } from "../Database";
-import { Resource } from "../Resource";
-import { Container } from "./Container";
-import { ContainerDefinition } from "./ContainerDefinition";
-import { ContainerRequest } from "./ContainerRequest";
-import { ContainerResponse } from "./ContainerResponse";
-import { validateOffer } from "../../utils/offers";
+  validateClientEncryptionPolicy,
+} from "../../common/index.js";
+import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { mergeHeaders } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import type { Resource } from "../Resource.js";
+import { Container } from "./Container.js";
+import type { ContainerDefinition } from "./ContainerDefinition.js";
+import type { ContainerRequest } from "./ContainerRequest.js";
+import { ContainerResponse } from "./ContainerResponse.js";
+import { validateOffer } from "../../utils/offers.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -32,7 +37,15 @@ import { validateOffer } from "../../utils/offers";
  * do this once on application start up.
  */
 export class Containers {
-  constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
+  /**
+   * @hidden
+   * @param database - The parent {@link Database}.
+   */
+  constructor(
+    public readonly database: Database,
+    private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
+  ) {}
 
   /**
    * Queries all containers.
@@ -40,14 +53,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -57,14 +77,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: `SELECT * FROM root r WHERE r.id = @container`,
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -72,16 +99,22 @@ export class Containers {
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
-      return this.clientContext.queryFeed<ContainerDefinition>({
-        path,
-        resourceType: ResourceType.container,
-        resourceId: id,
-        resultFn: (result) => result.DocumentCollections,
-        query,
-        options: innerOptions,
-      });
-    });
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      (diagNode: DiagnosticNodeInternal, innerOptions) => {
+        return this.clientContext.queryFeed<ContainerDefinition>({
+          path,
+          resourceType: ResourceType.container,
+          resourceId: id,
+          resultFn: (result) => result.DocumentCollections,
+          query,
+          options: innerOptions,
+          diagnosticNode: diagNode,
+        });
+      },
+    );
   }
 
   /**
@@ -100,10 +133,34 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:CosmosClientDatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const container = client.database("<database id>").containers.create({
+   *   id: "<name here>",
+   * });
+   * ```
    */
   public async create(
     body: ContainerRequest,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
+  ): Promise<ContainerResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.createInternal(diagnosticNode, body, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async createInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    body: ContainerRequest,
+    options: RequestOptions = {},
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
@@ -159,20 +216,33 @@ export class Containers {
       };
     }
 
+    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
+      body.clientEncryptionPolicy.policyFormatVersion =
+        body.clientEncryptionPolicy.policyFormatVersion ?? 1;
+      validateClientEncryptionPolicy(body.clientEncryptionPolicy, body.partitionKey);
+    }
+
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
       resourceType: ResourceType.container,
       resourceId: id,
+      diagnosticNode,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    const ref = new Container(
+      this.database,
+      response.result.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new ContainerResponse(
       response.result,
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -194,10 +264,21 @@ export class Containers {
    *
    * @param body - Represents the body of the container.
    * @param options - Use to set options like response page size, continuation tokens, etc.
+   * @example
+   * ```ts snippet:ReadmeSampleCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   * ```
    */
   public async createIfNotExists(
     body: ContainerRequest,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
@@ -206,19 +287,23 @@ export class Containers {
       1. Attempt to read the Container (based on an assumption that most containers will already exist, so its faster)
       2. If it fails with NotFound error, attempt to create the container. Else, return the read results.
     */
-    try {
-      const readResponse = await this.database.container(body.id).read(options);
-      return readResponse;
-    } catch (err: any) {
-      if (err.code === StatusCodes.NotFound) {
-        const createResponse = await this.create(body, options);
-        // Must merge the headers to capture RU costskaty
-        mergeHeaders(createResponse.headers, err.headers);
-        return createResponse;
-      } else {
-        throw err;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      try {
+        const readResponse = await this.database
+          .container(body.id)
+          .readInternal(diagnosticNode, options);
+        return readResponse;
+      } catch (err: any) {
+        if (err.code === StatusCodes.NotFound) {
+          const createResponse = await this.createInternal(diagnosticNode, body, options);
+          // Must merge the headers to capture RU costskaty
+          mergeHeaders(createResponse.headers, err.headers);
+          return createResponse;
+        } else {
+          throw err;
+        }
       }
-    }
+    }, this.clientContext);
   }
 
   /**
@@ -226,8 +311,17 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
-   * const {body: containerList} = await client.database("<db id>").containers.readAll().fetchAll();
+   * ```ts snippet:ContainersReadAllContainers
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.readAll()
+   *   .fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource> {

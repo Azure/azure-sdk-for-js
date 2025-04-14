@@ -18,7 +18,7 @@ import {
   MapsKeySpecification as MapsKeySpecificationMapper,
   Creator as CreatorMapper,
   CreatorUpdateParameters as CreatorUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -64,7 +64,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01-preview",
+    defaultValue: "2023-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

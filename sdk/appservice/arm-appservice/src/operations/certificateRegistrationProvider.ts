@@ -7,24 +7,25 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CertificateRegistrationProvider } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CertificateRegistrationProvider } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebSiteManagementClient } from "../webSiteManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebSiteManagementClient } from "../webSiteManagementClient.js";
 import {
   CsmOperationDescription,
   CertificateRegistrationProviderListOperationsNextOptionalParams,
   CertificateRegistrationProviderListOperationsOptionalParams,
   CertificateRegistrationProviderListOperationsResponse,
-  CertificateRegistrationProviderListOperationsNextResponse
-} from "../models";
+  CertificateRegistrationProviderListOperationsNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CertificateRegistrationProvider operations. */
 export class CertificateRegistrationProviderImpl
-  implements CertificateRegistrationProvider {
+  implements CertificateRegistrationProvider
+{
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -41,7 +42,7 @@ export class CertificateRegistrationProviderImpl
    * @param options The options parameters.
    */
   public listOperations(
-    options?: CertificateRegistrationProviderListOperationsOptionalParams
+    options?: CertificateRegistrationProviderListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CsmOperationDescription> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -56,13 +57,13 @@ export class CertificateRegistrationProviderImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: CertificateRegistrationProviderListOperationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CsmOperationDescription[]> {
     let result: CertificateRegistrationProviderListOperationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +84,7 @@ export class CertificateRegistrationProviderImpl
   }
 
   private async *listOperationsPagingAll(
-    options?: CertificateRegistrationProviderListOperationsOptionalParams
+    options?: CertificateRegistrationProviderListOperationsOptionalParams,
   ): AsyncIterableIterator<CsmOperationDescription> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -96,11 +97,11 @@ export class CertificateRegistrationProviderImpl
    * @param options The options parameters.
    */
   private _listOperations(
-    options?: CertificateRegistrationProviderListOperationsOptionalParams
+    options?: CertificateRegistrationProviderListOperationsOptionalParams,
   ): Promise<CertificateRegistrationProviderListOperationsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listOperationsOperationSpec
+      listOperationsOperationSpec,
     );
   }
 
@@ -111,11 +112,11 @@ export class CertificateRegistrationProviderImpl
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: CertificateRegistrationProviderListOperationsNextOptionalParams
+    options?: CertificateRegistrationProviderListOperationsNextOptionalParams,
   ): Promise<CertificateRegistrationProviderListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listOperationsNextOperationSpec
+      listOperationsNextOperationSpec,
     );
   }
 }
@@ -127,29 +128,29 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CsmOperationCollection
+      bodyMapper: Mappers.CsmOperationCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CsmOperationCollection
+      bodyMapper: Mappers.CsmOperationCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

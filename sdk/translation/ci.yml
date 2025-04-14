@@ -11,6 +11,7 @@ trigger:
     include:
     - sdk/translation/ci.yml
     - sdk/translation/ai-translation-text-rest/
+    - sdk/translation/ai-translation-document-rest/
 
 pr:
   branches:
@@ -24,6 +25,7 @@ pr:
     include:
     - sdk/translation/ci.yml
     - sdk/translation/ai-translation-text-rest/
+    - sdk/translation/ai-translation-document-rest/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-rest-ai-translation-text
         safeName: azurerestaitranslationtext
+      - name: azure-rest-ai-translation-document
+        safeName: azurerestaitranslationdocument

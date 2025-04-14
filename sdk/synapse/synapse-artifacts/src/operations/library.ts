@@ -6,18 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Library } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { Library } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
-import {
+import type * as coreRestPipeline from "@azure/core-rest-pipeline";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { ArtifactsClient } from "../artifactsClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   LibraryResource,
   LibraryListNextOptionalParams,
   LibraryListOptionalParams,
@@ -30,17 +31,158 @@ import {
   LibraryGetResponse,
   LibraryCreateOptionalParams,
   LibraryAppendOptionalParams,
-  LibraryListNextResponse
-} from "../models";
+  LibraryListNextResponse,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const flushOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries/{libraryName}/flush",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationResultOperationSpec: coreClient.OperationSpec = {
+  path: "/libraryOperationResults/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource,
+    },
+    202: {
+      bodyMapper: Mappers.OperationResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource,
+    },
+    304: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const appendOperationSpec: coreClient.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "PUT",
+  responses: {
+    201: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.content,
+  queryParameters: [Parameters.apiVersion5, Parameters.comp],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.accept1,
+    Parameters.blobConditionAppendPosition,
+  ],
+  mediaType: "binary",
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+
 /** Class containing Library operations. */
 export class LibraryImpl implements Library {
   private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class Library class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -48,11 +190,9 @@ export class LibraryImpl implements Library {
 
   /**
    * Lists Library.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
-  public list(
-    options?: LibraryListOptionalParams
-  ): PagedAsyncIterableIterator<LibraryResource> {
+  public list(options?: LibraryListOptionalParams): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -66,19 +206,19 @@ export class LibraryImpl implements Library {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: LibraryListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LibraryResource[]> {
     let result: LibraryListOperationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -86,14 +226,14 @@ export class LibraryImpl implements Library {
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
   }
 
   private async *listPagingAll(
-    options?: LibraryListOptionalParams
+    options?: LibraryListOptionalParams,
   ): AsyncIterableIterator<LibraryResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -102,56 +242,55 @@ export class LibraryImpl implements Library {
 
   /**
    * Lists Library.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
-  private async _list(
-    options?: LibraryListOptionalParams
-  ): Promise<LibraryListOperationResponse> {
+  private async _list(options?: LibraryListOptionalParams): Promise<LibraryListOperationResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._list",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { options },
-          listOperationSpec
+          { updatedOptions },
+          listOperationSpec,
         ) as Promise<LibraryListOperationResponse>;
-      }
+      },
     );
   }
 
   /**
    * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginFlush(
     libraryName: string,
-    options?: LibraryFlushOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: LibraryFlushOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginFlush",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginFlush", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      spec: coreClient.OperationSpec,
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -160,8 +299,8 @@ export class LibraryImpl implements Library {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -169,19 +308,19 @@ export class LibraryImpl implements Library {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      flushOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: flushOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -189,13 +328,13 @@ export class LibraryImpl implements Library {
 
   /**
    * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginFlushAndWait(
     libraryName: string,
-    options?: LibraryFlushOptionalParams
+    options?: LibraryFlushOptionalParams,
   ): Promise<void> {
     const poller = await this.beginFlush(libraryName, options);
     return poller.pollUntilDone();
@@ -203,58 +342,59 @@ export class LibraryImpl implements Library {
 
   /**
    * Get Operation result for Library
-   * @param operationId operation id for which status is requested
-   * @param options The options parameters.
+   * @param operationId - operation id for which status is requested
+   * @param options - The options parameters.
    */
   async getOperationResult(
     operationId: string,
-    options?: LibraryGetOperationResultOptionalParams
+    options?: LibraryGetOperationResultOptionalParams,
   ): Promise<LibraryGetOperationResultResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getOperationResult",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { operationId, options },
-          getOperationResultOperationSpec
+          { operationId, updatedOptions },
+          getOperationResultOperationSpec,
         ) as Promise<LibraryGetOperationResultResponse>;
-      }
+      },
     );
   }
 
   /**
    * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginDelete(
     libraryName: string,
-    options?: LibraryDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: LibraryDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginDelete",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginDelete", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      spec: coreClient.OperationSpec,
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +403,8 @@ export class LibraryImpl implements Library {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,19 +412,19 @@ export class LibraryImpl implements Library {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -292,13 +432,13 @@ export class LibraryImpl implements Library {
 
   /**
    * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginDeleteAndWait(
     libraryName: string,
-    options?: LibraryDeleteOptionalParams
+    options?: LibraryDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(libraryName, options);
     return poller.pollUntilDone();
@@ -306,59 +446,53 @@ export class LibraryImpl implements Library {
 
   /**
    * Get Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: LibraryGetOptionalParams
-  ): Promise<LibraryGetResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient.get",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { libraryName, options },
-          getOperationSpec
-        ) as Promise<LibraryGetResponse>;
-      }
-    );
+  async get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse> {
+    return tracingClient.withSpan("ArtifactsClient.get", options ?? {}, async (updatedOptions) => {
+      return this.client.sendOperationRequest(
+        { libraryName, updatedOptions },
+        getOperationSpec,
+      ) as Promise<LibraryGetResponse>;
+    });
   }
 
   /**
    * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginCreate(
     libraryName: string,
-    options?: LibraryCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: LibraryCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
-      return tracingClient.withSpan(
-        "ArtifactsClient.beginCreate",
-        options ?? {},
-        async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
-      );
+      return tracingClient.withSpan("ArtifactsClient.beginCreate", options ?? {}, async () => {
+        return this.client.sendOperationRequest(args, spec) as Promise<void>;
+      });
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      spec: coreClient.OperationSpec,
+    ): Promise<{
+      flatResponse: void;
+      rawResponse: {
+        statusCode: number;
+        body: any;
+        headers: coreRestPipeline.RawHttpHeaders;
+      };
+    }> => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -367,8 +501,8 @@ export class LibraryImpl implements Library {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -376,19 +510,19 @@ export class LibraryImpl implements Library {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { libraryName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { libraryName, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -396,13 +530,13 @@ export class LibraryImpl implements Library {
 
   /**
    * Creates a library with the library name.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async beginCreateAndWait(
     libraryName: string,
-    options?: LibraryCreateOptionalParams
+    options?: LibraryCreateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCreate(libraryName, options);
     return poller.pollUntilDone();
@@ -411,187 +545,46 @@ export class LibraryImpl implements Library {
   /**
    * Append the content to the library resource created using the create operation. The maximum content
    * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param content Library file chunk.
-   * @param options The options parameters.
+   * @param content - Library file chunk.
+   * @param options - The options parameters.
    */
   async append(
     libraryName: string,
     content: coreRestPipeline.RequestBodyType,
-    options?: LibraryAppendOptionalParams
+    options?: LibraryAppendOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "ArtifactsClient.append",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { libraryName, content, options },
-          appendOperationSpec
+          { libraryName, content, updatedOptions },
+          appendOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
   /**
    * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
+   * @param nextLink - The nextLink from the previous successful call to the List method.
+   * @param options - The options parameters.
    */
   private async _listNext(
     nextLink: string,
-    options?: LibraryListNextOptionalParams
+    options?: LibraryListNextOptionalParams,
   ): Promise<LibraryListNextResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._listNext",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { nextLink, options },
-          listNextOperationSpec
+          { nextLink, updatedOptions },
+          listNextOperationSpec,
         ) as Promise<LibraryListNextResponse>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryListResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const flushOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}/flush",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path: "/libraryOperationResults/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryResource
-    },
-    202: {
-      bodyMapper: Mappers.OperationResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryResource
-    },
-    304: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const appendOperationSpec: coreClient.OperationSpec = {
-  path: "/libraries/{libraryName}",
-  httpMethod: "PUT",
-  responses: {
-    201: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.content,
-  queryParameters: [Parameters.apiVersion4, Parameters.comp],
-  urlParameters: [Parameters.endpoint, Parameters.libraryName],
-  headerParameters: [
-    Parameters.contentType1,
-    Parameters.accept1,
-    Parameters.blobConditionAppendPosition
-  ],
-  mediaType: "binary",
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LibraryListResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};

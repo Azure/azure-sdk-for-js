@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AffectedMoveResource {
@@ -168,6 +168,12 @@ export enum KnownMoveState {
 }
 
 // @public
+export enum KnownMoveType {
+    RegionToRegion = "RegionToRegion",
+    RegionToZone = "RegionToZone"
+}
+
+// @public
 export enum KnownProvisioningState {
     Creating = "Creating",
     Failed = "Failed",
@@ -259,9 +265,12 @@ export interface MoveCollection {
 // @public
 export interface MoveCollectionProperties {
     readonly errors?: MoveCollectionPropertiesErrors;
+    moveRegion?: string;
+    moveType?: MoveType;
     readonly provisioningState?: ProvisioningState;
-    sourceRegion: string;
-    targetRegion: string;
+    sourceRegion?: string;
+    targetRegion?: string;
+    version?: string;
 }
 
 // @public
@@ -276,19 +285,19 @@ export interface MoveCollectionResultList {
 
 // @public
 export interface MoveCollections {
-    beginBulkRemove(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsBulkRemoveOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsBulkRemoveResponse>, MoveCollectionsBulkRemoveResponse>>;
+    beginBulkRemove(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsBulkRemoveOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsBulkRemoveResponse>, MoveCollectionsBulkRemoveResponse>>;
     beginBulkRemoveAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsBulkRemoveOptionalParams): Promise<MoveCollectionsBulkRemoveResponse>;
-    beginCommit(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsCommitOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsCommitResponse>, MoveCollectionsCommitResponse>>;
+    beginCommit(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsCommitOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsCommitResponse>, MoveCollectionsCommitResponse>>;
     beginCommitAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsCommitOptionalParams): Promise<MoveCollectionsCommitResponse>;
-    beginDelete(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsDeleteResponse>, MoveCollectionsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsDeleteResponse>, MoveCollectionsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDeleteOptionalParams): Promise<MoveCollectionsDeleteResponse>;
-    beginDiscard(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDiscardOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsDiscardResponse>, MoveCollectionsDiscardResponse>>;
+    beginDiscard(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDiscardOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsDiscardResponse>, MoveCollectionsDiscardResponse>>;
     beginDiscardAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsDiscardOptionalParams): Promise<MoveCollectionsDiscardResponse>;
-    beginInitiateMove(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsInitiateMoveOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsInitiateMoveResponse>, MoveCollectionsInitiateMoveResponse>>;
+    beginInitiateMove(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsInitiateMoveOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsInitiateMoveResponse>, MoveCollectionsInitiateMoveResponse>>;
     beginInitiateMoveAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsInitiateMoveOptionalParams): Promise<MoveCollectionsInitiateMoveResponse>;
-    beginPrepare(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsPrepareOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsPrepareResponse>, MoveCollectionsPrepareResponse>>;
+    beginPrepare(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsPrepareOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsPrepareResponse>, MoveCollectionsPrepareResponse>>;
     beginPrepareAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsPrepareOptionalParams): Promise<MoveCollectionsPrepareResponse>;
-    beginResolveDependencies(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsResolveDependenciesOptionalParams): Promise<PollerLike<PollOperationState<MoveCollectionsResolveDependenciesResponse>, MoveCollectionsResolveDependenciesResponse>>;
+    beginResolveDependencies(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsResolveDependenciesOptionalParams): Promise<SimplePollerLike<OperationState<MoveCollectionsResolveDependenciesResponse>, MoveCollectionsResolveDependenciesResponse>>;
     beginResolveDependenciesAndWait(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsResolveDependenciesOptionalParams): Promise<MoveCollectionsResolveDependenciesResponse>;
     create(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsCreateOptionalParams): Promise<MoveCollectionsCreateResponse>;
     get(resourceGroupName: string, moveCollectionName: string, options?: MoveCollectionsGetOptionalParams): Promise<MoveCollectionsGetResponse>;
@@ -515,9 +524,9 @@ export interface MoveResourcePropertiesMoveStatus extends MoveResourceStatus {
 
 // @public
 export interface MoveResources {
-    beginCreate(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesCreateOptionalParams): Promise<PollerLike<PollOperationState<MoveResourcesCreateResponse>, MoveResourcesCreateResponse>>;
+    beginCreate(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesCreateOptionalParams): Promise<SimplePollerLike<OperationState<MoveResourcesCreateResponse>, MoveResourcesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesCreateOptionalParams): Promise<MoveResourcesCreateResponse>;
-    beginDelete(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<MoveResourcesDeleteResponse>, MoveResourcesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MoveResourcesDeleteResponse>, MoveResourcesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesDeleteOptionalParams): Promise<MoveResourcesDeleteResponse>;
     get(resourceGroupName: string, moveCollectionName: string, moveResourceName: string, options?: MoveResourcesGetOptionalParams): Promise<MoveResourcesGetResponse>;
     list(resourceGroupName: string, moveCollectionName: string, options?: MoveResourcesListOptionalParams): PagedAsyncIterableIterator<MoveResource>;
@@ -573,6 +582,9 @@ export interface MoveResourceStatus {
 
 // @public
 export type MoveState = string;
+
+// @public
+export type MoveType = string;
 
 // @public
 export interface NetworkInterfaceResourceSettings extends ResourceSettings {
@@ -736,6 +748,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceMoverServiceAPIOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ResourceMoverServiceAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -745,7 +758,7 @@ export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
     // (undocumented)
     operationsDiscoveryOperations: OperationsDiscoveryOperations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     unresolvedDependencies: UnresolvedDependencies;
 }
@@ -760,7 +773,8 @@ export interface ResourceMoverServiceAPIOptionalParams extends coreClient.Servic
 // @public
 export interface ResourceSettings {
     resourceType: "Microsoft.Compute/virtualMachines" | "Microsoft.Compute/availabilitySets" | "Microsoft.Network/virtualNetworks" | "Microsoft.Network/networkInterfaces" | "Microsoft.Network/networkSecurityGroups" | "Microsoft.Network/loadBalancers" | "Microsoft.Sql/servers" | "Microsoft.Sql/servers/elasticPools" | "Microsoft.Sql/servers/databases" | "resourceGroups" | "Microsoft.Network/publicIPAddresses" | "Microsoft.KeyVault/vaults" | "Microsoft.Compute/diskEncryptionSets";
-    targetResourceName: string;
+    targetResourceGroupName?: string;
+    targetResourceName?: string;
 }
 
 // @public (undocumented)

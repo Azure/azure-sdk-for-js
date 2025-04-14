@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   DocumentHealthcareEntities,
   Entity,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -13,14 +13,16 @@ import {
   RelationType,
   TextAnalyticsError,
   TextDocumentBatchStatistics,
-} from "./generated/models";
-import {
+} from "./generated/models/index.js";
+import type {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
+import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import { parseHealthcareEntityIndex } from "./util";
+} from "./textAnalyticsResult.js";
+import { parseHealthcareEntityIndex } from "./util.js";
 
 /**
  * A type representing a reference for the healthcare entity into a specific
@@ -190,7 +192,7 @@ export interface PagedAnalyzeHealthcareEntitiesResult
  * @internal
  */
 function makeHealthcareEntitiesWithoutNeighbors(
-  entity: GeneratedHealthcareEntity
+  entity: GeneratedHealthcareEntity,
 ): HealthcareEntity {
   const { category, confidenceScore, assertion, offset, text, links, subcategory, length, name } =
     entity;
@@ -214,7 +216,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
  */
 function makeHealthcareRelations(
   entities: HealthcareEntity[],
-  relations: HealthcareRelation[]
+  relations: HealthcareRelation[],
 ): HealthcareEntityRelation[] {
   return relations.map(
     (relation: HealthcareRelation): HealthcareEntityRelation => ({
@@ -223,9 +225,9 @@ function makeHealthcareRelations(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           name: role.role,
-        })
+        }),
       ),
-    })
+    }),
   );
 }
 
@@ -235,7 +237,7 @@ function makeHealthcareRelations(
  * @internal
  */
 export function makeHealthcareEntitiesResult(
-  document: DocumentHealthcareEntities
+  document: DocumentHealthcareEntities,
 ): AnalyzeHealthcareEntitiesSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
   const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
@@ -251,7 +253,7 @@ export function makeHealthcareEntitiesResult(
  */
 export function makeHealthcareEntitiesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): AnalyzeHealthcareEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

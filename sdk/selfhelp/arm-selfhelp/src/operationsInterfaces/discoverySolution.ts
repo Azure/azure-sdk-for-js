@@ -9,26 +9,25 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SolutionMetadataResource,
-  DiscoverySolutionListOptionalParams
-} from "../models";
+  DiscoverySolutionListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiscoverySolution. */
 export interface DiscoverySolution {
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * Lists the relevant Azure Diagnostics, Solutions and Troubleshooters using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
    * @param options The options parameters.
    */
   list(
-    scope: string,
-    options?: DiscoverySolutionListOptionalParams
+    options?: DiscoverySolutionListOptionalParams,
   ): PagedAsyncIterableIterator<SolutionMetadataResource>;
 }

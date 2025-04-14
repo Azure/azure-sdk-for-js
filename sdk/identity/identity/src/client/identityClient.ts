@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
+import { DefaultAuthorityHost, SDK_VERSION } from "../constants.js";
+import { tracingClient } from "../util/tracing.js";
+import { logger } from "../util/logging.js";
+import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
+import type { TokenResponseParsedBody } from "../credentials/managedIdentityCredential/utils.js";
 import {
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationError, AuthenticationErrorName } from "../errors";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
-import { tracingClient } from "../util/tracing";
-import { logger } from "../util/logging";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import {
-  TokenResponseParsedBody,
   parseExpirationTimestamp,
-} from "../credentials/managedIdentityCredential/utils";
+  parseRefreshTimestamp,
+} from "../credentials/managedIdentityCredential/utils.js";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -67,6 +64,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
+  private allowInsecureConnection: boolean = false;
   // used for WorkloadIdentity
   private tokenCredentialOptions: TokenCredentialOptions;
 
@@ -98,12 +96,16 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
     // used for WorkloadIdentity
     this.tokenCredentialOptions = { ...options };
+
+    // used for ManagedIdentity
+    if (options?.allowInsecureConnection) {
+      this.allowInsecureConnection = options.allowInsecureConnection;
+    }
   }
 
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
-
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
       const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
 
@@ -117,18 +119,20 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
-        },
+          refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
+          tokenType: "Bearer",
+        } as AccessToken,
         refreshToken: parsedBody.refresh_token,
       };
 
       logger.info(
-        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
+        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`,
       );
       return token;
     } else {
       const error = new AuthenticationError(response.status, response.bodyAsText);
       logger.warning(
-        `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
+        `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`,
       );
       throw error;
     }
@@ -140,13 +144,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
       return null;
     }
     logger.info(
-      `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
+      `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`,
     );
 
     const refreshParams = {
@@ -195,12 +199,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
             return null;
           } else {
             logger.warning(
-              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
+              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`,
             );
             throw err;
           }
         }
-      }
+      },
     );
   }
 
@@ -216,7 +220,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     controller.signal.onabort = (...params) => {
       this.abortControllers.set(correlationId, undefined);
       if (existingOnAbort) {
-        existingOnAbort(...params);
+        existingOnAbort.apply(controller.signal, params);
       }
     };
     return controller.signal;
@@ -250,12 +254,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendGetRequestAsync<T>(
     url: string,
-    options?: NetworkRequestOptions
+    options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
     const request = createPipelineRequest({
       url,
       method: "GET",
       body: options?.body,
+      allowInsecureConnection: this.allowInsecureConnection,
       headers: createHttpHeaders(options?.headers),
       abortSignal: this.generateAbortSignal(noCorrelationId),
     });
@@ -273,13 +278,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendPostRequestAsync<T>(
     url: string,
-    options?: NetworkRequestOptions
+    options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
     const request = createPipelineRequest({
       url,
       method: "POST",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
+      allowInsecureConnection: this.allowInsecureConnection,
       // MSAL doesn't send the correlation ID on the get requests.
       abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });
@@ -328,18 +334,18 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       }
       const base64Metadata = accessToken.split(".")[1];
       const { appid, upn, tid, oid } = JSON.parse(
-        Buffer.from(base64Metadata, "base64").toString("utf8")
+        Buffer.from(base64Metadata, "base64").toString("utf8"),
       );
 
       logger.info(
         `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
           upn || unavailableUpn
-        }. Object ID (user): ${oid}`
+        }. Object ID (user): ${oid}`,
       );
     } catch (e: any) {
       logger.warning(
         "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
-        e.message
+        e.message,
       );
     }
   }

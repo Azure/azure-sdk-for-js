@@ -1,28 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Context } from "@opentelemetry/api";
-import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { MetricHandler } from "../metrics";
+// Licensed under the MIT License.
+
+import type { Context } from "@opentelemetry/api";
+import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { MetricHandler } from "../metrics/index.js";
+import { Logger } from "../shared/logging/index.js";
 
 /**
  * Azure Monitor Span Processor.
  * @internal
  */
 export class AzureMonitorSpanProcessor implements SpanProcessor {
-  constructor(private readonly _metricHandler: MetricHandler) {}
+  private readonly _metricHandler: MetricHandler;
+
+  constructor(metricHandler: MetricHandler) {
+    this._metricHandler = metricHandler;
+  }
 
   forceFlush(): Promise<void> {
     return Promise.resolve();
   }
 
   onStart(span: Span, _context: Context): void {
-    this._metricHandler._getStandardMetrics()?._markSpanAsProcessed(span);
+    this._metricHandler.markSpanAsProcessed(span);
   }
 
   onEnd(span: ReadableSpan): void {
-    // Record duration metrics
-    this._metricHandler._getStandardMetrics()?._recordSpan(span);
-    this._metricHandler._getPerformanceCounterMetrics()?._recordSpan(span);
+    try {
+      this._metricHandler.recordSpan(span);
+    } catch (error) {
+      Logger.getInstance().warn("Error while recording span", error);
+    }
   }
 
   shutdown(): Promise<void> {

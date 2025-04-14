@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ConsumerGroups } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ConsumerGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EventHubManagementClient } from "../eventHubManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EventHubManagementClient } from "../eventHubManagementClient.js";
 import {
   ConsumerGroup,
   ConsumerGroupsListByEventHubNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   ConsumerGroupsDeleteOptionalParams,
   ConsumerGroupsGetOptionalParams,
   ConsumerGroupsGetResponse,
-  ConsumerGroupsListByEventHubNextResponse
-} from "../models";
+  ConsumerGroupsListByEventHubNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConsumerGroups operations. */
@@ -51,13 +51,13 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: ConsumerGroupsListByEventHubOptionalParams
+    options?: ConsumerGroupsListByEventHubOptionalParams,
   ): PagedAsyncIterableIterator<ConsumerGroup> {
     const iter = this.listByEventHubPagingAll(
       resourceGroupName,
       namespaceName,
       eventHubName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
           namespaceName,
           eventHubName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     options?: ConsumerGroupsListByEventHubOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConsumerGroup[]> {
     let result: ConsumerGroupsListByEventHubResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         resourceGroupName,
         namespaceName,
         eventHubName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +108,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         namespaceName,
         eventHubName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +121,13 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: ConsumerGroupsListByEventHubOptionalParams
+    options?: ConsumerGroupsListByEventHubOptionalParams,
   ): AsyncIterableIterator<ConsumerGroup> {
     for await (const page of this.listByEventHubPagingPage(
       resourceGroupName,
       namespaceName,
       eventHubName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     eventHubName: string,
     consumerGroupName: string,
     parameters: ConsumerGroup,
-    options?: ConsumerGroupsCreateOrUpdateOptionalParams
+    options?: ConsumerGroupsCreateOrUpdateOptionalParams,
   ): Promise<ConsumerGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -157,9 +157,9 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         eventHubName,
         consumerGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -176,7 +176,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     consumerGroupName: string,
-    options?: ConsumerGroupsDeleteOptionalParams
+    options?: ConsumerGroupsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +184,9 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         namespaceName,
         eventHubName,
         consumerGroupName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -203,7 +203,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     consumerGroupName: string,
-    options?: ConsumerGroupsGetOptionalParams
+    options?: ConsumerGroupsGetOptionalParams,
   ): Promise<ConsumerGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -211,9 +211,9 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         namespaceName,
         eventHubName,
         consumerGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: ConsumerGroupsListByEventHubOptionalParams
+    options?: ConsumerGroupsListByEventHubOptionalParams,
   ): Promise<ConsumerGroupsListByEventHubResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, options },
-      listByEventHubOperationSpec
+      listByEventHubOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     nextLink: string,
-    options?: ConsumerGroupsListByEventHubNextOptionalParams
+    options?: ConsumerGroupsListByEventHubNextOptionalParams,
   ): Promise<ConsumerGroupsListByEventHubNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, nextLink, options },
-      listByEventHubNextOperationSpec
+      listByEventHubNextOperationSpec,
     );
   }
 }
@@ -262,18 +262,17 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsumerGroup
+      bodyMapper: Mappers.ConsumerGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -281,22 +280,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.eventHubName,
-    Parameters.consumerGroupName
+    Parameters.consumerGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -305,22 +303,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.eventHubName,
-    Parameters.consumerGroupName
+    Parameters.consumerGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsumerGroup
+      bodyMapper: Mappers.ConsumerGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -329,22 +326,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.eventHubName,
-    Parameters.consumerGroupName
+    Parameters.consumerGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByEventHubOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsumerGroupListResult
+      bodyMapper: Mappers.ConsumerGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
@@ -352,21 +348,21 @@ const listByEventHubOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByEventHubNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConsumerGroupListResult
+      bodyMapper: Mappers.ConsumerGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -374,8 +370,8 @@ const listByEventHubNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

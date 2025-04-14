@@ -6,27 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { NetAppManagementClient } from "../src/netAppManagementClient";
+import { NetAppManagementClient } from "../src/netAppManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -41,53 +36,87 @@ describe("netapp test", () => {
   let resourceGroup: string;
   let accountName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new NetAppManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new NetAppManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     accountName = "accounttest";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("accounts create test", async function () {
+  it("operations list test", async () => {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
+  it("accounts create test", async () => {
     const res = await client.accounts.beginCreateOrUpdateAndWait(
       resourceGroup,
       accountName,
       {
-        location: location
+        location: location,
+        activeDirectories: [
+          {
+            aesEncryption: true,
+            dns: "10.10.10.3",
+            domain: "10.10.10.3",
+            ldapOverTLS: false,
+            ldapSigning: false,
+            organizationalUnit: "OU=Engineering",
+            password: "ad_password",
+            site: "SiteName",
+            smbServerName: "SMBServer",
+            username: "ad_user_name",
+          },
+        ],
       },
-      testPollingOptions
+      testPollingOptions,
     );
     assert.equal(res.name, accountName);
   });
 
-  it("accounts get test", async function () {
+  it("accounts get test", async () => {
     const res = await client.accounts.get(resourceGroup, accountName);
     assert.equal(res.name, accountName);
   });
 
-  it("accounts list test", async function () {
+  it("accounts list test", async () => {
     const resArray = new Array();
-    for await (let item of client.accounts.listBySubscription()) {
+    for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 3);
+    assert.equal(resArray.length, 1);
   });
 
-  it("accounts delete test", async function () {
+  it("accounts delete test", async () => {
     const resArray = new Array();
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName)
-    for await (let item of client.accounts.listBySubscription()) {
+    await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
+    for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 0);
   });
-})
+
+  it("netAppResource checkNameAvailability test", async () => {
+    const name = "accName";
+    const typeParam = "Microsoft.NetApp/netAppAccounts";
+    const rg = "myRG";
+    const result = await client.netAppResource.checkNameAvailability(location, name, typeParam, rg);
+    console.log(result);
+  });
+});

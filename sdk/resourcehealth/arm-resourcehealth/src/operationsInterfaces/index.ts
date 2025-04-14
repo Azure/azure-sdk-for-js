@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./availabilityStatuses";
-export * from "./operations";
-export * from "./metadata";
-export * from "./impactedResources";
-export * from "./securityAdvisoryImpactedResources";
-export * from "./eventsOperations";
-export * from "./eventOperations";
-export * from "./childAvailabilityStatuses";
-export * from "./childResources";
-export * from "./emergingIssues";
+export * from "./availabilityStatuses.js";
+export * from "./operations.js";
+export * from "./metadata.js";
+export * from "./impactedResources.js";
+export * from "./securityAdvisoryImpactedResources.js";
+export * from "./eventsOperations.js";
+export * from "./eventOperations.js";
+export * from "./childAvailabilityStatuses.js";
+export * from "./childResources.js";
+export * from "./emergingIssues.js";

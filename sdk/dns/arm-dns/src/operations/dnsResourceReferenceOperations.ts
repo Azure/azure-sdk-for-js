@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResourceReferenceOperations } from "../operationsInterfaces";
+import { DnsResourceReferenceOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DnsManagementClient } from "../dnsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DnsManagementClient } from "../dnsManagementClient.js";
 import {
   DnsResourceReferenceRequest,
   DnsResourceReferenceGetByTargetResourcesOptionalParams,
-  DnsResourceReferenceGetByTargetResourcesResponse
-} from "../models";
+  DnsResourceReferenceGetByTargetResourcesResponse,
+} from "../models/index.js";
 
 /** Class containing DnsResourceReferenceOperations operations. */
 export class DnsResourceReferenceOperationsImpl
-  implements DnsResourceReferenceOperations {
+  implements DnsResourceReferenceOperations
+{
   private readonly client: DnsManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class DnsResourceReferenceOperationsImpl
    */
   getByTargetResources(
     parameters: DnsResourceReferenceRequest,
-    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams
+    options?: DnsResourceReferenceGetByTargetResourcesOptionalParams,
   ): Promise<DnsResourceReferenceGetByTargetResourcesResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      getByTargetResourcesOperationSpec
+      getByTargetResourcesOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class DnsResourceReferenceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByTargetResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResourceReferenceResult
+      bodyMapper: Mappers.DnsResourceReferenceResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

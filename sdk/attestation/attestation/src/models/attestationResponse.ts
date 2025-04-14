@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AttestationToken } from "./attestationToken";
+import type { AttestationToken } from "./attestationToken.js";
 
 /**
  * An AttestationResponse represents the response from the Microsoft Azure
@@ -35,7 +35,7 @@ export interface AttestationResponse<T> {
  */
 export function createAttestationResponse<T>(
   token: AttestationToken,
-  value: T
+  value: T,
 ): AttestationResponse<T> {
   return { token: token, body: value };
 }

@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
-import { CommunicationAccessToken } from "../../../src";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { CommunicationAccessToken } from "../../../src/index.js";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
 ): HttpClient => {
   return {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
@@ -37,7 +33,7 @@ const tokenResponse = {
 
 export const getTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
   200,
-  tokenResponse
+  tokenResponse,
 );
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.12.0";
-export const SERVICE_VERSION: string = "2021-10-04";
+export const SDK_VERSION: string = "12.26.0";
+export const SERVICE_VERSION: string = "2025-05-05";
 
 /**
  * The OAuth scope to use with Azure Storage.

@@ -11,8 +11,8 @@ import {
   DatabaseSchema,
   ManagedDatabaseSchemasListByDatabaseOptionalParams,
   ManagedDatabaseSchemasGetOptionalParams,
-  ManagedDatabaseSchemasGetResponse
-} from "../models";
+  ManagedDatabaseSchemasGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseSchemas. */
@@ -29,7 +29,7 @@ export interface ManagedDatabaseSchemas {
     resourceGroupName: string,
     managedInstanceName: string,
     databaseName: string,
-    options?: ManagedDatabaseSchemasListByDatabaseOptionalParams
+    options?: ManagedDatabaseSchemasListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSchema>;
   /**
    * Get managed database schema
@@ -45,6 +45,6 @@ export interface ManagedDatabaseSchemas {
     managedInstanceName: string,
     databaseName: string,
     schemaName: string,
-    options?: ManagedDatabaseSchemasGetOptionalParams
+    options?: ManagedDatabaseSchemasGetOptionalParams,
   ): Promise<ManagedDatabaseSchemasGetResponse>;
 }

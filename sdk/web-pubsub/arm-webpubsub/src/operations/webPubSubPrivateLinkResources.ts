@@ -7,24 +7,25 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WebPubSubPrivateLinkResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WebPubSubPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebPubSubManagementClient } from "../webPubSubManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebPubSubManagementClient } from "../webPubSubManagementClient.js";
 import {
   PrivateLinkResource,
   WebPubSubPrivateLinkResourcesListNextOptionalParams,
   WebPubSubPrivateLinkResourcesListOptionalParams,
   WebPubSubPrivateLinkResourcesListResponse,
-  WebPubSubPrivateLinkResourcesListNextResponse
-} from "../models";
+  WebPubSubPrivateLinkResourcesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WebPubSubPrivateLinkResources operations. */
 export class WebPubSubPrivateLinkResourcesImpl
-  implements WebPubSubPrivateLinkResources {
+  implements WebPubSubPrivateLinkResources
+{
   private readonly client: WebPubSubManagementClient;
 
   /**
@@ -37,15 +38,14 @@ export class WebPubSubPrivateLinkResourcesImpl
 
   /**
    * Get the private link resources that need to be created for a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateLinkResourcesListOptionalParams
+    options?: WebPubSubPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -63,9 +63,9 @@ export class WebPubSubPrivateLinkResourcesImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class WebPubSubPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubPrivateLinkResourcesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: WebPubSubPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class WebPubSubPrivateLinkResourcesImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class WebPubSubPrivateLinkResourcesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateLinkResourcesListOptionalParams
+    options?: WebPubSubPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -114,26 +114,24 @@ export class WebPubSubPrivateLinkResourcesImpl
 
   /**
    * Get the private link resources that need to be created for a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateLinkResourcesListOptionalParams
+    options?: WebPubSubPrivateLinkResourcesListOptionalParams,
   ): Promise<WebPubSubPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -142,11 +140,11 @@ export class WebPubSubPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubPrivateLinkResourcesListNextOptionalParams
+    options?: WebPubSubPrivateLinkResourcesListNextOptionalParams,
   ): Promise<WebPubSubPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -154,45 +152,44 @@ export class WebPubSubPrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceList
+      bodyMapper: Mappers.PrivateLinkResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceList
+      bodyMapper: Mappers.PrivateLinkResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

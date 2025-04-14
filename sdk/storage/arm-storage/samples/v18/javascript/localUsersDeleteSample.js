@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the local user associated with the specified storage account.
  *
  * @summary Deletes the local user associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUserDelete.json
  */
 async function deleteLocalUser() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const credential = new DefaultAzureCredential();
@@ -28,4 +27,8 @@ async function deleteLocalUser() {
   console.log(result);
 }
 
-deleteLocalUser().catch(console.error);
+async function main() {
+  await deleteLocalUser();
+}
+
+main().catch(console.error);

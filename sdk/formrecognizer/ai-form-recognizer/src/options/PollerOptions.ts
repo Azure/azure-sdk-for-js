@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { PollOperationState } from "@azure/core-lro";
+import type { OperationOptions } from "@azure/core-client";
+import type { PollOperationState } from "@azure/core-lro";
 
 /**
  * Options for long-running operations (pollers) in the Form Recognizer clients.

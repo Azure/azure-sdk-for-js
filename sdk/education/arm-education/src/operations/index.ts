@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./grants";
-export * from "./labs";
-export * from "./joinRequests";
-export * from "./students";
-export * from "./studentLabs";
+export * from "./operations.js";
+export * from "./grants.js";
+export * from "./labs.js";
+export * from "./joinRequests.js";
+export * from "./students.js";
+export * from "./studentLabs.js";

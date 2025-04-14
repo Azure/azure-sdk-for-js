@@ -6,31 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns the list of query API keys for the given Azure Cognitive Search service.
+ * This sample demonstrates how to Returns the list of query API keys for the given Azure AI Search service.
  *
- * @summary Returns the list of query API keys for the given Azure Cognitive Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListQueryKeysBySearchService.json
+ * @summary Returns the list of query API keys for the given Azure AI Search service.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchListQueryKeysBySearchService.json
  */
-async function searchListQueryKeysBySearchService() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function searchListQueryKeysBySearchService(): Promise<void> {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.queryKeys.listBySearchService(
+  for await (const item of client.queryKeys.listBySearchService(
     resourceGroupName,
-    searchServiceName
+    searchServiceName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-searchListQueryKeysBySearchService().catch(console.error);
+async function main(): Promise<void> {
+  await searchListQueryKeysBySearchService();
+}
+
+main().catch(console.error);

@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverOptions } from "rhea-promise";
-import sinon from "sinon";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { BatchingReceiver } from "../../../src/core/batchingReceiver";
-import { LinkEntity } from "../../../src/core/linkEntity";
-import { ManagementClient } from "../../../src/core/managementClient";
-import { MessageSender } from "../../../src/core/messageSender";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { receiverLogger } from "../../../src/log";
-import { MessageSession } from "../../../src/session/messageSession";
-import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
-chai.use(chaiAsPromised);
-const assert = chai.assert;
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Receiver, ReceiverOptions } from "rhea-promise";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
+import { LinkEntity } from "../../../src/core/linkEntity.js";
+import { ManagementClient } from "../../../src/core/managementClient.js";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { receiverLogger } from "../../../src/log.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils.js";
+import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("LinkEntity unit tests", () => {
   class LinkForTests extends LinkEntity<Receiver> {
@@ -34,7 +31,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
   let connectionContext: ConnectionContext;
 
-  beforeEach(function () {
+  beforeEach(async () => {
     connectionContext = createConnectionContextForTests();
     linkEntity = new LinkForTests(
       "some initial name",
@@ -44,7 +41,7 @@ describe("LinkEntity unit tests", () => {
       receiverLogger,
       {
         address: "my-address",
-      }
+      },
     );
   });
 
@@ -52,7 +49,7 @@ describe("LinkEntity unit tests", () => {
     await linkEntity.close();
     assert.isTrue(
       (linkEntity as LinkForTests)["_removeLinkFromContextCalled"],
-      "Every link should have a chance to remove themselves from the cache"
+      "Every link should have a chance to remove themselves from the cache",
     );
   });
 
@@ -100,7 +97,7 @@ describe("LinkEntity unit tests", () => {
       assert.equal(
         timesCalled,
         1,
-        "Only one negotiateClaim call should make it through since the others were turned away because of the isConnecting field"
+        "Only one negotiateClaim call should make it through since the others were turned away because of the isConnecting field",
       );
 
       await Promise.all(innerPromises);
@@ -168,7 +165,7 @@ describe("LinkEntity unit tests", () => {
         assert.equal(err.name, "ServiceBusError");
         assert.isTrue(
           err.retryable,
-          "Exception thrown when the connection is closing should be retryable"
+          "Exception thrown when the connection is closing should be retryable",
         );
       }
     });
@@ -204,10 +201,10 @@ describe("LinkEntity unit tests", () => {
       await linkEntity.initLink({});
       assert.exists(
         linkEntity["_tokenRenewalTimer"],
-        "the tokenrenewal timer should have been set"
+        "the tokenrenewal timer should have been set",
       );
 
-      const negotiateClaimSpy = sinon.spy(linkEntity as any, "_negotiateClaim");
+      const negotiateClaimSpy = vi.spyOn(linkEntity as any, "_negotiateClaim");
 
       await linkEntity.close();
       assertLinkEntityClosedPermanently();
@@ -218,7 +215,8 @@ describe("LinkEntity unit tests", () => {
       } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
-        assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
+        // We shouldn't attempt to re-open the link.
+        expect(negotiateClaimSpy).not.toHaveBeenCalled();
       }
     });
 
@@ -258,7 +256,7 @@ describe("LinkEntity unit tests", () => {
         returnedReceiver = await orig.call(linkEntity, options);
         assert.isTrue(
           returnedReceiver.isOpen(),
-          "Sanity check - the returnedReceiver was open when we returned it."
+          "Sanity check - the returnedReceiver was open when we returned it.",
         );
         return returnedReceiver;
       };
@@ -280,7 +278,7 @@ describe("LinkEntity unit tests", () => {
 
       assert.isTrue(
         linkEntity.isOpen(),
-        "Can always reopen if the reason we closed the link is because of the abortSignal"
+        "Can always reopen if the reason we closed the link is because of the abortSignal",
       );
     });
 
@@ -324,7 +322,7 @@ describe("LinkEntity unit tests", () => {
       assert.equal(
         linkEntity.name,
         "some new name",
-        "Name is an exact match to the name passed in the receiver options"
+        "Name is an exact match to the name passed in the receiver options",
       );
 
       // we also update the log prefix
@@ -355,7 +353,7 @@ describe("LinkEntity unit tests", () => {
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
           tracingOptions: {},
-        }
+        },
       );
 
       initCachedLinks(batchingReceiver.name);
@@ -385,7 +383,7 @@ describe("LinkEntity unit tests", () => {
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
           tracingOptions: {},
-        }
+        },
       );
 
       initCachedLinks(streamingReceiver.name);
@@ -432,7 +430,7 @@ describe("LinkEntity unit tests", () => {
           retryOptions: {},
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       initCachedLinks(messageSession.name);
@@ -475,7 +473,7 @@ describe("LinkEntity unit tests", () => {
     }): void {
       assert.isEmpty(
         args.unchangedCaches.filter((cache) => cache[args.name] == null),
-        "Unrelated caches should not be changed."
+        "Unrelated caches should not be changed.",
       );
     }
 
@@ -498,7 +496,7 @@ describe("LinkEntity unit tests", () => {
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
-      'the tokenrenewal timer should be cleared when we close("permanently")'
+      'the tokenrenewal timer should be cleared when we close("permanently")',
     );
   }
 
@@ -508,7 +506,7 @@ describe("LinkEntity unit tests", () => {
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
-      'the tokenrenewal timer should be cleared when we close("linkonly")'
+      'the tokenrenewal timer should be cleared when we close("linkonly")',
     );
   }
 });

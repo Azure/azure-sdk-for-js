@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates instance.
  *
  * @summary Creates or updates instance.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Create.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_Create.json
  */
 async function createsOrUpdatesInstance() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function createsOrUpdatesInstance() {
     resourceGroupName,
     accountName,
     instanceName,
-    instance
+    instance,
   );
   console.log(result);
 }

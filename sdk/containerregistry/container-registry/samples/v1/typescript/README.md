@@ -72,7 +72,7 @@ node dist/containerRegistryClient.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node dist/containerRegistryClient.js
+npx dev-tool run vendored cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node dist/containerRegistryClient.js
 ```
 
 ## Next Steps
@@ -91,8 +91,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [uploadcustommanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/uploadCustomManifest.ts
 [uploadimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/uploadImage.ts
 [uploadmanifest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/uploadManifest.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/container-registry
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecontainerregistry]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal
+[createinstance_azurecontainerregistry]: https://learn.microsoft.com/azure/container-registry/container-registry-get-started-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/container-registry/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

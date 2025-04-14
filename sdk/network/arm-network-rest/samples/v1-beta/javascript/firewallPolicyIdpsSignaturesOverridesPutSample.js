@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
@@ -24,7 +24,7 @@ async function putSignatureOverrides() {
       name: "default",
       type: "Microsoft.Network/firewallPolicies/signatureOverrides",
       id: "/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/signatureOverrides/default",
-      properties: { signatures: { "2000105": "Off", "2000106": "Deny" } },
+      properties: { signatures: { 2000105: "Off", 2000106: "Deny" } },
     },
     queryParameters: { "api-version": "2022-05-01" },
   };
@@ -33,7 +33,7 @@ async function putSignatureOverrides() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .put(options);
   console.log(result);

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Extract the path part from the next link value returned by the service,
@@ -22,7 +22,7 @@ export function isDigest(tagOrDigest: string): boolean {
 
 export async function readStreamToEnd(
   stream: NodeJS.ReadableStream,
-  maxLength?: number
+  maxLength?: number,
 ): Promise<Buffer> {
   const buffers: Buffer[] = [];
   let bytesRead = 0;
@@ -43,7 +43,7 @@ export async function readStreamToEnd(
 
 export async function* readChunksFromStream(
   stream: NodeJS.ReadableStream,
-  chunkSize: number
+  chunkSize: number,
 ): AsyncGenerator<Buffer> {
   let chunk = Buffer.alloc(chunkSize);
   let chunkCursor = 0;

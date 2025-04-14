@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
-import { ClientContext } from "../ClientContext";
-import { getIdFromLink } from "../common/helper";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
-import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
-import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
-import { QueryRange } from "./QueryRange";
+// Licensed under the MIT License.
+import { MetadataLookUpType } from "../CosmosDiagnostics.js";
+import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange.js";
+import type { ClientContext } from "../ClientContext.js";
+import { getIdFromLink } from "../common/helper.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { withMetadataDiagnostics } from "../utils/diagnostics.js";
+import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory.js";
+import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap.js";
+import type { QueryRange } from "./QueryRange.js";
 
 /** @hidden */
 export class PartitionKeyRangeCache {
@@ -24,13 +26,14 @@ export class PartitionKeyRangeCache {
    */
   public async onCollectionRoutingMap(
     collectionLink: string,
-    diagnosticContext: CosmosDiagnosticContext
+    diagnosticNode: DiagnosticNodeInternal,
+    forceRefresh: boolean = false,
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
-    if (this.collectionRoutingMapByCollectionId[collectionId] === undefined) {
+    if (this.collectionRoutingMapByCollectionId[collectionId] === undefined || forceRefresh) {
       this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
         collectionLink,
-        diagnosticContext
+        diagnosticNode,
       );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
@@ -43,19 +46,26 @@ export class PartitionKeyRangeCache {
   public async getOverlappingRanges(
     collectionLink: string,
     queryRange: QueryRange,
-    diagnosticContext: CosmosDiagnosticContext
+    diagnosticNode: DiagnosticNodeInternal,
+    forceRefresh: boolean = false,
   ): Promise<PartitionKeyRange[]> {
-    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticContext);
+    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticNode, forceRefresh);
     return crm.getOverlappingRanges(queryRange);
   }
 
   private async requestCollectionRoutingMap(
     collectionLink: string,
-    diagnosticContext: CosmosDiagnosticContext
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<InMemoryCollectionRoutingMap> {
-    const { resources } = await this.clientContext
-      .queryPartitionKeyRanges(collectionLink, diagnosticContext)
-      .fetchAll();
+    const { resources } = await withMetadataDiagnostics(
+      async (metadataDiagnostics: DiagnosticNodeInternal) => {
+        return this.clientContext
+          .queryPartitionKeyRanges(collectionLink)
+          .fetchAllInternal(metadataDiagnostics);
+      },
+      diagnosticNode,
+      MetadataLookUpType.PartitionKeyRangeLookUp,
+    );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }
 }

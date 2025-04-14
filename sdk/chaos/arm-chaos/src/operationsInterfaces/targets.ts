@@ -14,8 +14,8 @@ import {
   TargetsGetResponse,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
-  TargetsCreateOrUpdateResponse
-} from "../models";
+  TargetsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Targets. */
@@ -33,7 +33,7 @@ export interface Targets {
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams
+    options?: TargetsListOptionalParams,
   ): PagedAsyncIterableIterator<Target>;
   /**
    * Get a Target resource that extends a tracked regional resource.
@@ -50,7 +50,7 @@ export interface Targets {
     parentResourceType: string,
     parentResourceName: string,
     targetName: string,
-    options?: TargetsGetOptionalParams
+    options?: TargetsGetOptionalParams,
   ): Promise<TargetsGetResponse>;
   /**
    * Delete a Target resource that extends a tracked regional resource.
@@ -67,7 +67,7 @@ export interface Targets {
     parentResourceType: string,
     parentResourceName: string,
     targetName: string,
-    options?: TargetsDeleteOptionalParams
+    options?: TargetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create or update a Target resource that extends a tracked regional resource.
@@ -86,6 +86,6 @@ export interface Targets {
     parentResourceName: string,
     targetName: string,
     target: Target,
-    options?: TargetsCreateOrUpdateOptionalParams
+    options?: TargetsCreateOrUpdateOptionalParams,
   ): Promise<TargetsCreateOrUpdateResponse>;
 }

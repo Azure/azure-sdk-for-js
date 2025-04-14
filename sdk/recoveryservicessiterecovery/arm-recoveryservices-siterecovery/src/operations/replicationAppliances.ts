@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationAppliances } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationAppliances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   ReplicationAppliance,
   ReplicationAppliancesListNextOptionalParams,
   ReplicationAppliancesListOptionalParams,
   ReplicationAppliancesListResponse,
-  ReplicationAppliancesListNextResponse
-} from "../models";
+  ReplicationAppliancesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationAppliances operations. */
@@ -44,7 +44,7 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAppliancesListOptionalParams
+    options?: ReplicationAppliancesListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationAppliance> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -62,9 +62,9 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationAppliancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReplicationAppliance[]> {
     let result: ReplicationAppliancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +100,12 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAppliancesListOptionalParams
+    options?: ReplicationAppliancesListOptionalParams,
   ): AsyncIterableIterator<ReplicationAppliance> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationAppliancesListOptionalParams
+    options?: ReplicationAppliancesListOptionalParams,
   ): Promise<ReplicationAppliancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationAppliancesListNextOptionalParams
+    options?: ReplicationAppliancesListNextOptionalParams,
   ): Promise<ReplicationAppliancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -153,39 +153,38 @@ export class ReplicationAppliancesImpl implements ReplicationAppliances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAppliances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAppliances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceCollection
-    }
+      bodyMapper: Mappers.ApplianceCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplianceCollection
-    }
+      bodyMapper: Mappers.ApplianceCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

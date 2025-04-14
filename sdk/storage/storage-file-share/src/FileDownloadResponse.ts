@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
-import {
+import { isNodeLike } from "@azure/core-util";
+import type {
   CopyStatusType,
   FileDownloadHeaders,
   FileDownloadResponseModel,
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-} from "./generatedModels";
-import { Metadata } from "./models";
-import {
+} from "./generatedModels.js";
+import type { FilePosixProperties, Metadata } from "./models.js";
+import type {
   ReadableStreamGetter,
-  RetriableReadableStream,
   RetriableReadableStreamOptions,
-} from "./utils/RetriableReadableStream";
-import { HttpResponse, WithResponse, assertResponse } from "./utils/utils.common";
+} from "./utils/RetriableReadableStream.js";
+import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
+import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
+import { assertResponse } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -381,6 +382,13 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
   }
 
   /**
+   * Properties of NFS files
+   */
+  public get posixProperties(): FilePosixProperties | undefined {
+    return this.originalResponse.posixProperties;
+  }
+
+  /**
    * The response body as a node.js Readable stream.
    * Always undefined in the browser.
    *
@@ -389,7 +397,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.fileDownloadStream : undefined;
+    return isNodeLike ? this.fileDownloadStream : undefined;
   }
 
   public get _response(): HttpResponse & {
@@ -415,17 +423,17 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     this.originalResponse = assertResponse<FileDownloadResponseModel, FileDownloadHeaders>(
-      originalResponse
+      originalResponse,
     );
     this.fileDownloadStream = new RetriableReadableStream(
       this.originalResponse.readableStreamBody!,
       getter,
       offset,
       count,
-      options
+      options,
     );
   }
 }

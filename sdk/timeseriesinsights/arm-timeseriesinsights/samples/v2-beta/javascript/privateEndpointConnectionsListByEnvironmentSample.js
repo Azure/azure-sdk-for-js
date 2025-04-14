@@ -26,7 +26,7 @@ async function listPrivateEndpointConnectionsByService() {
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.listByEnvironment(
     resourceGroupName,
-    environmentName
+    environmentName,
   );
   console.log(result);
 }

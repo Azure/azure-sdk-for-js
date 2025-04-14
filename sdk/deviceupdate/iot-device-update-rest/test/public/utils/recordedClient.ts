@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import DeviceUpdate, { DeviceUpdateClient } from "../../../src";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { DeviceUpdateClient } from "../../../src/index.js";
+import DeviceUpdate from "../../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
 export function createRecordedClient(recorder: Recorder): DeviceUpdateClient {
   const credential = createTestCredential();
   const client = DeviceUpdate(
     assertEnvironmentVariable("ENDPOINT"),
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return client;
 }

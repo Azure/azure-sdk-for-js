@@ -1,17 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context, Test } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { SmsClient } from "../../../src";
+// Licensed under the MIT License.
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { SmsClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient<T> {
@@ -53,28 +46,34 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: sanitizerOptions,
+  removeCentralSanitizers: [
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3424", // .to in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
+      "sec-ch-ua", // This is browser dependent
+      // https://developer.mozilla.org/docs/Web/HTTP/Headers/Sec-CH-UA
     ],
   });
   return recorder;
 }
 
 export async function createRecordedSmsClient(
-  context: Context
+  context: TestInfo,
 ): Promise<RecordedClient<SmsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new SmsClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return {
     client,
@@ -83,13 +82,13 @@ export async function createRecordedSmsClient(
 }
 
 export async function createRecordedSmsClientWithToken(
-  context: Context
+  context: TestInfo,
 ): Promise<RecordedClient<SmsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
   ).endpoint;
 
   if (isPlaybackMode()) {

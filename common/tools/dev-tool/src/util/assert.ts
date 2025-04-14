@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @fileoverview This module contains control-flow helpers.
@@ -54,14 +54,14 @@ export function panic(message: string): never {
   console.trace(
     chalk.red(
       "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/issues.",
-      "Include the stack trace below."
-    )
+      "Include the stack trace below.",
+    ),
   );
 
   console.error(
     chalk.red(
-      "The package state may be damaged or corrupted. Please reset your working directory to a known-good state."
-    )
+      "The package state may be damaged or corrupted. Please reset your working directory to a known-good state.",
+    ),
   );
 
   process.exit(255);

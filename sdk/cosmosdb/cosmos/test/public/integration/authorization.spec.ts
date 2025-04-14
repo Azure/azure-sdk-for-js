@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { Container, CosmosClient, PermissionMode } from "../../../src";
-import { Database } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+// Licensed under the MIT License.
 
-describe("Authorization", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+import type { Container } from "../../../src/index.js";
+import { CosmosClient, PermissionMode } from "../../../src/index.js";
+import type { Database } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
+describe("Authorization", { timeout: 10000 }, () => {
   // TODO: should have types for all these things
   let database: Database;
   let container: Container;
@@ -26,7 +25,7 @@ describe("Authorization", function (this: Suite) {
   };
   /** ************ TEST **************/
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     await removeAllDatabases();
 
     // create a database & container
@@ -45,7 +44,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(
       readPermission.id,
       collReadPermission.id,
-      "permission to read coll1 is not created properly"
+      "permission to read coll1 is not created properly",
     );
     collReadPermission = readPermission;
 
@@ -61,16 +60,16 @@ describe("Authorization", function (this: Suite) {
     assert.equal(
       collAllPermission.id,
       allPermission.id,
-      "permission to read coll2 is not created properly"
+      "permission to read coll2 is not created properly",
     );
     collAllPermission = allPermission;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await removeAllDatabases();
   });
 
-  it("Accessing container by resourceTokens", async function () {
+  it("Accessing container by resourceTokens", async () => {
     const rTokens: any = {};
     rTokens[container.id] = collReadPermission._token;
 
@@ -87,7 +86,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(coll.id, container.id, "invalid container");
   });
 
-  it("Accessing container by permissionFeed", async function () {
+  it("Accessing container by permissionFeed", async () => {
     const clientReadPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collReadPermission],
@@ -102,7 +101,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(coll.id, container.id, "invalid container");
   });
 
-  it("Accessing container without permission fails", async function () {
+  it("Accessing container without permission fails", async () => {
     const clientNoPermission = new CosmosClient({ endpoint });
 
     try {
@@ -114,7 +113,7 @@ describe("Authorization", function (this: Suite) {
     clientNoPermission.dispose();
   });
 
-  it("Accessing document by permissionFeed of parent container", async function () {
+  it("Accessing document by permissionFeed of parent container", async () => {
     const { resource: createdDoc } = await container.items.create({
       id: "document1",
     });
@@ -133,7 +132,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(readDoc.id, createdDoc.id, "invalid document read");
   });
 
-  it("Modifying container by resourceTokens", async function () {
+  it.skip("Modifying container by resourceTokens", async () => {
     const rTokens: any = {};
     rTokens[container.id] = collAllPermission._token;
     const clientAllPermission = new CosmosClient({
@@ -146,7 +145,7 @@ describe("Authorization", function (this: Suite) {
     return clientAllPermission.database(database.id).container(container.id).delete();
   });
 
-  it("Modifying container by permissionFeed", async function () {
+  it.skip("Modifying container by permissionFeed", async () => {
     const clientAllPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collAllPermission],

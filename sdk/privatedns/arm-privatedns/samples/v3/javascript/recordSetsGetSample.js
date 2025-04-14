@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAGet.json
  */
 async function getPrivateDnsZoneARecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -30,7 +30,7 @@ async function getPrivateDnsZoneARecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getPrivateDnsZoneARecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAAAAGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAGet.json
  */
 async function getPrivateDnsZoneAaaaRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -53,7 +53,7 @@ async function getPrivateDnsZoneAaaaRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -62,7 +62,7 @@ async function getPrivateDnsZoneAaaaRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetCNAMEGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEGet.json
  */
 async function getPrivateDnsZoneCnameRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -76,7 +76,7 @@ async function getPrivateDnsZoneCnameRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -85,7 +85,7 @@ async function getPrivateDnsZoneCnameRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetMXGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXGet.json
  */
 async function getPrivateDnsZoneMxRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -99,7 +99,7 @@ async function getPrivateDnsZoneMxRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -108,7 +108,7 @@ async function getPrivateDnsZoneMxRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetPTRGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRGet.json
  */
 async function getPrivateDnsZonePtrRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -122,7 +122,7 @@ async function getPrivateDnsZonePtrRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -131,7 +131,7 @@ async function getPrivateDnsZonePtrRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSOAGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAGet.json
  */
 async function getPrivateDnsZoneSoaRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -145,7 +145,7 @@ async function getPrivateDnsZoneSoaRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -154,7 +154,7 @@ async function getPrivateDnsZoneSoaRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSRVGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVGet.json
  */
 async function getPrivateDnsZoneSrvRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -168,7 +168,7 @@ async function getPrivateDnsZoneSrvRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }
@@ -177,7 +177,7 @@ async function getPrivateDnsZoneSrvRecordSet() {
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetTXTGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTGet.json
  */
 async function getPrivateDnsZoneTxtRecordSet() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -191,7 +191,7 @@ async function getPrivateDnsZoneTxtRecordSet() {
     resourceGroupName,
     privateZoneName,
     recordType,
-    relativeRecordSetName
+    relativeRecordSetName,
   );
   console.log(result);
 }

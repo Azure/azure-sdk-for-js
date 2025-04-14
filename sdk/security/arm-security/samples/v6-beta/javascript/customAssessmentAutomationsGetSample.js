@@ -27,7 +27,7 @@ async function getACustomAssessmentAutomation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customAssessmentAutomations.get(
     resourceGroupName,
-    customAssessmentAutomationName
+    customAssessmentAutomationName,
   );
   console.log(result);
 }

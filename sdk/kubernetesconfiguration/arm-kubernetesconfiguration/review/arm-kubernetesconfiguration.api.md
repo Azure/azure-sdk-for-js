@@ -233,6 +233,7 @@ export interface FluxConfiguration extends ProxyResource {
     };
     namespace?: string;
     readonly provisioningState?: ProvisioningState;
+    reconciliationWaitDuration?: string;
     readonly repositoryPublicKey?: string;
     scope?: ScopeType;
     sourceKind?: SourceKindType;
@@ -242,6 +243,7 @@ export interface FluxConfiguration extends ProxyResource {
     readonly statusUpdatedAt?: Date;
     suspend?: boolean;
     readonly systemData?: SystemData;
+    waitForReconciliation?: boolean;
 }
 
 // @public
@@ -468,10 +470,12 @@ export interface KustomizationDefinition {
     force?: boolean;
     readonly name?: string;
     path?: string;
+    postBuild?: PostBuildDefinition;
     prune?: boolean;
     retryIntervalInSeconds?: number;
     syncIntervalInSeconds?: number;
     timeoutInSeconds?: number;
+    wait?: boolean;
 }
 
 // @public
@@ -479,10 +483,12 @@ export interface KustomizationPatchDefinition {
     dependsOn?: string[];
     force?: boolean;
     path?: string;
+    postBuild?: PostBuildDefinition;
     prune?: boolean;
     retryIntervalInSeconds?: number;
     syncIntervalInSeconds?: number;
     timeoutInSeconds?: number;
+    wait?: boolean;
 }
 
 // @public
@@ -619,6 +625,14 @@ export interface Plan {
     promotionCode?: string;
     publisher: string;
     version?: string;
+}
+
+// @public
+export interface PostBuildDefinition {
+    substitute?: {
+        [propertyName: string]: string;
+    };
+    substituteFrom?: (SubstituteFromDefinition | null)[];
 }
 
 // @public
@@ -808,6 +822,13 @@ export type SourceControlConfigurationsListResponse = SourceControlConfiguration
 
 // @public
 export type SourceKindType = string;
+
+// @public
+export interface SubstituteFromDefinition {
+    kind?: string;
+    name?: string;
+    optional?: boolean;
+}
 
 // @public
 export interface SystemData {

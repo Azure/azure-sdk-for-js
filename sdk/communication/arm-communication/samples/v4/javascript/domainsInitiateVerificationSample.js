@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Initiate verification of DNS record.
  *
  * @summary Initiate verification of DNS record.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/initiateVerification.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/initiateVerification.json
  */
 async function initiateVerification() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function initiateVerification() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { shaHMAC, shaHash } from "./cryptoUtils";
-import { KeyCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { shaHMAC, shaHash } from "./cryptoUtils.js";
+import type { KeyCredential } from "@azure/core-auth";
+import { isNodeLike } from "@azure/core-util";
 
 /**
  * CommunicationKeyCredentialPolicy provides a means of signing requests made through
@@ -24,7 +24,7 @@ const communicationAccessKeyCredentialPolicy = "CommunicationAccessKeyCredential
  * @param credential - The key credential.
  */
 export function createCommunicationAccessKeyCredentialPolicy(
-  credential: KeyCredential
+  credential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: communicationAccessKeyCredentialPolicy,
@@ -44,7 +44,7 @@ export function createCommunicationAccessKeyCredentialPolicy(
       const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
       const signature = await shaHMAC(credential.key, stringToSign);
 
-      if (isNode) {
+      if (isNodeLike) {
         request.headers.set("Host", hostAndPort || "");
       }
 
@@ -52,7 +52,7 @@ export function createCommunicationAccessKeyCredentialPolicy(
       request.headers.set("x-ms-content-sha256", contentHash);
       request.headers.set(
         "Authorization",
-        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`
+        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`,
       );
       return next(request);
     },

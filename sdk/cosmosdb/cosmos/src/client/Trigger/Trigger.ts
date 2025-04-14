@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createTriggerUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import { RequestOptions } from "../../request";
-import { Container } from "../Container";
-import { TriggerDefinition } from "./TriggerDefinition";
-import { TriggerResponse } from "./TriggerResponse";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { TriggerDefinition } from "./TriggerDefinition.js";
+import { TriggerResponse } from "./TriggerResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Operations to read, replace, or delete a {@link Trigger}.
@@ -34,86 +36,141 @@ export class Trigger {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
    * Read the {@link TriggerDefinition} for the given {@link Trigger}.
+   * @example
+   * ```ts snippet:TriggerRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: trigger } = await container.scripts.trigger("<trigger-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<TriggerResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<TriggerDefinition>({
-      path,
-      resourceType: ResourceType.trigger,
-      resourceId: id,
-      options,
-    });
-    return new TriggerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.read<TriggerDefinition>({
+        path,
+        resourceType: ResourceType.trigger,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new TriggerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
    * Replace the given {@link Trigger} with the specified {@link TriggerDefinition}.
    * @param body - The specified {@link TriggerDefinition} to replace the existing definition with.
+   * @example
+   * ```ts snippet:TriggerReplace
+   * import { CosmosClient, TriggerDefinition, TriggerType, TriggerOperation } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const triggerDefinition: TriggerDefinition = {
+   *   id: "sample trigger",
+   *   body: "serverScript() { var x = 10; }",
+   *   triggerType: TriggerType.Pre,
+   *   triggerOperation: TriggerOperation.All,
+   * };
+   *
+   * const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
+   *
+   * trigger.body = "function () { const x = 20; console.log(x); }";
+   * const { resource: replacedTrigger } = await container.scripts.trigger(trigger.id).replace(trigger);
+   * ```
    */
   public async replace(
     body: TriggerDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<TriggerResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (body.body) {
+        body.body = body.body.toString();
+      }
 
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<TriggerDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.trigger,
-      resourceId: id,
-      options,
-    });
-    return new TriggerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<TriggerDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.trigger,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new TriggerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link Trigger}.
+   * @example
+   * ```ts snippet:TriggerDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * await container.scripts.trigger("<trigger-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<TriggerResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<TriggerDefinition>({
-      path,
-      resourceType: ResourceType.trigger,
-      resourceId: id,
-      options,
-    });
-    return new TriggerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<TriggerDefinition>({
+        path,
+        resourceType: ResourceType.trigger,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new TriggerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 }

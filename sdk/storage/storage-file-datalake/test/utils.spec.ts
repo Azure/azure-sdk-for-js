@@ -1,35 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
+// Licensed under the MIT License.
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const accountName = "myaccount";
   const blobEndpoint = `https://${accountName}.blob.core.windows.net`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       blobEndpoint,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       accountName,
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   }
 
@@ -50,20 +49,20 @@ describe("Utility Helpers", () => {
     const sanitized = sanitizeHeaders(headers);
     assert.ok(
       sanitized.get("x-ms-copy-source")!.indexOf("sasstring") === -1,
-      "Expecting SAS string to be redacted."
+      "Expecting SAS string to be redacted.",
     );
     assert.ok(
       sanitized.get("x-ms-copy-source")!.indexOf("*****") !== -1,
-      "Expecting SAS string to be redacted."
+      "Expecting SAS string to be redacted.",
     );
     assert.ok(
       sanitized.get("authorization")! === "*****",
-      "Expecting authorization header value to be redacted."
+      "Expecting authorization header value to be redacted.",
     );
 
     assert.ok(
       sanitized.get("otherheader")!.indexOf("sasstring") !== -1,
-      "Other header should not be changed."
+      "Other header should not be changed.",
     );
   });
 
@@ -71,7 +70,7 @@ describe("Utility Helpers", () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
-        SharedAccessSignature=${sharedAccessSignature}`
+        SharedAccessSignature=${sharedAccessSignature}`,
     );
   });
 
@@ -79,7 +78,7 @@ describe("Utility Helpers", () => {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
-        SharedAccessSignature=${sharedAccessSignature}`
+        SharedAccessSignature=${sharedAccessSignature}`,
     );
   });
 });

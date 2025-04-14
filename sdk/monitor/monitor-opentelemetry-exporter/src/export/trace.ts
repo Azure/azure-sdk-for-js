@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorBaseExporter } from "./base";
-import { AzureMonitorExporterOptions } from "../config";
-import { TelemetryItem as Envelope } from "../generated";
-import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
-import { createResourceMetricEnvelope } from "../utils/common";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
+import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
+import { AzureMonitorBaseExporter } from "./base.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
+import type { TelemetryItem as Envelope } from "../generated/index.js";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils.js";
+import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common.js";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -17,7 +19,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   /**
    * Flag to determine if Exporter is shutdown.
    */
-  private _isShutdown = false;
+  private isShutdown = false;
+  private readonly sender: HttpSender;
+  private shouldCreateResourceMetric: boolean = shouldCreateResourceMetric();
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -25,6 +29,13 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
+    this.sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      aadAudience: this.aadAudience,
+    });
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
@@ -35,9 +46,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   async export(
     spans: ReadableSpan[],
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
-    if (this._isShutdown) {
+    if (this.isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
       return;
@@ -46,22 +57,22 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
 
     if (spans.length > 0) {
-      let envelopes: Envelope[] = [];
+      const envelopes: Envelope[] = [];
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
-        this._instrumentationKey
+        this.instrumentationKey,
       );
-      if (resourceMetricEnvelope) {
+      if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {
-        envelopes.push(readableSpanToEnvelope(span, this._instrumentationKey));
-        let spanEventEnvelopes = spanEventsToEnvelopes(span, this._instrumentationKey);
+        envelopes.push(readableSpanToEnvelope(span, this.instrumentationKey));
+        const spanEventEnvelopes = spanEventsToEnvelopes(span, this.instrumentationKey);
         if (spanEventEnvelopes.length > 0) {
           envelopes.push(...spanEventEnvelopes);
         }
       });
-      resultCallback(await this._exportEnvelopes(envelopes));
+      resultCallback(await this.sender.exportEnvelopes(envelopes));
     }
     // No data to export
     resultCallback({ code: ExportResultCode.SUCCESS });
@@ -71,8 +82,8 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * Shutdown AzureMonitorTraceExporter.
    */
   async shutdown(): Promise<void> {
-    this._isShutdown = true;
+    this.isShutdown = true;
     diag.info("AzureMonitorTraceExporter shutting down");
-    return this._shutdown();
+    return this.sender.shutdown();
   }
 }

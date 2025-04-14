@@ -60,7 +60,7 @@ async function main() {
       "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
       instanceId,
       provider,
-      name
+      name,
     )
     .get();
 

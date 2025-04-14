@@ -6,21 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FileServices } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { FileServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
+  FileServiceUsage,
+  FileServicesListServiceUsagesNextOptionalParams,
+  FileServicesListServiceUsagesOptionalParams,
+  FileServicesListServiceUsagesResponse,
   FileServicesListOptionalParams,
   FileServicesListResponse,
   FileServiceProperties,
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesSetServicePropertiesResponse,
   FileServicesGetServicePropertiesOptionalParams,
-  FileServicesGetServicePropertiesResponse
-} from "../models";
+  FileServicesGetServicePropertiesResponse,
+  FileServicesGetServiceUsageOptionalParams,
+  FileServicesGetServiceUsageResponse,
+  FileServicesListServiceUsagesNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing FileServices operations. */
 export class FileServicesImpl implements FileServices {
   private readonly client: StorageManagementClient;
@@ -31,6 +41,93 @@ export class FileServicesImpl implements FileServices {
    */
   constructor(client: StorageManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets the usages of file service in storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  public listServiceUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesListServiceUsagesOptionalParams,
+  ): PagedAsyncIterableIterator<FileServiceUsage> {
+    const iter = this.listServiceUsagesPagingAll(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listServiceUsagesPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listServiceUsagesPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesListServiceUsagesOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<FileServiceUsage[]> {
+    let result: FileServicesListServiceUsagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listServiceUsages(
+        resourceGroupName,
+        accountName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listServiceUsagesNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listServiceUsagesPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesListServiceUsagesOptionalParams,
+  ): AsyncIterableIterator<FileServiceUsage> {
+    for await (const page of this.listServiceUsagesPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -45,11 +142,11 @@ export class FileServicesImpl implements FileServices {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesListOptionalParams
+    options?: FileServicesListOptionalParams,
   ): Promise<FileServicesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -69,11 +166,11 @@ export class FileServicesImpl implements FileServices {
     resourceGroupName: string,
     accountName: string,
     parameters: FileServiceProperties,
-    options?: FileServicesSetServicePropertiesOptionalParams
+    options?: FileServicesSetServicePropertiesOptionalParams,
   ): Promise<FileServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      setServicePropertiesOperationSpec
+      setServicePropertiesOperationSpec,
     );
   }
 
@@ -90,11 +187,74 @@ export class FileServicesImpl implements FileServices {
   getServiceProperties(
     resourceGroupName: string,
     accountName: string,
-    options?: FileServicesGetServicePropertiesOptionalParams
+    options?: FileServicesGetServicePropertiesOptionalParams,
   ): Promise<FileServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getServicePropertiesOperationSpec
+      getServicePropertiesOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the usages of file service in storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  private _listServiceUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesListServiceUsagesOptionalParams,
+  ): Promise<FileServicesListServiceUsagesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listServiceUsagesOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the usage of file service in storage account including account limits, file share limits and
+   * constants used in recommendations and bursting formula.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceUsage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesGetServiceUsageOptionalParams,
+  ): Promise<FileServicesGetServiceUsageResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      getServiceUsageOperationSpec,
+    );
+  }
+
+  /**
+   * ListServiceUsagesNext
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param nextLink The nextLink from the previous successful call to the ListServiceUsages method.
+   * @param options The options parameters.
+   */
+  private _listServiceUsagesNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: FileServicesListServiceUsagesNextOptionalParams,
+  ): Promise<FileServicesListServiceUsagesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listServiceUsagesNextOperationSpec,
     );
   }
 }
@@ -102,72 +262,136 @@ export class FileServicesImpl implements FileServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceItems
+      bodyMapper: Mappers.FileServiceItems,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1
+    Parameters.accountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceProperties
+      bodyMapper: Mappers.FileServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.fileServicesName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getServicePropertiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileServiceProperties
+      bodyMapper: Mappers.FileServiceProperties,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName1,
-    Parameters.fileServicesName
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listServiceUsagesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}/usages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FileServiceUsages,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getServiceUsageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}/usages/{fileServiceUsagesName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FileServiceUsage,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.fileServicesName,
+    Parameters.fileServiceUsagesName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listServiceUsagesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FileServiceUsages,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.fileServicesName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const snapshot: Record<string, unknown> = {};
 
-snapshot["Cross partition GROUP BY by number 1"] = [
+snapshot["Cross partition GROUP BY > by number 1"] = [
   {
     age: 11,
   },
@@ -30,7 +30,7 @@ snapshot["Cross partition GROUP BY by number 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY by string 1"] = [
+snapshot["Cross partition GROUP BY > by string 1"] = [
   {
     name: "Abby",
   },
@@ -93,7 +93,7 @@ snapshot["Cross partition GROUP BY by string 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY by id 1"] = [
+snapshot["Cross partition GROUP BY > by id 1"] = [
   {
     id: "01",
   },
@@ -288,7 +288,7 @@ snapshot["Cross partition GROUP BY by id 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with multiple fields 1"] = [
+snapshot["Cross partition GROUP BY > with multiple fields 1"] = [
   {
     age: 11,
     name: "Alex",
@@ -487,7 +487,7 @@ snapshot["Cross partition GROUP BY with multiple fields 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with COUNT 1"] = [
+snapshot["Cross partition GROUP BY > with COUNT 1"] = [
   {
     age: 11,
     count: 8,
@@ -522,7 +522,7 @@ snapshot["Cross partition GROUP BY with COUNT 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with MIN 1"] = [
+snapshot["Cross partition GROUP BY > with MIN 1"] = [
   {
     name: "Abby",
     min_age: 12,
@@ -605,7 +605,7 @@ snapshot["Cross partition GROUP BY with MIN 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with MAX 1"] = [
+snapshot["Cross partition GROUP BY > with MAX 1"] = [
   {
     name: "Abby",
     min_age: 17,
@@ -688,7 +688,7 @@ snapshot["Cross partition GROUP BY with MAX 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with SUM 1"] = [
+snapshot["Cross partition GROUP BY > with SUM 1"] = [
   {
     name: "Abby",
     min_age: 59,
@@ -771,7 +771,7 @@ snapshot["Cross partition GROUP BY with SUM 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with AVG 1"] = [
+snapshot["Cross partition GROUP BY > with AVG 1"] = [
   {
     name: "Abby",
     min_age: 14.75,
@@ -854,138 +854,204 @@ snapshot["Cross partition GROUP BY with AVG 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with multiple aggregates 1"] = [
+snapshot["Cross partition GROUP BY > with MakeList 1"] = [
+  { name: "Abby", ages: [12, 13, 17, 17] },
+  { name: "Adam", ages: [13, 13, 16] },
+  { name: "Alex", ages: [11, 13, 14, 15] },
+  { name: "Bill", ages: [11, 13, 13, 16] },
+  { name: "Carl", ages: [17, 17] },
+  { name: "Dave", ages: [15] },
+  { name: "Ella", ages: [16, 17] },
+  { name: "Eric", ages: [11, 16, 18] },
+  { name: "Fred", ages: [12, 15, 17, 18] },
+  { name: "Gary", ages: [14, 17] },
+  { name: "John", ages: [11, 12, 13, 14, 16, 16, 16] },
+  { name: "Lisa", ages: [11, 16] },
+  { name: "Lori", ages: [11, 17] },
+  { name: "Lucy", ages: [12, 12, 14, 14, 14] },
+  { name: "Mady", ages: [14, 15, 18] },
+  { name: "Mary", ages: [15, 15, 17, 18, 18, 18] },
+  { name: "Mike", ages: [15, 15, 15] },
+  { name: "Rose", ages: [14] },
+  { name: "Ryan", ages: [11, 12] },
+  { name: "Zara", ages: [11, 12, 12, 17] },
+];
+
+snapshot["Cross partition GROUP BY > with MakeSet 1"] = [
+  { name: "Abby", ages: [12, 13, 17] },
+  { name: "Adam", ages: [13, 16] },
+  { name: "Alex", ages: [11, 13, 14, 15] },
+  { name: "Bill", ages: [11, 13, 16] },
+  { name: "Carl", ages: [17] },
+  { name: "Dave", ages: [15] },
+  { name: "Ella", ages: [16, 17] },
+  { name: "Eric", ages: [11, 16, 18] },
+  { name: "Fred", ages: [12, 15, 17, 18] },
+  { name: "Gary", ages: [14, 17] },
+  { name: "John", ages: [11, 12, 13, 14, 16] },
+  { name: "Lisa", ages: [11, 16] },
+  { name: "Lori", ages: [11, 17] },
+  { name: "Lucy", ages: [12, 14] },
+  { name: "Mady", ages: [14, 15, 18] },
+  { name: "Mary", ages: [15, 17, 18] },
+  { name: "Mike", ages: [15] },
+  { name: "Rose", ages: [14] },
+  { name: "Ryan", ages: [11, 12] },
+  { name: "Zara", ages: [11, 12, 17] },
+];
+
+snapshot["Cross partition GROUP BY > with multiple aggregates 1"] = [
   {
     name: "Abby",
     count: 4,
     min_age: 12,
     max_age: 17,
+    ages: [12, 13, 17, 17],
   },
   {
     name: "Adam",
     count: 3,
     min_age: 13,
     max_age: 16,
+    ages: [13, 13, 16],
   },
   {
     name: "Alex",
     count: 4,
     min_age: 11,
     max_age: 15,
+    ages: [11, 13, 14, 15],
   },
   {
     name: "Bill",
     count: 4,
     min_age: 11,
     max_age: 16,
+    ages: [11, 13, 13, 16],
   },
   {
     name: "Carl",
     count: 2,
     min_age: 17,
     max_age: 17,
+    ages: [17, 17],
   },
   {
     name: "Dave",
     count: 1,
     min_age: 15,
     max_age: 15,
+    ages: [15],
   },
   {
     name: "Ella",
     count: 2,
     min_age: 16,
     max_age: 17,
+    ages: [16, 17],
   },
   {
     name: "Eric",
     count: 3,
     min_age: 11,
     max_age: 18,
+    ages: [11, 16, 18],
   },
   {
     name: "Fred",
     count: 4,
     min_age: 12,
     max_age: 18,
+    ages: [12, 15, 17, 18],
   },
   {
     name: "Gary",
     count: 2,
     min_age: 14,
     max_age: 17,
+    ages: [14, 17],
   },
   {
     name: "John",
     count: 7,
     min_age: 11,
     max_age: 16,
+    ages: [11, 12, 13, 14, 16, 16, 16],
   },
   {
     name: "Lisa",
     count: 2,
     min_age: 11,
     max_age: 16,
+    ages: [11, 16],
   },
   {
     name: "Lori",
     count: 2,
     min_age: 11,
     max_age: 17,
+    ages: [11, 17],
   },
   {
     name: "Lucy",
     count: 5,
     min_age: 12,
     max_age: 14,
+    ages: [12, 12, 14, 14, 14],
   },
   {
     name: "Mady",
     count: 3,
     min_age: 14,
     max_age: 18,
+    ages: [14, 15, 18],
   },
   {
     name: "Mary",
     count: 6,
     min_age: 15,
     max_age: 18,
+    ages: [15, 15, 17, 18, 18, 18],
   },
   {
     name: "Mike",
     count: 3,
     min_age: 15,
     max_age: 15,
+    ages: [15, 15, 15],
   },
   {
     name: "Rose",
     count: 1,
     min_age: 14,
     max_age: 14,
+    ages: [14],
   },
   {
     name: "Ryan",
     count: 2,
     min_age: 11,
     max_age: 12,
+    ages: [11, 12],
   },
   {
     name: "Zara",
     count: 4,
     min_age: 11,
     max_age: 17,
+    ages: [11, 12, 12, 17],
   },
 ];
 
-snapshot["Cross partition GROUP BY with VALUE with string 1"] = ["A", "B", "C", "D"];
+snapshot["Cross partition GROUP BY > with VALUE with string 1"] = ["A", "B", "C", "D"];
 
-snapshot["Cross partition GROUP BY with VALUE with number 1"] = [11, 12, 13, 14, 15, 16, 17, 18];
+snapshot["Cross partition GROUP BY > with VALUE with number 1"] = [11, 12, 13, 14, 15, 16, 17, 18];
 
-snapshot["Cross partition GROUP BY with VALUE and aggregate 1"] = [
+snapshot["Cross partition GROUP BY > with VALUE and aggregate 1"] = [
   14.277777777777779, 14.444444444444445, 14.533333333333333, 14.846153846153847,
 ];
 
-snapshot["Cross partition GROUP BY with aggregates and fields that do not exist 1"] = [
+snapshot["Cross partition GROUP BY > with aggregates and fields that do not exist 1"] = [
   {
     age: 11,
     undefined_count: 0,
@@ -1052,7 +1118,7 @@ snapshot["Cross partition GROUP BY with aggregates and fields that do not exist 
   },
 ];
 
-snapshot["Cross partition GROUP BY with missing aggregate field 1"] = [
+snapshot["Cross partition GROUP BY > with missing aggregate field 1"] = [
   {
     avg_asdf: undefined,
   },
@@ -1079,7 +1145,7 @@ snapshot["Cross partition GROUP BY with missing aggregate field 1"] = [
   },
 ];
 
-snapshot["Cross partition GROUP BY with missing GROUP BY projection 1"] = [
+snapshot["Cross partition GROUP BY > with missing GROUP BY projection 1"] = [
   {
     age: 11,
   },

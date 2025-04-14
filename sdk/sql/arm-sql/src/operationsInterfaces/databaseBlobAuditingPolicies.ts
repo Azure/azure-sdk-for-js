@@ -13,8 +13,8 @@ import {
   DatabaseBlobAuditingPoliciesGetOptionalParams,
   DatabaseBlobAuditingPoliciesGetResponse,
   DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  DatabaseBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+  DatabaseBlobAuditingPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabaseBlobAuditingPolicies. */
@@ -31,7 +31,7 @@ export interface DatabaseBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams
+    options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy>;
   /**
    * Gets a database's blob auditing policy.
@@ -45,7 +45,7 @@ export interface DatabaseBlobAuditingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseBlobAuditingPoliciesGetOptionalParams
+    options?: DatabaseBlobAuditingPoliciesGetOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesGetResponse>;
   /**
    * Creates or updates a database's blob auditing policy.
@@ -61,6 +61,6 @@ export interface DatabaseBlobAuditingPolicies {
     serverName: string,
     databaseName: string,
     parameters: DatabaseBlobAuditingPolicy,
-    options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: DatabaseBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
 }

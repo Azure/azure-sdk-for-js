@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Pipeline } from "../../storage-blob/src/Pipeline";
-import { StorageClient } from "./StorageClient";
-import { ShareRestoreOptionalParams, ShareRestoreResponse } from "./generated/src/models";
-import { Share } from "./generated/src/operationsInterfaces";
+import type { Pipeline } from "./Pipeline.js";
+import { StorageClient } from "./StorageClient.js";
+import type {
+  ShareRestoreOptionalParams,
+  ShareRestoreResponse,
+} from "./generated/src/models/index.js";
+import type { Share } from "./generated/src/operationsInterfaces/index.js";
 
 /**
  * ShareClientInternal is the thin wrapper for Share which contains internal helper methods.

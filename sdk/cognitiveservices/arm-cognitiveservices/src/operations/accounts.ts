@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Accounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Accounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Account,
   AccountsListByResourceGroupNextOptionalParams,
@@ -45,8 +49,8 @@ import {
   AccountsListUsagesResponse,
   AccountsListByResourceGroupNextResponse,
   AccountsListNextResponse,
-  AccountsListModelsNextResponse
-} from "../models";
+  AccountsListModelsNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Accounts operations. */
@@ -68,7 +72,7 @@ export class AccountsImpl implements Accounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Account> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -85,16 +89,16 @@ export class AccountsImpl implements Accounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Account[]> {
     let result: AccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +113,7 @@ export class AccountsImpl implements Accounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,11 +124,11 @@ export class AccountsImpl implements Accounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Account> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,7 +139,7 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   public list(
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): PagedAsyncIterableIterator<Account> {
     const iter = this.listPagingAll(options);
     return {
@@ -150,13 +154,13 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Account[]> {
     let result: AccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -177,7 +181,7 @@ export class AccountsImpl implements Accounts {
   }
 
   private async *listPagingAll(
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): AsyncIterableIterator<Account> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -193,12 +197,12 @@ export class AccountsImpl implements Accounts {
   public listModels(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListModelsOptionalParams
+    options?: AccountsListModelsOptionalParams,
   ): PagedAsyncIterableIterator<AccountModel> {
     const iter = this.listModelsPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -215,9 +219,9 @@ export class AccountsImpl implements Accounts {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -225,7 +229,7 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsListModelsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccountModel[]> {
     let result: AccountsListModelsResponse;
     let continuationToken = settings?.continuationToken;
@@ -241,7 +245,7 @@ export class AccountsImpl implements Accounts {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -253,12 +257,12 @@ export class AccountsImpl implements Accounts {
   private async *listModelsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListModelsOptionalParams
+    options?: AccountsListModelsOptionalParams,
   ): AsyncIterableIterator<AccountModel> {
     for await (const page of this.listModelsPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -276,30 +280,29 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsCreateOptionalParams
+    options?: AccountsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsCreateResponse>,
       AccountsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccountsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +311,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,19 +320,22 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, account, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, account, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AccountsCreateResponse,
+      OperationState<AccountsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -347,13 +353,13 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsCreateOptionalParams
+    options?: AccountsCreateOptionalParams,
   ): Promise<AccountsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       account,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -369,30 +375,29 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AccountsUpdateResponse>,
       AccountsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccountsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -401,8 +406,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -410,19 +415,22 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, account, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, account, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AccountsUpdateResponse,
+      OperationState<AccountsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -439,13 +447,13 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     account: Account,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       account,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -459,25 +467,24 @@ export class AccountsImpl implements Accounts {
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: AccountsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -486,8 +493,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -495,19 +502,19 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -522,12 +529,12 @@ export class AccountsImpl implements Accounts {
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -541,11 +548,11 @@ export class AccountsImpl implements Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -556,11 +563,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): Promise<AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -569,7 +576,7 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   private _list(
-    options?: AccountsListOptionalParams
+    options?: AccountsListOptionalParams,
   ): Promise<AccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -583,11 +590,11 @@ export class AccountsImpl implements Accounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListKeysOptionalParams
+    options?: AccountsListKeysOptionalParams,
   ): Promise<AccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -602,11 +609,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     keyName: KeyName,
-    options?: AccountsRegenerateKeyOptionalParams
+    options?: AccountsRegenerateKeyOptionalParams,
   ): Promise<AccountsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keyName, options },
-      regenerateKeyOperationSpec
+      regenerateKeyOperationSpec,
     );
   }
 
@@ -619,11 +626,11 @@ export class AccountsImpl implements Accounts {
   listSkus(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListSkusOptionalParams
+    options?: AccountsListSkusOptionalParams,
   ): Promise<AccountsListSkusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listSkusOperationSpec
+      listSkusOperationSpec,
     );
   }
 
@@ -636,11 +643,11 @@ export class AccountsImpl implements Accounts {
   listUsages(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListUsagesOptionalParams
+    options?: AccountsListUsagesOptionalParams,
   ): Promise<AccountsListUsagesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listUsagesOperationSpec
+      listUsagesOperationSpec,
     );
   }
 
@@ -653,11 +660,11 @@ export class AccountsImpl implements Accounts {
   private _listModels(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListModelsOptionalParams
+    options?: AccountsListModelsOptionalParams,
   ): Promise<AccountsListModelsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listModelsOperationSpec
+      listModelsOperationSpec,
     );
   }
 
@@ -670,11 +677,11 @@ export class AccountsImpl implements Accounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccountsListByResourceGroupNextOptionalParams
+    options?: AccountsListByResourceGroupNextOptionalParams,
   ): Promise<AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -685,11 +692,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listNext(
     nextLink: string,
-    options?: AccountsListNextOptionalParams
+    options?: AccountsListNextOptionalParams,
   ): Promise<AccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -704,11 +711,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: AccountsListModelsNextOptionalParams
+    options?: AccountsListModelsNextOptionalParams,
   ): Promise<AccountsListModelsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listModelsNextOperationSpec
+      listModelsNextOperationSpec,
     );
   }
 }
@@ -716,25 +723,24 @@ export class AccountsImpl implements Accounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     201: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     202: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     204: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.account,
   queryParameters: [Parameters.apiVersion],
@@ -742,32 +748,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     201: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     202: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     204: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.account,
   queryParameters: [Parameters.apiVersion],
@@ -775,15 +780,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -791,251 +795,243 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/accounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiKeys
+      bodyMapper: Mappers.ApiKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiKeys
+      bodyMapper: Mappers.ApiKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: { keyName: ["keyName"] },
-    mapper: { ...Mappers.RegenerateKeyParameters, required: true }
+    mapper: { ...Mappers.RegenerateKeyParameters, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountSkuListResult
+      bodyMapper: Mappers.AccountSkuListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUsagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listModelsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/models",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/models",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountModelListResult
+      bodyMapper: Mappers.AccountModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listModelsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountModelListResult
+      bodyMapper: Mappers.AccountModelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

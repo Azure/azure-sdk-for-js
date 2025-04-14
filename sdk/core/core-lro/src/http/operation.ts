@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpOperationMode,
-  LongRunningOperation,
-  LroResourceLocationConfig,
-  LroResponse,
+  RunningOperation,
+  ResourceLocationConfig,
+  OperationResponse,
   RawResponse,
   ResponseBody,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   LroError,
   OperationConfig,
+  OperationState,
   OperationStatus,
   RestorableOperationState,
-  StateProxy,
-} from "../poller/models";
-import { initOperation, pollOperation } from "../poller/operation";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "../logger";
+} from "../poller/models.js";
+import { pollOperation } from "../poller/operation.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { logger } from "../logger.js";
 
 function getOperationLocationPollingUrl(inputs: {
   operationLocation?: string;
@@ -44,9 +44,16 @@ function findResourceLocation(inputs: {
   requestMethod?: string;
   location?: string;
   requestPath?: string;
-  resourceLocationConfig?: LroResourceLocationConfig;
+  resourceLocationConfig?: ResourceLocationConfig;
+  skipFinalGet?: boolean;
 }): string | undefined {
-  const { location, requestMethod, requestPath, resourceLocationConfig } = inputs;
+  const { location, requestMethod, requestPath, resourceLocationConfig, skipFinalGet } = inputs;
+
+  // If skipFinalGet is true, return undefined to skip the final GET request
+  if (skipFinalGet) {
+    return undefined;
+  }
+
   switch (requestMethod) {
     case "PUT": {
       return requestPath;
@@ -54,30 +61,38 @@ function findResourceLocation(inputs: {
     case "DELETE": {
       return undefined;
     }
+    case "PATCH": {
+      return getDefault() ?? requestPath;
+    }
     default: {
-      switch (resourceLocationConfig) {
-        case "azure-async-operation": {
-          return undefined;
-        }
-        case "original-uri": {
-          return requestPath;
-        }
-        case "location":
-        default: {
-          return location;
-        }
+      return getDefault();
+    }
+  }
+
+  function getDefault(): string | undefined {
+    switch (resourceLocationConfig) {
+      case "operation-location":
+      case "azure-async-operation": {
+        return undefined;
+      }
+      case "original-uri": {
+        return requestPath;
+      }
+      case "location":
+      default: {
+        return location;
       }
     }
   }
 }
 
-export function inferLroMode(inputs: {
-  rawResponse: RawResponse;
-  requestPath?: string;
-  requestMethod?: string;
-  resourceLocationConfig?: LroResourceLocationConfig;
-}): (OperationConfig & { mode: HttpOperationMode }) | undefined {
-  const { rawResponse, requestMethod, requestPath, resourceLocationConfig } = inputs;
+export function inferLroMode(
+  rawResponse: RawResponse,
+  resourceLocationConfig?: ResourceLocationConfig,
+  skipFinalGet?: boolean,
+): (OperationConfig & { mode: HttpOperationMode }) | undefined {
+  const requestPath = rawResponse.request.url;
+  const requestMethod = rawResponse.request.method;
   const operationLocation = getOperationLocationHeader(rawResponse);
   const azureAsyncOperation = getAzureAsyncOperationHeader(rawResponse);
   const pollingUrl = getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation });
@@ -92,17 +107,24 @@ export function inferLroMode(inputs: {
         location,
         requestPath,
         resourceLocationConfig,
+        skipFinalGet,
       }),
+      initialRequestUrl: requestPath,
+      requestMethod,
     };
   } else if (location !== undefined) {
     return {
       mode: "ResourceLocation",
       operationLocation: location,
+      initialRequestUrl: requestPath,
+      requestMethod,
     };
   } else if (normalizedRequestMethod === "PUT" && requestPath) {
     return {
       mode: "Body",
       operationLocation: requestPath,
+      initialRequestUrl: requestPath,
+      requestMethod,
     };
   } else {
     return undefined;
@@ -113,30 +135,24 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   const { status, statusCode } = inputs;
   if (typeof status !== "string" && status !== undefined) {
     throw new Error(
-      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`
+      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
-  switch (status?.toLocaleLowerCase()) {
-    case undefined:
-      return toOperationStatus(statusCode);
-    case "succeeded":
-      return "succeeded";
-    case "failed":
-      return "failed";
-    case "running":
-    case "accepted":
-    case "started":
-    case "canceling":
-    case "cancelling":
-      return "running";
-    case "canceled":
-    case "cancelled":
-      return "canceled";
-    default: {
-      logger.verbose(`LRO: unrecognized operation status: ${status}`);
-      return status as OperationStatus;
-    }
+  logger.verbose(`LRO: Transforming status: ${status} with status code: ${statusCode}.`);
+  const lowerCaseStatus = status?.toLocaleLowerCase();
+  if (!lowerCaseStatus) {
+    return toOperationStatus(statusCode);
   }
+  if (lowerCaseStatus.includes("succeeded")) {
+    return "succeeded";
+  }
+  if (lowerCaseStatus.includes("fail")) {
+    return "failed";
+  }
+  if (["canceled", "cancelled"].includes(lowerCaseStatus)) {
+    return "canceled";
+  }
+  return "running";
 }
 
 function getStatus(rawResponse: RawResponse): OperationStatus {
@@ -160,7 +176,7 @@ function toOperationStatus(statusCode: number): OperationStatus {
   }
 }
 
-export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | undefined {
+export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
   if (retryAfter !== undefined) {
     // Retry-After header value is either in HTTP date format, or in seconds
@@ -172,17 +188,17 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
   return undefined;
 }
 
-export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
-  const error = (response.flatResponse as ResponseBody).error;
+export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
+  const error = accessBodyProperty(response, "error");
   if (!error) {
     logger.warning(
-      `The long-running operation failed but there is no error property in the response's body`
+      `The long-running operation failed but there is no error property in the response's body`,
     );
     return;
   }
   if (!error.code || !error.message) {
     logger.warning(
-      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`,
     );
     return;
   }
@@ -198,9 +214,12 @@ function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefi
   return undefined;
 }
 
-export function getStatusFromInitialResponse<TState>(inputs: {
-  response: LroResponse<unknown>;
-  state: RestorableOperationState<TState>;
+export function getStatusFromInitialResponse<
+  TResult,
+  TState extends OperationState<TResult>,
+>(inputs: {
+  response: OperationResponse<unknown>;
+  state: RestorableOperationState<TResult, TState>;
   operationLocation?: string;
 }): OperationStatus {
   const { response, state, operationLocation } = inputs;
@@ -219,45 +238,9 @@ export function getStatusFromInitialResponse<TState>(inputs: {
   return status === "running" && operationLocation === undefined ? "succeeded" : status;
 }
 
-/**
- * Initiates the long-running operation.
- */
-export async function initHttpOperation<TResult, TState>(inputs: {
-  stateProxy: StateProxy<TState, TResult>;
-  resourceLocationConfig?: LroResourceLocationConfig;
-  processResult?: (result: unknown, state: TState) => TResult;
-  setErrorAsResult: boolean;
-  lro: LongRunningOperation;
-}): Promise<RestorableOperationState<TState>> {
-  const { stateProxy, resourceLocationConfig, processResult, lro, setErrorAsResult } = inputs;
-  return initOperation({
-    init: async () => {
-      const response = await lro.sendInitialRequest();
-      const config = inferLroMode({
-        rawResponse: response.rawResponse,
-        requestPath: lro.requestPath,
-        requestMethod: lro.requestMethod,
-        resourceLocationConfig,
-      });
-      return {
-        response,
-        operationLocation: config?.operationLocation,
-        resourceLocation: config?.resourceLocation,
-        ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
-      };
-    },
-    stateProxy,
-    processResult: processResult
-      ? ({ flatResponse }, state) => processResult(flatResponse, state)
-      : ({ flatResponse }) => flatResponse as TResult,
-    getOperationStatus: getStatusFromInitialResponse,
-    setErrorAsResult,
-  });
-}
-
-export function getOperationLocation<TState>(
-  { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+export function getOperationLocation<TResult, TState extends OperationState<TResult>>(
+  { rawResponse }: OperationResponse,
+  state: RestorableOperationState<TResult, TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -277,9 +260,9 @@ export function getOperationLocation<TState>(
   }
 }
 
-export function getOperationStatus<TState>(
-  { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+export function getOperationStatus<TResult, TState extends OperationState<TResult>>(
+  { rawResponse }: OperationResponse,
+  state: RestorableOperationState<TResult, TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -297,15 +280,20 @@ export function getOperationStatus<TState>(
   }
 }
 
-export function getResourceLocation<TState>(
-  { flatResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+function accessBodyProperty<P extends string>(
+  { flatResponse, rawResponse }: OperationResponse,
+  prop: P,
+): ResponseBody[P] {
+  return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
+}
+
+export function getResourceLocation<TResult, TState extends OperationState<TResult>>(
+  res: OperationResponse,
+  state: RestorableOperationState<TResult, TState>,
 ): string | undefined {
-  if (typeof flatResponse === "object") {
-    const resourceLocation = (flatResponse as { resourceLocation?: string }).resourceLocation;
-    if (resourceLocation !== undefined) {
-      state.config.resourceLocation = resourceLocation;
-    }
+  const loc = accessBodyProperty(res, "resourceLocation");
+  if (loc && typeof loc === "string") {
+    state.config.resourceLocation = loc;
   }
   return state.config.resourceLocation;
 }
@@ -315,34 +303,23 @@ export function isOperationError(e: Error): boolean {
 }
 
 /** Polls the long-running operation. */
-export async function pollHttpOperation<TState, TResult>(inputs: {
-  lro: LongRunningOperation;
-  stateProxy: StateProxy<TState, TResult>;
-  processResult?: (result: unknown, state: TState) => TResult;
-  updateState?: (state: TState, lastResponse: LroResponse) => void;
-  isDone?: (lastResponse: LroResponse, state: TState) => boolean;
+export async function pollHttpOperation<TState extends OperationState<TResult>, TResult>(inputs: {
+  lro: RunningOperation;
+  processResult?: (result: unknown, state: TState) => Promise<TResult>;
+  updateState?: (state: TState, lastResponse: OperationResponse) => void;
+  isDone?: (lastResponse: OperationResponse, state: TState) => boolean;
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };
-  state: RestorableOperationState<TState>;
+  state: RestorableOperationState<TResult, TState>;
   setErrorAsResult: boolean;
 }): Promise<void> {
-  const {
-    lro,
-    stateProxy,
-    options,
-    processResult,
-    updateState,
-    setDelay,
-    state,
-    setErrorAsResult,
-  } = inputs;
+  const { lro, options, processResult, updateState, setDelay, state, setErrorAsResult } = inputs;
   return pollOperation({
     state,
-    stateProxy,
     setDelay,
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)
-      : ({ flatResponse }) => flatResponse as TResult,
+      : ({ flatResponse }) => flatResponse as Promise<TResult>,
     getError: getErrorFromResponse,
     updateState,
     getPollingInterval: parseRetryAfter,
@@ -355,7 +332,8 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location, inputOptions) => lro.sendPollRequest(location, inputOptions),
+    poll: async (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
+      lro.sendPollRequest(location, inputOptions),
     setErrorAsResult,
   });
 }

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { ChunkFactory } from "./ChunkFactory";
-import { Chunk } from "./Chunk";
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ShardCursor } from "./models/ChangeFeedCursor";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { tracingClient } from "./utils/tracing";
+import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import type { ChunkFactory } from "./ChunkFactory.js";
+import type { Chunk } from "./Chunk.js";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent.js";
+import type { ShardCursor } from "./models/ChangeFeedCursor.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Options to configure {@link Shard.getChange} operation.
@@ -34,7 +34,7 @@ export class Shard {
     chunkFactory: ChunkFactory,
     chunks: string[],
     currentChunk: Chunk | undefined,
-    public readonly shardPath: string
+    public readonly shardPath: string,
   ) {
     this.containerClient = containerClient;
     this.chunkFactory = chunkFactory;
@@ -49,7 +49,7 @@ export class Shard {
   }
 
   public async getChange(
-    options: ShardGetChangeOptions = {}
+    options: ShardGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("Shard-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;
@@ -66,7 +66,7 @@ export class Shard {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
         }
       }

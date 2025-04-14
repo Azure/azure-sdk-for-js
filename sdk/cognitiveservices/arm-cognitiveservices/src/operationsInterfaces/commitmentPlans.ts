@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CommitmentPlan,
   CommitmentPlansListOptionalParams,
@@ -32,8 +32,8 @@ import {
   CommitmentPlansGetAssociationResponse,
   CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   CommitmentPlansCreateOrUpdateAssociationResponse,
-  CommitmentPlansDeleteAssociationOptionalParams
-} from "../models";
+  CommitmentPlansDeleteAssociationOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommitmentPlans. */
@@ -47,7 +47,7 @@ export interface CommitmentPlans {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: CommitmentPlansListOptionalParams
+    options?: CommitmentPlansListOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan>;
   /**
    * Returns all the resources of a particular type belonging to a resource group
@@ -56,14 +56,14 @@ export interface CommitmentPlans {
    */
   listPlansByResourceGroup(
     resourceGroupName: string,
-    options?: CommitmentPlansListPlansByResourceGroupOptionalParams
+    options?: CommitmentPlansListPlansByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan>;
   /**
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
   listPlansBySubscription(
-    options?: CommitmentPlansListPlansBySubscriptionOptionalParams
+    options?: CommitmentPlansListPlansBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlan>;
   /**
    * Gets the associations of the Cognitive Services commitment plan.
@@ -75,7 +75,7 @@ export interface CommitmentPlans {
   listAssociations(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansListAssociationsOptionalParams
+    options?: CommitmentPlansListAssociationsOptionalParams,
   ): PagedAsyncIterableIterator<CommitmentPlanAccountAssociation>;
   /**
    * Gets the specified commitmentPlans associated with the Cognitive Services account.
@@ -89,7 +89,7 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansGetOptionalParams
+    options?: CommitmentPlansGetOptionalParams,
   ): Promise<CommitmentPlansGetResponse>;
   /**
    * Update the state of specified commitmentPlans associated with the Cognitive Services account.
@@ -105,7 +105,7 @@ export interface CommitmentPlans {
     accountName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdateOptionalParams
+    options?: CommitmentPlansCreateOrUpdateOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdateResponse>;
   /**
    * Deletes the specified commitmentPlan associated with the Cognitive Services account.
@@ -119,8 +119,8 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CommitmentPlansDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified commitmentPlan associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -133,7 +133,7 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     accountName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeleteOptionalParams
+    options?: CommitmentPlansDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create Cognitive Services commitment plan.
@@ -147,10 +147,10 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
       CommitmentPlansCreateOrUpdatePlanResponse
     >
   >;
@@ -166,7 +166,7 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: CommitmentPlan,
-    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
+    options?: CommitmentPlansCreateOrUpdatePlanOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdatePlanResponse>;
   /**
    * Create Cognitive Services commitment plan.
@@ -180,10 +180,10 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: PatchResourceTagsAndSku,
-    options?: CommitmentPlansUpdatePlanOptionalParams
+    options?: CommitmentPlansUpdatePlanOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansUpdatePlanResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansUpdatePlanResponse>,
       CommitmentPlansUpdatePlanResponse
     >
   >;
@@ -199,7 +199,7 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlan: PatchResourceTagsAndSku,
-    options?: CommitmentPlansUpdatePlanOptionalParams
+    options?: CommitmentPlansUpdatePlanOptionalParams,
   ): Promise<CommitmentPlansUpdatePlanResponse>;
   /**
    * Deletes a Cognitive Services commitment plan from the resource group.
@@ -211,8 +211,8 @@ export interface CommitmentPlans {
   beginDeletePlan(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeletePlanOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CommitmentPlansDeletePlanOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services commitment plan from the resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -223,7 +223,7 @@ export interface CommitmentPlans {
   beginDeletePlanAndWait(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansDeletePlanOptionalParams
+    options?: CommitmentPlansDeletePlanOptionalParams,
   ): Promise<void>;
   /**
    * Returns a Cognitive Services commitment plan specified by the parameters.
@@ -235,7 +235,7 @@ export interface CommitmentPlans {
   getPlan(
     resourceGroupName: string,
     commitmentPlanName: string,
-    options?: CommitmentPlansGetPlanOptionalParams
+    options?: CommitmentPlansGetPlanOptionalParams,
   ): Promise<CommitmentPlansGetPlanResponse>;
   /**
    * Gets the association of the Cognitive Services commitment plan.
@@ -250,7 +250,7 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansGetAssociationOptionalParams
+    options?: CommitmentPlansGetAssociationOptionalParams,
   ): Promise<CommitmentPlansGetAssociationResponse>;
   /**
    * Create or update the association of the Cognitive Services commitment plan.
@@ -267,10 +267,10 @@ export interface CommitmentPlans {
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
     association: CommitmentPlanAccountAssociation,
-    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
       CommitmentPlansCreateOrUpdateAssociationResponse
     >
   >;
@@ -289,7 +289,7 @@ export interface CommitmentPlans {
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
     association: CommitmentPlanAccountAssociation,
-    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
+    options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse>;
   /**
    * Deletes the association of the Cognitive Services commitment plan.
@@ -304,8 +304,8 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansDeleteAssociationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the association of the Cognitive Services commitment plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -319,6 +319,6 @@ export interface CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
-    options?: CommitmentPlansDeleteAssociationOptionalParams
+    options?: CommitmentPlansDeleteAssociationOptionalParams,
   ): Promise<void>;
 }

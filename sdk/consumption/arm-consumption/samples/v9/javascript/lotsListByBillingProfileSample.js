@@ -28,7 +28,7 @@ async function lotsListByBillingProfile() {
   const resArray = new Array();
   for await (let item of client.lotsOperations.listByBillingProfile(
     billingAccountId,
-    billingProfileId
+    billingProfileId,
   )) {
     resArray.push(item);
   }

@@ -11,8 +11,8 @@ import {
   RegulatoryComplianceStandard,
   RegulatoryComplianceStandardsListOptionalParams,
   RegulatoryComplianceStandardsGetOptionalParams,
-  RegulatoryComplianceStandardsGetResponse
-} from "../models";
+  RegulatoryComplianceStandardsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RegulatoryComplianceStandards. */
@@ -22,7 +22,7 @@ export interface RegulatoryComplianceStandards {
    * @param options The options parameters.
    */
   list(
-    options?: RegulatoryComplianceStandardsListOptionalParams
+    options?: RegulatoryComplianceStandardsListOptionalParams,
   ): PagedAsyncIterableIterator<RegulatoryComplianceStandard>;
   /**
    * Supported regulatory compliance details state for selected standard
@@ -31,6 +31,6 @@ export interface RegulatoryComplianceStandards {
    */
   get(
     regulatoryComplianceStandardName: string,
-    options?: RegulatoryComplianceStandardsGetOptionalParams
+    options?: RegulatoryComplianceStandardsGetOptionalParams,
   ): Promise<RegulatoryComplianceStandardsGetResponse>;
 }

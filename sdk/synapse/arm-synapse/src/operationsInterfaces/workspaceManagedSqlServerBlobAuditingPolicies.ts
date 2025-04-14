@@ -16,7 +16,7 @@ import {
   WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse,
   WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceManagedSqlServerBlobAuditingPolicies. */

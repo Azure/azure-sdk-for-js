@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to send a transactional request
  * with multiple operations in a single request
@@ -8,20 +8,19 @@
  * @azsdk-weight 50
  */
 
-import { TableClient, TransactionAction } from "@azure/data-tables";
+import type { TransactionAction } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+const endpoint = process.env.TABLES_URL || "https://accountname.table.core.windows.net/";
 
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-
-async function batchOperations() {
+async function batchOperations(): Promise<void> {
   console.log("== Batch Operations Sample ==");
   const tableName = `transactionsSample`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = TableClient.fromConnectionString(connectionString, tableName);
+  const client = new TableClient(endpoint, tableName, new DefaultAzureCredential());
 
   // Create the table
   await client.createTable();

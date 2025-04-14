@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailablePrivateEndpointType,
   AvailablePrivateEndpointTypesListOptionalParams,
-  AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
-} from "../models";
+  AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailablePrivateEndpointTypes. */
@@ -24,7 +24,7 @@ export interface AvailablePrivateEndpointTypes {
    */
   list(
     location: string,
-    options?: AvailablePrivateEndpointTypesListOptionalParams
+    options?: AvailablePrivateEndpointTypesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailablePrivateEndpointType>;
   /**
    * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in
@@ -36,6 +36,6 @@ export interface AvailablePrivateEndpointTypes {
   listByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailablePrivateEndpointType>;
 }

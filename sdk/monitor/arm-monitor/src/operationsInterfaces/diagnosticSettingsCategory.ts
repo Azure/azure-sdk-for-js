@@ -11,8 +11,8 @@ import {
   DiagnosticSettingsCategoryResource,
   DiagnosticSettingsCategoryListOptionalParams,
   DiagnosticSettingsCategoryGetOptionalParams,
-  DiagnosticSettingsCategoryGetResponse
-} from "../models";
+  DiagnosticSettingsCategoryGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiagnosticSettingsCategory. */
@@ -24,7 +24,7 @@ export interface DiagnosticSettingsCategory {
    */
   list(
     resourceUri: string,
-    options?: DiagnosticSettingsCategoryListOptionalParams
+    options?: DiagnosticSettingsCategoryListOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource>;
   /**
    * Gets the diagnostic settings category for the specified resource.
@@ -35,6 +35,6 @@ export interface DiagnosticSettingsCategory {
   get(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsCategoryGetOptionalParams
+    options?: DiagnosticSettingsCategoryGetOptionalParams,
   ): Promise<DiagnosticSettingsCategoryGetResponse>;
 }

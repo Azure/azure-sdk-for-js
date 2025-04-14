@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationAccelerators } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationAccelerators } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClient } from "../appPlatformManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApplicationAcceleratorResource,
   ApplicationAcceleratorsListNextOptionalParams,
@@ -29,8 +29,9 @@ import {
   ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ApplicationAcceleratorsCreateOrUpdateResponse,
   ApplicationAcceleratorsDeleteOptionalParams,
+  ApplicationAcceleratorsDeleteResponse,
   ApplicationAcceleratorsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationAccelerators operations. */
@@ -281,11 +282,16 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationAcceleratorsDeleteResponse>,
+      ApplicationAcceleratorsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ApplicationAcceleratorsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -331,7 +337,10 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ApplicationAcceleratorsDeleteResponse,
+      OperationState<ApplicationAcceleratorsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -352,7 +361,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<ApplicationAcceleratorsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -469,10 +478,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

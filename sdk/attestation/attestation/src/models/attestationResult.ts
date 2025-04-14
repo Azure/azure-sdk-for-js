@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AttestationSigner } from ".";
-import { GeneratedAttestationResult } from "../generated";
-import { _attestationSignerFromGenerated } from "./attestationSigner";
+import type { AttestationSigner } from "./index.js";
+import type { GeneratedAttestationResult } from "../generated/index.js";
+import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
 /**
  * Defines the contents of the {@link AttestationResult.sgxCollateral} claim in
@@ -369,7 +369,7 @@ export class AttestationResultImpl implements AttestationResult {
  * @internal
  */
 export function _attestationResultFromGenerated(
-  generated: GeneratedAttestationResult
+  generated: GeneratedAttestationResult,
 ): AttestationResultImpl {
   return new AttestationResultImpl({
     issuer: generated.iss,

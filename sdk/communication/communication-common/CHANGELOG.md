@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 2.3.2-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,43 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.2-beta.1 (2025-03-28)
+
+### Features Added
+Introduced support for `TokenCredential` with `EntraCommunicationTokenCredentialOptions`, enabling Entra users to authorize Communication Services and allowing an Entra user with a Teams license to use Teams Phone Extensibility features through the Azure Communication Services resource.
+
+- Added support for a new communication identifier `TeamsExtensionUserIdentifier`.
+    - Added a type `TeamsExtensionUserKind` with rawId in the format `8:acs:{resourceId}_{tenantId}_{userId}`.
+    - Added a method `isTeamsExtensionUserIdentifier` to check if the identifier is `TeamsExtensionUserIdentifier`.
+    - Mandatory fields of `TeamsExtensionUserIdentifier` are `userId`, `tenantId` and `resourceId`.
+    - With this version, rawId starting with `8:acs` may be either `CommunicationUserIdentifier` or new `TeamsExtensionUserIdentifier`.
+- Added optional fields `isAnonymous` and `assertedId` to the communication identifier `PhoneNumberIdentifier`.
+    - `isAnonymous` is used for anonymous numbers with rawId equals to `4:anonymous`.
+    - `assertedId` is used when the same number is used several times in the same call. It contains value after the last underscore (_)
+      character in the phone number. It is undefined otherwise.
+
+## 2.3.1 (2024-02-20)
+
+### Bugs Fixed
+
+- Renamed field `teamAppId` to `appId` in `SerializedMicrosoftTeamsAppIdentifier` to match the REST specification.
+
+## 2.3.0 (2023-09-27)
+
+### Features Added
+
+- Added support for a new communication identifier `MicrosoftTeamsAppIdentifier`.
+    - Added a type `MicrosoftTeamsAppKind`.
+    - Added a method `isMicrosoftTeamsAppIdentifier` to check if the identifier is `MicrosoftTeamsAppIdentifier`.
+    - Added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`.
+    - With this version, any rawId starting with `28:` will map to MicrosoftTeamsAppIdentifier. Previously it mapped to `UnknownIdentifier`.
+
+## 2.2.1 (2023-06-16)
+
+### Bugs Fixed
+
+- Bug fix for when running the policy, a query param is always being detected as the URLSearchParams object exists, even if it is empty.
 
 ## 3.0.0-beta.1 (2023-03-27)
 

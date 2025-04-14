@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
@@ -16,7 +16,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       shortName: "i",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {

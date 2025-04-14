@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @azsdk-util
@@ -8,8 +8,8 @@
 
 // Model:       prebuilt-invoice
 // Description: Extract key information from invoices.
-// API Version: 2023-02-28-preview
-// Created:     Thu Apr 06 2023
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from invoices.
  */
 export const PrebuiltInvoiceModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltInvoiceResult>;
 
 export interface PrebuiltInvoiceResult extends fr.AnalyzeResultCommon {
@@ -289,12 +289,12 @@ export interface InvoiceItemsElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       invoice: {
         buildMode: "template",

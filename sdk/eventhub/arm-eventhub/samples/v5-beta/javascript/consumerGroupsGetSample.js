@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { EventHubManagementClient } = require("@azure/arm-eventhub");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a description for the specified consumer group.
  *
  * @summary Gets a description for the specified consumer group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/ConsumerGroup/EHConsumerGroupGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ConsumerGroup/EHConsumerGroupGet.json
  */
 async function consumerGroupGet() {
   const subscriptionId =
@@ -31,13 +29,13 @@ async function consumerGroupGet() {
     resourceGroupName,
     namespaceName,
     eventHubName,
-    consumerGroupName
+    consumerGroupName,
   );
   console.log(result);
 }
 
 async function main() {
-  consumerGroupGet();
+  await consumerGroupGet();
 }
 
 main().catch(console.error);

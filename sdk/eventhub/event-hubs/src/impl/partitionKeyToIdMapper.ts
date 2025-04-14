@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-fallthrough */
 
@@ -27,7 +27,7 @@ function castToInt16(n: number): number {
 function computeHash(
   data: Buffer,
   seed1: number = 0,
-  seed2: number = 0
+  seed2: number = 0,
 ): {
   b: number;
   c: number;

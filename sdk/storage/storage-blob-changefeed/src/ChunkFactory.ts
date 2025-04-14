@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AvroReaderFactory } from "./AvroReaderFactory";
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Chunk } from "./Chunk";
-import { AvroReader } from "../../storage-internal-avro/src";
-import { streamToAvroReadable } from "./utils/utils.node";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
-import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
+import type { AvroReaderFactory } from "./AvroReaderFactory.js";
+import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import { Chunk } from "./Chunk.js";
+import { streamToAvroReadable } from "./utils/utils.node.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory.js";
+import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants.js";
+import type { AvroReader } from "@azure/storage-internal-avro";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.
@@ -29,7 +29,7 @@ export class ChunkFactory {
   constructor(
     avroReaderFactory: AvroReaderFactory,
     lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory,
-    maxTransferSize?: number
+    maxTransferSize?: number,
   ) {
     this.avroReaderFactory = avroReaderFactory;
     this.lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
@@ -41,7 +41,7 @@ export class ChunkFactory {
     chunkPath: string,
     blockOffset?: number,
     eventIndex?: number,
-    options: CreateChunkOptions = {}
+    options: CreateChunkOptions = {},
   ): Promise<Chunk> {
     const blobClient = containerClient.getBlobClient(chunkPath);
     blockOffset = blockOffset || 0;
@@ -52,8 +52,8 @@ export class ChunkFactory {
         blobClient,
         blockOffset,
         this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
-        options
-      )
+        options,
+      ),
     );
 
     let avroReader: AvroReader;
@@ -63,8 +63,8 @@ export class ChunkFactory {
           blobClient,
           0,
           this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
-          options
-        )
+          options,
+        ),
       );
       avroReader = this.avroReaderFactory.create(dataStream, headerStream, blockOffset, eventIndex);
     } else {

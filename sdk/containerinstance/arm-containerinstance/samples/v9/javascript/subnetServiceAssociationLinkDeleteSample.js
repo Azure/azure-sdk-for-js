@@ -28,7 +28,7 @@ async function subnetServiceAssociationLinkDelete() {
   const result = await client.subnetServiceAssociationLink.beginDeleteAndWait(
     resourceGroupName,
     virtualNetworkName,
-    subnetName
+    subnetName,
   );
   console.log(result);
 }

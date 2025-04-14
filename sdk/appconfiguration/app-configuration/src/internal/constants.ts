@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
  */
-export const packageVersion = "1.4.1";
+export const packageVersion = "1.9.1";
+
+/**
+ * @internal
+ */
+export const appConfigurationApiVersion = "2023-11-01";

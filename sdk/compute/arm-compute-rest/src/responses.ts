@@ -1,119 +1,119 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
-  AccessUriOutput,
-  AvailabilitySetListResultOutput,
-  AvailabilitySetOutput,
-  CapacityReservationGroupListResultOutput,
-  CapacityReservationGroupOutput,
-  CapacityReservationListResultOutput,
-  CapacityReservationOutput,
-  CloudErrorOutput,
-  CloudServiceInstanceViewOutput,
-  CloudServiceListResultOutput,
-  CloudServiceOutput,
-  CloudServiceRoleListResultOutput,
-  CloudServiceRoleOutput,
-  CommunityGalleryImageListOutput,
-  CommunityGalleryImageOutput,
-  CommunityGalleryImageVersionListOutput,
-  CommunityGalleryImageVersionOutput,
-  CommunityGalleryOutput,
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ComputeOperationListResultOutput,
-  DedicatedHostGroupListResultOutput,
-  DedicatedHostGroupOutput,
-  DedicatedHostListResultOutput,
-  DedicatedHostOutput,
-  DiskAccessListOutput,
-  DiskAccessOutput,
-  DiskEncryptionSetListOutput,
-  DiskEncryptionSetOutput,
-  DiskListOutput,
-  DiskOutput,
-  DiskRestorePointListOutput,
-  DiskRestorePointOutput,
-  GalleryApplicationListOutput,
-  GalleryApplicationOutput,
-  GalleryApplicationVersionListOutput,
-  GalleryApplicationVersionOutput,
-  GalleryImageListOutput,
-  GalleryImageOutput,
-  GalleryImageVersionListOutput,
-  GalleryImageVersionOutput,
-  GalleryListOutput,
-  GalleryOutput,
-  ImageListResultOutput,
-  ImageOutput,
+  CloudErrorOutput,
   ListUsagesResultOutput,
-  LogAnalyticsOperationResultOutput,
-  OSFamilyListResultOutput,
-  OSFamilyOutput,
-  OSVersionListResultOutput,
-  OSVersionOutput,
-  PrivateEndpointConnectionListResultOutput,
-  PrivateEndpointConnectionOutput,
-  PrivateLinkResourceListResultOutput,
-  ProximityPlacementGroupListResultOutput,
-  ProximityPlacementGroupOutput,
+  VirtualMachineSizeListResultOutput,
+  VirtualMachineScaleSetListResultOutput,
+  VirtualMachineScaleSetOutput,
+  VirtualMachineScaleSetInstanceViewOutput,
+  VirtualMachineScaleSetListWithLinkResultOutput,
+  VirtualMachineScaleSetListSkusResultOutput,
+  VirtualMachineScaleSetListOSUpgradeHistoryOutput,
   RecoveryWalkResponseOutput,
-  ResourceSkusResultOutput,
-  ResourceUriListOutput,
-  RestorePointCollectionListResultOutput,
-  RestorePointCollectionOutput,
-  RestorePointOutput,
-  RetrieveBootDiagnosticsDataResultOutput,
-  RoleInstanceListResultOutput,
-  RoleInstanceOutput,
-  RoleInstanceViewOutput,
+  VirtualMachineScaleSetExtensionOutput,
+  VirtualMachineScaleSetExtensionListResultOutput,
   RollingUpgradeStatusInfoOutput,
-  RunCommandDocumentOutput,
-  RunCommandListResultOutput,
+  VirtualMachineScaleSetVMExtensionOutput,
+  VirtualMachineScaleSetVMExtensionsListResultOutput,
+  VirtualMachineScaleSetVMOutput,
+  VirtualMachineScaleSetVMInstanceViewOutput,
+  VirtualMachineScaleSetVMListResultOutput,
+  RetrieveBootDiagnosticsDataResultOutput,
   RunCommandResultOutput,
+  VirtualMachineExtensionOutput,
+  VirtualMachineExtensionsListResultOutput,
+  VirtualMachineListResultOutput,
+  VirtualMachineCaptureResultOutput,
+  VirtualMachineOutput,
+  VirtualMachineInstanceViewOutput,
+  VirtualMachineAssessPatchesResultOutput,
+  VirtualMachineInstallPatchesResultOutput,
+  VirtualMachineImageOutput,
+  VirtualMachineImageResourceOutput,
+  VmImagesInEdgeZoneListResultOutput,
+  VirtualMachineExtensionImageOutput,
+  AvailabilitySetOutput,
+  AvailabilitySetListResultOutput,
+  ProximityPlacementGroupOutput,
+  ProximityPlacementGroupListResultOutput,
+  DedicatedHostGroupOutput,
+  DedicatedHostGroupListResultOutput,
+  DedicatedHostOutput,
+  DedicatedHostListResultOutput,
+  SshPublicKeysGroupListResultOutput,
+  SshPublicKeyResourceOutput,
+  SshPublicKeyGenerateKeyPairResultOutput,
+  ImageOutput,
+  ImageListResultOutput,
+  RestorePointCollectionOutput,
+  RestorePointCollectionListResultOutput,
+  RestorePointOutput,
+  CapacityReservationGroupOutput,
+  CapacityReservationGroupListResultOutput,
+  CapacityReservationOutput,
+  CapacityReservationListResultOutput,
+  LogAnalyticsOperationResultOutput,
+  RunCommandListResultOutput,
+  RunCommandDocumentOutput,
+  VirtualMachineRunCommandOutput,
+  VirtualMachineRunCommandsListResultOutput,
+  DiskOutput,
+  DiskListOutput,
+  AccessUriOutput,
+  DiskAccessOutput,
+  DiskAccessListOutput,
+  PrivateLinkResourceListResultOutput,
+  PrivateEndpointConnectionOutput,
+  PrivateEndpointConnectionListResultOutput,
+  DiskEncryptionSetOutput,
+  DiskEncryptionSetListOutput,
+  ResourceUriListOutput,
+  DiskRestorePointOutput,
+  DiskRestorePointListOutput,
+  SnapshotOutput,
+  SnapshotListOutput,
+  ResourceSkusResultOutput,
+  GalleryOutput,
+  GalleryListOutput,
+  GalleryImageOutput,
+  GalleryImageListOutput,
+  GalleryImageVersionOutput,
+  GalleryImageVersionListOutput,
+  GalleryApplicationOutput,
+  GalleryApplicationListOutput,
+  GalleryApplicationVersionOutput,
+  GalleryApplicationVersionListOutput,
+  SharingUpdateOutput,
+  SharedGalleryListOutput,
+  SharedGalleryOutput,
   SharedGalleryImageListOutput,
   SharedGalleryImageOutput,
   SharedGalleryImageVersionListOutput,
   SharedGalleryImageVersionOutput,
-  SharedGalleryListOutput,
-  SharedGalleryOutput,
-  SharingUpdateOutput,
-  SnapshotListOutput,
-  SnapshotOutput,
-  SshPublicKeyGenerateKeyPairResultOutput,
-  SshPublicKeyResourceOutput,
-  SshPublicKeysGroupListResultOutput,
-  UpdateDomainListResultOutput,
+  CommunityGalleryOutput,
+  CommunityGalleryImageOutput,
+  CommunityGalleryImageListOutput,
+  CommunityGalleryImageVersionOutput,
+  CommunityGalleryImageVersionListOutput,
+  RoleInstanceOutput,
+  RoleInstanceViewOutput,
+  RoleInstanceListResultOutput,
+  CloudServiceRoleOutput,
+  CloudServiceRoleListResultOutput,
+  CloudServiceOutput,
+  CloudServiceInstanceViewOutput,
+  CloudServiceListResultOutput,
   UpdateDomainOutput,
-  VirtualMachineAssessPatchesResultOutput,
-  VirtualMachineCaptureResultOutput,
-  VirtualMachineExtensionImageOutput,
-  VirtualMachineExtensionOutput,
-  VirtualMachineExtensionsListResultOutput,
-  VirtualMachineImageOutput,
-  VirtualMachineImageResourceOutput,
-  VirtualMachineInstallPatchesResultOutput,
-  VirtualMachineInstanceViewOutput,
-  VirtualMachineListResultOutput,
-  VirtualMachineOutput,
-  VirtualMachineRunCommandOutput,
-  VirtualMachineRunCommandsListResultOutput,
-  VirtualMachineScaleSetExtensionListResultOutput,
-  VirtualMachineScaleSetExtensionOutput,
-  VirtualMachineScaleSetInstanceViewOutput,
-  VirtualMachineScaleSetListOSUpgradeHistoryOutput,
-  VirtualMachineScaleSetListResultOutput,
-  VirtualMachineScaleSetListSkusResultOutput,
-  VirtualMachineScaleSetListWithLinkResultOutput,
-  VirtualMachineScaleSetOutput,
-  VirtualMachineScaleSetVMExtensionOutput,
-  VirtualMachineScaleSetVMExtensionsListResultOutput,
-  VirtualMachineScaleSetVMInstanceViewOutput,
-  VirtualMachineScaleSetVMListResultOutput,
-  VirtualMachineScaleSetVMOutput,
-  VirtualMachineSizeListResultOutput,
-  VmImagesInEdgeZoneListResultOutput,
-} from "./outputModels";
+  UpdateDomainListResultOutput,
+  OSVersionOutput,
+  OSVersionListResultOutput,
+  OSFamilyOutput,
+  OSFamilyListResultOutput,
+} from "./outputModels.js";
 
 /** Gets a list of compute operations. */
 export interface OperationsList200Response extends HttpResponse {
@@ -196,19 +196,16 @@ export interface VirtualMachineScaleSetsUpdateDefaultResponse extends HttpRespon
 /** Deletes a VM scale set. */
 export interface VirtualMachineScaleSetsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VM scale set. */
 export interface VirtualMachineScaleSetsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VM scale set. */
 export interface VirtualMachineScaleSetsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a VM scale set. */
@@ -232,13 +229,11 @@ export interface VirtualMachineScaleSetsGetDefaultResponse extends HttpResponse 
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
 export interface VirtualMachineScaleSetsDeallocate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
 export interface VirtualMachineScaleSetsDeallocate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates. */
@@ -250,13 +245,11 @@ export interface VirtualMachineScaleSetsDeallocateDefaultResponse extends HttpRe
 /** Deletes virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsDeleteInstances200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsDeleteInstances202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes virtual machines in a VM scale set. */
@@ -328,13 +321,11 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse exten
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export interface VirtualMachineScaleSetsPowerOff200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export interface VirtualMachineScaleSetsPowerOff202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
@@ -346,13 +337,11 @@ export interface VirtualMachineScaleSetsPowerOffDefaultResponse extends HttpResp
 /** Restarts one or more virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts one or more virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsRestart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restarts one or more virtual machines in a VM scale set. */
@@ -364,13 +353,11 @@ export interface VirtualMachineScaleSetsRestartDefaultResponse extends HttpRespo
 /** Starts one or more virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts one or more virtual machines in a VM scale set. */
 export interface VirtualMachineScaleSetsStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts one or more virtual machines in a VM scale set. */
@@ -382,13 +369,11 @@ export interface VirtualMachineScaleSetsStartDefaultResponse extends HttpRespons
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
 export interface VirtualMachineScaleSetsRedeploy200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
 export interface VirtualMachineScaleSetsRedeploy202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on. */
@@ -400,13 +385,11 @@ export interface VirtualMachineScaleSetsRedeployDefaultResponse extends HttpResp
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
 export interface VirtualMachineScaleSetsPerformMaintenance200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
 export interface VirtualMachineScaleSetsPerformMaintenance202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications */
@@ -418,13 +401,11 @@ export interface VirtualMachineScaleSetsPerformMaintenanceDefaultResponse extend
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
 export interface VirtualMachineScaleSetsUpdateInstances200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
 export interface VirtualMachineScaleSetsUpdateInstances202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
@@ -436,13 +417,11 @@ export interface VirtualMachineScaleSetsUpdateInstancesDefaultResponse extends H
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
 export interface VirtualMachineScaleSetsReimage200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
 export interface VirtualMachineScaleSetsReimage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. */
@@ -454,13 +433,11 @@ export interface VirtualMachineScaleSetsReimageDefaultResponse extends HttpRespo
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
 export interface VirtualMachineScaleSetsReimageAll200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
 export interface VirtualMachineScaleSetsReimageAll202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reimages all the disks ( including data disks ) in the virtual machines in a VM scale set. This operation is only supported for managed disks. */
@@ -487,7 +464,6 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Converts SinglePlacementGroup property to false for a existing virtual machine scale set. */
@@ -501,14 +477,12 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResp
 export interface VirtualMachineScaleSetsSetOrchestrationServiceState200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Changes ServiceState property for a given service */
 export interface VirtualMachineScaleSetsSetOrchestrationServiceState202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Changes ServiceState property for a given service */
@@ -558,19 +532,16 @@ export interface VirtualMachineScaleSetExtensionsUpdateDefaultResponse extends H
 /** The operation to delete the extension. */
 export interface VirtualMachineScaleSetExtensionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
 export interface VirtualMachineScaleSetExtensionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
 export interface VirtualMachineScaleSetExtensionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
@@ -606,13 +577,11 @@ export interface VirtualMachineScaleSetExtensionsListDefaultResponse extends Htt
 /** Cancels the current virtual machine scale set rolling upgrade. */
 export interface VirtualMachineScaleSetRollingUpgradesCancel200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Cancels the current virtual machine scale set rolling upgrade. */
 export interface VirtualMachineScaleSetRollingUpgradesCancel202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Cancels the current virtual machine scale set rolling upgrade. */
@@ -625,14 +594,12 @@ export interface VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse exte
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
@@ -646,14 +613,12 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultRespo
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
@@ -710,19 +675,16 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse extends
 /** The operation to delete the VMSS VM extension. */
 export interface VirtualMachineScaleSetVMExtensionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM extension. */
 export interface VirtualMachineScaleSetVMExtensionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM extension. */
 export interface VirtualMachineScaleSetVMExtensionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM extension. */
@@ -758,13 +720,11 @@ export interface VirtualMachineScaleSetVMExtensionsListDefaultResponse extends H
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsReimage200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsReimage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reimages (upgrade the operating system) a specific virtual machine in a VM scale set. */
@@ -776,13 +736,11 @@ export interface VirtualMachineScaleSetVMsReimageDefaultResponse extends HttpRes
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
 export interface VirtualMachineScaleSetVMsReimageAll200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
 export interface VirtualMachineScaleSetVMsReimageAll202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks. */
@@ -794,13 +752,11 @@ export interface VirtualMachineScaleSetVMsReimageAllDefaultResponse extends Http
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
 export interface VirtualMachineScaleSetVMsDeallocate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
 export interface VirtualMachineScaleSetVMsDeallocate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated. */
@@ -830,19 +786,16 @@ export interface VirtualMachineScaleSetVMsUpdateDefaultResponse extends HttpResp
 /** Deletes a virtual machine from a VM scale set. */
 export interface VirtualMachineScaleSetVMsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual machine from a VM scale set. */
 export interface VirtualMachineScaleSetVMsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual machine from a VM scale set. */
 export interface VirtualMachineScaleSetVMsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a virtual machine from a VM scale set. */
@@ -890,13 +843,11 @@ export interface VirtualMachineScaleSetVMsListDefaultResponse extends HttpRespon
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export interface VirtualMachineScaleSetVMsPowerOff200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
 export interface VirtualMachineScaleSetVMsPowerOff202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. */
@@ -908,13 +859,11 @@ export interface VirtualMachineScaleSetVMsPowerOffDefaultResponse extends HttpRe
 /** Restarts a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsRestart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restarts a virtual machine in a VM scale set. */
@@ -926,13 +875,11 @@ export interface VirtualMachineScaleSetVMsRestartDefaultResponse extends HttpRes
 /** Starts a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts a virtual machine in a VM scale set. */
@@ -944,13 +891,11 @@ export interface VirtualMachineScaleSetVMsStartDefaultResponse extends HttpRespo
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
 export interface VirtualMachineScaleSetVMsRedeploy200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
 export interface VirtualMachineScaleSetVMsRedeploy202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on. */
@@ -976,13 +921,11 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResp
 /** Performs maintenance on a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsPerformMaintenance200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Performs maintenance on a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsPerformMaintenance202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Performs maintenance on a virtual machine in a VM scale set. */
@@ -994,7 +937,6 @@ export interface VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse exte
 /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsSimulateEviction204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to simulate the eviction of spot virtual machine in a VM scale set. */
@@ -1012,7 +954,6 @@ export interface VirtualMachineScaleSetVMsRunCommand200Response extends HttpResp
 /** Run command on a virtual machine in a VM scale set. */
 export interface VirtualMachineScaleSetVMsRunCommand202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to create or update the extension. */
@@ -1048,19 +989,16 @@ export interface VirtualMachineExtensionsUpdateDefaultResponse extends HttpRespo
 /** The operation to delete the extension. */
 export interface VirtualMachineExtensionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
 export interface VirtualMachineExtensionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
 export interface VirtualMachineExtensionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the extension. */
@@ -1114,7 +1052,6 @@ export interface VirtualMachinesCapture200Response extends HttpResponse {
 /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
 export interface VirtualMachinesCapture202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
@@ -1156,19 +1093,16 @@ export interface VirtualMachinesUpdateDefaultResponse extends HttpResponse {
 /** The operation to delete a virtual machine. */
 export interface VirtualMachinesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a virtual machine. */
 export interface VirtualMachinesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a virtual machine. */
 export interface VirtualMachinesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a virtual machine. */
@@ -1204,13 +1138,11 @@ export interface VirtualMachinesInstanceViewDefaultResponse extends HttpResponse
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
 export interface VirtualMachinesConvertToManagedDisks200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
 export interface VirtualMachinesConvertToManagedDisks202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
@@ -1222,13 +1154,11 @@ export interface VirtualMachinesConvertToManagedDisksDefaultResponse extends Htt
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
 export interface VirtualMachinesDeallocate200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
 export interface VirtualMachinesDeallocate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
@@ -1240,7 +1170,6 @@ export interface VirtualMachinesDeallocateDefaultResponse extends HttpResponse {
 /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. <br>For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
 export interface VirtualMachinesGeneralize200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. <br>For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
@@ -1288,13 +1217,11 @@ export interface VirtualMachinesListAvailableSizesDefaultResponse extends HttpRe
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
 export interface VirtualMachinesPowerOff200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
 export interface VirtualMachinesPowerOff202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
@@ -1306,13 +1233,11 @@ export interface VirtualMachinesPowerOffDefaultResponse extends HttpResponse {
 /** The operation to reapply a virtual machine's state. */
 export interface VirtualMachinesReapply200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to reapply a virtual machine's state. */
 export interface VirtualMachinesReapply202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to reapply a virtual machine's state. */
@@ -1324,13 +1249,11 @@ export interface VirtualMachinesReapplyDefaultResponse extends HttpResponse {
 /** The operation to restart a virtual machine. */
 export interface VirtualMachinesRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to restart a virtual machine. */
 export interface VirtualMachinesRestart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to restart a virtual machine. */
@@ -1342,13 +1265,11 @@ export interface VirtualMachinesRestartDefaultResponse extends HttpResponse {
 /** The operation to start a virtual machine. */
 export interface VirtualMachinesStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to start a virtual machine. */
 export interface VirtualMachinesStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to start a virtual machine. */
@@ -1360,13 +1281,11 @@ export interface VirtualMachinesStartDefaultResponse extends HttpResponse {
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
 export interface VirtualMachinesRedeploy200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
 export interface VirtualMachinesRedeploy202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
@@ -1378,13 +1297,11 @@ export interface VirtualMachinesRedeployDefaultResponse extends HttpResponse {
 /** Reimages the virtual machine which has an ephemeral OS disk back to its initial state. */
 export interface VirtualMachinesReimage200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reimages the virtual machine which has an ephemeral OS disk back to its initial state. */
 export interface VirtualMachinesReimage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reimages the virtual machine which has an ephemeral OS disk back to its initial state. */
@@ -1408,13 +1325,11 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse exten
 /** The operation to perform maintenance on a virtual machine. */
 export interface VirtualMachinesPerformMaintenance200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to perform maintenance on a virtual machine. */
 export interface VirtualMachinesPerformMaintenance202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to perform maintenance on a virtual machine. */
@@ -1426,7 +1341,6 @@ export interface VirtualMachinesPerformMaintenanceDefaultResponse extends HttpRe
 /** The operation to simulate the eviction of spot virtual machine. */
 export interface VirtualMachinesSimulateEviction204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to simulate the eviction of spot virtual machine. */
@@ -1444,7 +1358,6 @@ export interface VirtualMachinesAssessPatches200Response extends HttpResponse {
 /** Assess patches on the VM. */
 export interface VirtualMachinesAssessPatches202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Assess patches on the VM. */
@@ -1462,7 +1375,6 @@ export interface VirtualMachinesInstallPatches200Response extends HttpResponse {
 /** Installs patches on the VM. */
 export interface VirtualMachinesInstallPatches202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Installs patches on the VM. */
@@ -1480,7 +1392,6 @@ export interface VirtualMachinesRunCommand200Response extends HttpResponse {
 /** Run command on the VM. */
 export interface VirtualMachinesRunCommand202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets a virtual machine image. */
@@ -1678,13 +1589,11 @@ export interface AvailabilitySetsUpdateDefaultResponse extends HttpResponse {
 /** Delete an availability set. */
 export interface AvailabilitySetsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete an availability set. */
 export interface AvailabilitySetsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete an availability set. */
@@ -1774,7 +1683,6 @@ export interface ProximityPlacementGroupsUpdateDefaultResponse extends HttpRespo
 /** Delete a proximity placement group. */
 export interface ProximityPlacementGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a proximity placement group. */
@@ -1852,13 +1760,11 @@ export interface DedicatedHostGroupsUpdateDefaultResponse extends HttpResponse {
 /** Delete a dedicated host group. */
 export interface DedicatedHostGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a dedicated host group. */
 export interface DedicatedHostGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a dedicated host group. */
@@ -1936,19 +1842,16 @@ export interface DedicatedHostsUpdateDefaultResponse extends HttpResponse {
 /** Delete a dedicated host. */
 export interface DedicatedHostsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a dedicated host. */
 export interface DedicatedHostsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a dedicated host. */
 export interface DedicatedHostsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a dedicated host. */
@@ -1984,7 +1887,6 @@ export interface DedicatedHostsListByHostGroupDefaultResponse extends HttpRespon
 /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
 export interface DedicatedHostsRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
@@ -2050,13 +1952,11 @@ export interface SshPublicKeysUpdateDefaultResponse extends HttpResponse {
 /** Delete an SSH public key. */
 export interface SshPublicKeysDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete an SSH public key. */
 export interface SshPublicKeysDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete an SSH public key. */
@@ -2128,19 +2028,16 @@ export interface ImagesUpdateDefaultResponse extends HttpResponse {
 /** Deletes an Image. */
 export interface ImagesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes an Image. */
 export interface ImagesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes an Image. */
 export interface ImagesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes an Image. */
@@ -2218,19 +2115,16 @@ export interface RestorePointCollectionsUpdateDefaultResponse extends HttpRespon
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
 export interface RestorePointCollectionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
 export interface RestorePointCollectionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
 export interface RestorePointCollectionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
@@ -2290,19 +2184,16 @@ export interface RestorePointsCreateDefaultResponse extends HttpResponse {
 /** The operation to delete the restore point. */
 export interface RestorePointsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point. */
 export interface RestorePointsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point. */
 export interface RestorePointsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the restore point. */
@@ -2356,13 +2247,11 @@ export interface CapacityReservationGroupsUpdateDefaultResponse extends HttpResp
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
 export interface CapacityReservationGroupsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
 export interface CapacityReservationGroupsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
@@ -2434,7 +2323,6 @@ export interface CapacityReservationsUpdate200Response extends HttpResponse {
 /** The operation to update a capacity reservation. */
 export interface CapacityReservationsUpdate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to update a capacity reservation. */
@@ -2446,19 +2334,16 @@ export interface CapacityReservationsUpdateDefaultResponse extends HttpResponse 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
 export interface CapacityReservationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
 export interface CapacityReservationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
 export interface CapacityReservationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. */
@@ -2502,7 +2387,6 @@ export interface LogAnalyticsExportRequestRateByInterval200Response extends Http
 /** Export logs that show Api requests made by this subscription in the given time window to show throttling activities. */
 export interface LogAnalyticsExportRequestRateByInterval202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Export logs that show Api requests made by this subscription in the given time window to show throttling activities. */
@@ -2520,7 +2404,6 @@ export interface LogAnalyticsExportThrottledRequests200Response extends HttpResp
 /** Export logs that show total throttled Api requests for this subscription in the given time window. */
 export interface LogAnalyticsExportThrottledRequests202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Export logs that show total throttled Api requests for this subscription in the given time window. */
@@ -2574,19 +2457,16 @@ export interface VirtualMachineRunCommandsUpdateDefaultResponse extends HttpResp
 /** The operation to delete the run command. */
 export interface VirtualMachineRunCommandsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the run command. */
 export interface VirtualMachineRunCommandsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the run command. */
 export interface VirtualMachineRunCommandsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the run command. */
@@ -2653,19 +2533,16 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse extend
 /** The operation to delete the VMSS VM run command. */
 export interface VirtualMachineScaleSetVMRunCommandsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM run command. */
 export interface VirtualMachineScaleSetVMRunCommandsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM run command. */
 export interface VirtualMachineScaleSetVMRunCommandsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** The operation to delete the VMSS VM run command. */
@@ -2731,19 +2608,16 @@ export interface DisksGet200Response extends HttpResponse {
 /** Deletes a disk. */
 export interface DisksDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk. */
 export interface DisksDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk. */
 export interface DisksDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Lists all the disks under a resource group. */
@@ -2767,19 +2641,16 @@ export interface DisksGrantAccess200Response extends HttpResponse {
 /** Grants access to a disk. */
 export interface DisksGrantAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a disk. */
 export interface DisksRevokeAccess200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a disk. */
 export interface DisksRevokeAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Creates or updates a disk access resource */
@@ -2833,19 +2704,16 @@ export interface DiskAccessesGetDefaultResponse extends HttpResponse {
 /** Deletes a disk access resource. */
 export interface DiskAccessesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk access resource. */
 export interface DiskAccessesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk access resource. */
 export interface DiskAccessesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk access resource. */
@@ -2917,19 +2785,16 @@ export interface DiskAccessesGetAPrivateEndpointConnectionDefaultResponse extend
 /** Deletes a private endpoint connection under a disk access resource. */
 export interface DiskAccessesDeleteAPrivateEndpointConnection200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection under a disk access resource. */
 export interface DiskAccessesDeleteAPrivateEndpointConnection202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection under a disk access resource. */
 export interface DiskAccessesDeleteAPrivateEndpointConnection204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a private endpoint connection under a disk access resource. */
@@ -3001,19 +2866,16 @@ export interface DiskEncryptionSetsGetDefaultResponse extends HttpResponse {
 /** Deletes a disk encryption set. */
 export interface DiskEncryptionSetsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk encryption set. */
 export interface DiskEncryptionSetsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk encryption set. */
 export interface DiskEncryptionSetsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a disk encryption set. */
@@ -3091,7 +2953,6 @@ export interface DiskRestorePointGrantAccess200Response extends HttpResponse {
 /** Grants access to a diskRestorePoint. */
 export interface DiskRestorePointGrantAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Grants access to a diskRestorePoint. */
@@ -3103,13 +2964,11 @@ export interface DiskRestorePointGrantAccessDefaultResponse extends HttpResponse
 /** Revokes access to a diskRestorePoint. */
 export interface DiskRestorePointRevokeAccess200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a diskRestorePoint. */
 export interface DiskRestorePointRevokeAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a diskRestorePoint. */
@@ -3151,19 +3010,16 @@ export interface SnapshotsGet200Response extends HttpResponse {
 /** Deletes a snapshot. */
 export interface SnapshotsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a snapshot. */
 export interface SnapshotsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a snapshot. */
 export interface SnapshotsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Lists snapshots under a resource group. */
@@ -3187,19 +3043,16 @@ export interface SnapshotsGrantAccess200Response extends HttpResponse {
 /** Grants access to a snapshot. */
 export interface SnapshotsGrantAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a snapshot. */
 export interface SnapshotsRevokeAccess200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Revokes access to a snapshot. */
 export interface SnapshotsRevokeAccess202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Gets the list of Microsoft.Compute SKUs available for your Subscription. */
@@ -3259,19 +3112,16 @@ export interface GalleriesGetDefaultResponse extends HttpResponse {
 /** Delete a Shared Image Gallery. */
 export interface GalleriesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Shared Image Gallery. */
 export interface GalleriesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Shared Image Gallery. */
 export interface GalleriesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a Shared Image Gallery. */
@@ -3355,19 +3205,16 @@ export interface GalleryImagesGetDefaultResponse extends HttpResponse {
 /** Delete a gallery image. */
 export interface GalleryImagesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image. */
 export interface GalleryImagesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image. */
 export interface GalleryImagesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image. */
@@ -3439,19 +3286,16 @@ export interface GalleryImageVersionsGetDefaultResponse extends HttpResponse {
 /** Delete a gallery image version. */
 export interface GalleryImageVersionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image version. */
 export interface GalleryImageVersionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image version. */
 export interface GalleryImageVersionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery image version. */
@@ -3523,19 +3367,16 @@ export interface GalleryApplicationsGetDefaultResponse extends HttpResponse {
 /** Delete a gallery Application. */
 export interface GalleryApplicationsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application. */
 export interface GalleryApplicationsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application. */
 export interface GalleryApplicationsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application. */
@@ -3607,19 +3448,16 @@ export interface GalleryApplicationVersionsGetDefaultResponse extends HttpRespon
 /** Delete a gallery Application Version. */
 export interface GalleryApplicationVersionsDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application Version. */
 export interface GalleryApplicationVersionsDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application Version. */
 export interface GalleryApplicationVersionsDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete a gallery Application Version. */
@@ -3795,19 +3633,16 @@ export interface CommunityGalleryImageVersionsListDefaultResponse extends HttpRe
 /** Deletes a role instance from a cloud service. */
 export interface CloudServiceRoleInstancesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a role instance from a cloud service. */
 export interface CloudServiceRoleInstancesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a role instance from a cloud service. */
 export interface CloudServiceRoleInstancesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a role instance from a cloud service. */
@@ -3855,13 +3690,11 @@ export interface CloudServiceRoleInstancesListDefaultResponse extends HttpRespon
 /** The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service. */
 export interface CloudServiceRoleInstancesRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service. */
 export interface CloudServiceRoleInstancesRestart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service. */
@@ -3873,13 +3706,11 @@ export interface CloudServiceRoleInstancesRestartDefaultResponse extends HttpRes
 /** The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
 export interface CloudServiceRoleInstancesReimage200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
 export interface CloudServiceRoleInstancesReimage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
@@ -3891,13 +3722,11 @@ export interface CloudServiceRoleInstancesReimageDefaultResponse extends HttpRes
 /** The Rebuild Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instance. */
 export interface CloudServiceRoleInstancesRebuild200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** The Rebuild Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instance. */
 export interface CloudServiceRoleInstancesRebuild202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** The Rebuild Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instance. */
@@ -3916,7 +3745,6 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFile200Response extend
 /** Gets a remote desktop file for a role instance in a cloud service. */
 export interface CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse extends HttpResponse {
   status: string;
-  body: Record<string, unknown>;
 }
 
 /** Gets a role from a cloud service. */
@@ -3976,19 +3804,16 @@ export interface CloudServicesUpdateDefaultResponse extends HttpResponse {
 /** Deletes a cloud service. */
 export interface CloudServicesDelete200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a cloud service. */
 export interface CloudServicesDelete202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a cloud service. */
 export interface CloudServicesDelete204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Deletes a cloud service. */
@@ -4048,13 +3873,11 @@ export interface CloudServicesListDefaultResponse extends HttpResponse {
 /** Starts the cloud service. */
 export interface CloudServicesStart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Starts the cloud service. */
 export interface CloudServicesStart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Starts the cloud service. */
@@ -4066,13 +3889,11 @@ export interface CloudServicesStartDefaultResponse extends HttpResponse {
 /** Power off the cloud service. Note that resources are still attached and you are getting charged for the resources. */
 export interface CloudServicesPowerOff200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Power off the cloud service. Note that resources are still attached and you are getting charged for the resources. */
 export interface CloudServicesPowerOff202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Power off the cloud service. Note that resources are still attached and you are getting charged for the resources. */
@@ -4084,13 +3905,11 @@ export interface CloudServicesPowerOffDefaultResponse extends HttpResponse {
 /** Restarts one or more role instances in a cloud service. */
 export interface CloudServicesRestart200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Restarts one or more role instances in a cloud service. */
 export interface CloudServicesRestart202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Restarts one or more role instances in a cloud service. */
@@ -4102,13 +3921,11 @@ export interface CloudServicesRestartDefaultResponse extends HttpResponse {
 /** Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
 export interface CloudServicesReimage200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
 export interface CloudServicesReimage202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Reimage asynchronous operation reinstalls the operating system on instances of web roles or worker roles. */
@@ -4120,13 +3937,11 @@ export interface CloudServicesReimageDefaultResponse extends HttpResponse {
 /** Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instances. */
 export interface CloudServicesRebuild200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instances. */
 export interface CloudServicesRebuild202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Rebuild Role Instances reinstalls the operating system on instances of web roles or worker roles and initializes the storage resources that are used by them. If you do not want to initialize storage resources, you can use Reimage Role Instances. */
@@ -4138,13 +3953,11 @@ export interface CloudServicesRebuildDefaultResponse extends HttpResponse {
 /** Deletes role instances in a cloud service. */
 export interface CloudServicesDeleteInstances200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Deletes role instances in a cloud service. */
 export interface CloudServicesDeleteInstances202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Deletes role instances in a cloud service. */
@@ -4156,13 +3969,11 @@ export interface CloudServicesDeleteInstancesDefaultResponse extends HttpRespons
 /** Updates the role instances in the specified update domain. */
 export interface CloudServicesUpdateDomainWalkUpdateDomain200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Updates the role instances in the specified update domain. */
 export interface CloudServicesUpdateDomainWalkUpdateDomain202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
 }
 
 /** Updates the role instances in the specified update domain. */

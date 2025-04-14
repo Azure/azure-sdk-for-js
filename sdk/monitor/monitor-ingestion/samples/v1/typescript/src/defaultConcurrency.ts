@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates uploading a large number of logs where the logs are split into multiple batches
@@ -11,7 +11,7 @@ import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-
 
 require("dotenv").config();
 
-async function main() {
+async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
@@ -38,7 +38,7 @@ async function main() {
       if (aggregateErrors.length > 0) {
         console.log(
           "Some logs have failed to complete ingestion. Number of error batches=",
-          aggregateErrors.length
+          aggregateErrors.length,
         );
         for (const errors of aggregateErrors) {
           console.log(`Error - ${JSON.stringify(errors.cause)}`);

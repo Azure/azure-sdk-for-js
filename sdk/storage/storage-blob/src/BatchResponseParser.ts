@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
 
-import { ServiceSubmitBatchResponseModel } from "./generatedModels";
+import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
 import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
   HeaderConstants,
   HTTPURLConnection,
-} from "./utils/constants";
-import { getBodyAsText } from "./BatchUtils";
-import { BatchSubRequest } from "./BlobBatch";
-import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
-import { logger } from "./log";
+} from "./utils/constants.js";
+import { getBodyAsText } from "./BatchUtils.js";
+import type { BatchSubRequest } from "./BlobBatch.js";
+import type { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse.js";
+import { logger } from "./log.js";
 
 const HTTP_HEADER_DELIMITER = ": ";
 const SPACE_DELIMITER = " ";
@@ -32,7 +32,7 @@ export class BatchResponseParser {
 
   constructor(
     batchResponse: ServiceSubmitBatchResponseModel,
-    subRequests: Map<number, BatchSubRequest>
+    subRequests: Map<number, BatchSubRequest>,
   ) {
     if (!batchResponse || !batchResponse.contentType) {
       // In special case(reported), server may return invalid content-type which could not be parsed.
@@ -51,13 +51,13 @@ export class BatchResponseParser {
     this.batchResponseEnding = `--${this.responseBatchBoundary}--`;
   }
 
-  // For example of response, please refer to https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#response
+  // For example of response, please refer to https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#response
   public async parseBatchResponse(): Promise<ParsedBatchResponse> {
     // When logic reach here, suppose batch request has already succeeded with 202, so we can further parse
     // sub request's response.
     if (this.batchResponse._response.status !== HTTPURLConnection.HTTP_ACCEPTED) {
       throw new Error(
-        `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`
+        `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`,
       );
     }
 
@@ -127,7 +127,7 @@ export class BatchResponseParser {
           if (responseLine.indexOf(HTTP_HEADER_DELIMITER) === -1) {
             // Defensive coding to prevent from missing valuable lines.
             throw new Error(
-              `Invalid state: find non-empty line '${responseLine}' without HTTP header delimiter '${HTTP_HEADER_DELIMITER}'.`
+              `Invalid state: find non-empty line '${responseLine}' without HTTP header delimiter '${HTTP_HEADER_DELIMITER}'.`,
             );
           }
 
@@ -163,7 +163,7 @@ export class BatchResponseParser {
         deserializedSubResponses[contentId] = deserializedSubResponse;
       } else {
         logger.error(
-          `subResponses[${index}] is dropped as the Content-ID is not found or invalid, Content-ID: ${contentId}`
+          `subResponses[${index}] is dropped as the Content-ID is not found or invalid, Content-ID: ${contentId}`,
         );
       }
 

@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Deletes an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryDelete.json
+ * @summary Deletes an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/SchemaRegistry/SchemaRegistryDelete.json
  */
-async function schemaRegistryDelete() {
+async function schemaRegistryDelete(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
@@ -32,13 +28,13 @@ async function schemaRegistryDelete() {
   const result = await client.schemaRegistry.delete(
     resourceGroupName,
     namespaceName,
-    schemaGroupName
+    schemaGroupName,
   );
   console.log(result);
 }
 
-async function main() {
-  schemaRegistryDelete();
+async function main(): Promise<void> {
+  await schemaRegistryDelete();
 }
 
 main().catch(console.error);

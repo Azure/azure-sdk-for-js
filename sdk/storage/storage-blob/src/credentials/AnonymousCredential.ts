@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-
-import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy";
-import { Credential } from "./Credential";
+import { AnonymousCredentialPolicy } from "../policies/AnonymousCredentialPolicy.js";
+import { Credential } from "./Credential.js";
 
 /**
  * AnonymousCredential provides a credentialPolicyCreator member used to create
@@ -24,7 +23,7 @@ export class AnonymousCredential extends Credential {
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptions,
   ): AnonymousCredentialPolicy {
     return new AnonymousCredentialPolicy(nextPolicy, options);
   }

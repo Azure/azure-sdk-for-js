@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -26,7 +26,7 @@ async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpec
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachines",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -38,5 +38,5 @@ async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpec
 }
 
 listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpecifiedLocation().catch(
-  console.error
+  console.error,
 );

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -31,7 +31,7 @@ async function getVirtualMachineScaleSetVMRunCommands() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      runCommandName
+      runCommandName,
     )
     .get(options);
   console.log(result);

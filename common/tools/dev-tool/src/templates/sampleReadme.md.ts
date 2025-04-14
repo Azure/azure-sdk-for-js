@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import path from "path";
+import path from "node:path";
 import YAML from "yaml";
-
-import prettier from "prettier";
-
 import { SampleReadmeConfiguration } from "../util/samples/info";
+import { format } from "../util/prettier";
+import { createPrinter } from "../util/printer";
+
+const log = createPrinter("readme-template");
 
 /**
  * Renders the frontmatter of the sample README.
@@ -54,11 +55,11 @@ function fileLinks(info: SampleReadmeConfiguration) {
 
   return filterModules(info)
     .map(({ relativeSourcePath }) => {
-      const sourcePath = info.useTypeScript
-        ? relativeSourcePath
-        : relativeSourcePath.replace(/\.ts$/, ".js");
+      const sourcePath = (
+        info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+      ).replace(path.sep, "/");
       return `[${sampleLinkTag(
-        relativeSourcePath
+        relativeSourcePath,
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
@@ -114,9 +115,12 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  */
 function table(info: SampleReadmeConfiguration) {
   const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
-    const fileName = info.useTypeScript
-      ? relativeSourcePath
-      : relativeSourcePath.replace(/\.ts$/, ".js");
+    const fileName = (
+      info.useTypeScript ? relativeSourcePath : relativeSourcePath.replace(/\.ts$/, ".js")
+    ).replace(path.sep, "/");
+    if (summary && summary.includes("|")) {
+      summary = summary.replace(/\|/g, "\\|");
+    }
     return `| [${fileName}][${sampleLinkTag(relativeSourcePath)}] | ${summary} |`;
   });
 
@@ -132,7 +136,7 @@ function table(info: SampleReadmeConfiguration) {
  */
 function exampleNodeInvocation(info: SampleReadmeConfiguration) {
   const firstModule = filterModules(info)[0];
-  const envVars = firstModule.usedEnvironmentVariables
+  const envVars = [...new Set(firstModule.usedEnvironmentVariables)]
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 
@@ -142,7 +146,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 }
 
 /**
- * Create a link to the package.
+ * Creates a link to the package.
  * @param info - the README configuration
  * @returns a link to the project
  */
@@ -154,15 +158,47 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
 }
 
 /**
+ * Checks whether a url exists
+ * @param url -
+ * @returns true if the url is accessible; false otherwise
+ */
+async function urlExists(url: string): Promise<boolean> {
+  const res = await fetch(url);
+  await res.text();
+  return res.ok;
+}
+
+/**
+ * Creates link to the SDK package's Api reference page on learn.microsoft.com.
+ * @param info - the README configuration
+ * @returns a link to the api reference page.
+            This methods validates the generated api link first and will return an empty
+            string if the generated link is not valid.
+            No validation is done for customized api ref link that is passed in.
+ */
+async function createApiRef(info: SampleReadmeConfiguration): Promise<string> {
+  if (info.apiRefLink) {
+    return `[apiref]: ${info.apiRefLink}`;
+  } else if (info.scope?.startsWith("@azure")) {
+    const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
+    if (await urlExists(link)) {
+      return `[apiref]: ${link}`;
+    }
+    log.warn(`failed to reach api reference ${link} so not adding it.`);
+  }
+  return "";
+}
+
+/**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default (info: SampleReadmeConfiguration): string => {
+export default async (info: SampleReadmeConfiguration): Promise<string> => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return prettier.format(
+  return await format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
@@ -213,11 +249,11 @@ ${(() => {
   }
 })()}
 ${step(
-  "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically."
+  "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.",
 )}
 
 ${step(
-  "Run whichever samples you like (note that some samples may require additional setup, see the table above):"
+  "Run whichever samples you like (note that some samples may require additional setup, see the table above):",
 )}
 
 ${fence(
@@ -226,12 +262,12 @@ ${fence(
     const firstSource = filterModules(info)[0].relativeSourcePath;
     const filePath = info.useTypeScript ? "dist/" : "";
     return filePath + firstSource.replace(/\.ts$/, ".js");
-  })()}`
+  })()}`,
 )}
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
-${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
+${fence("bash", `npx dev-tool run vendored cross-env ${exampleNodeInvocation(info)}`)}
 
 ## Next Steps
 
@@ -240,14 +276,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-[apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
+${await createApiRef(info)}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
-    {
-      parser: "markdown",
-    }
+    "markdown",
   );
 };

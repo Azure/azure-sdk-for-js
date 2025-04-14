@@ -1,16 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-import { getBSU, recorderEnvSetup } from "../utils";
+// Licensed under the MIT License.
+import {
+  SimpleTokenCredential,
+  configureStorageClient,
+  getAccountName,
+  getBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils/index.js";
+import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
 import {
   newPipeline,
   ShareDirectoryClient,
-  StorageSharedKeyCredential,
-  ShareClient,
-} from "../../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+  getFileServiceAccountAudience,
+} from "../../src/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;
@@ -20,27 +27,91 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    const serviceClient = getBSU(recorder);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = recorder.getUniqueName("dir");
+    dirName = recorder.variable("dir", getUniqueName("dir"));
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await dirClient.delete();
     await shareClient.delete();
     await recorder.stop();
   });
 
+  it("Default audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      { fileRequestIntent: "backup" },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bad audience should work", async () => {
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+    const dirClientWithSimpleOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithSimpleOAuthToken);
+
+    try {
+      await dirClientWithSimpleOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      createTestCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithOAuthToken);
+
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
   it("can be created with a url and a credential", async () => {
     const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -58,6 +129,7 @@ describe("DirectoryClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -72,6 +144,7 @@ describe("DirectoryClient Node.js only", () => {
     const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

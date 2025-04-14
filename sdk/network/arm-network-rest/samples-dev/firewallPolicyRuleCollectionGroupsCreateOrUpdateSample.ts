@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyNatRuleCollectionGroup() {
+async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -60,7 +53,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -75,7 +68,7 @@ createFirewallPolicyNatRuleCollectionGroup().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
-async function createFirewallPolicyRuleCollectionGroup() {
+async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -114,7 +107,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -129,7 +122,7 @@ createFirewallPolicyRuleCollectionGroup().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
+async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -171,7 +164,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -186,7 +179,7 @@ createFirewallPolicyRuleCollectionGroupWithIPGroups().catch(console.error);
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
-async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
+async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -224,7 +217,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

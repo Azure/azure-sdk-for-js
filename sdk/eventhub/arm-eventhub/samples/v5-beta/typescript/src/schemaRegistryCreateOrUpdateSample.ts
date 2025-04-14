@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SchemaGroup, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to
+ * This sample demonstrates how to Creates or Updates an EventHub schema group.
  *
- * @summary
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/SchemaRegistry/SchemaRegistryCreate.json
+ * @summary Creates or Updates an EventHub schema group.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/SchemaRegistry/SchemaRegistryCreate.json
  */
-async function schemaRegistryCreate() {
+async function schemaRegistryCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
@@ -30,7 +26,7 @@ async function schemaRegistryCreate() {
   const parameters: SchemaGroup = {
     groupProperties: {},
     schemaCompatibility: "Forward",
-    schemaType: "Avro"
+    schemaType: "Avro",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
@@ -38,13 +34,13 @@ async function schemaRegistryCreate() {
     resourceGroupName,
     namespaceName,
     schemaGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  schemaRegistryCreate();
+async function main(): Promise<void> {
+  await schemaRegistryCreate();
 }
 
 main().catch(console.error);

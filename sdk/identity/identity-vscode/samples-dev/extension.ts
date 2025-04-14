@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 /**
  * In this sample, we use the plugin API to provide an implementation of
@@ -20,10 +20,10 @@ import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 useIdentityPlugin(vsCodePlugin);
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
-  // This is the scope we will use to get a token from the AAD token endpoint.
+  // This is the scope we will use to get a token from the Microsoft Entra token endpoint.
   // By default, we'll use the Microsoft Graph scope as an example, but when
   // you use the credential with an Azure SDK package, it will configure the
   // scope for you automatically.

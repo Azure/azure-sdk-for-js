@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import {
-  DictionaryExampleItemOutput,
-  DictionaryExampleTextItem,
-  LookupDictionaryExamplesQueryParamProperties,
-  TextTranslationClient,
-  isUnexpected,
-} from "../../src";
-import { createTranslationClient, startRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DictionaryExamples tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("single input element", async () => {
-    const inputText: DictionaryExampleTextItem[] = [{ text: "fly", translation: "volar" }];
-    const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+    const inputText = [{ text: "fly", translation: "volar" }];
+    const parameters = {
       to: "es",
       from: "en",
     };
@@ -42,17 +36,17 @@ describe("DictionaryExamples tests", () => {
       throw response.body;
     }
 
-    const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
+    const dictionaryExamples = response.body;
     assert.equal(dictionaryExamples[0].normalizedSource, "fly");
     assert.isTrue(dictionaryExamples[0].normalizedTarget === "volar");
   });
 
   it("multiple input elements", async () => {
-    const inputText: DictionaryExampleTextItem[] = [
+    const inputText = [
       { text: "fly", translation: "volar" },
       { text: "beef", translation: "came" },
     ];
-    const parameters: LookupDictionaryExamplesQueryParamProperties & Record<string, unknown> = {
+    const parameters = {
       to: "es",
       from: "en",
     };
@@ -66,7 +60,7 @@ describe("DictionaryExamples tests", () => {
       throw response.body;
     }
 
-    const dictionaryExamples = response.body as DictionaryExampleItemOutput[];
+    const dictionaryExamples = response.body;
     assert.isTrue(dictionaryExamples.length === 2);
   });
 });

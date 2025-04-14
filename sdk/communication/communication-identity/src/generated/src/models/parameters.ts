@@ -15,7 +15,7 @@ import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
   TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
   CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -66,7 +66,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01",
+    defaultValue: "2023-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

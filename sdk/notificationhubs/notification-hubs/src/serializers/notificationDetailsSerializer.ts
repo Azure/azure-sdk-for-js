@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   NotificationDetails,
   NotificationOutcome,
   NotificationOutcomeState,
@@ -34,9 +34,21 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     baiduOutcomeCounts = parseOutcomeCounts(notificationDetails["BaiduOutcomeCounts"]["Outcome"]);
   }
 
+  let browserOutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["BrowserOutcomeCounts"])) {
+    browserOutcomeCounts = parseOutcomeCounts(
+      notificationDetails["BrowserOutcomeCounts"]["Outcome"],
+    );
+  }
+
   let fcmOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["GcmOutcomeCounts"])) {
     fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
+  }
+
+  let fcmV1OutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["FcmV1OutcomeCounts"])) {
+    fcmV1OutcomeCounts = parseOutcomeCounts(notificationDetails["FcmV1OutcomeCounts"]["Outcome"]);
   }
 
   let xiaomiOutcomeCounts: NotificationOutcome[] | undefined;
@@ -50,26 +62,28 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
   }
 
   return {
-    notificationId: getStringOrUndefined(notificationDetails["NotificationId"]),
-    location: getStringOrUndefined(notificationDetails["Location"]),
-    state: getStringOrUndefined(notificationDetails["State"]) as NotificationOutcomeState,
+    notificationId: getStringOrUndefined(notificationDetails["NotificationId"])?.trim(),
+    location: getStringOrUndefined(notificationDetails["Location"])?.trim(),
+    state: getStringOrUndefined(notificationDetails["State"])?.trim() as NotificationOutcomeState,
     enqueueTime: getDateOrUndefined(notificationDetails["EnqueueTime"]),
     startTime: getDateOrUndefined(notificationDetails["StartTime"]),
     endTime: getDateOrUndefined(notificationDetails["EndTime"]),
-    pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
-    targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
-    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"]),
+    pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"])?.trim(),
+    targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"])?.trim(),
+    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"])?.trim(),
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,
+    browserOutcomeCounts,
     fcmOutcomeCounts,
+    fcmV1OutcomeCounts,
     xiaomiOutcomeCounts,
     wnsOutcomeCounts,
   };
 }
 
 function parseOutcomeCounts(
-  counts: Record<string, any>[] | Record<string, any>
+  counts: Record<string, any>[] | Record<string, any>,
 ): NotificationOutcome[] {
   const items = Array.isArray(counts) ? counts : [counts];
   const results: NotificationOutcome[] = [];

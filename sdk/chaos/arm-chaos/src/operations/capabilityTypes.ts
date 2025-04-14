@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CapabilityTypes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CapabilityTypes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ChaosManagementClient } from "../chaosManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ChaosManagementClient } from "../chaosManagementClient.js";
 import {
   CapabilityType,
   CapabilityTypesListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   CapabilityTypesListResponse,
   CapabilityTypesGetOptionalParams,
   CapabilityTypesGetResponse,
-  CapabilityTypesListNextResponse
-} from "../models";
+  CapabilityTypesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CapabilityTypes operations. */
@@ -45,7 +45,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
   public list(
     locationName: string,
     targetTypeName: string,
-    options?: CapabilityTypesListOptionalParams
+    options?: CapabilityTypesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityType> {
     const iter = this.listPagingAll(locationName, targetTypeName, options);
     return {
@@ -63,9 +63,9 @@ export class CapabilityTypesImpl implements CapabilityTypes {
           locationName,
           targetTypeName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
     locationName: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CapabilityType[]> {
     let result: CapabilityTypesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
         locationName,
         targetTypeName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class CapabilityTypesImpl implements CapabilityTypes {
   private async *listPagingAll(
     locationName: string,
     targetTypeName: string,
-    options?: CapabilityTypesListOptionalParams
+    options?: CapabilityTypesListOptionalParams,
   ): AsyncIterableIterator<CapabilityType> {
     for await (const page of this.listPagingPage(
       locationName,
       targetTypeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class CapabilityTypesImpl implements CapabilityTypes {
   private _list(
     locationName: string,
     targetTypeName: string,
-    options?: CapabilityTypesListOptionalParams
+    options?: CapabilityTypesListOptionalParams,
   ): Promise<CapabilityTypesListResponse> {
     return this.client.sendOperationRequest(
       { locationName, targetTypeName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class CapabilityTypesImpl implements CapabilityTypes {
     locationName: string,
     targetTypeName: string,
     capabilityTypeName: string,
-    options?: CapabilityTypesGetOptionalParams
+    options?: CapabilityTypesGetOptionalParams,
   ): Promise<CapabilityTypesGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, targetTypeName, capabilityTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class CapabilityTypesImpl implements CapabilityTypes {
     locationName: string,
     targetTypeName: string,
     nextLink: string,
-    options?: CapabilityTypesListNextOptionalParams
+    options?: CapabilityTypesListNextOptionalParams,
   ): Promise<CapabilityTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, targetTypeName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,38 +171,36 @@ export class CapabilityTypesImpl implements CapabilityTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilityTypeListResult
+      bodyMapper: Mappers.CapabilityTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.continuationToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.targetTypeName
+    Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilityType
+      bodyMapper: Mappers.CapabilityType,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -210,29 +208,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.locationName,
     Parameters.targetTypeName,
-    Parameters.capabilityTypeName
+    Parameters.capabilityTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilityTypeListResult
+      bodyMapper: Mappers.CapabilityTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.locationName,
-    Parameters.targetTypeName
+    Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

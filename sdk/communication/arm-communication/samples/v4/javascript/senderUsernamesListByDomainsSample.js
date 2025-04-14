@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all valid sender usernames for a domains resource.
  *
  * @summary List all valid sender usernames for a domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/listByDomain.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/listByDomain.json
  */
 async function getSenderUsernamesResource() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getSenderUsernamesResource() {
   for await (let item of client.senderUsernames.listByDomains(
     resourceGroupName,
     emailServiceName,
-    domainName
+    domainName,
   )) {
     resArray.push(item);
   }

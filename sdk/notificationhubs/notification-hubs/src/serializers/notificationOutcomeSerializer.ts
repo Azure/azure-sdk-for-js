@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   NotificationHubsMessageResponse,
   RegistrationResult,
 } from "../models/notificationDetails.js";
@@ -9,7 +9,7 @@ import { getInteger, getString, isDefined } from "../utils/utils.js";
 import { parseXML } from "@azure/core-xml";
 
 export async function parseNotificationOutcome(
-  bodyText: string
+  bodyText: string,
 ): Promise<NotificationHubsMessageResponse> {
   const xml = await parseXML(bodyText, { includeRoot: true });
   const outcome = xml.NotificationOutcome;
@@ -33,10 +33,10 @@ function parseRegistrationResults(results?: Record<string, any>): RegistrationRe
 
   for (const result of resultsArray) {
     registrationResults.push({
-      applicationPlatform: getString(result.ApplicationPlatform, "ApplicationPlatform"),
-      registrationId: getString(result.RegistrationId, "RegistrationId"),
-      outcome: getString(result.Outcome, "Outcome"),
-      pnsHandle: getString(result.PnsHandle, "PnsHandle"),
+      applicationPlatform: getString(result.ApplicationPlatform, "ApplicationPlatform").trim(),
+      registrationId: getString(result.RegistrationId, "RegistrationId").trim(),
+      outcome: getString(result.Outcome, "Outcome").trim(),
+      pnsHandle: getString(result.PnsHandle, "PnsHandle").trim(),
     });
   }
 

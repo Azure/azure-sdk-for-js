@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { DTDL } from "./psuedoDtdl";
-import { convertDtmiToPath } from "./dtmiConventions";
-import { ModelError } from "./exceptions";
-import { Fetcher } from "./fetcherAbstract";
-import { logger } from "./logger";
+import type { OperationOptions } from "@azure/core-client";
+import type { DTDL } from "./psuedoDtdl.js";
+import { convertDtmiToPath } from "./dtmiConventions.js";
+import { ModelError } from "./exceptions.js";
+import type { Fetcher } from "./fetcherAbstract.js";
+import { logger } from "./logger.js";
 
 /**
  * DtmiResolver handles reformatting the DTMIs to paths and passing options
@@ -26,7 +26,7 @@ export class DtmiResolver {
   async resolve(
     dtmis: string[],
     expandedModel: boolean,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<{ [dtmi: string]: DTDL }> {
     const modelMap: { [dtmi: string]: DTDL } = {};
     const dtdlPromises = dtmis.map(async (dtmi) => {
@@ -38,7 +38,7 @@ export class DtmiResolver {
           const modelIds: string[] = (dtdl as DTDL[]).map((model: DTDL) => model["@id"]);
           if (!modelIds.includes(dtmi)) {
             throw new ModelError(
-              `DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`
+              `DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`,
             );
           }
           for (const model of dtdl) {

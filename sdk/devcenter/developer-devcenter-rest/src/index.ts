@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import createClient from "./generated/azureDevCenter";
+import AzureDeveloperDevCenter from "./azureDeveloperDevCenter.js";
 
-export * from "./generated/azureDevCenter";
-export * from "./generated/parameters";
-export * from "./generated/responses";
-export * from "./generated/clientDefinitions";
-export * from "./generated/isUnexpected";
-export * from "./generated/models";
-export * from "./generated/outputModels";
-export * from "./generated/paginateHelper";
-export * from "./generated/pollingHelper";
+export * from "./azureDeveloperDevCenter.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./paginateHelper.js";
+export * from "./pollingHelper.js";
 
-export default createClient;
+export default AzureDeveloperDevCenter;

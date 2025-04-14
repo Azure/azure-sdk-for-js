@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Event Hubs - Checkpoint Store client library samples for JavaScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,8 @@
   "dependencies": {
     "@azure/eventhubs-checkpointstore-blob": "latest",
     "dotenv": "latest",
-    "@azure/storage-blob": "^12.4.1",
-    "@azure/event-hubs": "^5.5.0"
+    "@azure/storage-blob": "^12.9.0",
+    "@azure/identity": "^4.3.0",
+    "@azure/event-hubs": "^5.12.0"
   }
 }

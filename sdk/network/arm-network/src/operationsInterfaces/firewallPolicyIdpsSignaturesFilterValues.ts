@@ -9,8 +9,8 @@
 import {
   SignatureOverridesFilterValuesQuery,
   FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
-  FirewallPolicyIdpsSignaturesFilterValuesListResponse
-} from "../models";
+  FirewallPolicyIdpsSignaturesFilterValuesListResponse,
+} from "../models/index.js";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesFilterValues. */
 export interface FirewallPolicyIdpsSignaturesFilterValues {
@@ -25,6 +25,6 @@ export interface FirewallPolicyIdpsSignaturesFilterValues {
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignatureOverridesFilterValuesQuery,
-    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesFilterValuesListResponse>;
 }

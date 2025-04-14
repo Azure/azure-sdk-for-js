@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { CallAutomationApiClient } from "./callAutomationApiClient";
-export * from "./operationsInterfaces";
+/// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { CallAutomationApiClient } from "./callAutomationApiClient.js";
+export * from "./operationsInterfaces/index.js";

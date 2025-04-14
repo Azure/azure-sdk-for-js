@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Skus } from "../operationsInterfaces";
+import { Skus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   SkuDescription,
   SkusListOptionalParams,
-  SkusListResponse
-} from "../models";
+  SkusListResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Skus operations. */
@@ -33,12 +33,12 @@ export class SkusImpl implements Skus {
 
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -53,14 +53,14 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: SkusListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SkuDescription[]> {
     let result: SkusListResponse;
     result = await this._list(location, options);
@@ -69,7 +69,7 @@ export class SkusImpl implements Skus {
 
   private async *listPagingAll(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): AsyncIterableIterator<SkuDescription> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -78,16 +78,16 @@ export class SkusImpl implements Skus {
 
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): Promise<SkusListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -95,23 +95,22 @@ export class SkusImpl implements Skus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuDescriptionList
+      bodyMapper: Mappers.SkuDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

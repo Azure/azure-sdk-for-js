@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * All the routes available with the proxy-tool endpoint that can be hit
@@ -11,6 +11,8 @@ export const paths = {
   stop: "/stop",
   admin: "/admin",
   addSanitizer: "/addSanitizer",
+  addSanitizers: "/addSanitizers",
+  removeSanitizers: "/removeSanitizers",
   info: "/info",
   available: "/available",
   active: "/active",

@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Restores } from "../operationsInterfaces";
+import { Restores } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   RestoreRequestResource,
-  RestoresTriggerOptionalParams
-} from "../models";
+  RestoresTriggerOptionalParams,
+} from "../models/index.js";
 
 /** Class containing Restores operations. */
 export class RestoresImpl implements Restores {
@@ -56,25 +56,24 @@ export class RestoresImpl implements Restores {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: RestoreRequestResource,
-    options?: RestoresTriggerOptionalParams
+    options?: RestoresTriggerOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -83,8 +82,8 @@ export class RestoresImpl implements Restores {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -92,8 +91,8 @@ export class RestoresImpl implements Restores {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -107,13 +106,13 @@ export class RestoresImpl implements Restores {
         protectedItemName,
         recoveryPointId,
         parameters,
-        options
+        options,
       },
-      spec: triggerOperationSpec
+      spec: triggerOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -141,7 +140,7 @@ export class RestoresImpl implements Restores {
     protectedItemName: string,
     recoveryPointId: string,
     parameters: RestoreRequestResource,
-    options?: RestoresTriggerOptionalParams
+    options?: RestoresTriggerOptionalParams,
   ): Promise<void> {
     const poller = await this.beginTrigger(
       vaultName,
@@ -151,7 +150,7 @@ export class RestoresImpl implements Restores {
       protectedItemName,
       recoveryPointId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -160,8 +159,7 @@ export class RestoresImpl implements Restores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const triggerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -169,8 +167,8 @@ const triggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
@@ -182,9 +180,13 @@ const triggerOperationSpec: coreClient.OperationSpec = {
     Parameters.fabricName,
     Parameters.containerName,
     Parameters.protectedItemName,
-    Parameters.recoveryPointId
+    Parameters.recoveryPointId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };

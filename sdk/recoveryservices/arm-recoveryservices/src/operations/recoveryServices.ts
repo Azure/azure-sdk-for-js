@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RecoveryServices } from "../operationsInterfaces";
+import { RecoveryServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesClient } from "../recoveryServicesClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesClient } from "../recoveryServicesClient.js";
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
   RecoveryServicesCheckNameAvailabilityResponse,
   ResourceCapabilities,
   RecoveryServicesCapabilitiesOptionalParams,
-  RecoveryServicesCapabilitiesResponse
-} from "../models";
+  RecoveryServicesCapabilitiesResponse,
+} from "../models/index.js";
 
 /** Class containing RecoveryServices operations. */
 export class RecoveryServicesImpl implements RecoveryServices {
@@ -47,11 +47,11 @@ export class RecoveryServicesImpl implements RecoveryServices {
     resourceGroupName: string,
     location: string,
     input: CheckNameAvailabilityParameters,
-    options?: RecoveryServicesCheckNameAvailabilityOptionalParams
+    options?: RecoveryServicesCheckNameAvailabilityOptionalParams,
   ): Promise<RecoveryServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, input, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -64,11 +64,11 @@ export class RecoveryServicesImpl implements RecoveryServices {
   capabilities(
     location: string,
     input: ResourceCapabilities,
-    options?: RecoveryServicesCapabilitiesOptionalParams
+    options?: RecoveryServicesCapabilitiesOptionalParams,
   ): Promise<RecoveryServicesCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       { location, input, options },
-      capabilitiesOperationSpec
+      capabilitiesOperationSpec,
     );
   }
 }
@@ -76,16 +76,15 @@ export class RecoveryServicesImpl implements RecoveryServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.input,
   queryParameters: [Parameters.apiVersion],
@@ -93,32 +92,31 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const capabilitiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesResponse
+      bodyMapper: Mappers.CapabilitiesResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.input1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

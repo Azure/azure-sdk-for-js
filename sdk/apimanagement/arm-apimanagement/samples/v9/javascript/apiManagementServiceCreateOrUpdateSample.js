@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
  */
 async function apiManagementCreateMultiRegionServiceWithCustomHostname() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -73,7 +73,7 @@ async function apiManagementCreateMultiRegionServiceWithCustomHostname() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateService.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateService.json
  */
 async function apiManagementCreateService() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -100,7 +100,7 @@ async function apiManagementCreateService() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceHavingMsi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceHavingMsi.json
  */
 async function apiManagementCreateServiceHavingMsi() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -128,7 +128,7 @@ async function apiManagementCreateServiceHavingMsi() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceInVnetWithPublicIP.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceInVnetWithPublicIP.json
  */
 async function apiManagementCreateServiceInVnetWithPublicIP() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -163,7 +163,7 @@ async function apiManagementCreateServiceInVnetWithPublicIP() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceInZones.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceInZones.json
  */
 async function apiManagementCreateServiceInZones() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -191,7 +191,7 @@ async function apiManagementCreateServiceInZones() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
  */
 async function apiManagementCreateServiceWithCustomHostnameKeyVault() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -248,7 +248,35 @@ async function apiManagementCreateServiceWithCustomHostnameKeyVault() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithSystemCertificates.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithNatGatewayEnabled.json
+ */
+async function apiManagementCreateServiceWithNatGatewayEnabled() {
+  const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const parameters = {
+    location: "East US",
+    natGatewayState: "Enabled",
+    publisherEmail: "apim@autorestsdk.com",
+    publisherName: "autorestsdk",
+    sku: { name: "Premium", capacity: 1 },
+    tags: { tag1: "value1", tag2: "value2", tag3: "value3" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiManagementService.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    serviceName,
+    parameters
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ *
+ * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithSystemCertificates.json
  */
 async function apiManagementCreateServiceWithSystemCertificates() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -282,7 +310,7 @@ async function apiManagementCreateServiceWithSystemCertificates() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithUserAssignedIdentity.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithUserAssignedIdentity.json
  */
 async function apiManagementCreateServiceWithUserAssignedIdentity() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -316,7 +344,7 @@ async function apiManagementCreateServiceWithUserAssignedIdentity() {
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  *
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUndelete.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUndelete.json
  */
 async function apiManagementUndelete() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
@@ -346,6 +374,7 @@ async function main() {
   apiManagementCreateServiceInVnetWithPublicIP();
   apiManagementCreateServiceInZones();
   apiManagementCreateServiceWithCustomHostnameKeyVault();
+  apiManagementCreateServiceWithNatGatewayEnabled();
   apiManagementCreateServiceWithSystemCertificates();
   apiManagementCreateServiceWithUserAssignedIdentity();
   apiManagementUndelete();

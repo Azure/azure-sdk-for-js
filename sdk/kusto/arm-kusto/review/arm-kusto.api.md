@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AcceptedAudiences {
@@ -35,9 +35,9 @@ export interface AttachedDatabaseConfigurationListResult {
 
 // @public
 export interface AttachedDatabaseConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>, AttachedDatabaseConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>, AttachedDatabaseConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: AttachedDatabaseConfiguration, options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: AttachedDatabaseConfigurationsCheckNameRequest, options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: AttachedDatabaseConfigurationsGetOptionalParams): Promise<AttachedDatabaseConfigurationsGetResponse>;
@@ -58,6 +58,11 @@ export interface AttachedDatabaseConfigurationsCheckNameRequest {
 }
 
 // @public
+export interface AttachedDatabaseConfigurationsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -65,6 +70,12 @@ export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams exte
 
 // @public
 export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
+
+// @public
+export interface AttachedDatabaseConfigurationsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface AttachedDatabaseConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -124,6 +135,28 @@ export type BlobStorageEventType = string;
 export type CallerRole = string;
 
 // @public
+export interface CalloutPoliciesList {
+    nextLink?: string;
+    value?: CalloutPolicy[];
+}
+
+// @public
+export interface CalloutPolicy {
+    readonly calloutId?: string;
+    calloutType?: CalloutType;
+    calloutUriRegex?: string;
+    outboundAccess?: OutboundAccess;
+}
+
+// @public
+export interface CalloutPolicyToRemove {
+    calloutId?: string;
+}
+
+// @public
+export type CalloutType = string;
+
+// @public
 export interface CheckNameRequest {
     name: string;
     type: Type;
@@ -138,23 +171,11 @@ export interface CheckNameResult {
 }
 
 // @public
-export interface CloudError {
-    error?: CloudErrorBody;
-}
-
-// @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
-}
-
-// @public
 export interface Cluster extends TrackedResource {
     acceptedAudiences?: AcceptedAudiences[];
     allowedFqdnList?: string[];
     allowedIpRangeList?: string[];
+    calloutPolicies?: CalloutPolicy[];
     readonly dataIngestionUri?: string;
     enableAutoStop?: boolean;
     enableDiskEncryption?: boolean;
@@ -166,6 +187,7 @@ export interface Cluster extends TrackedResource {
     identity?: Identity;
     keyVaultProperties?: KeyVaultProperties;
     languageExtensions?: LanguageExtensionsList;
+    readonly migrationCluster?: MigrationClusterProperties;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -181,6 +203,7 @@ export interface Cluster extends TrackedResource {
     virtualClusterGraduationProperties?: string;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
     zones?: string[];
+    readonly zoneStatus?: ZoneStatus;
 }
 
 // @public
@@ -192,6 +215,11 @@ export interface ClusterCheckNameRequest {
 // @public
 export interface ClusterListResult {
     value?: Cluster[];
+}
+
+// @public
+export interface ClusterMigrateRequest {
+    clusterResourceId: string;
 }
 
 // @public
@@ -222,9 +250,9 @@ export interface ClusterPrincipalAssignmentListResult {
 
 // @public
 export interface ClusterPrincipalAssignments {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>, ClusterPrincipalAssignmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>, ClusterPrincipalAssignmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, principalAssignmentName: string, parameters: ClusterPrincipalAssignment, options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest, options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<ClusterPrincipalAssignmentsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, principalAssignmentName: string, options?: ClusterPrincipalAssignmentsGetOptionalParams): Promise<ClusterPrincipalAssignmentsGetResponse>;
@@ -246,6 +274,12 @@ export interface ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams extends
 
 // @public
 export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
+
+// @public
+export interface ClusterPrincipalAssignmentsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface ClusterPrincipalAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -272,33 +306,59 @@ export type ClusterPrincipalRole = string;
 
 // @public
 export interface Clusters {
-    beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAddCalloutPolicies(resourceGroupName: string, clusterName: string, calloutPolicies: CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginAddCalloutPoliciesAndWait(resourceGroupName: string, clusterName: string, calloutPolicies: CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams): Promise<void>;
+    beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAddLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDetachFollowerDatabasesAndWait(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: FollowerDatabaseDefinition, options?: ClustersDetachFollowerDatabasesOptionalParams): Promise<void>;
-    beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<PollerLike<PollOperationState<ClustersDiagnoseVirtualNetworkResponse>, ClustersDiagnoseVirtualNetworkResponse>>;
+    beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDiagnoseVirtualNetworkResponse>, ClustersDiagnoseVirtualNetworkResponse>>;
     beginDiagnoseVirtualNetworkAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<ClustersDiagnoseVirtualNetworkResponse>;
-    beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginMigrate(resourceGroupName: string, clusterName: string, clusterMigrateRequest: ClusterMigrateRequest, options?: ClustersMigrateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginMigrateAndWait(resourceGroupName: string, clusterName: string, clusterMigrateRequest: ClusterMigrateRequest, options?: ClustersMigrateOptionalParams): Promise<void>;
+    beginRemoveCalloutPolicy(resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRemoveCalloutPolicyAndWait(resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams): Promise<void>;
+    beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRemoveLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     checkNameAvailability(location: string, clusterName: ClusterCheckNameRequest, options?: ClustersCheckNameAvailabilityOptionalParams): Promise<ClustersCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listCalloutPolicies(resourceGroupName: string, clusterName: string, options?: ClustersListCalloutPoliciesOptionalParams): PagedAsyncIterableIterator<CalloutPolicy>;
     listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: ClustersListFollowerDatabasesOptionalParams): PagedAsyncIterableIterator<FollowerDatabaseDefinition>;
+    listFollowerDatabasesGet(resourceGroupName: string, clusterName: string, options?: ClustersListFollowerDatabasesGetOptionalParams): PagedAsyncIterableIterator<FollowerDatabaseDefinitionGet>;
     listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: ClustersListLanguageExtensionsOptionalParams): PagedAsyncIterableIterator<LanguageExtension>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, clusterName: string, options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint>;
     listSkus(options?: ClustersListSkusOptionalParams): PagedAsyncIterableIterator<SkuDescription>;
     listSkusByResource(resourceGroupName: string, clusterName: string, options?: ClustersListSkusByResourceOptionalParams): PagedAsyncIterableIterator<AzureResourceSku>;
+}
+
+// @public
+export interface ClustersAddCalloutPoliciesHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ClustersAddCalloutPoliciesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersAddLanguageExtensionsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -326,15 +386,33 @@ export interface ClustersCreateOrUpdateOptionalParams extends coreClient.Operati
 export type ClustersCreateOrUpdateResponse = Cluster;
 
 // @public
+export interface ClustersDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface ClustersDetachFollowerDatabasesHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface ClustersDetachFollowerDatabasesOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersDiagnoseVirtualNetworkHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -359,6 +437,20 @@ export interface ClustersListByResourceGroupOptionalParams extends coreClient.Op
 
 // @public
 export type ClustersListByResourceGroupResponse = ClusterListResult;
+
+// @public
+export interface ClustersListCalloutPoliciesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListCalloutPoliciesResponse = CalloutPoliciesList;
+
+// @public
+export interface ClustersListFollowerDatabasesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListFollowerDatabasesGetResponse = FollowerDatabaseListResultGet;
 
 // @public
 export interface ClustersListFollowerDatabasesOptionalParams extends coreClient.OperationOptions {
@@ -410,15 +502,57 @@ export interface ClustersListSkusOptionalParams extends coreClient.OperationOpti
 export type ClustersListSkusResponse = SkuDescriptionList;
 
 // @public
+export interface ClustersMigrateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ClustersMigrateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersRemoveCalloutPolicyHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ClustersRemoveCalloutPolicyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersRemoveLanguageExtensionsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface ClustersRemoveLanguageExtensionsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface ClustersStartHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface ClustersStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersStopHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -430,6 +564,7 @@ export interface ClustersStopOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ClustersUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -447,6 +582,7 @@ export interface ClusterUpdate extends Resource {
     acceptedAudiences?: AcceptedAudiences[];
     allowedFqdnList?: string[];
     allowedIpRangeList?: string[];
+    calloutPolicies?: CalloutPolicy[];
     readonly dataIngestionUri?: string;
     enableAutoStop?: boolean;
     enableDiskEncryption?: boolean;
@@ -458,6 +594,7 @@ export interface ClusterUpdate extends Resource {
     keyVaultProperties?: KeyVaultProperties;
     languageExtensions?: LanguageExtensionsList;
     location?: string;
+    readonly migrationCluster?: MigrationClusterProperties;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -474,6 +611,8 @@ export interface ClusterUpdate extends Resource {
     readonly uri?: string;
     virtualClusterGraduationProperties?: string;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+    zones?: string[];
+    readonly zoneStatus?: ZoneStatus;
 }
 
 // @public (undocumented)
@@ -509,8 +648,32 @@ export interface Database extends ProxyResource {
 }
 
 // @public
+export interface DatabaseInviteFollowerOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DatabaseInviteFollowerRequest {
+    inviteeEmail: string;
+    tableLevelSharingProperties?: TableLevelSharingProperties;
+}
+
+// @public
+export type DatabaseInviteFollowerResponse = DatabaseInviteFollowerResult;
+
+// @public
+export interface DatabaseInviteFollowerResult {
+    generatedInvitation?: string;
+}
+
+// @public
 export interface DatabaseListResult {
+    nextLink?: string;
     value?: DatabaseUnion[];
+}
+
+// @public
+export interface DatabaseOperations {
+    inviteFollower(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseInviteFollowerRequest, options?: DatabaseInviteFollowerOptionalParams): Promise<DatabaseInviteFollowerResponse>;
 }
 
 // @public
@@ -549,9 +712,9 @@ export interface DatabasePrincipalAssignmentListResult {
 
 // @public
 export interface DatabasePrincipalAssignments {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>, DatabasePrincipalAssignmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>, DatabasePrincipalAssignmentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, parameters: DatabasePrincipalAssignment, options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams): Promise<DatabasePrincipalAssignmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest, options?: DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams): Promise<DatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, principalAssignmentName: string, options?: DatabasePrincipalAssignmentsGetOptionalParams): Promise<DatabasePrincipalAssignmentsGetResponse>;
@@ -573,6 +736,12 @@ export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams extend
 
 // @public
 export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
+
+// @public
+export interface DatabasePrincipalAssignmentsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasePrincipalAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -616,11 +785,11 @@ export type DatabaseRouting = string;
 // @public
 export interface Databases {
     addPrincipals(resourceGroupName: string, clusterName: string, databaseName: string, databasePrincipalsToAdd: DatabasePrincipalListRequest, options?: DatabasesAddPrincipalsOptionalParams): Promise<DatabasesAddPrincipalsResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesCreateOrUpdateResponse>, DatabasesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesCreateOrUpdateResponse>, DatabasesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesCreateOrUpdateOptionalParams): Promise<DatabasesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUnion, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: CheckNameRequest, options?: DatabasesCheckNameAvailabilityOptionalParams): Promise<DatabasesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
@@ -644,6 +813,11 @@ export interface DatabasesCheckNameAvailabilityOptionalParams extends coreClient
 export type DatabasesCheckNameAvailabilityResponse = CheckNameResult;
 
 // @public
+export interface DatabasesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface DatabasesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     callerRole?: CallerRole;
     resumeFrom?: string;
@@ -652,6 +826,12 @@ export interface DatabasesCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type DatabasesCreateOrUpdateResponse = DatabaseUnion;
+
+// @public
+export interface DatabasesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -670,7 +850,16 @@ export type DatabasesGetResponse = DatabaseUnion;
 export type DatabaseShareOrigin = string;
 
 // @public
+export interface DatabasesListByClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DatabasesListByClusterNextResponse = DatabaseListResult;
+
+// @public
 export interface DatabasesListByClusterOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+    top?: number;
 }
 
 // @public
@@ -698,6 +887,7 @@ export interface DatabaseStatistics {
 // @public
 export interface DatabasesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -735,13 +925,13 @@ export interface DataConnectionListResult {
 
 // @public
 export interface DataConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsCreateOrUpdateResponse>, DataConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsCreateOrUpdateResponse>, DataConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsCreateOrUpdateOptionalParams): Promise<DataConnectionsCreateOrUpdateResponse>;
-    beginDataConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsDataConnectionValidationResponse>, DataConnectionsDataConnectionValidationResponse>>;
+    beginDataConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsDataConnectionValidationResponse>, DataConnectionsDataConnectionValidationResponse>>;
     beginDataConnectionValidationAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DataConnectionValidation, options?: DataConnectionsDataConnectionValidationOptionalParams): Promise<DataConnectionsDataConnectionValidationResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataConnectionsUpdateResponse>, DataConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: DataConnectionUnion, options?: DataConnectionsUpdateOptionalParams): Promise<DataConnectionsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: DataConnectionCheckNameRequest, options?: DataConnectionsCheckNameAvailabilityOptionalParams): Promise<DataConnectionsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: DataConnectionsGetOptionalParams): Promise<DataConnectionsGetResponse>;
@@ -756,6 +946,11 @@ export interface DataConnectionsCheckNameAvailabilityOptionalParams extends core
 export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult;
 
 // @public
+export interface DataConnectionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface DataConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -765,6 +960,12 @@ export interface DataConnectionsCreateOrUpdateOptionalParams extends coreClient.
 export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion;
 
 // @public
+export interface DataConnectionsDataConnectionValidationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DataConnectionsDataConnectionValidationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -772,6 +973,12 @@ export interface DataConnectionsDataConnectionValidationOptionalParams extends c
 
 // @public
 export type DataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
+
+// @public
+export interface DataConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DataConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -796,6 +1003,7 @@ export type DataConnectionsListByDatabaseResponse = DataConnectionListResult;
 // @public
 export interface DataConnectionsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -842,11 +1050,32 @@ export interface EndpointDependency {
 
 // @public
 export interface EndpointDetail {
+    ipAddress?: string;
     port?: number;
 }
 
 // @public
 export type EngineType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface EventGridDataConnection extends DataConnection {
@@ -899,8 +1128,23 @@ export interface FollowerDatabaseDefinition {
 }
 
 // @public
+export interface FollowerDatabaseDefinitionGet {
+    attachedDatabaseConfigurationName?: string;
+    clusterResourceId?: string;
+    readonly databaseName?: string;
+    readonly databaseShareOrigin?: DatabaseShareOrigin;
+    readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+}
+
+// @public
 export interface FollowerDatabaseListResult {
     value?: FollowerDatabaseDefinition[];
+}
+
+// @public
+export interface FollowerDatabaseListResultGet {
+    nextLink?: string;
+    value?: FollowerDatabaseDefinitionGet[];
 }
 
 // @public
@@ -1042,6 +1286,21 @@ export enum KnownCallerRole {
 }
 
 // @public
+export enum KnownCalloutType {
+    AzureDigitalTwins = "azure_digital_twins",
+    AzureOpenai = "azure_openai",
+    Cosmosdb = "cosmosdb",
+    ExternalData = "external_data",
+    Genevametrics = "genevametrics",
+    Kusto = "kusto",
+    Mysql = "mysql",
+    Postgresql = "postgresql",
+    SandboxArtifacts = "sandbox_artifacts",
+    Sql = "sql",
+    Webapi = "webapi"
+}
+
+// @public
 export enum KnownClusterNetworkAccessFlag {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1050,6 +1309,7 @@ export enum KnownClusterNetworkAccessFlag {
 // @public
 export enum KnownClusterPrincipalRole {
     AllDatabasesAdmin = "AllDatabasesAdmin",
+    AllDatabasesMonitor = "AllDatabasesMonitor",
     AllDatabasesViewer = "AllDatabasesViewer"
 }
 
@@ -1193,11 +1453,18 @@ export enum KnownKind {
 }
 
 // @public
+export enum KnownLanguage {
+    Python = "Python"
+}
+
+// @public
 export enum KnownLanguageExtensionImageName {
     Python3108 = "Python3_10_8",
+    Python3108DL = "Python3_10_8_DL",
+    Python3117 = "Python3_11_7",
+    Python3117DL = "Python3_11_7_DL",
     Python365 = "Python3_6_5",
-    Python3912 = "Python3_9_12",
-    Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
+    PythonCustomImage = "PythonCustomImage",
     // (undocumented)
     R = "R"
 }
@@ -1207,6 +1474,24 @@ export enum KnownLanguageExtensionName {
     Python = "PYTHON",
     // (undocumented)
     R = "R"
+}
+
+// @public
+export enum KnownMigrationClusterRole {
+    Destination = "Destination",
+    Source = "Source"
+}
+
+// @public
+export enum KnownOutboundAccess {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownPrincipalPermissionsAction {
+    RemovePermissionOnScriptCompletion = "RemovePermissionOnScriptCompletion",
+    RetainPermissionOnScriptCompletion = "RetainPermissionOnScriptCompletion"
 }
 
 // @public
@@ -1253,10 +1538,17 @@ export enum KnownReason {
 }
 
 // @public
+export enum KnownScriptLevel {
+    Cluster = "Cluster",
+    Database = "Database"
+}
+
+// @public
 export enum KnownState {
     Creating = "Creating",
     Deleted = "Deleted",
     Deleting = "Deleting",
+    Migrated = "Migrated",
     Running = "Running",
     Starting = "Starting",
     Stopped = "Stopped",
@@ -1273,6 +1565,19 @@ export enum KnownStatus {
     Succeeded = "Succeeded"
 }
 
+// @public
+export enum KnownVnetState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownZoneStatus {
+    NonZonal = "NonZonal",
+    Zonal = "Zonal",
+    ZonalInconsistency = "ZonalInconsistency"
+}
+
 // @public (undocumented)
 export class KustoManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -1286,6 +1591,8 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     clusterPrincipalAssignments: ClusterPrincipalAssignments;
     // (undocumented)
     clusters: Clusters;
+    // (undocumented)
+    databaseOperations: DatabaseOperations;
     // (undocumented)
     databasePrincipalAssignments: DatabasePrincipalAssignments;
     // (undocumented)
@@ -1305,6 +1612,8 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    sandboxCustomImages: SandboxCustomImages;
+    // (undocumented)
     scripts: Scripts;
     // (undocumented)
     skus: Skus;
@@ -1320,7 +1629,11 @@ export interface KustoManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
+export type Language = string;
+
+// @public
 export interface LanguageExtension {
+    languageExtensionCustomImageName?: string;
     languageExtensionImageName?: LanguageExtensionImageName;
     languageExtensionName?: LanguageExtensionName;
 }
@@ -1358,11 +1671,11 @@ export interface ManagedPrivateEndpointListResult {
 
 // @public
 export interface ManagedPrivateEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>, ManagedPrivateEndpointsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>, ManagedPrivateEndpointsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedPrivateEndpointsUpdateResponse>, ManagedPrivateEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsUpdateResponse>, ManagedPrivateEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, parameters: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<ManagedPrivateEndpointsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: ManagedPrivateEndpointsCheckNameRequest, options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
@@ -1383,6 +1696,11 @@ export interface ManagedPrivateEndpointsCheckNameRequest {
 }
 
 // @public
+export interface ManagedPrivateEndpointsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1390,6 +1708,12 @@ export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends cor
 
 // @public
 export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoint;
+
+// @public
+export interface ManagedPrivateEndpointsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1414,6 +1738,7 @@ export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResu
 // @public
 export interface ManagedPrivateEndpointsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1424,6 +1749,17 @@ export interface ManagedPrivateEndpointsUpdateOptionalParams extends coreClient.
 
 // @public
 export type ManagedPrivateEndpointsUpdateResponse = ManagedPrivateEndpoint;
+
+// @public
+export interface MigrationClusterProperties {
+    readonly dataIngestionUri?: string;
+    readonly id?: string;
+    readonly role?: MigrationClusterRole;
+    readonly uri?: string;
+}
+
+// @public
+export type MigrationClusterRole = string;
 
 // @public
 export interface Operation {
@@ -1495,12 +1831,20 @@ export type OperationsResultsGetResponse = OperationResult;
 
 // @public
 export interface OperationsResultsLocation {
-    get(location: string, operationId: string, options?: OperationsResultsLocationGetOptionalParams): Promise<void>;
+    get(location: string, operationId: string, options?: OperationsResultsLocationGetOptionalParams): Promise<OperationsResultsLocationGetResponse>;
+}
+
+// @public
+export interface OperationsResultsLocationGetHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
 export interface OperationsResultsLocationGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type OperationsResultsLocationGetResponse = OperationsResultsLocationGetHeaders;
 
 // @public
 export interface OptimizedAutoscale {
@@ -1509,6 +1853,9 @@ export interface OptimizedAutoscale {
     minimum: number;
     version: number;
 }
+
+// @public
+export type OutboundAccess = string;
 
 // @public
 export interface OutboundNetworkDependenciesEndpoint extends ProxyResource {
@@ -1523,6 +1870,9 @@ export interface OutboundNetworkDependenciesEndpointListResult {
     readonly nextLink?: string;
     value: OutboundNetworkDependenciesEndpoint[];
 }
+
+// @public
+export type PrincipalPermissionsAction = string;
 
 // @public
 export type PrincipalsModificationKind = string;
@@ -1546,9 +1896,9 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -1562,6 +1912,12 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1653,6 +2009,7 @@ export interface ReadOnlyFollowingDatabase extends Database {
     readonly provisioningState?: ProvisioningState;
     readonly softDeletePeriod?: string;
     readonly statistics?: DatabaseStatistics;
+    readonly suspensionDetails?: SuspensionDetails;
     readonly tableLevelSharingProperties?: TableLevelSharingProperties;
 }
 
@@ -1660,10 +2017,12 @@ export interface ReadOnlyFollowingDatabase extends Database {
 export interface ReadWriteDatabase extends Database {
     hotCachePeriod?: string;
     readonly isFollowed?: boolean;
+    keyVaultProperties?: KeyVaultProperties;
     kind: "ReadWrite";
     readonly provisioningState?: ProvisioningState;
     softDeletePeriod?: string;
     readonly statistics?: DatabaseStatistics;
+    readonly suspensionDetails?: SuspensionDetails;
 }
 
 // @public
@@ -1689,11 +2048,104 @@ export interface ResourceSkuZoneDetails {
 }
 
 // @public
+export interface SandboxCustomImage extends ProxyResource {
+    baseImageName?: string;
+    language?: Language;
+    languageVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    requirementsFileContent?: string;
+}
+
+// @public
+export interface SandboxCustomImages {
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SandboxCustomImagesCreateOrUpdateResponse>, SandboxCustomImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesCreateOrUpdateOptionalParams): Promise<SandboxCustomImagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SandboxCustomImagesUpdateResponse>, SandboxCustomImagesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesUpdateOptionalParams): Promise<SandboxCustomImagesUpdateResponse>;
+    checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: SandboxCustomImagesCheckNameRequest, options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams): Promise<SandboxCustomImagesCheckNameAvailabilityResponse>;
+    get(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesGetOptionalParams): Promise<SandboxCustomImagesGetResponse>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: SandboxCustomImagesListByClusterOptionalParams): PagedAsyncIterableIterator<SandboxCustomImage>;
+}
+
+// @public
+export interface SandboxCustomImagesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesCheckNameAvailabilityResponse = CheckNameResult;
+
+// @public
+export interface SandboxCustomImagesCheckNameRequest {
+    name: string;
+    type: "Microsoft.Kusto/clusters/sandboxCustomImages";
+}
+
+// @public
+export interface SandboxCustomImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SandboxCustomImagesCreateOrUpdateResponse = SandboxCustomImage;
+
+// @public
+export interface SandboxCustomImagesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface SandboxCustomImagesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxCustomImagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesGetResponse = SandboxCustomImage;
+
+// @public
+export interface SandboxCustomImagesListByClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesListByClusterResponse = SandboxCustomImagesListResult;
+
+// @public
+export interface SandboxCustomImagesListResult {
+    nextLink?: string;
+    value?: SandboxCustomImage[];
+}
+
+// @public
+export interface SandboxCustomImagesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface SandboxCustomImagesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SandboxCustomImagesUpdateResponse = SandboxCustomImage;
+
+// @public
 export interface Script extends ProxyResource {
     continueOnErrors?: boolean;
     forceUpdateTag?: string;
+    principalPermissionsAction?: PrincipalPermissionsAction;
     readonly provisioningState?: ProvisioningState;
     scriptContent?: string;
+    scriptLevel?: ScriptLevel;
     scriptUrl?: string;
     scriptUrlSasToken?: string;
     readonly systemData?: SystemData;
@@ -1706,17 +2158,20 @@ export interface ScriptCheckNameRequest {
 }
 
 // @public
+export type ScriptLevel = string;
+
+// @public
 export interface ScriptListResult {
     value?: Script[];
 }
 
 // @public
 export interface Scripts {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScriptsCreateOrUpdateResponse>, ScriptsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptsCreateOrUpdateResponse>, ScriptsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsCreateOrUpdateOptionalParams): Promise<ScriptsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Script, options?: ScriptsUpdateOptionalParams): Promise<ScriptsUpdateResponse>;
     checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: ScriptCheckNameRequest, options?: ScriptsCheckNameAvailabilityOptionalParams): Promise<ScriptsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: ScriptsGetOptionalParams): Promise<ScriptsGetResponse>;
@@ -1731,6 +2186,11 @@ export interface ScriptsCheckNameAvailabilityOptionalParams extends coreClient.O
 export type ScriptsCheckNameAvailabilityResponse = CheckNameResult;
 
 // @public
+export interface ScriptsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface ScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1738,6 +2198,12 @@ export interface ScriptsCreateOrUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type ScriptsCreateOrUpdateResponse = Script;
+
+// @public
+export interface ScriptsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface ScriptsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1762,6 +2228,7 @@ export type ScriptsListByDatabaseResponse = ScriptListResult;
 // @public
 export interface ScriptsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1814,6 +2281,11 @@ export type State = string;
 export type Status = string;
 
 // @public
+export interface SuspensionDetails {
+    suspensionStartDate?: Date;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1855,8 +2327,15 @@ export type Type = "Microsoft.Kusto/clusters/databases" | "Microsoft.Kusto/clust
 export interface VirtualNetworkConfiguration {
     dataManagementPublicIpId: string;
     enginePublicIpId: string;
+    state?: VnetState;
     subnetId: string;
 }
+
+// @public
+export type VnetState = string;
+
+// @public
+export type ZoneStatus = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { IngestionStatusType } from "./generated/models/index.js";
 import {
   EntityStatus as DataFeedDetailStatus,
   EmailHookParameter,
-  IngestionStatusType,
   AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   Severity,
   SeverityCondition,
@@ -12,8 +12,8 @@ import {
   SuppressCondition,
   TopNGroupScope,
   WebhookHookParameter,
-} from "./generated/models";
-import { FullOperationResponse } from "@azure/core-client";
+} from "./generated/models/index.js";
+import type { FullOperationResponse } from "@azure/core-client";
 export {
   Severity,
   SeverityCondition,
@@ -37,7 +37,7 @@ export {
   AnomalyDetectorDirection,
   FeedbackType,
   FeedbackQueryTimeMode,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
 /**
  * Represents a metric of an ingested data feed

@@ -28,7 +28,7 @@ async function accessPoliciesGet() {
   const result = await client.accessPolicies.get(
     resourceGroupName,
     environmentName,
-    accessPolicyName
+    accessPolicyName,
   );
   console.log(result);
 }

@@ -16,9 +16,7 @@ import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const provider = new BasicTracerProvider({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service"
@@ -44,7 +42,7 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
 provider.register();
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {

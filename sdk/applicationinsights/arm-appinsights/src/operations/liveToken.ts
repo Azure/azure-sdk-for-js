@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LiveToken } from "../operationsInterfaces";
+import { LiveToken } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
-import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
+import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models/index.js";
 
 /** Class containing LiveToken operations. */
 export class LiveTokenImpl implements LiveToken {
@@ -32,11 +32,11 @@ export class LiveTokenImpl implements LiveToken {
    */
   get(
     resourceUri: string,
-    options?: LiveTokenGetOptionalParams
+    options?: LiveTokenGetOptionalParams,
   ): Promise<LiveTokenGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -48,14 +48,14 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LiveTokenResponse
+      bodyMapper: Mappers.LiveTokenResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseLinkedStorage
-    }
+      bodyMapper: Mappers.ErrorResponseLinkedStorage,
+    },
   },
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

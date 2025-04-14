@@ -14,8 +14,8 @@ import {
   CodeContainersGetOptionalParams,
   CodeContainersGetResponse,
   CodeContainersCreateOrUpdateOptionalParams,
-  CodeContainersCreateOrUpdateResponse
-} from "../models";
+  CodeContainersCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CodeContainers. */
@@ -29,7 +29,7 @@ export interface CodeContainers {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: CodeContainersListOptionalParams
+    options?: CodeContainersListOptionalParams,
   ): PagedAsyncIterableIterator<CodeContainer>;
   /**
    * Delete container.
@@ -42,7 +42,7 @@ export interface CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: CodeContainersDeleteOptionalParams
+    options?: CodeContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get container.
@@ -55,7 +55,7 @@ export interface CodeContainers {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: CodeContainersGetOptionalParams
+    options?: CodeContainersGetOptionalParams,
   ): Promise<CodeContainersGetResponse>;
   /**
    * Create or update container.
@@ -70,6 +70,6 @@ export interface CodeContainers {
     workspaceName: string,
     name: string,
     body: CodeContainer,
-    options?: CodeContainersCreateOrUpdateOptionalParams
+    options?: CodeContainersCreateOrUpdateOptionalParams,
   ): Promise<CodeContainersCreateOrUpdateResponse>;
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { parseXML, stringifyXML } from "../src";
-import { assert } from "chai";
+import { parseXML, stringifyXML } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("XML serializer", function () {
   describe("parseXML(string)", function () {
@@ -11,12 +11,15 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(undefined);
         assert.fail("Expected error");
-      } catch (error: any) {
+      } catch (err) {
+        assert.ok(err instanceof Error);
+        const error = err as Error;
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("undefined") !== -1), // Firefox
-          `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`
+              error.message.includes("undefined")), // Firefox
+          `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
         );
       }
     });
@@ -26,12 +29,15 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(null);
         assert.fail("Expected error");
-      } catch (error: any) {
+      } catch (err) {
+        assert.ok(err instanceof Error);
+        const error = err as Error;
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("null") !== -1), // Firefox
-          `error.message ("${error.message}") should have contained "Document is empty" or "null"`
+              error.message.includes("null")), // Firefox
+          `error.message ("${error.message}") should have contained "Document is empty" or "null"`,
         );
       }
     });
@@ -225,15 +231,10 @@ describe("XML serializer", function () {
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
-    it("with atribute namespace", async () => {
+    it("with attribute namespace", async () => {
       const json = await parseXML(
-        `<h:table xmlns:h="http://www.w3.org/TR/html4/">
-          <h:tr>
-            <h:td>Apples</h:td>
-            <h:td>Bananas</h:td>
-          </h:tr>
-        </h:table>`,
-        { includeRoot: true }
+        `<h:table xmlns:h="http://www.w3.org/TR/html4/"><h:tr><h:td>Apples</h:td><h:td>Bananas</h:td></h:tr></h:table>`,
+        { includeRoot: true },
       );
 
       assert.deepEqual(json, {
@@ -363,11 +364,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`,
       );
     });
 
@@ -375,7 +376,7 @@ describe("XML serializer", function () {
       const xml = stringifyXML({ fruit: `` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit/></fruits>`,
       );
     });
 
@@ -383,7 +384,7 @@ describe("XML serializer", function () {
       const xml = stringifyXML({ fruit: `hurray` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>hurray</fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>hurray</fruit></fruits>`,
       );
     });
 
@@ -396,11 +397,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`,
       );
     });
 
@@ -416,11 +417,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { includeRoot: false }
+        { includeRoot: false },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><vegetable green="false"><fruit healthy="true"/></vegetable></root>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><vegetable green="false"><fruit healthy="true"/></vegetable></root>`,
       );
     });
 
@@ -434,29 +435,11 @@ describe("XML serializer", function () {
             _: "yum",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`
-      );
-    });
-
-    it("with element with attribute and value", async function () {
-      const xml = stringifyXML(
-        {
-          fruit: {
-            $: {
-              healthy: "true",
-            },
-            _: "yum",
-          },
-        },
-        { rootName: "fruits" }
-      );
-      assert.deepStrictEqual(
-        xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`,
       );
     });
 
@@ -467,11 +450,11 @@ describe("XML serializer", function () {
             apples: "",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit><apples/></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit><apples/></fruit></fruits>`,
       );
     });
 
@@ -484,11 +467,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"/></fruits>`,
       );
     });
 
@@ -497,11 +480,11 @@ describe("XML serializer", function () {
         {
           apples: "yum",
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples>yum</apples></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples>yum</apples></fruits>`,
       );
     });
 
@@ -515,11 +498,33 @@ describe("XML serializer", function () {
             _: "yum",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`,
+      );
+    });
+
+    it("should handle xmlns properly", function () {
+      const xml = stringifyXML({
+        $: {
+          xmlns: "https://microsoft.com/",
+          "xmlns:h": "http://www.w3.org/TR/html4/",
+        },
+        _: "yum",
+      });
+      assert.deepEqual(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root xmlns="https://microsoft.com/" xmlns:h="http://www.w3.org/TR/html4/">yum</root>`,
+      );
+    });
+
+    it("should handling leading and trailing spaces", function () {
+      const xml = stringifyXML({ name: "   leadingspace" });
+      assert.equal(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><name>   leadingspace</name></root>`,
       );
     });
 
@@ -528,11 +533,11 @@ describe("XML serializer", function () {
         {
           BodyTemplate: { __cdata: "{Template for the body}" },
         },
-        { cdataPropName: "__cdata", rootName: "entry" }
+        { cdataPropName: "__cdata", rootName: "entry" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry><BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate></entry>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry><BodyTemplate><![CDATA[{Template for the body}]]></BodyTemplate></entry>`,
       );
     });
 
@@ -580,7 +585,7 @@ describe("XML serializer", function () {
     const parsed = await parseXML(input);
     assert.equal(
       parsed.id,
-      "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False"
+      "https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&enrich=False",
     );
   });
 
@@ -600,5 +605,19 @@ describe("XML serializer", function () {
       '<EnumerationResults ServiceEndpoint="https://fakestorageaccount.blob.core.windows.net/" ContainerName="1container-with-dash158018564730401913"><Prefix>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Prefix><Blobs><Blob><Name>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Name><Properties><Creation-Time>Tue, 28 Jan 2020 04:27:27 GMT</Creation-Time><Last-Modified>Tue, 28 Jan 2020 04:27:27 GMT</Last-Modified><Etag>0x8D7A3AA61F50D6C</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64 /><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties></Blob></Blobs><NextMarker /></EnumerationResults>';
     const parsed = await parseXML(input);
     assert.isDefined(parsed.Blobs);
+  });
+
+  it("should keep leading spaces", async function () {
+    const input = `<Blob><Name>  leadingspace.txt</Name></Blob>`;
+    const parsed = await parseXML(input);
+    assert.isDefined(parsed.Name);
+    assert.deepEqual(parsed.Name, "  leadingspace.txt");
+  });
+
+  it("should keep trailing spaces", async function () {
+    const input = `<Blob><Name>trailingspace   </Name></Blob>`;
+    const parsed = await parseXML(input);
+    assert.isDefined(parsed.Name);
+    assert.deepEqual(parsed.Name, "trailingspace   ");
   });
 });

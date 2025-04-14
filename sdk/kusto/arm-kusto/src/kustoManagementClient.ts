@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -21,15 +21,17 @@ import {
   DatabasesImpl,
   AttachedDatabaseConfigurationsImpl,
   ManagedPrivateEndpointsImpl,
+  DatabaseOperationsImpl,
   DatabasePrincipalAssignmentsImpl,
   ScriptsImpl,
+  SandboxCustomImagesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   DataConnectionsImpl,
   OperationsImpl,
   OperationsResultsImpl,
-  OperationsResultsLocationImpl
-} from "./operations";
+  OperationsResultsLocationImpl,
+} from "./operations/index.js";
 import {
   Clusters,
   ClusterPrincipalAssignments,
@@ -37,16 +39,18 @@ import {
   Databases,
   AttachedDatabaseConfigurations,
   ManagedPrivateEndpoints,
+  DatabaseOperations,
   DatabasePrincipalAssignments,
   Scripts,
+  SandboxCustomImages,
   PrivateEndpointConnections,
   PrivateLinkResources,
   DataConnections,
   Operations,
   OperationsResults,
-  OperationsResultsLocation
-} from "./operationsInterfaces";
-import { KustoManagementClientOptionalParams } from "./models";
+  OperationsResultsLocation,
+} from "./operationsInterfaces/index.js";
+import { KustoManagementClientOptionalParams } from "./models/index.js";
 
 export class KustoManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -56,14 +60,13 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the KustoManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: KustoManagementClientOptionalParams
+    options?: KustoManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -78,10 +81,10 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     }
     const defaults: KustoManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.3.1`;
+    const packageDetails = `azsdk-js-arm-kusto/8.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -91,20 +94,21 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -114,7 +118,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -124,9 +128,9 @@ export class KustoManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -134,21 +138,22 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-12-29";
+    this.apiVersion = options.apiVersion || "2024-04-13";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
-      this
+      this,
     );
     this.skus = new SkusImpl(this);
     this.databases = new DatabasesImpl(this);
-    this.attachedDatabaseConfigurations = new AttachedDatabaseConfigurationsImpl(
-      this
-    );
+    this.attachedDatabaseConfigurations =
+      new AttachedDatabaseConfigurationsImpl(this);
     this.managedPrivateEndpoints = new ManagedPrivateEndpointsImpl(this);
+    this.databaseOperations = new DatabaseOperationsImpl(this);
     this.databasePrincipalAssignments = new DatabasePrincipalAssignmentsImpl(
-      this
+      this,
     );
     this.scripts = new ScriptsImpl(this);
+    this.sandboxCustomImages = new SandboxCustomImagesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.dataConnections = new DataConnectionsImpl(this);
@@ -167,7 +172,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -181,7 +186,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -192,8 +197,10 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   databases: Databases;
   attachedDatabaseConfigurations: AttachedDatabaseConfigurations;
   managedPrivateEndpoints: ManagedPrivateEndpoints;
+  databaseOperations: DatabaseOperations;
   databasePrincipalAssignments: DatabasePrincipalAssignments;
   scripts: Scripts;
+  sandboxCustomImages: SandboxCustomImages;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   dataConnections: DataConnections;

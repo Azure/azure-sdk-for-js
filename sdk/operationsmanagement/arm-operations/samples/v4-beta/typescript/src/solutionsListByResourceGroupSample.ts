@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves the solution list. It will retrieve both first party and third party solutions
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/SolutionList.json
  */
-async function solutionList() {
+async function solutionList(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const credential = new DefaultAzureCredential();

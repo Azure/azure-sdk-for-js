@@ -12,8 +12,8 @@ import {
   ImagesListByDevCenterOptionalParams,
   ImagesListByGalleryOptionalParams,
   ImagesGetOptionalParams,
-  ImagesGetResponse
-} from "../models";
+  ImagesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Images. */
@@ -27,7 +27,7 @@ export interface Images {
   listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams
+    options?: ImagesListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Lists images for a gallery.
@@ -40,7 +40,7 @@ export interface Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams
+    options?: ImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Gets a gallery image.
@@ -55,6 +55,6 @@ export interface Images {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams
+    options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse>;
 }

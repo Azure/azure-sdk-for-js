@@ -1,32 +1,38 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { GeneratedClient } from "./generated/generatedClient";
+import { GeneratedClient } from "./generated/generatedClient.js";
 
-import { AttestationResult, AttestationSigner, AttestationTokenValidationOptions } from "./models";
+import type {
+  AttestationResult,
+  AttestationSigner,
+  AttestationTokenValidationOptions,
+} from "./models/index.js";
 
-import {
+import type {
   GeneratedAttestationResult,
   InitTimeData,
-  KnownDataType,
   RuntimeData,
-} from "./generated/models";
+} from "./generated/models/index.js";
+import { KnownDataType } from "./generated/models/index.js";
 
-import { logger } from "./logger";
-import { GeneratedClientOptionalParams } from "./generated/models";
-import * as Mappers from "./generated/models/mappers";
+import { logger } from "./logger.js";
+import type { GeneratedClientOptionalParams } from "./generated/models/index.js";
+import * as Mappers from "./generated/models/mappers.js";
 
-import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
+import type { AttestationResponse } from "./models/attestationResponse.js";
+import { createAttestationResponse } from "./models/attestationResponse.js";
 
-import { TypeDeserializer } from "./utils/typeDeserializer";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { bytesToString, stringToBytes } from "./utils/utf8";
-import { _attestationResultFromGenerated } from "./models/attestationResult";
-import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { AttestationTokenImpl } from "./models/attestationToken";
-import { Uint8ArrayFromInput } from "./utils/buffer";
-import { tracingClient } from "./generated/tracing";
+import { TypeDeserializer } from "./utils/typeDeserializer.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { bytesToString, stringToBytes } from "./utils/utf8.js";
+import { _attestationResultFromGenerated } from "./models/attestationResult.js";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
+import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { Uint8ArrayFromInput } from "./utils/buffer.js";
+import { tracingClient } from "./generated/tracing.js";
 
 /**
  * Attestation Client Construction Options.
@@ -141,12 +147,11 @@ export class AttestationClient {
    * Creates an instance of AttestationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:Attestation_Constructor_NoCreds
    * import { AttestationClient } from "@azure/attestation";
    *
-   * const client = new AttestationClient(
-   *    "<service endpoint>"
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationClient(endpoint);
    * ```
    *
    * @param endpoint - The attestation instance base URI, for example https://mytenant.attest.azure.net.
@@ -159,14 +164,13 @@ export class AttestationClient {
    * Creates an instance of AttestationClient with options and credentials.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:Attestation_Constructor_Creds
+   * import { DefaultAzureCredential } from "@azure/identity";
    * import { AttestationClient } from "@azure/attestation";
    *
-   * const client = new AttestationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>"),
-   *    { tokenValidationOptions: { validateToken: false } }
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const credentials = new DefaultAzureCredential();
+   * const client = new AttestationClient(endpoint, credentials);
    * ```
    *
    * Note that credentials are required to call the `attestTpm` API.
@@ -178,12 +182,12 @@ export class AttestationClient {
   public constructor(
     endpoint: string,
     credentials: TokenCredential,
-    options?: AttestationClientOptions
+    options?: AttestationClientOptions,
   );
   public constructor(
     endpoint: string,
     credentialsOrOptions?: TokenCredential | AttestationClientOptions,
-    clientOptions: AttestationClientOptions = {}
+    clientOptions: AttestationClientOptions = {},
   ) {
     let credentialScopes: string[] | undefined = undefined;
     let credential: TokenCredential | undefined = undefined;
@@ -227,7 +231,7 @@ export class AttestationClient {
    */
   public async attestOpenEnclave(
     report: Uint8Array | Buffer | Blob,
-    options: AttestOpenEnclaveOptions = {}
+    options: AttestOpenEnclaveOptions = {},
   ): Promise<AttestationResponse<AttestationResult>> {
     return tracingClient.withSpan(
       "AttestationClient-attestOpenEnclave",
@@ -268,13 +272,13 @@ export class AttestationClient {
             runtimeData: runTimeData,
             draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
           },
-          updatedOptions
+          updatedOptions,
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
         const problems = token.getTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -286,14 +290,14 @@ export class AttestationClient {
             GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "GeneratedAttestationResult"
+          "GeneratedAttestationResult",
         ) as GeneratedAttestationResult;
 
         return createAttestationResponse<AttestationResult>(
           token,
-          _attestationResultFromGenerated(attestationResult)
+          _attestationResultFromGenerated(attestationResult),
         );
-      }
+      },
     );
   }
 
@@ -308,7 +312,7 @@ export class AttestationClient {
    */
   public async attestSgxEnclave(
     quote: Uint8Array | Buffer | Blob,
-    options: AttestSgxEnclaveOptions = {}
+    options: AttestSgxEnclaveOptions = {},
   ): Promise<AttestationResponse<AttestationResult>> {
     return tracingClient.withSpan(
       "AttestationClient-attestSgxEnclave",
@@ -348,13 +352,13 @@ export class AttestationClient {
             runtimeData: runTimeData,
             draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
           },
-          updatedOptions
+          updatedOptions,
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
         const problems = token.getTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -366,20 +370,20 @@ export class AttestationClient {
             GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "GeneratedAttestationResult"
+          "GeneratedAttestationResult",
         ) as GeneratedAttestationResult;
 
         return createAttestationResponse<AttestationResult>(
           token,
-          _attestationResultFromGenerated(attestationResult)
+          _attestationResultFromGenerated(attestationResult),
         );
-      }
+      },
     );
   }
 
   /** Attest a TPM based enclave.
 
-   * See the  {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
+   * See the  {@link https://learn.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
    * 
    * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.
@@ -392,7 +396,7 @@ export class AttestationClient {
    * @example
    * For example, the initial call for a TPM attestation operation is:
    * 
-   * ```js
+   * ```snippet:AttestationClient_AttestTpm
    * const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
    * const result = await client.attestTpm(encodedPayload);
    * ```
@@ -410,14 +414,14 @@ export class AttestationClient {
       async (updatedOptions) => {
         const response = await this._client.attestation.attestTpm(
           { data: stringToBytes(request) },
-          updatedOptions
+          updatedOptions,
         );
         if (response.data) {
           return bytesToString(response.data);
         } else {
           throw Error("Internal error - response data cannot be undefined.");
         }
-      }
+      },
     );
   }
 
@@ -429,7 +433,8 @@ export class AttestationClient {
    * @returns the set of AttestationSigners which may be used to sign attestation tokens.
    */
   public async getAttestationSigners(
-    options: AttestationClientOperationOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: AttestationClientOperationOptions = {},
   ): Promise<AttestationSigner[]> {
     return tracingClient.withSpan(
       "AttestationClient-getAttestationSigners",
@@ -441,7 +446,7 @@ export class AttestationClient {
           signers.push(_attestationSignerFromGenerated(element));
         });
         return signers;
-      }
+      },
     );
   }
 
@@ -451,7 +456,8 @@ export class AttestationClient {
    * @returns The OpenID metadata discovery document for the attestation service.
    */
   public async getOpenIdMetadata(
-    options: AttestationClientOperationOptions = {}
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: AttestationClientOperationOptions = {},
   ): Promise<Record<string, unknown>> {
     return tracingClient.withSpan(
       "AttestationClient-getOpenIdMetadata",
@@ -459,7 +465,7 @@ export class AttestationClient {
       async (updatedOptions) => {
         const configs = await this._client.metadataConfiguration.get(updatedOptions);
         return configs;
-      }
+      },
     );
   }
 

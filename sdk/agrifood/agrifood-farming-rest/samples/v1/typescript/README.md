@@ -63,7 +63,7 @@ node dist/deleteParty.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteParty.js
+npx dev-tool run vendored cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteParty.js
 ```
 
 ## Next Steps
@@ -73,8 +73,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/deleteParty.ts
 [listparties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/listParties.ts
 [createparty]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/createParty.ts
-[apiref]: https://docs.microsoft.com/javascript
+[apiref]: https://learn.microsoft.com/javascript
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
+[createinstance_azurefarmbeatsserviceinstance]: https://learn.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

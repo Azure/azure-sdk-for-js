@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { OperationType } from "../common";
-import { ErrorResponse } from "../request";
-import { TimeoutErrorCode } from "../request/TimeoutError";
-import { RetryPolicy } from "./RetryPolicy";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { OperationType } from "../common/index.js";
+import type { ErrorResponse } from "../request/index.js";
+import { TimeoutErrorCode } from "../request/TimeoutError.js";
+import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
  * @hidden
@@ -134,12 +135,16 @@ export class DefaultRetryPolicy implements RetryPolicy {
    * Determines whether the request should be retried or not.
    * @param err - Error returned by the request.
    */
-  public async shouldRetry(err: ErrorResponse): Promise<boolean> {
+  public async shouldRetry(
+    err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<boolean> {
     if (err) {
       if (
         this.currentRetryAttemptCount < this.maxTries &&
         needsRetry(this.operationType, err.code)
       ) {
+        diagnosticNode.addData({ successfulRetryPolicy: "default" });
         this.currentRetryAttemptCount++;
         return true;
       }

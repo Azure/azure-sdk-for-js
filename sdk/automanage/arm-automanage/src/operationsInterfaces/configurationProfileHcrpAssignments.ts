@@ -13,7 +13,7 @@ import {
   ConfigurationProfileHcrpAssignmentsGetOptionalParams,
   ConfigurationProfileHcrpAssignmentsGetResponse,
   ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ConfigurationProfileHcrpAssignments. */
 export interface ConfigurationProfileHcrpAssignments {

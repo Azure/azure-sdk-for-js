@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the available Namespaces within a resource group.
  *
  * @summary Lists the available Namespaces within a resource group.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/NameSpaces/EHNameSpaceListByResourceGroup.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceListByResourceGroup.json
  */
-async function namespaceListByResourceGroup() {
+async function namespaceListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -29,15 +25,15 @@ async function namespaceListByResourceGroup() {
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.namespaces.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  namespaceListByResourceGroup();
+async function main(): Promise<void> {
+  await namespaceListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./internal/_client.js";
-import { NotificationHubJob } from "../models/notificationHubJob.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import type { NotificationHubJob } from "../models/notificationHubJob.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { parseNotificationHubJobFeed } from "../serializers/notificationHubJobSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -18,7 +18,7 @@ const OPERATION_NAME = "listNotificationHubJobs";
  */
 export function listNotificationHubJobs(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubJob[]> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -34,6 +34,6 @@ export function listNotificationHubJobs(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationHubJobFeed(response.bodyAsText!);
-    }
+    },
   );
 }

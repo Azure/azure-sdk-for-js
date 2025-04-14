@@ -15,7 +15,7 @@ import {
   ManagementAssociationsDeleteOptionalParams,
   ManagementAssociationsGetOptionalParams,
   ManagementAssociationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagementAssociations. */
 export interface ManagementAssociations {

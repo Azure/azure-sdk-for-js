@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+// Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
 
+import type { EndpointType } from "../utils/recordedClient.js";
 import {
-  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
   recorderOptions,
-} from "../utils/recordedClient";
-import * as base64url from "../utils/base64url";
+} from "../utils/recordedClient.js";
+import * as base64url from "../utils/base64url.js";
 
-import { KnownAttestationType } from "../../src";
+import { KnownAttestationType } from "../../src/index.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
-describe("AttestationClient in Browser", function () {
+describe("AttestationClient in Browser", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -141,40 +137,40 @@ describe("AttestationClient in Browser", function () {
     "RHZvOGgyazVkdTFpV0RkQmtBbiswaWlBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0" +
     "tLQoA";
 
-  it("#AttestOpenEnclaveShared", async function () {
+  it("#AttestOpenEnclaveShared", async () => {
     await testOpenEnclave("Shared");
   });
 
-  it("#AttestOpenEnclaveAad", async function () {
+  it("#AttestOpenEnclaveAad", async () => {
     await testOpenEnclave("AAD");
   });
 
-  it("#AttestOpenEnclaveIsolated", async function () {
+  it("#AttestOpenEnclaveIsolated", async () => {
     await testOpenEnclave("Isolated");
   });
 
-  it("#AttestSgxEnclaveShared", async function () {
+  it("#AttestSgxEnclaveShared", async () => {
     await testSgxEnclave("Shared");
   });
 
-  it("#AttestSgxEnclaveAad", async function () {
+  it("#AttestSgxEnclaveAad", async () => {
     await testSgxEnclave("AAD");
   });
 
-  it("#AttestSgxEnclaveIsolated", async function () {
+  it("#AttestSgxEnclaveIsolated", async () => {
     await testSgxEnclave("Isolated");
   });
 
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
-  it("#attestTpm", async function () {
+  it("#attestTpm", async () => {
     const client = createRecordedClient(recorder, "AAD", true);
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 
     // Set the policy on the instance to a known value.
     await adminClient.setPolicy(
       KnownAttestationType.Tpm,
-      "version=1.0; authorizationrules{=> permit();}; issuancerules{};"
+      "version=1.0; authorizationrules{=> permit();}; issuancerules{};",
     );
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
@@ -203,8 +199,8 @@ describe("AttestationClient in Browser", function () {
         client.attestOpenEnclave(new Blob([base64url.decodeString(_openEnclaveReport)]), {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData,
-        })
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+        }),
+      ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
@@ -212,14 +208,14 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
       expect(attestationResult.body.enclaveHeldData).to.deep.equal(
-        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+        new Uint8Array(await binaryRuntimeData.arrayBuffer()),
       );
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
@@ -230,7 +226,7 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
@@ -261,9 +257,9 @@ describe("AttestationClient in Browser", function () {
           {
             runTimeData: binaryRuntimeData,
             runTimeJson: binaryRuntimeData,
-          }
-        )
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+          },
+        ),
+      ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
@@ -274,14 +270,14 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
       expect(attestationResult.body.enclaveHeldData).to.deep.equal(
-        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+        new Uint8Array(await binaryRuntimeData.arrayBuffer()),
       );
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
@@ -294,7 +290,7 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);

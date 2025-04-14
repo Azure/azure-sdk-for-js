@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./_client.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
 } from "../../serializers/registrationSerializer.js";
-import { HttpMethods } from "@azure/core-rest-pipeline";
-import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure/core-client";
-import { RegistrationDescription } from "../../models/registration.js";
+import type { HttpMethods } from "@azure/core-rest-pipeline";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { RegistrationDescription } from "../../models/registration.js";
 import { isDefined } from "../../utils/utils.js";
 
 /**
@@ -19,7 +19,7 @@ export async function createOrUpdateRegistrationDescription(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
   operationName: "create" | "createOrUpdate" | "update",
-  options: OperationOptions
+  options: OperationOptions,
 ): Promise<RegistrationDescription> {
   const endpoint = context.requestUrl();
   endpoint.pathname += "/registrations";

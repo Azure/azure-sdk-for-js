@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SubscriptionFeatureRegistrations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SubscriptionFeatureRegistrations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FeatureClient } from "../featureClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FeatureClient } from "../featureClient.js";
 import {
   SubscriptionFeatureRegistration,
   SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams,
@@ -28,7 +28,7 @@ import {
   SubscriptionFeatureRegistrationsDeleteOptionalParams,
   SubscriptionFeatureRegistrationsListBySubscriptionNextResponse,
   SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionFeatureRegistrations operations. */

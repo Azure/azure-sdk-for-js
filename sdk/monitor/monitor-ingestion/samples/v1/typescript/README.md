@@ -56,7 +56,7 @@ node dist/defaultConcurrency.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTION_RULE_ID="<data collection rule id>" STREAM_NAME="<stream name>" node dist/defaultConcurrency.js
+npx dev-tool run vendored cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTION_RULE_ID="<data collection rule id>" STREAM_NAME="<stream name>" node dist/defaultConcurrency.js
 ```
 
 ## Next Steps
@@ -69,8 +69,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/typescript/src/uploadCustomLogs.ts
 [userdefinedconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/typescript/src/userDefinedConcurrency.ts
 [usererrorhandling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/typescript/src/userErrorHandling.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
+[createinstance_azuremonitor]: https://learn.microsoft.com/azure/azure-monitor/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

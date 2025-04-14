@@ -1,41 +1,98 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
-import { PublicAccessType } from "../../src/models";
 import {
+  SimpleTokenCredential,
   configureStorageClient,
   getDataLakeServiceClient,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+} from "../utils/index.js";
+import type { DataLakeServiceClient } from "../../src/index.js";
+import {
+  DataLakeFileSystemClient,
+  FileSystemSASPermissions,
+  newPipeline,
+} from "../../src/index.js";
+import type { PublicAccessType } from "../../src/models.js";
+import { getDataLakeServiceAccountAudience } from "../../src/models.js";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
+  let serviceClient: DataLakeServiceClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     // make sure we add the sanitizers on playback for SAS strings
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    const serviceClient = getDataLakeServiceClient(recorder);
+    serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it("DataLakeFileSystemClient default audience should work", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      createTestCredential(),
+    );
+    configureStorageClient(recorder, fileSystemClientWithOAuthToken);
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileSystemClient customized audience should work", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      createTestCredential(),
+      { audience: getDataLakeServiceAccountAudience(serviceClient.accountName) },
+    );
+    configureStorageClient(recorder, fileSystemClientWithOAuthToken);
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("DataLakeFileSystemClient bearer token challenge should work", async () => {
+    // Validate that bad audience should fail first.
+    const authToken = await createTestCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default",
+    );
+    assert.isNotNull(authToken);
+    const fileSystemClientWithPlainOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      new SimpleTokenCredential(authToken!.token),
+    );
+    configureStorageClient(recorder, fileSystemClientWithPlainOAuthToken);
+
+    try {
+      await fileSystemClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      createTestCredential(),
+      { audience: "https://badaudience.dfs.core.windows.net/.default" },
+    );
+    configureStorageClient(recorder, fileSystemClientWithOAuthToken);
+    const exist = await fileSystemClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("getAccessPolicy", async () => {

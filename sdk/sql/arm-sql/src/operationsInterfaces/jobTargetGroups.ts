@@ -14,8 +14,8 @@ import {
   JobTargetGroupsGetResponse,
   JobTargetGroupsCreateOrUpdateOptionalParams,
   JobTargetGroupsCreateOrUpdateResponse,
-  JobTargetGroupsDeleteOptionalParams
-} from "../models";
+  JobTargetGroupsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobTargetGroups. */
@@ -32,7 +32,7 @@ export interface JobTargetGroups {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobTargetGroupsListByAgentOptionalParams
+    options?: JobTargetGroupsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobTargetGroup>;
   /**
    * Gets a target group.
@@ -48,7 +48,7 @@ export interface JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     targetGroupName: string,
-    options?: JobTargetGroupsGetOptionalParams
+    options?: JobTargetGroupsGetOptionalParams,
   ): Promise<JobTargetGroupsGetResponse>;
   /**
    * Creates or updates a target group.
@@ -66,7 +66,7 @@ export interface JobTargetGroups {
     jobAgentName: string,
     targetGroupName: string,
     parameters: JobTargetGroup,
-    options?: JobTargetGroupsCreateOrUpdateOptionalParams
+    options?: JobTargetGroupsCreateOrUpdateOptionalParams,
   ): Promise<JobTargetGroupsCreateOrUpdateResponse>;
   /**
    * Deletes a target group.
@@ -82,6 +82,6 @@ export interface JobTargetGroups {
     serverName: string,
     jobAgentName: string,
     targetGroupName: string,
-    options?: JobTargetGroupsDeleteOptionalParams
+    options?: JobTargetGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

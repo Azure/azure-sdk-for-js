@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VolumeGroup,
   VolumeGroupsListByElasticSanOptionalParams,
@@ -18,8 +18,8 @@ import {
   VolumeGroupsUpdateResponse,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsGetOptionalParams,
-  VolumeGroupsGetResponse
-} from "../models";
+  VolumeGroupsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VolumeGroups. */
@@ -33,7 +33,7 @@ export interface VolumeGroups {
   listByElasticSan(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: VolumeGroupsListByElasticSanOptionalParams
+    options?: VolumeGroupsListByElasticSanOptionalParams,
   ): PagedAsyncIterableIterator<VolumeGroup>;
   /**
    * Create a Volume Group.
@@ -48,10 +48,10 @@ export interface VolumeGroups {
     elasticSanName: string,
     volumeGroupName: string,
     parameters: VolumeGroup,
-    options?: VolumeGroupsCreateOptionalParams
+    options?: VolumeGroupsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeGroupsCreateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeGroupsCreateResponse>,
       VolumeGroupsCreateResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface VolumeGroups {
     elasticSanName: string,
     volumeGroupName: string,
     parameters: VolumeGroup,
-    options?: VolumeGroupsCreateOptionalParams
+    options?: VolumeGroupsCreateOptionalParams,
   ): Promise<VolumeGroupsCreateResponse>;
   /**
    * Update an VolumeGroup.
@@ -83,10 +83,10 @@ export interface VolumeGroups {
     elasticSanName: string,
     volumeGroupName: string,
     parameters: VolumeGroupUpdate,
-    options?: VolumeGroupsUpdateOptionalParams
+    options?: VolumeGroupsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeGroupsUpdateResponse>,
       VolumeGroupsUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface VolumeGroups {
     elasticSanName: string,
     volumeGroupName: string,
     parameters: VolumeGroupUpdate,
-    options?: VolumeGroupsUpdateOptionalParams
+    options?: VolumeGroupsUpdateOptionalParams,
   ): Promise<VolumeGroupsUpdateResponse>;
   /**
    * Delete an VolumeGroup.
@@ -116,8 +116,8 @@ export interface VolumeGroups {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: VolumeGroupsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an VolumeGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -129,7 +129,7 @@ export interface VolumeGroups {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
+    options?: VolumeGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get an VolumeGroups.
@@ -142,6 +142,6 @@ export interface VolumeGroups {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams
+    options?: VolumeGroupsGetOptionalParams,
   ): Promise<VolumeGroupsGetResponse>;
 }

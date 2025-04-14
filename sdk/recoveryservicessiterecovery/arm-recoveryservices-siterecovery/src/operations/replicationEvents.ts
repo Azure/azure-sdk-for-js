@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationEvents } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationEvents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   Event,
   ReplicationEventsListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   ReplicationEventsListResponse,
   ReplicationEventsGetOptionalParams,
   ReplicationEventsGetResponse,
-  ReplicationEventsListNextResponse
-} from "../models";
+  ReplicationEventsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationEvents operations. */
@@ -46,7 +46,7 @@ export class ReplicationEventsImpl implements ReplicationEvents {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationEventsListOptionalParams
+    options?: ReplicationEventsListOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -64,9 +64,9 @@ export class ReplicationEventsImpl implements ReplicationEvents {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class ReplicationEventsImpl implements ReplicationEvents {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationEventsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Event[]> {
     let result: ReplicationEventsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class ReplicationEventsImpl implements ReplicationEvents {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +102,12 @@ export class ReplicationEventsImpl implements ReplicationEvents {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationEventsListOptionalParams
+    options?: ReplicationEventsListOptionalParams,
   ): AsyncIterableIterator<Event> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class ReplicationEventsImpl implements ReplicationEvents {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationEventsListOptionalParams
+    options?: ReplicationEventsListOptionalParams,
   ): Promise<ReplicationEventsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class ReplicationEventsImpl implements ReplicationEvents {
     resourceName: string,
     resourceGroupName: string,
     eventName: string,
-    options?: ReplicationEventsGetOptionalParams
+    options?: ReplicationEventsGetOptionalParams,
   ): Promise<ReplicationEventsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, eventName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class ReplicationEventsImpl implements ReplicationEvents {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationEventsListNextOptionalParams
+    options?: ReplicationEventsListNextOptionalParams,
   ): Promise<ReplicationEventsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -175,32 +175,30 @@ export class ReplicationEventsImpl implements ReplicationEvents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventCollection
-    }
+      bodyMapper: Mappers.EventCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Event
-    }
+      bodyMapper: Mappers.Event,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -208,26 +206,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.eventName
+    Parameters.eventName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventCollection
-    }
+      bodyMapper: Mappers.EventCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

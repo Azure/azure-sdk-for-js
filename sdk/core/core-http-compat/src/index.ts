@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * A Shim Library that provides compatibility between Core V1 & V2 Packages.
@@ -11,8 +11,8 @@ export {
   ExtendedServiceClientOptions,
   ExtendedCommonClientOptions,
   ExtendedClientOptions,
-} from "./extendedClient";
-export { CompatResponse } from "./response";
+} from "./extendedClient.js";
+export { CompatResponse } from "./response.js";
 export {
   requestPolicyFactoryPolicyName,
   createRequestPolicyFactoryPolicy,
@@ -20,16 +20,17 @@ export {
   RequestPolicy,
   RequestPolicyOptionsLike,
   HttpPipelineLogLevel,
-} from "./policies/requestPolicyFactoryPolicy";
-export { KeepAliveOptions } from "./policies/keepAliveOptions";
-export { RedirectOptions } from "./policies/redirectOptions";
-export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
-export { convertHttpClient } from "./httpClientAdapter";
+} from "./policies/requestPolicyFactoryPolicy.js";
+export { KeepAliveOptions } from "./policies/keepAliveOptions.js";
+export { RedirectOptions } from "./policies/redirectOptions.js";
+export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy.js";
+export { convertHttpClient } from "./httpClientAdapter.js";
 export {
+  Agent,
   WebResourceLike,
   HttpHeadersLike,
   RawHttpHeaders,
   HttpHeader,
   TransferProgressEvent,
   toHttpHeadersLike,
-} from "./util";
+} from "./util.js";

@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { OnlineEndpoints } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { OnlineEndpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   OnlineEndpoint,
   OnlineEndpointsListNextOptionalParams,
@@ -34,19 +38,19 @@ import {
   OnlineEndpointsRegenerateKeysOptionalParams,
   OnlineEndpointsGetTokenOptionalParams,
   OnlineEndpointsGetTokenResponse,
-  OnlineEndpointsListNextResponse
-} from "../models";
+  OnlineEndpointsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OnlineEndpoints operations. */
 export class OnlineEndpointsImpl implements OnlineEndpoints {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class OnlineEndpoints class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -59,7 +63,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
+    options?: OnlineEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<OnlineEndpoint> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -77,9 +81,9 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +91,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     options?: OnlineEndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OnlineEndpoint[]> {
     let result: OnlineEndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +107,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +119,12 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
+    options?: OnlineEndpointsListOptionalParams,
   ): AsyncIterableIterator<OnlineEndpoint> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +139,11 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
+    options?: OnlineEndpointsListOptionalParams,
   ): Promise<OnlineEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,25 +158,24 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: OnlineEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +184,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,19 +193,20 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -219,13 +223,13 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
+    options?: OnlineEndpointsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       endpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -241,11 +245,11 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsGetOptionalParams
+    options?: OnlineEndpointsGetOptionalParams,
   ): Promise<OnlineEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -262,30 +266,29 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
+    options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsUpdateResponse>,
       OnlineEndpointsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OnlineEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -294,8 +297,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -303,19 +306,22 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OnlineEndpointsUpdateResponse,
+      OperationState<OnlineEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -334,14 +340,14 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
+    options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<OnlineEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
       endpointName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -359,30 +365,29 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
+    options?: OnlineEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>,
       OnlineEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OnlineEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -391,8 +396,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -400,19 +405,23 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OnlineEndpointsCreateOrUpdateResponse,
+      OperationState<OnlineEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -431,14 +440,14 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
+    options?: OnlineEndpointsCreateOrUpdateOptionalParams,
   ): Promise<OnlineEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       endpointName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -454,11 +463,11 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsListKeysOptionalParams
+    options?: OnlineEndpointsListKeysOptionalParams,
   ): Promise<OnlineEndpointsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -475,25 +484,24 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: OnlineEndpointsRegenerateKeysOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -502,8 +510,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -511,20 +519,20 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      regenerateKeysOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, endpointName, body, options },
+      spec: regenerateKeysOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -543,20 +551,20 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     workspaceName: string,
     endpointName: string,
     body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
+    options?: OnlineEndpointsRegenerateKeysOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRegenerateKeys(
       resourceGroupName,
       workspaceName,
       endpointName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Retrieve a valid AAD token for an Endpoint using AMLToken-based authentication.
+   * Retrieve a valid AML token for an Endpoint using AMLToken-based authentication.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param endpointName Online Endpoint name.
@@ -566,11 +574,11 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     endpointName: string,
-    options?: OnlineEndpointsGetTokenOptionalParams
+    options?: OnlineEndpointsGetTokenOptionalParams,
   ): Promise<OnlineEndpointsGetTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, endpointName, options },
-      getTokenOperationSpec
+      getTokenOperationSpec,
     );
   }
 
@@ -585,11 +593,11 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: OnlineEndpointsListNextOptionalParams
+    options?: OnlineEndpointsListNextOptionalParams,
   ): Promise<OnlineEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -597,39 +605,37 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
-    Parameters.count,
     Parameters.tags1,
     Parameters.properties1,
+    Parameters.count,
     Parameters.name2,
     Parameters.computeType,
-    Parameters.orderBy2
+    Parameters.orderBy2,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -637,8 +643,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -646,22 +652,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -669,90 +674,87 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     201: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     202: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     204: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     201: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     202: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     204: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.OnlineEndpoint,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName1
+    Parameters.endpointName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAuthKeys
+      bodyMapper: Mappers.EndpointAuthKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -760,14 +762,13 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -775,33 +776,32 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/token",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/token",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAuthToken
+      bodyMapper: Mappers.EndpointAuthToken,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -809,39 +809,29 @@ const getTokenOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.name2,
-    Parameters.computeType,
-    Parameters.orderBy2
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

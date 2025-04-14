@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CallRecordingImpl } from "./generated/src/operations";
-import {
+// Licensed under the MIT License.
+import { CallRecordingImpl } from "./generated/src/operations/index.js";
+import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
-} from "./generated/src/models/index";
-import { RecordingStateResult } from "./models/responses";
-import {
+} from "./generated/src/models/index.js";
+import type { RecordingStateResult } from "./models/responses.js";
+import type {
   StartRecordingOptions,
   StopRecordingOptions,
   PauseRecordingOptions,
@@ -14,14 +14,14 @@ import {
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
-} from "./models/options";
-import { communicationIdentifierModelConverter } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
-import * as fs from "fs";
-import { v4 as uuidv4 } from "uuid";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationApiClient } from "./generated/src";
-import { createCommunicationAuthPolicy } from "@azure/communication-common";
+} from "./models/options.js";
+import { communicationIdentifierModelConverter } from "./utli/converters.js";
+import { ContentDownloaderImpl } from "./contentDownloader.js";
+import * as fs from "node:fs";
+import { randomUUID } from "@azure/core-util";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CallAutomationApiClient } from "./generated/src/index.js";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -34,11 +34,13 @@ export class CallRecording {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: CallAutomationApiClientOptionalParams
+    options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint,
+    );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
@@ -51,13 +53,18 @@ export class CallRecording {
    */
   public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator,
+      callLocator: options.callLocator ? options.callLocator : undefined,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
+    startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
+    startCallRecordingRequest.recordingStorage = options.recordingStorage;
+    startCallRecordingRequest.callConnectionId = options.callConnectionId
+      ? options.callConnectionId
+      : undefined;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];
@@ -73,31 +80,42 @@ export class CallRecording {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
       options.audioChannelParticipantOrdering.forEach((identifier) => {
         startCallRecordingRequest.audioChannelParticipantOrdering?.push(
-          communicationIdentifierModelConverter(identifier)
+          communicationIdentifierModelConverter(identifier),
         );
       });
     }
-
-    if (options.callLocator.kind === "groupCallLocator") {
-      startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
-    } else {
-      startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
+    if (options.callLocator) {
+      if (options.callLocator.kind === "groupCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "groupCallLocator",
+        };
+      } else if (options.callLocator.kind === "roomCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          roomId: options.callLocator.id,
+          kind: "roomCallLocator",
+        };
+      } else {
+        startCallRecordingRequest.callLocator = {
+          serverCallId: options.callLocator.id,
+          kind: "serverCallLocator",
+        };
+      }
     }
 
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
     };
     const response = await this.callRecordingImpl.startRecording(
       startCallRecordingRequest,
-      optionsInternal
+      optionsInternal,
     );
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
+      recordingKind: response.recordingKind!,
       recordingState: response.recordingState!,
     };
 
@@ -111,12 +129,13 @@ export class CallRecording {
    */
   public async getState(
     recordingId: string,
-    options: GetRecordingPropertiesOptions = {}
+    options: GetRecordingPropertiesOptions = {},
   ): Promise<RecordingStateResult> {
     const response = await this.callRecordingImpl.getRecordingProperties(recordingId, options);
 
     const result: RecordingStateResult = {
       recordingId: response.recordingId!,
+      recordingKind: response.recordingKind!,
       recordingState: response.recordingState!,
     };
 
@@ -157,7 +176,7 @@ export class CallRecording {
    */
   public async delete(
     recordingLocationUrl: string,
-    options: DeleteRecordingOptions = {}
+    options: DeleteRecordingOptions = {},
   ): Promise<void> {
     await this.contentDownloader.deleteRecording(recordingLocationUrl, options);
   }
@@ -169,7 +188,7 @@ export class CallRecording {
    */
   public async downloadStreaming(
     sourceLocationUrl: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<NodeJS.ReadableStream> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
@@ -189,12 +208,17 @@ export class CallRecording {
   public async downloadToStream(
     sourceLocationUrl: string,
     destinationStream: NodeJS.WritableStream,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(destinationStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        destinationStream.on("finish", resolve);
+        destinationStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }
@@ -209,12 +233,18 @@ export class CallRecording {
   public async downloadToPath(
     sourceLocationUrl: string,
     destinationPath: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
-      recordingStream.pipe(fs.createWriteStream(destinationPath));
+      const writeFileStream = fs.createWriteStream(destinationPath);
+      recordingStream.pipe(writeFileStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        writeFileStream.on("finish", resolve);
+        writeFileStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }

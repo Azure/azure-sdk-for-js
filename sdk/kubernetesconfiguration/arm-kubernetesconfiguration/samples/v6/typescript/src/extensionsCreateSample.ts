@@ -13,17 +13,15 @@ import {
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Kubernetes Cluster Extension.
  *
  * @summary Create a new Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateExtension.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateExtension.json
  */
-async function createExtension() {
+async function createExtension(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function createExtension() {
     configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
     configurationSettings: {
       omsagentEnvClusterName: "clusterName1",
-      omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b"
+      omsagentSecretWsid: "fakeTokenPlaceholder"
     },
     extensionType: "azuremonitor-containers",
     releaseTrain: "Preview",
@@ -63,9 +61,9 @@ async function createExtension() {
  * This sample demonstrates how to Create a new Kubernetes Cluster Extension.
  *
  * @summary Create a new Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/CreateExtensionWithPlan.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateExtensionWithPlan.json
  */
-async function createExtensionWithPlan() {
+async function createExtensionWithPlan(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName =
@@ -100,7 +98,7 @@ async function createExtensionWithPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createExtension();
   createExtensionWithPlan();
 }

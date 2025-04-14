@@ -9,12 +9,19 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  DiagnosticResource as DiagnosticResourceMapper
-} from "../models/mappers";
+  DiagnosticResource as DiagnosticResourceMapper,
+  SolutionResource as SolutionResourceMapper,
+  SolutionPatchRequestBody as SolutionPatchRequestBodyMapper,
+  SolutionWarmUpRequestBody as SolutionWarmUpRequestBodyMapper,
+  SimplifiedSolutionsResource as SimplifiedSolutionsResourceMapper,
+  TroubleshooterResource as TroubleshooterResourceMapper,
+  ContinueRequestBody as ContinueRequestBodyMapper,
+  DiscoveryNlpRequest as DiscoveryNlpRequestMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -23,9 +30,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -34,22 +41,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01-preview",
+    defaultValue: "2024-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -58,10 +65,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -71,14 +78,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const checkNameAvailabilityRequest: OperationParameter = {
   parameterPath: ["options", "checkNameAvailabilityRequest"],
-  mapper: CheckNameAvailabilityRequestMapper
+  mapper: CheckNameAvailabilityRequestMapper,
 };
 
 export const scope: OperationURLParameter = {
@@ -87,15 +94,15 @@ export const scope: OperationURLParameter = {
     serializedName: "scope",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const diagnosticResourceRequest: OperationParameter = {
   parameterPath: ["options", "diagnosticResourceRequest"],
-  mapper: DiagnosticResourceMapper
+  mapper: DiagnosticResourceMapper,
 };
 
 export const diagnosticsResourceName: OperationURLParameter = {
@@ -104,14 +111,14 @@ export const diagnosticsResourceName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9-+@()_]+$"),
       MaxLength: 100,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "diagnosticsResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -119,10 +126,10 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -130,7 +137,117 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const solutionRequestBody: OperationParameter = {
+  parameterPath: ["options", "solutionRequestBody"],
+  mapper: SolutionResourceMapper,
+};
+
+export const solutionResourceName: OperationURLParameter = {
+  parameterPath: "solutionResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9-+@()_]+$"),
+      MaxLength: 100,
+      MinLength: 1,
+    },
+    serializedName: "solutionResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const solutionPatchRequestBody: OperationParameter = {
+  parameterPath: ["options", "solutionPatchRequestBody"],
+  mapper: SolutionPatchRequestBodyMapper,
+};
+
+export const solutionWarmUpRequestBody: OperationParameter = {
+  parameterPath: ["options", "solutionWarmUpRequestBody"],
+  mapper: SolutionWarmUpRequestBodyMapper,
+};
+
+export const simplifiedSolutionsRequestBody: OperationParameter = {
+  parameterPath: ["options", "simplifiedSolutionsRequestBody"],
+  mapper: SimplifiedSolutionsResourceMapper,
+};
+
+export const simplifiedSolutionsResourceName: OperationURLParameter = {
+  parameterPath: "simplifiedSolutionsResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9-+@()_]+$"),
+      MaxLength: 100,
+      MinLength: 1,
+    },
+    serializedName: "simplifiedSolutionsResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const createTroubleshooterRequestBody: OperationParameter = {
+  parameterPath: ["options", "createTroubleshooterRequestBody"],
+  mapper: TroubleshooterResourceMapper,
+};
+
+export const troubleshooterName: OperationURLParameter = {
+  parameterPath: "troubleshooterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("([A-Za-z0-9]+(-[A-Za-z0-9]+)+)"),
+      MaxLength: 100,
+      MinLength: 1,
+    },
+    serializedName: "troubleshooterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const continueRequestBody: OperationParameter = {
+  parameterPath: ["options", "continueRequestBody"],
+  mapper: ContinueRequestBodyMapper,
+};
+
+export const solutionId: OperationURLParameter = {
+  parameterPath: "solutionId",
+  mapper: {
+    constraints: {
+      MaxLength: 100,
+      MinLength: 1,
+    },
+    serializedName: "solutionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const discoverSolutionRequest: OperationParameter = {
+  parameterPath: ["options", "discoverSolutionRequest"],
+  mapper: DiscoveryNlpRequestMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };

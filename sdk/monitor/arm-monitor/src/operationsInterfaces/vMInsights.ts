@@ -8,8 +8,8 @@
 
 import {
   VMInsightsGetOnboardingStatusOptionalParams,
-  VMInsightsGetOnboardingStatusResponse
-} from "../models";
+  VMInsightsGetOnboardingStatusResponse,
+} from "../models/index.js";
 
 /** Interface representing a VMInsights. */
 export interface VMInsights {
@@ -21,6 +21,6 @@ export interface VMInsights {
    */
   getOnboardingStatus(
     resourceUri: string,
-    options?: VMInsightsGetOnboardingStatusOptionalParams
+    options?: VMInsightsGetOnboardingStatusOptionalParams,
   ): Promise<VMInsightsGetOnboardingStatusResponse>;
 }

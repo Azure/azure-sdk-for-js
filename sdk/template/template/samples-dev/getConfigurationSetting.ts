@@ -9,10 +9,9 @@ import { ConfigurationClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.APPCONFIG_ENDPOINT || "<endpoint>";
   const key = process.env.APPCONFIG_TEST_SETTING_KEY || "<test-key>";
 

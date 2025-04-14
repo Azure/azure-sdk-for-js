@@ -11,8 +11,8 @@ import {
   PartitionMetric,
   CollectionPartitionListMetricsOptionalParams,
   PartitionUsage,
-  CollectionPartitionListUsagesOptionalParams
-} from "../models";
+  CollectionPartitionListUsagesOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CollectionPartition. */
@@ -34,7 +34,7 @@ export interface CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionListMetricsOptionalParams
+    options?: CollectionPartitionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<PartitionMetric>;
   /**
    * Retrieves the usages (most recent storage data) for the given collection, split by partition.
@@ -49,6 +49,6 @@ export interface CollectionPartition {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionPartitionListUsagesOptionalParams
+    options?: CollectionPartitionListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<PartitionUsage>;
 }

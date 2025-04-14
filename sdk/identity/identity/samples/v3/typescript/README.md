@@ -32,7 +32,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Active Directory App Registration][createinstance_azureactivedirectoryappregistration]
+- [Microsoft Entra App Registration][createinstance_azureactivedirectoryappregistration]
 - [Azure Key Vault][createinstance_azurekeyvault]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
@@ -66,7 +66,7 @@ node dist/azureDeveloperCliCredential.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_TENANT_ID="<azure tenant id>" node dist/azureDeveloperCliCredential.js
+npx dev-tool run vendored cross-env AZURE_TENANT_ID="<azure tenant id>" node dist/azureDeveloperCliCredential.js
 ```
 
 ## Next Steps
@@ -78,9 +78,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3/typescript/src/defaultAzureCredential.ts
 [environmentcredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3/typescript/src/environmentCredential.ts
 [workloadidentitycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v3/typescript/src/workloadIdentityCredential.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/identity
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureactivedirectoryappregistration]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-[createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
+[createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/entra/identity-platform/quickstart-register-app
+[createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

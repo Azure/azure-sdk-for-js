@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { EdgeNode, EdgeNodesListOptionalParams } from "../models";
+import { EdgeNode, EdgeNodesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EdgeNodes. */
@@ -17,6 +17,6 @@ export interface EdgeNodes {
    * @param options The options parameters.
    */
   list(
-    options?: EdgeNodesListOptionalParams
+    options?: EdgeNodesListOptionalParams,
   ): PagedAsyncIterableIterator<EdgeNode>;
 }

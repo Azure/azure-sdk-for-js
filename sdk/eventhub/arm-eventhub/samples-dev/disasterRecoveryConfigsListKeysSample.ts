@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the primary and secondary connection strings for the Namespace.
  *
  * @summary Gets the primary and secondary connection strings for the Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasAuthorizationRuleListKey.json
  */
-async function nameSpaceAuthorizationRuleListKey() {
+async function nameSpaceAuthorizationRuleListKey(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -34,13 +32,13 @@ async function nameSpaceAuthorizationRuleListKey() {
     resourceGroupName,
     namespaceName,
     alias,
-    authorizationRuleName
+    authorizationRuleName,
   );
   console.log(result);
 }
 
-async function main() {
-  nameSpaceAuthorizationRuleListKey();
+async function main(): Promise<void> {
+  await nameSpaceAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

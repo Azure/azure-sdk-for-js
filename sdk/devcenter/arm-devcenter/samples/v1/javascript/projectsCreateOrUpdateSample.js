@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a project.
  *
  * @summary Creates or updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_Put.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Put.json
  */
 async function projectsCreateOrUpdate() {
   const subscriptionId =
@@ -27,6 +27,7 @@ async function projectsCreateOrUpdate() {
     description: "This is my first project.",
     devCenterId:
       "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
+    displayName: "Dev",
     location: "centralus",
     tags: { costCenter: "R&D" },
   };
@@ -35,7 +36,7 @@ async function projectsCreateOrUpdate() {
   const result = await client.projects.beginCreateOrUpdateAndWait(
     resourceGroupName,
     projectName,
-    body
+    body,
   );
   console.log(result);
 }
@@ -44,7 +45,7 @@ async function projectsCreateOrUpdate() {
  * This sample demonstrates how to Creates or updates a project.
  *
  * @summary Creates or updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Projects_PutWithMaxDevBoxPerUser.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_PutWithMaxDevBoxPerUser.json
  */
 async function projectsCreateOrUpdateWithLimitsPerDev() {
   const subscriptionId =
@@ -64,7 +65,7 @@ async function projectsCreateOrUpdateWithLimitsPerDev() {
   const result = await client.projects.beginCreateOrUpdateAndWait(
     resourceGroupName,
     projectName,
-    body
+    body,
   );
   console.log(result);
 }

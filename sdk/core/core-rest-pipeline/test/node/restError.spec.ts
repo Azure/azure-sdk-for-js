@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { PipelineResponse, RestError, createHttpHeaders, createPipelineRequest } from "../../src";
-import { inspect } from "util";
+import { describe, it, assert } from "vitest";
+import {
+  type PipelineResponse,
+  RestError,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../../src/index.js";
+import { inspect } from "node:util";
 
 describe("RestError", function () {
   it("serializes properly in node", function () {

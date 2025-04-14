@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all private link resources information for this grafana resource
  *
  * @summary List all private link resources information for this grafana resource
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateLinkResources_List.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateLinkResources_List.json
  */
 async function privateLinkResourcesList() {
   const subscriptionId =

@@ -11,8 +11,8 @@ import {
   FrontendIPConfiguration,
   LoadBalancerFrontendIPConfigurationsListOptionalParams,
   LoadBalancerFrontendIPConfigurationsGetOptionalParams,
-  LoadBalancerFrontendIPConfigurationsGetResponse
-} from "../models";
+  LoadBalancerFrontendIPConfigurationsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerFrontendIPConfigurations. */
@@ -26,7 +26,7 @@ export interface LoadBalancerFrontendIPConfigurations {
   list(
     resourceGroupName: string,
     loadBalancerName: string,
-    options?: LoadBalancerFrontendIPConfigurationsListOptionalParams
+    options?: LoadBalancerFrontendIPConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<FrontendIPConfiguration>;
   /**
    * Gets load balancer frontend IP configuration.
@@ -39,6 +39,6 @@ export interface LoadBalancerFrontendIPConfigurations {
     resourceGroupName: string,
     loadBalancerName: string,
     frontendIPConfigurationName: string,
-    options?: LoadBalancerFrontendIPConfigurationsGetOptionalParams
+    options?: LoadBalancerFrontendIPConfigurationsGetOptionalParams,
   ): Promise<LoadBalancerFrontendIPConfigurationsGetResponse>;
 }

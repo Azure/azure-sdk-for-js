@@ -6,28 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ElasticSanManagement } from "../src/elasticSanManagement";
-import { ElasticSan } from "../src/models";
+import { ElasticSanManagement } from "../src/elasticSanManagement.js";
+import type { ElasticSan } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -41,36 +36,66 @@ describe("elasticSan test", () => {
   let location: string;
   let resourceGroup: string;
   let elasticSanName: string;
-  let parameters: ElasticSan
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  let parameters: ElasticSan;
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2stage";
+    client = new ElasticSanManagement(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus2";
     resourceGroup = "myjstest";
-    elasticSanName = "ti7q-k952-1qB3J_5";
+    elasticSanName = "testelasticsan";
     parameters = {
-      availabilityZones: ["aaaaaaaaaaaaaaaaa"],
-      baseSizeTiB: 26,
-      extendedCapacitySizeTiB: 7,
-      location: location,
-      sku: { name: "Premium_LRS", tier: "Premium" },
-      tags: { key896: "aaaaaaaaaaaaaaaaaa" }
+      location,
+      properties: {
+        baseSizeTiB: 15,
+        extendedCapacitySizeTiB: 27,
+        sku: { name: "Premium_LRS" },
+      },
     };
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("elasticSan list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
+  it("elasticSan create test", async () => {
+    const res = await client.elasticSans.beginCreateAndWait(
+      resourceGroup,
+      elasticSanName,
+      parameters,
+    );
+    assert.equal(res.name, elasticSanName);
+  });
+
+  it("elasticSan list test", async () => {
+    const resArray = new Array();
+    for await (const item of client.elasticSans.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("elasticSan delete test", async () => {
+    const resArray = new Array();
+    await client.elasticSans.beginDeleteAndWait(resourceGroup, elasticSanName);
+    for await (const item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

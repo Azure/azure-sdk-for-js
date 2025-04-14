@@ -1,11 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzurePluginContext } from "../../identity/src/plugins/provider";
-import { IdentityPlugin } from "@azure/identity";
+import type { IdentityPlugin } from "@azure/identity";
 import keytar from "keytar";
 
 const VSCodeServiceName = "VS Code Azure";
+
+/**
+ * A function that searches for credentials in the Visual Studio Code credential store.
+ *
+ * @returns an array of credentials (username and password)
+ */
+type VSCodeCredentialFinder = () => Promise<Array<{ account: string; password: string }>>;
+
+/**
+ * Plugin context entries for controlling VisualStudioCodeCredential.
+ */
+interface VisualStudioCodeCredentialControl {
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
+}
+
+/**
+ * Context options passed to a plugin during initialization.
+ *
+ * Plugin authors are responsible for casting their plugin context values
+ * to this type.
+ *
+ * @internal
+ */
+interface AzurePluginContext {
+  vsCodeCredentialControl: VisualStudioCodeCredentialControl;
+}
 
 /**
  * A plugin that provides the dependencies of `VisualStudioCodeCredential`
@@ -24,21 +49,25 @@ const VSCodeServiceName = "VS Code Azure";
  *
  * Example:
  *
- * ```javascript
+ * ```ts snippet:ReadmeSampleVisualStudioCodeCredential
  * import { useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
  * import { vsCodePlugin } from "@azure/identity-vscode";
  *
- * // Load the plugin
  * useIdentityPlugin(vsCodePlugin);
  *
- * // Now that the plugin is loaded, this credential may be used
  * const credential = new VisualStudioCodeCredential();
+ *
+ * // The graph.microsoft.com scope is used as an example
+ * const scope = "https://graph.microsoft.com/.default";
+ *
+ * // Print out part of the access token
+ * console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
  * ```
  */
 export const vsCodePlugin: IdentityPlugin = (context) => {
   const { vsCodeCredentialControl } = context as AzurePluginContext;
 
   vsCodeCredentialControl.setVsCodeCredentialFinder(() =>
-    keytar.findCredentials(VSCodeServiceName)
+    keytar.findCredentials(VSCodeServiceName),
   );
 };

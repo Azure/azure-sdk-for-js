@@ -1,36 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const assert = chai.assert;
-
+import type { AtomXmlSerializer } from "../../../src/util/atomXmlHelper.js";
 import {
-  AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
-} from "../../../src/util/atomXmlHelper";
-import * as Constants from "../../../src/util/constants";
-import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
+} from "../../../src/util/atomXmlHelper.js";
+import * as Constants from "../../../src/util/constants.js";
+import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
 import {
   buildQueueOptions,
   QueueResourceSerializer,
-} from "../../../src/serializers/queueResourceSerializer";
+} from "../../../src/serializers/queueResourceSerializer.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildTopicOptions,
   TopicResourceSerializer,
-} from "../../../src/serializers/topicResourceSerializer";
+} from "../../../src/serializers/topicResourceSerializer.js";
 import {
   buildSubscriptionOptions,
   SubscriptionResourceSerializer,
-} from "../../../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
-import { TestConstants } from "../../public/fakeTestSecrets";
-import { FullOperationResponse } from "@azure/core-client";
+} from "../../../src/serializers/subscriptionResourceSerializer.js";
+import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer.js";
+import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
+import { TestConstants } from "../../public/fakeTestSecrets.js";
+import type { FullOperationResponse } from "@azure/core-client";
+import { beforeEach, describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -83,7 +80,7 @@ const ruleProperties = ["Filter", "Action", "Name"];
 
 const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient =
   new ServiceBusAdministrationClient(
-    "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
+    "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test",
   );
 
 describe("ATOM Serializers", () => {
@@ -106,16 +103,16 @@ describe("ATOM Serializers", () => {
           mockServiceBusAtomManagementClient,
           request,
           new MockSerializer(),
-          {}
+          {},
         );
         assert.fail("Error must be thrown");
       } catch (err: any) {
         assert.equal(
           err.message.startsWith(
-            "Error occurred while parsing the response body - expected the service to return valid xml content."
+            "Error occurred while parsing the response body - expected the service to return valid xml content.",
           ),
           true,
-          `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `
+          `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `,
         );
         assert.equal(err.code, "PARSE_ERROR");
       }
@@ -138,7 +135,7 @@ describe("ATOM Serializers", () => {
         request,
         new MockSerializer(),
         {},
-        requestObject
+        requestObject,
       );
 
       const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
@@ -152,12 +149,12 @@ describe("ATOM Serializers", () => {
       assert.equal(
         requestBody.substring(0, indexOfOpenUpdateTag),
         expectedRequestBody.substring(0, indexOfOpenUpdateTag),
-        "Atom XML serialization failure"
+        "Atom XML serialization failure",
       );
       assert.equal(
         requestBody.substring(indexOfCloseUpdateTag),
         expectedRequestBody.substring(indexOfCloseUpdateTag),
-        "Atom XML serialization failure"
+        "Atom XML serialization failure",
       );
     });
   });
@@ -182,7 +179,7 @@ describe("ATOM Serializers", () => {
         assert.equal(
           err.message,
           "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-          `Unexpected error message found.`
+          `Unexpected error message found.`,
         );
         assert.equal(err.code, "PARSE_ERROR");
       }
@@ -206,7 +203,7 @@ describe("ATOM Serializers", () => {
         assert.equal(
           err.message,
           "Service returned an error response with an unrecognized HTTP status code - 666",
-          `Unexpected error message found.`
+          `Unexpected error message found.`,
         );
         assert.equal(err.code, "ServiceError", `Unexpected error code found.`);
       }
@@ -267,7 +264,7 @@ describe("ATOM Serializers", () => {
         request,
         new QueueResourceSerializer(),
         {},
-        buildQueueOptions(queueOptions)
+        buildQueueOptions(queueOptions),
       );
 
       if (!request.body) {
@@ -328,7 +325,7 @@ describe("ATOM Serializers", () => {
         request,
         new TopicResourceSerializer(),
         {},
-        buildTopicOptions(topicOptions)
+        buildTopicOptions(topicOptions),
       );
 
       if (!request.body) {
@@ -366,7 +363,7 @@ describe("ATOM Serializers", () => {
         request,
         new SubscriptionResourceSerializer(),
         {},
-        buildSubscriptionOptions(subscriptionOptions)
+        buildSubscriptionOptions(subscriptionOptions),
       );
 
       if (!request.body) {
@@ -402,7 +399,7 @@ describe("ATOM Serializers", () => {
         request,
         new RuleResourceSerializer(),
         {},
-        ruleOptions
+        ruleOptions,
       );
 
       if (!request.body) {
@@ -414,7 +411,7 @@ describe("ATOM Serializers", () => {
 
   function checkXmlHasPropertiesInExpectedOrder(
     xml: string,
-    expectedOrderedProperties: Array<string>
+    expectedOrderedProperties: Array<string>,
   ): void {
     const orderedPropertyIndices: Array<number> = [];
     for (let i = 0; i < expectedOrderedProperties.length; i++) {
@@ -432,7 +429,7 @@ describe("ATOM Serializers", () => {
       assert.equal(
         curr < next,
         true,
-        "The properties in constructed request are not in expected order"
+        "The properties in constructed request are not in expected order",
       );
     }
   }
@@ -583,20 +580,20 @@ describe("ATOM Serializers", () => {
             request,
             new RuleResourceSerializer(),
             {},
-            testCase.input as any // casting because invalid input won't satisfy type requirement
+            testCase.input as any, // casting because invalid input won't satisfy type requirement
           );
           assert.fail("Error must be thrown");
         } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -728,20 +725,20 @@ describe("ATOM Serializers", () => {
             request,
             new RuleResourceSerializer(),
             {},
-            testCase.input as any // invalid input won't satisfy type requirement so need cast
+            testCase.input as any, // invalid input won't satisfy type requirement so need cast
           );
           assert.fail("Error must be thrown");
         } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -791,13 +788,13 @@ describe("ATOM Serializers", () => {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -956,7 +953,7 @@ describe("ATOM Serializers", () => {
             assert.equal(
               err.message,
               testCase.output.errorMessage,
-              `Unexpected error message found.`
+              `Unexpected error message found.`,
             );
           }
         }
@@ -1186,7 +1183,7 @@ describe("ATOM Serializers", () => {
       };
       const result = await mockServiceBusAtomManagementClient["getRules"](
         "testTopic",
-        "testSubscription"
+        "testSubscription",
       );
       assertEmptyArray(result);
     });
@@ -1259,7 +1256,7 @@ describe("ATOM Serializers", () => {
     ].forEach((testCase) => {
       it(testCase.title, () => {
         sanitizeSerializableObject(testCase.input);
-        chai.assert.deepEqual(testCase.input, testCase.output as any);
+        assert.deepEqual(testCase.input, testCase.output as any);
       });
     });
   });
@@ -1276,7 +1273,7 @@ describe("ATOM Serializers", () => {
       { input: "abc", output: false },
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
-        chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
+        assert.equal(isJSONLikeObject(testCase.input), testCase.output);
       });
     });
   });
@@ -1359,9 +1356,9 @@ describe("ATOM Serializers", () => {
       it(`${testCase.title}`, () => {
         try {
           const xmlnsPrefix = getXMLNSPrefix(testCase.input);
-          chai.assert.equal(xmlnsPrefix, testCase.output.value);
+          assert.equal(xmlnsPrefix, testCase.output.value);
         } catch (error: any) {
-          chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
+          assert.equal(error, testCase.output.error, "Unexpected error thrown");
         }
       });
     });

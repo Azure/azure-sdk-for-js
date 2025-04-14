@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PartitionMetric,
-  PartitionKeyRangeIdRegionListMetricsOptionalParams
-} from "../models";
+  PartitionKeyRangeIdRegionListMetricsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PartitionKeyRangeIdRegion. */
@@ -37,6 +37,6 @@ export interface PartitionKeyRangeIdRegion {
     collectionRid: string,
     partitionKeyRangeId: string,
     filter: string,
-    options?: PartitionKeyRangeIdRegionListMetricsOptionalParams
+    options?: PartitionKeyRangeIdRegionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<PartitionMetric>;
 }

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Mapper, createSerializer } from "@azure/core-client";
+import type { Mapper } from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
 
 /**
  * The TypeDeserializer class enables easy access to the Attestation Model serialization
@@ -23,7 +24,7 @@ export class TypeDeserializer {
   public static deserialize(
     rawJson: unknown,
     typeMappers: { [key: string]: any },
-    bodyTypeName: string
+    bodyTypeName: string,
   ): unknown {
     const serializer = createSerializer(typeMappers);
     return serializer.deserialize(typeMappers[bodyTypeName], rawJson, bodyTypeName);
@@ -40,7 +41,7 @@ export class TypeDeserializer {
   public static serialize(
     objectToSerialize: unknown,
     typeMappers: { [key: string]: Mapper },
-    bodyMapper: Mapper
+    bodyMapper: Mapper,
   ): string {
     const serializer = createSerializer(typeMappers);
     return JSON.stringify(serializer.serialize(bodyMapper, objectToSerialize));

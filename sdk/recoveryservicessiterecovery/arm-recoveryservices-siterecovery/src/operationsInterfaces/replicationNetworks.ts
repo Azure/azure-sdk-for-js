@@ -12,8 +12,8 @@ import {
   ReplicationNetworksListByReplicationFabricsOptionalParams,
   ReplicationNetworksListOptionalParams,
   ReplicationNetworksGetOptionalParams,
-  ReplicationNetworksGetResponse
-} from "../models";
+  ReplicationNetworksGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationNetworks. */
@@ -30,7 +30,7 @@ export interface ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<Network>;
   /**
    * Lists the networks available in a vault.
@@ -42,7 +42,7 @@ export interface ReplicationNetworks {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworksListOptionalParams
+    options?: ReplicationNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<Network>;
   /**
    * Gets the details of a network.
@@ -58,6 +58,6 @@ export interface ReplicationNetworks {
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworksGetOptionalParams
+    options?: ReplicationNetworksGetOptionalParams,
   ): Promise<ReplicationNetworksGetResponse>;
 }

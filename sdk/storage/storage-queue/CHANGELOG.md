@@ -1,12 +1,104 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 12.12.0 (Unreleased)
+## 12.26.0 (2025-03-18)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2025-05-05.
+
+## 12.25.0 (2024-11-13)
+
+### Features Added
+
+- Added support for service version 2025-01-05.
+
+## 12.24.0 (2024-09-22)
+
+### Features Added
+
+- Includes all features released in 12.24.0-beta.1.
+
+### Other Changes
+
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
+
+## 12.24.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added ability to retrieve SAS string to sign for debugging purposes.
+
+## 12.23.0 (2024-07-18)
+
+### Features Added
+
+- Includes all features released in 12.23.0-beta.1.
 
 ### Bugs Fixed
+
+- Correct content-length header with request body length. (#30138)
+
+## 12.23.0-beta.1 (2024-06-13)
+
+### Features Added
+
+- Added support for service version 2024-08-04.
+- Added more detailed messaging for authorization failure cases.
+
+## 12.22.0 (2024-06-04)
+
+### Features Added
+
+- Includes all features released in 12.22.0-beta.1.
+- Allow HTTP connections
+
+## 12.17.0 (2024-05-11)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+
+## 12.16.0 (2023-11-09)
+
+### Features Added
+
+- Includes all features released in 12.16.0-beta.1.
+
+## 12.22.0-beta.1 (2023-11-01)
+
+### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.16.0-beta.1 (2023-10-18)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
+
+## 12.15.0 (2023-09-14)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+
+## 12.14.0 (2023-07-12)
+
+### Features Added
+
+- Added support for service version 2023-01-03.
+
+## 12.13.0 (2023-04-13)
+
+### Features Added
+
+- Added support for service version 2022-11-02.
+
+## 12.12.0 (2023-02-23)
 
 ### Other Changes
 
@@ -14,7 +106,7 @@
 
 ## 12.11.0 (2022-10-14)
 
-### Features 
+### Features
 
 - Added support for service version 2021-10-04.
 
@@ -230,7 +322,7 @@
 - A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/proxyAuth.ts)
-- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
+- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://learn.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 10.3.0 (2019-09-09)
 
@@ -258,7 +350,7 @@
 - Updated API version to 2018-11-09.
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://learn.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
 ## 12.0.0-preview.1 (2019-07-03)
 

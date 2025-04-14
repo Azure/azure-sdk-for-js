@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { ApiVersion20210701, GeneratedClientOptionalParams } from "./models";
+import { ApiVersion20210701, GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {

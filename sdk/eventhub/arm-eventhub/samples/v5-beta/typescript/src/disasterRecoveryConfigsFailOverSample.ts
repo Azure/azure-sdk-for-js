@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
  *
  * @summary Invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/EHAliasFailOver.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasFailOver.json
  */
-async function ehAliasFailOver() {
+async function ehAliasFailOver(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -32,13 +28,13 @@ async function ehAliasFailOver() {
   const result = await client.disasterRecoveryConfigs.failOver(
     resourceGroupName,
     namespaceName,
-    alias
+    alias,
   );
   console.log(result);
 }
 
-async function main() {
-  ehAliasFailOver();
+async function main(): Promise<void> {
+  await ehAliasFailOver();
 }
 
 main().catch(console.error);

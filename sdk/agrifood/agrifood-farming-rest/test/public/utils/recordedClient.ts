@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-import "./env";
-import FarmBeats, { FarmBeatsClient } from "../../../src";
+// Licensed under the MIT License.
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import type { FarmBeatsClient } from "../../../src/index.js";
+import FarmBeats from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   FARMBEATS_ENDPOINT: "https://fakeaccount.farmbeats.azure.net",
@@ -18,6 +17,7 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK3430", "AZSDK3493", "AZSDK2030"],
 };
 
 /**
@@ -25,8 +25,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

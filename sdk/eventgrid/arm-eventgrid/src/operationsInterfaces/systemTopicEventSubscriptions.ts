@@ -11,8 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EventSubscription,
   SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsGetOptionalParams,
   SystemTopicEventSubscriptionsGetResponse,
   SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -22,8 +20,10 @@ import {
   SystemTopicEventSubscriptionsUpdateOptionalParams,
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
-  SystemTopicEventSubscriptionsGetFullUrlResponse
-} from "../models";
+  SystemTopicEventSubscriptionsGetFullUrlResponse,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SystemTopicEventSubscriptions. */
@@ -37,35 +37,20 @@ export interface SystemTopicEventSubscriptions {
   listBySystemTopic(
     resourceGroupName: string,
     systemTopicName: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
-  /**
-   * Get all delivery attributes for an event subscription.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    systemTopicName: string,
-    eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
-  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get an event subscription.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be found.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetOptionalParams
+    options?: SystemTopicEventSubscriptionsGetOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsGetResponse>;
   /**
    * Asynchronously creates or updates an event subscription with the specified parameters. Existing
@@ -73,7 +58,7 @@ export interface SystemTopicEventSubscriptions {
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -83,7 +68,7 @@ export interface SystemTopicEventSubscriptions {
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>,
@@ -96,7 +81,7 @@ export interface SystemTopicEventSubscriptions {
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   *                              must be between 3 and 64 characters in length and use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
    *                              information.
    * @param options The options parameters.
@@ -106,42 +91,39 @@ export interface SystemTopicEventSubscriptions {
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionInfo: EventSubscription,
-    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse>;
   /**
    * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsDeleteOptionalParams
+    options?: SystemTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be deleted.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsDeleteOptionalParams
+    options?: SystemTopicEventSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -150,7 +132,7 @@ export interface SystemTopicEventSubscriptions {
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: SystemTopicEventSubscriptionsUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SystemTopicEventSubscriptionsUpdateResponse>,
@@ -161,8 +143,7 @@ export interface SystemTopicEventSubscriptions {
    * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription to be updated.
    * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param options The options parameters.
    */
@@ -171,20 +152,32 @@ export interface SystemTopicEventSubscriptions {
     systemTopicName: string,
     eventSubscriptionName: string,
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-    options?: SystemTopicEventSubscriptionsUpdateOptionalParams
+    options?: SystemTopicEventSubscriptionsUpdateOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsUpdateResponse>;
   /**
    * Get the full endpoint URL for an event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
-   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
-   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
   getFullUrl(
     resourceGroupName: string,
     systemTopicName: string,
     eventSubscriptionName: string,
-    options?: SystemTopicEventSubscriptionsGetFullUrlOptionalParams
+    options?: SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<SystemTopicEventSubscriptionsGetFullUrlResponse>;
+  /**
+   * Get all delivery attributes for an event subscription.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param systemTopicName Name of the system topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    systemTopicName: string,
+    eventSubscriptionName: string,
+    options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse>;
 }

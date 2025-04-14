@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { GeographyPoint } from "../../../src";
+import type { GeographyPoint } from "../../../src/index.js";
 
 export interface Hotel {
   hotelId: string;
   hotelName?: string | null;
   description?: string | null;
+  vectorDescription?: number[] | null;
+  compressedVectorDescription?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
   tags?: string[] | null;

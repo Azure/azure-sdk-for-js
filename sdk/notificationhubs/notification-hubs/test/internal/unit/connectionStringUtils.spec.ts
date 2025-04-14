@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 import { parseNotificationHubsConnectionString } from "../../../src/auth/connectionStringUtils.js";
 
 describe("parseNotificationHubsConnectionString", () => {

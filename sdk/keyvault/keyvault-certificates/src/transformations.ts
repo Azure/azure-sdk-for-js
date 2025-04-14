@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import { uint8ArrayToString } from "@azure/core-util";
+import type {
   ArrayOneOrMore,
   CertificateContentType,
   CertificateOperation,
@@ -14,8 +15,8 @@ import {
   SubjectAlternativeNames,
   CertificateContact,
   CertificateOperationError,
-} from "./certificatesModels";
-import {
+} from "./certificatesModels.js";
+import type {
   CertificateAttributes,
   CertificateBundle,
   CertificatePolicy as CoreCertificatePolicy,
@@ -29,8 +30,9 @@ import {
   Contacts as CoreContacts,
   JsonWebKeyType as CertificateKeyType,
   ErrorModel,
-} from "./generated/models";
-import { parseKeyVaultCertificateIdentifier } from "./identifier";
+} from "./generated/models/index.js";
+import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -46,7 +48,7 @@ export function toCoreAttributes(properties: CertificateProperties): Certificate
 export function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes = {}
+  attributes: CertificateAttributes = {},
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -192,7 +194,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 }
 
 export function getCertificateFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): KeyVaultCertificate {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
@@ -211,7 +213,11 @@ export function getCertificateFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -224,7 +230,7 @@ export function getCertificateFromCertificateBundle(
 }
 
 export function getCertificateWithPolicyFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): KeyVaultCertificateWithPolicy {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
@@ -244,7 +250,11 @@ export function getCertificateWithPolicyFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -258,7 +268,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
 }
 
 export function getDeletedCertificateFromDeletedCertificateBundle(
-  certificateBundle: DeletedCertificateBundle
+  certificateBundle: DeletedCertificateBundle,
 ): DeletedCertificate {
   const certificate: KeyVaultCertificateWithPolicy =
     getCertificateWithPolicyFromCertificateBundle(certificateBundle);
@@ -294,7 +304,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     id: item.id,
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
-
+    x509ThumbprintString: item.x509Thumbprint && uint8ArrayToString(item.x509Thumbprint, "hex"),
     recoverableDays: item.attributes?.recoverableDays,
     recoveryLevel: item.attributes?.recoveryLevel,
   };
@@ -309,7 +319,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
 }
 
 function getCertificateOperationErrorFromErrorModel(
-  error?: ErrorModel | null
+  error?: ErrorModel | null,
 ): CertificateOperationError | undefined {
   if (error) {
     return {
@@ -323,8 +333,7 @@ function getCertificateOperationErrorFromErrorModel(
 
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
-  vaultUrl: string,
-  operation: CoreCertificateOperation
+  operation: CoreCertificateOperation,
 ): CertificateOperation {
   return {
     cancellationRequested: operation.cancellationRequested,
@@ -343,20 +352,19 @@ export function getCertificateOperationFromCoreOperation(
     status: operation.status,
     statusDetails: operation.statusDetails,
     target: operation.target,
-    vaultUrl: vaultUrl,
   };
 }
 
 export function coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
   return contacts.contactList
     ? contacts.contactList.map(
-        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name }) as CertificateContact,
       )
     : [];
 }
 
 export function getPropertiesFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): CertificateProperties {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
@@ -374,8 +382,37 @@ export function getPropertiesFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return abstractProperties;
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }

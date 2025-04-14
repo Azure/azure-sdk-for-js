@@ -1,0 +1,8 @@
+{
+  "commit": "3731ac6150dcb22856183e9f1ca49eb912459f83",
+  "readme": "specification/managednetworkfabric/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.9.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\managednetworkfabric\\resource-manager\\readme.md --use=@autorest/typescript@6.0.5 --generate-sample=true",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.0",
+  "use": "@autorest/typescript@6.0.5"
+}

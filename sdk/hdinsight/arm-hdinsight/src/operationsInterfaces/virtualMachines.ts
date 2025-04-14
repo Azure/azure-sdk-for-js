@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachinesListHostsOptionalParams,
   VirtualMachinesListHostsResponse,
   VirtualMachinesRestartHostsOptionalParams,
   VirtualMachinesGetAsyncOperationStatusOptionalParams,
-  VirtualMachinesGetAsyncOperationStatusResponse
-} from "../models";
+  VirtualMachinesGetAsyncOperationStatusResponse,
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachines. */
 export interface VirtualMachines {
@@ -26,7 +26,7 @@ export interface VirtualMachines {
   listHosts(
     resourceGroupName: string,
     clusterName: string,
-    options?: VirtualMachinesListHostsOptionalParams
+    options?: VirtualMachinesListHostsOptionalParams,
   ): Promise<VirtualMachinesListHostsResponse>;
   /**
    * Restarts the specified HDInsight cluster hosts.
@@ -39,8 +39,8 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: VirtualMachinesRestartHostsOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts the specified HDInsight cluster hosts.
    * @param resourceGroupName The name of the resource group.
@@ -52,7 +52,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
+    options?: VirtualMachinesRestartHostsOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -65,6 +65,6 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     operationId: string,
-    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams
+    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams,
   ): Promise<VirtualMachinesGetAsyncOperationStatusResponse>;
 }

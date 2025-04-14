@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
+/**
+ * @azsdk-util
+ */
 
 import { CosmosClient } from "@azure/cosmos";
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -21,7 +26,7 @@ export async function finish(): Promise<void> {
     console.log("\nEnd of demo.");
   } catch (err: any) {
     console.log(
-      `Database: "${dbId}" might not have deleted properly. You might need to delete it manually.`
+      `Database: "${dbId}" might not have deleted properly. You might need to delete it manually.`,
     );
     process.exitCode = 1;
   }

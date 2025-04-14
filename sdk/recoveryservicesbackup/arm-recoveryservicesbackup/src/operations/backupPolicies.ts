@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { BackupPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { BackupPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
 import {
   ProtectionPolicyResource,
   BackupPoliciesListNextOptionalParams,
   BackupPoliciesListOptionalParams,
   BackupPoliciesListResponse,
-  BackupPoliciesListNextResponse
-} from "../models";
+  BackupPoliciesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupPolicies operations. */
@@ -46,7 +46,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
   public list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionPolicyResource> {
     const iter = this.listPagingAll(vaultName, resourceGroupName, options);
     return {
@@ -64,9 +64,9 @@ export class BackupPoliciesImpl implements BackupPolicies {
           vaultName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     vaultName: string,
     resourceGroupName: string,
     options?: BackupPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionPolicyResource[]> {
     let result: BackupPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
         vaultName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +102,12 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private async *listPagingAll(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): AsyncIterableIterator<ProtectionPolicyResource> {
     for await (const page of this.listPagingPage(
       vaultName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +125,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private _list(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): Promise<BackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     vaultName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BackupPoliciesListNextOptionalParams
+    options?: BackupPoliciesListNextOptionalParams,
   ): Promise<BackupPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { vaultName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -157,45 +157,44 @@ export class BackupPoliciesImpl implements BackupPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionPolicyResourceList
+      bodyMapper: Mappers.ProtectionPolicyResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionPolicyResourceList
+      bodyMapper: Mappers.ProtectionPolicyResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

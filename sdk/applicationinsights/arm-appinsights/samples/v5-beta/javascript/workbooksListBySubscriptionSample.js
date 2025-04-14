@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get all Workbooks defined within a specified subscription and category.
  *
  * @summary Get all Workbooks defined within a specified subscription and category.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksList2.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksList2.json
  */
 async function workbooksList2() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
@@ -28,17 +28,16 @@ async function workbooksList2() {
   }
   console.log(resArray);
 }
-
-workbooksList2().catch(console.error);
 
 /**
  * This sample demonstrates how to Get all Workbooks defined within a specified subscription and category.
  *
  * @summary Get all Workbooks defined within a specified subscription and category.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksListSub.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksListSub.json
  */
 async function workbooksListSub() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
@@ -49,4 +48,9 @@ async function workbooksListSub() {
   console.log(resArray);
 }
 
-workbooksListSub().catch(console.error);
+async function main() {
+  await workbooksList2();
+  await workbooksListSub();
+}
+
+main().catch(console.error);

@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
-import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
+  checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { processUtils } from "../util/processUtils";
-import { tracingClient } from "../util/tracing";
+  resolveAdditionallyAllowedTenantIds,
+} from "../util/tenantIdUtils.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils.js";
+
+import type { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
+import { processUtils } from "../util/processUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -44,6 +46,7 @@ async function runCommands(commands: string[][], timeout?: number): Promise<stri
       encoding: "utf8",
       timeout,
     })) as string;
+
     results.push(result);
   }
 
@@ -112,9 +115,12 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
-    this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -126,7 +132,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   private async getAzurePowerShellAccessToken(
     resource: string,
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -138,37 +144,52 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
-      let tenantSection = "";
-      if (tenantId) {
-        tenantSection = `-TenantId "${tenantId}"`;
-      }
-
       const results = await runCommands([
         [
           powerShellCommand,
+          "-NoProfile",
+          "-NonInteractive",
           "-Command",
-          "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
-        ],
-        [
-          powerShellCommand,
-          "-Command",
-          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
+          `
+          $tenantId = "${tenantId ?? ""}"
+          $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru
+          $useSecureString = $m.Version -ge [version]'2.17.0'
+
+          $params = @{
+            ResourceUrl = "${resource}"
+          }
+
+          if ($tenantId.Length -gt 0) {
+            $params["TenantId"] = $tenantId
+          }
+
+          if ($useSecureString) {
+            $params["AsSecureString"] = $true
+          }
+
+          $token = Get-AzAccessToken @params
+
+          $result = New-Object -TypeName PSObject
+          $result | Add-Member -MemberType NoteProperty -Name ExpiresOn -Value $token.ExpiresOn
+          if ($useSecureString) {
+            $result | Add-Member -MemberType NoteProperty -Name Token -Value (ConvertFrom-SecureString -AsPlainText $token.Token)
+          } else {
+            $result | Add-Member -MemberType NoteProperty -Name Token -Value $token.Token
+          }
+
+          Write-Output (ConvertTo-Json $result)
+          `,
         ],
       ]);
 
-      const result = results[1];
-      try {
-        return JSON.parse(result);
-      } catch (e: any) {
-        throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
-      }
+      const result = results[0];
+      return parseJsonToken(result);
     }
-
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -176,26 +197,29 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,
-        this.additionallyAllowedTenantIds
+        this.additionallyAllowedTenantIds,
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-      ensureValidScope(scope, logger);
-      logger.getToken.info(`Using the scope ${scope}`);
-      const resource = getScopeResource(scope);
-
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
       try {
+        ensureValidScopeForDevTimeCreds(scope, logger);
+        logger.getToken.info(`Using the scope ${scope}`);
+        const resource = getScopeResource(scope);
         const response = await this.getAzurePowerShellAccessToken(resource, tenantId, this.timeout);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
-        };
+          tokenType: "Bearer",
+        } as AccessToken;
       } catch (err: any) {
         if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
@@ -207,11 +231,44 @@ export class AzurePowerShellCredential implements TokenCredential {
           throw error;
         }
         const error = new CredentialUnavailableError(
-          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`
+          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`,
         );
         logger.getToken.info(formatError(scope, error));
         throw error;
       }
     });
   }
+}
+
+/**
+ *
+ * @internal
+ */
+export async function parseJsonToken(
+  result: string,
+): Promise<{ Token: string; ExpiresOn: string }> {
+  const jsonRegex = /{[^{}]*}/g;
+  const matches = result.match(jsonRegex);
+  let resultWithoutToken = result;
+  if (matches) {
+    try {
+      for (const item of matches) {
+        try {
+          const jsonContent = JSON.parse(item);
+          if (jsonContent?.Token) {
+            resultWithoutToken = resultWithoutToken.replace(item, "");
+            if (resultWithoutToken) {
+              logger.getToken.warning(resultWithoutToken);
+            }
+            return jsonContent;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+    } catch (e: any) {
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+    }
+  }
+  throw new Error(`No access token found in the output. Received output: ${result}`);
 }
