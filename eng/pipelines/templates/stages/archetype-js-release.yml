@@ -105,7 +105,7 @@ stages:
                 - job: PostPublishPackage
                   dependsOn:
                     - 'PrePublishPackage'
-                    - 'PublishPackage'
+                    - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
                   variables:
                     - name: Package.Archive
                       value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
@@ -135,7 +135,7 @@ stages:
                   - job: PublishDocs
                     displayName: Docs.MS Release
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     variables:
                       - template: /eng/pipelines/templates/variables/image.yml
                     pool:
@@ -168,7 +168,7 @@ stages:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: azsdk-pool-mms-win-2022-general
                       image: azsdk-pool-mms-win-2022-1espt
@@ -190,7 +190,7 @@ stages:
                   - job: UpdatePackageVersion
                     displayName: Update Package Version
                     condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     variables:
                       - template: /eng/pipelines/templates/variables/image.yml
                     pool:
