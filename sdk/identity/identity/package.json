@@ -123,17 +123,21 @@
       "commonjs"
     ],
     "esmDialects": [
-      "browser"
+      "browser",
+      "workerd"
     ],
     "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "workerd": "./dist/esm/index.js",
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
+      },
+      "workerd": {
+        "types": "./dist/workerd/index.d.ts",
+        "default": "./dist/workerd/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",

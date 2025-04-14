@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Add `workerd` conditional exports support for Cloudflare environment. [#32422](https://github.com/Azure/azure-sdk-for-js/pull/32422)
 ### Breaking Changes
 
 ### Bugs Fixed
