@@ -1283,7 +1283,7 @@ function convertRunStepDetailsDelta(
       return convertRunStepMessageCreationDetailsDelta(
         input as WireStreamingModels.RunStepDeltaMessageCreation,
       );
-    case "tool_call":
+    case "tool_calls":
       return convertRunStepToolCallDetailsDelta(
         input as WireStreamingModels.RunStepDeltaToolCallObject,
       );
