@@ -106,7 +106,7 @@ stages:
                   dependsOn:
                     - 'PrePublishPackage'
                     - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
-                    - "PublishDevPackage_${{ replace(parameters.Artifact.name, '-', '_') }}"
+                    - "PublishDevPackage_${{ replace(artifact.name, '-', '_') }}"
                   variables:
                     - name: Package.Archive
                       value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
