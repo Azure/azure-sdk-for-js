@@ -236,6 +236,12 @@ stages:
       - ${{ each artifact in parameters.Artifacts }}:
           - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))}}:
             - job: DetectPackageArchive
+              variables:
+                - template: /eng/pipelines/templates/variables/image.yml
+              pool:
+                name: $(LINUXPOOL)
+                image: $(LINUXVMIMAGE)
+                os: linux
               displayName: 'Detecting package archive_${{artifact.name}}'
               steps:
               - pwsh: |
