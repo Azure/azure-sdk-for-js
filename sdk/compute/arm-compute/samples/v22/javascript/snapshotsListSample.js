@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists snapshots under a subscription.
@@ -23,14 +23,14 @@ async function listAllSnapshotsInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.snapshots.list()) {
+  for await (const item of client.snapshots.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listAllSnapshotsInASubscription();
+  await listAllSnapshotsInASubscription();
 }
 
 main().catch(console.error);

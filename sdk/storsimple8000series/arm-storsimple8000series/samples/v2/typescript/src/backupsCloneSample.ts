@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Clones the backup element as a new volume.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BackupsClone.json
  */
-async function backupsClone() {
+async function backupsClone(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "Device05ForSDKTest";
   const backupName = "880e1774-94a8-4f3e-85e6-a61e6b94a8b7";

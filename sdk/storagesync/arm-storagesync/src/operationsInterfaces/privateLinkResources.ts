@@ -9,7 +9,7 @@
 import {
   PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
   PrivateLinkResourcesListByStorageSyncServiceResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {

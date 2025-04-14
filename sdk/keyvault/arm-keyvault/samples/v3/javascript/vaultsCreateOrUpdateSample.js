@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/createVault.json
  */
 async function createANewVaultOrUpdateAnExistingVault() {
   const subscriptionId =
@@ -82,7 +82,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
   const result = await client.vaults.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -91,7 +91,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
  *
  * @summary Create or update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/createVaultWithNetworkAcls.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/createVaultWithNetworkAcls.json
  */
 async function createOrUpdateAVaultWithNetworkAcls() {
   const subscriptionId =
@@ -123,14 +123,14 @@ async function createOrUpdateAVaultWithNetworkAcls() {
   const result = await client.vaults.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vaultName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createANewVaultOrUpdateAnExistingVault();
-  createOrUpdateAVaultWithNetworkAcls();
+  await createANewVaultOrUpdateAnExistingVault();
+  await createOrUpdateAVaultWithNetworkAcls();
 }
 
 main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MicrosoftVoiceServices } from "./microsoftVoiceServices";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MicrosoftVoiceServices } from "./microsoftVoiceServices.js";
+export * from "./operationsInterfaces/index.js";

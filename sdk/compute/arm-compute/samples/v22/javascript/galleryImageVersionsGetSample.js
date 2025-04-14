@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -160,12 +160,12 @@ async function getAGalleryImageVersion() {
 }
 
 async function main() {
-  getAGalleryImageVersionWithReplicationStatus();
-  getAGalleryImageVersionWithSnapshotsAsASource();
-  getAGalleryImageVersionWithValidationProfileAndReplicationStatus();
-  getAGalleryImageVersionWithValidationProfile();
-  getAGalleryImageVersionWithVhdAsASource();
-  getAGalleryImageVersion();
+  await getAGalleryImageVersionWithReplicationStatus();
+  await getAGalleryImageVersionWithSnapshotsAsASource();
+  await getAGalleryImageVersionWithValidationProfileAndReplicationStatus();
+  await getAGalleryImageVersionWithValidationProfile();
+  await getAGalleryImageVersionWithVhdAsASource();
+  await getAGalleryImageVersion();
 }
 
 main().catch(console.error);

@@ -20,7 +20,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -31,11 +32,11 @@
   "dependencies": {
     "@azure/arm-oep": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.6.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "rimraf": "latest"
   }
 }

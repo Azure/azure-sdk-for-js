@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "2.3.2",
+  "version": "2.3.6",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",
@@ -31,6 +31,7 @@
   },
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -65,7 +66,7 @@
     "lint": "eslint README.md package.json api-extractor.json src test",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -85,12 +86,12 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",
-    "typescript": "~5.7.2",
-    "vitest": "^2.0.5"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

@@ -5,20 +5,21 @@
  * @summary Basic usage of web-pubsub-client
  */
 
-import {
-  WebPubSubClient,
+import type {
   WebPubSubClientCredential,
   SendToGroupOptions,
   GetClientAccessUrlOptions,
-  WebPubSubClientOptions,
 } from "@azure/web-pubsub-client";
+import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+const endpoint = process.env.WPS_ENDPOINT || "";
 const hubName = "sample_chat";
 const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
+const serviceClient = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), hubName);
 
 const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
   return (
@@ -33,7 +34,7 @@ async function main(): Promise<void> {
     {
       getClientAccessUrl: fetchClientAccessUrl,
     } as WebPubSubClientCredential,
-    { protocol: WebPubSubProtobufReliableProtocol() } as WebPubSubClientOptions,
+    { protocol: WebPubSubProtobufReliableProtocol() },
   );
 
   client.on("connected", (e) => {

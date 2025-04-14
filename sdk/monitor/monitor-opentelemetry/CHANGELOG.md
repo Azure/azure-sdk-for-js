@@ -1,17 +1,34 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.10.0 (2025-04-09)
 
 ### Features Added
 
-### Breaking Changes
+- Add support for performance counters.
+
+## Other Changes
+
+- Add support for detecting the Application Insights shim on internal verison.
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#32819](https://github.com/Azure/azure-sdk-for-js/pull/32819)
+- Add undefined checks for document filtering functions.
+
+## 1.9.0 (2025-03-04)
+
+### Features Added
+
+- Add support for stable OpenTelemetry semantic conventions.
+
+### Other Changes
+
+- Added support for detecting AKS when `KUBERNETES_SERVICE_HOST` is set.
+
+## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed
 
 - Should not use reserved 7th bit for statsbeat instrumentations.
 - Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
-
-### Other Changes
+- Handle exceptions thrown when no http url is present on request telemetry quickpulse documents.
 
 ## 1.8.0 (2024-10-23)
 

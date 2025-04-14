@@ -48,16 +48,14 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "dev-tool run build-package && dev-tool run bundle",
-    "build:node": "dev-tool run build-package && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm dist-browser dist-test dist-test temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md && dev-tool admin migrate-source && rushx format",
+    "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "integration-test:node": "dev-tool run test:vitest --esm",
@@ -70,7 +68,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped for now, follow https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-dpg/package.json once the tests are fixed",
     "unit-test:node": "echo skipped for now, follow https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-dpg/package.json once the tests are fixed",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -81,7 +79,7 @@
     "@azure/core-http-compat": "^2.1.2",
     "@azure/core-lro": "^2.7.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
@@ -92,15 +90,15 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
-    "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -122,14 +120,15 @@
       "azure-metrics-advisor"
     ],
     "requiredResources": {
-      "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services account": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "skipFolder": false,
     "disableDocsMs": false,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -142,8 +141,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
@@ -165,5 +163,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

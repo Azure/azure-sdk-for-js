@@ -19,16 +19,21 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [audioTranslation.js][audiotranslation]                                             | audio translation.                                                           |
 | [batch.js][batch]                                                                   | create and retrieve batch content.                                           |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
+| [chatCompletionsWithStructuredOutput.js][chatcompletionswithstructuredoutput]       | get chat completions with structured output.                                 |
 | [codeInterpreter.js][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.js][completions]                                                       | get completions.                                                             |
 | [embeddings.js][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [images.js][images]                                                                 | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [onYourData.js][onyourdata]                                                         | chat completions with your own data.                                         |
+| [responsesStream.js][responsesstream]                                               | streams text completions from Azure OpenAI.                                  |
+| [responsesStreamingTools.js][responsesstreamingtools]                               | streams function calls for database queries using Azure OpenAI.              |
 | [streamChatCompletions.js][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.js][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.js][streamcompletions]                                           | list completions.                                                            |
 | [textToSpeech.js][texttospeech]                                                     | text to speech.                                                              |
 | [toolCall.js][toolcall]                                                             | get chat completions with functions.                                         |
+| [websocket.js][websocket]                                                           | converse with Realtime API.                                                  |
+| [ws.js][ws]                                                                         | converse with Realtime API.                                                  |
 
 ## Prerequisites
 
@@ -74,17 +79,21 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranslation.js
 [batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/batch.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletions.js
+[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletionsWithStructuredOutput.js
 [codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/codeInterpreter.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/completions.js
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/embeddings.js
 [images]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/images.js
 [onyourdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/onYourData.js
+[responsesstream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStream.js
+[responsesstreamingtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/responsesStreamingTools.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletions.js
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamChatCompletionsWithContentFilter.js
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamCompletions.js
 [texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/textToSpeech.js
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/toolCall.js
-[apiref]: https://learn.microsoft.com/javascript/api/overview/azure/openai
+[websocket]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/websocket.js
+[ws]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/ws.js
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

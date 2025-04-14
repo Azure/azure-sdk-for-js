@@ -10,6 +10,10 @@ import {
   SEMATTRS_MESSAGE_TYPE,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
+  ATTR_CLIENT_ADDRESS,
+  ATTR_NETWORK_PEER_ADDRESS,
+  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_HTTP_CLIENT_IP,
 } from "@opentelemetry/semantic-conventions";
 import type { Tags, Properties, Measurements } from "../../src/types.js";
 import { MaxPropertyLengths } from "../../src/types.js";
@@ -64,6 +68,7 @@ function assertEnvelope(
     [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
     [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
     [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
+    [KnownContextTagKeys.AiLocationIp]: "127.0.0.1",
   };
   assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
@@ -92,6 +97,7 @@ describe("logUtils.ts", () => {
     hrTimeObserved: [1680253513, 123241635] as HrTime,
     attributes: {
       "some-attribute": "some attribute value",
+      [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
     },
     severityNumber: SeverityNumber.INFO,
     severityText: "Information",
@@ -111,6 +117,7 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [ATTR_NETWORK_PEER_ADDRESS]: "127.0.0.1",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
@@ -147,6 +154,7 @@ describe("logUtils.ts", () => {
         [SEMATTRS_EXCEPTION_TYPE]: "test exception type",
         [SEMATTRS_EXCEPTION_MESSAGE]: "test exception message",
         [SEMATTRS_EXCEPTION_STACKTRACE]: "test exception stack",
+        [SEMATTRS_NET_PEER_IP]: "127.0.0.1",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
@@ -192,6 +200,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "MessageData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
       };
       testLogRecord.body = data;
 
@@ -235,6 +244,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "MessageData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
       };
       testLogRecord.body = data;
 
@@ -284,6 +294,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "ExceptionData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -333,6 +344,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "AvailabilityData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -378,6 +390,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "PageViewData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -409,7 +422,7 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should create a Event Envelope", () => {
+    it("should create an Event Envelope", () => {
       const data: TelemetryEventData = {
         name: "testName",
         version: 2,
@@ -418,6 +431,7 @@ describe("logUtils.ts", () => {
         "_MS.baseType": "EventData",
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
@@ -444,6 +458,36 @@ describe("logUtils.ts", () => {
         expectedTime,
       );
     });
+
+    it("should create a Custom Event Envelope", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        "extra.attribute": "foo",
+        [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+      };
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: TelemetryEventData = {
+        name: "testing name",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Event",
+        100,
+        "EventData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+      );
+    });
   });
 
   it("should parse objects if passed as the message field of a legacy ApplicationInsights log", () => {
@@ -451,6 +495,7 @@ describe("logUtils.ts", () => {
       "_MS.baseType": "MessageData",
       "extra.attribute": "foo",
       [SEMATTRS_MESSAGE_TYPE]: "test message type",
+      [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
     };
     testLogRecord.body = {
       message: { nested: { nested2: { test: "test" } } },

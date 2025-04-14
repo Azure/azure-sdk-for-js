@@ -17,7 +17,7 @@ import {
   SapLandscapeMonitorUpdateResponse,
   SapLandscapeMonitorListOptionalParams,
   SapLandscapeMonitorListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SapLandscapeMonitorOperations. */
 export interface SapLandscapeMonitorOperations {

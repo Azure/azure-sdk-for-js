@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a disk.
@@ -621,31 +621,31 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
 }
 
 async function main() {
-  createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey();
-  createAManagedDiskAndAssociateWithDiskAccessResource();
-  createAManagedDiskAndAssociateWithDiskEncryptionSet();
-  createAManagedDiskByCopyingASnapshot();
-  createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription();
-  createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription();
-  createAManagedDiskFromImportSecureCreateOption();
-  createAManagedDiskFromUploadPreparedSecureCreateOption();
-  createAManagedDiskFromAPlatformImage();
-  createAManagedDiskFromAnAzureComputeGalleryCommunityImage();
-  createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage();
-  createAManagedDiskFromAnAzureComputeGalleryImage();
-  createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription();
-  createAManagedDiskFromElasticSanVolumeSnapshot();
-  createAManagedDiskWithDataAccessAuthMode();
-  createAManagedDiskWithOptimizedForFrequentAttach();
-  createAManagedDiskWithPerformancePlus();
-  createAManagedDiskWithPremiumV2AccountType();
-  createAManagedDiskWithSecurityProfile();
-  createAManagedDiskWithSsdZrsAccountType();
-  createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet();
-  createAManagedUploadDisk();
-  createAnEmptyManagedDiskInExtendedLocation();
-  createAnEmptyManagedDisk();
-  createAnUltraManagedDiskWithLogicalSectorSize512E();
+  await createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey();
+  await createAManagedDiskAndAssociateWithDiskAccessResource();
+  await createAManagedDiskAndAssociateWithDiskEncryptionSet();
+  await createAManagedDiskByCopyingASnapshot();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createAManagedDiskFromImportSecureCreateOption();
+  await createAManagedDiskFromUploadPreparedSecureCreateOption();
+  await createAManagedDiskFromAPlatformImage();
+  await createAManagedDiskFromAnAzureComputeGalleryCommunityImage();
+  await createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage();
+  await createAManagedDiskFromAnAzureComputeGalleryImage();
+  await createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription();
+  await createAManagedDiskFromElasticSanVolumeSnapshot();
+  await createAManagedDiskWithDataAccessAuthMode();
+  await createAManagedDiskWithOptimizedForFrequentAttach();
+  await createAManagedDiskWithPerformancePlus();
+  await createAManagedDiskWithPremiumV2AccountType();
+  await createAManagedDiskWithSecurityProfile();
+  await createAManagedDiskWithSsdZrsAccountType();
+  await createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet();
+  await createAManagedUploadDisk();
+  await createAnEmptyManagedDiskInExtendedLocation();
+  await createAnEmptyManagedDisk();
+  await createAnUltraManagedDiskWithLogicalSectorSize512E();
 }
 
 main().catch(console.error);

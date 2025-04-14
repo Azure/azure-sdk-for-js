@@ -11,17 +11,21 @@ urlFragment: ai-inference-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                                               |
-| ------------------------------------------------- | ------------------------------------------------------------- |
-| [chatCompletions.ts][chatcompletions]             | Get chat completions.                                         |
-| [embeddings.ts][embeddings]                       | Get embeddings.                                               |
-| [getModelInfo.ts][getmodelinfo]                   | Get model info.                                               |
-| [imageFileCompletions.ts][imagefilecompletions]   | Get chat completions with image file.                         |
-| [streamChatCompletions.ts][streamchatcompletions] | List chat completions.                                        |
-| [streamingToolCall.ts][streamingtoolcall]         | Get chat completions with streaming and function call.        |
-| [telemetry.ts][telemetry]                         | get instrumentation by open telemetry.                        |
-| [telemetryWithToolCall.ts][telemetrywithtoolcall] | Get chat completions with function call with instrumentation. |
-| [toolCall.ts][toolcall]                           | Get chat completions with function call.                      |
+| **File Name**                                                                 | **Description**                                               |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [audioDataChatCompletion.ts][audiodatachatcompletion]                         | Get chat completions using Audio data.                        |
+| [audioUrlChatCompletion.ts][audiourlchatcompletion]                           | Get chat completions using Audio URL.                         |
+| [chatCompletions.ts][chatcompletions]                                         | Get chat completions.                                         |
+| [chatCompletionsWithStructuredOutput.ts][chatcompletionswithstructuredoutput] | Get chat completions with structured output.                  |
+| [embeddings.ts][embeddings]                                                   | Get embeddings.                                               |
+| [getModelInfo.ts][getmodelinfo]                                               | Get model info.                                               |
+| [imageEmbeddings.ts][imageembeddings]                                         | Get image embeddings.                                         |
+| [imageFileCompletions.ts][imagefilecompletions]                               | Get chat completions with image file.                         |
+| [streamChatCompletions.ts][streamchatcompletions]                             | List chat completions.                                        |
+| [streamingToolCall.ts][streamingtoolcall]                                     | Get chat completions with streaming and function call.        |
+| [telemetry.ts][telemetry]                                                     | get instrumentation by open telemetry.                        |
+| [telemetryWithToolCall.ts][telemetrywithtoolcall]                             | Get chat completions with function call with instrumentation. |
+| [toolCall.ts][toolcall]                                                       | Get chat completions with function call.                      |
 
 ## Prerequisites
 
@@ -60,22 +64,26 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/chatCompletions.js
+node dist/audioDataChatCompletion.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" KEY="<key>" MODEL_NAME="<model name>" node dist/chatCompletions.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" KEY="<key>" MODEL_NAME="<model name>" node dist/audioDataChatCompletion.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[audiodatachatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/audioDataChatCompletion.ts
+[audiourlchatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/audioUrlChatCompletion.ts
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletions.ts
+[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletionsWithStructuredOutput.ts
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/embeddings.ts
 [getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/getModelInfo.ts
+[imageembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/imageEmbeddings.ts
 [imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/imageFileCompletions.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamChatCompletions.ts
 [streamingtoolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamingToolCall.ts

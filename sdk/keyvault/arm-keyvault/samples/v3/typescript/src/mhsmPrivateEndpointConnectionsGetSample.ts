@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the managed HSM Pool.
  *
  * @summary Gets the specified private endpoint connection associated with the managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_getPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_getPrivateEndpointConnection.json
  */
-async function managedHsmGetPrivateEndpointConnection() {
+async function managedHsmGetPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,13 +31,13 @@ async function managedHsmGetPrivateEndpointConnection() {
   const result = await client.mhsmPrivateEndpointConnections.get(
     resourceGroupName,
     name,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
-async function main() {
-  managedHsmGetPrivateEndpointConnection();
+async function main(): Promise<void> {
+  await managedHsmGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

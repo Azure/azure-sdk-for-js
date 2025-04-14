@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
  *
  * @summary Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MaximumSet_Gen.json
  */
 async function dedicatedHostListByHostGroupMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -25,7 +25,10 @@ async function dedicatedHostListByHostGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHosts.listByHostGroup(resourceGroupName, hostGroupName)) {
+  for await (const item of client.dedicatedHosts.listByHostGroup(
+    resourceGroupName,
+    hostGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -35,7 +38,7 @@ async function dedicatedHostListByHostGroupMaximumSetGen() {
  * This sample demonstrates how to Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
  *
  * @summary Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MinimumSet_Gen.json
  */
 async function dedicatedHostListByHostGroupMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -44,15 +47,18 @@ async function dedicatedHostListByHostGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHosts.listByHostGroup(resourceGroupName, hostGroupName)) {
+  for await (const item of client.dedicatedHosts.listByHostGroup(
+    resourceGroupName,
+    hostGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  dedicatedHostListByHostGroupMaximumSetGen();
-  dedicatedHostListByHostGroupMinimumSetGen();
+  await dedicatedHostListByHostGroupMaximumSetGen();
+  await dedicatedHostListByHostGroupMinimumSetGen();
 }
 
 main().catch(console.error);

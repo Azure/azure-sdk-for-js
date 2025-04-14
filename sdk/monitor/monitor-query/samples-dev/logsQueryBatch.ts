@@ -6,13 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, LogsQueryResultStatus, LogsTable } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import type { LogsTable } from "@azure/monitor-query";
+import { LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import "dotenv/config";
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
-export async function main() {
+export async function main(): Promise<void> {
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
   }
@@ -76,7 +75,7 @@ export async function main() {
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+async function processTables(tablesFromResult: LogsTable[]): Promise<void> {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)

@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComponentCurrentBillingFeatures } from "../operationsInterfaces";
+import { ComponentCurrentBillingFeatures } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   ComponentCurrentBillingFeaturesGetOptionalParams,
   ComponentCurrentBillingFeaturesGetResponse,
   ApplicationInsightsComponentBillingFeatures,
   ComponentCurrentBillingFeaturesUpdateOptionalParams,
-  ComponentCurrentBillingFeaturesUpdateResponse
-} from "../models";
+  ComponentCurrentBillingFeaturesUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing ComponentCurrentBillingFeatures operations. */
 export class ComponentCurrentBillingFeaturesImpl
-  implements ComponentCurrentBillingFeatures {
+  implements ComponentCurrentBillingFeatures
+{
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -41,11 +42,11 @@ export class ComponentCurrentBillingFeaturesImpl
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentCurrentBillingFeaturesGetOptionalParams
+    options?: ComponentCurrentBillingFeaturesGetOptionalParams,
   ): Promise<ComponentCurrentBillingFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -61,11 +62,11 @@ export class ComponentCurrentBillingFeaturesImpl
     resourceGroupName: string,
     resourceName: string,
     billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures,
-    options?: ComponentCurrentBillingFeaturesUpdateOptionalParams
+    options?: ComponentCurrentBillingFeaturesUpdateOptionalParams,
   ): Promise<ComponentCurrentBillingFeaturesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, billingFeaturesProperties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -73,42 +74,40 @@ export class ComponentCurrentBillingFeaturesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentBillingFeatures
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentBillingFeatures,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentBillingFeatures
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentBillingFeatures,
+    },
   },
   requestBody: Parameters.billingFeaturesProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

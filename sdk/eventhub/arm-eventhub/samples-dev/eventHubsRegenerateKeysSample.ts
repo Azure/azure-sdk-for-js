@@ -13,17 +13,15 @@ import {
   EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates the ACS and SAS connection strings for the Event Hub.
  *
  * @summary Regenerates the ACS and SAS connection strings for the Event Hub.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
  */
-async function eventHubAuthorizationRuleRegenerateKey() {
+async function eventHubAuthorizationRuleRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -45,8 +43,8 @@ async function eventHubAuthorizationRuleRegenerateKey() {
   console.log(result);
 }
 
-async function main() {
-  eventHubAuthorizationRuleRegenerateKey();
+async function main(): Promise<void> {
+  await eventHubAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

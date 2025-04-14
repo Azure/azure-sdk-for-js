@@ -14,10 +14,8 @@ describe(`RecipientVerificationClient - Get verification constants`, () => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("get verification constants", { timeout: 30000 }, async () => {

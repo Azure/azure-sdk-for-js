@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete a gallery inVMAccessControlProfile version.
@@ -36,7 +36,7 @@ async function deleteAGalleryInVMAccessControlProfileVersion() {
 }
 
 async function main() {
-  deleteAGalleryInVMAccessControlProfileVersion();
+  await deleteAGalleryInVMAccessControlProfileVersion();
 }
 
 main().catch(console.error);

@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Disk,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { Disk } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a disk.
@@ -23,27 +17,21 @@ dotenv.config();
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedDiskByCopyingASnapshot.json
  */
-async function createAManagedDiskByCopyingASnapshot() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: {
       createOption: "Copy",
       sourceResourceId:
-        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -53,29 +41,22 @@ async function createAManagedDiskByCopyingASnapshot() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
       storageAccountId:
-        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
+        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -85,27 +66,20 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -115,30 +89,23 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedDiskFromAPlatformImage.json
  */
-async function createAManagedDiskFromAPlatformImage() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedDiskFromAPlatformImage(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: {
       createOption: "FromImage",
       imageReference: {
-        id:
-          "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}"
-      }
+        id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+      },
     },
     location: "West US",
-    osType: "Windows"
+    osType: "Windows",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -148,27 +115,21 @@ async function createAManagedDiskFromAPlatformImage() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedDiskFromAnExistingManagedDisk.json
  */
-async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk2";
   const disk: Disk = {
     creationData: {
       createOption: "Copy",
       sourceResourceId:
-        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1"
+        "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -178,23 +139,17 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAManagedUploadDisk.json
  */
-async function createAManagedUploadDisk() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAManagedUploadDisk(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
@@ -204,35 +159,29 @@ async function createAManagedUploadDisk() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateAnEmptyManagedDisk.json
  */
-async function createAnEmptyManagedDisk() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createAnEmptyManagedDisk(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: Disk = {
     creationData: { createOption: "Empty" },
     diskSizeGB: 200,
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.disks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    diskName,
-    disk
-  );
+  const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
   console.log(result);
 }
 
-async function main() {
-  createAManagedDiskByCopyingASnapshot();
-  createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription();
-  createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription();
-  createAManagedDiskFromAPlatformImage();
-  createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription();
-  createAManagedUploadDisk();
-  createAnEmptyManagedDisk();
+async function main(): Promise<void> {
+  await createAManagedDiskByCopyingASnapshot();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createAManagedDiskFromAPlatformImage();
+  await createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription();
+  await createAManagedUploadDisk();
+  await createAnEmptyManagedDisk();
 }
 
 main().catch(console.error);

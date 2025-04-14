@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operation } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Operation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureReservationAPI } from "../azureReservationAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureReservationAPI } from "../azureReservationAPI.js";
 import {
   OperationResponse,
   OperationListNextOptionalParams,
   OperationListOptionalParams,
   OperationListResponse,
   OperationListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operation operations. */

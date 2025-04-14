@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Get.json
  */
-async function getAVirtualMachine() {
+async function getAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -45,9 +43,9 @@ async function getAVirtualMachine() {
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
-async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -63,9 +61,9 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
-async function getAVirtualMachineWithDiskControllerTypeProperties() {
+async function getAVirtualMachineWithDiskControllerTypeProperties(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -87,9 +85,9 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
-async function getAVirtualMachineWithVMSizeProperties() {
+async function getAVirtualMachineWithVMSizeProperties(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -101,11 +99,11 @@ async function getAVirtualMachineWithVMSizeProperties() {
   console.log(result);
 }
 
-async function main() {
-  getAVirtualMachine();
-  getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
-  getAVirtualMachineWithDiskControllerTypeProperties();
-  getAVirtualMachineWithVMSizeProperties();
+async function main(): Promise<void> {
+  await getAVirtualMachine();
+  await getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
+  await getAVirtualMachineWithDiskControllerTypeProperties();
+  await getAVirtualMachineWithVMSizeProperties();
 }
 
 main().catch(console.error);

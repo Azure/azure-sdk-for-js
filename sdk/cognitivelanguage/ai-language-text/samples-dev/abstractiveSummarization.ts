@@ -10,12 +10,12 @@
  */
 
 import type { AnalyzeBatchAction } from "@azure/ai-language-text";
-import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   `
@@ -31,10 +31,10 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Abstractive Summarization Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "AbstractiveSummarization",

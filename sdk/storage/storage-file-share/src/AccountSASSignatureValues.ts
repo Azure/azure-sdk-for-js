@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccountSASPermissions } from "./AccountSASPermissions";
-import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
-import { AccountSASServices } from "./AccountSASServices";
-import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
+import { AccountSASResourceTypes } from "./AccountSASResourceTypes.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "./utils/constants.js";
+import { truncatedISO8061Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -21,10 +21,10 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * the former is mutable and a logical representation while the latter is immutable and used to generate actual REST
  * requests.
  *
- * @see https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
+ * @see https://learn.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
  * for more conceptual information on SAS
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  * for descriptions of the parameters, including which are required
  */
 export interface AccountSASSignatureValues {
@@ -78,7 +78,7 @@ export interface AccountSASSignatureValues {
  * Generates a {@link SASQueryParameters} object which contains all SAS query parameters needed to make an actual
  * REST request.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
  * @param sharedKeyCredential -
  */

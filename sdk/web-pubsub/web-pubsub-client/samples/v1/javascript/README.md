@@ -46,7 +46,7 @@ node helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection string>" node helloworld.js
+npx dev-tool run vendored cross-env WPS_ENDPOINT="<wps endpoint>" node helloworld.js
 ```
 
 ## Next Steps
@@ -54,6 +54,6 @@ npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection strin
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client/samples/v1/javascript/helloworld.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub-client
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/web-pubsub-client
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md

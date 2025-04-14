@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all libraries of HDInsight on AKS cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all libraries of HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListPredefinedClusterLibraries.json
  */
-async function listPredefinedClusterLibraries() {
+async function listPredefinedClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +50,7 @@ async function listPredefinedClusterLibraries() {
  * @summary Get all libraries of HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListUserCustomClusterLibraries.json
  */
-async function listUserCustomClusterLibraries() {
+async function listUserCustomClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -78,7 +76,7 @@ async function listUserCustomClusterLibraries() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPredefinedClusterLibraries();
   listUserCustomClusterLibraries();
 }

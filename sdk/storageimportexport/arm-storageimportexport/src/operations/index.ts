@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./locations";
-export * from "./jobs";
-export * from "./bitLockerKeys";
-export * from "./operations";
+export * from "./locations.js";
+export * from "./jobs.js";
+export * from "./bitLockerKeys.js";
+export * from "./operations.js";

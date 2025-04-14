@@ -29,7 +29,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [extractiveSummarization.js][extractivesummarization]                 | extracts a summary from an article                                                  |
 | [healthcare.js][healthcare]                                           | detects healthcare entities in a piece of text                                      |
 | [opinionMining.js][opinionmining]                                     | analyzes the sentiment of a piece of text and mine opinions about different targets |
-| [authenticationMethods.js][authenticationmethods]                     | authenticates a service client using both Azure Active Directory and an API key     |
 | [batching.js][batching]                                               | applies multiple Text Analytics actions per document                                |
 | [modelVersion.js][modelversion]                                       | shows how to choose model versions for pre-built models.                            |
 | [paging.js][paging]                                                   | controls paging for the results of `beginAnalyzeActions`                            |
@@ -68,7 +67,7 @@ node entityLinking.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node entityLinking.js
+npx dev-tool run vendored cross-env LANGUAGE_ENDPOINT="<language endpoint>" node entityLinking.js
 ```
 
 ## Next Steps
@@ -89,12 +88,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [extractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/extractiveSummarization.js
 [healthcare]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/healthcare.js
 [opinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/opinionMining.js
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/authenticationMethods.js
 [batching]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/batching.js
 [modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/modelVersion.js
 [paging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/paging.js
 [rehydratepolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/javascript/rehydratePolling.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-text
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-language-text
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text/README.md

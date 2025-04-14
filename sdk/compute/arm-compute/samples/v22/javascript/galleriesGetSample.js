@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
@@ -97,11 +97,11 @@ async function getAGallery() {
 }
 
 async function main() {
-  getACommunityGallery();
-  getAGalleryWithExpandSharingProfileGroups();
-  getAGalleryWithSelectPermissions();
-  getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
-  getAGallery();
+  await getACommunityGallery();
+  await getAGalleryWithExpandSharingProfileGroups();
+  await getAGalleryWithSelectPermissions();
+  await getAGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
+  await getAGallery();
 }
 
 main().catch(console.error);

@@ -10,17 +10,38 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithResilientVMDeletionStatus.json
  */
-async function getVMScaleSetVMWithUserData() {
+async function getVMScaleSetVMWithResiliencyView(): Promise<void> {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const instanceId = "1";
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSetVMs.get(
+    resourceGroupName,
+    vmScaleSetName,
+    instanceId,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets a virtual machine from a VM scale set.
+ *
+ * @summary Gets a virtual machine from a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
+ */
+async function getVMScaleSetVMWithUserData(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,9 +62,9 @@ async function getVMScaleSetVMWithUserData() {
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
  */
-async function getVMScaleSetVMWithVMSizeProperties() {
+async function getVMScaleSetVMWithVMSizeProperties(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,9 +81,10 @@ async function getVMScaleSetVMWithVMSizeProperties() {
   console.log(result);
 }
 
-async function main() {
-  getVMScaleSetVMWithUserData();
-  getVMScaleSetVMWithVMSizeProperties();
+async function main(): Promise<void> {
+  await getVMScaleSetVMWithResiliencyView();
+  await getVMScaleSetVMWithUserData();
+  await getVMScaleSetVMWithVMSizeProperties();
 }
 
 main().catch(console.error);

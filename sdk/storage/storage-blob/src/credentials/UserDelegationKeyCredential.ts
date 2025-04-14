@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHmac } from "crypto";
-import type { UserDelegationKey } from "../BlobServiceClient";
+import { createHmac } from "node:crypto";
+import type { UserDelegationKey } from "../BlobServiceClient.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * UserDelegationKeyCredential is only used for generation of user delegation SAS.
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas
  */
 export class UserDelegationKeyCredential {
   /**

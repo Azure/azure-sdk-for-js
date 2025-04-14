@@ -14,10 +14,10 @@
 
 import {
   TextAnalysisClient,
-  AzureKeyCredential,
   KnownPiiEntityDomain,
   KnownPiiEntityCategory,
 } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -27,10 +27,9 @@ export async function main(): Promise<void> {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-  const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+  const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const documents = ["My phone number is 555-5555"];
 

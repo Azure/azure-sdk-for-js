@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to simulate the eviction of spot virtual machine in a VM scale set.
  *
  * @summary The operation to simulate the eviction of spot virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_SimulateEviction.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_SimulateEviction.json
  */
-async function simulateEvictionAVirtualMachine() {
+async function simulateEvictionAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -37,8 +35,8 @@ async function simulateEvictionAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
-  simulateEvictionAVirtualMachine();
+async function main(): Promise<void> {
+  await simulateEvictionAVirtualMachine();
 }
 
 main().catch(console.error);

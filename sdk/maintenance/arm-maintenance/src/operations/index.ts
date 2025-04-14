@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./scheduledEvent";
-export * from "./publicMaintenanceConfigurations";
-export * from "./applyUpdates";
-export * from "./configurationAssignments";
-export * from "./maintenanceConfigurations";
-export * from "./maintenanceConfigurationsForResourceGroup";
-export * from "./applyUpdateForResourceGroup";
-export * from "./configurationAssignmentsWithinSubscription";
-export * from "./configurationAssignmentsForSubscriptions";
-export * from "./configurationAssignmentsForResourceGroup";
-export * from "./operations";
-export * from "./updates";
+export * from "./scheduledEvent.js";
+export * from "./publicMaintenanceConfigurations.js";
+export * from "./applyUpdates.js";
+export * from "./configurationAssignments.js";
+export * from "./maintenanceConfigurations.js";
+export * from "./maintenanceConfigurationsForResourceGroup.js";
+export * from "./applyUpdateForResourceGroup.js";
+export * from "./configurationAssignmentsWithinSubscription.js";
+export * from "./configurationAssignmentsForSubscriptions.js";
+export * from "./configurationAssignmentsForResourceGroup.js";
+export * from "./operations.js";
+export * from "./updates.js";

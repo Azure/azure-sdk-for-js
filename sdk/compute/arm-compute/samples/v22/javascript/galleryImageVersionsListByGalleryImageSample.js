@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List gallery image versions in a gallery image definition.
@@ -26,7 +26,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryImageVersions.listByGalleryImage(
+  for await (const item of client.galleryImageVersions.listByGalleryImage(
     resourceGroupName,
     galleryName,
     galleryImageName,
@@ -37,7 +37,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition() {
 }
 
 async function main() {
-  listGalleryImageVersionsInAGalleryImageDefinition();
+  await listGalleryImageVersionsInAGalleryImageDefinition();
 }
 
 main().catch(console.error);

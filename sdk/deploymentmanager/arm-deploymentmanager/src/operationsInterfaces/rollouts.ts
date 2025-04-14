@@ -19,7 +19,7 @@ import {
   RolloutsRestartResponse,
   RolloutsListOptionalParams,
   RolloutsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Rollouts. */
 export interface Rollouts {

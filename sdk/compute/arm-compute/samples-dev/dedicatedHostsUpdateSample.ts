@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
  */
-async function dedicatedHostUpdateMaximumSetGen() {
+async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -65,9 +63,9 @@ async function dedicatedHostUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
  */
-async function dedicatedHostUpdateMinimumSetGen() {
+async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -90,9 +88,9 @@ async function dedicatedHostUpdateMinimumSetGen() {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
  */
-async function dedicatedHostUpdateResize() {
+async function dedicatedHostUpdateResize(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -111,10 +109,10 @@ async function dedicatedHostUpdateResize() {
   console.log(result);
 }
 
-async function main() {
-  dedicatedHostUpdateMaximumSetGen();
-  dedicatedHostUpdateMinimumSetGen();
-  dedicatedHostUpdateResize();
+async function main(): Promise<void> {
+  await dedicatedHostUpdateMaximumSetGen();
+  await dedicatedHostUpdateMinimumSetGen();
+  await dedicatedHostUpdateResize();
 }
 
 main().catch(console.error);

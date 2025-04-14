@@ -1,23 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 import type {
   GetChatCompletionsParameters,
-  GetModelInfoParameters,
   GetEmbeddingsParameters,
   GetImageEmbeddingsParameters,
+  GetModelInfoParameters,
 } from "./parameters.js";
 import type {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetModelInfo200Response,
-  GetModelInfoDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetImageEmbeddings200Response,
   GetImageEmbeddingsDefaultResponse,
+  GetModelInfo200Response,
+  GetModelInfoDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetChatCompletions {
   /**
@@ -27,7 +35,7 @@ export interface GetChatCompletions {
    * on the given endpoint.
    */
   post(
-    options?: GetChatCompletionsParameters,
+    options: GetChatCompletionsParameters,
   ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
@@ -35,6 +43,8 @@ export interface GetModelInfo {
   /**
    * Returns information about the AI model.
    * The method makes a REST API call to the `/info` route on the given endpoint.
+   * This method will only work when using Serverless API or Managed Compute endpoint.
+   * It will not work for GitHub Models endpoint or Azure OpenAI endpoint.
    */
   get(
     options?: GetModelInfoParameters,
@@ -47,7 +57,7 @@ export interface GetEmbeddings {
    * The method makes a REST API call to the `/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetEmbeddingsParameters,
+    options: GetEmbeddingsParameters,
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
@@ -57,7 +67,7 @@ export interface GetImageEmbeddings {
    * The method makes a REST API call to the `/images/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetImageEmbeddingsParameters,
+    options: GetImageEmbeddingsParameters,
   ): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
 }
 

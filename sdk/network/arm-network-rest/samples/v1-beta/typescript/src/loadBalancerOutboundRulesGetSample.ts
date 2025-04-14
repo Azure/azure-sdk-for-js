@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancerOutboundRulesGetParameters
+  LoadBalancerOutboundRulesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified load balancer outbound rule.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets the specified load balancer outbound rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerOutboundRuleGet.json
  */
-async function loadBalancerOutboundRuleGet() {
+async function loadBalancerOutboundRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function loadBalancerOutboundRuleGet() {
   const loadBalancerName = "lb1";
   const outboundRuleName = "rule1";
   const options: LoadBalancerOutboundRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function loadBalancerOutboundRuleGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      outboundRuleName
+      outboundRuleName,
     )
     .get(options);
   console.log(result);

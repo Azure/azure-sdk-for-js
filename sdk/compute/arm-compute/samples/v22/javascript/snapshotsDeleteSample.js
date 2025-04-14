@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a snapshot.
@@ -29,7 +29,7 @@ async function deleteASnapshot() {
 }
 
 async function main() {
-  deleteASnapshot();
+  await deleteASnapshot();
 }
 
 main().catch(console.error);

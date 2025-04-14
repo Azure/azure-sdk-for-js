@@ -14,39 +14,39 @@ import type {
   SharePropertiesInternal,
   ServiceSetPropertiesHeaders,
   ServiceGetPropertiesHeaders,
-} from "./generatedModels";
-import type { Service } from "./generated/src/operationsInterfaces";
-import type { Pipeline } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { ShareClientInternal } from "./ShareClientInternal";
-import type { ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
-import { ShareClient } from "./Clients";
-import type { WithResponse } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { Pipeline } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { ShareClientInternal } from "./ShareClientInternal.js";
+import type { ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients.js";
+import { ShareClient } from "./Clients.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   assertResponse,
   removeEmptyString,
-} from "./utils/utils.common";
-import { Credential } from "../../storage-blob/src/credentials/Credential";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
+} from "./utils/utils.common.js";
+import { Credential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode } from "@azure/core-util";
-import { tracingClient } from "./utils/tracing";
-import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models";
-import { toShareProtocols } from "./models";
-import { AccountSASPermissions } from "./AccountSASPermissions";
+import { isNodeLike } from "@azure/core-util";
+import { tracingClient } from "./utils/tracing.js";
+import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models.js";
+import { toShareProtocols } from "./models.js";
+import { AccountSASPermissions } from "./AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
-import { appendToURLQuery } from "./utils/utils.common";
+} from "./AccountSASSignatureValues.js";
+import { AccountSASServices } from "./AccountSASServices.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { appendToURLQuery } from "./utils/utils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
@@ -248,7 +248,7 @@ export class ShareServiceClient extends StorageClient {
   ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -301,7 +301,6 @@ export class ShareServiceClient extends StorageClient {
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
@@ -336,10 +335,21 @@ export class ShareServiceClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const shareClient = serviceClient.getShareClient("<share name>");
+   * ```ts snippet:ReadmeSampleCreateShareClient
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const shareClient = serviceClient.getShareClient(shareName);
    * await shareClient.create();
-   * console.log("Created share successfully!");
    * ```
    */
   public getShareClient(shareName: string): ShareClient {
@@ -359,6 +369,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async createShare(
     shareName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ShareCreateOptions = {},
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
     return tracingClient.withSpan(
@@ -384,6 +395,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async deleteShare(
     shareName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ShareDeleteMethodOptions = {},
   ): Promise<ShareDeleteResponse> {
     return tracingClient.withSpan(
@@ -399,7 +411,7 @@ export class ShareServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s file service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties
    *
    * @param options - Options to Get Properties operation.
    * @returns Response data for the Get Properties operation.
@@ -428,7 +440,7 @@ export class ShareServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s file service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties
    *
    * @param properties -
    * @param options - Options to Set Properties operation.
@@ -508,51 +520,89 @@ export class ShareServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListShares
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let i = 1;
    * for await (const share of serviceClient.listShares()) {
-   *   console.log(`Share ${i++}: ${share.name}`);
+   *   console.log(`Share${i++}: ${share.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListShares_Iterator
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareIter = serviceClient.listShares();
    * let i = 1;
-   * let iter = serviceClient.listShares();
-   * let shareItem = await iter.next();
-   * while (!shareItem.done) {
-   *   console.log(`Share ${i++}: ${shareItem.value.name}`);
-   *   shareItem = await iter.next();
+   * let { value, done } = await shareIter.next();
+   * while (!done) {
+   *   console.log(`Share ${i++}: ${value.name}`);
+   *   ({ value, done } = await shareIter.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListShares_ByPage
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let i = 1;
    * for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
-   *   if (response.shareItems) {
-   *    for (const share of response.shareItems) {
-   *        console.log(`Share ${i++}: ${share.name}`);
-   *     }
+   *   console.log(`Page ${i++}:`);
+   *   for (const share of response.shareItems || []) {
+   *     console.log(`\tShare: ${share.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
-   * let i = 1;
+   * ```ts snippet:ReadmeSampleListShares_Continuation
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
    * let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *
-   * // Prints 2 share names
-   * if (response.shareItems) {
-   *   for (const share of response.shareItems) {
-   *     console.log(`Share ${i++}: ${share.name}`);
-   *   }
+   * for await (const share of response.shareItems || []) {
+   *   console.log(`\tShare: ${share.name}`);
    * }
    *
    * // Gets next marker
@@ -562,11 +612,8 @@ export class ShareServiceClient extends StorageClient {
    * iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
    *
-   * // Prints 10 share names
-   * if (response.shareItems) {
-   *   for (const share of response.shareItems) {
-   *     console.log(`Share ${i++}: ${share.name}`);
-   *   }
+   * for await (const share of response.shareItems || []) {
+   *   console.log(`\tShare: ${share.name}`);
    * }
    * ```
    *
@@ -710,7 +757,7 @@ export class ShareServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -755,7 +802,7 @@ export class ShareServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -767,6 +814,7 @@ export class ShareServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {

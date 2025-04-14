@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new SSH public key resource.
  *
  * @summary Creates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
  */
-async function createANewSshPublicKeyResource() {
+async function createANewSshPublicKeyResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -43,8 +41,8 @@ async function createANewSshPublicKeyResource() {
   console.log(result);
 }
 
-async function main() {
-  createANewSshPublicKeyResource();
+async function main(): Promise<void> {
+  await createANewSshPublicKeyResource();
 }
 
 main().catch(console.error);

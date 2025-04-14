@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /// <reference lib="dom" />
-import type { PriorityLevel } from "../documents/PriorityLevel";
-import type { CosmosHeaders } from "../index";
+import type { PriorityLevel } from "../documents/PriorityLevel.js";
+import type { CosmosHeaders } from "../index.js";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
@@ -15,10 +15,21 @@ export interface SharedOptions {
   /**
    * abortSignal to pass to all underlying network requests created by this method call. See https://developer.mozilla.org/en-US/docs/Web/API/AbortController
    * @example Cancel a read request
-   * ```typescript
-   * const controller = new AbortController()
-   * const {result: item} = await items.query('SELECT * from c', { abortSignal: controller.signal});
-   * controller.abort()
+   * ```ts snippet:SharedOptionsAbortSignal
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const controller = new AbortController();
+   * const results = container.items.query("SELECT * from c", {
+   *   abortSignal: controller.signal,
+   * });
    * ```
    */
   abortSignal?: AbortSignal;
@@ -48,4 +59,21 @@ export interface SharedOptions {
    * <p>Default value is null. By default all requests are of High priority</p>
    */
   priorityLevel?: PriorityLevel;
+
+  /**
+   * Throughput Bucket for a request.
+   *
+   * <p>Default value is null. In this case, the request can use 100% of the partition throughput. </p>
+   * For more information, visit [Cosmos DB throughput Bucketing](https://aka.ms/cosmsodb-bucketing).
+   */
+  throughputBucket?: number;
+
+  /** Consistency level required by the client. */
+  consistencyLevel?: string;
+
+  /**
+   * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity
+   * to serve the request if regular provisioned RUs/second is exhausted.
+   */
+  disableRUPerMinuteUsage?: boolean;
 }

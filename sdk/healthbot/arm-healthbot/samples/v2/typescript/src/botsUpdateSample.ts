@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Patch a HealthBot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceUpdatePatch.json
  */
-async function botUpdate() {
+async function botUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "healthbotClient";
   const botName = "samplebotname";

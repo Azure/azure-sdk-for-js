@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to restart a virtual machine.
  *
  * @summary The operation to restart a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Restart_MaximumSet_Gen.json
  */
-async function virtualMachineRestartMaximumSetGen() {
+async function virtualMachineRestartMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,9 +37,9 @@ async function virtualMachineRestartMaximumSetGen() {
  * This sample demonstrates how to The operation to restart a virtual machine.
  *
  * @summary The operation to restart a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Restart_MinimumSet_Gen.json
  */
-async function virtualMachineRestartMinimumSetGen() {
+async function virtualMachineRestartMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,9 +54,9 @@ async function virtualMachineRestartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineRestartMaximumSetGen();
-  virtualMachineRestartMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineRestartMaximumSetGen();
+  await virtualMachineRestartMinimumSetGen();
 }
 
 main().catch(console.error);

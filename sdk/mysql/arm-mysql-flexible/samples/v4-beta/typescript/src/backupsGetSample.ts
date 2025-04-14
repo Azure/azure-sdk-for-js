@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the backups for a given server.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the backups for a given server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/BackupGet.json
  */
-async function getABackupForAServer() {
+async function getABackupForAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -40,7 +38,7 @@ async function getABackupForAServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getABackupForAServer();
 }
 

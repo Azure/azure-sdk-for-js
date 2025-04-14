@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of databases that are owned by this Kusto Pool and were followed by another Kusto Pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a list of databases that are owned by this Kusto Pool and were followed by another Kusto Pool.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolFollowerDatabasesList.json
  */
-async function kustoPoolListFollowerDatabases() {
+async function kustoPoolListFollowerDatabases(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -41,7 +39,7 @@ async function kustoPoolListFollowerDatabases() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoPoolListFollowerDatabases();
 }
 

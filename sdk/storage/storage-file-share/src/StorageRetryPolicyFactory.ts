@@ -6,7 +6,7 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
 } from "@azure/core-http-compat";
-import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy";
+import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy.js";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 
@@ -31,7 +31,7 @@ export interface StorageRetryOptions {
    * A value of zero or undefined means no default timeout on SDK client, Azure
    * Storage server's default timeout policy will be used.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-blob-service-operations
    */
   readonly tryTimeoutInMs?: number;
 

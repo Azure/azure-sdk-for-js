@@ -1,12 +1,21 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.1 (2025-03-20)
+
+Updated the client library to use API Version 2025-05-01-preview. This adds all the capabilities that were introduced until this API version.
 
 ### Features Added
 
-### Breaking Changes
+- Support for AutoStop Criteria
+- Support for Quick Load Tests with RPS Inputs
+- Support for URL Tests with JSON based test plans
+- Support for Locust Load Tests
+- Support for Multi Region Load Tests
+- Support for Disabling Public IP Deployment for Private Load Tests
+- Support for uploading ZIP Artifacts
+- Support for all Test Profiles & Test Profile Run Scenarios
 
-### Bugs Fixed
+## 1.0.1 (2025-01-20)
 
 ### Other Changes
 

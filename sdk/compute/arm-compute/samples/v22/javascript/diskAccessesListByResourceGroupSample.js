@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the disk access resources under a resource group.
@@ -24,14 +24,14 @@ async function listAllDiskAccessResourcesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskAccesses.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.diskAccesses.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listAllDiskAccessResourcesInAResourceGroup();
+  await listAllDiskAccessResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

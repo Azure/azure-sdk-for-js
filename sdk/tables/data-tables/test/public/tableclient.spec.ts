@@ -3,14 +3,30 @@
 
 import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src/index.js";
 import { odata } from "../../src/index.js";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNodeLike } from "@azure/core-util";
+import { Recorder } from "@azure-tools/test-recorder";
+import { delay, isNodeLike } from "@azure/core-util";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableClient } from "./utils/recordedClient.js";
 import { describe, it, assert, expect, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { isPlaybackMode } from "../utils/injectables.js";
 
 expect.extend({ toSupportTracing });
+
+const waitTimeout = isPlaybackMode() ? 0 : 2000;
+
+// Add a helper function to safely delete an entity if it exists.
+async function deleteEntityIfExists(
+  client: TableClient,
+  partitionKey: string,
+  rowKey: string,
+): Promise<void> {
+  try {
+    await client.deleteEntity(partitionKey, rowKey);
+  } catch (error) {
+    // Entity doesn't exist. Ignore errors.
+  }
+}
 
 describe("special characters", () => {
   const tableName = `SpecialChars`;
@@ -19,7 +35,7 @@ describe("special characters", () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, "TokenCredential", recorder);
   });
 
   afterEach(async () => {
@@ -45,6 +61,7 @@ describe("special characters", () => {
       assert.equal(entity.test, expectedValue);
     } finally {
       await client.deleteTable();
+      delay(waitTimeout);
     }
   });
 });
@@ -60,12 +77,12 @@ describe(`TableClient`, () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    client = await createTableClient(tableName, "SASConnectionString", recorder);
+    client = await createTableClient(tableName, "TokenCredential", recorder);
   });
 
   beforeAll(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName, "TokenCredential");
       await unRecordedClient.createTable();
     }
   });
@@ -76,7 +93,7 @@ describe(`TableClient`, () => {
 
   afterAll(async () => {
     if (!isPlaybackMode()) {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName, "TokenCredential");
       await unRecordedClient.deleteTable();
     }
   });
@@ -84,7 +101,7 @@ describe(`TableClient`, () => {
   describe("listEntities", () => {
     // Create required entities for testing list operations
     beforeAll(async () => {
-      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      unRecordedClient = await createTableClient(tableName, "TokenCredential");
       if (!isPlaybackMode()) {
         await unRecordedClient.createEntity({
           partitionKey: listPartitionKey,
@@ -248,6 +265,10 @@ describe(`TableClient`, () => {
       };
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
+
+      // Ensure the entity does not already exist.
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
@@ -270,6 +291,9 @@ describe(`TableClient`, () => {
       };
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
@@ -304,6 +328,8 @@ describe(`TableClient`, () => {
           value: "QmFy",
         },
       };
+
+      await deleteEntityIfExists(client, expected.partitionKey, expected.rowKey);
 
       await client.createEntity(expected);
 
@@ -343,6 +369,8 @@ describe(`TableClient`, () => {
         },
       };
 
+      await deleteEntityIfExists(client, expected.partitionKey, expected.rowKey);
+
       await client.createEntity(expected);
 
       const result = await client.getEntity<TestResult>(expected.partitionKey, expected.rowKey, {
@@ -361,6 +389,8 @@ describe(`TableClient`, () => {
         bar: 123,
         baz: true,
       };
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
 
       await client.createEntity(testEntity);
 
@@ -414,6 +444,9 @@ describe(`TableClient`, () => {
         rowKey: "R3",
         testField: testGuid,
       };
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
@@ -442,6 +475,9 @@ describe(`TableClient`, () => {
         rowKey: "R4",
         testField: testInt64,
       };
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
@@ -475,6 +511,9 @@ describe(`TableClient`, () => {
         rowKey: "R5",
         testField: testInt32,
       };
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
@@ -513,6 +552,9 @@ describe(`TableClient`, () => {
         rowKey: "R6",
         testField: testBoolean,
       };
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
@@ -547,6 +589,9 @@ describe(`TableClient`, () => {
       };
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey, {
         disableTypeConversion: true,
@@ -571,6 +616,9 @@ describe(`TableClient`, () => {
       };
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
@@ -592,6 +640,8 @@ describe(`TableClient`, () => {
         Value: { value: "1.23456789012346e+24", type: "Double" },
       };
 
+      await deleteEntityIfExists(client, inputEntity.partitionKey, inputEntity.rowKey);
+
       await client.createEntity(inputEntity);
 
       const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
@@ -607,6 +657,8 @@ describe(`TableClient`, () => {
         rowKey: "0",
         value: { value: "", type: "String" },
       };
+
+      await deleteEntityIfExists(client, inputEntity.partitionKey, inputEntity.rowKey);
 
       await client.createEntity(inputEntity);
 
@@ -632,6 +684,9 @@ describe(`TableClient`, () => {
       };
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
+
+      await deleteEntityIfExists(client, testEntity.partitionKey, testEntity.rowKey);
+
       await client.createEntity(testEntity, {
         onResponse: (res) => (createResult = res),
       });

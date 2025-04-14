@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all the runs for a registry.
@@ -36,7 +36,7 @@ async function runsList() {
 }
 
 async function main() {
-  runsList();
+  await runsList();
 }
 
 main().catch(console.error);

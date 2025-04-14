@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update a gallery image definition.
@@ -85,8 +85,8 @@ async function updateASimpleGalleryImage() {
 }
 
 async function main() {
-  updateAGalleryImageFeature();
-  updateASimpleGalleryImage();
+  await updateAGalleryImageFeature();
+  await updateASimpleGalleryImage();
 }
 
 main().catch(console.error);

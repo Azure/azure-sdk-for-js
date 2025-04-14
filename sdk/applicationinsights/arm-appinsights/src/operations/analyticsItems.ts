@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AnalyticsItems } from "../operationsInterfaces";
+import { AnalyticsItems } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   ItemScopePath,
   AnalyticsItemsListOptionalParams,
@@ -20,8 +20,8 @@ import {
   ApplicationInsightsComponentAnalyticsItem,
   AnalyticsItemsPutOptionalParams,
   AnalyticsItemsPutResponse,
-  AnalyticsItemsDeleteOptionalParams
-} from "../models";
+  AnalyticsItemsDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing AnalyticsItems operations. */
 export class AnalyticsItemsImpl implements AnalyticsItems {
@@ -47,11 +47,11 @@ export class AnalyticsItemsImpl implements AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsListOptionalParams
+    options?: AnalyticsItemsListOptionalParams,
   ): Promise<AnalyticsItemsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, scopePath, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -67,11 +67,11 @@ export class AnalyticsItemsImpl implements AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsGetOptionalParams
+    options?: AnalyticsItemsGetOptionalParams,
   ): Promise<AnalyticsItemsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, scopePath, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -90,11 +90,11 @@ export class AnalyticsItemsImpl implements AnalyticsItems {
     resourceName: string,
     scopePath: ItemScopePath,
     itemProperties: ApplicationInsightsComponentAnalyticsItem,
-    options?: AnalyticsItemsPutOptionalParams
+    options?: AnalyticsItemsPutOptionalParams,
   ): Promise<AnalyticsItemsPutResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, scopePath, itemProperties, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -110,11 +110,11 @@ export class AnalyticsItemsImpl implements AnalyticsItems {
     resourceGroupName: string,
     resourceName: string,
     scopePath: ItemScopePath,
-    options?: AnalyticsItemsDeleteOptionalParams
+    options?: AnalyticsItemsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, scopePath, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -122,8 +122,7 @@ export class AnalyticsItemsImpl implements AnalyticsItems {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -133,83 +132,80 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationInsightsComponentAnalyticsItem"
-            }
-          }
-        }
-      }
-    }
+              className: "ApplicationInsightsComponentAnalyticsItem",
+            },
+          },
+        },
+      },
+    },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.scope,
     Parameters.typeParam,
-    Parameters.includeContent
+    Parameters.includeContent,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.scopePath
+    Parameters.scopePath,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  queryParameters: [Parameters.apiVersion1, Parameters.id, Parameters.name],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.scopePath
+    Parameters.scopePath,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem,
+    },
   },
   requestBody: Parameters.itemProperties,
-  queryParameters: [Parameters.apiVersion, Parameters.overrideItem],
+  queryParameters: [Parameters.apiVersion1, Parameters.overrideItem],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.scopePath
+    Parameters.scopePath,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   httpMethod: "DELETE",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  queryParameters: [Parameters.apiVersion1, Parameters.id, Parameters.name],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.scopePath
+    Parameters.scopePath,
   ],
-  serializer
+  serializer,
 };

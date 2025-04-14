@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a disk.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Delete.json
  */
-async function deleteAManagedDisk() {
+async function deleteAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,8 +33,8 @@ async function deleteAManagedDisk() {
   console.log(result);
 }
 
-async function main() {
-  deleteAManagedDisk();
+async function main(): Promise<void> {
+  await deleteAManagedDisk();
 }
 
 main().catch(console.error);

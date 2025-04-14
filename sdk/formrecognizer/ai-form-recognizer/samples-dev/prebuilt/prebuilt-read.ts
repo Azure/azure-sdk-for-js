@@ -42,7 +42,7 @@ export interface PrebuiltReadResult extends fr.AnalyzeResultCommon {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-read",
     description: "Extract text from documents.",

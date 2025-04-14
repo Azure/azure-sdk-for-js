@@ -21,7 +21,7 @@ import {
   DevCentersUpdateResponse,
   DevCentersDeleteOptionalParams,
   DevCentersDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DevCenters. */

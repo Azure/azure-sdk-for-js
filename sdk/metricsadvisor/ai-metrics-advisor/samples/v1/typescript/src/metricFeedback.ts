@@ -5,20 +5,17 @@
  *  @summary This sample demonstrates how to provide feedback for a metric.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
   MetricAnomalyFeedback,
   MetricChangePointFeedback,
   MetricCommentFeedback,
-  MetricPeriodFeedback
+  MetricPeriodFeedback,
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -37,7 +34,10 @@ export async function main() {
   await getFeedback(client, commentFeedback.id!);
 }
 
-async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideAnomalyFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Creating an anomaly feedback...");
   const anomalyFeedback: MetricAnomalyFeedback = {
     metricId,
@@ -45,61 +45,70 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
     value: "NotAnomaly",
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(anomalyFeedback);
 }
 
-async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function providePeriodFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Creating a period feedback...");
   const periodFeedback: MetricPeriodFeedback = {
     metricId,
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(periodFeedback);
 }
 
-async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideChangePointFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Creating a change point feedback...");
   const changePointFeedback: MetricChangePointFeedback = {
     metricId,
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(changePointFeedback);
 }
 
-async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function provideCommentFeedback(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Creating a comment feedback...");
   const commendFeedback: MetricCommentFeedback = {
     metricId,
     feedbackType: "Comment",
     dimensionKey: { city: "Manila", category: "Handmade" },
-    comment: "This is a comment"
+    comment: "This is a comment",
   };
   return await client.addFeedback(commendFeedback);
 }
 
-async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
+async function getFeedback(client: MetricsAdvisorClient, feedbackId: string): Promise<void> {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
   const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 
-async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
+async function listFeedback(client: MetricsAdvisorClient, metricId: string): Promise<void> {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
   const listIterator = client.listFeedback(metricId, {
     filter: {
       startTime: new Date("08/01/2020"),
       endTime: new Date("08/03/2020"),
-      timeMode: "MetricTimestamp"
-    }
+      timeMode: "MetricTimestamp",
+    },
   });
   for await (const feedback of listIterator) {
     console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
@@ -123,8 +132,8 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   const iterator = client
     .listFeedback(metricId, {
       filter: {
-        timeMode: "FeedbackCreatedTime"
-      }
+        timeMode: "FeedbackCreatedTime",
+      },
     })
     .byPage({ maxPageSize: 2 });
   const result = await iterator.next();
@@ -139,7 +148,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
       if (feedback.feedbackType === "Anomaly") {
         console.log(`      feedback value: ${feedback.value}`);
         console.log(
-          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`,
         );
       } else if (feedback.feedbackType === "ChangePoint") {
         console.log(`      feedback value: ${feedback.value}`);
@@ -161,7 +170,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
         if (feedback.feedbackType === "Anomaly") {
           console.log(`      feedback value: ${feedback.value}`);
           console.log(
-            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`,
           );
         } else if (feedback.feedbackType === "ChangePoint") {
           console.log(`      feedback value: ${feedback.value}`);

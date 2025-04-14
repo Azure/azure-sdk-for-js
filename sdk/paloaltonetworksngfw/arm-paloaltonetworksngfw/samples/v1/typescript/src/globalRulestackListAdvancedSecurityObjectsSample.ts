@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the list of advanced security objects
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get the list of advanced security objects
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAdvancedSecurityObjects_MaximumSet_Gen.json
  */
-async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen() {
+async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
   const top = 20;
@@ -48,7 +46,7 @@ async function globalRulestackListAdvancedSecurityObjectsMaximumSetGen() {
  * @summary Get the list of advanced security objects
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAdvancedSecurityObjects_MinimumSet_Gen.json
  */
-async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen() {
+async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const typeParam = "globalRulestacks";
   const credential = new DefaultAzureCredential();
@@ -60,7 +58,7 @@ async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalRulestackListAdvancedSecurityObjectsMaximumSetGen();
   globalRulestackListAdvancedSecurityObjectsMinimumSetGen();
 }

@@ -19,14 +19,14 @@ import {
   RecordSetsImpl,
   ZonesImpl,
   DnsResourceReferenceOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DnssecConfigs,
   RecordSets,
   Zones,
   DnsResourceReferenceOperations,
-} from "./operationsInterfaces";
-import { DnsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DnsManagementClientOptionalParams } from "./models/index.js";
 
 export class DnsManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -21,7 +21,7 @@ import {
   AccountTagRequest,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Accounts. */
 export interface Accounts {

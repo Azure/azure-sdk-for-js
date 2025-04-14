@@ -17,7 +17,7 @@ import {
   DevToolPortalsCreateOrUpdateResponse,
   DevToolPortalsDeleteOptionalParams,
   DevToolPortalsDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DevToolPortals. */

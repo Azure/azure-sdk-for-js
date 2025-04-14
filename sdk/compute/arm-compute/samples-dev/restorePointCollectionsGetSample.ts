@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Get.json
  */
-async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection() {
+async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,9 +37,9 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
  * This sample demonstrates how to The operation to get the restore point collection.
  *
  * @summary The operation to get the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
  */
-async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection() {
+async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,9 +54,9 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
   console.log(result);
 }
 
-async function main() {
-  getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection();
-  getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection();
+async function main(): Promise<void> {
+  await getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection();
+  await getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection();
 }
 
 main().catch(console.error);

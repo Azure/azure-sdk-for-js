@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RegionConfigurationRequest,
-  DataBoxManagementClient
+  DataBoxManagementClient,
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,29 +19,31 @@ import "dotenv/config";
  * This sample demonstrates how to This API provides configuration details specific to given region/location at Subscription level.
  *
  * @summary This API provides configuration details specific to given region/location at Subscription level.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfiguration.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfiguration.json
  */
-async function regionConfiguration() {
+async function regionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
   const regionConfigurationRequest: RegionConfigurationRequest = {
+    deviceCapabilityRequest: { model: "DataBoxDisk", skuName: "DataBoxDisk" },
     scheduleAvailabilityRequest: {
+      model: "DataBox",
       skuName: "DataBox",
-      storageLocation: "westus"
-    }
+      storageLocation: "westus",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.service.regionConfiguration(
     location,
-    regionConfigurationRequest
+    regionConfigurationRequest,
   );
   console.log(result);
 }
 
-async function main() {
-  regionConfiguration();
+async function main(): Promise<void> {
+  await regionConfiguration();
 }
 
 main().catch(console.error);

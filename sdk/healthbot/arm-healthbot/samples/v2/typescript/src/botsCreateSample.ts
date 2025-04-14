@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a new Azure Health Bot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceCreationPut.json
  */
-async function botCreate() {
+async function botCreate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "healthbotClient";
   const botName = "samplebotname";

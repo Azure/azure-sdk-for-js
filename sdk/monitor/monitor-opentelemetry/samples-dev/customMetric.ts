@@ -9,9 +9,7 @@ import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monito
 import { metrics } from "@opentelemetry/api";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     connectionString:
@@ -28,13 +26,13 @@ const PORT = 8080;
 async function metricExport(): Promise<void> {
   const meter = metrics.getMeter("testMeter");
   const customCounter = meter.createCounter("TestCounter");
-  customCounter.add(1);
-  customCounter.add(2);
-  customCounter.add(3);
+  await customCounter.add(1);
+  await customCounter.add(2);
+  await customCounter.add(3);
 }
 
 async function setupRoutes(): Promise<void> {
-  app.get("/", async (_req: any, res: any) => {
+  await app.get("/", async (_req: any, res: any) => {
     await metricExport().then(() => {
       res.send("Metrics sent to Azure Monitor");
     });

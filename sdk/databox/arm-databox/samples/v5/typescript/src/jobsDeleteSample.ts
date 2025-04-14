@@ -16,9 +16,9 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a job.
  *
  * @summary Deletes a job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsDelete.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsDelete.json
  */
-async function jobsDelete() {
+async function jobsDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -28,13 +28,13 @@ async function jobsDelete() {
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginDeleteAndWait(
     resourceGroupName,
-    jobName
+    jobName,
   );
   console.log(result);
 }
 
-async function main() {
-  jobsDelete();
+async function main(): Promise<void> {
+  await jobsDelete();
 }
 
 main().catch(console.error);

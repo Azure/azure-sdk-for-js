@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Implements GuestAgent DELETE method.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Implements GuestAgent DELETE method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Delete_MaximumSet_Gen.json
  */
-async function guestAgentsDeleteMaximumSet() {
+async function guestAgentsDeleteMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -34,7 +32,7 @@ async function guestAgentsDeleteMaximumSet() {
  * @summary Implements GuestAgent DELETE method.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GuestAgents_Delete_MinimumSet_Gen.json
  */
-async function guestAgentsDeleteMinimumSet() {
+async function guestAgentsDeleteMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -42,7 +40,7 @@ async function guestAgentsDeleteMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   guestAgentsDeleteMaximumSet();
   guestAgentsDeleteMinimumSet();
 }

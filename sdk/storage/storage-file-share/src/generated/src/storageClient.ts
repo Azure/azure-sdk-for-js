@@ -7,9 +7,9 @@
  */
 
 import * as coreHttpCompat from "@azure/core-http-compat";
-import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations";
-import { Service, Share, Directory, File } from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations/index.js";
+import { Service, Share, Directory, File } from "./operationsInterfaces/index.js";
+import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;
@@ -35,7 +35,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-azure-storage-file-share/12.26.0`;
+    const packageDetails = `azsdk-js-azure-storage-file-share/12.27.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -54,7 +54,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2025-01-05";
+    this.version = options.version || "2025-05-05";
     this.fileRangeWriteFromUrl = options.fileRangeWriteFromUrl || "update";
     this.service = new ServiceImpl(this);
     this.share = new ShareImpl(this);

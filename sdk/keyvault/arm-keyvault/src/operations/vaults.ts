@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Vaults } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Vaults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KeyVaultManagementClient } from "../keyVaultManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Vault,
   VaultsListByResourceGroupNextOptionalParams,
@@ -57,8 +57,8 @@ import {
   VaultsListByResourceGroupNextResponse,
   VaultsListBySubscriptionNextResponse,
   VaultsListDeletedNextResponse,
-  VaultsListNextResponse
-} from "../models";
+  VaultsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Vaults operations. */
@@ -81,7 +81,7 @@ export class VaultsImpl implements Vaults {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams
+    options?: VaultsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Vault> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -98,16 +98,16 @@ export class VaultsImpl implements Vaults {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VaultsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Vault[]> {
     let result: VaultsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -122,7 +122,7 @@ export class VaultsImpl implements Vaults {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,11 +133,11 @@ export class VaultsImpl implements Vaults {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams
+    options?: VaultsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Vault> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: VaultsListBySubscriptionOptionalParams
+    options?: VaultsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Vault> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -163,13 +163,13 @@ export class VaultsImpl implements Vaults {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: VaultsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Vault[]> {
     let result: VaultsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -190,7 +190,7 @@ export class VaultsImpl implements Vaults {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: VaultsListBySubscriptionOptionalParams
+    options?: VaultsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Vault> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -202,7 +202,7 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   public listDeleted(
-    options?: VaultsListDeletedOptionalParams
+    options?: VaultsListDeletedOptionalParams,
   ): PagedAsyncIterableIterator<DeletedVault> {
     const iter = this.listDeletedPagingAll(options);
     return {
@@ -217,13 +217,13 @@ export class VaultsImpl implements Vaults {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listDeletedPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listDeletedPagingPage(
     options?: VaultsListDeletedOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedVault[]> {
     let result: VaultsListDeletedResponse;
     let continuationToken = settings?.continuationToken;
@@ -244,7 +244,7 @@ export class VaultsImpl implements Vaults {
   }
 
   private async *listDeletedPagingAll(
-    options?: VaultsListDeletedOptionalParams
+    options?: VaultsListDeletedOptionalParams,
   ): AsyncIterableIterator<DeletedVault> {
     for await (const page of this.listDeletedPagingPage(options)) {
       yield* page;
@@ -256,7 +256,7 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   public list(
-    options?: VaultsListOptionalParams
+    options?: VaultsListOptionalParams,
   ): PagedAsyncIterableIterator<Resource> {
     const iter = this.listPagingAll(options);
     return {
@@ -271,13 +271,13 @@ export class VaultsImpl implements Vaults {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VaultsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Resource[]> {
     let result: VaultsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -298,7 +298,7 @@ export class VaultsImpl implements Vaults {
   }
 
   private async *listPagingAll(
-    options?: VaultsListOptionalParams
+    options?: VaultsListOptionalParams,
   ): AsyncIterableIterator<Resource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -316,7 +316,7 @@ export class VaultsImpl implements Vaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: VaultCreateOrUpdateParameters,
-    options?: VaultsCreateOrUpdateOptionalParams
+    options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VaultsCreateOrUpdateResponse>,
@@ -325,21 +325,20 @@ export class VaultsImpl implements Vaults {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VaultsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -348,8 +347,8 @@ export class VaultsImpl implements Vaults {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -357,22 +356,22 @@ export class VaultsImpl implements Vaults {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       VaultsCreateOrUpdateResponse,
       OperationState<VaultsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -389,13 +388,13 @@ export class VaultsImpl implements Vaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: VaultCreateOrUpdateParameters,
-    options?: VaultsCreateOrUpdateOptionalParams
+    options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<VaultsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       vaultName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -411,11 +410,11 @@ export class VaultsImpl implements Vaults {
     resourceGroupName: string,
     vaultName: string,
     parameters: VaultPatchParameters,
-    options?: VaultsUpdateOptionalParams
+    options?: VaultsUpdateOptionalParams,
   ): Promise<VaultsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -428,11 +427,11 @@ export class VaultsImpl implements Vaults {
   delete(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultsDeleteOptionalParams
+    options?: VaultsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -445,11 +444,11 @@ export class VaultsImpl implements Vaults {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultsGetOptionalParams
+    options?: VaultsGetOptionalParams,
   ): Promise<VaultsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -466,11 +465,11 @@ export class VaultsImpl implements Vaults {
     vaultName: string,
     operationKind: AccessPolicyUpdateKind,
     parameters: VaultAccessPolicyParameters,
-    options?: VaultsUpdateAccessPolicyOptionalParams
+    options?: VaultsUpdateAccessPolicyOptionalParams,
   ): Promise<VaultsUpdateAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationKind, parameters, options },
-      updateAccessPolicyOperationSpec
+      updateAccessPolicyOperationSpec,
     );
   }
 
@@ -482,11 +481,11 @@ export class VaultsImpl implements Vaults {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams
+    options?: VaultsListByResourceGroupOptionalParams,
   ): Promise<VaultsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -495,11 +494,11 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: VaultsListBySubscriptionOptionalParams
+    options?: VaultsListBySubscriptionOptionalParams,
   ): Promise<VaultsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -508,11 +507,11 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   private _listDeleted(
-    options?: VaultsListDeletedOptionalParams
+    options?: VaultsListDeletedOptionalParams,
   ): Promise<VaultsListDeletedResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listDeletedOperationSpec
+      listDeletedOperationSpec,
     );
   }
 
@@ -525,11 +524,11 @@ export class VaultsImpl implements Vaults {
   getDeleted(
     vaultName: string,
     location: string,
-    options?: VaultsGetDeletedOptionalParams
+    options?: VaultsGetDeletedOptionalParams,
   ): Promise<VaultsGetDeletedResponse> {
     return this.client.sendOperationRequest(
       { vaultName, location, options },
-      getDeletedOperationSpec
+      getDeletedOperationSpec,
     );
   }
 
@@ -542,25 +541,24 @@ export class VaultsImpl implements Vaults {
   async beginPurgeDeleted(
     vaultName: string,
     location: string,
-    options?: VaultsPurgeDeletedOptionalParams
+    options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -569,8 +567,8 @@ export class VaultsImpl implements Vaults {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -578,19 +576,19 @@ export class VaultsImpl implements Vaults {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { vaultName, location, options },
-      spec: purgeDeletedOperationSpec
+      spec: purgeDeletedOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -605,7 +603,7 @@ export class VaultsImpl implements Vaults {
   async beginPurgeDeletedAndWait(
     vaultName: string,
     location: string,
-    options?: VaultsPurgeDeletedOptionalParams
+    options?: VaultsPurgeDeletedOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurgeDeleted(vaultName, location, options);
     return poller.pollUntilDone();
@@ -616,7 +614,7 @@ export class VaultsImpl implements Vaults {
    * @param options The options parameters.
    */
   private _list(
-    options?: VaultsListOptionalParams
+    options?: VaultsListOptionalParams,
   ): Promise<VaultsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -628,11 +626,11 @@ export class VaultsImpl implements Vaults {
    */
   checkNameAvailability(
     vaultName: VaultCheckNameAvailabilityParameters,
-    options?: VaultsCheckNameAvailabilityOptionalParams
+    options?: VaultsCheckNameAvailabilityOptionalParams,
   ): Promise<VaultsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { vaultName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -645,11 +643,11 @@ export class VaultsImpl implements Vaults {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VaultsListByResourceGroupNextOptionalParams
+    options?: VaultsListByResourceGroupNextOptionalParams,
   ): Promise<VaultsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -660,11 +658,11 @@ export class VaultsImpl implements Vaults {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: VaultsListBySubscriptionNextOptionalParams
+    options?: VaultsListBySubscriptionNextOptionalParams,
   ): Promise<VaultsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -675,11 +673,11 @@ export class VaultsImpl implements Vaults {
    */
   private _listDeletedNext(
     nextLink: string,
-    options?: VaultsListDeletedNextOptionalParams
+    options?: VaultsListDeletedNextOptionalParams,
   ): Promise<VaultsListDeletedNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listDeletedNextOperationSpec
+      listDeletedNextOperationSpec,
     );
   }
 
@@ -690,11 +688,11 @@ export class VaultsImpl implements Vaults {
    */
   private _listNext(
     nextLink: string,
-    options?: VaultsListNextOptionalParams
+    options?: VaultsListNextOptionalParams,
   ): Promise<VaultsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -702,25 +700,24 @@ export class VaultsImpl implements Vaults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     201: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     202: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     204: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -728,26 +725,25 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     201: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -755,69 +751,66 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Vault
+      bodyMapper: Mappers.Vault,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName1
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultAccessPolicyParameters
+      bodyMapper: Mappers.VaultAccessPolicyParameters,
     },
     201: {
-      bodyMapper: Mappers.VaultAccessPolicyParameters
+      bodyMapper: Mappers.VaultAccessPolicyParameters,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -826,91 +819,87 @@ const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.operationKind
+    Parameters.operationKind,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultListResult
+      bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultListResult
+      bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedVaultListResult
+      bodyMapper: Mappers.DeletedVaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedVault
+      bodyMapper: Mappers.DeletedVault,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.vaultName1,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const purgeDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -918,128 +907,127 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.vaultName1,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceListResult
+      bodyMapper: Mappers.ResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.vaultName2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultListResult
+      bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultListResult
+      bodyMapper: Mappers.VaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDeletedNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedVaultListResult
+      bodyMapper: Mappers.DeletedVaultListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceListResult
+      bodyMapper: Mappers.ResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

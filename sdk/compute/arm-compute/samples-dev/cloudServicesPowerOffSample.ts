@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Power off the cloud service. Note that resources are still attached and you are getting charged for the resources.
  *
  * @summary Power off the cloud service. Note that resources are still attached and you are getting charged for the resources.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_PowerOff.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_PowerOff.json
  */
-async function stopOrPowerOffCloudService() {
+async function stopOrPowerOffCloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,8 +33,8 @@ async function stopOrPowerOffCloudService() {
   console.log(result);
 }
 
-async function main() {
-  stopOrPowerOffCloudService();
+async function main(): Promise<void> {
+  await stopOrPowerOffCloudService();
 }
 
 main().catch(console.error);

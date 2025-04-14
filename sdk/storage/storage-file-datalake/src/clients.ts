@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import type { Readable } from "stream";
-
-import { BufferScheduler } from "../../storage-common/src";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { PathOperationsImpl as Path } from "./generated/src/operations";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { Readable } from "node:stream";
+import { BufferScheduler } from "@azure/storage-common";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
+import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -70,13 +70,13 @@ import type {
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
   UserDelegationKey,
-} from "./models";
-import type { PathSetAccessControlRecursiveMode } from "./models.internal";
+} from "./models.js";
+import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
-} from "./sas/DataLakeSASSignatureValues";
-import { StorageClient } from "./StorageClient";
+} from "./sas/DataLakeSASSignatureValues.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   toAccessControlChangeFailureArray,
   toAcl,
@@ -85,8 +85,8 @@ import {
   toPermissions,
   toPermissionsString,
   toProperties,
-} from "./transforms";
-import { Batch } from "./utils/Batch";
+} from "./transforms.js";
+import { Batch } from "./utils/Batch.js";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -95,9 +95,9 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "./utils/constants";
-import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -107,8 +107,8 @@ import {
   ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
-} from "./utils/utils.common";
-import { fsCreateReadStream, fsStat } from "./utils/utils.node";
+} from "./utils/utils.common.js";
+import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
   PathAppendDataHeaders,
   PathCreateHeaders,
@@ -117,7 +117,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -327,7 +327,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Create a directory or path.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options - Optional. Options when creating path.
@@ -370,7 +370,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Create a directory or file. If the resource already exists, it is not changed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options -
@@ -429,7 +429,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Delete current path (directory or file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options - Optional. Options when deleting path.
@@ -479,7 +479,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Delete current path (directory or file) if it exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options -
@@ -516,7 +516,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Returns the access control data for a path (directory of file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/getproperties
    *
    * @param options - Optional. Options when getting file access control.
    */
@@ -551,7 +551,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Set the access control data for a path (directory of file).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options when setting path access control.
@@ -580,7 +580,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Sets the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
@@ -601,7 +601,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Modifies the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
@@ -622,7 +622,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Removes the Access Control on a path and sub paths.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param acl - The POSIX access control list for the file or directory.
    * @param options - Optional. Options
@@ -643,7 +643,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Sets the file permissions on a path.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param permissions - The POSIX access permissions for the file owner, the file owning group, and others.
    * @param options - Optional. Options when setting path permissions.
@@ -678,7 +678,7 @@ export class DataLakePathClient extends StorageClient {
    * the methods of {@link DataLakeFileSystemClient} that list paths using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * @param options - Optional. Options when getting path properties.
    */
@@ -704,7 +704,7 @@ export class DataLakePathClient extends StorageClient {
    *
    * If no value provided, or no value provided for the specified blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param httpHeaders -
    * @param options -
@@ -738,7 +738,7 @@ export class DataLakePathClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the path
    * metadata will be removed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
    * @param metadata - Optional. Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
@@ -764,7 +764,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Move directory or file within same file system.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file".
    *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
@@ -775,7 +775,7 @@ export class DataLakePathClient extends StorageClient {
   /**
    * Move directory or file to another file system.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param destinationFileSystem - Destination file system like "filesystem".
    * @param destinationPath - Destination directory path like "directory" or file path "directory/file"
@@ -856,7 +856,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Create a directory.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options - Optional. Options when creating directory.
@@ -869,7 +869,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Create a directory.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating directory.
    */
@@ -904,7 +904,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Create a directory if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param options -
@@ -917,7 +917,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /**
    * Create a directory if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options -
    */
@@ -982,7 +982,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1013,7 +1013,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1040,7 +1040,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
@@ -1070,7 +1070,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
@@ -1174,7 +1174,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Create a file.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options - Optional. Options when creating file.
@@ -1187,7 +1187,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Create a file.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
    */
@@ -1222,7 +1222,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Create a file if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param resourceType - Resource type, must be "file" for DataLakeFileClient.
    * @param options -
@@ -1235,7 +1235,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   /**
    * Create a file if it doesn't already exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param options - Optional. Options when creating file.
    */
@@ -1272,21 +1272,39 @@ export class DataLakeFileClient extends DataLakePathClient {
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise contentAsBlob
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
    * * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
-   * console.log("Downloaded file content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.readableStreamBody) {
+   *   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   *   console.log("Downloaded file content:", downloaded.toString());
+   * }
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -1298,21 +1316,27 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-   * console.log("Downloaded file content", downloaded);
+   * ```ts snippet:ReadmeSampleDownloadFile_Browser
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
    *
-   * async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.contentAsBlob) {
+   *   const blob = await downloadResponse.contentAsBlob;
+   *   const downloaded = await blob.text();
+   *   console.log(`Downloaded file content ${downloaded}`);
    * }
    * ```
    *
@@ -1334,7 +1358,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse,
       ) as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1351,7 +1375,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Uploads data to be appended to a file. Data can only be appended to a file.
    * To apply perviously uploaded data to a file, call flush.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
    *
    * @param body - Content to be uploaded.
    * @param offset - Append offset in bytes.
@@ -1470,7 +1494,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -1487,7 +1511,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as ArrayBuffer]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1854,17 +1878,33 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleQueryFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
    * // Query and convert a file to a string
    * const queryResponse = await fileClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryResponse.readableStreamBody)).toString();
-   * console.log("Query file content:", downloaded);
+   * if (queryResponse.readableStreamBody) {
+   *   const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
+   *   const downloaded = responseBuffer.toString();
+   *   console.log(`Query file content: ${downloaded}`);
+   * }
    *
-   * async function streamToBuffer(readableStream) {
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -1884,7 +1924,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1949,7 +1989,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1981,7 +2021,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2008,7 +2048,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2037,7 +2077,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`

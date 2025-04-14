@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaa";
@@ -56,9 +54,9 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -78,9 +76,9 @@ async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesEdgeZoneListMaximumSetGen();
-  virtualMachineImagesEdgeZoneListMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineImagesEdgeZoneListMaximumSetGen();
+  await virtualMachineImagesEdgeZoneListMinimumSetGen();
 }
 
 main().catch(console.error);

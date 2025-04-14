@@ -13,7 +13,7 @@ import {
   OffersListByClusterOptionalParams,
   OffersGetOptionalParams,
   OffersGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Offers. */

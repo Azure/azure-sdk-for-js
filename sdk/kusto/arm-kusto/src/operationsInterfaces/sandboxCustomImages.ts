@@ -20,8 +20,8 @@ import {
   SandboxCustomImagesDeleteOptionalParams,
   SandboxCustomImagesCheckNameRequest,
   SandboxCustomImagesCheckNameAvailabilityOptionalParams,
-  SandboxCustomImagesCheckNameAvailabilityResponse
-} from "../models";
+  SandboxCustomImagesCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SandboxCustomImages. */
@@ -35,7 +35,7 @@ export interface SandboxCustomImages {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: SandboxCustomImagesListByClusterOptionalParams
+    options?: SandboxCustomImagesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<SandboxCustomImage>;
   /**
    * Returns a sandbox custom image
@@ -48,7 +48,7 @@ export interface SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesGetOptionalParams
+    options?: SandboxCustomImagesGetOptionalParams,
   ): Promise<SandboxCustomImagesGetResponse>;
   /**
    * Creates or updates a sandbox custom image.
@@ -63,7 +63,7 @@ export interface SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SandboxCustomImagesCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesCreateOrUpdateOptionalParams
+    options?: SandboxCustomImagesCreateOrUpdateOptionalParams,
   ): Promise<SandboxCustomImagesCreateOrUpdateResponse>;
   /**
    * Updates a sandbox custom image.
@@ -98,7 +98,7 @@ export interface SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesUpdateOptionalParams
+    options?: SandboxCustomImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SandboxCustomImagesUpdateResponse>,
@@ -118,7 +118,7 @@ export interface SandboxCustomImages {
     clusterName: string,
     sandboxCustomImageName: string,
     parameters: SandboxCustomImage,
-    options?: SandboxCustomImagesUpdateOptionalParams
+    options?: SandboxCustomImagesUpdateOptionalParams,
   ): Promise<SandboxCustomImagesUpdateResponse>;
   /**
    * Deletes a sandbox custom image.
@@ -131,7 +131,7 @@ export interface SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesDeleteOptionalParams
+    options?: SandboxCustomImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sandbox custom image.
@@ -144,7 +144,7 @@ export interface SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     sandboxCustomImageName: string,
-    options?: SandboxCustomImagesDeleteOptionalParams
+    options?: SandboxCustomImagesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Checks that the sandbox custom image resource name is valid and is not already in use.
@@ -157,6 +157,6 @@ export interface SandboxCustomImages {
     resourceGroupName: string,
     clusterName: string,
     resourceName: SandboxCustomImagesCheckNameRequest,
-    options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams
+    options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams,
   ): Promise<SandboxCustomImagesCheckNameAvailabilityResponse>;
 }

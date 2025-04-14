@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComponentAvailableFeatures } from "../operationsInterfaces";
+import { ComponentAvailableFeatures } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   ComponentAvailableFeaturesGetOptionalParams,
-  ComponentAvailableFeaturesGetResponse
-} from "../models";
+  ComponentAvailableFeaturesGetResponse,
+} from "../models/index.js";
 
 /** Class containing ComponentAvailableFeatures operations. */
 export class ComponentAvailableFeaturesImpl
-  implements ComponentAvailableFeatures {
+  implements ComponentAvailableFeatures
+{
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class ComponentAvailableFeaturesImpl
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentAvailableFeaturesGetOptionalParams
+    options?: ComponentAvailableFeaturesGetOptionalParams,
   ): Promise<ComponentAvailableFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,21 +51,20 @@ export class ComponentAvailableFeaturesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/getavailablebillingfeatures",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/getavailablebillingfeatures",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentAvailableFeatures
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentAvailableFeatures,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -93,5 +93,3 @@ const irrelevantVersion = "1.0.0"
 ```
 
 In the above example we see a `packageVersion` that we want to replace and an `irrelevantVersion` that, if replaced, would cause problems with how the code operates. In this case, one would set the prefix to `packageVersion`. The tool matches the prefix on the line and handles any characters between the prefix and a version string (i.e. assignment operators like `=` or `:` in the case of a mapping).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Feng%2Ftools%2Fversioning%2FREADME.png)

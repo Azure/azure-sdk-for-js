@@ -87,7 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [oepresourceupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oep/arm-oep/samples/v1-beta/typescript/src/oepResourceUpdate.ts
 [operationslist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oep/arm-oep/samples/v1-beta/typescript/src/operationsList.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oep/arm-oep/samples/v1-beta/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-oep?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-oep?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/oep/arm-oep/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

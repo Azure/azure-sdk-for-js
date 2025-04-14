@@ -23,7 +23,7 @@ dotenv.config();
 const consumer = new EventGridDeserializer();
 
 /**
- * For a full implementation, another service would act as a receiver for events {@link https://docs.microsoft.com/en-us/azure/event-grid/event-handlers}.
+ * For a full implementation, another service would act as a receiver for events {@link https://learn.microsoft.com/en-us/azure/event-grid/event-handlers}.
  * However, to avoid additional complexity for this sample, a hardcoded test event is being used. For full EventGrid samples, see
  * {@link https://github.com/Azure/azure-sdk-for-js/tree/ebbfcff02ca15b1792dc6c45d8ba10913891c530/sdk/eventgrid/eventgrid/samples-dev}.
  */
@@ -50,7 +50,7 @@ export async function main() {
   const events = await processEvent();
 
   // Iterate through events and log updated key-value pairs.
-  events.forEach(async (eventData) => {
+  await events.forEach(async (eventData) => {
     if (isSystemEvent("Microsoft.AppConfiguration.KeyValueModified", eventData)) {
       client.updateSyncToken(eventData.data.syncToken);
       const newSetting = await client.getConfigurationSetting({

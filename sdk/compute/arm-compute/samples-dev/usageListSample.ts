@@ -10,24 +10,22 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
-async function usageListMaximumSetGen() {
+async function usageListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "4_.";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageOperations.list(location)) {
+  for await (const item of client.usageOperations.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -37,24 +35,24 @@ async function usageListMaximumSetGen() {
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
-async function usageListMinimumSetGen() {
+async function usageListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "_--";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageOperations.list(location)) {
+  for await (const item of client.usageOperations.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  usageListMaximumSetGen();
-  usageListMinimumSetGen();
+async function main(): Promise<void> {
+  await usageListMaximumSetGen();
+  await usageListMinimumSetGen();
 }
 
 main().catch(console.error);

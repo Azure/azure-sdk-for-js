@@ -118,7 +118,7 @@ describe("Keys client - restore keys and recover backups", () => {
     });
   }
 
-  it("fails to restore a key with a malformed backup", async function () {
+  it("fails to restore a key with a malformed backup", async () => {
     const backup = new Uint8Array(8693);
     let error;
     try {

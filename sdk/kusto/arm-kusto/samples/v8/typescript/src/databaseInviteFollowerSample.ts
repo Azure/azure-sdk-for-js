@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   DatabaseInviteFollowerRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generates an invitation token that allows attaching a follower database to this database.
  *
  * @summary Generates an invitation token that allows attaching a follower database to this database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseInviteFollower.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseInviteFollower.json
  */
-async function kustoDatabaseInviteFollower() {
+async function kustoDatabaseInviteFollower(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -41,8 +39,8 @@ async function kustoDatabaseInviteFollower() {
       materializedViewsToExclude: ["MaterializedViewTable2"],
       materializedViewsToInclude: ["MaterializedViewTable1"],
       tablesToExclude: ["Table2"],
-      tablesToInclude: ["Table1"]
-    }
+      tablesToInclude: ["Table1"],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -50,13 +48,13 @@ async function kustoDatabaseInviteFollower() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoDatabaseInviteFollower();
+async function main(): Promise<void> {
+  await kustoDatabaseInviteFollower();
 }
 
 main().catch(console.error);

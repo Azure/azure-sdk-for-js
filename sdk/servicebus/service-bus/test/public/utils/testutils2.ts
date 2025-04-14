@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Anything we expect to be available to users should come from this import
-// as a simple sanity check that we've exported things properly.
-import type {
-  ServiceBusReceiver,
-  ServiceBusSessionReceiver,
-  ServiceBusClientOptions,
-  ServiceBusSender,
-} from "../../../src/index.js";
 import { ServiceBusClient } from "../../../src/index.js";
-
 import { TestClientType, TestMessage } from "./testUtils.js";
-import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
 import {
   recreateQueue,
   recreateSubscription,
   recreateTopic,
   verifyMessageCount,
 } from "./managementUtils.js";
-import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
 import type {
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
+  ServiceBusReceivedMessage,
+  ServiceBusMessage,
+  ServiceBusReceiver,
+  ServiceBusSessionReceiver,
+  ServiceBusClientOptions,
+  ServiceBusSender,
 } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest";
 import { should } from "./chai.js";
-
-const env = getEnvVars();
+import { getFullyQualifiedNamespace } from "../../utils/injectables.js";
 
 /**
  * Identifier of an auto-generated entity.
@@ -555,25 +549,6 @@ export async function drainReceiveAndDeleteReceiver(receiver: ServiceBusReceiver
   } finally {
     await receiver.close();
   }
-}
-
-export function getFullyQualifiedNamespace(): string {
-  if (!env[EnvVarNames.SERVICEBUS_FQDN]) {
-    throw new Error(`No service bus fully qualified namespace string defined in
-${EnvVarNames.SERVICEBUS_FQDN}. If you're in a unit test you should not be depending on the deployed environment!
-`);
-  }
-
-  return env[EnvVarNames.SERVICEBUS_FQDN];
-}
-export function getConnectionString(): string {
-  if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
-    throw new Error(
-      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`,
-    );
-  }
-
-  return env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
 }
 
 export async function testPeekMsgsLength(

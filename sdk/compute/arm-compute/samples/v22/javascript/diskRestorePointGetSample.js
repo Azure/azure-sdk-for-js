@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get disk restorePoint resource
@@ -59,8 +59,8 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
 }
 
 async function main() {
-  getAnIncrementalDiskRestorePointResource();
-  getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
+  await getAnIncrementalDiskRestorePointResource();
+  await getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
 }
 
 main().catch(console.error);

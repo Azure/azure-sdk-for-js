@@ -16,7 +16,7 @@ import {
   InformaticaOrganizationResourceUpdate as InformaticaOrganizationResourceUpdateMapper,
   InformaticaServerlessRuntimeResource as InformaticaServerlessRuntimeResourceMapper,
   InformaticaServerlessRuntimeResourceUpdate as InformaticaServerlessRuntimeResourceUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

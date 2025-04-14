@@ -8,16 +8,15 @@
  * @summary copy a model from one resource to another
  */
 
+import type { DocumentModelCopyToOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  DocumentModelCopyToOperationDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const random = Date.now().toString();
   const destinationModelId =
     (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);
@@ -26,7 +25,7 @@ async function main() {
   // const destinationClient = new DocumentModelAdministrationClient(endpoint, credential);
   const destinationClient = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
   // const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
   const targetAuth = await destinationClient.path("/documentModels:authorizeCopy").post({

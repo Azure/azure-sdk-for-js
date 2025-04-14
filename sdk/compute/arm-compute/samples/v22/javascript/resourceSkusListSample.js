@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
@@ -23,7 +23,7 @@ async function listsAllAvailableResourceSkUs() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceSkus.list()) {
+  for await (const item of client.resourceSkus.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -42,7 +42,7 @@ async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceSkus.list(options)) {
+  for await (const item of client.resourceSkus.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -61,16 +61,16 @@ async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceSkus.list(options)) {
+  for await (const item of client.resourceSkus.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listsAllAvailableResourceSkUs();
-  listsAllAvailableResourceSkUsForTheSpecifiedRegion();
-  listsAllAvailableResourceSkUsWithExtendedLocationInformation();
+  await listsAllAvailableResourceSkUs();
+  await listsAllAvailableResourceSkUsForTheSpecifiedRegion();
+  await listsAllAvailableResourceSkUsWithExtendedLocationInformation();
 }
 
 main().catch(console.error);

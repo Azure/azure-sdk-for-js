@@ -1,11 +1,18 @@
 {
   "references": [
-    { "path": "./tsconfig.src.json" },
-    { "path": "./tsconfig.samples.json" },
-    { "path": "./tsconfig.test.json" }
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
   ],
   "compilerOptions": {
     "target": "ES2017",
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "module": "NodeNext"
   }
 }

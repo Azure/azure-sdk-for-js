@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Alerts for external cloud provider type defined.
@@ -20,14 +16,14 @@ dotenv.config();
  * @summary Lists the Alerts for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountAlerts.json
  */
-async function externalBillingAccountAlerts() {
+async function externalBillingAccountAlerts(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.alerts.listExternal(
     externalCloudProviderType,
-    externalCloudProviderId
+    externalCloudProviderId,
   );
   console.log(result);
 }
@@ -38,21 +34,21 @@ async function externalBillingAccountAlerts() {
  * @summary Lists the Alerts for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionAlerts.json
  */
-async function externalSubscriptionAlerts() {
+async function externalSubscriptionAlerts(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.alerts.listExternal(
     externalCloudProviderType,
-    externalCloudProviderId
+    externalCloudProviderId,
   );
   console.log(result);
 }
 
-async function main() {
-  externalBillingAccountAlerts();
-  externalSubscriptionAlerts();
+async function main(): Promise<void> {
+  await externalBillingAccountAlerts();
+  await externalSubscriptionAlerts();
 }
 
 main().catch(console.error);

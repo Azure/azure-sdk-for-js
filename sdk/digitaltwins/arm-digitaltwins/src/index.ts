@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { AzureDigitalTwinsManagementClient } from "./azureDigitalTwinsManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AzureDigitalTwinsManagementClient } from "./azureDigitalTwinsManagementClient.js";
+export * from "./operationsInterfaces/index.js";

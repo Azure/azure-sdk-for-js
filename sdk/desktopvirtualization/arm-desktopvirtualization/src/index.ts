@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { DesktopVirtualizationAPIClient } from "./desktopVirtualizationAPIClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { DesktopVirtualizationAPIClient } from "./desktopVirtualizationAPIClient.js";
+export * from "./operationsInterfaces/index.js";

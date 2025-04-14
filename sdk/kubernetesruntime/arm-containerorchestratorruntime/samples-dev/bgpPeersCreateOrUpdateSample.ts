@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a BgpPeer
  * x-ms-original-file: 2024-03-01/BgpPeers_CreateOrUpdate.json
  */
-async function bgpPeersCreateOrUpdate() {
+async function bgpPeersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.bgpPeers.createOrUpdate(
@@ -21,8 +21,8 @@ async function bgpPeersCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  bgpPeersCreateOrUpdate();
+async function main(): Promise<void> {
+  await bgpPeersCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualNetworkPeeringsListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { VirtualNetworkPeeringsListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets all virtual network peerings in a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringList.json
  */
-async function listPeerings() {
+async function listPeerings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -50,7 +43,7 @@ listPeerings().catch(console.error);
  * @summary Gets all virtual network peerings in a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
  */
-async function listPeeringsWithRemoteVirtualNetworkEncryption() {
+async function listPeeringsWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

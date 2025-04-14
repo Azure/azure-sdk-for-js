@@ -9,15 +9,14 @@
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name, shared key, share name, and directory name.
   // Please ensure your directory is mounted
-  //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows
-  //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-linux
-  //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-mac
+  //   https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows
+  //   https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-linux
+  //   https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-mac
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
   const shareName = process.env.SHARE_NAME || "";

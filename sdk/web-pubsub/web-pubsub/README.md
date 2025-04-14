@@ -39,16 +39,16 @@ npm install @azure/web-pubsub
 
 ### 2. Create and authenticate a WebPubSubServiceClient
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
 ```
 
 You can also authenticate the `WebPubSubServiceClient` using an endpoint and an `AzureKeyCredential`:
 
-```js
-const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential, WebPubSubServiceClient } from "@azure/web-pubsub";
 
 const key = new AzureKeyCredential("<Key>");
 const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
@@ -64,9 +64,9 @@ npm install @azure/identity
 
 2. Update the source code to use `DefaultAzureCredential`:
 
-```js
-const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
 const key = new DefaultAzureCredential();
 const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
@@ -98,10 +98,15 @@ When the client is connected, it can send messages to the upstream application, 
 
 ### Get the access token for a client to start the WebSocket connection
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleGetClientAccessToken
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Get the access token for the WebSocket client connection to use
 let token = await serviceClient.getClientAccessToken();
@@ -110,17 +115,20 @@ let token = await serviceClient.getClientAccessToken();
 token = await serviceClient.getClientAccessToken({ userId: "user1" });
 
 // Or get the access token that the client will join group GroupA when it connects using the access token
-token = await serviceClient.getClientAccessToken({ userId: "user1", groups: [ "GroupA" ] });
-
-// return the token to the WebSocket client
+token = await serviceClient.getClientAccessToken({ userId: "user1", groups: ["GroupA"] });
 ```
 
 ### Broadcast messages to all connections in a hub
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleSendToAll
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message
 await serviceClient.sendToAll({ message: "Hello world!" });
@@ -137,36 +145,41 @@ await serviceClient.sendToAll(payload.buffer);
 
 Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
 
-```js
-const { WebPubSubServiceClient, odata } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleSendToAllWithFilter
+import { WebPubSubServiceClient, odata } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message to anonymous connections
-await serviceClient.sendToAll(
-  { message: "Hello world!" },
-  { filter: "userId eq null" }
-  );
+await serviceClient.sendToAll({ message: "Hello world!" }, { filter: "userId eq null" });
 
 // Send a text message to connections in groupA but not in groupB
-const groupA = 'groupA';
-const groupB = 'groupB';
-await serviceClient.sendToAll(
-  "Hello world!",
-  { 
-    contentType: "text/plain",
-    // use plain text "'groupA' in groups and not('groupB' in groups)"
-    // or use the odata helper method
-    filter: odata`${groupA} in groups and not(${groupB} in groups)` 
-  });
+const groupA = "groupA";
+const groupB = "groupB";
+await serviceClient.sendToAll("Hello world!", {
+  contentType: "text/plain",
+  // use plain text "'groupA' in groups and not('groupB' in groups)"
+  // or use the odata helper method
+  filter: odata`${groupA} in groups and not(${groupB} in groups)`,
+});
 ```
 
 ### Send messages to all connections in a group
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleSendToGroup
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 const groupClient = serviceClient.group("<groupName>");
 
@@ -186,10 +199,15 @@ await groupClient.sendToAll(payload.buffer);
 
 ### Send messages to all connections for a user
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleSendToUser
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 // Send a JSON message
 await serviceClient.sendToUser("user1", { message: "Hello world!" });
@@ -204,11 +222,15 @@ await serviceClient.sendToUser("user1", payload.buffer);
 
 ### Check if the group has any connection
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
-const WebSocket = require("ws");
+```ts snippet:ReadmeSampleCheckGroup
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 const groupClient = serviceClient.group("<groupName>");
 
@@ -221,13 +243,20 @@ const hasConnections = await serviceClient.groupExists("<groupName>");
 
 ### Access the raw HTTP response for an operation
 
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+```ts snippet:ReadmeSampleRawResponse
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const serviceClient = new WebPubSubServiceClient(
+  "<Endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
 
 function onResponse(rawResponse) {
   console.log(rawResponse);
 }
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
 await serviceClient.sendToAll({ message: "Hello world!" }, { onResponse });
 ```
 
@@ -235,12 +264,18 @@ await serviceClient.sendToAll({ message: "Hello world!" }, { onResponse });
 
 ### Enable logs
 
-You can set the following environment variable to get the debug logs when using this library.
-
-- Getting debug logs from the SignalR client library
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 
 ```bash
 export AZURE_LOG_LEVEL=verbose
+```
+
+Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).

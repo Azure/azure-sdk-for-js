@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates (patches) a disk access resource.
@@ -36,7 +36,7 @@ async function updateADiskAccessResource() {
 }
 
 async function main() {
-  updateADiskAccessResource();
+  await updateADiskAccessResource();
 }
 
 main().catch(console.error);

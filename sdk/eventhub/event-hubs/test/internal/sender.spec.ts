@@ -19,27 +19,27 @@ import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:sender-spec");
 
-describe("EventHub Sender", function () {
+describe("EventHub Sender", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
   let startPosition: { [partitionId: string]: EventPosition };
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     debug("Creating the clients..");
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
     startPosition = await getStartingPositionsForTests(consumerClient);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     debug("Closing the clients..");
     await producerClient.close();
     await consumerClient.close();
   });
 
-  describe("Create batch", function () {
-    describe("tryAdd", function () {
-      it("doesn't grow if invalid events are added", async function () {
+  describe("Create batch", () => {
+    describe("tryAdd", () => {
+      it("doesn't grow if invalid events are added", async () => {
         const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
         const event = { body: Buffer.alloc(30).toString() };
 
@@ -56,14 +56,14 @@ describe("EventHub Sender", function () {
       });
     });
 
-    it("partitionId is set as expected", async function () {
+    it("partitionId is set as expected", async () => {
       const batch = await producerClient.createBatch({
         partitionId: "0",
       });
       should.equal(batch.partitionId, "0");
     });
 
-    it("partitionId is set as expected when it is 0 i.e. falsy", async function () {
+    it("partitionId is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
         // @ts-expect-error Testing the value 0 is not ignored.
         partitionId: 0,
@@ -71,14 +71,14 @@ describe("EventHub Sender", function () {
       should.equal(batch.partitionId, "0");
     });
 
-    it("partitionKey is set as expected", async function () {
+    it("partitionKey is set as expected", async () => {
       const batch = await producerClient.createBatch({
         partitionKey: "boo",
       });
       should.equal(batch.partitionKey, "boo");
     });
 
-    it("partitionKey is set as expected when it is 0 i.e. falsy", async function () {
+    it("partitionKey is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
         // @ts-expect-error Testing the value 0 is not ignored.
         partitionKey: 0,
@@ -86,12 +86,12 @@ describe("EventHub Sender", function () {
       should.equal(batch.partitionKey, "0");
     });
 
-    it("maxSizeInBytes is set as expected", async function () {
+    it("maxSizeInBytes is set as expected", async () => {
       const batch = await producerClient.createBatch({ maxSizeInBytes: 30 });
       should.equal(batch.maxSizeInBytes, 30);
     });
 
-    it("should be sent successfully", async function () {
+    it("should be sent successfully", async () => {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
       const batch = await producerClient.createBatch({
@@ -130,7 +130,7 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it("should be sent successfully when partitionId is 0 i.e. falsy", async function () {
+    it("should be sent successfully when partitionId is 0 i.e. falsy", async () => {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
@@ -167,7 +167,7 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it("should be sent successfully when partitionKey is 0 i.e. falsy", async function () {
+    it("should be sent successfully when partitionKey is 0 i.e. falsy", async () => {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
@@ -204,7 +204,7 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it("should be sent successfully with properties", async function () {
+    it("should be sent successfully with properties", async () => {
       const properties = { test: "super" };
       const list = [
         { body: "Albert-With-Properties", properties },
@@ -271,7 +271,7 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it("doesn't create empty spans when tracing is disabled", async function () {
+    it("doesn't create empty spans when tracing is disabled", async () => {
       const events: EventData[] = [{ body: "foo" }, { body: "bar" }];
       const eventDataBatch = await producerClient.createBatch();
 
@@ -287,7 +287,7 @@ describe("EventHub Sender", function () {
       );
     });
 
-    it("with partition key should be sent successfully.", async function () {
+    it("with partition key should be sent successfully.", async () => {
       const eventDataBatch = await producerClient.createBatch({ partitionKey: "1" });
       for (let i = 0; i < 5; i++) {
         eventDataBatch.tryAdd({ body: `Hello World ${i}` });
@@ -295,7 +295,7 @@ describe("EventHub Sender", function () {
       await producerClient.sendBatch(eventDataBatch);
     });
 
-    it("with max message size should be sent successfully.", async function () {
+    it("with max message size should be sent successfully.", async () => {
       const eventDataBatch = await producerClient.createBatch({
         maxSizeInBytes: 5000,
         partitionId: "0",
@@ -312,7 +312,7 @@ describe("EventHub Sender", function () {
       eventDataBatch.count.should.equal(1);
     });
 
-    it("Invalid messages should be rejected.", async function () {
+    it("Invalid messages should be rejected.", async () => {
       const eventDataBatch = await producerClient.createBatch();
       expect(() => eventDataBatch.tryAdd({ body: "Hello World", properties: [] })).to.throw(
         /Invalid 'properties': expected an object or 'undefined', but received 'array'/,
@@ -325,8 +325,8 @@ describe("EventHub Sender", function () {
     });
   });
 
-  describe("Multiple sendBatch calls", function () {
-    it("should be sent successfully in parallel", async function () {
+  describe("Multiple sendBatch calls", () => {
+    it("should be sent successfully in parallel", async () => {
       const { subscriptionEventHandler } =
         await SubscriptionHandlerForTests.startingFromHere(consumerClient);
 
@@ -363,7 +363,7 @@ describe("EventHub Sender", function () {
       }
     });
 
-    it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function () {
+    it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async () => {
       const senderCount = 1200;
       try {
         const promises = [];
@@ -377,7 +377,7 @@ describe("EventHub Sender", function () {
       }
     });
 
-    it("should be sent successfully in parallel by multiple clients", async function () {
+    it("should be sent successfully in parallel by multiple clients", async () => {
       const senderCount = 3;
       try {
         const promises = [];
@@ -408,7 +408,7 @@ describe("EventHub Sender", function () {
       }
     });
 
-    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function () {
+    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async () => {
       const data: EventData = {
         body: Buffer.from("Z".repeat(1300000)),
       };
@@ -428,8 +428,8 @@ describe("EventHub Sender", function () {
       debug("Sent the message successfully on the same link..");
     });
 
-    describe("Array of events", function () {
-      it("should be sent successfully", async function () {
+    describe("Array of events", () => {
+      it("should be sent successfully", async () => {
         const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
         const receivedEvents: ReceivedEventData[] = [];
         let receivingResolver: (value?: unknown) => void;
@@ -460,7 +460,7 @@ describe("EventHub Sender", function () {
         receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
       });
 
-      it("should be sent successfully with partitionKey", async function () {
+      it("should be sent successfully with partitionKey", async () => {
         const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
         const receivedEvents: ReceivedEventData[] = [];
         let receivingResolver: (value?: unknown) => void;
@@ -493,7 +493,7 @@ describe("EventHub Sender", function () {
         }
       });
 
-      it("should be sent successfully with partitionId", async function () {
+      it("should be sent successfully with partitionId", async () => {
         const partitionId = "0";
         const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
         const receivedEvents: ReceivedEventData[] = [];
@@ -528,7 +528,7 @@ describe("EventHub Sender", function () {
         }
       });
 
-      it("should throw when partitionId and partitionKey are provided", async function () {
+      it("should throw when partitionId and partitionKey are provided", async () => {
         try {
           const data: EventData[] = [
             {
@@ -545,9 +545,9 @@ describe("EventHub Sender", function () {
       });
     });
 
-    describe("Validation", function () {
-      describe("createBatch", function () {
-        it("throws an error if partitionId and partitionKey are set", async function () {
+    describe("Validation", () => {
+      describe("createBatch", () => {
+        it("throws an error if partitionId and partitionKey are set", async () => {
           try {
             await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
             throw new Error("Test failure");
@@ -558,7 +558,7 @@ describe("EventHub Sender", function () {
           }
         });
 
-        it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async function () {
+        it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
           try {
             await producerClient.createBatch({
               // @ts-expect-error Testing the value 0 is not ignored.
@@ -573,7 +573,7 @@ describe("EventHub Sender", function () {
           }
         });
 
-        it("throws an error if partitionId and partitionKey are set and partitionKey is 0 i.e. falsy", async function () {
+        it("throws an error if partitionId and partitionKey are set and partitionKey is 0 i.e. falsy", async () => {
           try {
             await producerClient.createBatch({
               partitionId: "1",
@@ -588,7 +588,7 @@ describe("EventHub Sender", function () {
           }
         });
 
-        it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function () {
+        it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async () => {
           try {
             await producerClient.createBatch({ maxSizeInBytes: 2046528 });
             throw new Error("Test Failure");
@@ -599,22 +599,22 @@ describe("EventHub Sender", function () {
           }
         });
       });
-      describe("sendBatch with EventDataBatch", function () {
-        it("works if partitionKeys match", async function () {
+      describe("sendBatch with EventDataBatch", () => {
+        it("works if partitionKeys match", async () => {
           const misconfiguredOptions: SendBatchOptions = {
             partitionKey: "foo",
           };
           const batch = await producerClient.createBatch({ partitionKey: "foo" });
           await producerClient.sendBatch(batch, misconfiguredOptions);
         });
-        it("works if partitionIds match", async function () {
+        it("works if partitionIds match", async () => {
           const misconfiguredOptions: SendBatchOptions = {
             partitionId: "0",
           };
           const batch = await producerClient.createBatch({ partitionId: "0" });
           await producerClient.sendBatch(batch, misconfiguredOptions);
         });
-        it("throws an error if partitionKeys don't match", async function () {
+        it("throws an error if partitionKeys don't match", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "bar",
           };
@@ -628,7 +628,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionKeys don't match (undefined)", async function () {
+        it("throws an error if partitionKeys don't match (undefined)", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "bar",
           };
@@ -642,7 +642,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionIds don't match", async function () {
+        it("throws an error if partitionIds don't match", async () => {
           const badOptions: SendBatchOptions = {
             partitionId: "0",
           };
@@ -656,7 +656,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionIds don't match (undefined)", async function () {
+        it("throws an error if partitionIds don't match (undefined)", async () => {
           const badOptions: SendBatchOptions = {
             partitionId: "0",
           };
@@ -670,7 +670,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionId and partitionKey are set (create, send)", async function () {
+        it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
           };
@@ -682,7 +682,7 @@ describe("EventHub Sender", function () {
             err.message.should.not.equal("Test failure");
           }
         });
-        it("throws an error if partitionId and partitionKey are set (send, create)", async function () {
+        it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
           const badOptions: SendBatchOptions = {
             partitionId: "0",
           };
@@ -694,7 +694,7 @@ describe("EventHub Sender", function () {
             err.message.should.not.equal("Test failure");
           }
         });
-        it("throws an error if partitionId and partitionKey are set (send, send)", async function () {
+        it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
             partitionId: "0",
@@ -709,8 +709,8 @@ describe("EventHub Sender", function () {
         });
       });
 
-      describe("sendBatch with EventDataBatch with events array", function () {
-        it("throws an error if partitionId and partitionKey are set", async function () {
+      describe("sendBatch with EventDataBatch with events array", () => {
+        it("throws an error if partitionId and partitionKey are set", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
             partitionId: "0",
@@ -725,7 +725,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async function () {
+        it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
             // @ts-expect-error Testing the value 0 is not ignored.
@@ -741,7 +741,7 @@ describe("EventHub Sender", function () {
             );
           }
         });
-        it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async function () {
+        it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
           const badOptions: SendBatchOptions = {
             // @ts-expect-error Testing the value 0 is not ignored.
             partitionKey: 0,
@@ -760,8 +760,8 @@ describe("EventHub Sender", function () {
       });
     });
 
-    describe("Negative scenarios", function () {
-      it("a message greater than 1 MB should fail.", async function () {
+    describe("Negative scenarios", () => {
+      it("a message greater than 1 MB should fail.", async () => {
         const data: EventData = {
           body: Buffer.from("Z".repeat(1300000)),
         };
@@ -778,11 +778,11 @@ describe("EventHub Sender", function () {
         }
       });
 
-      describe("on invalid partition ids like", function () {
+      describe("on invalid partition ids like", () => {
         // tslint:disable-next-line: no-null-keyword
         const invalidIds = ["XYZ", "-1", "1000", "-"];
         invalidIds.forEach(function (id: string): void {
-          it(`"${id}" should throw an error`, async function () {
+          it(`"${id}" should throw an error`, async () => {
             try {
               debug("Created sender and will be sending a message to partition id ...", id);
               await producerClient.sendBatch([{ body: "Hello world!" }], {

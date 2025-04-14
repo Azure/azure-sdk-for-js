@@ -18,13 +18,13 @@ import {
   FluidRelayOperationsImpl,
   FluidRelayServersImpl,
   FluidRelayContainersImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   FluidRelayOperations,
   FluidRelayServers,
   FluidRelayContainers
-} from "./operationsInterfaces";
-import { FluidRelayManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { FluidRelayManagementClientOptionalParams } from "./models/index.js";
 
 export class FluidRelayManagementClient extends coreClient.ServiceClient {
   $host: string;

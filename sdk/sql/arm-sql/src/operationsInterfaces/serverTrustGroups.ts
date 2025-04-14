@@ -17,7 +17,7 @@ import {
   ServerTrustGroupsCreateOrUpdateOptionalParams,
   ServerTrustGroupsCreateOrUpdateResponse,
   ServerTrustGroupsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServerTrustGroups. */

@@ -83,6 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [roledefinitionsgetbyidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/samples/v3/javascript/roleDefinitionsGetByIdSample.js
 [roledefinitionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/samples/v3/javascript/roleDefinitionsGetSample.js
 [roledefinitionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/samples/v3/javascript/roleDefinitionsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-authorization-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-authorization-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/README.md

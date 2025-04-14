@@ -45,7 +45,7 @@ describe("KeyVaultAccessControlClient", () => {
       },
     ];
 
-    it("can list role definitions", async function () {
+    it("can list role definitions", async () => {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
       const receivedRoles: string[] = [];
 
@@ -69,7 +69,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     describe("getRoleDefinition", function () {
-      it("returns a role definition by name", async function () {
+      it("returns a role definition by name", async () => {
         const anyRoleDefinition = getYieldedValue(
           await client.listRoleDefinitions(globalScope).next(),
         );
@@ -79,12 +79,12 @@ describe("KeyVaultAccessControlClient", () => {
         expect(roleDefinition).to.deep.equal(anyRoleDefinition);
       });
 
-      it("errors when the role definition cannot be found", async function () {
+      it("errors when the role definition cannot be found", async () => {
         await expect(client.getRoleDefinition(globalScope, "does_not_exist")).rejects.toThrow();
       });
     });
 
-    it("can create, update, and delete a role definition", async function () {
+    it("can create, update, and delete a role definition", async () => {
       const name = generateFakeUUID();
       const roleName = "custom role definition name";
       const description = "custom role description";
@@ -133,7 +133,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     describe("setRoleDefinition", function () {
-      it("errors when name is not a valid guid", async function () {
+      it("errors when name is not a valid guid", async () => {
         await expect(
           client.setRoleDefinition(globalScope, {
             roleDefinitionName: "foo unique value",
@@ -143,7 +143,7 @@ describe("KeyVaultAccessControlClient", () => {
         ).rejects.toThrow();
       });
 
-      it("errors when updating a built-in role definition", async function () {
+      it("errors when updating a built-in role definition", async () => {
         let builtInDefinition: KeyVaultRoleDefinition | undefined = undefined;
 
         for await (const definition of client.listRoleDefinitions(globalScope)) {
@@ -167,7 +167,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     describe("deleteRoleDefinition", function () {
-      it("errors when deleting a built-in role definition", async function () {
+      it("errors when deleting a built-in role definition", async () => {
         let builtInDefinition: KeyVaultRoleDefinition | undefined = undefined;
 
         for await (const definition of client.listRoleDefinitions(globalScope)) {
@@ -185,14 +185,14 @@ describe("KeyVaultAccessControlClient", () => {
         ).rejects.toThrow();
       });
 
-      it("succeeds when deleting a non-existent role definition", async function () {
+      it("succeeds when deleting a non-existent role definition", async () => {
         await expect(client.deleteRoleDefinition(globalScope, "foobar")).resolves.not.toThrow();
       });
     });
   });
 
   describe("role assignments", async function () {
-    it("can list role assignments", async function () {
+    it("can list role assignments", async () => {
       const expectedType = "Microsoft.Authorization/roleAssignments";
       const receivedRoles: string[] = [];
 
@@ -214,7 +214,7 @@ describe("KeyVaultAccessControlClient", () => {
       expect(receivedRoles.length).toBeGreaterThan(0);
     });
 
-    it("can create, read, and delete role assignments", async function () {
+    it("can create, read, and delete role assignments", async () => {
       const assignmentName = generateFakeUUID();
       const roleName = "Managed HSM Crypto Auditor";
 
@@ -287,8 +287,6 @@ describe("KeyVaultAccessControlClient", () => {
           options,
         );
         await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-        await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-        await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
         await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
         await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
       }).toSupportTracing([
@@ -296,8 +294,6 @@ describe("KeyVaultAccessControlClient", () => {
         "KeyVaultAccessControlClient.getRoleDefinition",
         "KeyVaultAccessControlClient.createRoleAssignment",
         "KeyVaultAccessControlClient.getRoleAssignment",
-        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
         "KeyVaultAccessControlClient.deleteRoleAssignment",
         "KeyVaultAccessControlClient.deleteRoleDefinition",
       ]);

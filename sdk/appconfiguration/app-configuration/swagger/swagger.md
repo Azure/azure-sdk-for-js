@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.8.1"
+package-version: "1.9.1"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -22,6 +22,9 @@ disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ### Patch endpoints for exception handling

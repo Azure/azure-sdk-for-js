@@ -14,14 +14,14 @@ output-folder: ../src/generated
 tag: package-2024-09-01-preview
 require:
   - https://github.com/Azure/azure-rest-api-specs/blob/691fea3efb9ff22b20904e92d5116223f452a3b1/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.4.0-beta.2
+package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
 azure-arm: false
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 directive:
   - rename-model:
       from: CallParticipant
@@ -165,29 +165,8 @@ directive:
       from: HoldFailed
       to: RestHoldFailed
   - rename-model:
-      from: ConnectFailed
-      to: RestConnectFailed
-  - rename-model:
-      from: MediaStreamingStarted
-      to: RestMediaStreamingStarted
-  - rename-model:
-      from: MediaStreamingStopped
-      to: RestMediaStreamingStopped
-  - rename-model:
-      from: MediaStreamingFailed
-      to: RestMediaStreamingFailed
-  - rename-model:
-      from: StartRecordingFailed
-      to: RestStartRecordingFailed
-  - rename-model:
-      from: PlayStarted
-      to: RestPlayStarted
-  - rename-model:
-      from: PlayPaused
-      to: RestPlayPaused
-  - rename-model:
-      from: PlayResumed
-      to: RestPlayResumed
+      from: IncomingCall
+      to: RestIncomingCall
 ```
 
 ```yaml

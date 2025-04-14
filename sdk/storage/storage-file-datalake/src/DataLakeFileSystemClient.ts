@@ -3,14 +3,12 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
+import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
 import type {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -44,24 +42,24 @@ import type {
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
   UserDelegationKey,
-} from "./models";
-import { StorageClient } from "./StorageClient";
-import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { tracingClient } from "./utils/tracing";
+} from "./models.js";
+import { StorageClient } from "./StorageClient.js";
+import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
   EscapePath,
   windowsFileTimeTicksToTime,
-} from "./utils/utils.common";
-import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
+} from "./utils/utils.common.js";
+import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients.js";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
-} from "./sas/DataLakeSASSignatureValues";
-import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
-import { PathClientInternal } from "./utils/PathClientInternal";
+} from "./sas/DataLakeSASSignatureValues.js";
+import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants.js";
+import { PathClientInternal } from "./utils/PathClientInternal.js";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -188,7 +186,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, the operation fails.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param options - Optional. Options when creating file system.
    */
@@ -211,7 +209,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Creates a new file system under the specified account. If the file system with
    * the same name already exists, it is not changed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param options -
    */
@@ -254,7 +252,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
    * @param options - Optional. Options when deleting file system.
    */
@@ -274,7 +272,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Delete current file system if it exists.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
    * @param options -
    */
@@ -299,7 +297,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * the `listFileSystems` method of {@link DataLakeServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
    * @param options - Optional. Options when getting file system properties.
    */
@@ -335,7 +333,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * If no option provided, or no metadata defined in the parameter, the file system
    * metadata will be removed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
    * @param metadata - Replace existing metadata with this value.
    *                              If no value provided the existing metadata will be removed.
@@ -364,7 +362,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * WARNING: JavaScript Date will potentially lose precision when parsing startsOn and expiresOn strings.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
    * @param options - Optional. Options when getting file system access policy.
    */
@@ -402,7 +400,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * If no access or containerAcl provided, the existing file system ACL will be
    * removed.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
    * @param access - Optional. The level of public access to data in the file system.
    * @param fileSystemAcl - Optional. Array of elements each having a unique Id and details of the access policy.
@@ -437,66 +435,113 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * // Get the fileSystemClient before you run these snippets,
-   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * ```ts snippet:ReadmeSampleListPaths
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * for await (const path of fileSystemClient.listPaths()) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * const paths = fileSystemClient.listPaths();
+   * for await (const path of paths) {
+   *   console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListPaths_Iterator
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iter = fileSystemClient.listPaths();
-   * let pathItem = await iter.next();
-   * while (!pathItem.done) {
-   *   console.log(`Path ${i++}: ${pathItem.value.name}, isDirectory?: ${pathItem.value.isDirectory}`);
-   *   pathItem = await iter.next();
+   * const paths = fileSystemClient.listPaths();
+   * let { value, done } = await paths.next();
+   * while (!done) {
+   *   console.log(`Path ${i++}: ${value.name}, is directory: ${value.isDirectory}`);
+   *   ({ value, done } = await paths.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListPaths_ByPage
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
    * for await (const response of fileSystemClient.listPaths().byPage({ maxPageSize: 20 })) {
-   *   for (const path of response.pathItems) {
-   *     console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   *   if (response.pathItems) {
+   *     for (const path of response.pathItems) {
+   *       console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *     }
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListPaths_Continuation
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iterator = fileSystemClient.listPaths().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * let paths = fileSystemClient.listPaths().byPage({ maxPageSize: 2 });
+   * let response = (await paths.next()).value;
+   * // Prints 2 paths
+   * if (response.pathItems) {
+   *   for (const path of response.pathItems) {
+   *     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
    * // Passing next marker as continuationToken
-   *
-   * iterator = fileSystemClient.listPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}, isDirectory?: ${path.isDirectory}`);
+   * paths = fileSystemClient.listPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await paths.next()).value;
+   * // Prints 10 paths
+   * if (response.pathItems) {
+   *   for (const path of response.pathItems) {
+   *     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
+   *   }
    * }
    * ```
    *
-   * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param options - Optional. Options when listing paths.
    */
@@ -581,66 +626,115 @@ export class DataLakeFileSystemClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * // Get the fileSystemClient before you run these snippets,
-   * // Can be obtained from `serviceClient.getFileSystemClient("<your-filesystem-name>");`
+   * ```ts snippet:ReadmeSampleListDeletedPaths
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * for await (const deletePath of fileSystemClient.listDeletedPaths()) {
-   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * const deletedPaths = fileSystemClient.listDeletedPaths();
+   * for await (const deletedPath of deletedPaths) {
+   *   console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListDeletedPaths_Iterator
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iter = fileSystemClient.listDeletedPaths();
-   * let deletedPathItem = await iter.next();
-   * while (!deletedPathItem.done) {
-   *   console.log(`Path ${i++}: ${deletedPathItem.value.name}`);
-   *   pathItem = await iter.next();
+   * const deletedPaths = fileSystemClient.listDeletedPaths();
+   * let { value, done } = await deletedPaths.next();
+   * while (!done) {
+   *   console.log(`Deleted path ${i++}: ${value.name}, deleted on: ${value.deletedOn}`);
+   *   ({ value, done } = await deletedPaths.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListDeletedPaths_ByPage
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
    * for await (const response of fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 20 })) {
-   *   for (const deletePath of response.pathItems) {
-   *     console.log(`Path ${i++}: ${deletePath.name}`);
+   *   if (response.pathItems) {
+   *     for (const deletedPath of response.pathItems) {
+   *       console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *     }
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListDeletedPaths_Continuation
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   *
    * let i = 1;
-   * let iterator = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 path names
-   * for (const path of response.pathItems) {
-   *   console.log(`Path ${i++}: ${path.name}}`);
+   * let deletedPaths = fileSystemClient.listDeletedPaths().byPage({ maxPageSize: 2 });
+   * let response = (await deletedPaths.next()).value;
+   * // Prints 2 deleted paths
+   * if (response.deletedPathItems) {
+   *   for (const deletedPath of response.deletedPathItems) {
+   *     console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
    * // Passing next marker as continuationToken
-   *
-   * iterator = fileSystemClient.listDeletedPaths().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 path names
-   * for (const deletePath of response.deletedPathItems) {
-   *   console.log(`Path ${i++}: ${deletePath.name}`);
+   * deletedPaths = fileSystemClient
+   *   .listDeletedPaths()
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await deletedPaths.next()).value;
+   * // Prints 10 deleted paths
+   * if (response.deletedPathItems) {
+   *   for (const deletedPath of response.deletedPathItems) {
+   *     console.log(`Deleted path ${i++}: ${deletedPath.name}, deleted on: ${deletedPath.deletedOn}`);
+   *   }
    * }
    * ```
    *
-   * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param options - Optional. Options when listing deleted paths.
    */
@@ -722,7 +816,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * Restores a soft deleted path.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
    * @param deletedPath - Required.  The path of the deleted path.
    *
@@ -773,7 +867,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -804,7 +898,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -830,7 +924,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
@@ -858,7 +952,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`

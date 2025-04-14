@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Plans } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Plans } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NewRelicObservability } from "../newRelicObservability";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NewRelicObservability } from "../newRelicObservability.js";
 import {
   PlanDataResource,
   PlansListNextOptionalParams,
   PlansListOptionalParams,
   PlansListResponse,
   PlansListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Plans operations. */

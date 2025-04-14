@@ -10,27 +10,27 @@ import type {
   FullConfig,
   Suite,
 } from "@playwright/test/reporter";
-import { exec } from "child_process";
-import { reporterLogger } from "../common/logger";
-import { createHash, randomUUID } from "crypto";
-import type { IBackOffOptions } from "../common/types";
-import fs from "fs";
-import path from "path";
-import { Constants } from "../common/constants";
-import type { EnvironmentVariables } from "../common/environmentVariables";
-import type { DedupedStep, RawTestStep } from "../common/types";
-import { TokenType } from "../model/mptTokenDetails";
-import type { UploadMetadata } from "../model/shard";
-import { Shard, TestRunStatus } from "../model/shard";
-import type { RawTestResult } from "../model/testResult";
-import { TestResult as MPTTestResult } from "../model/testResult";
-import type { TestRunConfig } from "../model/testRun";
-import { TestRun } from "../model/testRun";
-import type { CIInfo } from "./cIInfoProvider";
-import { CI_PROVIDERS } from "./cIInfoProvider";
-import { CIInfoProvider } from "./cIInfoProvider";
-import type { StorageUri } from "../model/storageUri";
-import { getPackageVersion } from "./utils";
+import { exec } from "node:child_process";
+import { reporterLogger } from "../common/logger.js";
+import { createHash, randomUUID } from "node:crypto";
+import type { IBackOffOptions } from "../common/types.js";
+import fs from "node:fs";
+import path from "node:path";
+import { Constants } from "../common/constants.js";
+import type { EnvironmentVariables } from "../common/environmentVariables.js";
+import type { DedupedStep, RawTestStep } from "../common/types.js";
+import { TokenType } from "../model/mptTokenDetails.js";
+import type { UploadMetadata } from "../model/shard.js";
+import { Shard, TestRunStatus } from "../model/shard.js";
+import type { RawTestResult } from "../model/testResult.js";
+import { TestResult as MPTTestResult } from "../model/testResult.js";
+import type { TestRunConfig } from "../model/testRun.js";
+import { TestRun } from "../model/testRun.js";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
+import { CIInfoProvider } from "./cIInfoProvider.js";
+import type { StorageUri } from "../model/storageUri.js";
+import { getPackageVersion } from "./utils.js";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -217,7 +217,7 @@ class ReporterUtils {
   public getRawTestResultObject(result: TestResult): RawTestResult {
     const rawTestResult: RawTestResult = {
       steps: this.dedupeSteps(result.steps).map((step) => this.serializeTestStep(step)),
-      errors: result.errors ? JSON.stringify(result.errors, null, 2) : "",
+      errors: this.getTestError(result),
       stdErr: result.stderr ? JSON.stringify(result.stderr, null, 2) : "",
       stdOut: result.stdout ? JSON.stringify(result.stdout, null, 2) : "",
     };
@@ -404,7 +404,7 @@ class ReporterUtils {
 
   private getTestRunConfig(): TestRunConfig {
     const testRunConfig: TestRunConfig = {
-      workers: this.config.workers,
+      workers: this.getWorkers(),
       pwVersion: this.config.version,
       timeout: this.config.globalTimeout,
       repeatEach: this.config.projects[0].repeatEach,
@@ -624,6 +624,35 @@ class ReporterUtils {
 
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === "";
+  }
+
+  private getTestError(result: TestResult): string {
+    if (!result.errors || result.errors.length === 0) return "";
+    const errorMessages: { message: string }[] = [];
+    result.errors.forEach((error) => {
+      if (error.message) errorMessages.push({ message: error.message });
+      if (error.snippet && error.location) {
+        errorMessages.push({
+          message: error.snippet + "\n\n" + this.getReadableLineLocation(error.location),
+        });
+      } else if (error.snippet) errorMessages.push({ message: error.snippet });
+    });
+    return JSON.stringify(errorMessages, null, 2);
+  }
+
+  private getReadableLineLocation(location: Location): string {
+    return `at ${location.file}:${location.line}:${location.column}`;
+  }
+
+  private getWorkers(): number {
+    if (
+      this.config.metadata &&
+      "actualWorkers" in this.config.metadata &&
+      typeof this.config.metadata.actualWorkers === "number"
+    ) {
+      return this.config.metadata.actualWorkers;
+    }
+    return this.config.workers;
   }
 }
 

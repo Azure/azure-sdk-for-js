@@ -6,24 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   Workbook,
   WorkbooksCreateOrUpdateOptionalParams,
-  ApplicationInsightsManagementClient
+  ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new workbook.
  *
  * @summary Create a new workbook.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookAdd.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookAdd.json
  */
-async function workbookAdd() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+async function workbookAdd(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
+    "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const sourceId =
     "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group";
@@ -35,34 +37,35 @@ async function workbookAdd() {
     location: "westus",
     serializedData:
       '{"version":"Notebook/1.0","items":[{"type":1,"content":"{"json":"## New workbook\\r\\n---\\r\\n\\r\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\r\\n\\r\\n\\r\\nWe\'ve included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections."}","halfWidth":null,"conditionalVisibility":null},{"type":3,"content":"{"version":"KqlItem/1.0","query":"union withsource=TableName *\\n| summarize Count=count() by TableName\\n| render barchart","showQuery":false,"size":1,"aggregation":0,"showAnnotations":false}","halfWidth":null,"conditionalVisibility":null}],"isLocked":false}',
-    tags: { tagSample01: "sample01", tagSample02: "sample02" }
+    tags: { tagSample01: "sample01", tagSample02: "sample02" },
   };
   const options: WorkbooksCreateOrUpdateOptionalParams = { sourceId };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.workbooks.createOrUpdate(
     resourceGroupName,
     resourceName,
     workbookProperties,
-    options
+    options,
   );
   console.log(result);
 }
-
-workbookAdd().catch(console.error);
 
 /**
  * This sample demonstrates how to Create a new workbook.
  *
  * @summary Create a new workbook.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookManagedAdd.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedAdd.json
  */
-async function workbookManagedAdd() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+async function workbookManagedAdd(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
+    "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const sourceId =
     "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group";
@@ -73,8 +76,9 @@ async function workbookManagedAdd() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/myid": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/myid":
+          {},
+      },
     },
     kind: "shared",
     location: "westus",
@@ -82,21 +86,26 @@ async function workbookManagedAdd() {
       '{"version":"Notebook/1.0","items":[{"type":1,"content":{"json":"test"},"name":"text - 0"}],"isLocked":false,"fallbackResourceIds":["/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/my-resource-group"]}',
     storageUri:
       "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/mystorage/blobServices/default/containers/mycontainer",
-    version: "Notebook/1.0"
+    version: "Notebook/1.0",
   };
   const options: WorkbooksCreateOrUpdateOptionalParams = { sourceId };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.workbooks.createOrUpdate(
     resourceGroupName,
     resourceName,
     workbookProperties,
-    options
+    options,
   );
   console.log(result);
 }
 
-workbookManagedAdd().catch(console.error);
+async function main(): Promise<void> {
+  await workbookAdd();
+  await workbookManagedAdd();
+}
+
+main().catch(console.error);

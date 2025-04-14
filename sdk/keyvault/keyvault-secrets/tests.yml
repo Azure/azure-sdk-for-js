@@ -6,4 +6,3 @@ extends:
       PackageName: "@azure/keyvault-secrets"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 59
-      SupportedClouds: 'Public,UsGov,China'

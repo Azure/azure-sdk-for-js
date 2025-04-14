@@ -13,9 +13,7 @@ import {
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Clone SIMs to another SIM Group
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Clone SIMs to another SIM Group
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimClone.json
  */
-async function cloneListOfSiMSToTargetSimGroup() {
+async function cloneListOfSiMSToTargetSimGroup(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +44,7 @@ async function cloneListOfSiMSToTargetSimGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cloneListOfSiMSToTargetSimGroup();
 }
 

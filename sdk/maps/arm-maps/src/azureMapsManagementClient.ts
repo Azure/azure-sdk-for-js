@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AccountsImpl, MapsImpl, CreatorsImpl } from "./operations";
-import { Accounts, Maps, Creators } from "./operationsInterfaces";
-import { AzureMapsManagementClientOptionalParams } from "./models";
+import { AccountsImpl, MapsImpl, CreatorsImpl } from "./operations/index.js";
+import { Accounts, Maps, Creators } from "./operationsInterfaces/index.js";
+import { AzureMapsManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureMapsManagementClient extends coreClient.ServiceClient {
   $host: string;

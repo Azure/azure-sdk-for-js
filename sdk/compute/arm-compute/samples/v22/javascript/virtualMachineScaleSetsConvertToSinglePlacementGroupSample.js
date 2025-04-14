@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -39,7 +39,7 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -57,8 +57,8 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen(
 }
 
 async function main() {
-  virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen();
-  virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen();
+  await virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen();
+  await virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen();
 }
 
 main().catch(console.error);

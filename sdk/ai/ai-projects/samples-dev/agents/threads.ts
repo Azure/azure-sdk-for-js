@@ -11,8 +11,7 @@
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -31,7 +30,7 @@ export async function main(): Promise<void> {
 
   console.log(`Retrieved thread, thread ID : ${_thread.id}`);
 
-  client.agents.deleteThread(thread.id);
+  await client.agents.deleteThread(thread.id);
 
   console.log(`Deleted thread, thread ID : ${_thread.id}`);
 }

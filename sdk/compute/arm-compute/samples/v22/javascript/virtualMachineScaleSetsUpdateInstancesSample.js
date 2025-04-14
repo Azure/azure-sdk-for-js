@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -39,7 +39,7 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -59,8 +59,8 @@ async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineScaleSetUpdateInstancesMaximumSetGen();
-  virtualMachineScaleSetUpdateInstancesMinimumSetGen();
+  await virtualMachineScaleSetUpdateInstancesMaximumSetGen();
+  await virtualMachineScaleSetUpdateInstancesMinimumSetGen();
 }
 
 main().catch(console.error);

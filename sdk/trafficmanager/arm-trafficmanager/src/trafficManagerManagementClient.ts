@@ -20,15 +20,15 @@ import {
   GeographicHierarchiesImpl,
   HeatMapImpl,
   TrafficManagerUserMetricsKeysImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Endpoints,
   Profiles,
   GeographicHierarchies,
   HeatMap,
   TrafficManagerUserMetricsKeys
-} from "./operationsInterfaces";
-import { TrafficManagerManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { TrafficManagerManagementClientOptionalParams } from "./models/index.js";
 
 export class TrafficManagerManagementClient extends coreClient.ServiceClient {
   $host: string;

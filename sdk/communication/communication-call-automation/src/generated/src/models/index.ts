@@ -283,7 +283,7 @@ export interface CallLocator {
   groupCallId?: string;
   /** The server call id. */
   serverCallId?: string;
-  /** The Acs room id */
+  /** The Acs room id. (Not supported for Start Recording) */
   roomId?: string;
   /** The call locator kind. */
   kind?: CallLocatorKind;
@@ -382,6 +382,8 @@ export interface PlayOptionsInternal {
   loop: boolean;
   /** If set play can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
+  /** If set, hold audio will be interrupted, then this request will be played, and then the hold audio will be resumed. */
+  interruptHoldAudio?: boolean;
 }
 
 export interface StartTranscriptionRequest {
@@ -811,6 +813,59 @@ export interface RecordingStateResponse {
   recordingKind?: RecordingKind;
 }
 
+/** Recording result data */
+export interface RecordingResultResponse {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly recordingId?: string;
+  /**
+   * Container for chunks
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingStorageInfo?: RecordingStorageInfo;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly errors?: ErrorModel[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly recordingStartTime?: Date;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly recordingDurationMs?: number;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly sessionEndReason?: CallSessionEndReason;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly recordingExpirationTime?: Date;
+}
+
+/** Container for chunks */
+export interface RecordingStorageInfo {
+  /** Collection of {Microsoft.Skype.Platform.ExecutionAgent.Azure.Communication.Service.ServerCalling.Content.Contracts.ALPHA4_2024_09_01_preview.Models.RecordingChunkStorageInfo} */
+  recordingChunks?: RecordingChunkStorageInfo[];
+}
+
+/** Recording chunk data */
+export interface RecordingChunkStorageInfo {
+  /** Chunk document id */
+  documentId?: string;
+  /** Chunks order in a multi chunk recording */
+  index?: number;
+  /** Reason this chunk ended */
+  endReason?: ChunkEndReason;
+  /** Location of the chunk */
+  contentLocation?: string;
+  /** Location of chunk metadata */
+  metadataLocation?: string;
+  /** Callback for deleting chunk */
+  deleteLocation?: string;
+}
+
+/** Error details */
+export interface ErrorModel {
+  /** Error code */
+  code?: string;
+  /** Error message */
+  message?: string;
+  /** Inner error details */
+  innerError?: ErrorModel;
+}
+
 /** The incoming call event. */
 export interface IncomingCall {
   /**
@@ -1123,58 +1178,6 @@ export interface MediaStreamingUpdate {
   contentType?: string;
   mediaStreamingStatus?: MediaStreamingStatus;
   mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
-}
-
-export interface HoldAudioStarted {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-}
-
-export interface HoldAudioPaused {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-}
-
-export interface HoldAudioResumed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-}
-
-export interface HoldAudioCompleted {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
 }
 
 /** The participants successfully added event. */
@@ -1639,6 +1642,7 @@ export interface RestAnswerFailed {
   resultInformation?: RestResultInformation;
 }
 
+/** Hold Failed event. */
 export interface RestHoldFailed {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -1746,7 +1750,7 @@ export interface RestPlayStarted {
   resultInformation?: RestResultInformation;
 }
 
-/** Play started event. */
+/** Play Paused event. */
 export interface RestPlayPaused {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -1760,7 +1764,7 @@ export interface RestPlayPaused {
   resultInformation?: RestResultInformation;
 }
 
-/** Play started event. */
+/** Play Resumed event. */
 export interface RestPlayResumed {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -1772,6 +1776,106 @@ export interface RestPlayResumed {
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: RestResultInformation;
+}
+
+/** Hold Audio Started event. */
+export interface RestHoldAudioStarted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+}
+
+/** Hold Audio Paused event. */
+export interface RestHoldAudioPaused {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+}
+
+/** Hold Audio Resumed event. */
+export interface RestHoldAudioResumed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+}
+
+/** Hold Audio Completed event. */
+export interface RestHoldAudioCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+}
+
+/** The incoming call event. */
+export interface RestIncomingCall {
+  /**
+   * The communication identifier of the target user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly to?: CommunicationIdentifierModel;
+  /**
+   * The communication identifier of the user who initiated the call.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly from?: CommunicationIdentifierModel;
+  /**
+   * Display name of caller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callerDisplayName?: string;
+  /**
+   * The server call id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Custom Context of Incoming Call
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customContext?: CustomCallingContextInternal;
+  /**
+   * Incoming call context.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingCallContext?: string;
+  /**
+   * The communication identifier of the user on behalf of whom the call is made.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly onBehalfOfCallee?: CommunicationIdentifierModel;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
 }
 
 /** Azure Open AI Dialog */
@@ -2318,6 +2422,123 @@ export enum KnownRecordingKind {
  */
 export type RecordingKind = string;
 
+/** Known values of {@link ChunkEndReason} that the service accepts. */
+export enum KnownChunkEndReason {
+  /** ChunkIsBeingRecorded */
+  ChunkIsBeingRecorded = "chunkIsBeingRecorded",
+  /** SessionEnded */
+  SessionEnded = "sessionEnded",
+  /** ChunkMaximumSizeExceeded */
+  ChunkMaximumSizeExceeded = "chunkMaximumSizeExceeded",
+  /** ChunkMaximumTimeExceeded */
+  ChunkMaximumTimeExceeded = "chunkMaximumTimeExceeded",
+  /** ChunkUploadFailure */
+  ChunkUploadFailure = "chunkUploadFailure",
+}
+
+/**
+ * Defines values for ChunkEndReason. \
+ * {@link KnownChunkEndReason} can be used interchangeably with ChunkEndReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **chunkIsBeingRecorded** \
+ * **sessionEnded** \
+ * **chunkMaximumSizeExceeded** \
+ * **chunkMaximumTimeExceeded** \
+ * **chunkUploadFailure**
+ */
+export type ChunkEndReason = string;
+
+/** Known values of {@link CallSessionEndReason} that the service accepts. */
+export enum KnownCallSessionEndReason {
+  /** SessionStillOngoing */
+  SessionStillOngoing = "sessionStillOngoing",
+  /** CallEnded */
+  CallEnded = "callEnded",
+  /** InitiatorLeft */
+  InitiatorLeft = "initiatorLeft",
+  /** HandedOverOrTransfered */
+  HandedOverOrTransfered = "handedOverOrTransfered",
+  /** MaximumSessionTimeReached */
+  MaximumSessionTimeReached = "maximumSessionTimeReached",
+  /** CallStartTimeout */
+  CallStartTimeout = "callStartTimeout",
+  /** MediaTimeout */
+  MediaTimeout = "mediaTimeout",
+  /** AudioStreamFailure */
+  AudioStreamFailure = "audioStreamFailure",
+  /** AllInstancesBusy */
+  AllInstancesBusy = "allInstancesBusy",
+  /** TeamsTokenConversionFailed */
+  TeamsTokenConversionFailed = "teamsTokenConversionFailed",
+  /** ReportCallStateFailed */
+  ReportCallStateFailed = "reportCallStateFailed",
+  /** ReportCallStateFailedAndSessionMustBeDiscarded */
+  ReportCallStateFailedAndSessionMustBeDiscarded = "reportCallStateFailedAndSessionMustBeDiscarded",
+  /** CouldNotRejoinCall */
+  CouldNotRejoinCall = "couldNotRejoinCall",
+  /** InvalidBotData */
+  InvalidBotData = "invalidBotData",
+  /** CouldNotStart */
+  CouldNotStart = "couldNotStart",
+  /** AppHostedMediaFailureOutcomeWithError */
+  AppHostedMediaFailureOutcomeWithError = "appHostedMediaFailureOutcomeWithError",
+  /** AppHostedMediaFailureOutcomeGracefully */
+  AppHostedMediaFailureOutcomeGracefully = "appHostedMediaFailureOutcomeGracefully",
+  /** HandedOverDueToMediaTimeout */
+  HandedOverDueToMediaTimeout = "handedOverDueToMediaTimeout",
+  /** HandedOverDueToAudioStreamFailure */
+  HandedOverDueToAudioStreamFailure = "handedOverDueToAudioStreamFailure",
+  /** SpeechRecognitionSessionNonRetriableError */
+  SpeechRecognitionSessionNonRetriableError = "speechRecognitionSessionNonRetriableError",
+  /** SpeechRecognitionSessionRetriableErrorMaxRetryCountReached */
+  SpeechRecognitionSessionRetriableErrorMaxRetryCountReached = "speechRecognitionSessionRetriableErrorMaxRetryCountReached",
+  /** HandedOverDueToChunkCreationFailure */
+  HandedOverDueToChunkCreationFailure = "handedOverDueToChunkCreationFailure",
+  /** ChunkCreationFailed */
+  ChunkCreationFailed = "chunkCreationFailed",
+  /** HandedOverDueToProcessingTimeout */
+  HandedOverDueToProcessingTimeout = "handedOverDueToProcessingTimeout",
+  /** ProcessingTimeout */
+  ProcessingTimeout = "processingTimeout",
+  /** TranscriptObjectCreationFailed */
+  TranscriptObjectCreationFailed = "transcriptObjectCreationFailed",
+}
+
+/**
+ * Defines values for CallSessionEndReason. \
+ * {@link KnownCallSessionEndReason} can be used interchangeably with CallSessionEndReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **sessionStillOngoing** \
+ * **callEnded** \
+ * **initiatorLeft** \
+ * **handedOverOrTransfered** \
+ * **maximumSessionTimeReached** \
+ * **callStartTimeout** \
+ * **mediaTimeout** \
+ * **audioStreamFailure** \
+ * **allInstancesBusy** \
+ * **teamsTokenConversionFailed** \
+ * **reportCallStateFailed** \
+ * **reportCallStateFailedAndSessionMustBeDiscarded** \
+ * **couldNotRejoinCall** \
+ * **invalidBotData** \
+ * **couldNotStart** \
+ * **appHostedMediaFailureOutcomeWithError** \
+ * **appHostedMediaFailureOutcomeGracefully** \
+ * **handedOverDueToMediaTimeout** \
+ * **handedOverDueToAudioStreamFailure** \
+ * **speechRecognitionSessionNonRetriableError** \
+ * **speechRecognitionSessionRetriableErrorMaxRetryCountReached** \
+ * **handedOverDueToChunkCreationFailure** \
+ * **chunkCreationFailed** \
+ * **handedOverDueToProcessingTimeout** \
+ * **processingTimeout** \
+ * **transcriptObjectCreationFailed**
+ */
+export type CallSessionEndReason = string;
+
 /** Known values of {@link TranscriptionStatus} that the service accepts. */
 export enum KnownTranscriptionStatus {
   /** TranscriptionStarted */
@@ -2783,6 +3004,13 @@ export interface CallRecordingPauseRecordingOptionalParams
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallRecordingGetRecordingResultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRecordingResult operation. */
+export type CallRecordingGetRecordingResultResponse = RecordingResultResponse;
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams

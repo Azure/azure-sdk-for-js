@@ -18,7 +18,7 @@ import {
   ResourceSyncRulesDeleteOptionalParams,
   ResourceSyncRulesUpdateOptionalParams,
   ResourceSyncRulesUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ResourceSyncRules. */

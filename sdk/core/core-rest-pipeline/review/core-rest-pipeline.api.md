@@ -31,6 +31,12 @@ export interface Agent {
 }
 
 // @public
+export function agentPolicy(agent?: Agent): PipelinePolicy;
+
+// @public
+export const agentPolicyName = "agentPolicy";
+
+// @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     logger?: AzureLogger;
@@ -239,6 +245,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    agent?: Agent;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
@@ -283,6 +290,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -297,6 +305,7 @@ export interface PipelineRequestOptions {
     requestId?: string;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;
@@ -367,8 +376,6 @@ export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStre
 // @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
-    // (undocumented)
-    [x: symbol]: () => string;
     code?: string;
     details?: unknown;
     static readonly PARSE_ERROR: string;

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ManagedHsm, KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a managed HSM Pool in the specified subscription.
  *
  * @summary Create or update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_CreateOrUpdate.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_CreateOrUpdate.json
  */
-async function createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool() {
+async function createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,23 +32,23 @@ async function createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool() {
       enableSoftDelete: true,
       initialAdminObjectIds: ["00000000-0000-0000-0000-000000000000"],
       softDeleteRetentionInDays: 90,
-      tenantId: "00000000-0000-0000-0000-000000000000"
+      tenantId: "00000000-0000-0000-0000-000000000000",
     },
     sku: { name: "Standard_B1", family: "B" },
-    tags: { dept: "hsm", environment: "dogfood" }
+    tags: { dept: "hsm", environment: "dogfood" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.managedHsms.beginCreateOrUpdateAndWait(
     resourceGroupName,
     name,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool();
+async function main(): Promise<void> {
+  await createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool();
 }
 
 main().catch(console.error);

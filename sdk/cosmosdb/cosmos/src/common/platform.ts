@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "./constants";
+import { Constants } from "./constants.js";
 
 /**
  * @hidden
  */
-export function getUserAgent(suffix?: string): string {
-  const ua = `${userAgentDetails()} ${Constants.SDKName}/${Constants.SDKVersion}`;
-  if (suffix) {
-    return ua + " " + suffix;
+export function getUserAgent(suffix?: string, hostFramework?: string): string {
+  let ua = `${userAgentDetails()} ${Constants.SDKName}/${Constants.SDKVersion}`;
+  if (hostFramework) {
+    ua = ua + " " + hostFramework;
   }
+  if (suffix) {
+    ua = ua + " " + suffix;
+  }
+
   return ua;
 }
 

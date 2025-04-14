@@ -2,49 +2,45 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { DocumentTranslationClient } from "../../../src";
-import { isUnexpected } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import {
-  ONE_TEST_DOCUMENTS,
-  createSourceContainer,
-  createTargetContainer,
-} from "./containerHelper";
-import type { Context } from "mocha";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getContainers } from "../../utils/injectables.js";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
+  const containers = getContainers();
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("cancel translation", async () => {
-    const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);
+    const sourceUrl = containers["source-container1"].url;
     const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = await createTargetContainer(recorder);
+    const targetUrl = containers["target-container16"].url;
     const targetInput = createTargetInput(targetUrl, "fr");
     const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
     // Start translation
     const batchRequests = { inputs: [batchRequest] };
-    const poller = await client.path("/document/batches").post({
+    const initialResponse = await client.path("/document/batches").post({
       body: batchRequests,
     });
-    const id = getTranslationOperationID(poller.headers["operation-location"]);
+    const id = getTranslationOperationID(initialResponse.headers["operation-location"]);
 
     // Cancel translation
     await client.path("/document/batches/{id}", id).delete();

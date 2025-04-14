@@ -12,7 +12,7 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.7.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -29,21 +29,23 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
+    "@azure-rest/core-client": "^2.3.4",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/arm-cognitiveservices": "^7.6.0",
+    "@azure/core-util": "^1.11.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
-    "@azure/logger": "^1.0.3",
+    "@azure/identity": "^4.5.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
-    "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -57,11 +59,8 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "dev-tool run build-package && dev-tool run bundle",
-    "build:debug": "dev-tool run build-package && dev-tool run bundle && dev-tool run extract-api",
-    "build:node": "dev-tool run build-package && dev-tool run bundle",
-    "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle",
+    "build:samples": "echo skipped.",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -79,7 +78,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "//metadata": {
@@ -97,8 +96,15 @@
       "azure-cognitive-services",
       "language-service"
     ],
+    "skip": [
+      "analyzeConversationApp.js",
+      "analyzeOrchestrationAppConvResponse.js",
+      "analyzeOrchestrationAppLuisResponse.js",
+      "analyzeOrchestrationAppQnaResponse.js",
+      "analyzeOrchestrationDirectTarget.js"
+    ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }
   },
   "type": "module",

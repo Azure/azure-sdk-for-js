@@ -13,9 +13,7 @@ import {
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to create a dryrun job to do necessary check before actual creation
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary create a dryrun job to do necessary check before actual creation
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/PutDryrun.json
  */
-async function putDryrun() {
+async function putDryrun(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";
   const dryrunName = "dryrunName";
@@ -51,7 +49,7 @@ async function putDryrun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putDryrun();
 }
 

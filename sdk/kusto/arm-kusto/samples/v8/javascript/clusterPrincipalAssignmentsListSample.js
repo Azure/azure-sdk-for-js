@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all Kusto cluster principalAssignments.
  *
  * @summary Lists all Kusto cluster principalAssignments.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterPrincipalAssignmentsList.json
  */
 async function kustoPrincipalAssignmentsList() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoPrincipalAssignmentsList() {
 }
 
 async function main() {
-  kustoPrincipalAssignmentsList();
+  await kustoPrincipalAssignmentsList();
 }
 
 main().catch(console.error);

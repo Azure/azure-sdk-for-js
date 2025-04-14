@@ -16,7 +16,7 @@ import {
   UserSessionsDeleteOptionalParams,
   UserSessionsDisconnectOptionalParams,
   UserSessionsSendMessageOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserSessions. */

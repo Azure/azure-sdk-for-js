@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces";
+import { Locations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OpenEnergyPlatformManagementServiceAPIs } from "../openEnergyPlatformManagementServiceAPIs";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OpenEnergyPlatformManagementServiceAPIs } from "../openEnergyPlatformManagementServiceAPIs.js";
 import {
   CheckNameAvailabilityRequest,
   LocationsCheckNameAvailabilityOptionalParams,
   LocationsCheckNameAvailabilityResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Locations operations. */
 export class LocationsImpl implements Locations {

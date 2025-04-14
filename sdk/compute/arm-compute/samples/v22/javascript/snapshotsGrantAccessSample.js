@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Grants access to a snapshot.
@@ -38,7 +38,7 @@ async function getASasOnASnapshot() {
 }
 
 async function main() {
-  getASasOnASnapshot();
+  await getASasOnASnapshot();
 }
 
 main().catch(console.error);

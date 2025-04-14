@@ -585,6 +585,88 @@ export const ProxyResource: coreClient.CompositeMapper = {
   },
 };
 
+export const GeoDataReplicationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeoDataReplicationProperties",
+    modelProperties: {
+      maxReplicationLagDurationInSeconds: {
+        serializedName: "maxReplicationLagDurationInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+      locations: {
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NamespaceReplicaLocation",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const NamespaceReplicaLocation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NamespaceReplicaLocation",
+    modelProperties: {
+      locationName: {
+        serializedName: "locationName",
+        type: {
+          name: "String",
+        },
+      },
+      roleType: {
+        serializedName: "roleType",
+        type: {
+          name: "String",
+        },
+      },
+      replicaState: {
+        serializedName: "replicaState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      clusterArmId: {
+        serializedName: "clusterArmId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FailOver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailOver",
+    modelProperties: {
+      primaryLocation: {
+        serializedName: "properties.primaryLocation",
+        type: {
+          name: "String",
+        },
+      },
+      force: {
+        serializedName: "properties.force",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1551,10 +1633,31 @@ export const RetentionDescription: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      minCompactionLagInMins: {
+        serializedName: "minCompactionLagInMins",
+        type: {
+          name: "Number",
+        },
+      },
       tombstoneRetentionTimeInHours: {
         serializedName: "tombstoneRetentionTimeInHours",
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MessageTimestampDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessageTimestampDescription",
+    modelProperties: {
+      timestampType: {
+        serializedName: "timestampType",
+        type: {
+          name: "String",
         },
       },
     },
@@ -2039,12 +2142,6 @@ export const Eventhub: coreClient.CompositeMapper = {
           ],
         },
       },
-      userMetadata: {
-        serializedName: "properties.userMetadata",
-        type: {
-          name: "String",
-        },
-      },
       captureDescription: {
         serializedName: "properties.captureDescription",
         type: {
@@ -2057,6 +2154,26 @@ export const Eventhub: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RetentionDescription",
+        },
+      },
+      messageTimestampDescription: {
+        serializedName: "properties.messageTimestampDescription",
+        type: {
+          name: "Composite",
+          className: "MessageTimestampDescription",
+        },
+      },
+      identifier: {
+        serializedName: "properties.identifier",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      userMetadata: {
+        serializedName: "properties.userMetadata",
+        type: {
+          name: "String",
         },
       },
     },
@@ -2396,6 +2513,34 @@ export const EHNamespace: coreClient.CompositeMapper = {
       },
       alternateName: {
         serializedName: "properties.alternateName",
+        type: {
+          name: "String",
+        },
+      },
+      geoDataReplication: {
+        serializedName: "properties.geoDataReplication",
+        type: {
+          name: "Composite",
+          className: "GeoDataReplicationProperties",
+        },
+      },
+    },
+  },
+};
+
+export const NamespacesFailoverHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NamespacesFailoverHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },

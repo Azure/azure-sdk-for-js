@@ -25,7 +25,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Troubleshoot managed identity authentication issues](#troubleshoot-managed-identity-authentication-issues)
   - [Azure Virtual Machine managed identity](#azure-virtual-machine-managed-identity)
   - [Azure App Service and Azure Functions managed identity](#azure-app-service-and-azure-functions-managed-identity)
-- [Troubleshoot Visual Studio Code authentication issues](#troubleshoot-visual-studio-code-authentication-issues)
+  - [Azure Service Fabric managed identity](#azure-service-fabric-managed-identity)
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
 - [Troubleshoot AzureDeveloperCliCredential authentication issues](#troubleshoot-azuredeveloperclicredential-authentication-issues)
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
@@ -52,6 +52,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const keyVaultUrl = "https://key-vault-name.vault.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new KeyClient(keyVaultUrl, credential);
+
 try {
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
@@ -74,6 +75,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const keyVaultUrl = "https://key-vault-name.vault.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new KeyClient(keyVaultUrl, credential);
+
 try {
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
@@ -150,6 +152,7 @@ import { setLogLevel } from "@azure/logger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { allowLoggingAccountIdentifiers: true },
 });
@@ -172,6 +175,7 @@ import { setLogLevel } from "@azure/logger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { enableUnsafeSupportLogging: true },
 });
@@ -189,7 +193,7 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 | Error                                                                                                                               | Description                                                                                                                                                                                                                                                                                        | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CredentialUnavailableError` thrown with message `DefaultAzureCredential failed to retrieve a token from the included credentials.` | All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves.                                                                                                                                                         | <ul><li>[Enable logging](#enable-and-configure-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[VisualStudioCodeCredential](#troubleshoot-visual-studio-code-authentication-issues)</li><li>[AzureCLICredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowershellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul> |
+| `CredentialUnavailableError` thrown with message `DefaultAzureCredential failed to retrieve a token from the included credentials.` | All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves.                                                                                                                                                         | <ul><li>[Enable logging](#enable-and-configure-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[AzureCliCredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowerShellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul> |
 | `RestError` raised from the client with a status code of 401 or 403.                                                                | Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured. | <ul><li>[Enable logging](#enable-and-configure-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, you may bypass this by signing out of the corresponding development tool.</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource-specific role, rather than just the inherited "Owner" role.</li></ul>                                                                                                                                                                                                             |
 
 > 📢 The Azure Identity library for JavaScript does _not_ support the `ExcludeXXXCredential` properties that exist for languages like .NET and Python. We recommend creating a custom [ChainedTokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/f0ac28977d26172f79e5c5100148e7f767f4dbf9/sdk/identity/identity/README.md#define-a-custom-authentication-flow-with-the-chainedtokencredential) if you require a different set or ordering of credentials than those offered by `DefaultAzureCredential`.
@@ -297,7 +301,7 @@ The `ManagedIdentityCredential` is designed to work on a variety of Azure hosts 
 | Azure App Service and Azure Functions | [Configuration](https://learn.microsoft.com/azure/app-service/overview-managed-identity)                                                       | [Troubleshooting](#azure-app-service-and-azure-functions-managed-identity) |
 | Azure Arc                             | [Configuration](https://learn.microsoft.com/azure/azure-arc/servers/security-overview#using-a-managed-identity-with-azure-arc-enabled-servers) | Not Available                                                              |
 | Azure Kubernetes Service              | [Configuration](https://learn.microsoft.com/azure/aks/use-managed-identity)                                                                    | Not Available                                                              |
-| Azure Service Fabric                  | [Configuration](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)             | Not Available                                                              |
+| Azure Service Fabric                  | [Configuration](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)             | [Troubleshooting](#azure-service-fabric-managed-identity)                               |
 | Azure Virtual Machines and Scale Sets | [Configuration](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/qs-configure-portal-windows-vm)                  | [Troubleshooting](#azure-virtual-machine-managed-identity)                 |
 
 ### Azure Virtual Machine managed identity
@@ -339,39 +343,13 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 
 > Note that the output of this command will contain a valid access token, and SHOULD NOT BE SHARED to avoid compromising account security.
 
-## Troubleshoot Visual Studio Code authentication issues
-
-> It's a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500) that `VisualStudioCodeCredential` doesn't work with [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) versions newer than **0.9.11**. A long-term fix to this problem is in progress. In the meantime, consider [authenticating via the Azure CLI](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-via-the-azure-cli).
+### Azure Service Fabric managed identity
 
 ### CredentialUnavailableError
 
-| Error Message                                                                                   | Description                                                                                                                     | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Failed To Read VS Code Credentials<p/><p/>OR<p/>Authenticate via Azure Tools plugin in VS Code. | No Azure account information was found in the VS Code configuration.                                                            | <ul><li>Ensure the [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is properly installed.</li><li>Use **View** > **Command Palette** to execute the **Azure: Sign In** command. This command opens a browser window and displays a page that allows you to sign in to Azure.</li><li>If you already had the Azure Account extension installed and had logged in to your account, try logging out and logging in again as that will repopulate the cache and potentially mitigate the error you're getting.</li></ul> |
-| MSAL Interaction Required Error                                                                 | The `VisualStudioCodeCredential` was able to read the cached credentials from the cache but the cached token is likely expired. | Log into the VS Code _Azure Account_ extension via **View** > **Command Palette** to execute the **Azure: Sign In** command.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-
-#### Failed to read VS Code credentials / authenticate via Azure Tools plugin in VS Code
-
-The Visual Studio Code credential failed to read the credential details from the cache.
-
-Visual Studio Code authentication is handled by an integration with the Azure Account extension. To use this form of authentication, ensure that you've installed the Azure Account extension. Then select **View** > **Command Palette** > **Azure: Sign In**. This command opens a browser window and displays a page that allows you to sign in to Azure. After you've completed the login process, you can close the browser as directed. Running your app (either in the debugger or anywhere on the development machine) will use the credential from your sign-in.
-
-If you already had the Azure Account extension installed and had logged in to your account. Then try logging out and logging in again, as
-that will re-populate the cache on the disk and potentially mitigate the error you're getting.
-
-After using the VS Code extension to authenticate once, if you use the `DefaultAzureCredential` outside of the VS Code, it will try to authenticate with the `VSCode credentials`. In this scenario, if you stop using VS Code for a while, your VS Code auth token will eventually expire. The sign-in with `DefaultAzureCredential` will begin to fail. In such cases, you have to log out of the VS Code extension (and log in again if you want to continue using it).
-
-#### ADFS tenant not supported
-
-The ADFS tenants aren't currently supported via the Azure Account extension in VS Code.
-The supported clouds are:
-
-| Azure Cloud        | Cloud Authority Host               |
-| ------------------ | ---------------------------------- |
-| AZURE PUBLIC CLOUD | https://login.microsoftonline.com/ |
-| AZURE GERMANY      | https://login.microsoftonline.de/  |
-| AZURE CHINA        | https://login.chinacloudapi.cn/    |
-| AZURE GOVERNMENT   | https://login.microsoftonline.us/  |
+| Error Message                           | Description                                                                  | Mitigation                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ManagedIdentityCredential authentication failed.	                 | Specifying a clientId or resourceId is not supported by the Service Fabric managed identity environment. The managed identity configuration is determined by the Service Fabric cluster resource configuration. See https://aka.ms/servicefabricmi for more information.                          | <ul><li>Ensure that the managed identity is properly configured on the Service Fabric cluster. Instructions for configuring the managed identity can be found [here](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service).</li><li>Verify that `clientId` and `resourceId` is not supplemented in the Managed Identity Credential and Service Fabric environment is properly configured.</li></ul> 
 
 ## Troubleshoot Azure CLI authentication issues
 

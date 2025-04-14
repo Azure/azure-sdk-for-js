@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Fluid Relay container.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a Fluid Relay container.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayContainers_Delete.json
  */
-async function deleteAFluidRelayContainer() {
+async function deleteAFluidRelayContainer(): Promise<void> {
   const subscriptionId =
     process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
@@ -36,7 +34,7 @@ async function deleteAFluidRelayContainer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAFluidRelayContainer();
 }
 

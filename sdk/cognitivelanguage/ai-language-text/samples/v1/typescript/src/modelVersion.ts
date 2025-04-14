@@ -8,22 +8,21 @@
  * @summary shows how to choose model versions for pre-built models.
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = ["This document is written in English."];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Choosing Model Version Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   await client.analyze("SentimentAnalysis", documents, "en", {
     /**
@@ -31,7 +30,7 @@ export async function main() {
      * the latest generally availabe version of the model. When not specified,
      * latest will be assumed. Model versions are date based, e.g "2021-06-01".
      * See the documentation for a list of all model versions:
-     * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+     * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
      */
     modelVersion: "latest",
     /**
@@ -40,7 +39,7 @@ export async function main() {
     onResponse: (_rawResponse, flatResponse) => {
       const modelVersion = (flatResponse as any).results.modelVersion;
       console.log(
-        `The result of the sentiment analysis was computed using model version: ${modelVersion}`
+        `The result of the sentiment analysis was computed using model version: ${modelVersion}`,
       );
     },
   });
@@ -54,13 +53,13 @@ export async function main() {
          * the latest generally availabe version of the model. When not specified,
          * latest will be assumed. Model versions are date based, e.g "2022-03-01".
          * See the documentation for a list of all model versions:
-         * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+         * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
          */
         modelVersion: "latest",
       },
     ],
     documents,
-    "en"
+    "en",
   );
   const results = await poller.pollUntilDone();
   for await (const actionResult of results) {
@@ -72,7 +71,7 @@ export async function main() {
       throw new Error(`Unexpected error (${code}): ${message}`);
     }
     console.log(
-      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `
+      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `,
     );
   }
 }

@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MicrosoftSecurityDevOps } from "./microsoftSecurityDevOps";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MicrosoftSecurityDevOps } from "./microsoftSecurityDevOps.js";
+export * from "./operationsInterfaces/index.js";

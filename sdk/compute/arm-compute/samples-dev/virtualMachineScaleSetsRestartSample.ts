@@ -14,17 +14,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
  *
  * @summary Restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRestartMaximumSetGen() {
+async function virtualMachineScaleSetRestartMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -50,9 +48,9 @@ async function virtualMachineScaleSetRestartMaximumSetGen() {
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
  *
  * @summary Restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRestartMinimumSetGen() {
+async function virtualMachineScaleSetRestartMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -67,9 +65,9 @@ async function virtualMachineScaleSetRestartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetRestartMaximumSetGen();
-  virtualMachineScaleSetRestartMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetRestartMaximumSetGen();
+  await virtualMachineScaleSetRestartMinimumSetGen();
 }
 
 main().catch(console.error);

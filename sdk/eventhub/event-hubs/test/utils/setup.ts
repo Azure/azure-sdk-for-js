@@ -3,8 +3,8 @@
 
 import { SecretClient } from "@azure/keyvault-secrets";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { MockServerOptions } from "@azure/mock-hub";
-import { MockEventHub } from "@azure/mock-hub";
+import type { MockServerOptions } from "@azure-tools/mock-hub";
+import { MockEventHub } from "@azure-tools/mock-hub";
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
 import type { GlobalSetupContext } from "vitest/node";
@@ -81,7 +81,7 @@ export default async function ({ provide }: GlobalSetupContext) {
     for (const key of Object.values(EnvVarKeys)) {
       provide(key, assertEnvironmentVariable(key));
     }
-    return function () {};
+    return () => {};
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);

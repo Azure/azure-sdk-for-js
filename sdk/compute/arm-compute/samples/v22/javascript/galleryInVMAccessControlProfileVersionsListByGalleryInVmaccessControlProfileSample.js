@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
@@ -26,7 +26,7 @@ async function listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessCo
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryInVMAccessControlProfileVersions.listByGalleryInVMAccessControlProfile(
+  for await (const item of client.galleryInVMAccessControlProfileVersions.listByGalleryInVMAccessControlProfile(
     resourceGroupName,
     galleryName,
     inVMAccessControlProfileName,
@@ -37,7 +37,7 @@ async function listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessCo
 }
 
 async function main() {
-  listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessControlProfile();
+  await listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessControlProfile();
 }
 
 main().catch(console.error);

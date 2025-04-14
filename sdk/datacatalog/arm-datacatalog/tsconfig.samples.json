@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-datacatalog": [
-        "./dist/esm"
-      ]
+      "@azure/arm-datacatalog": ["./dist/esm"]
     }
   }
 }

@@ -9,21 +9,20 @@ import type {
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import type { Readable } from "stream";
-
-import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { BlobQueryResponse } from "./BlobQueryResponse";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { Readable } from "node:stream";
+import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
+import { BlobQueryResponse } from "./BlobQueryResponse.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type {
   AppendBlob,
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
-} from "./generated/src/operationsInterfaces";
+} from "./generated/src/operationsInterfaces/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -56,7 +55,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -117,7 +116,7 @@ import type {
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
   BlobDownloadResponseParsed,
@@ -136,26 +135,26 @@ import type {
   BlobImmutabilityPolicy,
   HttpAuthorization,
   PollerLikeWithCancellation,
-} from "./models";
-import { ensureCpkIfSpecified, toAccessTier } from "./models";
+} from "./models.js";
+import { ensureCpkIfSpecified, toAccessTier } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-} from "./PageBlobRangeResponse";
-import { rangeResponseFromModel } from "./PageBlobRangeResponse";
-import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
+} from "./PageBlobRangeResponse.js";
+import { rangeResponseFromModel } from "./PageBlobRangeResponse.js";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient,
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller";
-import type { Range } from "./Range";
-import { rangeToString } from "./Range";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "../../storage-common/src";
+} from "./pollers/BlobStartCopyFromUrlPoller.js";
+import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller.js";
+import type { Range } from "./Range.js";
+import { rangeToString } from "./Range.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { Batch } from "./utils/Batch.js";
+import { BufferScheduler } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
@@ -167,9 +166,9 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
   URLConstants,
-} from "./utils/constants";
-import { tracingClient } from "./utils/tracing";
-import type { WithResponse } from "./utils/utils.common";
+} from "./utils/constants.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -186,23 +185,23 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 import {
   fsCreateReadStream,
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+} from "./utils/utils.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateBlobSASQueryParameters,
   generateBlobSASQueryParametersInternal,
-} from "./sas/BlobSASSignatureValues";
-import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
-import { BlobLeaseClient } from "./BlobLeaseClient";
+} from "./sas/BlobSASSignatureValues.js";
+import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
+import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { UserDelegationKey } from "./BlobServiceClient";
+import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -579,12 +578,12 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
   sourceConditions?: ModifiedAccessConditions;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | PremiumPageBlobTier | string;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
    */
   rehydratePriority?: RehydratePriority;
   /**
@@ -648,7 +647,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | PremiumPageBlobTier | string;
   /**
@@ -701,7 +700,7 @@ export interface BlobSetTierOptions extends CommonOptions {
   conditions?: LeaseAccessConditions & TagConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
    */
   rehydratePriority?: RehydratePriority;
 }
@@ -816,7 +815,7 @@ export interface CommonGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 
@@ -1016,7 +1015,7 @@ export class BlobClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -1047,7 +1046,7 @@ export class BlobClient extends StorageClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -1159,7 +1158,7 @@ export class BlobClient extends StorageClient {
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise blobBody
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
    * @param offset - From which position of the blob to download, greater than or equal to 0
    * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
@@ -1168,46 +1167,68 @@ export class BlobClient extends StorageClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
-   * console.log("Downloaded blob content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadBlob_Node
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
-   * return new Promise((resolve, reject) => {
-   * const chunks = [];
-   * readableStream.on("data", (data) => {
-   * chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   * });
-   * readableStream.on("end", () => {
-   * resolve(Buffer.concat(chunks));
-   * });
-   * readableStream.on("error", reject);
-   * });
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
+   *
+   * // Get blob content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * if (downloadBlockBlobResponse.readableStreamBody) {
+   *   const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+   *   console.log(`Downloaded blob content: ${downloaded}`);
+   * }
+   *
+   * async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
+   *   const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
+   *     const chunks: Buffer[] = [];
+   *     stream.on("data", (data) => {
+   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
+   *     });
+   *     stream.on("end", () => {
+   *       resolve(Buffer.concat(chunks));
+   *     });
+   *     stream.on("error", reject);
+   *   });
+   *   return result.toString();
    * }
    * ```
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
-   * console.log(
-   *   "Downloaded blob content",
-   *   downloaded
+   * ```ts snippet:ReadmeSampleDownloadBlob_Browser
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
    * );
    *
-   * async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
+   *
+   * // Get blob content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const blobBody = await downloadBlockBlobResponse.blobBody;
+   * if (blobBody) {
+   *   const downloaded = await blobBody.text();
+   *   console.log(`Downloaded blob content: ${downloaded}`);
    * }
    * ```
    */
@@ -1230,7 +1251,7 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           requestOptions: {
-            onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1248,7 +1269,7 @@ export class BlobClient extends StorageClient {
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeLike) {
         return wrappedRes;
       }
 
@@ -1356,7 +1377,7 @@ export class BlobClient extends StorageClient {
   /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the blob. It does not return the content of the blob.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -1398,7 +1419,7 @@ export class BlobClient extends StorageClient {
    * during garbage collection. Note that in order to delete a blob, you must delete
    * all of its snapshots. You can delete both at the same time with the Delete
    * Blob operation.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param options - Optional options to Blob Delete operation.
    */
@@ -1425,7 +1446,7 @@ export class BlobClient extends StorageClient {
    * during garbage collection. Note that in order to delete a blob, you must delete
    * all of its snapshots. You can delete both at the same time with the Delete
    * Blob operation.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param options - Optional options to Blob Delete operation.
    */
@@ -1457,7 +1478,7 @@ export class BlobClient extends StorageClient {
    * Restores the contents and metadata of soft deleted blob and any associated
    * soft deleted snapshots. Undelete Blob is supported only on version 2017-07-29
    * or later.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
    * @param options - Optional options to Blob Undelete operation.
    */
@@ -1477,7 +1498,7 @@ export class BlobClient extends StorageClient {
    *
    * If no value provided, or no value provided for the specified blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param blobHTTPHeaders - If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
@@ -1515,7 +1536,7 @@ export class BlobClient extends StorageClient {
    *
    * If no option provided, or no metadata defined in the parameter, the blob
    * metadata will be removed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
    * @param metadata - Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
@@ -1610,7 +1631,7 @@ export class BlobClient extends StorageClient {
 
   /**
    * Creates a read-only snapshot of a blob.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
    * @param options - Optional options to the Blob Create Snapshot operation.
    */
@@ -1651,57 +1672,58 @@ export class BlobClient extends StorageClient {
    * an Azure file in any Azure storage account.
    * Only storage accounts created on or after June 7th, 2012 allow the Copy Blob
    * operation to copy from another storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * Example using automatic polling:
+   * ```ts snippet:ClientsBeginCopyFromURL
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
    *
-   * Example using manual polling:
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
    *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
-   * while (!poller.isDone()) {
-   *    await poller.poll();
+   * // Example using automatic polling
+   * const automaticCopyPoller = await blobClient.beginCopyFromURL("url");
+   * const automaticResult = await automaticCopyPoller.pollUntilDone();
+   *
+   * // Example using manual polling
+   * const manualCopyPoller = await blobClient.beginCopyFromURL("url");
+   * while (!manualCopyPoller.isDone()) {
+   *   await manualCopyPoller.poll();
    * }
-   * const result = copyPoller.getResult();
-   * ```
+   * const manualResult = manualCopyPoller.getResult();
    *
-   * Example using progress updates:
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url', {
+   * // Example using progress updates
+   * const progressUpdatesCopyPoller = await blobClient.beginCopyFromURL("url", {
    *   onProgress(state) {
    *     console.log(`Progress: ${state.copyProgress}`);
-   *   }
+   *   },
    * });
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const progressUpdatesResult = await progressUpdatesCopyPoller.pollUntilDone();
    *
-   * Example using a changing polling interval (default 15 seconds):
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url', {
-   *   intervalInMs: 1000 // poll blob every 1 second for copy progress
+   * // Example using a changing polling interval (default 15 seconds)
+   * const pollingIntervalCopyPoller = await blobClient.beginCopyFromURL("url", {
+   *   intervalInMs: 1000, // poll blob every 1 second for copy progress
    * });
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const pollingIntervalResult = await pollingIntervalCopyPoller.pollUntilDone();
    *
-   * Example using copy cancellation:
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
+   * // Example using copy cancellation:
+   * const cancelCopyPoller = await blobClient.beginCopyFromURL("url");
    * // cancel operation after starting it.
    * try {
-   *   await copyPoller.cancelOperation();
+   *   await cancelCopyPoller.cancelOperation();
    *   // calls to get the result now throw PollerCancelledError
-   *   await copyPoller.getResult();
-   * } catch (err) {
-   *   if (err.name === 'PollerCancelledError') {
-   *     console.log('The copy was cancelled.');
+   *   cancelCopyPoller.getResult();
+   * } catch (err: any) {
+   *   if (err.name === "PollerCancelledError") {
+   *     console.log("The copy was cancelled.");
    *   }
    * }
    * ```
@@ -1742,7 +1764,7 @@ export class BlobClient extends StorageClient {
   /**
    * Aborts a pending asynchronous Copy Blob operation, and leaves a destination blob with zero
    * length and full metadata. Version 2012-02-12 and newer.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
    * @param copyId - Id of the Copy From URL operation.
    * @param options - Optional options to the Blob Abort Copy From URL operation.
@@ -1769,7 +1791,7 @@ export class BlobClient extends StorageClient {
   /**
    * The synchronous Copy From URL operation copies a blob or an internet resource to a new blob. It will not
    * return a response until the copy is complete.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
    *
    * @param copySource - The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
    * @param options -
@@ -1817,7 +1839,7 @@ export class BlobClient extends StorageClient {
    * storage only). A premium page blob's tier determines the allowed size, IOPS,
    * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
    * storage type. This operation does not update the blob's ETag.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
    * @param tier - The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
    * @param options - Optional options to the Blob Set Tier operation.
@@ -2093,7 +2115,7 @@ export class BlobClient extends StorageClient {
    * an Azure file in any Azure storage account.
    * Only storage accounts created on or after June 7th, 2012 allow the Copy Blob
    * operation to copy from another storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
    * @param copySource - url to the source Azure Blob/File.
    * @param options - Optional options to the Blob Start Copy From URL operation.
@@ -2144,7 +2166,7 @@ export class BlobClient extends StorageClient {
    * Generates a Blob Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2178,7 +2200,7 @@ export class BlobClient extends StorageClient {
    * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -2208,7 +2230,7 @@ export class BlobClient extends StorageClient {
    * Generates a Blob Service Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2241,7 +2263,7 @@ export class BlobClient extends StorageClient {
    * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
@@ -2336,7 +2358,7 @@ export class BlobClient extends StorageClient {
    * for the specified account.
    * The Get Account Information operation is available on service versions beginning
    * with version 2018-03-28.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
    * @returns Response data for the Service Get Account Info operation.
@@ -2669,7 +2691,7 @@ export class AppendBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -2697,7 +2719,7 @@ export class AppendBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -2757,15 +2779,28 @@ export class AppendBlobClient extends BlobClient {
 
   /**
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param options - Options to the Append Block Create operation.
    *
    *
    * Example usage:
    *
-   * ```js
-   * const appendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * ```ts snippet:ClientsCreateAppendBlob
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
+   * const appendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await appendBlobClient.create();
    * ```
    */
@@ -2798,7 +2833,7 @@ export class AppendBlobClient extends BlobClient {
   /**
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * If the blob with the same name already exists, the content of the existing blob will remain unchanged.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param options -
    */
@@ -2861,7 +2896,7 @@ export class AppendBlobClient extends BlobClient {
 
   /**
    * Commits a new block of data to the end of the existing append blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/append-block
+   * @see https://learn.microsoft.com/rest/api/storageservices/append-block
    *
    * @param body - Data to be appended.
    * @param contentLength - Length of the body in bytes.
@@ -2870,16 +2905,29 @@ export class AppendBlobClient extends BlobClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ClientsAppendBlock
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
    * const content = "Hello World!";
    *
    * // Create a new append blob and append data to the blob.
-   * const newAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * const newAppendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await newAppendBlobClient.create();
    * await newAppendBlobClient.appendBlock(content, content.length);
    *
    * // Append data to an existing append blob.
-   * const existingAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * const existingAppendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await existingAppendBlobClient.appendBlock(content, content.length);
    * ```
    */
@@ -2920,7 +2968,7 @@ export class AppendBlobClient extends BlobClient {
   /**
    * The Append Block operation commits a new block of data to the end of an existing append blob
    * where the contents are read from a source url.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
    *
    * @param sourceURL -
    *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
@@ -3018,7 +3066,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   encryptionScope?: string;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
   /**
@@ -3045,7 +3093,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   /**
    * Server timeout in seconds.
-   * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
+   * For more information, @see https://learn.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
    */
   timeoutInSeconds?: number;
   /**
@@ -3072,7 +3120,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
   encryptionScope?: string;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
   /**
@@ -3393,7 +3441,7 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   legalHold?: boolean;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
 
@@ -3473,7 +3521,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
 }
@@ -3543,7 +3591,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
 }
@@ -3658,7 +3706,7 @@ export class BlockBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -3689,7 +3737,7 @@ export class BlockBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3755,17 +3803,34 @@ export class BlockBlobClient extends BlobClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
-   * // Query and convert a blob to a string
-   * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryBlockBlobResponse.readableStreamBody)).toString();
-   * console.log("Query blob content:", downloaded);
+   * ```ts snippet:ClientsQuery
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+   *
+   * // Query and convert a blob to a string
+   * const queryBlockBlobResponse = await blockBlobClient.query("select from BlobStorage");
+   * if (queryBlockBlobResponse.readableStreamBody) {
+   *   const downloadedBuffer = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
+   *   const downloaded = downloadedBuffer.toString();
+   *   console.log(`Query blob content: ${downloaded}`);
+   * }
+   *
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -3783,7 +3848,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobQueryOptions = {},
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    if (!isNode) {
+    if (!isNodeLike) {
       throw new Error("This operation currently is only supported in Node.js.");
     }
 
@@ -3825,7 +3890,7 @@ export class BlockBlobClient extends BlobClient {
    * {@link uploadStream} or {@link uploadBrowserData} for better performance
    * with concurrency uploading.
    *
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param body - Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
@@ -3836,7 +3901,21 @@ export class BlockBlobClient extends BlobClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ClientsUpload
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+   *
    * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
@@ -3935,7 +4014,7 @@ export class BlockBlobClient extends BlobClient {
   /**
    * Uploads the specified block to the block blob's "staging area" to be later
    * committed by a call to commitBlockList.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-block
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-block
    *
    * @param blockId - A 64-byte value that is base64-encoded
    * @param body - Data to upload to the staging area.
@@ -3972,7 +4051,7 @@ export class BlockBlobClient extends BlobClient {
    * The Stage Block From URL operation creates a new block to be committed as part
    * of a blob where the contents are read from a URL.
    * This API is available starting in version 2018-03-28.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-block-from-url
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/put-block-from-url
    *
    * @param blockId - A 64-byte value that is base64-encoded
    * @param sourceURL - Specifies the URL of the blob. The value
@@ -4024,7 +4103,7 @@ export class BlockBlobClient extends BlobClient {
    * to the server in a prior {@link stageBlock} operation. You can call {@link commitBlockList} to
    * update a blob by uploading only those blocks that have changed, then committing the new and existing
    * blocks together. Any blocks not specified in the block list and permanently deleted.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-block-list
    *
    * @param blocks -  Array of 64-byte value that is base64-encoded
    * @param options - Options to the Block Blob Commit Block List operation.
@@ -4070,7 +4149,7 @@ export class BlockBlobClient extends BlobClient {
   /**
    * Returns the list of blocks that have been uploaded as part of a block blob
    * using the specified block list filter.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-block-list
    *
    * @param listType - Specifies whether to return the list of committed blocks,
    *                                        the list of uncommitted blocks, or both lists together.
@@ -4135,7 +4214,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -4470,7 +4549,7 @@ export interface PageBlobCreateOptions extends CommonOptions {
   legalHold?: boolean;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: PremiumPageBlobTier | string;
   /**
@@ -4526,7 +4605,7 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
   legalHold?: boolean;
   /**
    * Access tier.
-   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   * More Details - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: PremiumPageBlobTier | string;
 }
@@ -4925,7 +5004,7 @@ export class PageBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -4953,7 +5032,7 @@ export class PageBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -5014,7 +5093,7 @@ export class PageBlobClient extends BlobClient {
   /**
    * Creates a page blob of the specified length. Call uploadPages to upload data
    * data to a page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param size - size of the page blob.
    * @param options - Options to the Page Blob Create operation.
@@ -5055,7 +5134,7 @@ export class PageBlobClient extends BlobClient {
    * Creates a page blob of the specified length. Call uploadPages to upload data
    * data to a page blob. If the blob with the same name already exists, the content
    * of the existing blob will remain unchanged.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param size - size of the page blob.
    * @param options -
@@ -5099,7 +5178,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Writes 1 or more pages to the page blob. The start and end offsets must be a multiple of 512.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-page
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-page
    *
    * @param body - Data to upload
    * @param offset - Offset of destination page blob
@@ -5142,7 +5221,7 @@ export class PageBlobClient extends BlobClient {
   /**
    * The Upload Pages operation writes a range of pages to a page blob where the
    * contents are read from a URL.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
    *
    * @param sourceURL - Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
    * @param sourceOffset - The source offset to copy from. Pass 0 to copy from the beginning of source page blob
@@ -5199,7 +5278,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Frees the specified pages from the page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/put-page
+   * @see https://learn.microsoft.com/rest/api/storageservices/put-page
    *
    * @param offset - Starting byte position of the pages to clear.
    * @param count - Number of bytes to clear.
@@ -5233,7 +5312,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Returns the list of valid page ranges for a page blob or snapshot of a page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
@@ -5276,7 +5355,7 @@ export class PageBlobClient extends BlobClient {
    * specified Marker. Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call getPageRangesSegment again
    * (passing the the previously-returned Marker) to get the next segment.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
@@ -5374,70 +5453,71 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Returns an async iterable iterator to list of page ranges for a page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    *  .byPage() returns an async iterable iterator to list of page ranges for a page blob.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ClientsListPageBlobs
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * // Get the pageBlobClient before you run these snippets,
-   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const pageBlobClient = containerClient.getPageBlobClient(blobName);
+   *
+   * // Example using `for await` syntax
    * let i = 1;
    * for await (const pageRange of pageBlobClient.listPageRanges()) {
    *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = pageBlobClient.listPageRanges();
-   * let pageRangeItem = await iter.next();
-   * while (!pageRangeItem.done) {
-   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
-   *   pageRangeItem = await iter.next();
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = pageBlobClient.listPageRanges();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Page range ${i++}: ${value.start} - ${value.end}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of page.pageRange || []) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
-   *   for (const pageRange of response) {
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
    *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    *   }
    * }
    * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
-   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 page ranges
-   * for (const pageRange of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   *
-   * // Gets next marker
-   * let marker = response.continuationToken;
-   *
-   * // Passing next marker as continuationToken
-   *
-   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 page ranges
-   * for (const blob of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   * ```
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
    * @param options - Options to the Page Blob Get Ranges operation.
@@ -5478,7 +5558,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    * @param offset - Starting byte position of the page blob
    * @param count - Number of bytes to get ranges diff.
@@ -5525,7 +5605,7 @@ export class PageBlobClient extends BlobClient {
    * Use an empty Marker to start enumeration from the beginning.
    * After getting a segment, process it, and then call getPageRangesDiffSegment again
    * (passing the the previously-returned Marker) to get the next segment.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
@@ -5636,70 +5716,80 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    *  .byPage() returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ClientsListPageBlobsDiff
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * // Get the pageBlobClient before you run these snippets,
-   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const pageBlobClient = containerClient.getPageBlobClient(blobName);
+   *
+   * const offset = 0;
+   * const count = 1024;
+   * const previousSnapshot = "<previous snapshot>";
+   * // Example using `for await` syntax
    * let i = 1;
-   * for await (const pageRange of pageBlobClient.listPageRangesDiff()) {
+   * for await (const pageRange of pageBlobClient.listPageRangesDiff(offset, count, previousSnapshot)) {
    *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = pageBlobClient.listPageRangesDiff();
-   * let pageRangeItem = await iter.next();
-   * while (!pageRangeItem.done) {
-   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
-   *   pageRangeItem = await iter.next();
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = pageBlobClient.listPageRangesDiff(offset, count, previousSnapshot);
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Page range ${i++}: ${value.start} - ${value.end}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of page.pageRange || []) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 20 })) {
-   *   for (const pageRange of response) {
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
    *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    *   }
    * }
    * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
-   * let iterator = pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 page ranges
-   * for (const pageRange of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   *
-   * // Gets next marker
-   * let marker = response.continuationToken;
-   *
-   * // Passing next marker as continuationToken
-   *
-   * iterator = pageBlobClient.listPageRangesDiff().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 page ranges
-   * for (const blob of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   * ```
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
    * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
@@ -5751,7 +5841,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
-   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-page-ranges
    *
    * @param offset - Starting byte position of the page blob
    * @param count - Number of bytes to get ranges diff.
@@ -5794,7 +5884,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Resizes the page blob to the specified size (which must be a multiple of 512).
-   * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
+   * @see https://learn.microsoft.com/rest/api/storageservices/set-blob-properties
    *
    * @param size - Target size
    * @param options - Options to the Page Blob Resize operation.
@@ -5823,7 +5913,7 @@ export class PageBlobClient extends BlobClient {
 
   /**
    * Sets a page blob's sequence number.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param sequenceNumberAction - Indicates how the service should modify the blob's sequence number.
    * @param sequenceNumber - Required if sequenceNumberAction is max or update
@@ -5864,8 +5954,8 @@ export class PageBlobClient extends BlobClient {
    * The snapshot is copied such that only the differential changes between the previously
    * copied snapshot are transferred to the destination.
    * The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual.
-   * @see https://docs.microsoft.com/rest/api/storageservices/incremental-copy-blob
-   * @see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/incremental-snapshots
+   * @see https://learn.microsoft.com/rest/api/storageservices/incremental-copy-blob
+   * @see https://learn.microsoft.com/en-us/azure/virtual-machines/windows/incremental-snapshots
    *
    * @param copySource - Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>

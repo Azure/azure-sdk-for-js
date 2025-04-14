@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { QueryKeys } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { QueryKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchManagementClient } from "../searchManagementClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { SearchManagementClient } from "../searchManagementClient.js";
+import type {
   QueryKey,
   QueryKeysListBySearchServiceNextOptionalParams,
   QueryKeysListBySearchServiceOptionalParams,
@@ -22,7 +22,7 @@ import {
   QueryKeysCreateResponse,
   QueryKeysDeleteOptionalParams,
   QueryKeysListBySearchServiceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QueryKeys operations. */
@@ -50,11 +50,7 @@ export class QueryKeysImpl implements QueryKeys {
     searchServiceName: string,
     options?: QueryKeysListBySearchServiceOptionalParams,
   ): PagedAsyncIterableIterator<QueryKey> {
-    const iter = this.listBySearchServicePagingAll(
-      resourceGroupName,
-      searchServiceName,
-      options,
-    );
+    const iter = this.listBySearchServicePagingAll(resourceGroupName, searchServiceName, options);
     return {
       next() {
         return iter.next();
@@ -85,11 +81,7 @@ export class QueryKeysImpl implements QueryKeys {
     let result: QueryKeysListBySearchServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySearchService(
-        resourceGroupName,
-        searchServiceName,
-        options,
-      );
+      result = await this._listBySearchService(resourceGroupName, searchServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

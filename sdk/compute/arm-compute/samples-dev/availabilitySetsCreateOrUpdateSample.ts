@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { AvailabilitySet, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
  */
-async function createAnAvailabilitySetWithScheduledEventPolicy() {
+async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -45,9 +43,9 @@ async function createAnAvailabilitySetWithScheduledEventPolicy() {
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
-async function createAnAvailabilitySet() {
+async function createAnAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -68,9 +66,9 @@ async function createAnAvailabilitySet() {
   console.log(result);
 }
 
-async function main() {
-  createAnAvailabilitySetWithScheduledEventPolicy();
-  createAnAvailabilitySet();
+async function main(): Promise<void> {
+  await createAnAvailabilitySetWithScheduledEventPolicy();
+  await createAnAvailabilitySet();
 }
 
 main().catch(console.error);

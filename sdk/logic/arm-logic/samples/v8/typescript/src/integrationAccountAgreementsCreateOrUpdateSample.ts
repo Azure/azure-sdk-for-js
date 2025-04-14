@@ -13,9 +13,7 @@ import {
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an integration account agreement.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an integration account agreement.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationAccountAgreements_CreateOrUpdate.json
  */
-async function createOrUpdateAnAgreement() {
+async function createOrUpdateAnAgreement(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -176,7 +174,7 @@ async function createOrUpdateAnAgreement() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnAgreement();
 }
 

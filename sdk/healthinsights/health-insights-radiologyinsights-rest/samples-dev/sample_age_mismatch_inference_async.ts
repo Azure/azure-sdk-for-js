@@ -7,7 +7,10 @@
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import type { CreateJobParameters, RadiologyInsightsJobOutput } from "@azure-rest/health-insights-radiologyinsights";
+import type {
+  CreateJobParameters,
+  RadiologyInsightsJobOutput,
+} from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
   getLongRunningPoller,
@@ -232,7 +235,7 @@ export async function main(): Promise<void> {
   const content =
     radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
       ?.value ?? "";
-  printResults(resultBody, content);
+  await printResults(resultBody, content);
 }
 
 main().catch((err) => {

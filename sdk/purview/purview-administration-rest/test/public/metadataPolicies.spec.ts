@@ -5,7 +5,7 @@ import type { PurviewMetadataPolicies } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createMetadataClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
+import type { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
 
 describe("List Metadata", () => {
   let recorder: Recorder;

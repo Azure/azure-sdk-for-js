@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
  */
-async function virtualMachineCaptureMaximumSetGen() {
+async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -48,9 +46,9 @@ async function virtualMachineCaptureMaximumSetGen() {
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Capture_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Capture_MinimumSet_Gen.json
  */
-async function virtualMachineCaptureMinimumSetGen() {
+async function virtualMachineCaptureMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -71,9 +69,9 @@ async function virtualMachineCaptureMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineCaptureMaximumSetGen();
-  virtualMachineCaptureMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineCaptureMaximumSetGen();
+  await virtualMachineCaptureMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -59,20 +59,12 @@ az cosmosdb keys list --resource-group <your-resource-group> --name <your-accoun
 
 Interaction with Cosmos DB starts with an instance of the [CosmosClient](https://learn.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest) class
 
-```js
-const { CosmosClient } = require("@azure/cosmos");
+```ts snippet:ReadmeSampleCreateClient
+import { CosmosClient } from "@azure/cosmos";
 
 const endpoint = "https://your-account.documents.azure.com";
 const key = "<database account masterkey>";
 const client = new CosmosClient({ endpoint, key });
-
-async function main() {
-  // The rest of the README samples are designed to be pasted into this function body
-}
-
-main().catch((error) => {
-  console.error(error);
-});
 ```
 
 For simplicity we have included the `key` and `endpoint` directly in the code but you will likely want to load these from a file not in source control using a project such as [dotenv](https://www.npmjs.com/package/dotenv) or loading from environment variables
@@ -108,25 +100,46 @@ The following sections provide several code snippets covering some of the most c
 
 After authenticating your [CosmosClient](https://learn.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
 
-```js
+```ts snippet:ReadmeSampleCreateDatabase
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
-console.log(database.id);
 ```
 
 ### Create a container
 
 This example creates a container with default settings
 
-```js
-const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
-console.log(container.id);
+```ts snippet:ReadmeSampleCreateContainer
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
 ```
 
 ### Using Partition Keys
 
 This example shows various types of partition Keys supported.
 
-```js
+```ts snippet:ReadmeSampleCreateContainerWithPartitionKey
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 await container.item("id", "1").read(); // string type
 await container.item("id", 2).read(); // number type
 await container.item("id", true).read(); // boolean type
@@ -137,14 +150,34 @@ await container.item("id", null).read(); // null type
 
 If the Partition Key consists of a single value, it could be supplied either as a literal value, or an array.
 
-```js
+```ts snippet:ReadmeSampleCreateContainerWithPartitionKeySingleOrArray
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 await container.item("id", "1").read();
 await container.item("id", ["1"]).read();
 ```
 
 If the Partition Key consists of more than one values, it should be supplied as an array.
 
-```js
+```ts snippet:ReadmeSampleCreateContainerWithPartitionKeyArray
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 await container.item("id", ["a", "b"]).read();
 await container.item("id", ["a", 2]).read();
 await container.item("id", [{}, {}]).read();
@@ -158,7 +191,17 @@ To insert items into a container, pass an object containing your data to [Items.
 
 This example inserts several items into the container
 
-```js
+```ts snippet:ReadmeSampleInsertItems
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 const cities = [
   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
   { id: "2", name: "Redmond", state: "WA", isCapitol: false },
@@ -173,7 +216,17 @@ for (const city of cities) {
 
 To read a single item from a container, use [Item.read](https://learn.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
 
-```js
+```ts snippet:ReadmeSampleReadItem
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 await container.item("1", "1").read();
 ```
 
@@ -181,7 +234,37 @@ await container.item("1", "1").read();
 
 Create a Container with hierarchical partition key
 
-```js
+```ts snippet:ReadmeSampleCreateContainerWithHierarchicalPartitionKey
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const containerDefinition = {
+  id: "Test Container",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+};
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+```
+
+Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
+
+```ts snippet:ReadmeSampleInsertItemWithHierarchicalPartitionKey
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
 const containerDefinition = {
   id: "Test Database",
   partitionKey: {
@@ -191,12 +274,7 @@ const containerDefinition = {
   },
 };
 const { container } = await database.containers.createIfNotExists(containerDefinition);
-console.log(container.id);
-```
 
-Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
-
-```js
 const item = {
   id: "1",
   name: "foo",
@@ -210,28 +288,71 @@ await container.items.create(item);
 
 To read a single item from a container with hierarchical partition key defined as - `["/name", "/address/zip"],`
 
-```js
+```ts snippet:ReadmeSampleReadItemWithHierarchicalPartitionKey
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const containerDefinition = {
+  id: "Test Database",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+};
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+
 await container.item("1", ["foo", 100]).read();
 ```
 
 Query an item with hierarchical partition key with hierarchical partition key defined as - `["/name", "/address/zip"],`
 
-```js
+```ts snippet:ReadmeSampleQueryItemWithHierarchicalPartitionKey
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const containerDefinition = {
+  id: "Test Database",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+};
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.active = true", {
     partitionKey: ["foo", 100],
   })
   .fetchAll();
-for (const item of resources) {
-  console.log(`${item.name}, ${item.address.zip} `);
-}
 ```
 
 ### Delete an item
 
 To delete items from a container, use [Item.delete](https://learn.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
 
-```js
+```ts snippet:ReadmeSampleDeleteItem
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 // Delete the first item returned by the query above
 await container.item("1").delete();
 ```
@@ -240,27 +361,41 @@ await container.item("1").delete();
 
 A Cosmos DB SQL API database supports querying the items in a container with [Items.query](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-) using SQL-like syntax:
 
-```js
+```ts snippet:ReadmeSampleQueryDatabase
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.isCapitol = true")
   .fetchAll();
-for (const city of resources) {
-  console.log(`${city.name}, ${city.state} is a capitol `);
-}
 ```
 
 Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
 
-```js
+```ts snippet:ReadmeSampleQueryDatabaseWithParameters
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 const { resources } = await container.items
   .query({
     query: "SELECT * from c WHERE c.isCapitol = @isCapitol",
     parameters: [{ name: "@isCapitol", value: true }],
   })
   .fetchAll();
-for (const city of resources) {
-  console.log(`${city.name}, ${city.state} is a capitol `);
-}
 ```
 
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
@@ -277,18 +412,19 @@ There are four starting positions for change feed:
 
 - `Beginning`
 
-```js
-// Signals the iterator to read changefeed from the beginning of time.
+```ts snippet:ReadmeSampleChangeFeedPullModelIteratorBeginning
+import { ChangeFeedStartFrom } from "@azure/cosmos";
+
 const options = {
   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
 };
-const iterator = container.getChangeFeedIterator(options);
 ```
 
 - `Time`
 
-```js
-// Signals the iterator to read changefeed from a particular point of time.
+```ts snippet:ReadmeSampleChangeFeedPullModelIteratorTime
+import { ChangeFeedStartFrom } from "@azure/cosmos";
+
 const time = new Date("2023/09/11"); // some sample date
 const options = {
   changeFeedStartFrom: ChangeFeedStartFrom.Time(time),
@@ -297,7 +433,9 @@ const options = {
 
 - `Now`
 
-```js
+```ts snippet:ReadmeSampleChangeFeedPullModelIteratorNow
+import { ChangeFeedStartFrom } from "@azure/cosmos";
+
 // Signals the iterator to read changefeed from this moment onward.
 const options = {
   changeFeedStartFrom: ChangeFeedStartFrom.Now(),
@@ -306,9 +444,11 @@ const options = {
 
 - `Continuation`
 
-```js
+```ts snippet:ReadmeSampleChangeFeedPullModelIteratorContinuation
+import { ChangeFeedStartFrom } from "@azure/cosmos";
+
 // Signals the iterator to read changefeed from a saved point.
-const continuationToken = "some continuation token recieved from previous request";
+const continuationToken = "some continuation token received from previous request";
 const options = {
   changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
 };
@@ -316,7 +456,30 @@ const options = {
 
 Here's an example of fetching change feed for a partition key
 
-```js
+```ts snippet:ReadmeSampleChangeFeedPullModelIteratorPartitionKey
+import {
+  CosmosClient,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+  ChangeFeedStartFrom,
+} from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const containerDefinition = {
+  id: "Test Database",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+};
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+
 const partitionKey = "some-partition-Key-value";
 const options = {
   changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
@@ -346,7 +509,9 @@ The SDK generates various types of errors that can occur during an operation.
 
 Following is an example for handling errors of type `ErrorResponse`, `TimeoutError`, `AbortError`, and `RestError`.
 
-```js
+```ts snippet:ReadmeSampleErrorHandling
+import { ErrorResponse, RestError } from "@azure/cosmos";
+
 try {
   // some code
 } catch (err) {
@@ -376,11 +541,22 @@ When you interact with Cosmos DB errors returned by the service correspond to th
 
 For example, if you try to create an item using an `id` that's already in use in your Cosmos DB database, a `409` error is returned, indicating the conflict. In the following snippet, the error is handled gracefully by catching the exception and displaying additional information about the error.
 
-```js
+```ts snippet:ReadmeSampleErrorHandlingConflicts
+import { CosmosClient, ErrorResponse, RestError } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 try {
-  await containers.items.create({ id: "existing-item-id" });
+  await container.items.create({ id: "existing-item-id" });
 } catch (error) {
-  if (error.code === 409) {
+  const err = error as ErrorResponse | RestError;
+  if (err.code === 409) {
     console.log("There was a conflict with an existing item");
   }
 }
@@ -399,8 +575,9 @@ While working with Cosmos DB, you might encounter transient failures caused by [
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`. While using `AZURE_LOG_LEVEL` make sure to set it before logging library is initialized.
 Ideally pass it through command line, if using libraries like `dotenv` make sure such libraries are initialized before logging library.
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 
@@ -420,8 +597,16 @@ There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only i
 
 - Programatically
 
-```js
-const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
+```ts snippet:ReadmeSampleSetDiagnosticLevel
+import { CosmosClient, CosmosDbDiagnosticLevel } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({
+  endpoint,
+  key,
+  diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+});
 ```
 
 - Using environment variables. (Diagnostic level set by Environment variable has higher priority over setting it through client options.)
@@ -444,35 +629,53 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
 
 - Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows.
 
-```js
-  // For point look up operations
-  const { container, diagnostics: containerCreateDiagnostic } =
-    await database.containers.createIfNotExists({
-      id: containerId,
-      partitionKey: {
-        paths: ["/key1"],
-      },
+```ts snippet:ReadmeSampleAccessDiagnostics
+import {
+  CosmosClient,
+  CosmosDbDiagnosticLevel,
+  OperationInput,
+  BulkOperationType,
+} from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({
+  endpoint,
+  key,
+  diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+});
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+// For point look up operations
+
+const { container, diagnostics: containerCreateDiagnostic } =
+  await database.containers.createIfNotExists({
+    id: "<container-id>",
+    partitionKey: {
+      paths: ["/key1"],
+    },
   });
 
-  // For Batch operations
-   const operations: OperationInput[] = [
-    {
-      operationType: BulkOperationType.Create,
-      resourceBody: { id: 'A', key: "A", school: "high" },
-    },
-  ];
-  const response = await container.items.batch(operations, "A");
+// For Batch operations
+const operations: OperationInput[] = [
+  {
+    operationType: BulkOperationType.Create,
+    resourceBody: { id: "A", key: "A", school: "high" },
+  },
+];
 
-  // For query operations
-  const queryIterator = container.items.query("select * from c");
-  const { resources, diagnostics } = await queryIterator.fetchAll();
+const response = await container.items.batch(operations, "A");
 
-  // While error handling
-  try {
-    // Some operation that might fail
-  } catch (err) {
-    const diagnostics = err.diagnostics
-  }
+// For query operations
+const queryIterator = container.items.query("select * from c");
+const { resources, diagnostics } = await queryIterator.fetchAll();
+
+// While error handling
+try {
+  // Some operation that might fail
+} catch (err) {
+  const diagnostics = err.diagnostics;
+}
 ```
 
 - You could also log `diagnostics` using `@azure/logger`, diagnostic is always logged using `@azure/logger` at `verbose` level. So if you set Diagnostic level to `debug` or `debug-unsafe` and `@azure/logger` level to `verbose`, `diagnostics` will be logged.
@@ -495,15 +698,14 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
 ### Limitations
 
 Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
+- Client-side encryption is currently not supported in browser environment.
 
 ### Data Plane Limitations:
-
 - Queries with COUNT from a DISTINCT subquery​
 - Direct TCP Mode access​
 - Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 - Change Feed: Processor
 - Change Feed: Read multiple partitions key values
-- Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
 - Cross-partition ORDER BY for mixed types
 
 ### Control Plane Limitations:
@@ -520,11 +722,21 @@ You can achieve cross partition queries with continuation token support by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
 
-### Executing non-stremable cross-partition query
+### Executing non-streamable cross-partition query
 
 To execute non-streamable queries without the use of continuation tokens, you can create a query iterator with the required query specification and options. The following sample code demonstrates how to use a query iterator to fetch all results without the need for a continuation token:
 
-```javascript
+```ts snippet:ReadmeSampleNonStreamableCrossPartitionQuery
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const key = "<database account masterkey>";
+const client = new CosmosClient({ endpoint, key });
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
 const querySpec = {
   query: "SELECT c.status, COUNT(c.id) AS count FROM c GROUP BY c.status",
 };
@@ -532,7 +744,7 @@ const queryOptions = {
   maxItemCount: 10, // maximum number of items to return per page
   enableCrossPartitionQuery: true,
 };
-const querIterator = await container.items.query(querySpec, queryOptions);
+const querIterator = container.items.query(querySpec, queryOptions);
 while (querIterator.hasMoreResults()) {
   const { resources: result } = await querIterator.fetchNext();
   //Do something with result
@@ -563,8 +775,6 @@ For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcosmosdb%2Fcosmos%2FREADME.png)
 
 <!-- LINKS -->
 

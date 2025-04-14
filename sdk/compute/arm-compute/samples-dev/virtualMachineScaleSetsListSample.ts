@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
  *
  * @summary Gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetListMaximumSetGen() {
+async function virtualMachineScaleSetListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -28,7 +26,7 @@ async function virtualMachineScaleSetListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.list(
+  for await (const item of client.virtualMachineScaleSets.list(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -40,9 +38,9 @@ async function virtualMachineScaleSetListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
  *
  * @summary Gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetListMinimumSetGen() {
+async function virtualMachineScaleSetListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -50,7 +48,7 @@ async function virtualMachineScaleSetListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.list(
+  for await (const item of client.virtualMachineScaleSets.list(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -58,9 +56,9 @@ async function virtualMachineScaleSetListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  virtualMachineScaleSetListMaximumSetGen();
-  virtualMachineScaleSetListMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetListMaximumSetGen();
+  await virtualMachineScaleSetListMinimumSetGen();
 }
 
 main().catch(console.error);

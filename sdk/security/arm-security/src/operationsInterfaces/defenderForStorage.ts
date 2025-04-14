@@ -13,7 +13,7 @@ import {
   DefenderForStorageSetting,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DefenderForStorage. */
 export interface DefenderForStorage {

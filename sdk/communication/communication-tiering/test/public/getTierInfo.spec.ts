@@ -11,14 +11,12 @@ describe(`TieringClient - Get Tier Info`, () => {
   let recorder: Recorder;
   let client: TieringClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("get tier info", { timeout: 30000 }, async () => {

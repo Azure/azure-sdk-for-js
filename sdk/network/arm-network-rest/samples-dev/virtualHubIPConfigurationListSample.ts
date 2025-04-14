@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualHubIpConfigurationListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { VirtualHubIpConfigurationListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of all VirtualHubIpConfigurations.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Retrieves the details of all VirtualHubIpConfigurations.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubIpConfigurationList.json
  */
-async function virtualHubRouteTableV2List() {
+async function virtualHubRouteTableV2List(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

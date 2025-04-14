@@ -23,7 +23,7 @@ import {
   ProvisionedClusterInstancesListUserKubeconfigResponse,
   ProvisionedClusterInstancesListAdminKubeconfigOptionalParams,
   ProvisionedClusterInstancesListAdminKubeconfigResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProvisionedClusterInstances. */

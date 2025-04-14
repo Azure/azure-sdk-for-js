@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -17,7 +17,7 @@ import {
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SharedPrivateLinkResource as SharedPrivateLinkResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -81,11 +81,7 @@ export const searchServiceName: OperationURLParameter = {
 };
 
 export const clientRequestId: OperationParameter = {
-  parameterPath: [
-    "options",
-    "searchManagementRequestOptions",
-    "clientRequestId",
-  ],
+  parameterPath: ["options", "searchManagementRequestOptions", "clientRequestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
@@ -252,9 +248,7 @@ export const nspConfigName: OperationURLParameter = {
   parameterPath: "nspConfigName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\\.[a-z][a-z0-9]*$",
-      ),
+      Pattern: new RegExp("^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\\.[a-z][a-z0-9]*$"),
       MaxLength: 100,
       MinLength: 38,
     },

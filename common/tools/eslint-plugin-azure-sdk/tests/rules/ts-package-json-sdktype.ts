@@ -87,7 +87,7 @@ const examplePackageGood = `{
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "dependencies": {
@@ -108,10 +108,8 @@ const examplePackageGood = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -161,7 +159,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -240,7 +238,7 @@ const examplePackageBad = `{
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "dependencies": {
@@ -261,10 +259,8 @@ const examplePackageBad = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
-    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure-tools/test-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -314,7 +310,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -362,7 +358,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: clien. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -373,7 +369,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: mgm. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },
@@ -384,7 +380,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       errors: [
         {
           message:
-            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', or 'utility.'",
+            "unrecognized sdk-type value: util. Expected one of 'client', 'mgmt', 'perf-test', or 'utility'.",
         },
       ],
     },

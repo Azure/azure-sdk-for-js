@@ -552,7 +552,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
   healthProbe?: ApiEntityReference;
   /** The list of network configurations. */
   networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
-  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
+  /** Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'. */
   networkApiVersion?: NetworkApiVersion;
 }
 
@@ -690,14 +690,26 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
+/** Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
   enabled?: boolean;
-  /** Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will start to audit or monitor but not enforce access control over requests to host endpoints in Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce mode. */
+  /** Specifies the mode that ProxyAgent will execute on. Warning: this property has been deprecated, please specify 'mode' under particular hostendpoint setting. */
   mode?: Mode;
-  /** Increase the value of this property allows user to reset the key used for securing communication channel between guest and host. */
+  /** Increase the value of this property allows users to reset the key used for securing communication channel between guest and host. */
   keyIncarnationId?: number;
+  /** Specifies the Wire Server endpoint settings while creating the virtual machine or virtual machine scale set. Minimum api-version: 2024-03-01. */
+  wireServer?: HostEndpointSettings;
+  /** Specifies the IMDS endpoint settings while creating the virtual machine or virtual machine scale set. Minimum api-version: 2024-03-01. */
+  imds?: HostEndpointSettings;
+}
+
+/** Specifies particular host endpoint settings. */
+export interface HostEndpointSettings {
+  /** Specifies the execution mode. In Audit mode, the system acts as if it is enforcing the access control policy, including emitting access denial entries in the logs but it does not actually deny any requests to host endpoints. In Enforce mode, the system will enforce the access control and it is the recommended mode of operation. */
+  mode?: Modes;
+  /** Specifies the InVMAccessControlProfileVersion resource id in the format of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{profile}/versions/{version} */
+  inVMAccessControlProfileReferenceId?: string;
 }
 
 /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
@@ -837,6 +849,8 @@ export interface ScaleInPolicy {
   rules?: VirtualMachineScaleSetScaleInRules[];
   /** This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview) */
   forceDeletion?: boolean;
+  /** This property allows you to prioritize the deletion of unhealthy and inactive VMs when a virtual machine scale set is being scaled-in.(Feature in Preview) */
+  prioritizeUnhealthyVMs?: boolean;
 }
 
 /** Specifies the Spot-Try-Restore properties for the virtual machine scale set. With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
@@ -855,12 +869,14 @@ export interface PriorityMixPolicy {
   regularPriorityPercentageAboveBase?: number;
 }
 
-/** Describes an resiliency policy - resilientVMCreationPolicy and/or resilientVMDeletionPolicy. */
+/** Describes an resiliency policy - AutomaticZoneRebalancingPolicy, ResilientVMCreationPolicy and/or ResilientVMDeletionPolicy. */
 export interface ResiliencyPolicy {
   /** The configuration parameters used while performing resilient VM creation. */
   resilientVMCreationPolicy?: ResilientVMCreationPolicy;
   /** The configuration parameters used while performing resilient VM deletion. */
   resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
+  /** The configuration parameters used while performing automatic AZ balancing. */
+  automaticZoneRebalancingPolicy?: AutomaticZoneRebalancingPolicy;
 }
 
 /** The configuration parameters used while performing resilient VM creation. */
@@ -875,6 +891,16 @@ export interface ResilientVMDeletionPolicy {
   enabled?: boolean;
 }
 
+/** The configuration parameters used while performing automatic AZ balancing. */
+export interface AutomaticZoneRebalancingPolicy {
+  /** Specifies whether Automatic AZ Balancing should be enabled on the virtual machine scale set. The default value is false. */
+  enabled?: boolean;
+  /** Type of rebalance strategy that will be used for rebalancing virtual machines in the scale set across availability zones. Default and only supported value for now is Recreate. */
+  rebalanceStrategy?: RebalanceStrategy;
+  /** Type of rebalance behavior that will be used for recreating virtual machines in the scale set across availability zones. Default and only supported value for now is CreateBeforeDelete. */
+  rebalanceBehavior?: RebalanceBehavior;
+}
+
 /** Specifies the sku profile for the virtual machine scale set. With this property the customer is able to specify a list of VM sizes and an allocation strategy. */
 export interface SkuProfile {
   /** Specifies the VM sizes for the virtual machine scale set. */
@@ -887,6 +913,8 @@ export interface SkuProfile {
 export interface SkuProfileVMSize {
   /** Specifies the name of the VM Size. */
   name?: string;
+  /** Specifies the rank (a.k.a priority) associated with the VM Size. */
+  rank?: number;
 }
 
 /** Identity for the virtual machine scale set. */
@@ -1030,7 +1058,7 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
   healthProbe?: ApiEntityReference;
   /** The list of network configurations. */
   networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
-  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
+  /** Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'. */
   networkApiVersion?: NetworkApiVersion;
 }
 
@@ -1508,7 +1536,7 @@ export interface VirtualMachineScaleSetVMInstanceView {
   /** The extensions information. */
   extensions?: VirtualMachineExtensionInstanceView[];
   /**
-   * The health status for the VM.
+   * The application health status for the VM, provided through Application Health Extension or Load Balancer Health Probes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmHealth?: VirtualMachineHealthStatus;
@@ -1645,6 +1673,8 @@ export interface StorageProfile {
   dataDisks?: DataDisk[];
   /** Specifies the disk controller type configured for the VM. **Note:** This property will be set to the default disk controller type if not specified provided virtual machine is being created with 'hyperVGeneration' set to V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. Minimum api-version: 2022-08-01. */
   diskControllerType?: DiskControllerTypes;
+  /** Specifies whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Minimum api-version: 2024-11-01. */
+  alignRegionalDisksToVMZone?: boolean;
 }
 
 /** Specifies information about the operating system disk used by the virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
@@ -1990,7 +2020,7 @@ export interface VirtualMachineInstanceView {
   /** The extensions information. */
   extensions?: VirtualMachineExtensionInstanceView[];
   /**
-   * The health status for the VM.
+   * The application health status for the VM, provided through Application Health Extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmHealth?: VirtualMachineHealthStatus;
@@ -2126,6 +2156,16 @@ export interface LastPatchInstallationSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ApiError;
+}
+
+/** Describes the user-defined constraints for virtual machine hardware placement. */
+export interface Placement {
+  /** Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation. */
+  zonePlacementPolicy?: ZonePlacementPolicyType;
+  /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection. */
+  includeZones?: string[];
+  /** This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection. */
+  excludeZones?: string[];
 }
 
 /** Capture Virtual Machine parameters. */
@@ -2372,6 +2412,16 @@ export interface PatchInstallationDetail {
   readonly installationState?: PatchInstallationState;
 }
 
+/** The input of virtual machine migration from Availability Set to Flexible Virtual Machine Scale Set. */
+export interface MigrateVMToVirtualMachineScaleSetInput {
+  /** The target zone of VM migration to Flexible Virtual Machine Scale Set. */
+  targetZone?: string;
+  /** The target compute fault domain of VM migration to Flexible Virtual Machine Scale Set. */
+  targetFaultDomain?: number;
+  /** The target Virtual Machine size of VM migration to Flexible Virtual Machine Scale Set. */
+  targetVMSize?: string;
+}
+
 /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
 export interface PurchasePlan {
   /** The publisher ID. */
@@ -2443,12 +2493,60 @@ export interface VmImagesInEdgeZoneListResult {
   nextLink?: string;
 }
 
+/** The List Virtual Machine Images operation response. */
+export interface VirtualMachineImagesWithPropertiesListResult {
+  /** The list of virtual machine images. */
+  value?: VirtualMachineImage[];
+  /** The URI to fetch the next page of virtual machine images. Call ListNext() with this URI to fetch the next page of virtual machine images. */
+  nextLink?: string;
+}
+
+/** Describes the Availability Set properties related to migration to Flexible Virtual Machine Scale Set. */
+export interface VirtualMachineScaleSetMigrationInfo {
+  /**
+   * Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the VMs via the ConvertToVirtualMachineScaleSet API.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultVirtualMachineScaleSetInfo?: DefaultVirtualMachineScaleSetInfo;
+  /**
+   * Specifies the Virtual Machine Scale Set that the Availability Set is migrated to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrateToVirtualMachineScaleSet?: SubResource;
+}
+
+/** Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the VMs via the ConvertToVirtualMachineScaleSet API. */
+export interface DefaultVirtualMachineScaleSetInfo {
+  /**
+   *  Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set after its migration will be constrained to a limited number of VMs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly constrainedMaximumCapacity?: boolean;
+  /**
+   *  The default Virtual Machine ScaleSet Uri that the Availability Set will be moved to upon triggering a seamless migration via the ConvertToVirtualMachineScaleSet API.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultVirtualMachineScaleSet?: SubResource;
+}
+
 /** The List Availability Set operation response. */
 export interface AvailabilitySetListResult {
   /** The list of availability sets */
   value: AvailabilitySet[];
   /** The URI to fetch the next page of AvailabilitySets. Call ListNext() with this URI to fetch the next page of AvailabilitySets. */
   nextLink?: string;
+}
+
+/** Describes the Virtual Machine Scale Set to migrate from Availability Set. */
+export interface MigrateToVirtualMachineScaleSetInput {
+  /** Specifies information about the Virtual Machine Scale Set that the Availability Set should be migrated to. Minimum api‐version: 2024‐11‐01. */
+  virtualMachineScaleSetFlexible: SubResource;
+}
+
+/** Describes the Virtual Machine Scale Set to convert from Availability Set. */
+export interface ConvertToVirtualMachineScaleSetInput {
+  /** Specifies information about the Virtual Machine Scale Set that the Availability Set should be converted to. */
+  virtualMachineScaleSetName?: string;
 }
 
 /** Specifies the user intent of the proximity placement group. */
@@ -4715,6 +4813,8 @@ export interface CloudServiceVaultSecretGroup {
 export interface CloudServiceVaultCertificate {
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. */
   certificateUrl?: string;
+  /** Flag indicating if the certificate provided is a bootstrap certificate to be used by the Key Vault Extension to fetch the remaining certificates. */
+  isBootstrapCertificate?: boolean;
 }
 
 /** Network Profile for the cloud service. */
@@ -5478,6 +5578,8 @@ export interface VirtualMachineScaleSetVM extends Resource {
   readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** Specifies the resilient VM deletion status for the virtual machine. */
+  resilientVMDeletionStatus?: ResilientVMDeletionStatus;
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfile;
   /** Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
@@ -5542,6 +5644,8 @@ export interface VirtualMachine extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
+  placement?: Placement;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
@@ -5643,6 +5747,11 @@ export interface AvailabilitySet extends Resource {
   readonly statuses?: InstanceViewStatus[];
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
+  /**
+   * Describes the migration properties on the Availability Set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
 }
 
 /** Specifies information about the proximity placement group. */
@@ -6459,6 +6568,11 @@ export interface AvailabilitySetUpdate extends UpdateResource {
   readonly statuses?: InstanceViewStatus[];
   /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
   scheduledEventsPolicy?: ScheduledEventsPolicy;
+  /**
+   * Describes the migration properties on the Availability Set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineScaleSetMigrationInfo?: VirtualMachineScaleSetMigrationInfo;
 }
 
 /** Specifies information about the proximity placement group. */
@@ -7742,6 +7856,8 @@ export type NetworkInterfaceAuxiliarySku = string;
 export enum KnownNetworkApiVersion {
   /** TwoThousandTwenty1101 */
   TwoThousandTwenty1101 = "2020-11-01",
+  /** TwoThousandTwentyTwo1101 */
+  TwoThousandTwentyTwo1101 = "2022-11-01",
 }
 
 /**
@@ -7749,7 +7865,8 @@ export enum KnownNetworkApiVersion {
  * {@link KnownNetworkApiVersion} can be used interchangeably with NetworkApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2020-11-01**
+ * **2020-11-01** \
+ * **2022-11-01**
  */
 export type NetworkApiVersion = string;
 
@@ -7788,6 +7905,27 @@ export enum KnownMode {
  * **Enforce**
  */
 export type Mode = string;
+
+/** Known values of {@link Modes} that the service accepts. */
+export enum KnownModes {
+  /** Audit */
+  Audit = "Audit",
+  /** Enforce */
+  Enforce = "Enforce",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for Modes. \
+ * {@link KnownModes} can be used interchangeably with Modes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audit** \
+ * **Enforce** \
+ * **Disabled**
+ */
+export type Modes = string;
 
 /** Known values of {@link VirtualMachinePriorityTypes} that the service accepts. */
 export enum KnownVirtualMachinePriorityTypes {
@@ -7867,6 +8005,36 @@ export enum KnownOrchestrationMode {
  */
 export type OrchestrationMode = string;
 
+/** Known values of {@link RebalanceStrategy} that the service accepts. */
+export enum KnownRebalanceStrategy {
+  /** Recreate */
+  Recreate = "Recreate",
+}
+
+/**
+ * Defines values for RebalanceStrategy. \
+ * {@link KnownRebalanceStrategy} can be used interchangeably with RebalanceStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Recreate**
+ */
+export type RebalanceStrategy = string;
+
+/** Known values of {@link RebalanceBehavior} that the service accepts. */
+export enum KnownRebalanceBehavior {
+  /** CreateBeforeDelete */
+  CreateBeforeDelete = "CreateBeforeDelete",
+}
+
+/**
+ * Defines values for RebalanceBehavior. \
+ * {@link KnownRebalanceBehavior} can be used interchangeably with RebalanceBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateBeforeDelete**
+ */
+export type RebalanceBehavior = string;
+
 /** Known values of {@link ZonalPlatformFaultDomainAlignMode} that the service accepts. */
 export enum KnownZonalPlatformFaultDomainAlignMode {
   /** Aligned */
@@ -7891,6 +8059,8 @@ export enum KnownAllocationStrategy {
   LowestPrice = "LowestPrice",
   /** CapacityOptimized */
   CapacityOptimized = "CapacityOptimized",
+  /** Prioritized */
+  Prioritized = "Prioritized",
 }
 
 /**
@@ -7899,7 +8069,8 @@ export enum KnownAllocationStrategy {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LowestPrice** \
- * **CapacityOptimized**
+ * **CapacityOptimized** \
+ * **Prioritized**
  */
 export type AllocationStrategy = string;
 
@@ -8518,6 +8689,30 @@ export enum KnownVirtualMachineSizeTypes {
  */
 export type VirtualMachineSizeTypes = string;
 
+/** Known values of {@link ResilientVMDeletionStatus} that the service accepts. */
+export enum KnownResilientVMDeletionStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ResilientVMDeletionStatus. \
+ * {@link KnownResilientVMDeletionStatus} can be used interchangeably with ResilientVMDeletionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **InProgress** \
+ * **Failed**
+ */
+export type ResilientVMDeletionStatus = string;
+
 /** Known values of {@link DiskDetachOptionTypes} that the service accepts. */
 export enum KnownDiskDetachOptionTypes {
   /** ForceDetach */
@@ -8631,6 +8826,21 @@ export enum KnownPatchOperationStatus {
  * **CompletedWithWarnings**
  */
 export type PatchOperationStatus = string;
+
+/** Known values of {@link ZonePlacementPolicyType} that the service accepts. */
+export enum KnownZonePlacementPolicyType {
+  /** Any */
+  Any = "Any",
+}
+
+/**
+ * Defines values for ZonePlacementPolicyType. \
+ * {@link KnownZonePlacementPolicyType} can be used interchangeably with ZonePlacementPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Any**
+ */
+export type ZonePlacementPolicyType = string;
 
 /** Known values of {@link ExpandTypeForListVMs} that the service accepts. */
 export enum KnownExpandTypeForListVMs {
@@ -8937,6 +9147,21 @@ export enum KnownAlternativeType {
  * **Plan**
  */
 export type AlternativeType = string;
+
+/** Known values of {@link Expand} that the service accepts. */
+export enum KnownExpand {
+  /** Properties */
+  Properties = "Properties",
+}
+
+/**
+ * Defines values for Expand. \
+ * {@link KnownExpand} can be used interchangeably with Expand,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Properties**
+ */
+export type Expand = string;
 
 /** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
 export enum KnownProximityPlacementGroupType {
@@ -10213,7 +10438,7 @@ export type MaintenanceOperationResultCodeTypes =
   | "MaintenanceAborted"
   | "MaintenanceCompleted";
 /** Defines values for InstanceViewTypes. */
-export type InstanceViewTypes = "instanceView" | "userData";
+export type InstanceViewTypes = "instanceView" | "userData" | "resiliencyView";
 /** Defines values for DedicatedHostLicenseTypes. */
 export type DedicatedHostLicenseTypes =
   | "None"
@@ -10802,7 +11027,7 @@ export interface VirtualMachineScaleSetVMsDeleteOptionalParams
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsGetOptionalParams
   extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. */
+  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. 'resiliencyView' will retrieve the instance view of the Virtual machine (if applicable) and include 'resilientVMDeletionStatus' as part of it. */
   expand?: InstanceViewTypes;
 }
 
@@ -11036,7 +11261,10 @@ export type VirtualMachinesUpdateResponse = VirtualMachine;
 /** Optional parameters. */
 export interface VirtualMachinesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional parameter to force delete virtual machines. */
+  /**
+   * Optional parameter to force delete virtual machines.
+   * NOTE: As of api-version 2024-11-01, we are rolling out a feature where if the forceDeletion parameter is unspecified OR not explicitly set to false, AND all of the VM's attached disks including the OS disk are marked with the delete option, then the VM will be force deleted. For more details on how to configure delete options for a VM's resources, see [Delete a VM and attached resources](https://learn.microsoft.com/en-us/azure/virtual-machines/delete). To avoid defaulting to force delete, ensure that the forceDeletion parameter is explicitly set to false. This feature is expected to rollout by end of March 2025.
+   */
   forceDeletion?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11240,6 +11468,17 @@ export interface VirtualMachinesAttachDetachDataDisksOptionalParams
 export type VirtualMachinesAttachDetachDataDisksResponse = StorageProfile;
 
 /** Optional parameters. */
+export interface VirtualMachinesMigrateToVMScaleSetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the Migrate Virtual Machine operation. */
+  parameters?: MigrateVMToVirtualMachineScaleSetInput;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface VirtualMachinesRunCommandOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -11323,6 +11562,25 @@ export interface VirtualMachineImagesListByEdgeZoneOptionalParams
 /** Contains response data for the listByEdgeZone operation. */
 export type VirtualMachineImagesListByEdgeZoneResponse =
   VmImagesInEdgeZoneListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListWithPropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  top?: number;
+  orderby?: string;
+}
+
+/** Contains response data for the listWithProperties operation. */
+export type VirtualMachineImagesListWithPropertiesResponse =
+  VirtualMachineImagesWithPropertiesListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListWithPropertiesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listWithPropertiesNext operation. */
+export type VirtualMachineImagesListWithPropertiesNextResponse =
+  VirtualMachineImagesWithPropertiesListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneGetOptionalParams
@@ -11449,6 +11707,29 @@ export interface AvailabilitySetsListAvailableSizesOptionalParams
 /** Contains response data for the listAvailableSizes operation. */
 export type AvailabilitySetsListAvailableSizesResponse =
   VirtualMachineSizeListResult;
+
+/** Optional parameters. */
+export interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the migrate operation on the availability set. */
+  parameters?: ConvertToVirtualMachineScaleSetInput;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams

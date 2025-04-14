@@ -113,7 +113,7 @@ export default createRule({
     const fileName = context.filename;
 
     // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
-    if (context.settings.exported === undefined && /\.ts$/.test(fileName)) {
+    if (context.settings.exported === undefined && /\.ts|\.mts|\.cts$/.test(fileName)) {
       const packageExports = getLocalExports(context);
       if (packageExports !== undefined) {
         context.settings.exported = packageExports;

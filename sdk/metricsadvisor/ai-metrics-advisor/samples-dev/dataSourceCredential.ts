@@ -84,7 +84,7 @@ async function createDataSourceCredential(
     connectionString: "connection-string",
   };
   const result = await client.createDataSourceCredential(datasourceCredential);
-  console.dir(result);
+  await console.dir(result);
   return result;
 }
 

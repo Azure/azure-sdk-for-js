@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { ExecutionContext } from "../../../../src/queryExecutionContext";
-import { NonStreamingOrderByDistinctEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
-import type { QueryInfo } from "../../../../src/request/ErrorResponse";
+
+import type { ExecutionContext } from "../../../../src/queryExecutionContext/index.js";
+import { NonStreamingOrderByDistinctEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
+import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
+import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByDistinctEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {
@@ -23,7 +24,7 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
     assert.equal(component["priorityQueueBufferSize"], bufferSize);
   });
 
-  it("should handle nextItem method correctly", async () => {
+  it("should handle fetchMore method correctly", async () => {
     let id = 1;
     let item = 1;
     const mockExecutionContext: ExecutionContext = {
@@ -35,14 +36,20 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
         }
       },
       nextItem: async () => ({
-        result: {
-          orderByItems: [
-            {
-              item: item++,
-            },
-          ],
-          payload: { id: id++ },
-        },
+        result: {},
+        headers: {},
+      }),
+      fetchMore: async () => ({
+        result: [
+          {
+            orderByItems: [
+              {
+                item: item++,
+              },
+            ],
+            payload: { id: id++ },
+          },
+        ],
         headers: {},
       }),
     } as ExecutionContext;
@@ -56,18 +63,15 @@ describe("NonStreamingOrderByDistinctEndpointComponent", () => {
     );
 
     let count = 1;
-    let result_id = 1;
-    // call nextItem, for first 99 items it will give empty result
+    // call fetchMore, for first 99 items it will give empty result
     while (component.hasMoreResults()) {
-      const response = await component.nextItem({} as any);
+      const response = await component.fetchMore({} as any);
       if (count < 99) {
-        assert.deepStrictEqual(response.result, {});
+        assert.deepStrictEqual(response.result, []);
       } else {
-        assert.deepStrictEqual(response.result, { id: result_id++ });
+        assert.deepStrictEqual(response.result.length, count);
       }
       count++;
     }
-    // Final result array should be empty after all results processed
-    assert.equal(component["finalResultArray"].length, 0);
   });
 });

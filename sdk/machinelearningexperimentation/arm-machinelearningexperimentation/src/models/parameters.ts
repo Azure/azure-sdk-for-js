@@ -18,7 +18,7 @@ import {
   WorkspaceUpdateParameters as WorkspaceUpdateParametersMapper,
   Project as ProjectMapper,
   ProjectUpdateParameters as ProjectUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

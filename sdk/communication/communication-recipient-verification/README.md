@@ -35,10 +35,9 @@ Once you have a key, you can authenticate the `RecipientVerificationClient` with
 
 ### Using a connection string
 
-```javascript
-const {
-  RecipientVerificationClient,
-} = require("@azure-tools/communication-recipient-verification");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
+
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new RecipientVerificationClient(connectionString);
 ```
@@ -47,11 +46,10 @@ const client = new RecipientVerificationClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const {
-  RecipientVerificationClient,
-} = require("@azure-tools/communication-recipient-verification");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
+
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 ```
@@ -66,11 +64,9 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const {
-  RecipientVerificationClient,
-} = require("@azure-tools/communication-recipient-verification");
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 const credential = new DefaultAzureCredential();
 const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
@@ -87,89 +83,93 @@ The following sections provide code snippets that cover some of the common tasks
 
 ### Request phone number verification code
 
-```typescript
+```ts snippet:ReadmeSampleRequestVerification
+import { DefaultAzureCredential } from "@azure/identity";
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new RecipientVerificationClient(connectionString);
 
-async function main() {
-  // body of the request
-  const VerificationRequest = {
-    identity: "+11234567890",
-    channel: "sms",
-  };
+const credential = new DefaultAzureCredential();
+const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 
-  // get the verification status
-  const status = await client.requestVerification(VerificationRequest);
-  console.log(status);
-}
+// body of the request
+const VerificationRequest = {
+  identity: "+11234567890",
+  channel: "sms",
+};
 
-main();
+// get the verification status
+const status = await client.requestVerification(VerificationRequest);
+console.log(status);
 ```
 
 ### Verify phone number
 
-```typescript
+```ts snippet:ReadmeSampleVerifyIdentity
+import { DefaultAzureCredential } from "@azure/identity";
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new RecipientVerificationClient(connectionString);
 
-async function main() {
-  // id that is used to reference users phone number
-  const verificationId = "7e5dd7e1-5203-41ab-960e-65c1eb804fc6";
+const credential = new DefaultAzureCredential();
+const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 
-  // body of the request
-  const VerificationRequest = {
-    verificationCode: "1234567",
-  };
+// id that is used to reference users phone number
+const verificationId = "7e5dd7e1-5203-41ab-960e-65c1eb804fc6";
 
-  // verifying your phone number
-  const status = await client.verifyIdentity(verificationId, VerificationRequest);
-  console.log(status);
-}
+// body of the request
+const VerificationRequest = {
+  verificationCode: "1234567",
+};
 
-main();
+// verifying your phone number
+const status = await client.verifyIdentity(verificationId, VerificationRequest);
+console.log(status);
 ```
 
 ### Remove verified number
 
-```typescript
+```ts snippet:ReadmeSampleDeleteVerification
+import { DefaultAzureCredential } from "@azure/identity";
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new RecipientVerificationClient(connectionString);
 
-async function main() {
-  // id that is used to reference users phone number
-  const verificationId = "4d313ff0-3aeb-477e-8c15-7c9a893e8999";
+const credential = new DefaultAzureCredential();
+const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 
-  // delete verification for a resource
-  await client.deleteVerification(verificationId);
-}
+// id that is used to reference users phone number
+const verificationId = "4d313ff0-3aeb-477e-8c15-7c9a893e8999";
 
-main();
+// delete verification for a resource
+await client.deleteVerification(verificationId);
 ```
 
 ### Get verified numbers
 
-```typescript
+```ts snippet:ReadmeSampleGetVerifications
+import { DefaultAzureCredential } from "@azure/identity";
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new RecipientVerificationClient(connectionString);
 
-async function main() {
-  // get all verifications for a resource
-  const verifications = await client.getVerifications();
+const credential = new DefaultAzureCredential();
+const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 
-  // print all verifications
-  for await (const verification of verifications) {
-    console.log(verification);
-  }
+// get all verifications for a resource
+const verifications = await client.getVerifications();
+
+// print all verifications
+for await (const verification of verifications) {
+  console.log(verification);
 }
-
-main();
 ```
 
 ## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -190,5 +190,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-toll-free-verification%2FREADME.png)

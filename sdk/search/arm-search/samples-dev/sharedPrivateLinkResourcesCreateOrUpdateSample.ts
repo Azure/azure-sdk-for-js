@@ -6,24 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  SharedPrivateLinkResource,
-  SearchManagementClient,
-} from "@azure/arm-search";
+import type { SharedPrivateLinkResource } from "@azure/arm-search";
+import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
  *
  * @summary Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/CreateOrUpdateSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/CreateOrUpdateSharedPrivateLinkResource.json
  */
-async function sharedPrivateLinkResourceCreateOrUpdate() {
+async function sharedPrivateLinkResourceCreateOrUpdate(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -49,8 +43,8 @@ async function sharedPrivateLinkResourceCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  sharedPrivateLinkResourceCreateOrUpdate();
+async function main(): Promise<void> {
+  await sharedPrivateLinkResourceCreateOrUpdate();
 }
 
 main().catch(console.error);

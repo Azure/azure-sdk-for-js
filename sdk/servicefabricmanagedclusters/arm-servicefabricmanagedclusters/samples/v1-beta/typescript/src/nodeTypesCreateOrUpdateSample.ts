@@ -13,9 +13,7 @@ import {
   ServiceFabricManagedClustersManagementClient,
 } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Service Fabric node type of a given managed cluster.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationAutoScale_example.json
  */
-async function putANodeTypeWithAutoScaleParameters() {
+async function putANodeTypeWithAutoScaleParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -100,7 +98,7 @@ async function putANodeTypeWithAutoScaleParameters() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperation_example_max.json
  */
-async function putANodeTypeWithMaximumParameters() {
+async function putANodeTypeWithMaximumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -267,7 +265,7 @@ async function putANodeTypeWithMaximumParameters() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperation_example_min.json
  */
-async function putANodeTypeWithMinimumParameters() {
+async function putANodeTypeWithMinimumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -305,7 +303,7 @@ async function putANodeTypeWithMinimumParameters() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationStateless_example.json
  */
-async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
+async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -356,7 +354,7 @@ async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationCustomImage_example.json
  */
-async function putNodeTypeWithCustomVMImage() {
+async function putNodeTypeWithCustomVMImage(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -392,7 +390,7 @@ async function putNodeTypeWithCustomVMImage() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationDedicatedHost_example.json
  */
-async function putNodeTypeWithDedicatedHosts() {
+async function putNodeTypeWithDedicatedHosts(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -436,7 +434,7 @@ async function putNodeTypeWithDedicatedHosts() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationCustomSharedGalleriesImage_example.json
  */
-async function putNodeTypeWithSharedGalleriesCustomVMImage() {
+async function putNodeTypeWithSharedGalleriesCustomVMImage(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -472,7 +470,7 @@ async function putNodeTypeWithSharedGalleriesCustomVMImage() {
  * @summary Create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypePutOperationVmImagePlan_example.json
  */
-async function putNodeTypeWithVMImagePlan() {
+async function putNodeTypeWithVMImagePlan(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -509,7 +507,7 @@ async function putNodeTypeWithVMImagePlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putANodeTypeWithAutoScaleParameters();
   putANodeTypeWithMaximumParameters();
   putANodeTypeWithMinimumParameters();

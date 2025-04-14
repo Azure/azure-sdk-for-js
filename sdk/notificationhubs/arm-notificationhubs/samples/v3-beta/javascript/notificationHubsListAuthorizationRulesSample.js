@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the authorization rules for a NotificationHub.
@@ -26,8 +24,8 @@ async function notificationHubsListAuthorizationRules() {
   const notificationHubName = "nh-sdk-hub";
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.notificationHubs.listAuthorizationRules(
+  const resArray = [];
+  for await (const item of client.notificationHubs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     notificationHubName,
@@ -38,7 +36,7 @@ async function notificationHubsListAuthorizationRules() {
 }
 
 async function main() {
-  notificationHubsListAuthorizationRules();
+  await notificationHubsListAuthorizationRules();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RegionConfigurationRequest,
-  DataBoxManagementClient
+  DataBoxManagementClient,
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,32 +19,34 @@ import "dotenv/config";
  * This sample demonstrates how to This API provides configuration details specific to given region/location at Resource group level.
  *
  * @summary This API provides configuration details specific to given region/location at Resource group level.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfigurationByResourceGroup.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfigurationByResourceGroup.json
  */
-async function regionConfigurationByResourceGroup() {
+async function regionConfigurationByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
     process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
   const regionConfigurationRequest: RegionConfigurationRequest = {
+    deviceCapabilityRequest: { model: "DataBoxDisk", skuName: "DataBoxDisk" },
     scheduleAvailabilityRequest: {
+      model: "DataBox",
       skuName: "DataBox",
-      storageLocation: "westus"
-    }
+      storageLocation: "westus",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.service.regionConfigurationByResourceGroup(
     resourceGroupName,
     location,
-    regionConfigurationRequest
+    regionConfigurationRequest,
   );
   console.log(result);
 }
 
-async function main() {
-  regionConfigurationByResourceGroup();
+async function main(): Promise<void> {
+  await regionConfigurationByResourceGroup();
 }
 
 main().catch(console.error);

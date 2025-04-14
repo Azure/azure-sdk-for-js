@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
@@ -151,11 +151,11 @@ async function createOrUpdateASimpleGallery() {
 }
 
 async function main() {
-  createACommunityGallery();
-  createOrUpdateASimpleGalleryWithSharingProfile();
-  createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
-  createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
-  createOrUpdateASimpleGallery();
+  await createACommunityGallery();
+  await createOrUpdateASimpleGalleryWithSharingProfile();
+  await createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
+  await createOrUpdateASimpleGalleryWithSystemAssignedAndUserAssignedManagedIdentities();
+  await createOrUpdateASimpleGallery();
 }
 
 main().catch(console.error);

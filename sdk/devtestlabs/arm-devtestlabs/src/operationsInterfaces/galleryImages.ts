@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GalleryImage, GalleryImagesListOptionalParams } from "../models";
+import { GalleryImage, GalleryImagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GalleryImages. */

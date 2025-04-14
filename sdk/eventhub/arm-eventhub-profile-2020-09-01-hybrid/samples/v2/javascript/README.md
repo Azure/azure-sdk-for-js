@@ -131,6 +131,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid/samples/v2/javascript/privateEndpointConnectionsListSample.js
 [privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid/samples/v2/javascript/privateLinkResourcesGetSample.js
 [regionslistbyskusample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid/samples/v2/javascript/regionsListBySkuSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-eventhub-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-eventhub-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid/README.md

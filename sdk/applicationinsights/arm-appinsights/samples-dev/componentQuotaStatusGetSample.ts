@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns daily data volume cap (quota) status for an Application Insights component.
@@ -17,20 +16,26 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns daily data volume cap (quota) status for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/QuotaStatusGet.json
  */
-async function componentCurrentBillingFeaturesGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+async function componentCurrentBillingFeaturesGet(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.componentQuotaStatus.get(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }
 
-componentCurrentBillingFeaturesGet().catch(console.error);
+async function main(): Promise<void> {
+  await componentCurrentBillingFeaturesGet();
+}
+
+main().catch(console.error);

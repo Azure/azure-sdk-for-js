@@ -103,14 +103,16 @@ export class ContainerRegistryContentClient {
    * Creates an instance of a ContainerRegistryContentClient for managing container images and artifacts.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:SampleReadmeCreateContainerRegistryContentClient
    * import { ContainerRegistryContentClient } from "@azure/container-registry";
-   * import { DefaultAzureCredential} from "@azure/identity";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repository = "library/hello-world";
    * const client = new ContainerRegistryContentClient(
-   *    "<container registry API endpoint>",
-   *    "<repository name>",
-   *    new DefaultAzureCredential()
+   *   endpoint,
+   *   repository,
+   *   new DefaultAzureCredential(),
    * );
    * ```
    * @param endpoint - the URL endpoint of the container registry
