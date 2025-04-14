@@ -23,24 +23,26 @@ export async function main(): Promise<void> {
 
   // List the details of all the connections
   const connections: Connection[] = [];
+  const connectionNames: string[] = [];
   for await (const connection of project.connections.list()) {
     connections.push(connection);
+    connectionNames.push(connection.name);
   }
-  console.log(`Retrieved ${connections.length} connections`);
+  console.log(`Retrieved connections: ${connectionNames}`);
 
   // Get the details of a connection, without credentials
   const connectionName = connections[0].name;
   const connection = await project.connections.get(connectionName);
-  console.log(`Retrieved connection, connection name: ${connection.name}`);
+  console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
 
   // List all connections of a specific type
-  const auzreAIConnections: Connection[] = [];
+  const azureAIConnections: Connection[] = [];
   for await (const azureOpenAIConnection of project.connections.list({
     connectionType: "AzureOpenAI",
   })) {
-    auzreAIConnections.push(azureOpenAIConnection);
+    azureAIConnections.push(azureOpenAIConnection);
   }
-  console.log(`Retrieved ${auzreAIConnections.length} Azure OpenAI connections`);
+  console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
 }
 
 main().catch((err) => {

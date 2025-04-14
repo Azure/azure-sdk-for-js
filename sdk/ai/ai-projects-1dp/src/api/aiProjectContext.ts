@@ -10,6 +10,10 @@ export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
+  /** The endpoint URL used to construct AIProjectClient. */
+  getEndpointUrl(): string;
+  /** The credential used to construct AIProjectClient. */
+  getCredential(): KeyCredential | TokenCredential;
 }
 
 /** Optional parameters for the client. */
@@ -67,5 +71,10 @@ export function createAIProject(
       return next(req);
     },
   });
-  return { ...clientContext, apiVersion } as AIProjectContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    getEndpointUrl: () => endpointUrl,
+    getCredential: () => credential,
+  } as AIProjectContext;
 }

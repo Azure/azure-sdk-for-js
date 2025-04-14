@@ -17,6 +17,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [datasets/datasetsBasics.ts][datasets_datasetsbasics]             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                   |
 | [deployments/deploymentsBasics.ts][deployments_deploymentsbasics] | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
 | [indexes/indexesBasics.ts][indexes_indexesbasics]                 | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
+| [inference/chatCompletion.ts][inference_chatcompletion]           | Given an AIProjectClient, this sample demonstrates how to get a response from a chat model. Get the chat completions for the provided chat messages.                                                   |
+| [inference/imageEmbedding.ts][inference_imageembedding]           | Given an AIProjectClient, this sample demonstrates how to get the image embeddings for a given image. Get the image embeddings for a given image.                                                      |
+| [inference/textEmbeddings.ts][inference_textembeddings]           | Given an AIProjectClient, this sample demonstrates how to get the text embeddings for a given text. Get the text embeddings for arrays of given texts.                                                 |
 
 ## Prerequisites
 
@@ -72,6 +75,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/datasets/datasetsBasics.ts
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/deployments/deploymentsBasics.ts
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/indexes/indexesBasics.ts
+[inference_chatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/inference/chatCompletion.ts
+[inference_imageembedding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/inference/imageEmbedding.ts
+[inference_textembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects-1dp/samples/v1-beta/typescript/src/inference/textEmbeddings.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects-1dp/README.md

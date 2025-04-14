@@ -8,7 +8,7 @@
  * get the properties of a deployment by its name, and delete a deployment.
  */
 
-import type { Deployment } from "@azure/ai-projects-1dp";
+import type { ModelDeployment } from "@azure/ai-projects-1dp";
 import { AIProjectClient } from "@azure/ai-projects-1dp";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -23,19 +23,26 @@ export async function main(): Promise<void> {
 
   // List all deployments
   console.log("List all deployments:");
-  const deployments: Deployment[] = [];
-  for await (const deployment of project.deployments.list()) {
+  const deployments: ModelDeployment[] = [];
+  const properties: Array<Record<string, string>> = [];
+
+  for await (const deployment of project.deployments.list() as AsyncIterable<ModelDeployment>) {
     deployments.push(deployment);
-    console.log(deployment);
+    properties.push({
+      name: deployment.name,
+      modelPublisher: deployment.modelPublisher,
+      modelName: deployment.modelName,
+    });
   }
-  console.log(`Retrieved ${deployments.length} deployments`);
+  console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
 
   // List all deployments by a specific model publisher (assuming we have one from the list)
   console.log(`List all deployments by the model publisher '${modelPublisher}':`);
-  const filteredDeployments: Deployment[] = [];
-  for await (const deployment of project.deployments.list({ modelPublisher })) {
+  const filteredDeployments: ModelDeployment[] = [];
+  for await (const deployment of project.deployments.list({
+    modelPublisher,
+  }) as AsyncIterable<ModelDeployment>) {
     filteredDeployments.push(deployment);
-    console.log(deployment);
   }
   console.log(
     `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
@@ -46,7 +53,7 @@ export async function main(): Promise<void> {
     const deploymentName = deployments[0].name;
     console.log(`Get a single deployment named '${deploymentName}':`);
     const singleDeployment = await project.deployments.get(deploymentName);
-    console.log(singleDeployment);
+    console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment, null, 2)}`);
   }
 }
 
