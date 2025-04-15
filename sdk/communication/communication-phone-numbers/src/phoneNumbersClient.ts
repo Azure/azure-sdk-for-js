@@ -228,10 +228,9 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-getReservation",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers
-          .getReservation(reservationId, {
-            ...updatedOptions,
-          });
+        return this.client.phoneNumbers.getReservation(reservationId, {
+          ...updatedOptions,
+        });
       },
     );
   }
@@ -906,8 +905,8 @@ export class PhoneNumbersClient {
 
     try {
       return this.client.phoneNumbers.listReservations({
-          ...updatedOptions,
-        });
+        ...updatedOptions,
+      });
     } catch (e: any) {
       span.setStatus({
         status: "error",

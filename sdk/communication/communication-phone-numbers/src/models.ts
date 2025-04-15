@@ -17,7 +17,7 @@ import type {
   PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
-  PhoneNumberType
+  PhoneNumberType,
 } from "./generated/src/models/index.js";
 
 /**
@@ -159,7 +159,7 @@ export interface PurchaseReservationResult extends PhoneNumbersPurchaseReservati
 /**
  * The result of the get reservation operation.
  */
-export interface GetReservationResult extends PhoneNumbersGetReservationResponse {};
+export interface GetReservationResult extends PhoneNumbersGetReservationResponse {}
 
 export {
   AvailablePhoneNumber,
