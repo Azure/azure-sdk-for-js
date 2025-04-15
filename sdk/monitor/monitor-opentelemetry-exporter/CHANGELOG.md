@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.30 (2025-04-09)
 
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+
 ### Features Added
 
 - Support setting the AiLocationIp on logs and events.

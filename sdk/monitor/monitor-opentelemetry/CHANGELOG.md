@@ -1,5 +1,11 @@
 # Release History
 
+## 1.10.1 ()
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+
 ## 1.10.0 (2025-04-09)
 
 ### Features Added
