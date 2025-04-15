@@ -52,31 +52,48 @@ extends:
     stages:
       - stage:
         displayName: NPM Task Execute
+        variables:
+          - template: /eng/pipelines/templates/variables/image.yml
 
         jobs:
-        - deployment: 'NPM_Admin'
+        - job: NPM_Admin
           displayName: NPM package management
+          pool:
+            name: $(WINDOWSPOOL)
+            image: $(WINDOWSVMIMAGE)
+            os: windows
+
+          steps:
+          - checkout: none
+          - task: PowerShell@2
+            displayName: 'Run Task'
+            inputs:
+              targetType: filePath
+              filePath: "eng/scripts/npm-admin-tasks.ps1"
+              arguments: >
+                -taskType ${{parameters.TaskType}}
+                -packageName ${{parameters.PackageName}}
+                -pkgVersion ${{parameters.PkgVersion}}
+                -tagName ${{parameters.TagName}}
+                -npmToken "$(azure-sdk-npm-token)"
+                -reason "${{parameters.Reason}}"
+              pwsh: true
+
+        # This is a workaround to not run admin job in deployment job but still have the approval gate
+        - deployment:
+          displayName: NPM package management success
           environment: npm
+          dependsOn: NPM_Admin
+          condition: succeeded()
 
           pool:
-            name: azsdk-pool-mms-win-2022-general
-            image: azsdk-pool-mms-win-2022-1espt
+            name: $(WINDOWSPOOL)
+            image: $(WINDOWSVMIMAGE)
             os: windows
 
           strategy:
             runOnce:
               deploy:
                 steps:
-                  - task: PowerShell@2
-                    displayName: 'Run Task'
-                    inputs:
-                      targetType: filePath
-                      filePath: "eng/scripts/npm-admin-tasks.ps1"
-                      arguments: >
-                        -taskType ${{parameters.TaskType}}
-                        -packageName ${{parameters.PackageName}}
-                        -pkgVersion ${{parameters.PkgVersion}}
-                        -tagName ${{parameters.TagName}}
-                        -npmToken "$(azure-sdk-npm-token)"
-                        -reason "${{parameters.Reason}}"
-                      pwsh: true
+                  - pwsh: |
+                      Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
