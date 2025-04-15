@@ -5,7 +5,7 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { type Recorder } from "@azure-tools/test-recorder";
 import {
   PhoneNumbersReservation,
-  type PhoneNumbersBrowseRequest,
+  type BrowseAvailableNumbersRequest,
   type PhoneNumbersClient,
   type SearchAvailablePhoneNumbersRequest,
 } from "../../src/index.js";
@@ -34,7 +34,8 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can browse available phone number", { timeout: 60000 }, async () => {
-      const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+      const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+        countryCode: "US",
         phoneNumberType: "tollFree",
         capabilities: {
           calling: "outbound",
@@ -43,7 +44,6 @@ matrix([[true, false]], async (useAad) => {
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        "US",
         browseAvailableNumberRequest,
       );
       assert.isTrue(browseAvailableNumbers.phoneNumbers.length > 0);
@@ -54,12 +54,12 @@ matrix([[true, false]], async (useAad) => {
         assert.equal(phoneNumber.assignmentType, "application");
       }
 
-      const browseGeographicAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+      const browseGeographicAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+        countryCode: "US",
         phoneNumberType: "geographic",
       };
 
       const browseGeographicAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        "US",
         browseGeographicAvailableNumberRequest,
       );
       assert.isTrue(browseGeographicAvailableNumbers.phoneNumbers.length > 0);
@@ -71,7 +71,8 @@ matrix([[true, false]], async (useAad) => {
 
     it("throws error on invalid browse request", { timeout: 60000 }, async () => {
       // Invalid value for countryCode
-      const invalidBrowseRequest: PhoneNumbersBrowseRequest = {
+      const invalidBrowseRequest: BrowseAvailableNumbersRequest = {
+        countryCode: "INVALID",
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
@@ -81,7 +82,7 @@ matrix([[true, false]], async (useAad) => {
       };
 
       try {
-        await client.browseAvailablePhoneNumbers("INVALID", invalidBrowseRequest);
+        await client.browseAvailablePhoneNumbers(invalidBrowseRequest);
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
@@ -94,7 +95,8 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can update an existing reservation", { timeout: 60000 }, async () => {
-      const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+      const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+        countryCode: "US",
         phoneNumberType: "tollFree",
         capabilities: {
           calling: "outbound",
@@ -103,7 +105,6 @@ matrix([[true, false]], async (useAad) => {
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        "US",
         browseAvailableNumberRequest,
       );
 
@@ -146,7 +147,8 @@ matrix([[true, false]], async (useAad) => {
       "throws error when starting purchase without agreement to not resell Browse API",
       { timeout: 60000 },
       async () => {
-        const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+        const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+          countryCode: "FR",
           phoneNumberType: "tollFree",
           capabilities: {
             calling: "outbound",
@@ -155,7 +157,6 @@ matrix([[true, false]], async (useAad) => {
         };
 
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-          "FR",
           browseAvailableNumberRequest,
         );
 

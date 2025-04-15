@@ -5,7 +5,7 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { env, isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
 import {
   PhoneNumbersReservation,
-  type PhoneNumbersBrowseRequest,
+  type BrowseAvailableNumbersRequest,
   type PhoneNumbersClient,
 } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
@@ -37,13 +37,13 @@ matrix([[true, false]], async (useAad) => {
       });
 
       it("can purchase a phone number reservation", { timeout: 60000 }, async () => {
-        const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+        const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+          countryCode: "US",
           phoneNumberType: "tollFree",
           assignmentType: "application",
         };
 
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-          "US",
           browseAvailableNumberRequest,
         );
 

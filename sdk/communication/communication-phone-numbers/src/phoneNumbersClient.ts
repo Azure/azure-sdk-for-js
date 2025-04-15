@@ -22,7 +22,6 @@ import type {
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumbersBrowseAvailableNumbersResponse,
-  PhoneNumbersBrowseRequest,
   PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumberSearchResult,
   PhoneNumbersPurchaseReservationResponse,
@@ -31,6 +30,7 @@ import type {
 } from "./generated/src/models/index.js";
 import type {
   BeginReservationPurchaseOptions,
+  BrowseAvailableNumbersRequest,
   CreateOrUpdateReservationOptions,
   DeleteReservationOptions,
   GetPurchasedPhoneNumberOptions,
@@ -305,7 +305,8 @@ export class PhoneNumbersClient {
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
-   * const browseAvailableNumberRequest: PhoneNumbersBrowseRequest = {
+   * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+   *   countryCode: "US",
    *   phoneNumberType: "tollFree",
    *   capabilities: {
    *     sms: "outbound",
@@ -313,25 +314,23 @@ export class PhoneNumbersClient {
    *   },
    *   assignmentType: "application",
    * };
-   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers("US", browseAvailableNumberRequest);
+   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(browseAvailableNumberRequest);
    * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
    *   console.log("Found phone number: ", phoneNumber.phoneNumber);
    * }
    * ```
    * Browse available phone numbers
-   * @param countryCode - The ISO 3166-2 country code, e.g. US.
    * @param request - The request parameters for browsing available phone numbers.
    */
   public browseAvailablePhoneNumbers(
-    countryCode: string,
-    request: PhoneNumbersBrowseRequest,
+    request: BrowseAvailableNumbersRequest,
   ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
     );
 
     try {
-      const { phoneNumberType, ...rest } = request;
+      const { countryCode, phoneNumberType, ...rest } = request;
       return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
         ...updatedOptions,
         ...rest,

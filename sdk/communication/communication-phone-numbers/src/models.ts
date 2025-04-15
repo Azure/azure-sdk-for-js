@@ -6,6 +6,7 @@ import type {
   AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseRequest,
   PhoneNumbersCreateOrUpdateReservationOptionalParams,
   PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchRequest,
@@ -47,6 +48,11 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
   /**
    * The ISO 3166-2 country code, e.g. US, representing the location of the search.
    */
+  countryCode: string;
+}
+
+export interface BrowseAvailableNumbersRequest extends PhoneNumbersBrowseRequest {
+  /** The ISO 3166-2 country code, e.g. US, representing the location of the search. */
   countryCode: string;
 }
 
@@ -200,7 +206,6 @@ export {
   PhoneNumberAreaCode,
   PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumberBrowseCapabilitiesRequest,
-  PhoneNumbersBrowseRequest,
   PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
