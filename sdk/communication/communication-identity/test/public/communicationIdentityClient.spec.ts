@@ -51,7 +51,7 @@ matrix([[true, false]], async (useAad: boolean) => {
 
     it("successfully creates and gets a user with customId", async () => {
       const customId = "alice@contoso.com";
-      const user: CommunicationUserIdentifier = await client.createUser({ for: customId });
+      const user: CommunicationUserIdentifier = await client.createUser({ customId: customId });
       assert.isString(user.communicationUserId);
       const getResult = await client.getUserDetail(user);
       assert.equal(getResult.customId, customId);

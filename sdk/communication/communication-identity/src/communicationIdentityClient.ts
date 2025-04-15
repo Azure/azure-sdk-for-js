@@ -183,7 +183,7 @@ export class CommunicationIdentityClient {
       async (updatedOptions) => {
         const result = await this.client.communicationIdentityOperations.create({
           expiresInMinutes: undefined,
-          customId: options.for,
+          customId: options.customId,
           ...updatedOptions,
         });
         return {
@@ -210,7 +210,7 @@ export class CommunicationIdentityClient {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
           expiresInMinutes: options.tokenExpiresInMinutes,
-          customId: options.for,
+          customId: options.customId,
           ...updatedOptions,
         });
         return {

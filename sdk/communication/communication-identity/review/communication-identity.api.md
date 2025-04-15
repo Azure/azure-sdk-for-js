@@ -48,13 +48,13 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface CreateUserAndTokenOptions extends OperationOptions {
-    for?: string;
+    customId?: string;
     tokenExpiresInMinutes?: number;
 }
 
 // @public
 export interface CreateUserOptions extends OperationOptions {
-    for?: string;
+    customId?: string;
 }
 
 // @public

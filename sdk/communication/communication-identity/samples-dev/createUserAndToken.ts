@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   // Create user with default token
   console.log("Creating User and Token");
   const communicationUserToken = await client.createUserAndToken(scopes, {
-    externalId: externalId,
+    customId: externalId,
   });
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
   console.log(`Issued token: ${communicationUserToken.token}`);

@@ -75,7 +75,7 @@ export declare interface CreateUserAndTokenOptions extends OperationOptions {
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   tokenExpiresInMinutes?: number;
   /** The external Id if one has been associated with the identity. */
-  for?: string;
+  customId?: string;
 }
 
 /**
@@ -83,7 +83,7 @@ export declare interface CreateUserAndTokenOptions extends OperationOptions {
  */
 export declare interface CreateUserOptions extends OperationOptions {
   /** The external Id if one has been associated with the identity. */
-  for?: string;
+  customId?: string;
 }
 
 /**

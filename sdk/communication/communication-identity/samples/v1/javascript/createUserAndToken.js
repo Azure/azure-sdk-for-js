@@ -22,7 +22,7 @@ async function main() {
 
   // Create user with default token
   console.log("Creating User and Token");
-  const communicationUserToken = await client.createUserAndToken(scopes, { for: customId });
+  const communicationUserToken = await client.createUserAndToken(scopes, { customId: customId });
   console.log(`Created user with id: ${communicationUserToken.user.communicationUserId}`);
   console.log(`Issued token: ${communicationUserToken.token}`);
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
