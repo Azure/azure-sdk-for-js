@@ -5,6 +5,7 @@ import {
   Constants,
   HTTPMethod,
   jsonStringifyAndEscapeNonASCII,
+  OperationType,
   ResourceType,
   SDKSupportedCapabilities,
 } from "../common/index.js";
@@ -46,6 +47,7 @@ interface GetHeadersOptions {
   resourceId: string;
   resourceType: ResourceType;
   options: RequestOptions & FeedOptions;
+  operationType?: OperationType;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
   partitionKey?: PartitionKeyInternal;
@@ -64,6 +66,7 @@ export async function getHeaders({
   resourceId,
   resourceType,
   options = {},
+  operationType,
   partitionKeyRangeId,
   useMultipleWriteLocations,
   partitionKey,
@@ -249,6 +252,15 @@ export async function getHeaders({
     clientOptions.permissionFeed
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
+  }
+
+  if (
+    resourceType === ResourceType.item &&
+    operationType === OperationType.Batch &&
+    Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
+    !options.contentResponseOnWriteEnabled
+  ) {
+    headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PREFER_RETURN_MINIMAL;
   }
   return headers;
 }

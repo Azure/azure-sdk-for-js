@@ -190,7 +190,7 @@ export class BulkHelper {
         await this.container.checkAndInitializeEncryption();
         diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
         const { operation: encryptedOp, totalPropertiesEncryptedCount } =
-          await encryptOperationInput(operation, 0);
+          await encryptOperationInput(this.container.encryptionProcessor, operation, 0);
         operation = encryptedOp;
         diagnosticNode.endEncryptionDiagnostics(
           Constants.Encryption.DiagnosticsDecryptOperation,

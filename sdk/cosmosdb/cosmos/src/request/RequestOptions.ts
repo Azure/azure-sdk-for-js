@@ -46,4 +46,12 @@ export interface RequestOptions extends SharedOptions {
    * @internal
    * collection rid for setting CollectionRidHeader */
   containerRid?: string;
+  /**
+   * If set to false, service doesn't return payload in the response. It reduces networking and CPU load
+   * by not sending the payload back over the network. Default value is true.
+   *
+   * NOTE: Currently, this option is only supported for bulk and batch operations.
+   * This will be supported for all write operations with v5 release.
+   */
+  contentResponseOnWriteEnabled?: boolean;
 }

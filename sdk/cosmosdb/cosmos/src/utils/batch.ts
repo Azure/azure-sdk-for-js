@@ -24,6 +24,7 @@ import { Constants } from "../common/constants.js";
 import { randomUUID } from "@azure/core-util";
 import type { ItemBulkOperation } from "../bulk/ItemBulkOperation.js";
 import type { BulkResponse } from "../bulk/index.js";
+import { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 
 export type Operation =
   | CreateOperation
@@ -380,20 +381,21 @@ export class TaskCompletionSource<T> {
 }
 
 export async function encryptOperationInput(
+  encryptionProcessor: EncryptionProcessor,
   operation: OperationInput,
   totalPropertiesEncryptedCount: number,
 ): Promise<{ operation: OperationInput; totalPropertiesEncryptedCount: number }> {
   if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
     const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
     const { partitionKeyList, encryptedCount } =
-      await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+      await encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
     operation.partitionKey = partitionKeyList;
     totalPropertiesEncryptedCount += encryptedCount;
   }
   switch (operation.operationType) {
     case BulkOperationType.Create:
     case BulkOperationType.Upsert: {
-      const { body, propertiesEncryptedCount } = await this.container.encryptionProcessor.encrypt(
+      const { body, propertiesEncryptedCount } = await encryptionProcessor.encrypt(
         operation.resourceBody,
       );
       operation.resourceBody = body;
@@ -402,17 +404,17 @@ export async function encryptOperationInput(
     }
     case BulkOperationType.Read:
     case BulkOperationType.Delete:
-      if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
         totalPropertiesEncryptedCount++;
       }
       break;
     case BulkOperationType.Replace: {
-      if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
         totalPropertiesEncryptedCount++;
       }
-      const { body, propertiesEncryptedCount } = await this.container.encryptionProcessor.encrypt(
+      const { body, propertiesEncryptedCount } = await encryptionProcessor.encrypt(
         operation.resourceBody,
       );
       operation.resourceBody = body;
@@ -420,16 +422,16 @@ export async function encryptOperationInput(
       break;
     }
     case BulkOperationType.Patch: {
-      if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
         totalPropertiesEncryptedCount++;
       }
       const body = operation.resourceBody;
       const patchRequestBody = Array.isArray(body) ? body : body.operations;
       for (const patchOperation of patchRequestBody) {
         if ("value" in patchOperation) {
-          if (this.container.encryptionProcessor.isPathEncrypted(patchOperation.path)) {
-            patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
+          if (encryptionProcessor.isPathEncrypted(patchOperation.path)) {
+            patchOperation.value = await encryptionProcessor.encryptProperty(
               patchOperation.path,
               patchOperation.value,
             );

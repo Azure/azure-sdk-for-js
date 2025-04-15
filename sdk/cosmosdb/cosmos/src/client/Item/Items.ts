@@ -1183,7 +1183,11 @@ export class Items {
     const encryptedOperations: OperationInput[] = [];
     for (const operation of operations) {
       const { operation: encryptedOp, totalPropertiesEncryptedCount: updatedCount } =
-        await encryptOperationInput(operation, totalPropertiesEncryptedCount);
+        await encryptOperationInput(
+          this.container.encryptionProcessor,
+          operation,
+          totalPropertiesEncryptedCount,
+        );
       totalPropertiesEncryptedCount = updatedCount;
       encryptedOperations.push(encryptedOp);
     }
