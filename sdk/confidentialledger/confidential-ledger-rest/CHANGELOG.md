@@ -8,22 +8,11 @@
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
 - User defined roles
+- User List endpoint
 
 ### Bugs Fixed
 
 - Add missing apiView and changelog configuration RLC packages (#33575)
-
-## 1.1.0-beta.1 (Unreleased)
-
-### Features Added
-
-- User List endpoint
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0 (2022-07-18)
 
