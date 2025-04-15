@@ -5,8 +5,14 @@ import type { OperationOptions } from "@azure/core-client";
 import type {
   AvailablePhoneNumber,
   PhoneNumberAssignmentType,
+  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersCreateOrUpdateReservationOptionalParams,
+  PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchRequest,
+  PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumbersListReservationsOptionalParams,
+  PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersReservationInternal,
   PhoneNumberType,
   ReservationStatus,
@@ -95,6 +101,39 @@ export interface ListOfferingsOptions extends OperationOptions {
   assignmentType?: PhoneNumberAssignmentType;
 }
 
+/**
+ * Additional options that can be passed to the begin purchase reservation request.
+ */
+export interface BeginReservationPurchaseOptions
+  extends PhoneNumbersPurchaseReservationOptionalParams {}
+
+/**
+ * Additional options for creating or updating a phone numbers reservation.
+ */
+export interface CreateOrUpdateReservationOptions
+  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {}
+
+/**
+ * Additional options for deleting a phone numbers reservation.
+ */
+export interface DeleteReservationOptions extends PhoneNumbersDeleteReservationOptionalParams {}
+
+/**
+ * Additional options for getting a phone numbers reservation.
+ */
+export interface GetReservationOptions extends PhoneNumbersGetReservationOptionalParams {}
+
+/**
+ * Additional options for listing all phone numbers reservations.
+ */
+export interface ListReservationOptions extends PhoneNumbersListReservationsOptionalParams {}
+
+/**
+ * Additional options for browse available phone numbers request.
+ */
+export interface BrowseAvailableNumbersOptions
+  extends PhoneNumbersBrowseAvailableNumbersOptionalParams {}
+
 export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
   id?: string;
   phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
@@ -159,7 +198,6 @@ export {
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
-  PhoneNumbersBrowseAvailableNumbersOptionalParams,
   PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumberBrowseCapabilitiesRequest,
   PhoneNumbersBrowseRequest,
@@ -170,9 +208,6 @@ export {
   PhoneNumberCost,
   PhoneNumberCountry,
   PhoneNumbersCreateOrUpdateReservationResponse,
-  PhoneNumbersDeleteReservationOptionalParams,
-  PhoneNumbersGetReservationOptionalParams,
-  PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
@@ -180,7 +215,6 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberSearchResultError,
   PhoneNumbersPurchaseReservationHeaders,
-  PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservationInternal,
   PhoneNumberType,

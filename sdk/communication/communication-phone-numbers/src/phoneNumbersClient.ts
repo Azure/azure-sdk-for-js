@@ -23,24 +23,24 @@ import type {
   PhoneNumberOffering,
   PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumbersBrowseRequest,
-  PhoneNumbersCreateOrUpdateReservationOptionalParams,
   PhoneNumbersCreateOrUpdateReservationResponse,
-  PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchResult,
-  PhoneNumbersGetReservationOptionalParams,
-  PhoneNumbersListReservationsOptionalParams,
-  PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservationInternal,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
+  BeginReservationPurchaseOptions,
+  CreateOrUpdateReservationOptions,
+  DeleteReservationOptions,
   GetPurchasedPhoneNumberOptions,
+  GetReservationOptions,
   ListAvailableCountriesOptions,
   ListGeographicAreaCodesOptions,
   ListLocalitiesOptions,
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
+  ListReservationOptions,
   ListTollFreeAreaCodesOptions,
   PhoneNumberReservationParams,
   PhoneNumbersGetReservationResponse,
@@ -168,7 +168,7 @@ export class PhoneNumbersClient {
    */
   public deleteReservation(
     reservationId: string,
-    options: PhoneNumbersDeleteReservationOptionalParams = {},
+    options: DeleteReservationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-deleteReservation",
@@ -226,7 +226,7 @@ export class PhoneNumbersClient {
    */
   public getReservation(
     reservationId: string,
-    options: PhoneNumbersGetReservationOptionalParams = {},
+    options: GetReservationOptions = {},
   ): Promise<PhoneNumbersGetReservationResponse> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getReservation",
@@ -534,7 +534,7 @@ export class PhoneNumbersClient {
    */
   public beginReservationPurchase(
     reservationId: string,
-    options: PhoneNumbersPurchaseReservationOptionalParams = {},
+    options: BeginReservationPurchaseOptions = {},
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersPurchaseReservationResponse>,
@@ -649,7 +649,7 @@ export class PhoneNumbersClient {
     reservation: PhoneNumberReservationParams,
     options?: OperationOptions,
   ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
-    const reservationOptionalParams: PhoneNumbersCreateOrUpdateReservationOptionalParams = {
+    const reservationOptionalParams: CreateOrUpdateReservationOptions = {
       ...options,
       phoneNumbers: reservation.phoneNumbers,
     };
@@ -914,7 +914,7 @@ export class PhoneNumbersClient {
    * @param options - The optional parameters.
    */
   public listReservations(
-    options: PhoneNumbersListReservationsOptionalParams = {},
+    options: ListReservationOptions = {},
   ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-listReservations",
