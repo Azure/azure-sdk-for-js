@@ -61,7 +61,7 @@ extends:
         - template: /eng/pipelines/templates/jobs/npm-release-task.yml
           parameters:
             Artifact:
-              name: Partner Drop
+              name: PartnerDrop
               path: $(TargetArtifactsPath)
             Registry: "https://registry.npmjs.org/"
             PathToArtifacts: $(TargetArtifactsPath)
