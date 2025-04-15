@@ -123,34 +123,10 @@ jobs:
         pwsh: true
       condition: and(succeeded(), ne(variables['AdditionalTag'], ''))
 - ${{ else }}:
-  - job: PublishDevPackage_${{ replace(parameters.Artifact.name, '-', '_') }}
-    dependsOn: ${{ parameters.DependsOn }}
-    templateContext:
-      type: releaseJob
-      isProduction: false
-      inputs:
-      - input: pipelineArtifact
-        artifactName: packages
-        targetPath: $(Pipeline.Workspace)/packages
-    variables:
-      - template: /eng/pipelines/templates/variables/image.yml
-      - ${{ each var in parameters.VarDependencies }}:
-        - name: ${{ var.key }}
-          value: ${{ var.value }}
-    displayName: 'Publish ${{parameters.Artifact.name}} to Dev Feed'
-    pool:
-      name: $(LINUXPOOL)
-      image: $(LINUXVMIMAGE)
-      os: linux
-    steps:
-    - checkout: self
-    - download: current
-  - task: PowerShell@2
-    displayName: Publish to Dev Feed
-    inputs:
-      targetType: filePath
-      filePath: eng/tools/publish-to-npm.ps1
-      arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
-      pwsh: true
-    condition: succeeded()
-  
+  - template: /eng/pipelines/templates/jobs/npm-dev-release-task.yml
+    parameters:
+      Artifact: ${{ parameters.Artifact }}
+      Registry: ${{ parameters.Registry }}
+      PathToArtifacts: ${{ parameters.PathToArtifacts }}
+      DependsOn: ${{ parameters.DependsOn }}
+      VarDependencies: ${{ parameters.VarDependencies }}

@@ -269,7 +269,7 @@ stages:
                   echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                   echo "##vso[task.setvariable variable=Registry]$registry"
                 displayName: Detecting package archive_${{artifact.name}}
-            - template: /eng/pipelines/templates/jobs/npm-release-task.yml
+            - template: /eng/pipelines/templates/jobs/npm-dev-release-task.yml
               parameters:
                 Artifact: ${{artifact}}
                 Registry: ${{parameters.Registry}}
