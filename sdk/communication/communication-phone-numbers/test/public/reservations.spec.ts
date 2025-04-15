@@ -3,8 +3,8 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { type Recorder } from "@azure-tools/test-recorder";
+import type { PhoneNumbersReservation } from "../../src/index.js";
 import {
-  PhoneNumbersReservation,
   type BrowseAvailableNumbersRequest,
   type PhoneNumbersClient,
   type SearchAvailablePhoneNumbersRequest,
@@ -14,7 +14,7 @@ import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
 
-matrix([[false, false]], async (useAad) => {
+matrix([[true, false]], async (useAad) => {
   describe(`PhoneNumbersClient - reservations${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
@@ -44,7 +44,7 @@ matrix([[false, false]], async (useAad) => {
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        browseAvailableNumberRequest
+        browseAvailableNumberRequest,
       );
       assert.isTrue(browseAvailableNumbers.phoneNumbers.length > 0);
 
@@ -60,7 +60,7 @@ matrix([[false, false]], async (useAad) => {
       };
 
       const browseGeographicAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        browseGeographicAvailableNumberRequest
+        browseGeographicAvailableNumberRequest,
       );
       assert.isTrue(browseGeographicAvailableNumbers.phoneNumbers.length > 0);
 
@@ -86,7 +86,7 @@ matrix([[false, false]], async (useAad) => {
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`
+          `Status code ${error.statusCode} does not indicate client error.`,
         );
         return;
       }
@@ -105,40 +105,58 @@ matrix([[false, false]], async (useAad) => {
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-        browseAvailableNumberRequest
+        browseAvailableNumberRequest,
       );
 
       const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-      const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
-      phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
+      let phoneNumbersReservation: PhoneNumbersReservation = {
+        phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
+      };
 
-      const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
+      const reservationResponse = await client.createOrUpdateReservation(
+        reservationId,
+        phoneNumbersReservation,
+      );
       assert.equal(reservationResponse.status, "active");
       assert.isTrue(reservationResponse.id === reservationId);
 
-      phoneNumbersReservation.addPhoneNumber(phoneNumbers[1]);
+      phoneNumbersReservation = {
+        phoneNumbers: {
+          [String(phoneNumbers[0].id)]: phoneNumbers[0],
+          [String(phoneNumbers[1].id)]: phoneNumbers[1],
+        },
+      };
+
       let updatedReservationResponse = await client.createOrUpdateReservation(
-        phoneNumbersReservation
+        reservationId,
+        phoneNumbersReservation,
       );
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
-          phoneNumbers[1].id as string
-        )
+          phoneNumbers[1].id as string,
+        ),
       );
 
-      phoneNumbersReservation.removePhoneNumber(phoneNumbers[0].id as string);
-      phoneNumbersReservation.removePhoneNumber(phoneNumbers[1].id as string);
-      updatedReservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
+      phoneNumbersReservation = {
+        phoneNumbers: {
+          [String(phoneNumbers[0].id)]: null,
+          [String(phoneNumbers[1].id)]: null,
+        },
+      };
+      updatedReservationResponse = await client.createOrUpdateReservation(
+        reservationId,
+        phoneNumbersReservation,
+      );
 
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
-          phoneNumbers[0].id as string
-        )
+          phoneNumbers[0].id as string,
+        ),
       );
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
-          phoneNumbers[1].id as string
-        )
+          phoneNumbers[1].id as string,
+        ),
       );
 
       await client.deleteReservation(reservationId);
@@ -158,14 +176,15 @@ matrix([[false, false]], async (useAad) => {
         };
 
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-          browseAvailableNumberRequest
+          browseAvailableNumberRequest,
         );
 
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
-        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
+        const phoneNumbersReservation: PhoneNumbersReservation = {
+          phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
+        };
 
-        await client.createOrUpdateReservation(phoneNumbersReservation);
+        await client.createOrUpdateReservation(reservationId, phoneNumbersReservation);
 
         try {
           await client.beginReservationPurchase(reservationId, {
@@ -174,13 +193,13 @@ matrix([[false, false]], async (useAad) => {
         } catch (error: any) {
           assert.isTrue(
             isClientErrorStatusCode(error.statusCode),
-            `Status code ${error.statusCode} does not indicate client error.`
+            `Status code ${error.statusCode} does not indicate client error.`,
           );
           return;
         }
 
         assert.fail("beginReservationPurchase should have thrown an exception.");
-      }
+      },
     );
 
     it(
@@ -210,13 +229,13 @@ matrix([[false, false]], async (useAad) => {
         } catch (error: any) {
           assert.isTrue(
             isClientErrorStatusCode(error.statusCode),
-            `Status code ${error.statusCode} does not indicate client error.`
+            `Status code ${error.statusCode} does not indicate client error.`,
           );
           return;
         }
 
         assert.fail("beginReservationPurchase should have thrown an exception.");
-      }
+      },
     );
   });
 });

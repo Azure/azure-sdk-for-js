@@ -13,7 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   PhoneNumbersBrowseRequest as PhoneNumbersBrowseRequestMapper,
-  PhoneNumbersReservationInternal as PhoneNumbersReservationInternalMapper,
+  PhoneNumbersReservation as PhoneNumbersReservationMapper,
   PhoneNumbersReservationPurchaseRequest as PhoneNumbersReservationPurchaseRequestMapper,
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
@@ -200,7 +200,7 @@ export const contentType1: OperationParameter = {
 
 export const phoneNumbers: OperationParameter = {
   parameterPath: ["options", "phoneNumbers"],
-  mapper: PhoneNumbersReservationInternalMapper,
+  mapper: PhoneNumbersReservationMapper,
 };
 
 export const reservationId: OperationURLParameter = {

@@ -214,13 +214,13 @@ export interface PhoneNumberOffering {
 /** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
 export interface PhoneNumbersReservations {
   /** Represents a list of phone numbers reservations. Note that the phone numbers from each reservation are not included. */
-  reservations: PhoneNumbersReservationInternal[];
+  reservations: PhoneNumbersReservation[];
   /** Represents the URL link to the next page of phone number results. */
   nextLink?: string;
 }
 
 /** Represents a reservation for phone numbers. A reservation is a temporary hold on phone numbers that can later be purchased. The reservation has a limited lifetime after which the phone numbers are released if not purchased. Reservations older than 1 month are automatically deleted. */
-export interface PhoneNumbersReservationInternal {
+export interface PhoneNumbersReservation {
   /**
    * The id of the reservation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -620,15 +620,14 @@ export interface PhoneNumbersCreateOrUpdateReservationOptionalParams
 
 /** Contains response data for the createOrUpdateReservation operation. */
 export type PhoneNumbersCreateOrUpdateReservationResponse =
-  PhoneNumbersReservationInternal;
+  PhoneNumbersReservation;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetReservationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getReservation operation. */
-export type PhoneNumbersGetReservationResponse =
-  PhoneNumbersReservationInternal;
+export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
 
 /** Optional parameters. */
 export interface PhoneNumbersDeleteReservationOptionalParams

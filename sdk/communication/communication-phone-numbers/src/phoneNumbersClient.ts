@@ -22,7 +22,7 @@ import type {
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchResult,
-  PhoneNumbersReservationInternal,
+  PhoneNumbersReservation,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
@@ -39,7 +39,6 @@ import type {
   ListPurchasedPhoneNumbersOptions,
   ListReservationOptions,
   ListTollFreeAreaCodesOptions,
-  PhoneNumberReservationParams,
   GetReservationResult,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
@@ -48,7 +47,6 @@ import type {
   BrowseAvailableNumbersResult,
   CreateOrUpdateReservationResult,
 } from "./models.js";
-import { PhoneNumbersReservation } from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
@@ -59,7 +57,6 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.j
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { generateGUID } from "./utils/helpers.js";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -234,15 +231,6 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers
           .getReservation(reservationId, {
             ...updatedOptions,
-          })
-          .then((response) => {
-            const reservation: PhoneNumbersReservation = new PhoneNumbersReservation(
-              response.id,
-              response.phoneNumbers,
-              response.expiresAt,
-              response.status,
-            );
-            return reservation;
           });
       },
     );
@@ -641,7 +629,8 @@ export class PhoneNumbersClient {
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
-    reservation: PhoneNumberReservationParams,
+    reservationId: string,
+    reservation: PhoneNumbersReservation,
     options?: OperationOptions,
   ): Promise<CreateOrUpdateReservationResult> {
     const reservationOptionalParams: CreateOrUpdateReservationOptions = {
@@ -654,7 +643,6 @@ export class PhoneNumbersClient {
     );
 
     try {
-      const reservationId = reservation.id ? reservation.id : generateGUID();
       return this.client.phoneNumbers.createOrUpdateReservation(reservationId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
@@ -917,12 +905,9 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.mapToPagedPhoneNumbersReservaion(
-        this.client.phoneNumbers.listReservations({
+      return this.client.phoneNumbers.listReservations({
           ...updatedOptions,
-        }),
-        updatedOptions.maxPageSize ? updatedOptions.maxPageSize : 100,
-      );
+        });
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -965,64 +950,5 @@ export class PhoneNumbersClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Maps a paged async iterable iterator to a new type.
-   *
-   * @param iterator - The original paged async iterable iterator.
-   * @param mapFn - The mapping function to transform items.
-   */
-  private async *mapPagedAsyncIterableIterator<T, U>(
-    iterator: PagedAsyncIterableIterator<T>,
-    mapFn: (item: T) => U,
-  ): AsyncIterableIterator<U> {
-    for await (const page of iterator.byPage()) {
-      for (const item of page) {
-        yield mapFn(item);
-      }
-    }
-  }
-
-  private toPagedAsyncIterableIterator<T>(
-    asyncIterator: AsyncIterableIterator<T>,
-    pageSize: number,
-  ): PagedAsyncIterableIterator<T> {
-    async function* byPage(): AsyncIterableIterator<T[]> {
-      let page: T[] = [];
-      for await (const item of asyncIterator) {
-        page.push(item);
-        if (page.length === pageSize) {
-          yield page;
-          page = [];
-        }
-      }
-      if (page.length > 0) {
-        yield page; // Yield the remaining items as the last page
-      }
-    }
-
-    return {
-      // Forward the iteration of individual items
-      [Symbol.asyncIterator]() {
-        return asyncIterator;
-      },
-      // Provide the byPage() method for paginated iteration
-      byPage,
-    } as PagedAsyncIterableIterator<T>;
-  }
-
-  private mapToPagedPhoneNumbersReservaion(
-    listReservations: PagedAsyncIterableIterator<PhoneNumbersReservationInternal>,
-    pageSize: number = 100,
-  ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
-    return this.toPagedAsyncIterableIterator(
-      this.mapPagedAsyncIterableIterator(
-        listReservations,
-        (item) =>
-          new PhoneNumbersReservation(item.id, item.phoneNumbers, item.expiresAt, item.status),
-      ),
-      pageSize,
-    );
   }
 }

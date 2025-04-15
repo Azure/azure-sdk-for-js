@@ -3,11 +3,8 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { env, isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
-import {
-  PhoneNumbersReservation,
-  type BrowseAvailableNumbersRequest,
-  type PhoneNumbersClient,
-} from "../../src/index.js";
+import type { PhoneNumbersReservation } from "../../src/index.js";
+import { type BrowseAvailableNumbersRequest, type PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
@@ -53,10 +50,14 @@ matrix([[true, false]], async (useAad) => {
           : "";
 
         assert.isNotEmpty(phoneNumberForPurchase);
-        const phoneNumbersReservation = new PhoneNumbersReservation(reservationId);
-        phoneNumbersReservation.addPhoneNumber(phoneNumbers[0]);
+        const phoneNumbersReservation: PhoneNumbersReservation = {
+          phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
+        };
 
-        const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation);
+        const reservationResponse = await client.createOrUpdateReservation(
+          reservationId,
+          phoneNumbersReservation,
+        );
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
         assert.isTrue(reservationResponse.id !== "");

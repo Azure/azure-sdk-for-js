@@ -3,7 +3,6 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type {
-  AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumbersBrowseAvailableNumbersOptionalParams,
   PhoneNumbersBrowseAvailableNumbersResponse,
@@ -13,15 +12,13 @@ import type {
   PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchRequest,
   PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersGetReservationResponse,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
-  PhoneNumbersReservationInternal,
-  PhoneNumberType,
-  ReservationStatus,
+  PhoneNumberType
 } from "./generated/src/models/index.js";
-import { generateGUID } from "./utils/helpers.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -159,61 +156,10 @@ export interface CreateOrUpdateReservationResult
  */
 export interface PurchaseReservationResult extends PhoneNumbersPurchaseReservationResponse {}
 
-export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
-  id?: string;
-  phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
-  readonly expiresAt?: Date;
-  readonly status?: ReservationStatus;
-}
-
-export class PhoneNumbersReservation implements PhoneNumberReservationParams {
-  id: string;
-  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null };
-  expiresAt?: Date;
-  status?: ReservationStatus;
-
-  /**
-   * Creates an instance of PhoneNumbersReservation.
-   * @param id - The reservation ID.
-   * @param phoneNumbers - The phone numbers associated with the reservation.
-   * @param expiresAt - The expiration date of the reservation.
-   * @param status - The status of the reservation.
-   */
-  constructor(
-    id?: string,
-    phoneNumbers: { [propertyName: string]: AvailablePhoneNumber | null } = {},
-    expiresAt?: Date,
-    status?: ReservationStatus,
-  ) {
-    this.id = id ? id : generateGUID();
-    this.phoneNumbers = phoneNumbers;
-    this.phoneNumbers = phoneNumbers;
-    this.expiresAt = expiresAt;
-    this.status = status;
-  }
-
-  /**
-   * Adds phone numbers to the reservation.
-   */
-  addPhoneNumber(phoneNumber: AvailablePhoneNumber): void {
-    // Implementation for adding phone numbers to the reservation
-    if (phoneNumber.id) {
-      this.phoneNumbers[phoneNumber.id] = phoneNumber;
-    }
-  }
-
-  /**
-   * Removes phone numbers from the reservation.
-   */
-  removePhoneNumber(phoneNumberId: string): void {
-    // Implementation for removing a phone numbers from the reservation
-    if (phoneNumberId) {
-      this.phoneNumbers[phoneNumberId] = null;
-    }
-  }
-}
-
-export type GetReservationResult = PhoneNumbersReservation;
+/**
+ * The result of the get reservation operation.
+ */
+export interface GetReservationResult extends PhoneNumbersGetReservationResponse {};
 
 export {
   AvailablePhoneNumber,
@@ -237,7 +183,7 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberSearchResultError,
   PhoneNumbersPurchaseReservationHeaders,
-  PhoneNumbersReservationInternal,
+  PhoneNumbersReservation,
   PhoneNumberType,
   PurchasedPhoneNumber,
   OperatorDetails,
