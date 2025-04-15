@@ -1,12 +1,17 @@
 # Release History
 
+## 1.0.0-beta.31 ()
+
+### Features Added
+
+- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
+
 ## 1.0.0-beta.30 (2025-04-09)
 
 ### Features Added
 
 - Support setting the AiLocationIp on logs and events.
 - Add support for performance counters.
-- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
 
 ### Other Changes
 
