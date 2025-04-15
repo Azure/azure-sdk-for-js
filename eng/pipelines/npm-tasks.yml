@@ -51,27 +51,50 @@ extends:
   parameters:
     stages:
       - stage:
-        displayName: NPM Task Execute
+        displayName: 'NPM Task Execute'
         variables:
           - template: /eng/pipelines/templates/variables/image.yml
 
+        jobs:
+        - job: NPM_Admin
+          displayName: 'NPM package management'
+          pool:
+            name: $(WINDOWSPOOL)
+            image: $(WINDOWSVMIMAGE)
+            os: windows
 
-        # This is a workaround to not run admin job in deployment job but still have the approval gate
-          - deployment:
-            displayName: NPM package management success
-            environment: npm
-            dependsOn: NPM_Admin
-            condition: succeeded()
+          steps:
+            - checkout: none
+            - task: PowerShell@2
+              displayName: 'Run Task'
+              inputs:
+                targetType: filePath
+                filePath: "eng/scripts/npm-admin-tasks.ps1"
+                arguments: >
+                  -taskType ${{parameters.TaskType}}
+                  -packageName ${{parameters.PackageName}}
+                  -pkgVersion ${{parameters.PkgVersion}}
+                  -tagName ${{parameters.TagName}}
+                  -npmToken "$(azure-sdk-npm-token)"
+                  -reason "${{parameters.Reason}}"
+                pwsh: true
 
-            pool:
-              name: $(WINDOWSPOOL)
-              image: $(WINDOWSVMIMAGE)
-              os: windows
+        - deployment:
+          displayName: NPM package management success
+          environment: npm
+          dependsOn: NPM_Admin
+          condition: succeeded()
 
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                  - pwsh: |
-                      Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
-                    displayName: 'NPM package management success'
+          pool:
+            name: $(WINDOWSPOOL)
+            image: $(WINDOWSVMIMAGE)
+            os: windows
+
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                - pwsh: |
+                    # This is a workaround to not run admin job in deployment job but still have the approval gate
+                    Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
+                  displayName: 'NPM package management success'
