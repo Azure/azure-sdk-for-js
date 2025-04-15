@@ -8,13 +8,6 @@ parameters:
 jobs:
   - job: PublishDevPackage_${{ replace(parameters.Artifact.name, '-', '_') }}
     dependsOn: ${{ parameters.DependsOn }}
-    templateContext:
-      type: releaseJob
-      isProduction: false
-      inputs:
-      - input: pipelineArtifact
-        artifactName: packages
-        targetPath: $(Pipeline.Workspace)/packages
     variables:
       - template: /eng/pipelines/templates/variables/image.yml
       - ${{ each var in parameters.VarDependencies }}:
