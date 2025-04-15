@@ -20,7 +20,6 @@ export class AIProjectClient {
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
-    readonly evaluationResults: EvaluationResultsOperations;
     readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     getCredential(): KeyCredential | TokenCredential;
@@ -38,10 +37,18 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export type AttackStrategy = "easy" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak";
+export interface ApiKeyCredentials extends BaseCredentials {
+    readonly apiKey?: string;
+    readonly authType: "ApiKey";
+}
 
 // @public
-export type AuthenticationType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+export interface AssetCredentialResponse {
+    blobReferenceForConsumption: BlobReferenceForConsumption;
+}
+
+// @public
+export type AttackStrategy = "easy" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak";
 
 // @public
 export interface AzureAISearchIndex extends Index {
@@ -49,6 +56,14 @@ export interface AzureAISearchIndex extends Index {
     indexName: string;
     type: "AzureSearch";
 }
+
+// @public
+export interface BaseCredentials {
+    readonly authType: CredentialType;
+}
+
+// @public
+export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASCredentials | NoAuthenticationCredentials | BaseCredentials;
 
 // @public
 export interface BlobReferenceForConsumption {
@@ -59,7 +74,9 @@ export interface BlobReferenceForConsumption {
 
 // @public
 export interface Connection {
-    readonly authType: AuthenticationType;
+    authType: string;
+    readonly credentials: BaseCredentialsUnion;
+    readonly isDefault: boolean;
     readonly metadata: Record<string, string>;
     readonly name: string;
     readonly target: string;
@@ -72,9 +89,15 @@ export interface ConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
 export interface ConnectionsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
     connectionType?: ConnectionType;
+    defaultConnection?: boolean;
     maxpagesize?: number;
     skip?: number;
     top?: number;
@@ -83,11 +106,12 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
 // @public
 export interface ConnectionsOperations {
     get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
+    getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => Promise<Connection>;
     list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
 }
 
 // @public
-export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppInsights" | "CustomKeys";
+export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys";
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -104,10 +128,11 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
-export interface DatasetsCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
+export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+
+// @public
+export interface CustomCredential extends BaseCredentials {
+    readonly authType: "CustomKeys";
 }
 
 // @public
@@ -116,6 +141,10 @@ export interface DatasetsCreateVersionOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -140,18 +169,13 @@ export interface DatasetsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsOperations {
-    create: (name: string, body: DatasetVersionUnion, options?: DatasetsCreateOptionalParams) => Promise<DatasetVersionUnion>;
     createVersion: (name: string, version: string, body: DatasetVersionUnion, options?: DatasetsCreateVersionOptionalParams) => Promise<DatasetVersionUnion>;
     deleteVersion: (name: string, version: string, options?: DatasetsDeleteVersionOptionalParams) => Promise<void>;
+    getCredentials: (name: string, version: string, body: Record<string, any>, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
     getVersion: (name: string, version: string, options?: DatasetsGetVersionOptionalParams) => Promise<DatasetVersionUnion>;
     listLatest: (options?: DatasetsListLatestOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
-    startPendingUpload: (name: string, body: PendingUploadRequest, options?: DatasetsStartPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
     startPendingUploadVersion: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsStartPendingUploadVersionOptionalParams) => Promise<PendingUploadResponse>;
-}
-
-// @public
-export interface DatasetsStartPendingUploadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -217,84 +241,20 @@ export interface EmbeddingConfiguration {
 }
 
 // @public
+export interface EntraIDCredentials extends BaseCredentials {
+    readonly authType: "AAD";
+}
+
+// @public
 export interface Evaluation {
     data: InputDataUnion;
     description?: string;
     displayName?: string;
     evaluators: Record<string, EvaluatorConfiguration>;
     readonly id: string;
-    readonly outputs: Record<string, string>;
     properties?: Record<string, string>;
     readonly status?: string;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface EvaluationResult {
-    blobUri?: string;
-    datasetFamily?: string;
-    datasetName?: string;
-    description?: string;
-    readonly id?: string;
-    metrics?: Record<string, number>;
-    modelAssetId?: string;
-    modelName?: string;
-    modelVersion?: string;
-    readonly name: string;
-    resultType?: ResultType;
-    stage?: string;
-    tags?: Record<string, string>;
-    readonly version: string;
-}
-
-// @public
-export interface EvaluationResultsCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
-export interface EvaluationResultsCreateVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationResultsDeleteVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationResultsGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationResultsListLatestOptionalParams extends OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
-    tags?: string;
-    top?: number;
-}
-
-// @public
-export interface EvaluationResultsListVersionsOptionalParams extends OperationOptions {
-    listViewType?: ListViewType;
-    skip?: string;
-    tags?: string;
-    top?: number;
-}
-
-// @public
-export interface EvaluationResultsOperations {
-    create: (name: string, body: EvaluationResult, options?: EvaluationResultsCreateOptionalParams) => Promise<EvaluationResult>;
-    createVersion: (name: string, version: string, body: EvaluationResult, options?: EvaluationResultsCreateVersionOptionalParams) => Promise<EvaluationResult>;
-    deleteVersion: (name: string, version: string, options?: EvaluationResultsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, version: string, options?: EvaluationResultsGetVersionOptionalParams) => Promise<EvaluationResult>;
-    listLatest: (options?: EvaluationResultsListLatestOptionalParams) => PagedAsyncIterableIterator<EvaluationResult>;
-    listVersions: (name: string, options?: EvaluationResultsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluationResult>;
-    startPendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: EvaluationResultsStartPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-}
-
-// @public
-export interface EvaluationResultsStartPendingUploadOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -351,13 +311,6 @@ export interface Index {
 }
 
 // @public
-export interface IndexesCreateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
 export interface IndexesCreateVersionOptionalParams extends OperationOptions {
 }
 
@@ -387,7 +340,6 @@ export interface IndexesListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexesOperations {
-    create: (name: string, body: IndexUnion, options?: IndexesCreateOptionalParams) => Promise<IndexUnion>;
     createVersion: (name: string, version: string, body: IndexUnion, options?: IndexesCreateVersionOptionalParams) => Promise<IndexUnion>;
     deleteVersion: (name: string, version: string, options?: IndexesDeleteVersionOptionalParams) => Promise<void>;
     getVersion: (name: string, version: string, options?: IndexesGetVersionOptionalParams) => Promise<IndexUnion>;
@@ -443,6 +395,11 @@ export interface ModelDeployment extends Deployment {
 }
 
 // @public
+export interface NoAuthenticationCredentials extends BaseCredentials {
+    readonly authType: "None";
+}
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -478,7 +435,6 @@ export interface RedTeam {
     attackStrategy: AttackStrategy[];
     readonly id: string;
     numTurns: number;
-    readonly outputs: Record<string, string>;
     properties?: Record<string, string>;
     riskCategories: RiskCategory[];
     scanName: string;
@@ -512,18 +468,18 @@ export interface RedTeamsOperations {
 }
 
 // @public
-export type RepeatabilityResult = "accepted" | "rejected";
-
-// @public
-export type ResultType = "Benchmark" | "Evaluation" | "Redteam" | "Simulation";
-
-// @public
 export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm" | "ProtectedMaterial" | "CodeVulnerability" | "UngroundedAttributes";
 
 // @public
 export interface SasCredential {
     readonly sasUri: string;
     readonly type: "SAS";
+}
+
+// @public
+export interface SASCredentials extends BaseCredentials {
+    readonly authType: "SAS";
+    readonly sasToken?: string;
 }
 
 // @public

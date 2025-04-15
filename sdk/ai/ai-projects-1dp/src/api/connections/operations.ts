@@ -4,6 +4,7 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   Connection,
+  connectionDeserializer,
   _PagedConnection,
   _pagedConnectionDeserializer,
 } from "../../models/models.js";
@@ -110,7 +111,7 @@ export async function _getWithCredentialsDeserialize(
     throw createRestError(result);
   }
 
-  return __PLACEHOLDER_o18_sdeserializer__(result.body);
+  return connectionDeserializer(result.body);
 }
 
 /** Get a connection by name, with its connection credentials */
@@ -156,7 +157,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
     throw createRestError(result);
   }
 
-  return __PLACEHOLDER_o18_sdeserializer__(result.body);
+  return connectionDeserializer(result.body);
 }
 
 /** Get a connection by name, without populating connection credentials */

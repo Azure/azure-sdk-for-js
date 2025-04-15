@@ -42,6 +42,18 @@ export interface BaseCredentials {
   readonly authType: CredentialType;
 }
 
+export function connectionDeserializer(item: any): Connection {
+  return {
+    name: item["name"],
+    type: item["type"],
+    target: item["target"],
+    authType: item["authType"],
+    metadata: item["metadata"],
+    isDefault: item["isDefault"],
+    credentials: baseCredentialsUnionDeserializer(item["credentials"]),
+  };
+}
+
 export function baseCredentialsDeserializer(item: any): BaseCredentials {
   return {
     authType: item["authType"],
@@ -171,7 +183,7 @@ export function _pagedConnectionDeserializer(item: any): _PagedConnection {
 
 export function connectionArrayDeserializer(result: Array<Connection>): any[] {
   return result.map((item) => {
-    return __PLACEHOLDER_o18_sdeserializer__(item);
+    return connectionDeserializer(item);
   });
 }
 
