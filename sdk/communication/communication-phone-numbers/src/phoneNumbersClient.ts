@@ -491,7 +491,6 @@ export class PhoneNumbersClient {
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
-    agreeToNotResell?: boolean,
     options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
@@ -503,7 +502,6 @@ export class PhoneNumbersClient {
         return this.client.phoneNumbers.beginPurchasePhoneNumbers({
           ...updatedOptions,
           searchId,
-          agreeToNotResell,
         });
       },
     );

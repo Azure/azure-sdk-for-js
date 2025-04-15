@@ -202,7 +202,9 @@ matrix([[true, false]], async (useAad) => {
         assert.equal(results.phoneNumbers.length, 1);
 
         try {
-          await client.beginPurchasePhoneNumbers(reservationId, false);
+          await client.beginPurchasePhoneNumbers(reservationId, {
+            agreeToNotResell: false,
+          });
         } catch (error: any) {
           assert.isTrue(
             isClientErrorStatusCode(error.statusCode),
