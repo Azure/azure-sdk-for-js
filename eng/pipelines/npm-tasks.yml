@@ -64,7 +64,7 @@ extends:
             os: windows
 
           steps:
-            - checkout: none
+            - checkout: self
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
