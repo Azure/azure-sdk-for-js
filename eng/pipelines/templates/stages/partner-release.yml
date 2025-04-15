@@ -66,4 +66,4 @@ extends:
             VarDependencies:
               Tag: "${{ parameters.Tag }}"
             DependsOn:
-              - PublishPackage_PartnerDrop
+              - PublishArtifacts
