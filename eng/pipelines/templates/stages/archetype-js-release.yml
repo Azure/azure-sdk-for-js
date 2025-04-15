@@ -238,7 +238,7 @@ stages:
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
           - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(true, eq(variables['System.TeamProject'], 'internal'))))}}:
-            - job: DetectPackageArchive_${{artifact.name}}
+            - job: DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
               variables:
                 - template: /eng/pipelines/templates/variables/image.yml
               pool:
@@ -275,7 +275,7 @@ stages:
                 VarDependencies:
                   Tag: "dev"
                 DependsOn:
-                  - 'DetectPackageArchive'
+                  - DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
 
       - job: PublishDocsToNightlyBranch
         variables:
