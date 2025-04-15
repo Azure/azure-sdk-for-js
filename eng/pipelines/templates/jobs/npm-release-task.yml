@@ -86,11 +86,11 @@ jobs:
     variables:
       - template: /eng/pipelines/templates/variables/image.yml
       - name: PackageName
-        value: $[dependencies.PublishPackage.outputs['PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.PackageName']]
+        value: $[dependencies.PublishPackage.outputs["PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.PackageName"]]
       - name: OriginalTags
-        value: $[dependencies.PublishPackage.outputs['PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.OriginalTags']]
+        value: $[dependencies.PublishPackage.outputs["PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.OriginalTags"]]
       - name: IntendedTagVersion
-        value: $[dependencies.PublishPackage.outputs['PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.IntendedTagVersion']]
+        value: $[dependencies.PublishPackage.outputs["PublishPackage_${{ replace(parameters.Artifact.name, '-', '_') }}.SetPackageVar.IntendedTagVersion"]]
       - ${{ each var in parameters.VarDependencies }}:
         - name: ${{ var.key }}
           value: ${{ var.value }}
@@ -102,6 +102,11 @@ jobs:
     steps:
     - checkout: self
     - download: current
+    - pwsh: |
+        Write-Host "PackageName: $(PackageName)"
+        Write-Host "OriginalTags: $(OriginalTags)"
+        Write-Host "IntendedTagVersion: $(IntendedTagVersion)"
+      displayName: 'Display package variables'
     - task: Powershell@2
       displayName: Verify package tags
       inputs:
