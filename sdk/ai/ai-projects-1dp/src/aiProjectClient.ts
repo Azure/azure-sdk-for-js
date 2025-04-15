@@ -3,10 +3,6 @@
 
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
-import {
-  EvaluationResultsOperations,
-  _getEvaluationResultsOperations,
-} from "./classic/evaluationResults/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
@@ -42,7 +38,6 @@ export class AIProjectClient {
     });
     this.pipeline = this._client.pipeline;
     this.redTeams = _getRedTeamsOperations(this._client);
-    this.evaluationResults = _getEvaluationResultsOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
@@ -53,8 +48,6 @@ export class AIProjectClient {
 
   /** The operation groups for redTeams */
   public readonly redTeams: RedTeamsOperations;
-  /** The operation groups for evaluationResults */
-  public readonly evaluationResults: EvaluationResultsOperations;
   /** The operation groups for deployments */
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for indexes */
