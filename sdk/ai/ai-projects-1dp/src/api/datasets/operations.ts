@@ -85,13 +85,7 @@ export async function getCredentials(
   body: Record<string, any>,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<AssetCredentialResponse> {
-  const result = await _getCredentialsSend(
-    context,
-    name,
-    version,
-    body,
-    options,
-  );
+  const result = await _getCredentialsSend(context, name, version, body, options);
   return _getCredentialsDeserialize(result);
 }
 

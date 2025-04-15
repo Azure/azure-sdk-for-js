@@ -69,9 +69,7 @@ export type BaseCredentialsUnion =
   | NoAuthenticationCredentials
   | BaseCredentials;
 
-export function baseCredentialsUnionDeserializer(
-  item: any,
-): BaseCredentialsUnion {
+export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnion {
   switch (item.authType) {
     case "ApiKey":
       return apiKeyCredentialsDeserializer(item as ApiKeyCredentials);
@@ -86,9 +84,7 @@ export function baseCredentialsUnionDeserializer(
       return sasCredentialsDeserializer(item as SASCredentials);
 
     case "None":
-      return noAuthenticationCredentialsDeserializer(
-        item as NoAuthenticationCredentials,
-      );
+      return noAuthenticationCredentialsDeserializer(item as NoAuthenticationCredentials);
 
     default:
       return baseCredentialsDeserializer(item);
@@ -158,9 +154,7 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
   readonly authType: "None";
 }
 
-export function noAuthenticationCredentialsDeserializer(
-  item: any,
-): NoAuthenticationCredentials {
+export function noAuthenticationCredentialsDeserializer(item: any): NoAuthenticationCredentials {
   return {
     authType: item["authType"],
   };
@@ -609,9 +603,7 @@ export function sasCredentialDeserializer(item: any): SasCredential {
 /** model interface _GetCredentialsRequest */
 export interface _GetCredentialsRequest {}
 
-export function _getCredentialsRequestSerializer(
-  item: _GetCredentialsRequest,
-): any {
+export function _getCredentialsRequestSerializer(item: _GetCredentialsRequest): any {
   return item;
 }
 
@@ -621,9 +613,7 @@ export interface AssetCredentialResponse {
   blobReferenceForConsumption: BlobReferenceForConsumption;
 }
 
-export function assetCredentialResponseDeserializer(
-  item: any,
-): AssetCredentialResponse {
+export function assetCredentialResponseDeserializer(item: any): AssetCredentialResponse {
   return {
     blobReferenceForConsumption: blobReferenceForConsumptionDeserializer(
       item["blobReferenceForConsumption"],

@@ -18,10 +18,21 @@ const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 async function main() {
   const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
 
-  // For demonstration purposes, specify an index name
   const indexName = "sample-index";
-  console.log("Get an existing Index version `1`:");
-  const index = await project.indexes.getVersion(indexName, "1");
+  const version = "1";
+  const azureAIConnectionConfig = {
+    name: indexName,
+    type: "AzureSearch",
+    version,
+    indexName,
+    connectionName: "sample-connection",
+  };
+
+  // Create a new Index
+  const newIndex = await project.indexes.createVersion(indexName, version, azureAIConnectionConfig);
+  console.log("Created a new Index:", newIndex);
+  console.log(`Get an existing Index version '${version}':`);
+  const index = await project.indexes.getVersion(indexName, version);
   console.log(index);
 
   console.log(`Listing all versions of the Index named '${indexName}':`);
@@ -37,7 +48,7 @@ async function main() {
   }
 
   console.log("Delete the Index versions created above:");
-  await project.indexes.deleteVersion(indexName, "1");
+  await project.indexes.deleteVersion(indexName, version);
 
   console.log("Index operations completed successfully");
 }

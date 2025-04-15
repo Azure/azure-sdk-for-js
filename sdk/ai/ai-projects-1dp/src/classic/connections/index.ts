@@ -16,7 +16,10 @@ export interface ConnectionsOperations {
   /** List all connections in the project, without populating connection credentials */
   list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
   /** Get a connection by name, with its connection credentials */
-  getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => Promise<Connection>;
+  getWithCredentials: (
+    name: string,
+    options?: ConnectionsGetWithCredentialsOptionalParams,
+  ) => Promise<Connection>;
   /** Get a connection by name, without populating connection credentials */
   get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
 }
@@ -24,7 +27,8 @@ export interface ConnectionsOperations {
 function _getConnections(context: AIProjectContext) {
   return {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
-    getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => getWithCredentials(context, name, options),
+    getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
+      getWithCredentials(context, name, options),
     get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
   };
 }

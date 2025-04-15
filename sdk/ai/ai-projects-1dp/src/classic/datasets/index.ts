@@ -99,7 +99,7 @@ function _getDatasets(context: AIProjectContext) {
     getVersion: (name: string, version: string, options?: DatasetsGetVersionOptionalParams) =>
       getVersion(context, name, version, options),
     listLatest: (options?: DatasetsListLatestOptionalParams) => listLatest(context, options),
-    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => 
+    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
   };
 }

@@ -8,7 +8,11 @@ import {
   _PagedConnection,
   _pagedConnectionDeserializer,
 } from "../../models/models.js";
-import { ConnectionsListOptionalParams, ConnectionsGetWithCredentialsOptionalParams, ConnectionsGetOptionalParams } from "./options.js";
+import {
+  ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
+  ConnectionsGetOptionalParams,
+} from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
@@ -89,18 +93,16 @@ export function _getWithCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getWithCredentialsDeserialize(
