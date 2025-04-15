@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.7 (Unreleased)
+
+### Bugs Fixed
+
+- Add missing apiView and changelog into the package (#33575)
+
 ## 1.0.0-beta.6 (2025-03-18)
 
 ### Features Added

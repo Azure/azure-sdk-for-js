@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+### Bugs Fixed
+
+- Add missing apiView and changelog into the package (#33575)
+
 ## 1.0.0 (2024-10-18)
 
 ### Other Changes

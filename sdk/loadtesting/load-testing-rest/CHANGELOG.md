@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (2025-03-20)
+## 1.1.0-beta.1 (Unreleased)
 
 Updated the client library to use API Version 2025-05-01-preview. This adds all the capabilities that were introduced until this API version.
 
@@ -14,6 +14,10 @@ Updated the client library to use API Version 2025-05-01-preview. This adds all 
 - Support for Disabling Public IP Deployment for Private Load Tests
 - Support for uploading ZIP Artifacts
 - Support for all Test Profiles & Test Profile Run Scenarios
+
+### Bugs Fixed
+
+- Add missing apiView and changelog into the package (#33575)
 
 ## 1.0.1 (2025-01-20)
 

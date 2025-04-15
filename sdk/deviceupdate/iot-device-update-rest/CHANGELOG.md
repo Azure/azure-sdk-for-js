@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add missing apiView and changelog into the package (#33575)
+
 ### Other Changes
 
 ## 1.1.0 (2025-02-10)

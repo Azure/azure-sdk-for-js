@@ -7,17 +7,14 @@
 - User defined endpoint
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
-- User defined roles 
-- 
-## 1.1.0-beta.1 (Unreleased)
-
-### Features Added
-
+- User defined roles
 - User List endpoint
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Add missing apiView and changelog into the package (#33575)
 
 ### Other Changes
 

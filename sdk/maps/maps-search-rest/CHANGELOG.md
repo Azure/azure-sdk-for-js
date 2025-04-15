@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add missing apiView and changelog into the package (#33575)
+
 ### Other Changes
 
 ## 2.0.0-beta.3 (2025-03-14)
