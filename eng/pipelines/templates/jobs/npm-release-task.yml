@@ -41,6 +41,7 @@ jobs:
               $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
               $packageName = $pkg.Name
               $packageVersion = $pkg.Version
+              Write-Host "npm view $packageName -json -silent"
               $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
               $originalTags = "{}"
               if ($packageProps.error) {
