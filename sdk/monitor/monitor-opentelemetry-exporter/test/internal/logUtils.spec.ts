@@ -147,6 +147,23 @@ describe("logUtils.ts", () => {
       );
     });
 
+    it("should not populate synthetic source if synthetic type is not defined", () => {
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
+        [ATTR_NETWORK_PEER_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assert.deepStrictEqual(envelope?.tags, {
+        ...context.tags,
+        [KnownContextTagKeys.AiOperationSyntheticSource]: "False",
+      });
+    });
+
     it("should create a TelemetryExceptionData Envelope for logs with exception attributes", () => {
       testLogRecord.body = "Test exception";
       testLogRecord.severityNumber = 22;
