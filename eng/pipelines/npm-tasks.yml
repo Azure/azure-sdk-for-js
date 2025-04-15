@@ -95,5 +95,6 @@ extends:
             runOnce:
               deploy:
                 steps:
-                  - pwsh: |
-                      Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
+                - pwsh: |
+                    Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
+                  displayName: 'NPM package management success'
