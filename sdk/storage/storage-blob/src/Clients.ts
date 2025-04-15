@@ -203,7 +203,7 @@ import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "./BlobServiceClient";
-import { StructuredMessageDecodingStream } from "./utils/StructuredMessageDecodingStream";
+import { StructuredMessageDecodingBrowserStream, StructuredMessageDecodingStream } from "./utils/StructuredMessageDecodingStream";
 import { StorageCRC64Calculator } from "./utils/StorageCRC64Calculator";
 import { StructuredMessageEncodingStream } from "./utils/StructuredMessageEncodingStream";
 
@@ -1222,7 +1222,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-
+    
     await StorageCRC64Calculator.init();
 
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
@@ -1255,6 +1255,7 @@ export class BlobClient extends StorageClient {
       };
       // Return browser response immediately
       if (!isNode) {
+        wrappedRes.blobBody = StructuredMessageDecodingBrowserStream(await wrappedRes.blobBody!);
         return wrappedRes;
       }
 
@@ -3888,6 +3889,8 @@ export class BlockBlobClient extends BlobClient {
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
+          structuredBodyType: "XSM/1.0; properties=crc64",
+          structuredContentLength: contentLength
         }),
       );
     });

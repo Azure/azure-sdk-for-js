@@ -9,7 +9,7 @@ export class StorageCRC64Calculator {
     this.nativeCrc64Hash = new StorageCRC64Calculator.nativeInstance.Crc64Hash();
   }
 
-  public static async init(): Promise<void> {
+  public static async   init(): Promise<void> {
     if (this.nativeInstance === undefined) {
       if (!this.isInitializing) {
         this.isInitializing = true;

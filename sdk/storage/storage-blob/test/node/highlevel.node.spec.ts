@@ -35,7 +35,7 @@ describe("Highlevel", () => {
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
-  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+  const timeoutForLargeFileUploadingTest = 60 * 60 * 1000;
 
   let recorder: Recorder;
 
@@ -95,24 +95,24 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFileSmall);
   });
 
-  it.only("put blob with maximum size", async function () {
+  it("put blob with maximum size", async function () {
     if (isNodeLike && !isLiveMode()) {
       this.skip();
     }
     const MB = 1024 * 1024;
-    //const maxPutBlobSizeLimitInMB = 5000;
-    const tempFile = await createRandomLocalFile(tempFolderPath, 1, MB);
+    const maxPutBlobSizeLimitInMB = 3000;
+    const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
     const inputStream = fs.createReadStream(tempFile);
 
-    try {
-      await blockBlobClient.upload(() => inputStream, 1 * MB, {
-        //abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
-      });
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
-
+    await blockBlobClient.upload(inputStream, maxPutBlobSizeLimitInMB * MB);
     fs.unlinkSync(tempFile);
+
+    const response = await blockBlobClient.download(0);
+    const downloadedFile = path.join(
+      tempFolderPath,
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+    );
+    await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
@@ -923,22 +923,22 @@ describe("Highlevel", () => {
       uint8Array[i] = i;
     }
 
-    await blockBlobClient.uploadData(arrayBuf);
+    await blockBlobClient.upload(arrayBuf, byteLength);
     const res = await blockBlobClient.downloadToBuffer();
     assert.ok(res.equals(Buffer.from(arrayBuf)));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
-    await blockBlobClient.uploadData(uint8ArrayPartial);
+    await blockBlobClient.upload(uint8ArrayPartial, 3);
     const res1 = await blockBlobClient.downloadToBuffer();
     assert.ok(res1.equals(Buffer.from(arrayBuf, 1, 3)));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
-    await blockBlobClient.uploadData(uint16Array);
+    await blockBlobClient.upload(uint16Array, 2);
     const res2 = await blockBlobClient.downloadToBuffer();
     assert.ok(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
 
     const buf = Buffer.from(arrayBuf, 0, 5);
-    await blockBlobClient.uploadData(buf);
+    await blockBlobClient.upload(buf, 5);
     const res3 = await blockBlobClient.downloadToBuffer();
     assert.ok(res3.equals(buf));
   });

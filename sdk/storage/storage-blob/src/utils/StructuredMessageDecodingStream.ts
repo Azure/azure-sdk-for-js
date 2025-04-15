@@ -26,6 +26,7 @@
 import { AbortError } from "@azure/abort-controller";
 import { Readable } from "stream";
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator";
+import { isNodeLike } from "@azure/core-util";
 
 const MESSAGE_VERSION: number = 1;
 const MESSAGE_HEADER_LENGTH: number = 13;
@@ -55,7 +56,7 @@ export interface StructuredMessageDecodingStreamOptions {
    * stream to force it end and start retry from the breaking point.
    * The value will then update to "undefined", once the injection works.
    */
-  doInjectErrorOnce?: boolean;
+  // doInjectErrorOnce?: boolean;
 
   /**
    * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
@@ -63,9 +64,115 @@ export interface StructuredMessageDecodingStreamOptions {
   highWaterMark?: number;
 }
 
+async function pump(
+  reader: ReadableStreamDefaultReader, 
+  messageDecoding: StructuredMessageDecoding) : Promise<void> {
+  const { done, value } = await reader.read();
+  // When no more data needs to be consumed, close the stream
+  if (done) {
+    return;
+  }
+    
+  // Enqueue the next data chunk into our target stream
+  messageDecoding.sourceDataHandler(value);
+}
+
+export async function StructuredMessageDecodingBrowserStream(source: Blob | ReadableStream<Uint8Array>): Promise<Blob> {
+  const sourceStream = (source instanceof Blob) ? source.stream() : source;
+  const reader = sourceStream.getReader();
+  let messageDecoding : StructuredMessageDecoding | undefined = undefined;
+  const stream = new ReadableStream({
+    start(controller) {
+      messageDecoding = new StructuredMessageDecoding((data) => {
+        if (null !== data) 
+          {
+            controller.enqueue(data)
+          }
+        else {
+          controller.close();
+        }});
+    },
+    pull (controller) {
+      pump(reader, messageDecoding!)
+        .then(() =>{})
+        .catch((err) => {
+          console.log(err); 
+          controller.error(err)});
+    }
+  });
+  const response = new Response(stream);
+  return response.blob();
+}
+
 export class StructuredMessageDecodingStream extends Readable {
   private source: NodeJS.ReadableStream;
-  private options: StructuredMessageDecodingStreamOptions;
+  private decodingMethods: StructuredMessageDecoding;
+  public constructor(
+    source: NodeJS.ReadableStream,
+    options: StructuredMessageDecodingStreamOptions,
+  ) {
+    super({ highWaterMark: options.highWaterMark });
+    this.source = source;
+    this.decodingMethods = new StructuredMessageDecoding((dataToHandle) =>{      
+        if (!this.push(dataToHandle)) {
+          source.pause();
+        }
+      });
+    this.setSourceEventHandlers();
+  }
+
+  public _read(): void {
+    this.source.resume();
+  }
+
+  private setSourceEventHandlers() {
+    this.source.on("data", this.sourceDataHandler);
+    this.source.on("end", this.sourceErrorOrEndHandler);
+    this.source.on("error", this.sourceErrorOrEndHandler);
+    // needed for Node14
+    this.source.on("aborted", this.sourceAbortedHandler);
+  }
+
+  private removeSourceEventHandlers() {
+    this.source.removeListener("data", this.sourceDataHandler);
+    this.source.removeListener("end", this.sourceErrorOrEndHandler);
+    this.source.removeListener("error", this.sourceErrorOrEndHandler);
+    this.source.removeListener("aborted", this.sourceAbortedHandler);
+  }
+  private sourceDataHandler = (data: Buffer) => {
+   this.decodingMethods.sourceDataHandler(data);
+  }
+
+  private sourceAbortedHandler = () => {
+    const abortError = new AbortError("The operation was aborted.");
+    this.destroy(abortError);
+  };
+
+  private sourceErrorOrEndHandler = (err?: Error) => {
+    if (err && err.name === "AbortError") {
+      this.destroy(err);
+      return;
+    }
+
+    // console.log(
+    //   `Source stream emits end or error, offset: ${
+    //     this.offset
+    //   }, dest end : ${this.end}`
+    // );
+    this.removeSourceEventHandlers();
+  };
+
+  _destroy(error: Error | null, callback: (error?: Error) => void): void {
+    // remove listener from source and release source
+    this.removeSourceEventHandlers();
+    (this.source as Readable).destroy();
+
+    callback(error === null ? undefined : error);
+  }
+}
+
+class StructuredMessageDecoding {
+  private pushData: (data: any) => any;
   private messageLength: number;
   private messageFlags: number;
   private segmentsCount: number;
@@ -96,13 +203,9 @@ export class StructuredMessageDecodingStream extends Readable {
   private state: SMRegion;
 
   public constructor(
-    source: NodeJS.ReadableStream,
-    options: StructuredMessageDecodingStreamOptions,
+    pushData: (data: any) => any
   ) {
-    super({ highWaterMark: options.highWaterMark });
-    this.options = options;
-    this.source = source;
-
+    this.pushData = pushData;
     this.currentOffset = 0;
     this.messageLength = 0;
     this.messageFlags = 0;
@@ -130,37 +233,10 @@ export class StructuredMessageDecodingStream extends Readable {
 
     this.segmentCrc64 = new StorageCRC64Calculator();
     this.messageCrc64 = new StorageCRC64Calculator();
-    this.setSourceEventHandlers();
   }
 
-  public _read(): void {
-    this.source.resume();
-  }
-
-  private setSourceEventHandlers() {
-    this.source.on("data", this.sourceDataHandler);
-    this.source.on("end", this.sourceErrorOrEndHandler);
-    this.source.on("error", this.sourceErrorOrEndHandler);
-    // needed for Node14
-    this.source.on("aborted", this.sourceAbortedHandler);
-  }
-
-  private removeSourceEventHandlers() {
-    this.source.removeListener("data", this.sourceDataHandler);
-    this.source.removeListener("end", this.sourceErrorOrEndHandler);
-    this.source.removeListener("error", this.sourceErrorOrEndHandler);
-    this.source.removeListener("aborted", this.sourceAbortedHandler);
-  }
-
-  private sourceDataHandler = (data: Buffer) => {
+  public sourceDataHandler = (data: Buffer) => {
     this.currentDataOffset = 0;
-    if (this.options.doInjectErrorOnce) {
-      this.options.doInjectErrorOnce = undefined;
-      this.source.pause();
-      this.sourceErrorOrEndHandler();
-      (this.source as Readable).destroy();
-      return;
-    }
 
     if (this.state === SMRegion.StreamHeader) {
       this.parseMessageHeader(data);
@@ -169,16 +245,8 @@ export class StructuredMessageDecodingStream extends Readable {
     while (this.segmentNumber < this.segmentsCount && this.currentDataOffset < data.length) {
       if (this.state === SMRegion.SegmentHeader) {
         this.parseSegmentHeader(data);
-        this.segmentNumber;
       }
 
-      // console.log(
-      //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
-      // );
-      // this.offset += data.length;
-      // if (this.onProgress) {
-      //   this.onProgress({ loadedBytes: this.offset - this.start });
-      // }
       if (this.state === SMRegion.SegmentContent) {
         this.parseSegmentContent(data);
       }
@@ -216,9 +284,7 @@ export class StructuredMessageDecodingStream extends Readable {
         throw new Error("Unexpected message version");
       }
 
-      this.messageLength = this.toInt64(
-        Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 1, 9),
-      );
+      this.messageLength = this.toInt64(this.messageHeaderBuffer, 1);
       this.messageLength;
 
       this.messageFlags = this.toInt16(
@@ -260,9 +326,7 @@ export class StructuredMessageDecodingStream extends Readable {
         throw new Error("Segment number is unexpected.");
       }
 
-      this.segmentContentLength = this.toInt64(
-        Uint8Array.prototype.slice.call(this.segmentHeaderBuffer, 2, 10),
-      );
+      this.segmentContentLength = this.toInt64(this.segmentHeaderBuffer, 2);
       this.segmentContentOffset = 0;
 
       this.state = SMRegion.SegmentContent;
@@ -282,9 +346,7 @@ export class StructuredMessageDecodingStream extends Readable {
     this.segmentCrc64.Append(dataToHandle, length);
     this.messageCrc64.Append(dataToHandle, length);
 
-    if (!this.push(dataToHandle)) {
-      this.source.pause();
-    }
+    this.pushData(dataToHandle);
 
     this.currentDataOffset += length;
     this.segmentContentOffset += length;
@@ -300,6 +362,7 @@ export class StructuredMessageDecodingStream extends Readable {
       FOOTER_LENGTH - this.segmentFooterOffset,
       data.length - this.currentDataOffset,
     );
+
     this.segmentFooterBuffer.set(
       Uint8Array.prototype.slice.call(
         data,
@@ -322,6 +385,12 @@ export class StructuredMessageDecodingStream extends Readable {
       ++this.segmentNumber;
       if (this.segmentNumber === this.segmentsCount) {
         this.state = SMRegion.StreamFooter;
+      }
+      else {
+        this.segmentHeaderOffset = 0;
+        this.segmentFooterOffset = 0;
+        this.segmentCrc64 = new StorageCRC64Calculator();
+        this.state = SMRegion.SegmentHeader;
       }
     }
   }
@@ -349,26 +418,28 @@ export class StructuredMessageDecodingStream extends Readable {
       if (!this.checkCrc64CheckSum(crc64Result, this.messageFooterBuffer)) {
         throw new Error("Check sum mismatch");
       }
-      this.push(null);
+      this.pushData(null);
     }
   }
 
-  private toInt64(input: Uint8Array): number {
-    if (input.length !== 8) {
+  private toInt64(input: Uint8Array, offset: number): number {
+    if (input.length < offset + 8) {
       return 0;
       // TODO: throw out error
     }
 
-    let value = input[0];
-    for (let index = 1; index < 6; ++index) {
-      value += input[index] * index * 256;
-    }
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(8);
+      for (let index = 0; index < 6; ++index) {
+        internalBuffer[index] = input[offset + index]
+      }
 
-    if (input[6] !== 0 || input[7] !== 0) {
-      throw new Error("Structureed message length is out of JS number range.");
+      return Number(internalBuffer.readBigInt64LE());
     }
-
-    return value;
+    else {
+      const view = new DataView(input.buffer, offset, 8);
+      return Number(view.getBigUint64(0, true));
+    }
   }
 
   private toInt16(input: Uint8Array): number {
@@ -377,7 +448,17 @@ export class StructuredMessageDecodingStream extends Readable {
       // TODO: throw out error
     }
 
-    return input[0] + input[1] * 256;
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(2);
+      for (let index = 0; index < 2; ++index) {
+        internalBuffer[index] = input[index]
+      }
+
+      return Number(internalBuffer.readInt16LE());
+    }
+    else {
+      return input[0] + input[1] * 256;
+    }
   }
 
   private checkCrc64CheckSum(first: Uint8Array, second: Uint8Array): boolean {
@@ -392,32 +473,5 @@ export class StructuredMessageDecodingStream extends Readable {
     }
 
     return true;
-  }
-
-  private sourceAbortedHandler = () => {
-    const abortError = new AbortError("The operation was aborted.");
-    this.destroy(abortError);
-  };
-
-  private sourceErrorOrEndHandler = (err?: Error) => {
-    if (err && err.name === "AbortError") {
-      this.destroy(err);
-      return;
-    }
-
-    // console.log(
-    //   `Source stream emits end or error, offset: ${
-    //     this.offset
-    //   }, dest end : ${this.end}`
-    // );
-    this.removeSourceEventHandlers();
-  };
-
-  _destroy(error: Error | null, callback: (error?: Error) => void): void {
-    // remove listener from source and release source
-    this.removeSourceEventHandlers();
-    (this.source as Readable).destroy();
-
-    callback(error === null ? undefined : error);
   }
 }

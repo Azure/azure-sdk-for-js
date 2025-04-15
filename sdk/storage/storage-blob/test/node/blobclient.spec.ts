@@ -163,7 +163,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
   });
 
-  it.only("delete", async function () {
+  it("delete", async function () {
     await blobClient.delete();
   });
 

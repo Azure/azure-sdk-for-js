@@ -59,15 +59,18 @@ describe("Highlevel", () => {
     }
   });
   
-  it.only("upload and download", async function () {
+  it("upload and download", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
-    await blockBlobClient.upload(tempFile1, tempFile1Length);
+    await blockBlobClient.upload(tempFile2, tempFile2Length);
 
     const downloadResponse = await blockBlobClient.download(0);
+    console.log("Downloaded")
     const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile1);
+    console.log("bodyToString")
+    const uploadedString = await blobToString(tempFile2);
+    console.log("source ToString")
     
     assert.equal(uploadedString, downloadedString);
   });
@@ -283,5 +286,20 @@ describe("Highlevel", () => {
       downloadedBlob3,
       new Blob([uint16Array], { type: "application/octet-stream" }),
     );
+  });
+  
+  it.only("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async function () {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    const blob = new Blob([arrayBuf], { type: "application/octet-stream" });
+    const formData = new FormData();
+    formData.append("array", blob);
+
+    await blockBlobClient.upload(formData, 203);
   });
 });
