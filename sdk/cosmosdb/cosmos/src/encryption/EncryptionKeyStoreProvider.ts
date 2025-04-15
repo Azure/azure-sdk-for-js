@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../common";
-import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
-import type { KeyEncryptionAlgorithm } from "./enums";
+import { Constants } from "../common/index.js";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
+import type { KeyEncryptionAlgorithm } from "./enums/index.js";
 /**
  * Class to store encryption keys in unwrapped form and provide an interface for wrapping and unwrapping the keys.
  */

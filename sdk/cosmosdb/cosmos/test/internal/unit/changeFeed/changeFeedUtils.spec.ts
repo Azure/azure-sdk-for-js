@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
 import {
   extractOverlappingRanges,
   isNullOrEmpty,
   fetchStartTime,
-} from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import type { PartitionKeyRange } from "../../../../src/";
-import { ChangeFeedStartFrom } from "../../../../src/";
-import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange";
-import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import { QueryRange } from "../../../../src/routing";
+} from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
+import type { PartitionKeyRange } from "../../../../src/index.js";
+import { ChangeFeedStartFrom } from "../../../../src/index.js";
+import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange.js";
+import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
+import { QueryRange } from "../../../../src/routing/index.js";
+import { describe, it, assert } from "vitest";
 
-describe("test extractOverlappingRanges", function () {
-  it("exact overlap", async function () {
+describe("test extractOverlappingRanges", () => {
+  it("exact overlap", async () => {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
       minInclusive: "05C1D5AB55AB50",
@@ -32,7 +32,7 @@ describe("test extractOverlappingRanges", function () {
     assert.equal(epkMaxHeader, undefined);
   });
 
-  it("complete overlap, pkRange exceeds overlappingRange", async function () {
+  it("complete overlap, pkRange exceeds overlappingRange", async () => {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
       minInclusive: "05C1D5AB55AB50",
@@ -51,7 +51,7 @@ describe("test extractOverlappingRanges", function () {
     assert.equal(epkMaxHeader, undefined);
   });
 
-  it("overlapping range left side overlap", async function () {
+  it("overlapping range left side overlap", async () => {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
       minInclusive: "05C1D5AB55AB50",
@@ -70,7 +70,7 @@ describe("test extractOverlappingRanges", function () {
     assert.equal(epkMaxHeader, "05C1DFFFFFFFF7");
   });
 
-  it("overlapping range right side overlap", async function () {
+  it("overlapping range right side overlap", async () => {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
       minInclusive: "05C1D5AB55AB50",
@@ -88,7 +88,7 @@ describe("test extractOverlappingRanges", function () {
     assert.equal(epkMaxHeader, "05C1DFFFFFFFF8");
   });
 
-  it("pkrange is less than overlapping range on both sides", async function () {
+  it("pkrange is less than overlapping range on both sides", async () => {
     const overLappingRange: PartitionKeyRange = {
       id: "2",
       minInclusive: "05C1D5AB55AB50",
@@ -107,57 +107,57 @@ describe("test extractOverlappingRanges", function () {
   });
 });
 
-describe("test isEpkRange", function () {
-  it("maxExclusive > 'FF'", async function () {
+describe("test isEpkRange", () => {
+  it("maxExclusive > 'FF'", async () => {
     const epkRange = new FeedRangeInternal("", "GG");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
-  it("minInclusive > maxExclusive", async function () {
+  it("minInclusive > maxExclusive", async () => {
     const epkRange = new FeedRangeInternal("05C1DFFFFFFFF8", "05C1D5AB55AB50");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
-  it("minInclusive = maxExclusive", async function () {
+  it("minInclusive = maxExclusive", async () => {
     const epkRange = new FeedRangeInternal("05C1D5AB55AB51", "05C1D5AB55AB51");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
 
-  it("minInclusive = '' and maxExclusive = 'FF'", async function () {
+  it("minInclusive = '' and maxExclusive = 'FF'", async () => {
     const epkRange = new FeedRangeInternal("", "FF");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
 
-  it("minInclusive > '' and maxExclusive < 'FF'", async function () {
+  it("minInclusive > '' and maxExclusive < 'FF'", async () => {
     const epkRange = new FeedRangeInternal("05C1D5AB55AB50", "05C1DFFFFFFFF8");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
 });
 
-describe("test checkTokenEmptyOrWhiteSpace", function () {
-  it("empty continuation token", function () {
+describe("test checkTokenEmptyOrWhiteSpace", () => {
+  it("empty continuation token", () => {
     const result = isNullOrEmpty("");
     assert.equal(result, true);
   });
-  it("white space", function () {
+  it("white space", () => {
     const result = isNullOrEmpty("    ");
     assert.equal(result, true);
   });
-  it("non empty", function () {
+  it("non empty", () => {
     const result = isNullOrEmpty("{}");
     assert.equal(result, false);
   });
 });
 
-describe("test fetchStartTime", function () {
-  it("startTime is beginning", function () {
+describe("test fetchStartTime", () => {
+  it("startTime is beginning", () => {
     const startTime = fetchStartTime(ChangeFeedStartFrom.Beginning());
     assert.equal(startTime, undefined);
   });
-  it("startTime is time", function () {
+  it("startTime is time", () => {
     const time = new Date();
     const startTime = fetchStartTime(ChangeFeedStartFrom.Time(time));
     assert.equal(startTime, time);

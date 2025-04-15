@@ -19,11 +19,11 @@ extends:
         displayName: 'Partner Release'
         variables:
           - name: Artifacts
-            value: $(Pipeline.Workspace)/artifacts
+            value: $(Pipeline.Workspace)/packages
           - template: /eng/pipelines/templates/variables/image.yml
 
         jobs:
-        - job:
+        - job: PublishArtifacts
           displayName: 'Download and publish artifacts'
           pool:
             name: $(WINDOWSPOOL)
@@ -37,30 +37,33 @@ extends:
             inputs:
               azureSubscription: 'azuresdkpartnerdrops - Storage Partner Drops'
               ScriptType: 'InlineScript'
-              azurePowerShellVersion: LatestVersion 
+              azurePowerShellVersion: LatestVersion
               pwsh: true
               Inline: |
                 echo "azcopy copy 'https://azuresdkpartnerdrops.blob.core.windows.net/drops/${{ parameters.BlobPath }}/*' '$(Artifacts)' --recursive=true"
                 azcopy copy 'https://azuresdkpartnerdrops.blob.core.windows.net/drops/${{ parameters.BlobPath }}/*' '$(Artifacts)' --recursive=true
                 $copiedFiles = (dir '$(Artifacts)' -r | % { $_.FullName })
                 echo "Copied files: $copiedFiles"
-                if (!$copiedFiles) { 
+                if (!$copiedFiles) {
                   echo "Failed to copy any files from 'https://azuresdkpartnerdrops.blob.core.windows.net/drops/${{ parameters.BlobPath }}/*' please double check they exist"
                   exit 1
                 }
-            env: 
+            env:
               AZCOPY_AUTO_LOGIN_TYPE: 'PSCRED'
 
           - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
             parameters:
-              ArtifactName: 'artifacts-for-release'
+              ArtifactName: 'packages'
               ArtifactPath: $(Artifacts)
 
-          - template: /eng/pipelines/templates/steps/npm-release-task.yml
-            parameters:
-              Artifact: 
-                name: Partner Drop
-                path: $(Artifacts)
-              Registry: "https://registry.npmjs.org/"
-              PathToArtifacts: $(Artifacts)
+        - template: /eng/pipelines/templates/jobs/npm-release-task.yml
+          parameters:
+            Artifact:
+              name: PartnerDrop
+              path: $(Artifacts)
+            Registry: "https://registry.npmjs.org/"
+            PathToArtifacts: $(Artifacts)
+            VarDependencies:
               Tag: "${{ parameters.Tag }}"
+            DependsOn:
+              - PublishArtifacts

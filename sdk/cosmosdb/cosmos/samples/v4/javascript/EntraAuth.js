@@ -5,13 +5,12 @@
  * @summary Uses Entra Auth credentials to authenticate with the CosmosClient.
  */
 
-require("dotenv").config();
-
+require("dotenv/config");
 const { DefaultAzureCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const { CosmosClient } = require("@azure/cosmos");
-const { handleError, finish, logStep } = require("./Shared/handleError");
+const { handleError, finish, logStep } = require("./Shared/handleError.js");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
