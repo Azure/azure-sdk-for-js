@@ -208,12 +208,6 @@ export const httpSemanticValues = [
 ];
 
 /**
- * Synthetic source values
- * @internal
- */
-export const syntheticSourceValues = ["bot", "test"];
-
-/**
  * Internal Microsoft attributes
  * @internal
  */
