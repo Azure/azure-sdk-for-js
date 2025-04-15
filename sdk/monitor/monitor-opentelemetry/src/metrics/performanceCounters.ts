@@ -338,9 +338,9 @@ export class PerformanceCounterMetrics {
       const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
       let value = 0;
       if (appCpuPercent !== undefined) {
-          value = appCpuPercent;
+        value = appCpuPercent;
       } else {
-          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
       }
       observableResult.observe(value);
     }
@@ -378,9 +378,9 @@ export class PerformanceCounterMetrics {
         const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
         let value = 0;
         if (appCpuPercent !== undefined) {
-            value = appCpuPercent;
+          value = appCpuPercent;
         } else {
-            value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
         }
         observableResult.observe(value);
       }
