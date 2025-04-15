@@ -123,7 +123,8 @@
       "commonjs"
     ],
     "esmDialects": [
-      "browser"
+      "browser",
+      "workerd"
     ],
     "selfLink": false
   },
@@ -133,6 +134,10 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
+      },
+      "workerd": {
+        "types": "./dist/workerd/index.d.ts",
+        "default": "./dist/workerd/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
