@@ -7,4 +7,4 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-export const SDK_VERSION: string = "1.0.0-beta.7";
+export const SDK_VERSION: string = "1.0.0-beta.4";

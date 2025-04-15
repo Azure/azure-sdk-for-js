@@ -22,7 +22,7 @@ export default function createClient(
   options: PurviewDataMapClientOptions = {},
 ): PurviewDataMapClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/datamap/api`;
-  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-purview-datamap-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
