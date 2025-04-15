@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.7 (2025-04-15)
+
+### Bugs Fixed
+
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ## 1.0.0-beta.6 (2025-03-18)
 
 ### Features Added

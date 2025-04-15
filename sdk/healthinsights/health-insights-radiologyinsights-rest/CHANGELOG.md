@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.1 (2025-04-14)
+
+### Bugs Fixed
+
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ## 1.0.0 (2024-08-15)
 
  - GA release

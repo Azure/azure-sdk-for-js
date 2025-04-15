@@ -2,6 +2,12 @@
 
 # Release History
 
+## 1.0.1 (2025-04-15)
+
+### Bugs Fixed
+
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ## 1.0.0 (2024-12-16)
 
 ### Features Added

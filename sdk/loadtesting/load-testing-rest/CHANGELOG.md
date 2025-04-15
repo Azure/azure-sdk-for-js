@@ -15,6 +15,10 @@ Updated the client library to use API Version 2025-05-01-preview. This adds all 
 - Support for uploading ZIP Artifacts
 - Support for all Test Profiles & Test Profile Run Scenarios
 
+### Bugs Fixed
+
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ## 1.0.1 (2025-01-20)
 
 ### Other Changes

@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2022-11-01-preview", ...options }: FarmBeatsClientOptions = {},
 ): FarmBeatsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${$host}`;
-  const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.5`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

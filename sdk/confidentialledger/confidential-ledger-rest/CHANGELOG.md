@@ -7,8 +7,12 @@
 - User defined endpoint
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
-- User defined roles 
-- 
+- User defined roles
+
+### Bugs Fixed
+
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added

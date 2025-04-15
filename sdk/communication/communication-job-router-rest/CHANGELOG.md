@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add missing apiView and changelog configuration RLC packages (#33575)
+
 ### Other Changes
 
 ## 1.1.0-beta.2 (2025-02-10)
