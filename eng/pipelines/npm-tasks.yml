@@ -67,7 +67,6 @@ extends:
             runOnce:
               deploy:
                 steps:
-                  - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
                   - task: PowerShell@2
                     displayName: 'Run Task'
                     inputs:
