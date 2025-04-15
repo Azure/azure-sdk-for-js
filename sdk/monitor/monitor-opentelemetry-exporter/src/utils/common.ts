@@ -30,7 +30,7 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import { experimentalOpenTelemetryValues, syntheticSourceValues, type Tags } from "../types.js";
+import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
@@ -292,5 +292,5 @@ export function isSyntheticSource(attributes: Attributes): boolean {
   const syntheticType: string = attributes[
     experimentalOpenTelemetryValues.SYNTHETIC_TYPE
   ] as string;
-  return syntheticSourceValues.includes(syntheticType?.toLowerCase());
+  return Boolean(syntheticType);
 }
