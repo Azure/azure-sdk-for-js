@@ -9,16 +9,6 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface IndexesCreateVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexesCreateOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  repeatabilityRequestId?: string;
-  /** Specifies the date and time at which the request was first created. */
-  repeatabilityFirstSent?: Date;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
-
-/** Optional parameters. */
 export interface IndexesDeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

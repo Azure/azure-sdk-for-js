@@ -36,10 +36,16 @@ export async function main(): Promise<void> {
   const connection = await project.connections.get(connectionName);
   console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
 
+  const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
+  console.log(
+    `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
+  );
+
   // List all connections of a specific type
   const azureAIConnections: Connection[] = [];
   for await (const azureOpenAIConnection of project.connections.list({
     connectionType: "AzureOpenAI",
+    defaultConnection: true,
   })) {
     azureAIConnections.push(azureOpenAIConnection);
   }

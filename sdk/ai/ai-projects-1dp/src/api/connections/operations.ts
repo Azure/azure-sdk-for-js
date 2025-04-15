@@ -8,7 +8,11 @@ import {
   _PagedConnection,
   _pagedConnectionDeserializer,
 } from "../../models/models.js";
-import { ConnectionsListOptionalParams, ConnectionsGetOptionalParams } from "./options.js";
+import {
+  ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
+  ConnectionsGetOptionalParams,
+} from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
@@ -26,10 +30,11 @@ export function _listSend(
   options: ConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections{?api%2Dversion,connectionType,top,skip,maxpagesize}",
+    "/connections{?api%2Dversion,connectionType,defaultConnection,top,skip,maxpagesize}",
     {
       "api%2Dversion": context.apiVersion,
       connectionType: options?.connectionType,
+      defaultConnection: options?.defaultConnection,
       top: options?.top,
       skip: options?.skip,
       maxpagesize: options?.maxpagesize,
@@ -59,7 +64,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _pagedConnectionDeserializer(result.body);
 }
 
-/** List all connections in the project */
+/** List all connections in the project, without populating connection credentials */
 export function list(
   context: Client,
   options: ConnectionsListOptionalParams = { requestOptions: {} },
@@ -71,6 +76,54 @@ export function list(
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _getWithCredentialsSend(
+  context: Client,
+  name: string,
+  options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/connections/{name}/withCredentials{?api%2Dversion}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getWithCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Connection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return connectionDeserializer(result.body);
+}
+
+/** Get a connection by name, with its connection credentials */
+export async function getWithCredentials(
+  context: Client,
+  name: string,
+  options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
+): Promise<Connection> {
+  const result = await _getWithCredentialsSend(context, name, options);
+  return _getWithCredentialsDeserialize(result);
 }
 
 export function _getSend(
@@ -109,7 +162,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
   return connectionDeserializer(result.body);
 }
 
-/** Get a connection by name. */
+/** Get a connection by name, without populating connection credentials */
 export async function get(
   context: Client,
   name: string,

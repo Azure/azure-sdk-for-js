@@ -31,7 +31,7 @@ async function main(): Promise<void> {
 
   console.log("Upload a single file and create a new Dataset to reference the file.");
   console.log("Here we explicitly specify the dataset version.");
-  const dataset1 = await project.datasets.create(datasetName, {
+  const dataset1 = await project.datasets.createVersion(datasetName, "1", {
     name: datasetName,
     type: "uri_file",
     version: "1",
@@ -43,7 +43,7 @@ async function main(): Promise<void> {
     "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
   );
   console.log("Here again we explicitly specify a new dataset version");
-  const dataset2 = await project.datasets.create(datasetName, {
+  const dataset2 = await project.datasets.createVersion(datasetName, "2", {
     name: datasetName,
     version: "2",
     type: "uri_folder",
@@ -54,7 +54,7 @@ async function main(): Promise<void> {
   console.log(
     "Upload a single file to the existing dataset, while letting the service increment the version",
   );
-  const dataset3 = await project.datasets.create(datasetName, {
+  const dataset3 = await project.datasets.createVersion(datasetName, "3", {
     name: datasetName,
     version: "3",
     datasetUri: path.join(sampleFolder, "file2.txt"),

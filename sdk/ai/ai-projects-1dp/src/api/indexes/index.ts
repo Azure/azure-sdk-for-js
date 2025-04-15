@@ -3,7 +3,6 @@
 
 export {
   createVersion,
-  create,
   deleteVersion,
   getVersion,
   listLatest,
@@ -11,7 +10,6 @@ export {
 } from "./operations.js";
 export {
   IndexesCreateVersionOptionalParams,
-  IndexesCreateOptionalParams,
   IndexesDeleteVersionOptionalParams,
   IndexesGetVersionOptionalParams,
   IndexesListLatestOptionalParams,

@@ -11,7 +11,14 @@ export { AIProjectClient } from "./aiProjectClient.js";
 export {
   Connection,
   ConnectionType,
-  AuthenticationType,
+  BaseCredentials,
+  BaseCredentialsUnion,
+  CredentialType,
+  ApiKeyCredentials,
+  EntraIDCredentials,
+  CustomCredential,
+  SASCredentials,
+  NoAuthenticationCredentials,
   Evaluation,
   InputData,
   InputDataUnion,
@@ -26,6 +33,7 @@ export {
   PendingUploadResponse,
   BlobReferenceForConsumption,
   SasCredential,
+  AssetCredentialResponse,
   Index,
   IndexUnion,
   IndexType,
@@ -38,26 +46,23 @@ export {
   DeploymentType,
   ModelDeployment,
   Sku,
-  EvaluationResult,
-  ResultType,
   RedTeam,
   AttackStrategy,
   RiskCategory,
   ListViewType,
-  RepeatabilityResult,
   PendingUploadType,
   KnownVersions,
 } from "./models/index.js";
 export { AIProjectClientOptionalParams } from "./api/index.js";
 export {
   ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "./api/connections/index.js";
 export {
-  DatasetsStartPendingUploadOptionalParams,
+  DatasetsGetCredentialsOptionalParams,
   DatasetsStartPendingUploadVersionOptionalParams,
   DatasetsCreateVersionOptionalParams,
-  DatasetsCreateOptionalParams,
   DatasetsDeleteVersionOptionalParams,
   DatasetsGetVersionOptionalParams,
   DatasetsListLatestOptionalParams,
@@ -68,22 +73,12 @@ export {
   DeploymentsGetOptionalParams,
 } from "./api/deployments/index.js";
 export {
-  EvaluationResultsStartPendingUploadOptionalParams,
-  EvaluationResultsCreateVersionOptionalParams,
-  EvaluationResultsCreateOptionalParams,
-  EvaluationResultsDeleteVersionOptionalParams,
-  EvaluationResultsGetVersionOptionalParams,
-  EvaluationResultsListLatestOptionalParams,
-  EvaluationResultsListVersionsOptionalParams,
-} from "./api/evaluationResults/index.js";
-export {
   EvaluationsCreateRunOptionalParams,
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./api/evaluations/index.js";
 export {
   IndexesCreateVersionOptionalParams,
-  IndexesCreateOptionalParams,
   IndexesDeleteVersionOptionalParams,
   IndexesGetVersionOptionalParams,
   IndexesListLatestOptionalParams,
@@ -98,7 +93,6 @@ export {
   ConnectionsOperations,
   DatasetsOperations,
   DeploymentsOperations,
-  EvaluationResultsOperations,
   EvaluationsOperations,
   IndexesOperations,
   RedTeamsOperations,

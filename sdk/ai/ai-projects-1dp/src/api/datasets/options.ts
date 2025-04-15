@@ -6,23 +6,13 @@ import { ListViewType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DatasetsStartPendingUploadOptionalParams extends OperationOptions {}
+export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DatasetsStartPendingUploadVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DatasetsCreateVersionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface DatasetsCreateOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  repeatabilityRequestId?: string;
-  /** Specifies the date and time at which the request was first created. */
-  repeatabilityFirstSent?: Date;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
 
 /** Optional parameters. */
 export interface DatasetsDeleteVersionOptionalParams extends OperationOptions {}

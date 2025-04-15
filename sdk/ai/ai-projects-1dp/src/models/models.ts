@@ -4,18 +4,42 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable tsdoc/syntax */
 
-/** Response from the listSecrets operation */
+/** Response from the list and get connections operations */
 export interface Connection {
+  /** Discriminator property for Connection. */
+  /** The discriminator possible values: */
+  authType: string;
   /** The name of the resource */
   readonly name: string;
   /** Category of the connection */
   readonly type: ConnectionType;
   /** The connection URL to be used for this service */
   readonly target: string;
-  /** The authentication type used by the connection */
-  readonly authType: AuthenticationType;
+  /** Whether the connection is tagged as the default connection of its type */
+  readonly isDefault: boolean;
+  /** The credentials used by the connection */
+  readonly credentials: BaseCredentialsUnion;
   /** Metadata of the connection */
   readonly metadata: Record<string, string>;
+}
+
+/** The Type (or category) of the connection */
+export type ConnectionType =
+  | "AzureOpenAI"
+  | "AzureBlob"
+  | "AzureStorageAccount"
+  | "CognitiveSearch"
+  | "CosmosDB"
+  | "ApiKey"
+  | "AppConfig"
+  | "AppInsights"
+  | "CustomKeys";
+
+/** A base class for connection credentials */
+export interface BaseCredentials {
+  /** The type of credential used by the connection */
+  /** The discriminator possible values: ApiKey, AAD, CustomKeys, SAS, None */
+  readonly authType: CredentialType;
 }
 
 export function connectionDeserializer(item: any): Connection {
@@ -25,20 +49,116 @@ export function connectionDeserializer(item: any): Connection {
     target: item["target"],
     authType: item["authType"],
     metadata: item["metadata"],
+    isDefault: item["isDefault"],
+    credentials: baseCredentialsUnionDeserializer(item["credentials"]),
   };
 }
 
-/** The Type (or category) of the connection */
-export type ConnectionType =
-  | "AzureOpenAI"
-  | "AzureBlob"
-  | "CognitiveSearch"
-  | "CosmosDB"
-  | "ApiKey"
-  | "AppInsights"
-  | "CustomKeys";
-/** The authentication type used by the connection */
-export type AuthenticationType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+export function baseCredentialsDeserializer(item: any): BaseCredentials {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Alias for BaseCredentialsUnion */
+export type BaseCredentialsUnion =
+  | ApiKeyCredentials
+  | EntraIDCredentials
+  | CustomCredential
+  | SASCredentials
+  | NoAuthenticationCredentials
+  | BaseCredentials;
+
+export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnion {
+  switch (item.authType) {
+    case "ApiKey":
+      return apiKeyCredentialsDeserializer(item as ApiKeyCredentials);
+
+    case "AAD":
+      return entraIDCredentialsDeserializer(item as EntraIDCredentials);
+
+    case "CustomKeys":
+      return customCredentialDeserializer(item as CustomCredential);
+
+    case "SAS":
+      return sasCredentialsDeserializer(item as SASCredentials);
+
+    case "None":
+      return noAuthenticationCredentialsDeserializer(item as NoAuthenticationCredentials);
+
+    default:
+      return baseCredentialsDeserializer(item);
+  }
+}
+
+/** The credential type used by the connection */
+export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+
+/** API Key Credential definition */
+export interface ApiKeyCredentials extends BaseCredentials {
+  /** The credentail type */
+  readonly authType: "ApiKey";
+  /** API Key */
+  readonly apiKey?: string;
+}
+
+export function apiKeyCredentialsDeserializer(item: any): ApiKeyCredentials {
+  return {
+    authType: item["authType"],
+    apiKey: item["apiKey"],
+  };
+}
+
+/** Entra ID credential definition */
+export interface EntraIDCredentials extends BaseCredentials {
+  /** The credential type */
+  readonly authType: "AAD";
+}
+
+export function entraIDCredentialsDeserializer(item: any): EntraIDCredentials {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Custom credential defintion */
+export interface CustomCredential extends BaseCredentials {
+  /** The credential type */
+  readonly authType: "CustomKeys";
+}
+
+export function customCredentialDeserializer(item: any): CustomCredential {
+  return {
+    authType: item["authType"],
+  };
+}
+
+/** Shared Access Signature (SAS) credential definition */
+export interface SASCredentials extends BaseCredentials {
+  /** The credential type */
+  readonly authType: "SAS";
+  /** SAS token */
+  readonly sasToken?: string;
+}
+
+export function sasCredentialsDeserializer(item: any): SASCredentials {
+  return {
+    authType: item["authType"],
+    sasToken: item["sasToken"],
+  };
+}
+
+/** Credentials that do not require authentication */
+export interface NoAuthenticationCredentials extends BaseCredentials {
+  /** The credential type */
+  readonly authType: "None";
+}
+
+export function noAuthenticationCredentialsDeserializer(item: any): NoAuthenticationCredentials {
+  return {
+    authType: item["authType"],
+  };
+}
 
 /** Paged collection of Connection items */
 export interface _PagedConnection {
@@ -79,8 +199,6 @@ export interface Evaluation {
   properties?: Record<string, string>;
   /** Evaluators to be used for the evaluation. */
   evaluators: Record<string, EvaluatorConfiguration>;
-  /** Read-only result outputs. Example: { 'evaluationResultId': 'azureai://accounts/{AccountName}/projects/{projectName}/evaluationresults/{name}/{version}', 'logId': 'azureai://accounts/{AccountName}/projects/{projectName}/datasets/{dataset-name}/{dataset-version}' } */
-  readonly outputs: Record<string, string>;
 }
 
 export function evaluationSerializer(item: Evaluation): any {
@@ -104,7 +222,6 @@ export function evaluationDeserializer(item: any): Evaluation {
     tags: item["tags"],
     properties: item["properties"],
     evaluators: evaluatorConfigurationRecordDeserializer(item["evaluators"]),
-    outputs: item["outputs"],
   };
 }
 
@@ -483,6 +600,27 @@ export function sasCredentialDeserializer(item: any): SasCredential {
   };
 }
 
+/** model interface _GetCredentialsRequest */
+export interface _GetCredentialsRequest {}
+
+export function _getCredentialsRequestSerializer(item: _GetCredentialsRequest): any {
+  return item;
+}
+
+/** Represents a reference to a blob for consumption */
+export interface AssetCredentialResponse {
+  /** Credential info to access the storage account. */
+  blobReferenceForConsumption: BlobReferenceForConsumption;
+}
+
+export function assetCredentialResponseDeserializer(item: any): AssetCredentialResponse {
+  return {
+    blobReferenceForConsumption: blobReferenceForConsumptionDeserializer(
+      item["blobReferenceForConsumption"],
+    ),
+  };
+}
+
 /** Paged collection of Index items */
 export interface _PagedIndex {
   /** The Index items on this page */
@@ -827,103 +965,6 @@ export function deploymentUnionArrayDeserializer(result: Array<DeploymentUnion>)
   });
 }
 
-/** Paged collection of EvaluationResult items */
-export interface _PagedEvaluationResult {
-  /** The EvaluationResult items on this page */
-  value: EvaluationResult[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedEvaluationResultDeserializer(item: any): _PagedEvaluationResult {
-  return {
-    value: evaluationResultArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function evaluationResultArraySerializer(result: Array<EvaluationResult>): any[] {
-  return result.map((item) => {
-    return evaluationResultSerializer(item);
-  });
-}
-
-export function evaluationResultArrayDeserializer(result: Array<EvaluationResult>): any[] {
-  return result.map((item) => {
-    return evaluationResultDeserializer(item);
-  });
-}
-
-/** Evaluation Result resource Definition */
-export interface EvaluationResult {
-  /** Type of Evaluation result */
-  resultType?: ResultType;
-  /** Model Name */
-  modelName?: string;
-  /** Model Version */
-  modelVersion?: string;
-  /** Model Asset ID */
-  modelAssetId?: string;
-  /** Dataset Family */
-  datasetFamily?: string;
-  /** Dataset Name */
-  datasetName?: string;
-  /** Metrics */
-  metrics?: Record<string, number>;
-  /** Blob URI */
-  blobUri?: string;
-  /** Asset stage */
-  stage?: string;
-  /** A unique identifier for the asset, assetId probably? */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name: string;
-  /** The version of the resource */
-  readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
-}
-
-export function evaluationResultSerializer(item: EvaluationResult): any {
-  return {
-    ResultType: item["resultType"],
-    ModelName: item["modelName"],
-    ModelVersion: item["modelVersion"],
-    ModelAssetId: item["modelAssetId"],
-    DatasetFamily: item["datasetFamily"],
-    DatasetName: item["datasetName"],
-    Metrics: item["metrics"],
-    BlobUri: item["blobUri"],
-    stage: item["stage"],
-    description: item["description"],
-    tags: item["tags"],
-  };
-}
-
-export function evaluationResultDeserializer(item: any): EvaluationResult {
-  return {
-    resultType: item["ResultType"],
-    modelName: item["ModelName"],
-    modelVersion: item["ModelVersion"],
-    modelAssetId: item["ModelAssetId"],
-    datasetFamily: item["DatasetFamily"],
-    datasetName: item["DatasetName"],
-    metrics: item["Metrics"],
-    blobUri: item["BlobUri"],
-    stage: item["stage"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: item["tags"],
-  };
-}
-
-/** Type of Evaluation result */
-export type ResultType = "Benchmark" | "Evaluation" | "Redteam" | "Simulation";
-
 /** Red team details. */
 export interface RedTeam {
   /** Identifier of the red team. */
@@ -936,8 +977,6 @@ export interface RedTeam {
   attackStrategy: AttackStrategy[];
   /** Simulation-only or Simulation + Evaluation. Default false, if true the scan outputs conversation not evaluation result. */
   simulationOnly: boolean;
-  /** Read-only result outputs. Example: { 'redTeamResultId': 'azureai://accounts/{AccountName}/projects/{projectName}/evaluationresults/{name}/{version}', 'logId': 'azureai://accounts/{AccountName}/projects/{projectName}/datasets/{dataset-name}/{dataset-version}' } */
-  readonly outputs: Record<string, string>;
   /** List of risk categories to generate attack objectives for. */
   riskCategories: RiskCategory[];
   /** Application scenario for the red team operation, to generate scenario specific attacks. */
@@ -976,7 +1015,6 @@ export function redTeamDeserializer(item: any): RedTeam {
       return p;
     }),
     simulationOnly: item["simulationOnly"],
-    outputs: item["outputs"],
     riskCategories: item["riskCategories"].map((p: any) => {
       return p;
     }),
@@ -1037,8 +1075,6 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
 
 /** List View Type Definition */
 export type ListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
-/** Repeatability Result header options */
-export type RepeatabilityResult = "accepted" | "rejected";
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "TemporaryBlobReference";
 

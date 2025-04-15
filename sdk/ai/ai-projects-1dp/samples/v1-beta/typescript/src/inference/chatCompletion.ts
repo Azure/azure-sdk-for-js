@@ -22,15 +22,15 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
   const client = project.inference.chatCompletions();
   const response = await client.post({
-      body: {
-        model: deploymentName,
-        messages: [
-          { role: "system", content: "You are a helpful assistant. You will talk like a pirate." }, // System role not supported for some models
-          { role: "user", content: "How many feet are in a mile?" },
-        ]
-      },
-    });
-  
+    body: {
+      model: deploymentName,
+      messages: [
+        { role: "system", content: "You are a helpful assistant. You will talk like a pirate." }, // System role not supported for some models
+        { role: "user", content: "How many feet are in a mile?" },
+      ],
+    },
+  });
+
   console.log("response = ", response);
   if (isUnexpected(response)) {
     throw response.body.error;

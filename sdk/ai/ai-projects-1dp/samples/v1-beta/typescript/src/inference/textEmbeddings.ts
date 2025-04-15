@@ -16,17 +16,18 @@ dotenv.config();
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
-const embeddingDeploymentName = process.env["EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
+const embeddingDeploymentName =
+  process.env["EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
   const client = project.inference.embeddings();
   const response = await client.post({
-      body: {
-        model: embeddingDeploymentName,
-        input: ["first phrase", "second phrase", "third phrase"],
-      },
-    });
-  
+    body: {
+      model: embeddingDeploymentName,
+      input: ["first phrase", "second phrase", "third phrase"],
+    },
+  });
+
   console.log("response = ", response);
   if (isUnexpected(response)) {
     throw response.body.error;

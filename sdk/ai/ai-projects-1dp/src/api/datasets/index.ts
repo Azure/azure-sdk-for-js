@@ -2,20 +2,18 @@
 // Licensed under the MIT License.
 
 export {
-  startPendingUpload,
+  getCredentials,
   startPendingUploadVersion,
   createVersion,
-  create,
   deleteVersion,
   getVersion,
   listLatest,
   listVersions,
 } from "./operations.js";
 export {
-  DatasetsStartPendingUploadOptionalParams,
+  DatasetsGetCredentialsOptionalParams,
   DatasetsStartPendingUploadVersionOptionalParams,
   DatasetsCreateVersionOptionalParams,
-  DatasetsCreateOptionalParams,
   DatasetsDeleteVersionOptionalParams,
   DatasetsGetVersionOptionalParams,
   DatasetsListLatestOptionalParams,

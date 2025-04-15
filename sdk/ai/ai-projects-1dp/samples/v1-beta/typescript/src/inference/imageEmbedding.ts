@@ -7,7 +7,7 @@
  * Get the image embeddings for a given image.
  */
 import * as path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import { AIProjectClient } from "@azure/ai-projects-1dp";
 import { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -26,18 +26,18 @@ export async function main(): Promise<void> {
   const client = project.inference.imageEmbeddings();
   const imagePath = path.resolve(__dirname, "sample1.png");
   const ext = path.extname(imagePath).slice(1); // e.g., 'png', 'jpg', 'jpeg'
-  const mineType = `image/${ext === 'jpg' ? 'jpeg' : ext}`;
+  const mineType = `image/${ext === "jpg" ? "jpeg" : ext}`;
   const imageBuffer = Buffer.from(imagePath, "base64");
   // base64 url encoded image
   const imageUrl = `data:${mineType};base64,${imageBuffer.toString("base64")}`;
 
   const response = await client.post({
-      body: {
-        model: deploymentName,
-        input: [{ image: imageUrl }],
-      },
-    });
-  
+    body: {
+      model: deploymentName,
+      input: [{ image: imageUrl }],
+    },
+  });
+
   console.log("response = ", response);
   if (isUnexpected(response)) {
     throw response.body.error;
