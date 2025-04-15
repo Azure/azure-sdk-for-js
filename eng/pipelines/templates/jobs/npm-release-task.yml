@@ -112,14 +112,14 @@ jobs:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags '$(OriginalTags)' -intendedTag "$(Tag)" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken $(azure-sdk-npm-token)
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag "$(Tag)" -intendedTagVersion "$(IntendedTagVersion)" -packageName "$(PackageName)" -npmToken '$(azure-sdk-npm-token)'
         pwsh: true
     - task: PowerShell@2
       displayName: Add Additional Tag
       inputs:
         targetType: filePath
         filePath: eng/tools/publish-to-npm.ps1
-        arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+        arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken '$(azure-sdk-npm-token)'
         pwsh: true
       condition: and(succeeded(), ne(variables['AdditionalTag'], ''))
 - ${{ else }}:
