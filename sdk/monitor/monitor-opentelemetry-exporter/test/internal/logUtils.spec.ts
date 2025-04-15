@@ -39,6 +39,14 @@ import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 
+const expectedServiceTags: Tags = {
+  [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
+  [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
+  [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
+  [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
+  [KnownContextTagKeys.AiLocationIp]: "127.0.0.1",
+};
+
 function assertEnvelope(
   envelope?: Envelope,
   name?: string,
@@ -63,13 +71,6 @@ function assertEnvelope(
     assert.deepStrictEqual(envelope?.time, expectedTime);
   }
 
-  const expectedServiceTags: Tags = {
-    [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
-    [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
-    [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
-    [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
-    [KnownContextTagKeys.AiLocationIp]: "127.0.0.1",
-  };
   assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
@@ -147,7 +148,7 @@ describe("logUtils.ts", () => {
       );
     });
 
-    it("should not populate synthetic source if synthetic type is not defined", () => {
+    it("should not populate synthetic source on envelope if synthetic type is not defined", () => {
       testLogRecord.body = "Test message";
       testLogRecord.severityLevel = "Information";
       testLogRecord.attributes = {
@@ -160,7 +161,7 @@ describe("logUtils.ts", () => {
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assert.deepStrictEqual(envelope?.tags, {
         ...context.tags,
-        [KnownContextTagKeys.AiOperationSyntheticSource]: "False",
+        ...expectedServiceTags,
       });
     });
 

@@ -289,8 +289,5 @@ export function shouldCreateResourceMetric(): boolean {
 }
 
 export function isSyntheticSource(attributes: Attributes): boolean {
-  const syntheticType: string = attributes[
-    experimentalOpenTelemetryValues.SYNTHETIC_TYPE
-  ] as string;
-  return Boolean(syntheticType);
+  return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
 }
