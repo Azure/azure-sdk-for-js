@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
-import { ErrorResponse, RequestContext } from "../request";
+import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext.js";
+import { ErrorResponse, RequestContext } from "../request/index.js";
 import {
   DiagnosticNode,
   EncryptionDiagnostics,
   MetadataLookUpType,
   ClientConfigDiagnostic,
-} from "../CosmosDiagnostics";
-import { CosmosDiagnostics, getRootNode } from "../CosmosDiagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
-import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+} from "../CosmosDiagnostics.js";
+import { CosmosDiagnostics, getRootNode } from "../CosmosDiagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
+import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import type { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
-import type { OperationType, ResourceType } from "../common";
-import { Constants, prepareURL } from "../common";
-import { allowTracing } from "./diagnosticLevelComparator";
+import type { OperationType, ResourceType } from "../common/index.js";
+import { Constants, prepareURL } from "../common/index.js";
+import { allowTracing } from "./diagnosticLevelComparator.js";
 import { randomUUID } from "@azure/core-util";
 
 /**

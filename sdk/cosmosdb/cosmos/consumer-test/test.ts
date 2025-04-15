@@ -1,3 +1,3 @@
-import * as Cosmos from "../";
+import * as Cosmos from "../index.js";
 
 console.log(Object.keys(Cosmos));
