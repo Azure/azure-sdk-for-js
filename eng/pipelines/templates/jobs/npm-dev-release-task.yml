@@ -26,6 +26,6 @@ jobs:
       inputs:
         targetType: filePath
         filePath: eng/tools/publish-to-npm.ps1
-        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
         pwsh: true
       condition: succeeded()
