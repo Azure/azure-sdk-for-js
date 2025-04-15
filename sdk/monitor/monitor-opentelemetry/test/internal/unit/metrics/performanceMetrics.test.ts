@@ -116,7 +116,7 @@ describe("PerformanceCounterMetricsHandler", () => {
           (metrics[6].dataPoints[0].value as number) <= 100,
         `Wrong Process Time Normalized value: ${metrics[6].dataPoints[0].value as number}`,
       );
-      assert.notEqual(metrics[6].dataPoints[0].value, NaN);
+      assert.ok(!Number.isNaN(metrics[6].dataPoints[0].value), "Value should not be NaN");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
     });
   });
