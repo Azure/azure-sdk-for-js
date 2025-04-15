@@ -9,18 +9,21 @@ import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 
 describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+  let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
+
   function createCodeAssistant(deploymentName: string): AssistantCreateParams {
     return {
       tools: [{ type: "code_interpreter" as const }],
       model: deploymentName,
       name: "JS CI Math Tutor",
       description: "Math Tutor for Math Problems",
-      instructions: "You are a personal math tutor. Write and run code to answer math questions.",
+      instructions:
+        "You are a personal math tutor. Write and run code to answer math questions.",
       metadata: { foo: "bar" },
     };
   }
 
-  const clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo = createClientsAndDeployments(
+  clientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,
     { assistants: "true" },
     {
@@ -42,7 +45,9 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
           const codeAssistant = createCodeAssistant(deployment);
           const assistantResponse = await client.beta.assistants.create(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
-          const getAssistantResponse = await client.beta.assistants.retrieve(assistantResponse.id);
+          const getAssistantResponse = await client.beta.assistants.retrieve(
+            assistantResponse.id,
+          );
           assertAssistantEquality(codeAssistant, getAssistantResponse);
           codeAssistant.name = "Completely different name";
           const updateAssistantResponse = await client.beta.assistants.update(
@@ -84,7 +89,10 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
           const newMetadataValue = "other value";
           thread.metadata.foo = newMetadataValue;
 
-          const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
+          const updateThreadResponse = await client.beta.threads.update(
+            threadResponse.id,
+            thread,
+          );
           assert.equal(threadResponse.id, updateThreadResponse.id);
           assert.equal(
             (updateThreadResponse.metadata as unknown as Metadata).foo,
@@ -227,12 +235,6 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
           const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         },
-        acceptableErrors: {
-          messageSubstring: [
-            "400 Cannot cancel run with status 'completed'",
-            "400 Cannot cancel run with status 'failed'",
-          ],
-        },
       });
     });
   });
@@ -240,8 +242,7 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
   describe(`customer scenarios`, function () {
     describe("create and run code interpreter scenario", async () => {
       await testWithDeployments({
-        clientsAndDeploymentsInfo,
-        run: async (client, deployment) => {
+        clientsAndDeploymentsInfo, run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistant = await client.beta.assistants.create(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);
@@ -289,18 +290,12 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
           const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         },
-        modelsListToSkip: [
-          { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
-          { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
-          { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
-        ],
       });
     });
 
     describe("create and run function scenario for assistant", async () => {
       await testWithDeployments({
-        clientsAndDeploymentsInfo,
-        run: async (client, deployment) => {
+        clientsAndDeploymentsInfo, run: async (client, deployment) => {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";
           const getFavoriteCity = (): string => "Atlanta, GA";
@@ -370,7 +365,7 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
                   nicknameCalled = true;
                   break;
                 default:
-                  toolOutput.output = `Unknown function: ${functionName}`;
+                  toolOutput.output = `Unknown function: ${ functionName }`;
                   break;
               }
             }
@@ -452,11 +447,6 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
           const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         },
-        modelsListToSkip: [
-          { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
-          { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
-          { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
-        ],
       });
     });
   });
