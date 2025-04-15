@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to how to use basic connections operations.
+ * This sample demonstrates how to use basic connections operations.
  *
  * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections,
  * get the properties of a default connection, and get the properties of a connection by its name.

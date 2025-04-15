@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to how to use basic dataset operations.
+ * This sample demonstrates how to use basic dataset operations.
  *
  * @summary Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets,
  * upload files/folders, create datasets, manage dataset versions, and delete datasets.
