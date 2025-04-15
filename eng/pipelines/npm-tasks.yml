@@ -94,7 +94,7 @@ extends:
             runOnce:
               deploy:
                 steps:
-                - pwsh: |
-                    # This is a workaround to not run admin job in deployment job but still have the approval gate
-                    Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
-                  displayName: 'NPM package management success'
+                  - pwsh: |
+                      # This is a workaround to not run admin job in deployment job but still have the approval gate
+                      Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
+                    displayName: 'NPM package management success'
