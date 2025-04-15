@@ -140,8 +140,9 @@ export async function testWithDeployments<T>({
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
   describe.concurrent.each(clientsAndDeploymentsInfo.clientsAndDeployments)(
-    "$client.baseURL",
-    async function ({ client, deployments }) {
+    "$resourceNickname",
+    async function ({ client, resourceNickname, deployments }) {
+      !!resourceNickname;
       for (const deployment of deployments) {
         test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
           if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {

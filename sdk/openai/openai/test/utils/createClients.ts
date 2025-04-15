@@ -34,19 +34,20 @@ export function createClientsAndDeployments(
         deploymentsToSkip,
         modelsToSkip,
       });
-      const clientsAndDeployments = filtered.map(({ deployments, endpoint }) => ({
+      const clientsAndDeployments = filtered.map(({ deployments, nickname, endpoint }) => ({
         client: new AzureOpenAI({
           azureADTokenProvider,
           apiVersion,
           endpoint,
           ...clientOptions,
         }),
+        resourceNickname: nickname,
         deployments,
       }));
       return { clientsAndDeployments, count };
     }
     default: {
-      throw Error(`Unsupported service API version: ${apiVersion}`);
+      throw Error(`Unsupported service API version: ${ apiVersion }`);
     }
   }
 }

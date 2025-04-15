@@ -76,6 +76,7 @@ async function listDeployments(
       count += deployments.length;
       resourcesInfo.push({
         endpoint,
+        nickname: accountName,
         deployments,
       });
       deployments = [];
