@@ -114,7 +114,7 @@ describe("PerformanceCounterMetricsHandler", () => {
       assert.ok(
         (metrics[6].dataPoints[0].value as number) >= 0 &&
           (metrics[6].dataPoints[0].value as number) <= 100,
-        `Wrong Process Time Normalized value: ${metrics[5].dataPoints[0].value as number}`,
+        `Wrong Process Time Normalized value: ${metrics[6].dataPoints[0].value as number}`,
       );
       assert.notEqual(metrics[6].dataPoints[0].value, NaN);
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
