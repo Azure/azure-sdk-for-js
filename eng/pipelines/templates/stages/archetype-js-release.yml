@@ -105,7 +105,10 @@ stages:
                 - job: PostPublishPackage
                   dependsOn:
                     - 'PrePublishPackage'
-                    - 'PublishPackage'
+                    - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+                      - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
+                    - ${{ else }}:
+                      - "PublishDevPackage_${{ replace(artifact.name, '-', '_') }}"
                   variables:
                     - name: Package.Archive
                       value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
@@ -135,7 +138,7 @@ stages:
                   - job: PublishDocs
                     displayName: Docs.MS Release
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     variables:
                       - template: /eng/pipelines/templates/variables/image.yml
                     pool:
@@ -168,7 +171,7 @@ stages:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: azsdk-pool-mms-win-2022-general
                       image: azsdk-pool-mms-win-2022-1espt
@@ -190,7 +193,7 @@ stages:
                   - job: UpdatePackageVersion
                     displayName: Update Package Version
                     condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
-                    dependsOn: PublishPackage
+                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     variables:
                       - template: /eng/pipelines/templates/variables/image.yml
                     pool:
@@ -235,9 +238,17 @@ stages:
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
           - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))}}:
-            - job: DetectPackageArchive
+            - job: DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
+              variables:
+                - template: /eng/pipelines/templates/variables/image.yml
+              pool:
+                name: $(LINUXPOOL)
+                image: $(LINUXVMIMAGE)
+                os: linux
               displayName: 'Detecting package archive_${{artifact.name}}'
               steps:
+              - checkout: self
+              - download: current
               - pwsh: |
                   $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
                   Write-Host "Detected package name: $($detectedPackageName)"
@@ -266,7 +277,7 @@ stages:
                 VarDependencies:
                   Tag: "dev"
                 DependsOn:
-                  - 'DetectPackageArchive'
+                  - DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
 
       - job: PublishDocsToNightlyBranch
         variables:
