@@ -69,7 +69,7 @@ extends:
               displayName: 'Run Task'
               inputs:
                 targetType: filePath
-                filePath: "eng/scripts/npm-admin-tasks.ps1"
+                filePath: "/eng/scripts/npm-admin-tasks.ps1"
                 arguments: >
                   -taskType ${{parameters.TaskType}}
                   -packageName ${{parameters.PackageName}}
