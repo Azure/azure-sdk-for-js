@@ -2,15 +2,9 @@
 
 ## 1.0.2 (2025-04-15)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-- Add missing apiView and changelog configuration RLC packages (#33575)
-
-### Other Changes
+- Add missing apiView and changelog into the package (#33575)
 
 ## 1.0.1 (2025-02-10)
 

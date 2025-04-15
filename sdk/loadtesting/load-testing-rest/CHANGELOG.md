@@ -17,7 +17,7 @@ Updated the client library to use API Version 2025-05-01-preview. This adds all 
 
 ### Bugs Fixed
 
-- Add missing apiView and changelog configuration RLC packages (#33575)
+- Add missing apiView and changelog into the package (#33575)
 
 ## 1.0.1 (2025-01-20)
 

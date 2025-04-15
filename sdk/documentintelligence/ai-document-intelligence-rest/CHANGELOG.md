@@ -6,7 +6,7 @@
 
 ### Bugs Fixed
 
-- Add missing apiView and changelog configuration RLC packages (#33575)
+- Add missing apiView and changelog into the package (#33575)
 
 ## 1.0.0 (2024-12-16)
 
