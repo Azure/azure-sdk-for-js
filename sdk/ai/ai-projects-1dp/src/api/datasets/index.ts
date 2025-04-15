@@ -4,6 +4,8 @@
 export {
   getCredentials,
   startPendingUploadVersion,
+  uploadFileAndCreate,
+  uploadFolderAndCreate,
   createVersion,
   deleteVersion,
   getVersion,
@@ -13,6 +15,8 @@ export {
 export {
   DatasetsGetCredentialsOptionalParams,
   DatasetsStartPendingUploadVersionOptionalParams,
+  DatasetsUploadFileAndCreateOptionalParams,
+  DatasetsUploadFolderAndCreateOptionalParams,
   DatasetsCreateVersionOptionalParams,
   DatasetsDeleteVersionOptionalParams,
   DatasetsGetVersionOptionalParams,

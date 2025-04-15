@@ -9,15 +9,13 @@
  */
 
 const { AIProjectClient } = require("@azure/ai-projects-1dp");
-const { AzureKeyCredential } = require("@azure/core-auth");
-
+const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 async function main() {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   // List the details of all the connections
   const connections = [];

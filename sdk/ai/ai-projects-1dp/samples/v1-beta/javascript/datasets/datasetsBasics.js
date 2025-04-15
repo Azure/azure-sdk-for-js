@@ -9,54 +9,55 @@
  */
 
 const { AIProjectClient } = require("@azure/ai-projects-1dp");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 const path = require("path");
+const { fileURLToPath } = require("url");
 
 require("dotenv").config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
+// const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 async function main() {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   // sample files to use in the demonstration
   const sampleFolder = "sample_folder";
 
   // Create a unique dataset name for this sample run
-  const datasetName = `sample-dataset-${Date.now()}`;
+  const datasetName = `sample-dataset`;
 
   console.log("Upload a single file and create a new Dataset to reference the file.");
   console.log("Here we explicitly specify the dataset version.");
-  const dataset1 = await project.datasets.createVersion(datasetName, "1", {
-    name: datasetName,
-    type: "uri_file",
-    version: "1",
-    datasetUri: path.join(sampleFolder, "file1.txt"),
-  });
+  const dataset1 = await project.datasets.uploadFileAndCreate(
+    datasetName,
+    "1",
+    path.join(__dirname, sampleFolder, "sample_file1.txt"),
+  );
   console.log(dataset1);
 
   console.log(
     "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
   );
   console.log("Here again we explicitly specify a new dataset version");
-  const dataset2 = await project.datasets.createVersion(datasetName, "2", {
-    name: datasetName,
-    version: "2",
-    type: "uri_folder",
-    datasetUri: sampleFolder,
-  });
+  const dataset2 = await project.datasets.uploadFolderAndCreate(
+    datasetName,
+    "2",
+    path.join(__dirname, sampleFolder),
+  );
   console.log(dataset2);
 
   console.log(
     "Upload a single file to the existing dataset, while letting the service increment the version",
   );
-  const dataset3 = await project.datasets.createVersion(datasetName, "3", {
-    name: datasetName,
-    version: "3",
-    datasetUri: path.join(sampleFolder, "file2.txt"),
-    type: "uri_file",
-  });
+  const dataset3 = await project.datasets.uploadFileAndCreate(
+    datasetName,
+    "3",
+    path.join(__dirname, sampleFolder, "sample_file2.txt"),
+  );
   console.log(dataset3);
 
   console.log("Get an existing Dataset version `1`:");

@@ -11,6 +11,15 @@ export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface DatasetsStartPendingUploadVersionOptionalParams extends OperationOptions {}
 
+/** Optional parameters for upload file and get dataset inference */
+export interface DatasetsUploadFileAndCreateOptionalParams {
+  startPendingUploadVersionOptions?: DatasetsStartPendingUploadVersionOptionalParams;
+}
+/** Optional parameters for upload folder and get dataset inference */
+export interface DatasetsUploadFolderAndCreateOptionalParams {
+  startPendingUploadVersionOptions?: DatasetsStartPendingUploadVersionOptionalParams;
+}
+
 /** Optional parameters. */
 export interface DatasetsCreateVersionOptionalParams extends OperationOptions {}
 

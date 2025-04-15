@@ -176,10 +176,24 @@ export interface DatasetsOperations {
     listLatest: (options?: DatasetsListLatestOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     startPendingUploadVersion: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsStartPendingUploadVersionOptionalParams) => Promise<PendingUploadResponse>;
+    uploadFileAndCreate: (name: string, version: string, filePath: string, options?: DatasetsUploadFileAndCreateOptionalParams) => Promise<DatasetVersionUnion>;
+    uploadFolderAndCreate: (name: string, version: string, folderPath: string, options?: DatasetsUploadFolderAndCreateOptionalParams) => Promise<DatasetVersionUnion>;
 }
 
 // @public
 export interface DatasetsStartPendingUploadVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsUploadFileAndCreateOptionalParams {
+    // (undocumented)
+    startPendingUploadVersionOptions?: DatasetsStartPendingUploadVersionOptionalParams;
+}
+
+// @public
+export interface DatasetsUploadFolderAndCreateOptionalParams {
+    // (undocumented)
+    startPendingUploadVersionOptions?: DatasetsStartPendingUploadVersionOptionalParams;
 }
 
 // @public

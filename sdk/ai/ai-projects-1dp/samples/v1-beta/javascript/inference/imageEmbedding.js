@@ -10,7 +10,7 @@ const path = require("path");
 const { fileURLToPath } = require("url");
 const { AIProjectClient } = require("@azure/ai-projects-1dp");
 const { isUnexpected } = require("@azure-rest/ai-inference");
-const { AzureKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv").config();
 
@@ -18,10 +18,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 const deploymentName = process.env["DEPLOYMENT_NAME"] || "<embedding deployment name>";
 async function main() {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
   const client = project.inference.imageEmbeddings();
   const imagePath = path.resolve(__dirname, "sample1.png");
   const ext = path.extname(imagePath).slice(1); // e.g., 'png', 'jpg', 'jpeg'

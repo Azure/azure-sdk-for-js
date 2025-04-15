@@ -28,7 +28,7 @@
   "dependencies": {
     "@azure/ai-projects-1dp": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.6.0",
+    "@azure/identity": "^4.3.0",
     "@azure-rest/ai-inference": "^1.0.0-beta.6"
   }
 }

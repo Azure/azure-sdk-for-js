@@ -10,16 +10,14 @@
 
 import type { Connection } from "@azure/ai-projects-1dp";
 import { AIProjectClient } from "@azure/ai-projects-1dp";
-import { AzureKeyCredential } from "@azure/core-auth";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   // List the details of all the connections
   const connections: Connection[] = [];
@@ -36,13 +34,15 @@ export async function main(): Promise<void> {
   console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
 
   const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
-  console.log(`Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`);
+  console.log(
+    `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
+  );
 
   // List all connections of a specific type
   const azureAIConnections: Connection[] = [];
   for await (const azureOpenAIConnection of project.connections.list({
     connectionType: "AzureOpenAI",
-    defaultConnection: true
+    defaultConnection: true,
   })) {
     azureAIConnections.push(azureOpenAIConnection);
   }
