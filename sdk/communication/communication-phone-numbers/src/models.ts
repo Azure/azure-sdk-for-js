@@ -6,14 +6,17 @@ import type {
   AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumbersBrowseRequest,
   PhoneNumbersCreateOrUpdateReservationOptionalParams,
+  PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchRequest,
   PhoneNumbersGetReservationOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumbersListReservationsOptionalParams,
   PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservationInternal,
   PhoneNumberType,
   ReservationStatus,
@@ -140,6 +143,22 @@ export interface ListReservationOptions extends PhoneNumbersListReservationsOpti
 export interface BrowseAvailableNumbersOptions
   extends PhoneNumbersBrowseAvailableNumbersOptionalParams {}
 
+/**
+ * The result of the phone numbers browse operation.
+ */
+export interface BrowseAvailableNumbersResult extends PhoneNumbersBrowseAvailableNumbersResponse {}
+
+/**
+ * The result of create or update reservation operation.
+ */
+export interface CreateOrUpdateReservationResult
+  extends PhoneNumbersCreateOrUpdateReservationResponse {}
+
+/**
+ * The result of the purchase reservation operation.
+ */
+export interface PurchaseReservationResult extends PhoneNumbersPurchaseReservationResponse {}
+
 export interface PhoneNumberReservationParams extends PhoneNumbersReservationInternal {
   id?: string;
   phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
@@ -194,7 +213,7 @@ export class PhoneNumbersReservation implements PhoneNumberReservationParams {
   }
 }
 
-export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
+export type GetReservationResult = PhoneNumbersReservation;
 
 export {
   AvailablePhoneNumber,
@@ -204,7 +223,6 @@ export {
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
-  PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumberBrowseCapabilitiesRequest,
   PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
@@ -212,7 +230,6 @@ export {
   PhoneNumberCapabilityType,
   PhoneNumberCost,
   PhoneNumberCountry,
-  PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
@@ -220,7 +237,6 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberSearchResultError,
   PhoneNumbersPurchaseReservationHeaders,
-  PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservationInternal,
   PhoneNumberType,
   PurchasedPhoneNumber,

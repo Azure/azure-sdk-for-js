@@ -21,10 +21,7 @@ import type {
   PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
-  PhoneNumbersBrowseAvailableNumbersResponse,
-  PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumberSearchResult,
-  PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservationInternal,
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
@@ -43,11 +40,13 @@ import type {
   ListReservationOptions,
   ListTollFreeAreaCodesOptions,
   PhoneNumberReservationParams,
-  PhoneNumbersGetReservationResponse,
+  GetReservationResult,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
+  BrowseAvailableNumbersResult,
+  CreateOrUpdateReservationResult,
 } from "./models.js";
 import { PhoneNumbersReservation } from "./models.js";
 import type {
@@ -227,7 +226,7 @@ export class PhoneNumbersClient {
   public getReservation(
     reservationId: string,
     options: GetReservationOptions = {},
-  ): Promise<PhoneNumbersGetReservationResponse> {
+  ): Promise<GetReservationResult> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getReservation",
       options,
@@ -324,7 +323,7 @@ export class PhoneNumbersClient {
    */
   public browseAvailablePhoneNumbers(
     request: BrowseAvailableNumbersRequest,
-  ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
+  ): Promise<BrowseAvailableNumbersResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
     );
@@ -535,10 +534,7 @@ export class PhoneNumbersClient {
     reservationId: string,
     options: BeginReservationPurchaseOptions = {},
   ): Promise<
-    PollerLike<
-      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
-      PhoneNumbersPurchaseReservationResponse
-    >
+    PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginPurchaseReservation",
@@ -647,7 +643,7 @@ export class PhoneNumbersClient {
   public async createOrUpdateReservation(
     reservation: PhoneNumberReservationParams,
     options?: OperationOptions,
-  ): Promise<PhoneNumbersCreateOrUpdateReservationResponse> {
+  ): Promise<CreateOrUpdateReservationResult> {
     const reservationOptionalParams: CreateOrUpdateReservationOptions = {
       ...options,
       phoneNumbers: reservation.phoneNumbers,
