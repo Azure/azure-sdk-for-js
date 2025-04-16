@@ -47,7 +47,7 @@ export function createClientsAndDeployments(
       return { clientsAndDeployments, count };
     }
     default: {
-      throw Error(`Unsupported service API version: ${ apiVersion }`);
+      throw Error(`Unsupported service API version: ${apiVersion}`);
     }
   }
 }
