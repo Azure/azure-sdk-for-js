@@ -924,6 +924,18 @@ export function convertOpenAIPageableListOfThreadMessageOutput(
   };
 }
 
+export function convertOpenAIPageableListOfAgentThreadOutput(
+  input: GeneratedModels.OpenAIPageableListOfAgentThreadOutput,
+): PublicModels.OpenAIPageableListOfAgentThreadOutput {
+  return {
+    object: input.object,
+    firstId: input.first_id,
+    lastId: input.last_id,
+    hasMore: input.has_more,
+    data: input.data?.map(convertAgentThreadOutput),
+  };
+}
+
 export function convertOpenAIPageableListOfVectorStoreOutput(
   input: GeneratedModels.OpenAIPageableListOfVectorStoreOutput,
 ): PublicModels.OpenAIPageableListOfVectorStoreOutput {

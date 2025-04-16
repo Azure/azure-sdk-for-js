@@ -471,6 +471,14 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
 ```
 
+#### List Threads
+
+To list all threads attached to a given agent, use the list_threads API:
+
+```ts snippet:listThreads
+const threads = client.agents.listThreads();
+```
+
 #### Create Message
 
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:

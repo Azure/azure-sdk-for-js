@@ -139,6 +139,7 @@ export interface AgentsOperations {
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listThreads: (options?: ListAgentThreadOptionalParams) => Promise<OpenAIPageableListOfAgentThreadOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
@@ -689,6 +690,10 @@ export interface ListAgentsOptionalParams extends ListQueryParameters, Operation
 }
 
 // @public
+export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {
+}
+
+// @public
 export interface ListConnectionsOptionalParams extends ListConnectionsQueryParamProperties, OperationOptions {
 }
 
@@ -739,6 +744,14 @@ export interface ListRunStepsOptionalParams extends ListQueryParameters, Operati
 
 // @public
 export type ListSortOrder = string;
+
+// @public (undocumented)
+export interface ListThreadsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
 
 // @public
 export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
@@ -984,6 +997,15 @@ export interface OpenAIFileOutput {
 // @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfAgentThreadOutput {
+    data: Array<AgentThreadOutput>;
     firstId: string;
     hasMore: boolean;
     lastId: string;
