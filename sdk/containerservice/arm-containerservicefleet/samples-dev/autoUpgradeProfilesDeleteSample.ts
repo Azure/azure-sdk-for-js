@@ -14,7 +14,11 @@ async function deleteAnAutoUpgradeProfileResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  await client.autoUpgradeProfiles.delete("rg1", "fleet1", "autoupgradeprofile1");
+  await client.autoUpgradeProfiles.delete(
+    "rg1",
+    "fleet1",
+    "autoupgradeprofile1",
+  );
 }
 
 /**
@@ -27,9 +31,12 @@ async function deleteAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule(): Pr
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  await client.autoUpgradeProfiles.delete("rgfleets", "fleet1", "autoupgradeprofile1", {
-    ifMatch: "qmdsmmawj",
-  });
+  await client.autoUpgradeProfiles.delete(
+    "rgfleets",
+    "fleet1",
+    "autoupgradeprofile1",
+    { ifMatch: "qmdsmmawj" },
+  );
 }
 
 async function main(): Promise<void> {

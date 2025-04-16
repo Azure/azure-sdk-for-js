@@ -11,7 +11,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,7 +44,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -113,7 +117,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -136,20 +142,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -163,17 +175,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -244,7 +262,9 @@ export function fleetPropertiesDeserializer(item: any): FleetProperties {
     hubProfile: !item["hubProfile"]
       ? item["hubProfile"]
       : fleetHubProfileDeserializer(item["hubProfile"]),
-    status: !item["status"] ? item["status"] : fleetStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : fleetStatusDeserializer(item["status"]),
   };
 }
 
@@ -331,7 +351,9 @@ export interface APIServerAccessProfile {
   subnetId?: string;
 }
 
-export function apiServerAccessProfileSerializer(item: APIServerAccessProfile): any {
+export function apiServerAccessProfileSerializer(
+  item: APIServerAccessProfile,
+): any {
   return {
     enablePrivateCluster: item["enablePrivateCluster"],
     enableVnetIntegration: item["enableVnetIntegration"],
@@ -339,7 +361,9 @@ export function apiServerAccessProfileSerializer(item: APIServerAccessProfile): 
   };
 }
 
-export function apiServerAccessProfileDeserializer(item: any): APIServerAccessProfile {
+export function apiServerAccessProfileDeserializer(
+  item: any,
+): APIServerAccessProfile {
   return {
     enablePrivateCluster: item["enablePrivateCluster"],
     enableVnetIntegration: item["enableVnetIntegration"],
@@ -395,7 +419,9 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
@@ -404,7 +430,9 @@ export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): 
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -444,7 +472,9 @@ export function userAssignedIdentityRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentitySerializer(item[key]);
   });
   return result;
 }
@@ -454,7 +484,9 @@ export function userAssignedIdentityRecordDeserializer(
 ): Record<string, UserAssignedIdentity> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : userAssignedIdentityDeserializer(item[key]);
   });
   return result;
 }
@@ -467,11 +499,15 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -550,7 +586,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -633,7 +671,9 @@ export interface FleetCredentialResults {
   readonly kubeconfigs?: FleetCredentialResult[];
 }
 
-export function fleetCredentialResultsDeserializer(item: any): FleetCredentialResults {
+export function fleetCredentialResultsDeserializer(
+  item: any,
+): FleetCredentialResults {
   return {
     kubeconfigs: !item["kubeconfigs"]
       ? item["kubeconfigs"]
@@ -657,7 +697,9 @@ export interface FleetCredentialResult {
   readonly value?: Uint8Array;
 }
 
-export function fleetCredentialResultDeserializer(item: any): FleetCredentialResult {
+export function fleetCredentialResultDeserializer(
+  item: any,
+): FleetCredentialResult {
   return {
     name: item["name"],
     value: !item["value"]
@@ -711,16 +753,22 @@ export interface FleetMemberProperties {
   readonly status?: FleetMemberStatus;
 }
 
-export function fleetMemberPropertiesSerializer(item: FleetMemberProperties): any {
+export function fleetMemberPropertiesSerializer(
+  item: FleetMemberProperties,
+): any {
   return { clusterResourceId: item["clusterResourceId"], group: item["group"] };
 }
 
-export function fleetMemberPropertiesDeserializer(item: any): FleetMemberProperties {
+export function fleetMemberPropertiesDeserializer(
+  item: any,
+): FleetMemberProperties {
   return {
     clusterResourceId: item["clusterResourceId"],
     group: item["group"],
     provisioningState: item["provisioningState"],
-    status: !item["status"] ? item["status"] : fleetMemberStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : fleetMemberStatusDeserializer(item["status"]),
   };
 }
 
@@ -809,7 +857,9 @@ export interface FleetMemberUpdateProperties {
   group?: string;
 }
 
-export function fleetMemberUpdatePropertiesSerializer(item: FleetMemberUpdateProperties): any {
+export function fleetMemberUpdatePropertiesSerializer(
+  item: FleetMemberUpdateProperties,
+): any {
   return { group: item["group"] };
 }
 
@@ -821,7 +871,9 @@ export interface _FleetMemberListResult {
   nextLink?: string;
 }
 
-export function _fleetMemberListResultDeserializer(item: any): _FleetMemberListResult {
+export function _fleetMemberListResultDeserializer(
+  item: any,
+): _FleetMemberListResult {
   return {
     value: fleetMemberArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -834,7 +886,9 @@ export function fleetMemberArraySerializer(result: Array<FleetMember>): any[] {
   });
 }
 
-export function fleetMemberArrayDeserializer(result: Array<FleetMember>): any[] {
+export function fleetMemberArrayDeserializer(
+  result: Array<FleetMember>,
+): any[] {
   return result.map((item) => {
     return fleetMemberDeserializer(item);
   });
@@ -907,20 +961,30 @@ export interface UpdateRunProperties {
 export function updateRunPropertiesSerializer(item: UpdateRunProperties): any {
   return {
     updateStrategyId: item["updateStrategyId"],
-    strategy: !item["strategy"] ? item["strategy"] : updateRunStrategySerializer(item["strategy"]),
-    managedClusterUpdate: managedClusterUpdateSerializer(item["managedClusterUpdate"]),
+    strategy: !item["strategy"]
+      ? item["strategy"]
+      : updateRunStrategySerializer(item["strategy"]),
+    managedClusterUpdate: managedClusterUpdateSerializer(
+      item["managedClusterUpdate"],
+    ),
   };
 }
 
-export function updateRunPropertiesDeserializer(item: any): UpdateRunProperties {
+export function updateRunPropertiesDeserializer(
+  item: any,
+): UpdateRunProperties {
   return {
     provisioningState: item["provisioningState"],
     updateStrategyId: item["updateStrategyId"],
     strategy: !item["strategy"]
       ? item["strategy"]
       : updateRunStrategyDeserializer(item["strategy"]),
-    managedClusterUpdate: managedClusterUpdateDeserializer(item["managedClusterUpdate"]),
-    status: !item["status"] ? item["status"] : updateRunStatusDeserializer(item["status"]),
+    managedClusterUpdate: managedClusterUpdateDeserializer(
+      item["managedClusterUpdate"],
+    ),
+    status: !item["status"]
+      ? item["status"]
+      : updateRunStatusDeserializer(item["status"]),
     autoUpgradeProfileId: item["autoUpgradeProfileId"],
   };
 }
@@ -976,7 +1040,9 @@ export function updateStageArraySerializer(result: Array<UpdateStage>): any[] {
   });
 }
 
-export function updateStageArrayDeserializer(result: Array<UpdateStage>): any[] {
+export function updateStageArrayDeserializer(
+  result: Array<UpdateStage>,
+): any[] {
   return result.map((item) => {
     return updateStageDeserializer(item);
   });
@@ -995,7 +1061,9 @@ export interface UpdateStage {
 export function updateStageSerializer(item: UpdateStage): any {
   return {
     name: item["name"],
-    groups: !item["groups"] ? item["groups"] : updateGroupArraySerializer(item["groups"]),
+    groups: !item["groups"]
+      ? item["groups"]
+      : updateGroupArraySerializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
   };
 }
@@ -1003,7 +1071,9 @@ export function updateStageSerializer(item: UpdateStage): any {
 export function updateStageDeserializer(item: any): UpdateStage {
   return {
     name: item["name"],
-    groups: !item["groups"] ? item["groups"] : updateGroupArrayDeserializer(item["groups"]),
+    groups: !item["groups"]
+      ? item["groups"]
+      : updateGroupArrayDeserializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
   };
 }
@@ -1014,7 +1084,9 @@ export function updateGroupArraySerializer(result: Array<UpdateGroup>): any[] {
   });
 }
 
-export function updateGroupArrayDeserializer(result: Array<UpdateGroup>): any[] {
+export function updateGroupArrayDeserializer(
+  result: Array<UpdateGroup>,
+): any[] {
   return result.map((item) => {
     return updateGroupDeserializer(item);
   });
@@ -1047,7 +1119,9 @@ export interface ManagedClusterUpdate {
   nodeImageSelection?: NodeImageSelection;
 }
 
-export function managedClusterUpdateSerializer(item: ManagedClusterUpdate): any {
+export function managedClusterUpdateSerializer(
+  item: ManagedClusterUpdate,
+): any {
   return {
     upgrade: managedClusterUpgradeSpecSerializer(item["upgrade"]),
     nodeImageSelection: !item["nodeImageSelection"]
@@ -1056,7 +1130,9 @@ export function managedClusterUpdateSerializer(item: ManagedClusterUpdate): any 
   };
 }
 
-export function managedClusterUpdateDeserializer(item: any): ManagedClusterUpdate {
+export function managedClusterUpdateDeserializer(
+  item: any,
+): ManagedClusterUpdate {
   return {
     upgrade: managedClusterUpgradeSpecDeserializer(item["upgrade"]),
     nodeImageSelection: !item["nodeImageSelection"]
@@ -1073,11 +1149,15 @@ export interface ManagedClusterUpgradeSpec {
   kubernetesVersion?: string;
 }
 
-export function managedClusterUpgradeSpecSerializer(item: ManagedClusterUpgradeSpec): any {
+export function managedClusterUpgradeSpecSerializer(
+  item: ManagedClusterUpgradeSpec,
+): any {
   return { type: item["type"], kubernetesVersion: item["kubernetesVersion"] };
 }
 
-export function managedClusterUpgradeSpecDeserializer(item: any): ManagedClusterUpgradeSpec {
+export function managedClusterUpgradeSpecDeserializer(
+  item: any,
+): ManagedClusterUpgradeSpec {
   return {
     type: item["type"],
     kubernetesVersion: item["kubernetesVersion"],
@@ -1152,13 +1232,17 @@ export enum KnownNodeImageSelectionType {
  */
 export type NodeImageSelectionType = string;
 
-export function nodeImageVersionArraySerializer(result: Array<NodeImageVersion>): any[] {
+export function nodeImageVersionArraySerializer(
+  result: Array<NodeImageVersion>,
+): any[] {
   return result.map((item) => {
     return nodeImageVersionSerializer(item);
   });
 }
 
-export function nodeImageVersionArrayDeserializer(result: Array<NodeImageVersion>): any[] {
+export function nodeImageVersionArrayDeserializer(
+  result: Array<NodeImageVersion>,
+): any[] {
   return result.map((item) => {
     return nodeImageVersionDeserializer(item);
   });
@@ -1192,8 +1276,12 @@ export interface UpdateRunStatus {
 
 export function updateRunStatusDeserializer(item: any): UpdateRunStatus {
   return {
-    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
-    stages: !item["stages"] ? item["stages"] : updateStageStatusArrayDeserializer(item["stages"]),
+    status: !item["status"]
+      ? item["status"]
+      : updateStatusDeserializer(item["status"]),
+    stages: !item["stages"]
+      ? item["stages"]
+      : updateStageStatusArrayDeserializer(item["stages"]),
     nodeImageSelection: !item["nodeImageSelection"]
       ? item["nodeImageSelection"]
       : nodeImageSelectionStatusDeserializer(item["nodeImageSelection"]),
@@ -1214,10 +1302,16 @@ export interface UpdateStatus {
 
 export function updateStatusDeserializer(item: any): UpdateStatus {
   return {
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    completedTime: !item["completedTime"] ? item["completedTime"] : new Date(item["completedTime"]),
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"]),
+    completedTime: !item["completedTime"]
+      ? item["completedTime"]
+      : new Date(item["completedTime"]),
     state: item["state"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -1254,7 +1348,9 @@ export enum KnownUpdateState {
  */
 export type UpdateState = string;
 
-export function updateStageStatusArrayDeserializer(result: Array<UpdateStageStatus>): any[] {
+export function updateStageStatusArrayDeserializer(
+  result: Array<UpdateStageStatus>,
+): any[] {
   return result.map((item) => {
     return updateStageStatusDeserializer(item);
   });
@@ -1274,16 +1370,22 @@ export interface UpdateStageStatus {
 
 export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
   return {
-    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : updateStatusDeserializer(item["status"]),
     name: item["name"],
-    groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
+    groups: !item["groups"]
+      ? item["groups"]
+      : updateGroupStatusArrayDeserializer(item["groups"]),
     afterStageWaitStatus: !item["afterStageWaitStatus"]
       ? item["afterStageWaitStatus"]
       : waitStatusDeserializer(item["afterStageWaitStatus"]),
   };
 }
 
-export function updateGroupStatusArrayDeserializer(result: Array<UpdateGroupStatus>): any[] {
+export function updateGroupStatusArrayDeserializer(
+  result: Array<UpdateGroupStatus>,
+): any[] {
   return result.map((item) => {
     return updateGroupStatusDeserializer(item);
   });
@@ -1301,7 +1403,9 @@ export interface UpdateGroupStatus {
 
 export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   return {
-    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : updateStatusDeserializer(item["status"]),
     name: item["name"],
     members: !item["members"]
       ? item["members"]
@@ -1309,7 +1413,9 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   };
 }
 
-export function memberUpdateStatusArrayDeserializer(result: Array<MemberUpdateStatus>): any[] {
+export function memberUpdateStatusArrayDeserializer(
+  result: Array<MemberUpdateStatus>,
+): any[] {
   return result.map((item) => {
     return memberUpdateStatusDeserializer(item);
   });
@@ -1331,7 +1437,9 @@ export interface MemberUpdateStatus {
 
 export function memberUpdateStatusDeserializer(item: any): MemberUpdateStatus {
   return {
-    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : updateStatusDeserializer(item["status"]),
     name: item["name"],
     clusterResourceId: item["clusterResourceId"],
     operationId: item["operationId"],
@@ -1349,7 +1457,9 @@ export interface WaitStatus {
 
 export function waitStatusDeserializer(item: any): WaitStatus {
   return {
-    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
+    status: !item["status"]
+      ? item["status"]
+      : updateStatusDeserializer(item["status"]),
     waitDurationInSeconds: item["waitDurationInSeconds"],
   };
 }
@@ -1360,7 +1470,9 @@ export interface NodeImageSelectionStatus {
   readonly selectedNodeImageVersions?: NodeImageVersion[];
 }
 
-export function nodeImageSelectionStatusDeserializer(item: any): NodeImageSelectionStatus {
+export function nodeImageSelectionStatusDeserializer(
+  item: any,
+): NodeImageSelectionStatus {
   return {
     selectedNodeImageVersions: !item["selectedNodeImageVersions"]
       ? item["selectedNodeImageVersions"]
@@ -1376,7 +1488,9 @@ export interface _UpdateRunListResult {
   nextLink?: string;
 }
 
-export function _updateRunListResultDeserializer(item: any): _UpdateRunListResult {
+export function _updateRunListResultDeserializer(
+  item: any,
+): _UpdateRunListResult {
   return {
     value: updateRunArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1467,7 +1581,9 @@ export function fleetUpdateStrategySerializer(item: FleetUpdateStrategy): any {
   };
 }
 
-export function fleetUpdateStrategyDeserializer(item: any): FleetUpdateStrategy {
+export function fleetUpdateStrategyDeserializer(
+  item: any,
+): FleetUpdateStrategy {
   return {
     id: item["id"],
     name: item["name"],
@@ -1490,7 +1606,9 @@ export interface FleetUpdateStrategyProperties {
   strategy: UpdateRunStrategy;
 }
 
-export function fleetUpdateStrategyPropertiesSerializer(item: FleetUpdateStrategyProperties): any {
+export function fleetUpdateStrategyPropertiesSerializer(
+  item: FleetUpdateStrategyProperties,
+): any {
   return { strategy: updateRunStrategySerializer(item["strategy"]) };
 }
 
@@ -1541,13 +1659,17 @@ export function _fleetUpdateStrategyListResultDeserializer(
   };
 }
 
-export function fleetUpdateStrategyArraySerializer(result: Array<FleetUpdateStrategy>): any[] {
+export function fleetUpdateStrategyArraySerializer(
+  result: Array<FleetUpdateStrategy>,
+): any[] {
   return result.map((item) => {
     return fleetUpdateStrategySerializer(item);
   });
 }
 
-export function fleetUpdateStrategyArrayDeserializer(result: Array<FleetUpdateStrategy>): any[] {
+export function fleetUpdateStrategyArrayDeserializer(
+  result: Array<FleetUpdateStrategy>,
+): any[] {
   return result.map((item) => {
     return fleetUpdateStrategyDeserializer(item);
   });
@@ -1605,7 +1727,9 @@ export interface AutoUpgradeProfileProperties {
   autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
 }
 
-export function autoUpgradeProfilePropertiesSerializer(item: AutoUpgradeProfileProperties): any {
+export function autoUpgradeProfilePropertiesSerializer(
+  item: AutoUpgradeProfileProperties,
+): any {
   return {
     updateStrategyId: item["updateStrategyId"],
     channel: item["channel"],
@@ -1619,7 +1743,9 @@ export function autoUpgradeProfilePropertiesSerializer(item: AutoUpgradeProfileP
   };
 }
 
-export function autoUpgradeProfilePropertiesDeserializer(item: any): AutoUpgradeProfileProperties {
+export function autoUpgradeProfilePropertiesDeserializer(
+  item: any,
+): AutoUpgradeProfileProperties {
   return {
     provisioningState: item["provisioningState"],
     updateStrategyId: item["updateStrategyId"],
@@ -1686,7 +1812,9 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
-export function autoUpgradeNodeImageSelectionSerializer(item: AutoUpgradeNodeImageSelection): any {
+export function autoUpgradeNodeImageSelectionSerializer(
+  item: AutoUpgradeNodeImageSelection,
+): any {
   return { type: item["type"] };
 }
 
@@ -1728,11 +1856,15 @@ export interface AutoUpgradeProfileStatus {
   readonly lastTriggerUpgradeVersions?: string[];
 }
 
-export function autoUpgradeProfileStatusSerializer(item: AutoUpgradeProfileStatus): any {
+export function autoUpgradeProfileStatusSerializer(
+  item: AutoUpgradeProfileStatus,
+): any {
   return item;
 }
 
-export function autoUpgradeProfileStatusDeserializer(item: any): AutoUpgradeProfileStatus {
+export function autoUpgradeProfileStatusDeserializer(
+  item: any,
+): AutoUpgradeProfileStatus {
   return {
     lastTriggeredAt: !item["lastTriggeredAt"]
       ? item["lastTriggeredAt"]
@@ -1784,16 +1916,32 @@ export function _autoUpgradeProfileListResultDeserializer(
   };
 }
 
-export function autoUpgradeProfileArraySerializer(result: Array<AutoUpgradeProfile>): any[] {
+export function autoUpgradeProfileArraySerializer(
+  result: Array<AutoUpgradeProfile>,
+): any[] {
   return result.map((item) => {
     return autoUpgradeProfileSerializer(item);
   });
 }
 
-export function autoUpgradeProfileArrayDeserializer(result: Array<AutoUpgradeProfile>): any[] {
+export function autoUpgradeProfileArrayDeserializer(
+  result: Array<AutoUpgradeProfile>,
+): any[] {
   return result.map((item) => {
     return autoUpgradeProfileDeserializer(item);
   });
+}
+
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /** The ARM resource id of the generated UpdateRun. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'. */
+  readonly id: string;
+}
+
+export function generateResponseDeserializer(item: any): GenerateResponse {
+  return {
+    id: item["id"],
+  };
 }
 
 /** Azure Kubernetes Fleet Manager api versions. */

@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext as Client } from "../index.js";
-import { errorResponseDeserializer } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  GenerateResponse,
+  generateResponseDeserializer,
+} from "../../models/models.js";
 import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -36,16 +40,20 @@ export function _generateUpdateRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _generateUpdateRunDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _generateUpdateRunDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GenerateResponse> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -53,7 +61,7 @@ export async function _generateUpdateRunDeserialize(result: PathUncheckedRespons
     throw error;
   }
 
-  return;
+  return generateResponseDeserializer(result.body);
 }
 
 /** A long-running resource action. */
@@ -65,18 +73,23 @@ export function generateUpdateRun(
   options: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _generateUpdateRunDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _generateUpdateRunSend(
-        context,
-        resourceGroupName,
-        fleetName,
-        autoUpgradeProfileName,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<void>, void>;
+): PollerLike<OperationState<GenerateResponse>, GenerateResponse> {
+  return getLongRunningPoller(
+    context,
+    _generateUpdateRunDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _generateUpdateRunSend(
+          context,
+          resourceGroupName,
+          fleetName,
+          autoUpgradeProfileName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }

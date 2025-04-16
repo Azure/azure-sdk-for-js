@@ -91,6 +91,7 @@ export {
   AutoUpgradeProfileStatus,
   KnownAutoUpgradeLastTriggerStatus,
   AutoUpgradeLastTriggerStatus,
+  GenerateResponse,
   KnownVersions,
 } from "./models/index.js";
 export { ContainerServiceFleetClientOptionalParams } from "./api/index.js";

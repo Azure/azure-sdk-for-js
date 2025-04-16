@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { GenerateResponse } from "../../models/models.js";
 import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "../../api/autoUpgradeProfileOperations/options.js";
 import { generateUpdateRun } from "../../api/autoUpgradeProfileOperations/operations.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -14,17 +15,26 @@ export interface AutoUpgradeProfileOperationsOperations {
     fleetName: string,
     autoUpgradeProfileName: string,
     options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }
 
-function _getAutoUpgradeProfileOperations(context: ContainerServiceFleetContext) {
+function _getAutoUpgradeProfileOperations(
+  context: ContainerServiceFleetContext,
+) {
   return {
     generateUpdateRun: (
       resourceGroupName: string,
       fleetName: string,
       autoUpgradeProfileName: string,
       options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams,
-    ) => generateUpdateRun(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
+    ) =>
+      generateUpdateRun(
+        context,
+        resourceGroupName,
+        fleetName,
+        autoUpgradeProfileName,
+        options,
+      ),
   };
 }
 

@@ -4,10 +4,12 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {}
+export interface FleetUpdateStrategiesListByFleetOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOptions {
+export interface FleetUpdateStrategiesDeleteOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
@@ -15,7 +17,8 @@ export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */
@@ -25,4 +28,5 @@ export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends Opera
 }
 
 /** Optional parameters. */
-export interface FleetUpdateStrategiesGetOptionalParams extends OperationOptions {}
+export interface FleetUpdateStrategiesGetOptionalParams
+  extends OperationOptions {}

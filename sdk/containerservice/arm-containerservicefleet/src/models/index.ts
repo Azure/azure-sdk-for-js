@@ -83,5 +83,6 @@ export {
   AutoUpgradeProfileStatus,
   KnownAutoUpgradeLastTriggerStatus,
   AutoUpgradeLastTriggerStatus,
+  GenerateResponse,
   KnownVersions,
 } from "./models.js";
