@@ -12,7 +12,12 @@ import type {
   TelemetryExceptionDetails,
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
-import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
+import {
+  createTagsFromResource,
+  hrTimeToDate,
+  isSyntheticSource,
+  serializeAttribute,
+} from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   ATTR_EXCEPTION_MESSAGE,
@@ -145,6 +150,9 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
     tags[KnownContextTagKeys.AiOperationName] = log.attributes[
       KnownContextTagKeys.AiOperationName
     ] as string;
+  }
+  if (isSyntheticSource(log.attributes as Attributes)) {
+    tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
   getLocationIp(tags, log.attributes as Attributes);
   return tags;
