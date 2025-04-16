@@ -4,8 +4,8 @@
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped.",
