@@ -12,7 +12,7 @@ jobs:
       - ${{ each var in parameters.VarDependencies }}:
         - name: ${{ var.key }}
           value: ${{ var.value }}
-    ${{ if ne(variables['Tag'], 'dev') }}:
+    ${{ if ne(parameters.VarDependencies.Tag, 'dev') }}:
       environment: 'package-publish'
     ${{ else }}:
       environment: 'none'
