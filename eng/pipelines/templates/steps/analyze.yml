@@ -78,6 +78,14 @@ steps:
       node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
+  - pwsh: |
+      node eng/tools/rush-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+    displayName: "Update snippets"
+
+  - pwsh: |
+      eng/tools/check-snippet-changes.ps1
+    displayName: "Check snippet changes"
+
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
       PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
