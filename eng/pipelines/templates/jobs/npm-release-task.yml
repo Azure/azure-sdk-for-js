@@ -14,6 +14,8 @@ jobs:
           value: ${{ var.value }}
     ${{ if ne(variables['Tag'], 'dev') }}:
       environment: 'package-publish'
+    ${{ else }}:
+      environment: 'none'
     dependsOn: ${{ parameters.DependsOn }}
     condition: succeeded()
     templateContext:
