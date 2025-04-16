@@ -258,7 +258,6 @@ export const AvailablePhoneNumber: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -272,7 +271,6 @@ export const AvailablePhoneNumber: coreClient.CompositeMapper = {
       },
       phoneNumber: {
         serializedName: "phoneNumber",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -302,19 +300,17 @@ export const AvailablePhoneNumber: coreClient.CompositeMapper = {
         serializedName: "cost",
         type: {
           name: "Composite",
-          className: "AvailablePhoneNumberCost",
+          className: "PhoneNumberCost",
         },
       },
       status: {
         serializedName: "status",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       isAgreementToNotResellRequired: {
         serializedName: "isAgreementToNotResellRequired",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -391,14 +387,12 @@ export const AvailablePhoneNumberError: coreClient.CompositeMapper = {
     modelProperties: {
       code: {
         serializedName: "code",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       message: {
         serializedName: "message",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1079,16 +1073,6 @@ export const OperatorDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-    },
-  },
-};
-
-export const AvailablePhoneNumberCost: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AvailablePhoneNumberCost",
-    modelProperties: {
-      ...PhoneNumberCost.type.modelProperties,
     },
   },
 };

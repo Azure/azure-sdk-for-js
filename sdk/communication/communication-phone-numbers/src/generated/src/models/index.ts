@@ -95,44 +95,26 @@ export interface PhoneNumbersBrowseResult {
 
 /** Represents a phone number available in inventory */
 export interface AvailablePhoneNumber {
-  /**
-   * The id of the phone number.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+  /** The id of the phone number. */
+  id?: string;
   /** The ISO 3166-2 country code, e.g. US. */
   countryCode: string;
-  /**
-   * The phone number in E.164 format, e.g. +11234567890.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly phoneNumber?: string;
+  /** The phone number in E.164 format, e.g. +11234567890. */
+  phoneNumber?: string;
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
   /** Represents the number type of the offering. */
   phoneNumberType: PhoneNumberType;
   /** Represents the assignment type of the offering. Also known as the use case. */
   assignmentType: PhoneNumberAssignmentType;
-  /**
-   * The incurred cost for this phone number.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cost?: AvailablePhoneNumberCost;
-  /**
-   * Represents the status of the phone number. Possible values include: 'available', 'reserved', 'expired', 'error', 'purchased'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AvailablePhoneNumberStatus;
-  /**
-   * Indicates if do not resell agreement is required. If true, the phone number cannot be acquired unless the customer provides explicit agreement to not resell it.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isAgreementToNotResellRequired?: boolean;
-  /**
-   * Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: AvailablePhoneNumberError;
+  /** The incurred cost for this phone number. */
+  cost?: PhoneNumberCost;
+  /** Represents the status of the phone number. Possible values include: 'available', 'reserved', 'expired', 'error', 'purchased'. */
+  status?: AvailablePhoneNumberStatus;
+  /** Indicates if do not resell agreement is required. If true, the phone number cannot be acquired unless the customer provides explicit agreement to not resell it. */
+  isAgreementToNotResellRequired?: boolean;
+  /** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
+  error?: AvailablePhoneNumberError;
 }
 
 /** Capabilities of a phone number. */
@@ -155,16 +137,10 @@ export interface PhoneNumberCost {
 
 /** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
 export interface AvailablePhoneNumberError {
-  /**
-   * The error code indicating the reason why the operation performed on the phone number failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message describing the failure that occurred.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
+  /** The error code indicating the reason why the operation performed on the phone number failed. */
+  code?: string;
+  /** The error message describing the failure that occurred. */
+  message?: string;
 }
 
 /** Represents a wrapper around a list of cities or towns. */
@@ -396,9 +372,6 @@ export interface OperatorDetails {
   /** Mobile Country Code, 3 decimal digits that identify a country/region */
   mobileCountryCode?: string;
 }
-
-/** The incurred cost for this phone number. */
-export interface AvailablePhoneNumberCost extends PhoneNumberCost {}
 
 /** Defines headers for PhoneNumbers_purchaseReservation operation. */
 export interface PhoneNumbersPurchaseReservationHeaders {

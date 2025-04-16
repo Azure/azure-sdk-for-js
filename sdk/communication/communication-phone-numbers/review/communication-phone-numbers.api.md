@@ -17,24 +17,20 @@ import type { TokenCredential } from '@azure/core-auth';
 export interface AvailablePhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
-    readonly cost?: AvailablePhoneNumberCost;
+    cost?: PhoneNumberCost;
     countryCode: string;
-    readonly error?: AvailablePhoneNumberError;
-    readonly id?: string;
-    readonly isAgreementToNotResellRequired?: boolean;
-    readonly phoneNumber?: string;
+    error?: AvailablePhoneNumberError;
+    id?: string;
+    isAgreementToNotResellRequired?: boolean;
+    phoneNumber?: string;
     phoneNumberType: PhoneNumberType;
-    readonly status?: AvailablePhoneNumberStatus;
-}
-
-// @public
-export interface AvailablePhoneNumberCost extends PhoneNumberCost {
+    status?: AvailablePhoneNumberStatus;
 }
 
 // @public
 export interface AvailablePhoneNumberError {
-    readonly code?: string;
-    readonly message?: string;
+    code?: string;
+    message?: string;
 }
 
 // @public

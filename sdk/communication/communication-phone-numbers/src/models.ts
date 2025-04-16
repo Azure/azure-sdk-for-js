@@ -185,7 +185,6 @@ export interface GetReservationResult extends PhoneNumbersGetReservationResponse
 
 export {
   AvailablePhoneNumber,
-  AvailablePhoneNumberCost,
   AvailablePhoneNumberError,
   AvailablePhoneNumberStatus,
   PhoneNumberAdministrativeDivision,

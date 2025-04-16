@@ -79,3 +79,28 @@ directive:
   transform: >
     $["format"] = "";
 ```
+
+### Remove readonly attributes from AvailablePhoneNumber properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumber
+    transform: >
+      $["properties"]["cost"].readOnly = false;
+      $["properties"]["id"].readOnly = false;
+      $["properties"]["isAgreementToNotResellRequired"].readOnly = false;
+      $["properties"]["phoneNumber"].readOnly = false;
+      $["properties"]["status"].readOnly = false;
+      $["properties"]["error"].readOnly = false;
+```
+### Remove readonly attributes from AvailablePhoneNumberError properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumberError
+    debug: true
+    transform: >
+      $["readOnly"] = false;
+      $["properties"]["code"].readOnly = false;
+      $["properties"]["message"].readOnly = false;
+```
