@@ -34,6 +34,7 @@ async function main() {
     auth: {
       type: "anonymous",
     },
+    default_params: ["format"], // optional
   };
 
   // Create OpenApi tool
