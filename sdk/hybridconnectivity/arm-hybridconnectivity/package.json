@@ -6,8 +6,10 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@azure-rest/core-client": "workspace:*",
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
+    "@azure/core-lro": "workspace:*",
     "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "tslib": "catalog:"

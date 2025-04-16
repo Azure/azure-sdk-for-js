@@ -189,6 +189,7 @@ sdk/template/template-dpg/src/src
 .tshy
 .tshy-build-tmp
 .tshy-build
+sdk/**/src/package.json
 
 # sshkey
 sdk/**/sshKey

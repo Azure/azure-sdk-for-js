@@ -8,6 +8,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
     "@azure/core-lro": "catalog:corelrov2",

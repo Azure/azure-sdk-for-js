@@ -91,7 +91,7 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -99,7 +99,7 @@
     "eslint": "catalog:",
     "magic-string": "~0.30.10",
     "playwright": "catalog:testing",
-    "rollup": "^4.0.0",
+    "rollup": "^4.40.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
