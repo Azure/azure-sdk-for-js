@@ -1324,6 +1324,10 @@ packages:
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
 
+  '@azure/communication-signaling@1.0.0-beta.31':
+    resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
+    engines: {node: '>=8.0.0'}
+
   '@azure/core-auth@1.9.0':
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
     engines: {node: '>=18.0.0'}
@@ -3473,7 +3477,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-IeV/3H6jX+NIaxKejZ5PtFex91+v1cU9vwU3NAPqn4GNBrmNeznSzpxtCAb27vL9b9yaamMzsmXYlXFH6sHXaQ==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-y02OAh2OgJ8tb5XSxJWKa9V2kBUPPTIcUJbmCBnXgRtSsW2YBDB8Q1gNh66VePOQFdjVH1o4N/GejJLUV8qBxA==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
@@ -7312,6 +7316,21 @@ snapshots:
       - supports-color
 
   '@azure/communication-signaling@1.0.0-beta.29':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      events: 3.3.0
+      tslib: 2.8.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/communication-signaling@1.0.0-beta.31':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -18444,12 +18463,14 @@ snapshots:
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/communication-common': 2.3.1
+      '@azure/communication-signaling': 1.0.0-beta.31
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       autorest: 3.7.1
       dotenv: 16.5.0
       eslint: 9.24.0
+      events: 3.3.0
       karma-source-map-support: 1.4.0
       playwright: 1.51.1
       tslib: 2.8.1
