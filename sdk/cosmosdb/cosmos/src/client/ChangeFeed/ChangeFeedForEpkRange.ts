@@ -310,7 +310,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       // resolvedRanges.length > 1 in case of split.
       // resolvedRanges.length === 1 in case of merge. EpkRange headers will be added in this case.
       if (resolvedRanges.length >= 1) {
-        await this.handleSplit(false, resolvedRanges, queryRange, feedRange.continuationToken);
+        await this.handleSplitOrMerge(
+          false,
+          resolvedRanges,
+          queryRange,
+          feedRange.continuationToken,
+        );
       }
       return true;
     }
@@ -319,7 +324,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   /*
    * Enqueues all the children feed ranges for the given feed range.
    */
-  private async handleSplit(
+  private async handleSplitOrMerge(
     shiftLeft: boolean,
     resolvedRanges: any,
     oldFeedRange: QueryRange,
@@ -327,7 +332,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   ): Promise<void> {
     let flag = 0;
     if (shiftLeft) {
-      // This section is only applicable when handleSplit is called by getPartitionRangeId().
+      // This section is only applicable when handleSplitOrMerge is called by getPartitionRangeId().
       // used only when existing partition key range cache is used to check for any overlapping ranges.
       // Modifies the first element with the first overlapping range.
       const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
@@ -384,8 +389,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       throw new ErrorResponse("No overlapping ranges found.");
     }
     const firstResolvedRange = resolvedRanges[0];
-    if (resolvedRanges.length > 1) {
-      await this.handleSplit(true, resolvedRanges, queryRange, feedRange.continuationToken);
+    const isPartitionRangeChanged =
+      feedRange.minInclusive !== firstResolvedRange.minInclusive ||
+      feedRange.maxExclusive !== firstResolvedRange.maxExclusive ||
+      resolvedRanges.length > 1;
+    // If the partition range is changed, we need to handle split/merge
+    if (isPartitionRangeChanged) {
+      await this.handleSplitOrMerge(true, resolvedRanges, queryRange, feedRange.continuationToken);
     }
     return firstResolvedRange.id;
   }
@@ -437,6 +447,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
+      const finalFeedRange = this.queue.peek();
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
         path: this.resourceLink,
         resourceType: ResourceType.item,
@@ -447,8 +458,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         diagnosticNode,
         partitionKey: undefined,
         partitionKeyRangeId: rangeId,
-        startEpk: feedRange.epkMinHeader,
-        endEpk: feedRange.epkMaxHeader,
+        startEpk: finalFeedRange.epkMinHeader,
+        endEpk: finalFeedRange.epkMaxHeader,
       }) as Promise<any>);
 
       return new ChangeFeedIteratorResponse(
