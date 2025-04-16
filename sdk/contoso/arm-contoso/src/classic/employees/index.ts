@@ -90,25 +90,13 @@ function _getEmployees(context: ContosoContext) {
       employeeName: string,
       resource: Employee,
       options?: EmployeesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        employeeName,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      employeeName: string,
-      options?: EmployeesGetOptionalParams,
-    ) => get(context, resourceGroupName, employeeName, options),
+    ) => createOrUpdate(context, resourceGroupName, employeeName, resource, options),
+    get: (resourceGroupName: string, employeeName: string, options?: EmployeesGetOptionalParams) =>
+      get(context, resourceGroupName, employeeName, options),
   };
 }
 
-export function _getEmployeesOperations(
-  context: ContosoContext,
-): EmployeesOperations {
+export function _getEmployeesOperations(context: ContosoContext): EmployeesOperations {
   return {
     ..._getEmployees(context),
   };
