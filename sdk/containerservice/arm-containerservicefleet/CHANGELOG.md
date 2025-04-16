@@ -63,6 +63,16 @@
   - Enum KnownManagedServiceIdentityType has a new value SystemAndUserAssigned
   - Enum KnownNodeImageSelectionType has a new value Custom
   - Added function restorePoller
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Type of parameter tags of interface FleetPatch is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to Record<string, UserAssignedIdentity>
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
 
 ### Breaking Changes
 
@@ -118,16 +128,6 @@
   - Interface UpdateRunsSkipOptionalParams no longer has parameter resumeFrom
   - Interface UpdateRunsStartOptionalParams no longer has parameter resumeFrom
   - Interface UpdateRunsStopOptionalParams no longer has parameter resumeFrom
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
-  - Type of parameter tags of interface FleetPatch is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
-        [propertyName: string]: UserAssignedIdentity;
-    } to Record<string, UserAssignedIdentity>
-  - Type of parameter tags of interface TrackedResource is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
   - Class ContainerServiceFleetClient no longer has parameter $host
   - Class ContainerServiceFleetClient no longer has parameter apiVersion
   - Class ContainerServiceFleetClient no longer has parameter subscriptionId
