@@ -19,7 +19,7 @@ import {
   ManagedCertificatePatch,
   ManagedCertificatesUpdateOptionalParams,
   ManagedCertificatesUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedCertificates. */

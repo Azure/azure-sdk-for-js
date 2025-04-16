@@ -31,7 +31,7 @@ import {
   SessionPool as SessionPoolMapper,
   SessionPoolUpdatableProperties as SessionPoolUpdatablePropertiesMapper,
   SourceControl as SourceControlMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
