@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -207,9 +189,7 @@ export function standbyVirtualMachinePoolResourceSerializer(
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : standbyVirtualMachinePoolResourcePropertiesSerializer(
-          item["properties"],
-        ),
+      : standbyVirtualMachinePoolResourcePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -227,9 +207,7 @@ export function standbyVirtualMachinePoolResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : standbyVirtualMachinePoolResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : standbyVirtualMachinePoolResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -251,9 +229,7 @@ export function standbyVirtualMachinePoolResourcePropertiesSerializer(
   return {
     elasticityProfile: !item["elasticityProfile"]
       ? item["elasticityProfile"]
-      : standbyVirtualMachinePoolElasticityProfileSerializer(
-          item["elasticityProfile"],
-        ),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(item["elasticityProfile"]),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -265,9 +241,7 @@ export function standbyVirtualMachinePoolResourcePropertiesDeserializer(
   return {
     elasticityProfile: !item["elasticityProfile"]
       ? item["elasticityProfile"]
-      : standbyVirtualMachinePoolElasticityProfileDeserializer(
-          item["elasticityProfile"],
-        ),
+      : standbyVirtualMachinePoolElasticityProfileDeserializer(item["elasticityProfile"]),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
     provisioningState: item["provisioningState"],
@@ -417,9 +391,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -467,9 +439,7 @@ export function standbyVirtualMachinePoolResourceUpdateSerializer(
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
-          item["properties"],
-        ),
+      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -489,9 +459,7 @@ export function standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item["elasticityProfile"]
       ? item["elasticityProfile"]
-      : standbyVirtualMachinePoolElasticityProfileSerializer(
-          item["elasticityProfile"],
-        ),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(item["elasticityProfile"]),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -609,8 +577,7 @@ export function standbyVirtualMachineResourceArrayDeserializer(
 }
 
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
-export interface StandbyVirtualMachinePoolRuntimeViewResource
-  extends ProxyResource {
+export interface StandbyVirtualMachinePoolRuntimeViewResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
 }
@@ -627,9 +594,7 @@ export function standbyVirtualMachinePoolRuntimeViewResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : standbyVirtualMachinePoolRuntimeViewResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : standbyVirtualMachinePoolRuntimeViewResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -652,9 +617,7 @@ export function standbyVirtualMachinePoolRuntimeViewResourcePropertiesDeserializ
     instanceCountSummary: virtualMachineInstanceCountSummaryArrayDeserializer(
       item["instanceCountSummary"],
     ),
-    status: !item["status"]
-      ? item["status"]
-      : poolStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : poolStatusDeserializer(item["status"]),
     provisioningState: item["provisioningState"],
     prediction: !item["prediction"]
       ? item["prediction"]
@@ -705,9 +668,7 @@ export interface PoolVirtualMachineStateCount {
   count: number;
 }
 
-export function poolVirtualMachineStateCountDeserializer(
-  item: any,
-): PoolVirtualMachineStateCount {
+export function poolVirtualMachineStateCountDeserializer(item: any): PoolVirtualMachineStateCount {
   return {
     state: item["state"],
     count: item["count"],
@@ -797,9 +758,7 @@ export function standbyVirtualMachinePoolPredictionDeserializer(
   item: any,
 ): StandbyVirtualMachinePoolPrediction {
   return {
-    forecastValues: standbyVirtualMachinePoolForecastValuesDeserializer(
-      item["forecastValues"],
-    ),
+    forecastValues: standbyVirtualMachinePoolForecastValuesDeserializer(item["forecastValues"]),
     forecastStartTime: new Date(item["forecastStartTime"]),
     forecastInfo: item["forecastInfo"],
   };
@@ -833,9 +792,7 @@ export function _standbyVirtualMachinePoolRuntimeViewResourceListResultDeseriali
   item: any,
 ): _StandbyVirtualMachinePoolRuntimeViewResourceListResult {
   return {
-    value: standbyVirtualMachinePoolRuntimeViewResourceArrayDeserializer(
-      item["value"],
-    ),
+    value: standbyVirtualMachinePoolRuntimeViewResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -862,9 +819,7 @@ export function standbyContainerGroupPoolResourceSerializer(
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : standbyContainerGroupPoolResourcePropertiesSerializer(
-          item["properties"],
-        ),
+      : standbyContainerGroupPoolResourcePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -882,9 +837,7 @@ export function standbyContainerGroupPoolResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : standbyContainerGroupPoolResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : standbyContainerGroupPoolResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -907,9 +860,7 @@ export function standbyContainerGroupPoolResourcePropertiesSerializer(
     elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(
       item["elasticityProfile"],
     ),
-    containerGroupProperties: containerGroupPropertiesSerializer(
-      item["containerGroupProperties"],
-    ),
+    containerGroupProperties: containerGroupPropertiesSerializer(item["containerGroupProperties"]),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -986,29 +937,17 @@ export interface ContainerGroupProperties {
   subnetIds?: Subnet[];
 }
 
-export function containerGroupPropertiesSerializer(
-  item: ContainerGroupProperties,
-): any {
+export function containerGroupPropertiesSerializer(item: ContainerGroupProperties): any {
   return {
-    containerGroupProfile: containerGroupProfileSerializer(
-      item["containerGroupProfile"],
-    ),
-    subnetIds: !item["subnetIds"]
-      ? item["subnetIds"]
-      : subnetArraySerializer(item["subnetIds"]),
+    containerGroupProfile: containerGroupProfileSerializer(item["containerGroupProfile"]),
+    subnetIds: !item["subnetIds"] ? item["subnetIds"] : subnetArraySerializer(item["subnetIds"]),
   };
 }
 
-export function containerGroupPropertiesDeserializer(
-  item: any,
-): ContainerGroupProperties {
+export function containerGroupPropertiesDeserializer(item: any): ContainerGroupProperties {
   return {
-    containerGroupProfile: containerGroupProfileDeserializer(
-      item["containerGroupProfile"],
-    ),
-    subnetIds: !item["subnetIds"]
-      ? item["subnetIds"]
-      : subnetArrayDeserializer(item["subnetIds"]),
+    containerGroupProfile: containerGroupProfileDeserializer(item["containerGroupProfile"]),
+    subnetIds: !item["subnetIds"] ? item["subnetIds"] : subnetArrayDeserializer(item["subnetIds"]),
   };
 }
 
@@ -1020,15 +959,11 @@ export interface ContainerGroupProfile {
   revision?: number;
 }
 
-export function containerGroupProfileSerializer(
-  item: ContainerGroupProfile,
-): any {
+export function containerGroupProfileSerializer(item: ContainerGroupProfile): any {
   return { id: item["id"], revision: item["revision"] };
 }
 
-export function containerGroupProfileDeserializer(
-  item: any,
-): ContainerGroupProfile {
+export function containerGroupProfileDeserializer(item: any): ContainerGroupProfile {
   return {
     id: item["id"],
     revision: item["revision"],
@@ -1078,9 +1013,7 @@ export function standbyContainerGroupPoolResourceUpdateSerializer(
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
-      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
-          item["properties"],
-        ),
+      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1100,9 +1033,7 @@ export function standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item["elasticityProfile"]
       ? item["elasticityProfile"]
-      : standbyContainerGroupPoolElasticityProfileSerializer(
-          item["elasticityProfile"],
-        ),
+      : standbyContainerGroupPoolElasticityProfileSerializer(item["elasticityProfile"]),
     containerGroupProperties: !item["containerGroupProperties"]
       ? item["containerGroupProperties"]
       : containerGroupPropertiesSerializer(item["containerGroupProperties"]),
@@ -1148,8 +1079,7 @@ export function standbyContainerGroupPoolResourceArrayDeserializer(
 }
 
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
-export interface StandbyContainerGroupPoolRuntimeViewResource
-  extends ProxyResource {
+export interface StandbyContainerGroupPoolRuntimeViewResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
 }
@@ -1166,9 +1096,7 @@ export function standbyContainerGroupPoolRuntimeViewResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : standbyContainerGroupPoolRuntimeViewResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : standbyContainerGroupPoolRuntimeViewResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1191,9 +1119,7 @@ export function standbyContainerGroupPoolRuntimeViewResourcePropertiesDeserializ
     instanceCountSummary: containerGroupInstanceCountSummaryArrayDeserializer(
       item["instanceCountSummary"],
     ),
-    status: !item["status"]
-      ? item["status"]
-      : poolStatusDeserializer(item["status"]),
+    status: !item["status"] ? item["status"] : poolStatusDeserializer(item["status"]),
     provisioningState: item["provisioningState"],
     prediction: !item["prediction"]
       ? item["prediction"]
@@ -1244,9 +1170,7 @@ export interface PoolContainerGroupStateCount {
   count: number;
 }
 
-export function poolContainerGroupStateCountDeserializer(
-  item: any,
-): PoolContainerGroupStateCount {
+export function poolContainerGroupStateCountDeserializer(item: any): PoolContainerGroupStateCount {
   return {
     state: item["state"],
     count: item["count"],
@@ -1288,9 +1212,7 @@ export function standbyContainerGroupPoolPredictionDeserializer(
   item: any,
 ): StandbyContainerGroupPoolPrediction {
   return {
-    forecastValues: standbyContainerGroupPoolForecastValuesDeserializer(
-      item["forecastValues"],
-    ),
+    forecastValues: standbyContainerGroupPoolForecastValuesDeserializer(item["forecastValues"]),
     forecastStartTime: new Date(item["forecastStartTime"]),
     forecastInfo: item["forecastInfo"],
   };
@@ -1324,9 +1246,7 @@ export function _standbyContainerGroupPoolRuntimeViewResourceListResultDeseriali
   item: any,
 ): _StandbyContainerGroupPoolRuntimeViewResourceListResult {
   return {
-    value: standbyContainerGroupPoolRuntimeViewResourceArrayDeserializer(
-      item["value"],
-    ),
+    value: standbyContainerGroupPoolRuntimeViewResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }

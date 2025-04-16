@@ -30,34 +30,19 @@ export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
   ) => Promise<StandbyVirtualMachinePoolRuntimeViewResource>;
 }
 
-function _getStandbyVirtualMachinePoolRuntimeViews(
-  context: StandbyPoolManagementContext,
-) {
+function _getStandbyVirtualMachinePoolRuntimeViews(context: StandbyPoolManagementContext) {
   return {
     listByStandbyPool: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-    ) =>
-      listByStandbyPool(
-        context,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        options,
-      ),
+    ) => listByStandbyPool(context, resourceGroupName, standbyVirtualMachinePoolName, options),
     get: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       runtimeView: string,
       options?: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        runtimeView,
-        options,
-      ),
+    ) => get(context, resourceGroupName, standbyVirtualMachinePoolName, runtimeView, options),
   };
 }
 

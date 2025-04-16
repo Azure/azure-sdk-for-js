@@ -74,9 +74,8 @@ export interface StandbyVirtualMachinePoolsOperations {
 
 function _getStandbyVirtualMachinePools(context: StandbyPoolManagementContext) {
   return {
-    listBySubscription: (
-      options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
@@ -86,44 +85,24 @@ function _getStandbyVirtualMachinePools(context: StandbyPoolManagementContext) {
       standbyVirtualMachinePoolName: string,
       properties: StandbyVirtualMachinePoolResourceUpdate,
       options?: StandbyVirtualMachinePoolsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, standbyVirtualMachinePoolName, properties, options),
     delete: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       options?: StandbyVirtualMachinePoolsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, standbyVirtualMachinePoolName, options),
     createOrUpdate: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       resource: StandbyVirtualMachinePoolResource,
       options?: StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        resource,
-        options,
-      ),
+      createOrUpdate(context, resourceGroupName, standbyVirtualMachinePoolName, resource, options),
     get: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       options?: StandbyVirtualMachinePoolsGetOptionalParams,
-    ) =>
-      get(context, resourceGroupName, standbyVirtualMachinePoolName, options),
+    ) => get(context, resourceGroupName, standbyVirtualMachinePoolName, options),
   };
 }
 

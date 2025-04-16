@@ -12,23 +12,19 @@ export interface StandbyContainerGroupPoolsListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsUpdateOptionalParams
-  extends OperationOptions {}
+export interface StandbyContainerGroupPoolsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsDeleteOptionalParams
-  extends OperationOptions {
+export interface StandbyContainerGroupPoolsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface StandbyContainerGroupPoolsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StandbyContainerGroupPoolsGetOptionalParams
-  extends OperationOptions {}
+export interface StandbyContainerGroupPoolsGetOptionalParams extends OperationOptions {}

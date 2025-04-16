@@ -45,15 +45,13 @@ export function _listByStandbyPoolSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByStandbyPoolDeserialize(
@@ -66,9 +64,7 @@ export async function _listByStandbyPoolDeserialize(
     throw error;
   }
 
-  return _standbyContainerGroupPoolRuntimeViewResourceListResultDeserializer(
-    result.body,
-  );
+  return _standbyContainerGroupPoolRuntimeViewResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyContainerGroupPoolRuntimeViewResource resources by StandbyContainerGroupPoolResource */
@@ -83,12 +79,7 @@ export function listByStandbyPool(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _listByStandbyPoolSend(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        options,
-      ),
+      _listByStandbyPoolSend(context, resourceGroupName, standbyContainerGroupPoolName, options),
     _listByStandbyPoolDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -117,15 +108,13 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getDeserialize(

@@ -14,10 +14,7 @@ async function standbyVirtualMachinePoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
-  const result = await client.standbyVirtualMachinePools.get(
-    "rgstandbypool",
-    "pool",
-  );
+  const result = await client.standbyVirtualMachinePools.get("rgstandbypool", "pool");
   console.log(result);
 }
 

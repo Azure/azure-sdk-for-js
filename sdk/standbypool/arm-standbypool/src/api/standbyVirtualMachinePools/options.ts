@@ -12,23 +12,19 @@ export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsUpdateOptionalParams
-  extends OperationOptions {}
+export interface StandbyVirtualMachinePoolsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsDeleteOptionalParams
-  extends OperationOptions {
+export interface StandbyVirtualMachinePoolsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface StandbyVirtualMachinePoolsGetOptionalParams
-  extends OperationOptions {}
+export interface StandbyVirtualMachinePoolsGetOptionalParams extends OperationOptions {}

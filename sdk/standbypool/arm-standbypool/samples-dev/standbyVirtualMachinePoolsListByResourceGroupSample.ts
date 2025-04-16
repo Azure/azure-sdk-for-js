@@ -15,9 +15,7 @@ async function standbyVirtualMachinePoolsListByResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.standbyVirtualMachinePools.listByResourceGroup(
-    "rgstandbypool",
-  )) {
+  for await (const item of client.standbyVirtualMachinePools.listByResourceGroup("rgstandbypool")) {
     resArray.push(item);
   }
 

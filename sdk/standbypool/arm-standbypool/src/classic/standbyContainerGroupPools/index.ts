@@ -74,9 +74,8 @@ export interface StandbyContainerGroupPoolsOperations {
 
 function _getStandbyContainerGroupPools(context: StandbyPoolManagementContext) {
   return {
-    listBySubscription: (
-      options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
@@ -86,44 +85,24 @@ function _getStandbyContainerGroupPools(context: StandbyPoolManagementContext) {
       standbyContainerGroupPoolName: string,
       properties: StandbyContainerGroupPoolResourceUpdate,
       options?: StandbyContainerGroupPoolsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, standbyContainerGroupPoolName, properties, options),
     delete: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
       options?: StandbyContainerGroupPoolsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, standbyContainerGroupPoolName, options),
     createOrUpdate: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
       resource: StandbyContainerGroupPoolResource,
       options?: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        resource,
-        options,
-      ),
+      createOrUpdate(context, resourceGroupName, standbyContainerGroupPoolName, resource, options),
     get: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
       options?: StandbyContainerGroupPoolsGetOptionalParams,
-    ) =>
-      get(context, resourceGroupName, standbyContainerGroupPoolName, options),
+    ) => get(context, resourceGroupName, standbyContainerGroupPoolName, options),
   };
 }
 

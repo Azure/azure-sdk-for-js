@@ -26,10 +26,7 @@ import {
   StandbyVirtualMachinePoolsOperations,
   _getStandbyVirtualMachinePoolsOperations,
 } from "./classic/standbyVirtualMachinePools/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -56,17 +53,11 @@ export class StandbyPoolManagementClient {
     this.pipeline = this._client.pipeline;
     this.standbyContainerGroupPoolRuntimeViews =
       _getStandbyContainerGroupPoolRuntimeViewsOperations(this._client);
-    this.standbyContainerGroupPools = _getStandbyContainerGroupPoolsOperations(
-      this._client,
-    );
+    this.standbyContainerGroupPools = _getStandbyContainerGroupPoolsOperations(this._client);
     this.standbyVirtualMachinePoolRuntimeViews =
       _getStandbyVirtualMachinePoolRuntimeViewsOperations(this._client);
-    this.standbyVirtualMachines = _getStandbyVirtualMachinesOperations(
-      this._client,
-    );
-    this.standbyVirtualMachinePools = _getStandbyVirtualMachinePoolsOperations(
-      this._client,
-    );
+    this.standbyVirtualMachines = _getStandbyVirtualMachinesOperations(this._client);
+    this.standbyVirtualMachinePools = _getStandbyVirtualMachinePoolsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 

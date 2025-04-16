@@ -30,34 +30,19 @@ export interface StandbyContainerGroupPoolRuntimeViewsOperations {
   ) => Promise<StandbyContainerGroupPoolRuntimeViewResource>;
 }
 
-function _getStandbyContainerGroupPoolRuntimeViews(
-  context: StandbyPoolManagementContext,
-) {
+function _getStandbyContainerGroupPoolRuntimeViews(context: StandbyPoolManagementContext) {
   return {
     listByStandbyPool: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
       options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-    ) =>
-      listByStandbyPool(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        options,
-      ),
+    ) => listByStandbyPool(context, resourceGroupName, standbyContainerGroupPoolName, options),
     get: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
       runtimeView: string,
       options?: StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        runtimeView,
-        options,
-      ),
+    ) => get(context, resourceGroupName, standbyContainerGroupPoolName, runtimeView, options),
   };
 }
 
