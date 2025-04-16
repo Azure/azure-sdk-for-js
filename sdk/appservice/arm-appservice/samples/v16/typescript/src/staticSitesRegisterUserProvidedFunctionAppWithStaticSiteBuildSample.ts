@@ -27,14 +27,14 @@ async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<v
   const environmentName = "default";
   const functionAppName = "testFunctionApp";
   const isForced = true;
-  const staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource =
-  {
+  const staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource = {
     functionAppRegion: "West US 2",
     functionAppResourceId:
       "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/functionRG/providers/Microsoft.Web/sites/testFunctionApp",
   };
-  const options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams =
-    { isForced };
+  const options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams = {
+    isForced,
+  };
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result =
