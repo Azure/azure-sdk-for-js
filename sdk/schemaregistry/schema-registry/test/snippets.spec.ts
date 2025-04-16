@@ -21,7 +21,7 @@ describe("snippets", () => {
     );
     // @ts-preserve-whitespace
     const description = {
-      name: "<name>",
+      name: "<name> changed for testing",
       groupName: "<group name>",
       format: "<schema format>",
       definition: "<schema definition>",
