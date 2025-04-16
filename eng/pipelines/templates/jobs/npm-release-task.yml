@@ -4,6 +4,7 @@ parameters:
   PathToArtifacts: ''
   DependsOn: []
   VarDependencies: {}
+  Environment: 'package-publish'
 
 jobs:
 - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
@@ -12,7 +13,7 @@ jobs:
       - ${{ each var in parameters.VarDependencies }}:
         - name: ${{ var.key }}
           value: ${{ var.value }}
-    environment: 'package-publish'
+    environment: ${{ parameters.Environment }}
     dependsOn: ${{ parameters.DependsOn }}
     condition: succeeded()
     templateContext:

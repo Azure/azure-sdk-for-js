@@ -276,6 +276,7 @@ stages:
                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                 VarDependencies:
                   Tag: "dev"
+                Environment: 'none'
                 DependsOn:
                   - DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
 
