@@ -76,11 +76,12 @@ export interface BrowseAvailableNumbersResult extends PhoneNumbersBrowseAvailabl
 }
 
 // @public
-export interface CreateOrUpdateReservationOptions extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+export interface CreateOrUpdateReservationResult extends PhoneNumbersCreateOrUpdateReservationResponse {
 }
 
 // @public
-export interface CreateOrUpdateReservationResult extends PhoneNumbersCreateOrUpdateReservationResponse {
+export interface CreateReservationOptions extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+    reservationId?: string;
 }
 
 // @public
@@ -266,7 +267,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest): Promise<BrowseAvailableNumbersResult>;
-    createOrUpdateReservation(reservationId: string, reservation: PhoneNumbersReservation, options?: OperationOptions): Promise<CreateOrUpdateReservationResult>;
+    createReservation(phoneNumbers: AvailablePhoneNumber[], options?: CreateReservationOptions): Promise<CreateOrUpdateReservationResult>;
     deleteReservation(reservationId: string, options?: DeleteReservationOptions): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     getReservation(reservationId: string, options?: GetReservationOptions): Promise<GetReservationResult>;
@@ -278,6 +279,7 @@ export class PhoneNumbersClient {
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
     listReservations(options?: ListReservationOptions): PagedAsyncIterableIterator<PhoneNumbersReservation>;
     searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
+    updateReservation(reservationId: string, options?: UpdateReservationOptions): Promise<CreateOrUpdateReservationResult>;
 }
 
 // @public
@@ -454,6 +456,12 @@ export interface SipTrunkRoute {
     name: string;
     numberPattern: string;
     trunks?: string[];
+}
+
+// @public
+export interface UpdateReservationOptions extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+    add?: AvailablePhoneNumber[];
+    remove?: AvailablePhoneNumber[];
 }
 
 // (No @packageDocumentation comment for this package)

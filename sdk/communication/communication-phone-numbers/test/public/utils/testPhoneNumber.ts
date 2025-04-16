@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { generateGUID } from "../../../src/utils/helpers.js";
+import { randomUUID } from "@azure/core-util";
 
 const DEFAULT_PHONE_NUMBER = "+14155550100";
 const testAgentPhoneNumber = (): string => env[`AZURE_PHONE_NUMBER_${env.AZURE_TEST_AGENT}`] ?? "";
@@ -14,7 +14,7 @@ export function getPhoneNumber(): string {
 
 export function getReservationId(): string {
   console.log("IsPlaybackMode: ", isPlaybackMode());
-  return isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : generateGUID();
+  return isPlaybackMode() ? "00000000-0000-0000-0000-000000000000" : randomUUID();
 }
 
 function getPhoneNumberFromEnvironment(): string {

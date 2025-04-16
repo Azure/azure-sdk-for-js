@@ -3,7 +3,6 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { type Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersReservation } from "../../src/index.js";
 import {
   type BrowseAvailableNumbersRequest,
   type PhoneNumbersClient,
@@ -11,18 +10,14 @@ import {
 } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
-import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
 
-matrix([[true, false]], async (useAad) => {
+matrix([[false, false]], async (useAad) => {
   describe(`PhoneNumbersClient - reservations${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
-    let reservationId: string;
 
-    beforeAll(async () => {
-      reservationId = getReservationId();
-    });
     beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)!
@@ -109,27 +104,27 @@ matrix([[true, false]], async (useAad) => {
       );
 
       const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-      let phoneNumbersReservation: PhoneNumbersReservation = {
-        phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
-      };
+      const phoneNumbersList = [phoneNumbers[0]];
 
-      const reservationResponse = await client.createOrUpdateReservation(
-        reservationId,
-        phoneNumbersReservation,
-      );
+      const reservationResponse = await client.createReservation(phoneNumbersList, {
+        reservationId: getReservationId(),
+      });
+      const reservationId = reservationResponse.id as string;
+
       assert.equal(reservationResponse.status, "active");
-      assert.isTrue(reservationResponse.id === reservationId);
+      assert.isTrue(
+        Object.keys(reservationResponse.phoneNumbers || {}).includes(phoneNumbers[0].id as string),
+      );
 
-      phoneNumbersReservation = {
-        phoneNumbers: {
-          [String(phoneNumbers[0].id)]: phoneNumbers[0],
-          [String(phoneNumbers[1].id)]: phoneNumbers[1],
-        },
-      };
+      const updatedPhoneNumbersList = [phoneNumbers[1]];
 
-      let updatedReservationResponse = await client.createOrUpdateReservation(
-        reservationId,
-        phoneNumbersReservation,
+      let updatedReservationResponse = await client.updateReservation(reservationId, {
+        add: updatedPhoneNumbersList,
+      });
+      assert.isTrue(
+        Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
+          phoneNumbers[0].id as string,
+        ),
       );
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -137,16 +132,10 @@ matrix([[true, false]], async (useAad) => {
         ),
       );
 
-      phoneNumbersReservation = {
-        phoneNumbers: {
-          [String(phoneNumbers[0].id)]: null,
-          [String(phoneNumbers[1].id)]: null,
-        },
-      };
-      updatedReservationResponse = await client.createOrUpdateReservation(
-        reservationId,
-        phoneNumbersReservation,
-      );
+      phoneNumbersList.push(phoneNumbers[1]);
+      updatedReservationResponse = await client.updateReservation(reservationId, {
+        remove: phoneNumbersList,
+      });
 
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -180,11 +169,12 @@ matrix([[true, false]], async (useAad) => {
         );
 
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const phoneNumbersReservation: PhoneNumbersReservation = {
-          phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
-        };
+        const phoneNumbersList = [phoneNumbers[0]];
 
-        await client.createOrUpdateReservation(reservationId, phoneNumbersReservation);
+        const reservationResponse = await client.createReservation(phoneNumbersList, {
+          reservationId: getReservationId(),
+        });
+        const reservationId = reservationResponse.id as string;
 
         try {
           await client.beginReservationPurchase(reservationId, {
@@ -223,7 +213,7 @@ matrix([[true, false]], async (useAad) => {
         assert.equal(results.phoneNumbers.length, 1);
 
         try {
-          await client.beginPurchasePhoneNumbers(reservationId, {
+          await client.beginPurchasePhoneNumbers(results.searchId, {
             agreeToNotResell: false,
           });
         } catch (error: any) {

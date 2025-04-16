@@ -3,6 +3,7 @@
 
 import type { OperationOptions } from "@azure/core-client";
 import type {
+  AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumbersBrowseAvailableNumbersOptionalParams,
   PhoneNumbersBrowseAvailableNumbersResponse,
@@ -114,10 +115,31 @@ export interface BeginReservationPurchaseOptions
   extends PhoneNumbersPurchaseReservationOptionalParams {}
 
 /**
- * Additional options for creating or updating a phone numbers reservation.
+ * Additional options for creating a phone numbers reservation.
  */
-export interface CreateOrUpdateReservationOptions
-  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {}
+export interface CreateReservationOptions
+  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+  /**
+   * The id of the reservation.
+   */
+  reservationId?: string;
+}
+
+/**
+ * Additional options for updating a phone numbers reservation.
+ */
+export interface UpdateReservationOptions
+  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+  /**
+   * The phone numbers to be added or updated in the reservation.
+   */
+  add?: AvailablePhoneNumber[];
+
+  /**
+   * The phone numbers to be removed from the reservation.
+   */
+  remove?: AvailablePhoneNumber[];
+}
 
 /**
  * Additional options for deleting a phone numbers reservation.
