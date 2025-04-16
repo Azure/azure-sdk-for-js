@@ -77,7 +77,7 @@ export async function createRecordedCommunicationIdentityClient(
   context: TestInfo,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
   const recorder = await createRecorder(context);
-  
+
   const client = new CommunicationIdentityClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({}),

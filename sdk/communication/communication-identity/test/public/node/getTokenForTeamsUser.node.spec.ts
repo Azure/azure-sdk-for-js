@@ -32,7 +32,17 @@ matrix([[true, false]], async (useAad) => {
 
       beforeAll(async () => {
         if (!isPlaybackMode()) {
-          console.log(env.COMMUNICATION_MSAL_USERNAME + " " + env.COMMUNICATION_MSAL_PASSWORD + " " + env.COMMUNICATION_M365_APP_ID + " " + env.COMMUNICATION_M365_AAD_AUTHORITY + "/" + env.COMMUNICATION_M365_AAD_TENANT);
+          console.log(
+            env.COMMUNICATION_MSAL_USERNAME +
+              " " +
+              env.COMMUNICATION_MSAL_PASSWORD +
+              " " +
+              env.COMMUNICATION_M365_APP_ID +
+              " " +
+              env.COMMUNICATION_M365_AAD_AUTHORITY +
+              "/" +
+              env.COMMUNICATION_M365_AAD_TENANT,
+          );
           options = await fetchParamsForGetTokenForTeamsUser();
         }
       });
