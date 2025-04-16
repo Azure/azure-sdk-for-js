@@ -16,6 +16,8 @@ import {
   DatasetsGetVersionOptionalParams,
   DatasetsListLatestOptionalParams,
   DatasetsListVersionsOptionalParams,
+  DatasetsUploadFileAndCreateOptionalParams,
+  DatasetsUploadFolderAndCreateOptionalParams,
 } from "../../api/datasets/options.js";
 import {
   getCredentials,
@@ -25,6 +27,8 @@ import {
   getVersion,
   listLatest,
   listVersions,
+  uploadFileAndCreate,
+  uploadFolderAndCreate,
 } from "../../api/datasets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -37,6 +41,20 @@ export interface DatasetsOperations {
     body: Record<string, any>,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<AssetCredentialResponse>;
+  /** Upload a file and create a new DatasetVersion to reference the file. */
+  uploadFileAndCreate: (
+    name: string,
+    version: string,
+    filePath: string,
+    options?: DatasetsUploadFileAndCreateOptionalParams,
+  ) => Promise<DatasetVersionUnion>;
+  /** Upload a folder and create a new DatasetVersion to reference the folder. */
+  uploadFolderAndCreate: (
+    name: string,
+    version: string,
+    folderPath: string,
+    options?: DatasetsUploadFolderAndCreateOptionalParams,
+  ) => Promise<DatasetVersionUnion>;
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
   startPendingUploadVersion: (
     name: string,
@@ -82,6 +100,18 @@ function _getDatasets(context: AIProjectContext) {
       body: Record<string, any>,
       options?: DatasetsGetCredentialsOptionalParams,
     ) => getCredentials(context, name, version, body, options),
+    uploadFileAndCreate: (
+      name: string,
+      version: string,
+      filePath: string,
+      options?: DatasetsUploadFileAndCreateOptionalParams,
+    ) => uploadFileAndCreate(context, name, version, filePath, options),
+    uploadFolderAndCreate: (
+      name: string,
+      version: string,
+      folderPath: string,
+      options?: DatasetsUploadFolderAndCreateOptionalParams,
+    ) => uploadFolderAndCreate(context, name, version, folderPath, options),
     startPendingUploadVersion: (
       name: string,
       version: string,

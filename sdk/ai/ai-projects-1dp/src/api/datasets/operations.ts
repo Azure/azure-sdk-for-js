@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as fs from "fs";
+import * as nodePath from "path";
 import { AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
@@ -15,6 +17,7 @@ import {
   _getCredentialsRequestSerializer,
   AssetCredentialResponse,
   assetCredentialResponseDeserializer,
+  FolderDatasetVersion,
 } from "../../models/models.js";
 import {
   DatasetsGetCredentialsOptionalParams,
@@ -24,6 +27,8 @@ import {
   DatasetsGetVersionOptionalParams,
   DatasetsListLatestOptionalParams,
   DatasetsListVersionsOptionalParams,
+  DatasetsUploadFileAndCreateOptionalParams,
+  DatasetsUploadFolderAndCreateOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -36,6 +41,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { ContainerClient } from "@azure/storage-blob";
 
 export function _getCredentialsSend(
   context: Client,
@@ -143,6 +149,191 @@ export async function startPendingUploadVersion(
 ): Promise<PendingUploadResponse> {
   const result = await _startPendingUploadVersionSend(context, name, version, body, options);
   return _startPendingUploadVersionDeserialize(result);
+}
+
+// Internal helper method to create a new dataset and return a ContainerClient from azure-storage-blob package, to the dataset's blob storage.
+async function createDatasetAndGetItsContainer(
+  context: Client,
+  name: string,
+  version: string,
+  options?: DatasetsUploadFileAndCreateOptionalParams | DatasetsUploadFolderAndCreateOptionalParams,
+): Promise<{ containerClient: ContainerClient; version: string }> {
+  // Start a pending upload to get the container URL with SAS token
+  const pendingUploadResponse = await startPendingUploadVersion(
+    context,
+    name,
+    version,
+    {
+      pendingUploadType: "TemporaryBlobReference",
+    } as PendingUploadRequest,
+    options?.startPendingUploadVersionOptions,
+  );
+
+  const blobReference = pendingUploadResponse.blobReferenceForConsumption;
+  // Validate the response
+  if (!blobReference) {
+    throw new Error("Blob reference for consumption is not present");
+  }
+
+  if (!blobReference.credential?.type) {
+    throw new Error("Credential type is not present");
+  }
+
+  if (blobReference.credential.type !== "SAS") {
+    throw new Error("Credential type is not SAS");
+  }
+
+  if (!blobReference.blobUri) {
+    throw new Error("Blob URI is not present or empty");
+  }
+
+  // Optional debug logging
+  console.debug(
+    `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadId = ${pendingUploadResponse.pendingUploadId}`,
+  );
+  console.debug(
+    `[createDatasetAndGetItsContainer] pendingUploadResponse.pendingUploadType = ${pendingUploadResponse.pendingUploadType}`,
+  );
+  console.debug(
+    `[createDatasetAndGetItsContainer] blobReference.blobUri = ${blobReference.blobUri}`,
+  );
+  console.debug(
+    `[createDatasetAndGetItsContainer] blobReference.storageAccountArmId = ${blobReference.storageAccountArmId}`,
+  );
+  console.debug(
+    `[createDatasetAndGetItsContainer] blobReference.credential.sasUri = ${blobReference.credential.sasUri}`,
+  );
+  console.debug(
+    `[createDatasetAndGetItsContainer] blobReference.credential.type = ${blobReference.credential.type}`,
+  );
+
+  // Create container client from the blob URI (which includes the SAS token)
+  const containerClient = new ContainerClient(blobReference.blobUri);
+
+  return {
+    containerClient,
+    version,
+  };
+}
+
+export async function uploadFileAndCreate(
+  context: Client,
+  name: string,
+  version: string,
+  filePath: string,
+  options?: DatasetsUploadFileAndCreateOptionalParams,
+): Promise<DatasetVersionUnion> {
+  // if file does not exist
+
+  const fileExists = fs.existsSync(filePath);
+  if (!fileExists) {
+    throw new Error(`File does not exist at path: ${filePath}`);
+  }
+  // Check if the file is a directory
+  const isDirectory = fs.lstatSync(filePath).isDirectory();
+  if (isDirectory) {
+    throw new Error(
+      `The provided file is actually a folder. Use method createAndUploadFolder instead`,
+    );
+  }
+
+  const { containerClient, version: outputVersion } = await createDatasetAndGetItsContainer(
+    context,
+    name,
+    version,
+    options,
+  );
+  const blobName = filePath.split("/").pop() || filePath;
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+  await blockBlobClient.uploadFile(filePath);
+
+  const datasetVersion = await createVersion(context, name, outputVersion, {
+    name: name,
+    version: outputVersion,
+    type: "uri_file",
+    datasetUri: blockBlobClient.url,
+  });
+  return datasetVersion;
+}
+
+export async function uploadFolderAndCreate(
+  context: Client,
+  name: string,
+  version: string,
+  folderPath: string,
+  options?: DatasetsUploadFolderAndCreateOptionalParams,
+): Promise<DatasetVersionUnion> {
+  // Check if the folder exists
+  const folderExists = fs.existsSync(folderPath);
+  if (!folderExists) {
+    throw new Error(`Folder does not exist at path: ${folderPath}`);
+  }
+  // Check if the folder is a file
+  const isFile = fs.lstatSync(folderPath).isFile();
+  if (isFile) {
+    throw new Error(`The provided path is actually a file. Use method createAndUploadFile instead`);
+  }
+
+  const { containerClient, version: outputVersion } = await createDatasetAndGetItsContainer(
+    context,
+    name,
+    version,
+    options,
+  );
+
+  // Helper function to recursively get all files in a directory
+  async function getAllFiles(dir: string, fileList: string[] = []): Promise<string[]> {
+    const files = await fs.promises.readdir(dir);
+
+    for (const file of files) {
+      const filePath = `${dir}/${file}`;
+      const stat = await fs.promises.lstat(filePath);
+
+      if (stat.isDirectory()) {
+        await getAllFiles(filePath, fileList);
+      } else {
+        fileList.push(filePath);
+      }
+    }
+
+    return fileList;
+  }
+
+  // Get all files in the folder
+  const allFiles = await getAllFiles(folderPath);
+  if (allFiles.length === 0) {
+    throw new Error("The provided folder is empty.");
+  }
+
+  // Upload each file to blob storage while maintaining relative paths
+  for (const filePath of allFiles) {
+    // Create blob name as relative path from the base folder
+    const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
+
+    console.debug(
+      `[uploadFolderAndCreate] Start uploading file '${filePath}' as blob '${relativePath}'`,
+    );
+
+    // Get a block blob client for the relative path
+    const blobClient = containerClient.getBlockBlobClient(relativePath);
+
+    // Upload the file using a readable stream for better performance
+    const fileStream = fs.createReadStream(filePath);
+    await blobClient.uploadStream(fileStream);
+    console.debug(
+      `[uploadFolderAndCreate] Done uploading file '${filePath}' as blob '${relativePath}'`,
+    );
+  }
+
+  // Create dataset version that references this folder
+  const datasetVersion = await createVersion(context, name, outputVersion, {
+    name: name,
+    version: outputVersion,
+    type: "uri_folder",
+    datasetUri: containerClient.url,
+  } as FolderDatasetVersion);
+
+  return datasetVersion;
 }
 
 export function _createVersionSend(

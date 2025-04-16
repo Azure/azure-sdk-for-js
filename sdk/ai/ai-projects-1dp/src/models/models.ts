@@ -50,7 +50,9 @@ export function connectionDeserializer(item: any): Connection {
     authType: item["authType"],
     metadata: item["metadata"],
     isDefault: item["isDefault"],
-    credentials: baseCredentialsUnionDeserializer(item["credentials"]),
+    credentials: item["credentials"]
+      ? baseCredentialsUnionDeserializer(item["credentials"])
+      : { authType: "None" },
   };
 }
 

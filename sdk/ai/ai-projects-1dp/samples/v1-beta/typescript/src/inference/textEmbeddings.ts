@@ -9,17 +9,16 @@
 
 import { AIProjectClient } from "@azure/ai-projects-1dp";
 import { isUnexpected } from "@azure-rest/ai-inference";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 const embeddingDeploymentName =
   process.env["EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
   const client = project.inference.embeddings();
   const response = await client.post({
     body: {

@@ -62,6 +62,8 @@ export {
 export {
   DatasetsGetCredentialsOptionalParams,
   DatasetsStartPendingUploadVersionOptionalParams,
+  DatasetsUploadFileAndCreateOptionalParams,
+  DatasetsUploadFolderAndCreateOptionalParams,
   DatasetsCreateVersionOptionalParams,
   DatasetsDeleteVersionOptionalParams,
   DatasetsGetVersionOptionalParams,

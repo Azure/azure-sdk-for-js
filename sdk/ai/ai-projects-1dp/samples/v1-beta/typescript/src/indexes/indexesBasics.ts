@@ -10,16 +10,15 @@
 
 import { AIProjectClient } from "@azure/ai-projects-1dp";
 import type { AzureAISearchIndex } from "@azure/ai-projects-1dp";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const apiKey = process.env["AZURE_AI_PROJECT_API_KEY"] || "<project key>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient(endpoint, new AzureKeyCredential(apiKey));
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   const indexName = "sample-index";
   const version = "1";
