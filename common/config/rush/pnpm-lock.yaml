@@ -2637,7 +2637,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
-    resolution: {integrity: sha512-t7aii4oQ9565lxTlLr5kUlXa1dYQdbYZvhuu+m46nf4I5ndV/010mWKZguGmZGJPIW3r1PHFdWp4lbjmdNJkcA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-94lg4aJEurpGjfl3lNhlpkhgl5YnXHN6BvWYHpffOnJImYe0yQCo0bTz0wU3Ct/eowKjp/quS6318L0Qot7WoQ==, tarball: file:projects/arm-containerservicefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -11143,11 +11143,11 @@ snapshots:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.5.0
+      eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3

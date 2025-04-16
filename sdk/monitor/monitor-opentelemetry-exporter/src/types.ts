@@ -174,6 +174,14 @@ export const legacySemanticValues = [
 ];
 
 /**
+ * Experimental OpenTelemetry semantic convention values
+ * @internal
+ */
+export enum experimentalOpenTelemetryValues {
+  SYNTHETIC_TYPE = "user_agent.synthetic.type",
+}
+
+/**
  * HTTP semantic convention values
  * @internal
  */
@@ -200,6 +208,7 @@ export const httpSemanticValues = [
   ATTR_EXCEPTION_TYPE,
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
+  experimentalOpenTelemetryValues.SYNTHETIC_TYPE,
 ];
 
 /**
