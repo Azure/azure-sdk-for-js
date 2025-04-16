@@ -18,7 +18,7 @@ import {
   CertificatePatch,
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConnectedEnvironmentsCertificates. */

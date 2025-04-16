@@ -15,7 +15,7 @@ import {
   ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
   ConnectedEnvironmentsStoragesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ConnectedEnvironmentsStorages. */
 export interface ConnectedEnvironmentsStorages {

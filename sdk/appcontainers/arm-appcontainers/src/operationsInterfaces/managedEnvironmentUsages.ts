@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usage, ManagedEnvironmentUsagesListOptionalParams } from "../models/index.js";
+import { Usage, ManagedEnvironmentUsagesListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedEnvironmentUsages. */

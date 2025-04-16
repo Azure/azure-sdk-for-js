@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   Certificate,
   ConnectedEnvironmentsCertificatesListNextOptionalParams,
@@ -27,7 +27,7 @@ import {
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesUpdateResponse,
   ConnectedEnvironmentsCertificatesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsCertificates operations. */
@@ -314,7 +314,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -359,7 +359,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.certificateName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

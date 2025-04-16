@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { DaprComponents } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { DaprComponents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   DaprComponent,
   DaprComponentsListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   DaprComponentsListSecretsOptionalParams,
   DaprComponentsListSecretsResponse,
   DaprComponentsListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DaprComponents operations. */
@@ -307,7 +307,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.componentName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

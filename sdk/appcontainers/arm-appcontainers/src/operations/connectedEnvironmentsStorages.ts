@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedEnvironmentsStorages } from "../operationsInterfaces/index.js";
+import { ConnectedEnvironmentsStorages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   ConnectedEnvironmentsStoragesListOptionalParams,
   ConnectedEnvironmentsStoragesListResponse,
@@ -20,7 +20,7 @@ import {
   ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
   ConnectedEnvironmentsStoragesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ConnectedEnvironmentsStorages operations. */
 export class ConnectedEnvironmentsStoragesImpl
@@ -184,7 +184,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.storageName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

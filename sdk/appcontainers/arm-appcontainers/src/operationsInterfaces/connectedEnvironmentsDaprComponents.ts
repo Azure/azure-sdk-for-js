@@ -17,7 +17,7 @@ import {
   ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConnectedEnvironmentsDaprComponents. */

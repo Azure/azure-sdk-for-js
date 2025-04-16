@@ -18,7 +18,7 @@ import {
   ContainerAppsDiagnosticsGetRevisionResponse,
   ContainerAppsDiagnosticsGetRootOptionalParams,
   ContainerAppsDiagnosticsGetRootResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerAppsDiagnostics. */

@@ -22,7 +22,7 @@ import {
   CheckNameAvailabilityRequest,
   ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
   ConnectedEnvironmentsCheckNameAvailabilityResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConnectedEnvironments. */

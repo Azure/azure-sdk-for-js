@@ -11,7 +11,7 @@ import {
   ContainerAppsRevisionReplicasGetReplicaResponse,
   ContainerAppsRevisionReplicasListReplicasOptionalParams,
   ContainerAppsRevisionReplicasListReplicasResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ContainerAppsRevisionReplicas. */
 export interface ContainerAppsRevisionReplicas {

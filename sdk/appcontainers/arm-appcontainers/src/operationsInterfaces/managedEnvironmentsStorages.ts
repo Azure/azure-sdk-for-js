@@ -15,7 +15,7 @@ import {
   ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ManagedEnvironmentsStoragesCreateOrUpdateResponse,
   ManagedEnvironmentsStoragesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ManagedEnvironmentsStorages. */
 export interface ManagedEnvironmentsStorages {

@@ -16,7 +16,7 @@ import {
   ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ContainerAppsSourceControlsCreateOrUpdateResponse,
   ContainerAppsSourceControlsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContainerAppsSourceControls. */
