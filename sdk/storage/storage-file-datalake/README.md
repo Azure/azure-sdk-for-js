@@ -162,17 +162,14 @@ Data Lake storage offers three types of resources:
 
 To use the clients, import the package into your file:
 
-```javascript
-const AzureStorageDataLake = require("@azure/storage-file-datalake");
+```ts snippet:ignore
+import * as AzureStorageDataLake from "@azure/storage-file-datalake";
 ```
 
 Alternatively, selectively import only the types you need:
 
-```javascript
-const {
-  DataLakeServiceClient,
-  StorageSharedKeyCredential,
-} = require("@azure/storage-file-datalake");
+```ts snippet:ignore
+import { DataLakeServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 ```
 
 ### Create the data lake service client
@@ -202,9 +199,9 @@ Setup : Reference - Authorize access to blobs (data lake) and queues with Azure 
   - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
   - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample(Can leverage process.env).
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 
 // Enter your storage account name
 const account = "<account>";
@@ -225,12 +222,12 @@ See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/ma
 Alternatively, you can instantiate a `DataLakeServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 
-const connStr = "<connection string>";
+const connectionString = "<connection string>";
 
-const dataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr);
+const dataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connectionString);
 ```
 
 #### with `StorageSharedKeyCredential`
@@ -238,11 +235,8 @@ const dataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr
 Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
-const {
-  DataLakeServiceClient,
-  StorageSharedKeyCredential,
-} = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+import { StorageSharedKeyCredential, DataLakeServiceClient } from "@azure/storage-file-datalake";
 
 // Enter your storage account name and shared key
 const account = "<account>";
@@ -261,8 +255,8 @@ const datalakeServiceClient = new DataLakeServiceClient(
 
 Also, You can instantiate a `DataLakeServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
-```javascript
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateClient_SASToken
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
@@ -275,27 +269,21 @@ const serviceClientWithSAS = new DataLakeServiceClient(
 
 Use `DataLakeServiceClient.getFileSystemClient()` to get a file system client instance then create a new file system resource.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateFileSystem
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  // Create a file system
-  const fileSystemName = `newfilesystem${new Date().getTime()}`;
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-  const createResponse = await fileSystemClient.create();
-  console.log(`Create file system ${fileSystemName} successfully`, createResponse.requestId);
-}
-
-main();
+// Create a file system
+const fileSystemName = `newfilesystem${new Date().getTime()}`;
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+const createResponse = await fileSystemClient.create();
+console.log(`Create file system ${fileSystemName} successfully`, createResponse.requestId);
 ```
 
 ### List the file systems
@@ -303,266 +291,205 @@ main();
 Use `DataLakeServiceClient.listFileSystems()` function to iterate the file systems,
 with the new `for-await-of` syntax:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleListFileSystems
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  let i = 1;
-  const fileSystems = datalakeServiceClient.listFileSystems();
-  for await (const fileSystem of fileSystems) {
-    console.log(`File system ${i++}: ${fileSystem.name}`);
-  }
+let i = 1;
+const fileSystems = datalakeServiceClient.listFileSystems();
+for await (const fileSystem of fileSystems) {
+  console.log(`File system ${i++}: ${fileSystem.name}`);
 }
-
-main();
 ```
 
 Alternatively without using `for-await-of`:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleListFileSystems_Iterator
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  let i = 1;
-  const iter = datalakeServiceClient.listFileSystems();
-  let fileSystemItem = await iter.next();
-  while (!fileSystemItem.done) {
-    console.log(`File System ${i++}: ${fileSystemItem.value.name}`);
-    fileSystemItem = await iter.next();
-  }
+let i = 1;
+const fileSystems = datalakeServiceClient.listFileSystems();
+let { value, done } = await fileSystems.next();
+while (!done) {
+  console.log(`File system ${i++}: ${value.name}`);
+  ({ value, done } = await fileSystems.next());
 }
-
-main();
 ```
 
 In addition, pagination is supported for listing too via `byPage()`:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleListFileSystems_ByPage
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  let i = 1;
-  for await (const response of datalakeServiceClient
-    .listFileSystems()
-    .byPage({ maxPageSize: 20 })) {
-    if (response.fileSystemItems) {
-      for (const fileSystem of response.fileSystemItems) {
-        console.log(`File System ${i++}: ${fileSystem.name}`);
-      }
+let i = 1;
+for await (const response of datalakeServiceClient.listFileSystems().byPage({ maxPageSize: 20 })) {
+  if (response.fileSystemItems) {
+    for (const fileSystem of response.fileSystemItems) {
+      console.log(`File System ${i++}: ${fileSystem.name}`);
     }
   }
 }
-
-main();
 ```
 
 ### Create and delete a directory
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateDeleteDirectory
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
 const fileSystemName = "<file system name>";
-
-async function main() {
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-  const directoryClient = fileSystemClient.getDirectoryClient("directory");
-  await directoryClient.create();
-  await directoryClient.delete();
-}
-
-main();
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+const directoryClient = fileSystemClient.getDirectoryClient("directory");
+await directoryClient.create();
+await directoryClient.delete();
 ```
 
 ### Create a file
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleCreateFile
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
 const fileSystemName = "<file system name>";
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
 
-async function main() {
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-
-  const content = "Hello world!";
-  const fileName = "newfile" + new Date().getTime();
-  const fileClient = fileSystemClient.getFileClient(fileName);
-  await fileClient.create();
-  await fileClient.append(content, 0, content.length);
-  await fileClient.flush(content.length);
-  console.log(`Create and upload file ${fileName} successfully`);
-}
-
-main();
+const content = "Hello world!";
+const fileName = `newfile${+new Date()}`;
+const fileClient = fileSystemClient.getFileClient(fileName);
+await fileClient.create();
+await fileClient.append(content, 0, content.length);
+await fileClient.flush(content.length);
+console.log(`Create and upload file ${fileName} successfully`);
 ```
 
 ### List paths inside a file system
 
 Similar to listing file systems.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleListPaths
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
 const fileSystemName = "<file system name>";
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
 
-async function main() {
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-
-  let i = 1;
-  const paths = fileSystemClient.listPaths();
-  for await (const path of paths) {
-    console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
-  }
+let i = 1;
+const paths = fileSystemClient.listPaths();
+for await (const path of paths) {
+  console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
 }
-
-main();
 ```
 
 ### Download a file and convert it to a string (Node.js)
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleDownloadFile_Node
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const defaultAzureCredential = new DefaultAzureCredential();
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net`,
-  defaultAzureCredential,
+  new DefaultAzureCredential(),
 );
 
 const fileSystemName = "<file system name>";
 const fileName = "<file name>";
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+const fileClient = fileSystemClient.getFileClient(fileName);
 
-async function main() {
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-  const fileClient = fileSystemClient.getFileClient(fileName);
-
-  // Get file content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
-  const downloadResponse = await fileClient.read();
+// Get file content from position 0 to the end
+// In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
+const downloadResponse = await fileClient.read();
+if (downloadResponse.readableStreamBody) {
   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
   console.log("Downloaded file content:", downloaded.toString());
-
-  // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
-  async function streamToBuffer(readableStream) {
-    return new Promise((resolve, reject) => {
-      const chunks = [];
-      readableStream.on("data", (data) => {
-        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-      });
-      readableStream.on("end", () => {
-        resolve(Buffer.concat(chunks));
-      });
-      readableStream.on("error", reject);
-    });
-  }
 }
 
-main();
+// [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+    });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream.on("error", reject);
+  });
+}
 ```
 
 ### Download a file and convert it to a string (Browsers)
 
-```javascript
-const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+```ts snippet:ReadmeSampleDownloadFile_Browser
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 
 const account = "<account>";
 const sas = "<sas token>";
-
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net${sas}`,
 );
 
 const fileSystemName = "<file system name>";
 const fileName = "<file name>";
+const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+const fileClient = fileSystemClient.getFileClient(fileName);
 
-async function main() {
-  const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
-  const fileClient = fileSystemClient.getFileClient(fileName);
-
-  // Get file content from position 0 to the end
-  // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
-  const downloadResponse = await fileClient.read();
-  const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-  console.log("Downloaded file content", downloaded);
-
-  // [Browsers only] A helper method used to convert a browser Blob into string.
-  async function blobToString(blob) {
-    const fileReader = new FileReader();
-    return new Promise((resolve, reject) => {
-      fileReader.onloadend = (ev) => {
-        resolve(ev.target.result);
-      };
-      fileReader.onerror = reject;
-      fileReader.readAsText(blob);
-    });
-  }
+// Get file content from position 0 to the end
+// In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
+const downloadResponse = await fileClient.read();
+if (downloadResponse.contentAsBlob) {
+  const blob = await downloadResponse.contentAsBlob;
+  const downloaded = await blob.text();
+  console.log(`Downloaded file content ${downloaded}`);
 }
-
-main();
 ```
 
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

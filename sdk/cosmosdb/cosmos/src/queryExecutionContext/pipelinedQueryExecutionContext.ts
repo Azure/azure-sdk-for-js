@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../ClientContext";
-import type { Response, FeedOptions } from "../request";
-import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
-import { ErrorResponse } from "../request/ErrorResponse";
-import type { CosmosHeaders } from "./CosmosHeaders";
-import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
-import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
-import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
-import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
-import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
-import type { ExecutionContext } from "./ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
-import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
-import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
-import type { SqlQuerySpec } from "./SqlQuerySpec";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
-import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
+import type { ClientContext } from "../ClientContext.js";
+import type { Response, FeedOptions } from "../request/index.js";
+import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
+import type { CosmosHeaders } from "./CosmosHeaders.js";
+import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent.js";
+import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent.js";
+import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent.js";
+import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent.js";
+import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext.js";
+import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
+import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
+import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -140,6 +140,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           );
         }
       }
+
+      // If distinct then add that to the pipeline
+      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+      if (distinctType === "Ordered") {
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+      }
+      if (distinctType === "Unordered") {
+        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
+      }
+
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
@@ -151,15 +161,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const offset = partitionedQueryExecutionInfo.queryInfo.offset;
       if (typeof limit === "number" && typeof offset === "number") {
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
-      }
-
-      // If distinct then add that to the pipeline
-      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-      if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
-      }
-      if (distinctType === "Unordered") {
-        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
       }
     }
     this.fetchBuffer = [];

@@ -182,8 +182,9 @@ export const Constants = {
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
 
-    // Priority Based throttling header
+    // Throughput related headers
     PriorityLevel: "x-ms-cosmos-priority-level",
+    ThroughputBucket: "x-ms-cosmos-throughput-bucket",
 
     // Encryption Headers
     IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
@@ -195,9 +196,6 @@ export const Constants = {
   ThrottledRequestMaxRetryAttemptCount: 9,
   ThrottledRequestMaxWaitTimeInSeconds: 30,
   ThrottledRequestFixedRetryIntervalInMs: 0,
-
-  // HttpHeaders Values
-  PREFER_RETURN_MINIMAL: "return=minimal",
 
   // GlobalDB related constants
   WritableLocations: "writableLocations",
@@ -219,7 +217,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.2.1",
+  SDKVersion: "4.3.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -291,8 +289,8 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
-  // Default TTL for encryption caches in hours
-  DefaultEncryptionCacheTimeToLiveInHours: 2,
+  // Default TTL for encryption caches is 2 hrs (7200 sec)
+  DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 };

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-} from "../src/utils/utils.common";
+} from "../src/utils/utils.common.js";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
   const accountName = "myaccount";
   const blobEndpoint = `https://${accountName}.blob.core.windows.net`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",

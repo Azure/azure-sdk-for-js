@@ -39,7 +39,7 @@ async function createOrUpdateAGalleryInVMAccessControlProfile() {
 }
 
 async function main() {
-  createOrUpdateAGalleryInVMAccessControlProfile();
+  await createOrUpdateAGalleryInVMAccessControlProfile();
 }
 
 main().catch(console.error);

@@ -5,14 +5,15 @@
  * @summary Demonstrates full text search queries.
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logSampleHeader } = require("./../Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logSampleHeader } = require("./../Shared/handleError.js");
 const { CosmosClient } = require("@azure/cosmos");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+
 logSampleHeader("Full Text Search Queries");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo

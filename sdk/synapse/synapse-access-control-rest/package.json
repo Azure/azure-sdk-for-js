@@ -46,13 +46,13 @@
     "@azure/identity": "^4.7.0",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.6",
-    "@vitest/coverage-istanbul": "^3.0.6",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.6"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -60,12 +60,14 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "echo Skipped.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle",
+    "build:samples": "echo skipped.",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "extract-api": "dev-tool run extract-api",

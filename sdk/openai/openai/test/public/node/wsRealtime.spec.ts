@@ -19,12 +19,12 @@ describe("Realtime", () => {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
       });
 
       describe("OpenAIRealtimeWS", function () {
-        it("ws.azure", async function () {
+        it("ws.azure", async () => {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
             const rt = await OpenAIRealtimeWS.azure(client as AzureOpenAI, { deploymentName });
             await new Promise<void>((resolve, reject) => {

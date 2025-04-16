@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionType } from "../enums";
-import { createCipheriv, randomBytes, createHmac, createDecipheriv } from "crypto";
-import { DataEncryptionKey } from "../EncryptionKey";
+import { EncryptionType } from "../enums/index.js";
+import { createCipheriv, randomBytes, createHmac, createDecipheriv } from "node:crypto";
+import { DataEncryptionKey } from "../EncryptionKey/index.js";
 
 export class AeadAes256CbcHmacSha256Algorithm {
   private algoVersion = 0x1;

@@ -31,6 +31,14 @@ export interface AccountImmutabilityPolicyProperties {
 export type AccountImmutabilityPolicyState = string;
 
 // @public
+export interface AccountLimits {
+    readonly maxFileShares?: number;
+    readonly maxProvisionedBandwidthMiBPerSec?: number;
+    readonly maxProvisionedIops?: number;
+    readonly maxProvisionedStorageGiB?: number;
+}
+
+// @public
 export interface AccountSasParameters {
     iPAddressOrRange?: string;
     keyToSign?: string;
@@ -47,6 +55,20 @@ export type AccountStatus = "available" | "unavailable";
 
 // @public
 export type AccountType = string;
+
+// @public
+export interface AccountUsage {
+    readonly liveShares?: AccountUsageElements;
+    readonly softDeletedShares?: AccountUsageElements;
+}
+
+// @public
+export interface AccountUsageElements {
+    readonly fileShareCount?: number;
+    readonly provisionedBandwidthMiBPerSec?: number;
+    readonly provisionedIops?: number;
+    readonly provisionedStorageGiB?: number;
+}
 
 // @public
 export interface ActiveDirectoryProperties {
@@ -411,6 +433,13 @@ export interface BlobServicesSetServicePropertiesOptionalParams extends coreClie
 export type BlobServicesSetServicePropertiesResponse = BlobServiceProperties;
 
 // @public
+export interface BurstingConstants {
+    readonly burstFloorIops?: number;
+    readonly burstIOScalar?: number;
+    readonly burstTimeframeSeconds?: number;
+}
+
+// @public
 export type Bypass = string;
 
 // @public
@@ -746,7 +775,9 @@ export interface FileServiceProperties extends Resource {
 // @public
 export interface FileServices {
     getServiceProperties(resourceGroupName: string, accountName: string, options?: FileServicesGetServicePropertiesOptionalParams): Promise<FileServicesGetServicePropertiesResponse>;
+    getServiceUsage(resourceGroupName: string, accountName: string, options?: FileServicesGetServiceUsageOptionalParams): Promise<FileServicesGetServiceUsageResponse>;
     list(resourceGroupName: string, accountName: string, options?: FileServicesListOptionalParams): Promise<FileServicesListResponse>;
+    listServiceUsages(resourceGroupName: string, accountName: string, options?: FileServicesListServiceUsagesOptionalParams): PagedAsyncIterableIterator<FileServiceUsage>;
     setServiceProperties(resourceGroupName: string, accountName: string, parameters: FileServiceProperties, options?: FileServicesSetServicePropertiesOptionalParams): Promise<FileServicesSetServicePropertiesResponse>;
 }
 
@@ -758,11 +789,33 @@ export interface FileServicesGetServicePropertiesOptionalParams extends coreClie
 export type FileServicesGetServicePropertiesResponse = FileServiceProperties;
 
 // @public
+export interface FileServicesGetServiceUsageOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileServicesGetServiceUsageResponse = FileServiceUsage;
+
+// @public
 export interface FileServicesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type FileServicesListResponse = FileServiceItems;
+
+// @public
+export interface FileServicesListServiceUsagesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileServicesListServiceUsagesNextResponse = FileServiceUsages;
+
+// @public
+export interface FileServicesListServiceUsagesOptionalParams extends coreClient.OperationOptions {
+    maxpagesize?: number;
+}
+
+// @public
+export type FileServicesListServiceUsagesResponse = FileServiceUsages;
 
 // @public
 export interface FileServicesSetServicePropertiesOptionalParams extends coreClient.OperationOptions {
@@ -772,6 +825,26 @@ export interface FileServicesSetServicePropertiesOptionalParams extends coreClie
 export type FileServicesSetServicePropertiesResponse = FileServiceProperties;
 
 // @public
+export interface FileServiceUsage extends Resource {
+    readonly properties?: FileServiceUsageProperties;
+}
+
+// @public
+export interface FileServiceUsageProperties {
+    readonly burstingConstants?: BurstingConstants;
+    readonly fileShareLimits?: FileShareLimits;
+    readonly fileShareRecommendations?: FileShareRecommendations;
+    readonly storageAccountLimits?: AccountLimits;
+    readonly storageAccountUsage?: AccountUsage;
+}
+
+// @public
+export interface FileServiceUsages {
+    readonly nextLink?: string;
+    readonly value?: FileServiceUsage[];
+}
+
+// @public
 export interface FileShare extends AzureEntityResource {
     accessTier?: ShareAccessTier;
     readonly accessTierChangeTime?: Date;
@@ -779,13 +852,21 @@ export interface FileShare extends AzureEntityResource {
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
     enabledProtocols?: EnabledProtocols;
+    fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
+    readonly includedBurstIops?: number;
     readonly lastModifiedTime?: Date;
     readonly leaseDuration?: LeaseDuration;
     readonly leaseState?: LeaseState;
     readonly leaseStatus?: LeaseStatus;
+    readonly maxBurstCreditsForIops?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+    readonly nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
+    provisionedIops?: number;
     readonly remainingRetentionDays?: number;
     rootSquash?: RootSquashType;
     shareQuota?: number;
@@ -803,13 +884,21 @@ export interface FileShareItem extends AzureEntityResource {
     readonly deleted?: boolean;
     readonly deletedTime?: Date;
     enabledProtocols?: EnabledProtocols;
+    fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
+    readonly includedBurstIops?: number;
     readonly lastModifiedTime?: Date;
     readonly leaseDuration?: LeaseDuration;
     readonly leaseState?: LeaseState;
     readonly leaseStatus?: LeaseStatus;
+    readonly maxBurstCreditsForIops?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+    readonly nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
+    provisionedIops?: number;
     readonly remainingRetentionDays?: number;
     rootSquash?: RootSquashType;
     shareQuota?: number;
@@ -823,6 +912,31 @@ export interface FileShareItem extends AzureEntityResource {
 export interface FileShareItems {
     readonly nextLink?: string;
     readonly value?: FileShareItem[];
+}
+
+// @public
+export interface FileShareLimits {
+    readonly maxProvisionedBandwidthMiBPerSec?: number;
+    readonly maxProvisionedIops?: number;
+    readonly maxProvisionedStorageGiB?: number;
+    readonly minProvisionedBandwidthMiBPerSec?: number;
+    readonly minProvisionedIops?: number;
+    readonly minProvisionedStorageGiB?: number;
+}
+
+// @public
+export interface FileSharePropertiesFileSharePaidBursting {
+    paidBurstingEnabled?: boolean;
+    paidBurstingMaxBandwidthMibps?: number;
+    paidBurstingMaxIops?: number;
+}
+
+// @public
+export interface FileShareRecommendations {
+    readonly bandwidthScalar?: number;
+    readonly baseBandwidthMiBPerSec?: number;
+    readonly baseIops?: number;
+    readonly ioScalar?: number;
 }
 
 // @public
@@ -1483,12 +1597,18 @@ export enum KnownSkuConversionStatus {
 // @public
 export enum KnownSkuName {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumV2ZRS = "PremiumV2_ZRS",
     PremiumZRS = "Premium_ZRS",
     StandardGRS = "Standard_GRS",
     StandardGzrs = "Standard_GZRS",
     StandardLRS = "Standard_LRS",
     StandardRagrs = "Standard_RAGRS",
     StandardRagzrs = "Standard_RAGZRS",
+    StandardV2GRS = "StandardV2_GRS",
+    StandardV2Gzrs = "StandardV2_GZRS",
+    StandardV2LRS = "StandardV2_LRS",
+    StandardV2ZRS = "StandardV2_ZRS",
     StandardZRS = "Standard_ZRS"
 }
 
@@ -2020,6 +2140,7 @@ export interface ObjectReplicationPoliciesOperations {
 export interface ObjectReplicationPolicy extends Resource {
     destinationAccount?: string;
     readonly enabledTime?: Date;
+    metrics?: ObjectReplicationPolicyPropertiesMetrics;
     readonly policyId?: string;
     rules?: ObjectReplicationPolicyRule[];
     sourceAccount?: string;
@@ -2029,6 +2150,11 @@ export interface ObjectReplicationPolicy extends Resource {
 export interface ObjectReplicationPolicyFilter {
     minCreationTime?: string;
     prefixMatch?: string[];
+}
+
+// @public
+export interface ObjectReplicationPolicyPropertiesMetrics {
+    enabled?: boolean;
 }
 
 // @public

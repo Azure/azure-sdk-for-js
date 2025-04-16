@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
-import type { RequestOptions } from "../../request";
-import type { Container } from "../Container";
-import type { ConflictDefinition } from "./ConflictDefinition";
-import { ConflictResponse } from "./ConflictResponse";
-import { undefinedPartitionKey } from "../../extractPartitionKey";
-import type { PartitionKey } from "../../documents";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { readPartitionKeyDefinition } from "../ClientUtils";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Container } from "../Container/index.js";
+import type { ConflictDefinition } from "./ConflictDefinition.js";
+import { ConflictResponse } from "./ConflictResponse.js";
+import { undefinedPartitionKey } from "../../extractPartitionKey.js";
+import type { PartitionKey } from "../../documents/index.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Use to read or delete a given {@link Conflict} by id.
@@ -40,6 +40,18 @@ export class Conflict {
 
   /**
    * Read the {@link ConflictDefinition} for the given {@link Conflict}.
+   * @example
+   * ```ts snippet:ConflictRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const container = database.container("Test Container");
+   *
+   * const { resource: conflict } = await container.conflict("<conflict-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -66,6 +78,18 @@ export class Conflict {
 
   /**
    * Delete the given {@link ConflictDefinition}.
+   * @example
+   * ```ts snippet:ConflictDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const container = database.container("Test Container");
+   *
+   * await container.conflict("<conflict-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

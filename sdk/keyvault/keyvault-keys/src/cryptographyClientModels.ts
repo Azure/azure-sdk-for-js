@@ -11,15 +11,19 @@ import {
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
   KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  KnownKeyEncryptionAlgorithm as KnownKeyExportEncryptionAlgorithm,
 } from "./generated/models/index.js";
 
 export {
-  KeyCurveName,
   EncryptionAlgorithm,
+  KeyCurveName,
   KnownEncryptionAlgorithms,
-  SignatureAlgorithm,
   KnownKeyCurveNames,
+  KnownKeyExportEncryptionAlgorithm,
+  KnownKeyTypes,
   KnownSignatureAlgorithms,
+  SignatureAlgorithm,
 };
 
 /**

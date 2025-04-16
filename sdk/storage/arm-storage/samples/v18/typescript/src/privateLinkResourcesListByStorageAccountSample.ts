@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the private link resources that need to be created for a storage account.
  *
  * @summary Gets the private link resources that need to be created for a storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListPrivateLinkResources.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListPrivateLinkResources.json
  */
 async function storageAccountListPrivateLinkResources(): Promise<void> {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function storageAccountListPrivateLinkResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountListPrivateLinkResources();
+  await storageAccountListPrivateLinkResources();
 }
 
 main().catch(console.error);

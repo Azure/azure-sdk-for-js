@@ -15,13 +15,15 @@ import type {
   MetricDataPoint,
 } from "../generated/index.js";
 import { createTagsFromResource } from "./common.js";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../types.js";
 import {
   ENV_OTEL_METRICS_EXPORTER,
   ENV_OTLP_METRICS_ENDPOINT,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
 } from "../Declarations/Constants.js";
+import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
+import { getInstance } from "../platform/index.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
@@ -56,13 +58,16 @@ export function resourceMetricsToEnvelope(
   const envelopes: Envelope[] = [];
   const time = new Date();
   const instrumentationKey = ikey;
-  const tags = createTagsFromResource(metrics.resource);
+  let tags: Tags;
   let envelopeName: string;
 
   if (isStatsbeat) {
     envelopeName = "Microsoft.ApplicationInsights.Statsbeat";
+    const context = getInstance();
+    tags = { ...context.tags };
   } else {
     envelopeName = "Microsoft.ApplicationInsights.Metric";
+    tags = createTagsFromResource(metrics.resource);
   }
 
   metrics.scopeMetrics.forEach((scopeMetric) => {
@@ -152,4 +157,11 @@ export function isStandardMetric(
   dataPoint: DataPoint<number> | DataPoint<Histogram> | DataPoint<ExponentialHistogram>,
 ): boolean {
   return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
+}
+
+export function getAttachType(): AttachTypeName {
+  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true") {
+    return AttachTypeName.INTEGRATED_AUTO;
+  }
+  return AttachTypeName.MANUAL;
 }

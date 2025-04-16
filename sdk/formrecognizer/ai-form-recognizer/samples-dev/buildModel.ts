@@ -14,17 +14,15 @@
  */
 
 import {
-  AzureKeyCredential,
   DocumentModelAdministrationClient,
   DocumentModelBuildMode,
 } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const random = Date.now().toString();
   const modelId =

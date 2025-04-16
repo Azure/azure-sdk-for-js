@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { VirtualMachineScaleSetVM } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  VirtualMachineScaleSetVM,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,11 +19,13 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = {
@@ -268,7 +274,9 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
                 deleteOption: "Delete",
                 dnsSettings: { domainNameLabel: "aaaaaaaaaaaaaaaaaa" },
                 idleTimeoutInMinutes: 18,
-                ipTags: [{ ipTagType: "aaaaaaa", tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" }],
+                ipTags: [
+                  { ipTagType: "aaaaaaa", tag: "aaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+                ],
                 publicIPAddressVersion: "IPv4",
                 publicIPPrefix: {
                   id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
@@ -322,7 +330,9 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
         provisionVMAgent: true,
         timeZone: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
         winRM: {
-          listeners: [{ certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }],
+          listeners: [
+            { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" },
+          ],
         },
       },
     },
@@ -430,11 +440,13 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = { location: "westus" };

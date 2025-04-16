@@ -6,9 +6,11 @@
  */
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
-
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, "chat");
+
+const endpoint = process.env.WPS_ENDPOINT || "";
+const chatHub = new WebPubSubServiceClient(endpoint, new DefaultAzureCredential(), "chat");
 
 async function main(): Promise<void> {
   // send a text message to the entire hub

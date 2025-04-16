@@ -22,7 +22,6 @@ import type {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  NfsFileType,
   ServiceGetPropertiesHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreateHeaders,
@@ -38,11 +37,14 @@ import type {
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareStats,
-} from "./generated/src/models";
-
-import type { ShareSetPropertiesHeaders } from "./generated/src/models";
-import { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models";
-import type { WithResponse } from "./utils/utils.common";
+  ShareSetPropertiesHeaders,
+} from "./generated/src/models/index.js";
+import type {
+  FileDownloadResponse,
+  FilePosixProperties,
+  FileSetHttpHeadersHeaders,
+} from "./models.js";
+import type { WithResponse } from "./utils/utils.common.js";
 
 /** Defines headers for Directory_create operation. */
 export interface DirectoryCreateHeaders {
@@ -72,14 +74,8 @@ export interface DirectoryCreateHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -120,14 +116,8 @@ export interface DirectoryGetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -186,12 +176,8 @@ export interface DirectorySetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -233,14 +219,8 @@ export interface FileCreateHeaders {
   fileId?: string;
   /** The parent fileId of the file. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -275,16 +255,8 @@ export interface FileCreateHardLinkHeaders {
   fileParentId?: string;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
 }
 
 /** Contains response data for the create hard link operation. */
@@ -357,16 +329,8 @@ export interface FileGetPropertiesHeaders {
   leaseState?: LeaseStateType;
   /** The current lease status of the file. */
   leaseStatus?: LeaseStatusType;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -520,14 +484,8 @@ export interface FileDownloadHeaders {
   leaseState?: LeaseStateType;
   /** The current lease status of the file. */
   leaseStatus?: LeaseStatusType;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -641,12 +599,12 @@ export {
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 export {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
-} from "./models";
+} from "./models.js";
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {
   Backup = "backup",
