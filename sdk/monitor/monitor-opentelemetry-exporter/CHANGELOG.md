@@ -1,6 +1,10 @@
 # Release History
 
+<<<<<<< Updated upstream
 ## 1.0.0-beta.31()
+=======
+## 1.0.0-beta.31 (2025-04-16)
+>>>>>>> Stashed changes
 
 ### Features Added
 
