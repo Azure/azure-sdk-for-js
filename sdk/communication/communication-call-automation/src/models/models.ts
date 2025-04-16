@@ -252,16 +252,7 @@ export interface SipCustomHeader extends CustomCallingContextHeader {
 }
 
 /** The type of the Sip header prefix. */
-export enum SipHeaderPrefix {
-  /**
-   * Use the legacy "X-MS-Custom" prefix.
-   */
-  XMSCustom = "X-Ms-Custom-",
-  /**
-   * Use the generic "X-" prefix.
-   */
-  X = "X-",
-}
+export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];

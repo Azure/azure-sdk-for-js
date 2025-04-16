@@ -69,7 +69,7 @@ vi.mock(import("../../src/index.js"), async (importOriginal) => {
   };
 });
 
-import { CallConnection, SipHeaderPrefix } from "../../src/index.js";
+import { CallConnection } from "../../src/index.js";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
@@ -90,7 +90,7 @@ describe("CallConnection Unit Tests", () => {
           kind: "sipx",
           key: "TestKey",
           value: "TestValue",
-          sipHeaderPrefix: SipHeaderPrefix.XMSCustom,
+          sipHeaderPrefix: "X-MS-Custom-",
         },
       ],
     };
@@ -102,7 +102,7 @@ describe("CallConnection Unit Tests", () => {
           kind: "sipx",
           key: "TestKey2",
           value: "TestValue2",
-          sipHeaderPrefix: SipHeaderPrefix.X,
+          sipHeaderPrefix: "X-",
         },
       ],
     };
@@ -247,7 +247,6 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  // X-MS-Custom Header Transfer Call Participant Test (Need to validate)
   it("TransferCallToParticipantPSTNXMSCustomHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
@@ -281,7 +280,6 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  // X Header Transfer Call Participant Test (Need to validate)
   it("TransferCallToParticipantPSTNXHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {

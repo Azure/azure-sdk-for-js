@@ -1123,10 +1123,7 @@ export interface SipCustomHeader extends CustomCallingContextHeader {
 }
 
 // @public
-export enum SipHeaderPrefix {
-    X = "X-",
-    XMSCustom = "X-Ms-Custom-"
-}
+export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {

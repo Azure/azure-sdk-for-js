@@ -31,7 +31,6 @@ import type {
 } from "./models/options.js";
 import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
 import {
-  SipHeaderPrefix,
   type CallConnectionProperties,
   type CallInvite,
   type CallLocator,
@@ -469,7 +468,7 @@ export class CallAutomationClient {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          if (header.sipHeaderPrefix === SipHeaderPrefix.X) {
+          if (header.sipHeaderPrefix === "X-") {
             sipHeaders[`X-${header.key}`] = header.value;
           } else {
             sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
