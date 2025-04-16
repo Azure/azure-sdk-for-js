@@ -1,38 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceUpdate,
 } from "../../models/models.js";
 import {
-  standbyContainerGroupPoolsGet,
-  standbyContainerGroupPoolsCreateOrUpdate,
-  standbyContainerGroupPoolsDelete,
-  standbyContainerGroupPoolsUpdate,
-  standbyContainerGroupPoolsListByResourceGroup,
-  standbyContainerGroupPoolsListBySubscription,
-} from "../../api/standbyContainerGroupPools/index.js";
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+} from "../../api/standbyContainerGroupPools/options.js";
+import {
+  listBySubscription,
+  listByResourceGroup,
+  update,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/standbyContainerGroupPools/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  StandbyContainerGroupPoolsGetOptionalParams,
-  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  StandbyContainerGroupPoolsDeleteOptionalParams,
-  StandbyContainerGroupPoolsUpdateOptionalParams,
-  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a StandbyContainerGroupPools operations. */
 export interface StandbyContainerGroupPoolsOperations {
-  /** Get a StandbyContainerGroupPoolResource */
-  get: (
+  /** List StandbyContainerGroupPoolResource resources by subscription ID */
+  listBySubscription: (
+    options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
+  /** List StandbyContainerGroupPoolResource resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
+  /** Update a StandbyContainerGroupPoolResource */
+  update: (
     resourceGroupName: string,
     standbyContainerGroupPoolName: string,
-    options?: StandbyContainerGroupPoolsGetOptionalParams,
+    properties: StandbyContainerGroupPoolResourceUpdate,
+    options?: StandbyContainerGroupPoolsUpdateOptionalParams,
   ) => Promise<StandbyContainerGroupPoolResource>;
+  /** Delete a StandbyContainerGroupPoolResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    resourceGroupName: string,
+    standbyContainerGroupPoolName: string,
+    options?: StandbyContainerGroupPoolsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a StandbyContainerGroupPoolResource */
   createOrUpdate: (
     resourceGroupName: string,
@@ -43,40 +64,43 @@ export interface StandbyContainerGroupPoolsOperations {
     OperationState<StandbyContainerGroupPoolResource>,
     StandbyContainerGroupPoolResource
   >;
-  /** Delete a StandbyContainerGroupPoolResource */
-  delete: (
+  /** Get a StandbyContainerGroupPoolResource */
+  get: (
     resourceGroupName: string,
     standbyContainerGroupPoolName: string,
-    options?: StandbyContainerGroupPoolsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** Update a StandbyContainerGroupPoolResource */
-  update: (
-    resourceGroupName: string,
-    standbyContainerGroupPoolName: string,
-    properties: StandbyContainerGroupPoolResourceUpdate,
-    options?: StandbyContainerGroupPoolsUpdateOptionalParams,
+    options?: StandbyContainerGroupPoolsGetOptionalParams,
   ) => Promise<StandbyContainerGroupPoolResource>;
-  /** List StandbyContainerGroupPoolResource resources by resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
-  /** List StandbyContainerGroupPoolResource resources by subscription ID */
-  listBySubscription: (
-    options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
 }
 
-export function getStandbyContainerGroupPools(context: StandbyPoolContext, subscriptionId: string) {
+function _getStandbyContainerGroupPools(context: StandbyPoolManagementContext) {
   return {
-    get: (
+    listBySubscription: (
+      options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    update: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
-      options?: StandbyContainerGroupPoolsGetOptionalParams,
+      properties: StandbyContainerGroupPoolResourceUpdate,
+      options?: StandbyContainerGroupPoolsUpdateOptionalParams,
     ) =>
-      standbyContainerGroupPoolsGet(
+      update(
         context,
-        subscriptionId,
+        resourceGroupName,
+        standbyContainerGroupPoolName,
+        properties,
+        options,
+      ),
+    delete: (
+      resourceGroupName: string,
+      standbyContainerGroupPoolName: string,
+      options?: StandbyContainerGroupPoolsDeleteOptionalParams,
+    ) =>
+      $delete(
+        context,
         resourceGroupName,
         standbyContainerGroupPoolName,
         options,
@@ -87,60 +111,26 @@ export function getStandbyContainerGroupPools(context: StandbyPoolContext, subsc
       resource: StandbyContainerGroupPoolResource,
       options?: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
     ) =>
-      standbyContainerGroupPoolsCreateOrUpdate(
+      createOrUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         standbyContainerGroupPoolName,
         resource,
         options,
       ),
-    delete: (
+    get: (
       resourceGroupName: string,
       standbyContainerGroupPoolName: string,
-      options?: StandbyContainerGroupPoolsDeleteOptionalParams,
+      options?: StandbyContainerGroupPoolsGetOptionalParams,
     ) =>
-      standbyContainerGroupPoolsDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        options,
-      ),
-    update: (
-      resourceGroupName: string,
-      standbyContainerGroupPoolName: string,
-      properties: StandbyContainerGroupPoolResourceUpdate,
-      options?: StandbyContainerGroupPoolsUpdateOptionalParams,
-    ) =>
-      standbyContainerGroupPoolsUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyContainerGroupPoolName,
-        properties,
-        options,
-      ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-    ) =>
-      standbyContainerGroupPoolsListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams) =>
-      standbyContainerGroupPoolsListBySubscription(context, subscriptionId, options),
+      get(context, resourceGroupName, standbyContainerGroupPoolName, options),
   };
 }
 
-export function getStandbyContainerGroupPoolsOperations(
-  context: StandbyPoolContext,
-  subscriptionId: string,
+export function _getStandbyContainerGroupPoolsOperations(
+  context: StandbyPoolManagementContext,
 ): StandbyContainerGroupPoolsOperations {
   return {
-    ...getStandbyContainerGroupPools(context, subscriptionId),
+    ..._getStandbyContainerGroupPools(context),
   };
 }

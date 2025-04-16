@@ -3,15 +3,18 @@
 
 import { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 import {
-  _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-  _standbyVirtualMachinePoolsDeleteDeserialize,
-} from "./api/standbyVirtualMachinePools/index.js";
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/standbyContainerGroupPools/operations.js";
 import {
-  _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
-  _standbyContainerGroupPoolsDeleteDeserialize,
-} from "./api/standbyContainerGroupPools/index.js";
+  _$deleteDeserialize as _$deleteDeserializeStandbyVirtualMachinePools,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeStandbyVirtualMachinePools,
+} from "./api/standbyVirtualMachinePools/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -42,7 +45,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: StandbyPoolManagementClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -83,25 +88,25 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
-      deserializer: _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
-    {
-      deserializer: _standbyVirtualMachinePoolsDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
-      deserializer: _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
     {
-      deserializer: _standbyContainerGroupPoolsDeleteDeserialize,
+      deserializer: _$deleteDeserializeStandbyVirtualMachinePools,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+    {
+      deserializer: _createOrUpdateDeserializeStandbyVirtualMachinePools,
+      expectedStatuses: ["200", "201"],
     },
 };
 
@@ -131,17 +136,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

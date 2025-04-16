@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource
  *
  * @summary list StandbyVirtualMachineResource resources by StandbyVirtualMachinePoolResource
- * x-ms-original-file: 2024-03-01/StandbyVirtualMachines_ListByStandbyVirtualMachinePoolResource.json
+ * x-ms-original-file: 2025-03-01/StandbyVirtualMachines_ListByStandbyVirtualMachinePoolResource.json
  */
 async function standbyVirtualMachinesListByStandbyVirtualMachinePoolResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

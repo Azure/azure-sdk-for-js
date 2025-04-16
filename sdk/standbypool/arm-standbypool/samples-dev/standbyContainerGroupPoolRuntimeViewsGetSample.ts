@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a StandbyContainerGroupPoolRuntimeViewResource
  *
  * @summary get a StandbyContainerGroupPoolRuntimeViewResource
- * x-ms-original-file: 2024-03-01/StandbyContainerGroupPoolRuntimeViews_Get.json
+ * x-ms-original-file: 2025-03-01/StandbyContainerGroupPoolRuntimeViews_Get.json
  */
 async function standbyContainerGroupPoolRuntimeViewsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
