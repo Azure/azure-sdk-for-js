@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "6.0.0-beta.1",
+  "version": "6.0.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -112,17 +112,18 @@
     "is-buffer": "catalog:polyfills",
     "process": "catalog:polyfills",
     "rhea-promise": "catalog:amqp",
-    "tslib": "catalog:"
+    "tslib": "catalog:",
+    "util": "catalog:polyfills"
   },
   "devDependencies": {
+    "@azure-tools/mock-hub": "workspace:*",
     "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@azure/keyvault-secrets": "^4.9.0",
-    "@azure/mock-hub": "workspace:*",
+    "@azure/keyvault-secrets": "catalog:internal",
     "@rollup/plugin-inject": "catalog:testing",
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "catalog:polyfills",

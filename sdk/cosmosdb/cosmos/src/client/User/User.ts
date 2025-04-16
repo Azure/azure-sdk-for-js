@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createUserUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import type { RequestOptions } from "../../request";
-import type { Database } from "../Database";
-import { Permission, Permissions } from "../Permission";
-import type { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import { Permission, Permissions } from "../Permission/index.js";
+import type { UserDefinition } from "./UserDefinition.js";
+import { UserResponse } from "./UserResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to read, replace, and delete Users.
@@ -59,6 +59,17 @@ export class User {
 
   /**
    * Read the {@link UserDefinition} for the given {@link User}.
+   * @example
+   * ```ts snippet:UserRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resource: user } = await database.user("<user-id>").read();
+   * ```
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -84,6 +95,19 @@ export class User {
   /**
    * Replace the given {@link User}'s definition with the specified {@link UserDefinition}.
    * @param body - The specified {@link UserDefinition} to replace the definition.
+   * @example
+   * ```ts snippet:UserReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { resource: user } = await database.user("<user-id>").read();
+   * user.id = "<new user id>";
+   *
+   * await database.user("<user-id>").replace(user);
+   * ```
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -115,6 +139,17 @@ export class User {
 
   /**
    * Delete the given {@link User}.
+   * @example
+   * ```ts snippet:UserDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * await database.user("<user-id>").delete();
+   * ```
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

@@ -72,7 +72,7 @@
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
     "@azure/data-tables": "^13.3.0",
-    "@azure/event-hubs": "6.0.0-beta.1",
+    "@azure/event-hubs": "workspace:*",
     "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },

@@ -99,7 +99,6 @@
     "eslint": "catalog:",
     "magic-string": "~0.30.10",
     "playwright": "catalog:testing",
-    "prettier": "^3.3.3",
     "rollup": "^4.0.0",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

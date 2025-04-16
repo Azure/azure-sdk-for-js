@@ -88,10 +88,7 @@
     "@azure/logger": "workspace:*",
     "@azure/msal-node": "catalog:identity",
     "@azure/msal-browser": "catalog:identity",
-    "events": "catalog:polyfills",
-    "jws": "^4.0.0",
     "open": "^10.1.0",
-    "stoppable": "^1.1.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -101,7 +98,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/keyvault-keys": "catalog:internal",
     "@types/jsonwebtoken": "^9.0.0",
-    "@types/jws": "^3.2.2",
     "@types/ms": "^2.1.0",
     "@types/node": "catalog:",
     "@types/stoppable": "^1.1.0",

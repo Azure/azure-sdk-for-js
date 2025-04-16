@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
@@ -188,6 +188,9 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
+export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+
+// @public
 export interface AzureAISearchResource {
     indexes?: Array<IndexResource>;
 }
@@ -258,6 +261,18 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
 }
 
 // @public
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+    bingCustomSearch?: SearchConfigurationList;
+    type: "bing_custom_search";
+}
+
+// @public
+export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+    bingCustomSearch?: SearchConfigurationListOutput;
+    type: "bing_custom_search";
+}
+
+// @public
 export interface BingGroundingToolDefinition extends ToolDefinitionParent {
     bingGrounding: ToolConnectionList;
     type: "bing_grounding";
@@ -309,8 +324,9 @@ export interface ConnectionsOperations {
 // @public
 export enum connectionToolType {
     AzureFunction = "azure_function",
+    BingCustomSearch = "bing_custom_search",
     BingGrounding = "bing_grounding",
-    MicrosoftFabric = "microsoft_fabric",
+    MicrosoftFabric = "fabric_dataagent",
     SharepointGrounding = "sharepoint_grounding"
 }
 
@@ -363,6 +379,13 @@ export interface CreateAndRunThreadOptions {
     tools?: Array<ToolDefinition> | null;
     topP?: number | null;
     truncationStrategy?: TruncationObject | null;
+}
+
+// @public
+export interface CreateAzureAISearchToolOptions {
+    filter?: string;
+    queryType?: AzureAISearchQueryType;
+    topK?: number;
 }
 
 // @public
@@ -641,8 +664,11 @@ export interface IncompleteRunDetailsOutput {
 
 // @public
 export interface IndexResource {
+    filter?: string;
     indexConnectionId: string;
     indexName: string;
+    queryType?: AzureAISearchQueryType;
+    topK?: number;
 }
 
 // @public
@@ -959,14 +985,14 @@ export interface MessageTextFilePathDetailsOutput {
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    fabricAISkill: ToolConnectionList;
-    type: "fabric_aiskill";
+    fabricDataAgent: ToolConnectionList;
+    type: "fabric_dataagent";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    fabricAISkill: ToolConnectionListOutput;
-    type: "fabric_aiskill";
+    fabricDataAgent: ToolConnectionListOutput;
+    type: "fabric_dataagent";
 }
 
 // @public
@@ -1458,8 +1484,8 @@ export interface RunStepMessageCreationReferenceOutput {
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    fabricAISkill: Record<string, string>;
-    type: "fabric_aiskill";
+    fabricDataAgent: Record<string, string>;
+    type: "fabric_dataagent";
 }
 
 // @public
@@ -1532,6 +1558,28 @@ export enum RunStreamEvent {
     ThreadRunInProgress = "thread.run.in_progress",
     ThreadRunQueued = "thread.run.queued",
     ThreadRunRequiresAction = "thread.run.requires_action"
+}
+
+// @public
+export interface SearchConfiguration {
+    connectionId: string;
+    instanceName: string;
+}
+
+// @public
+export interface SearchConfigurationList {
+    searchConfigurations: Array<SearchConfiguration>;
+}
+
+// @public
+export interface SearchConfigurationListOutput {
+    searchConfigurations?: Array<SearchConfigurationOutput>;
+}
+
+// @public
+export interface SearchConfigurationOutput {
+    connectionId: string;
+    instanceName: string;
 }
 
 // @public
@@ -1665,10 +1713,10 @@ export interface ToolConnectionOutput {
 }
 
 // @public
-export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | AzureFunctionToolDefinition;
+export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
 
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | BingCustomSearchToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1721,6 +1769,9 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    addFabricTool(connectionId: string): {
+        definition: ToolDefinition;
+    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
@@ -1734,7 +1785,7 @@ export class ToolSet {
 
 // @public
 export class ToolUtility {
-    static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
+    static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: CreateAzureAISearchToolOptions): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
@@ -1742,11 +1793,17 @@ export class ToolUtility {
         definition: AzureFunctionToolDefinition;
         resources: ToolResources;
     };
+    static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+        definition: ToolDefinition;
+    };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
+        definition: ToolDefinition;
+    };
+    static createFabricTool(connectionId: string): {
         definition: ToolDefinition;
     };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {

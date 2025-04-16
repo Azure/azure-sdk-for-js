@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
+    "@typespec/ts-http-runtime": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

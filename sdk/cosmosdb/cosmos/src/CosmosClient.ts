@@ -1,39 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Database, Databases } from "./client/Database";
-import { Offer, Offers } from "./client/Offer";
-import { ClientContext } from "./ClientContext";
-import { parseConnectionString } from "./common";
-import { Constants } from "./common/constants";
-import { getUserAgent } from "./common/platform";
-import type { CosmosClientOptions } from "./CosmosClientOptions";
-import type { ClientConfigDiagnostic } from "./CosmosDiagnostics";
-import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
-import { EncryptionManager } from "./encryption/EncryptionManager";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-import type { RequestOptions } from "./request";
-import { ResourceResponse } from "./request";
-import { checkURL } from "./utils/checkURL";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
+import { Database, Databases } from "./client/Database/index.js";
+import { Offer, Offers } from "./client/Offer/index.js";
+import { ClientContext } from "./ClientContext.js";
+import { parseConnectionString } from "./common/index.js";
+import { Constants } from "./common/constants.js";
+import { getUserAgent } from "./common/platform.js";
+import type { CosmosClientOptions } from "./CosmosClientOptions.js";
+import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
+import {
+  determineDiagnosticLevel,
+  getDiagnosticLevelFromEnvironment,
+} from "./diagnostics/index.js";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal.js";
+import type { DatabaseAccount } from "./documents/index.js";
+import { defaultConnectionPolicy } from "./documents/index.js";
+import { EncryptionManager } from "./encryption/EncryptionManager.js";
+import { GlobalEndpointManager } from "./globalEndpointManager.js";
+import type { RequestOptions } from "./request/index.js";
+import { ResourceResponse } from "./request/index.js";
+import { checkURL } from "./utils/checkURL.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
  * This client is used to configure and execute requests in the Azure Cosmos DB database service.
  * @example Instantiate a client and create a new database
- * ```typescript
- * const client = new CosmosClient({endpoint: "<URL HERE>", key: "<KEY HERE>"});
- * await client.databases.create({id: "<database name here>"});
+ * ```ts snippet:CosmosClientCreate
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const key = "<database account masterkey>";
+ * const client = new CosmosClient({ endpoint, key });
  * ```
  * @example Instantiate a client with custom Connection Policy
- * ```typescript
+ * ```ts snippet:CosmosClientWithConnectionPolicy
+ * import { CosmosClient } from "@azure/cosmos";
+ *
+ * const endpoint = "https://your-account.documents.azure.com";
+ * const key = "<database account masterkey>";
  * const client = new CosmosClient({
- *    endpoint: "<URL HERE>",
- *    key: "<KEY HERE>",
- *    connectionPolicy: {
+ *   endpoint,
+ *   key,
+ *   connectionPolicy: {
  *     requestTimeout: 10000,
- *    },
+ *   },
  * });
  * ```
  */
@@ -44,8 +56,15 @@ export class CosmosClient {
    * Use `.database(id)` to read, replace, or delete a specific, existing database by id.
    *
    * @example Create a new database
-   * ```typescript
-   * const {resource: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
+   * ```ts snippet:CosmosClientDatabases
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { resource: databaseDefinition, database } = await client.databases.create({
+   *   id: "<name here>",
+   * });
    * ```
    */
   public readonly databases: Databases;
@@ -253,12 +272,24 @@ export class CosmosClient {
    *
    * @param id - The id of the database.
    * @example Create a new container off of an existing database
-   * ```typescript
-   * const container = client.database("<database id>").containers.create("<container id>");
+   * ```ts snippet:CosmosClientDatabaseCreateContainer
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const container = client.database("<database id>").containers.create({
+   *   id: "<name here>",
+   * });
    * ```
    *
    * @example Delete an existing database
-   * ```typescript
+   * ```ts snippet:CosmosClientDatabaseDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
    * await client.database("<id here>").delete();
    * ```
    */

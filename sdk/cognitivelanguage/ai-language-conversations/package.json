@@ -57,11 +57,8 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "dev-tool run build-package && dev-tool run bundle",
-    "build:debug": "dev-tool run build-package && dev-tool run bundle && dev-tool run extract-api",
-    "build:node": "dev-tool run build-package && dev-tool run bundle",
-    "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle",
+    "build:samples": "echo skipped.",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -96,6 +93,13 @@
       "azure",
       "azure-cognitive-services",
       "language-service"
+    ],
+    "skip": [
+      "analyzeConversationApp.js",
+      "analyzeOrchestrationAppConvResponse.js",
+      "analyzeOrchestrationAppLuisResponse.js",
+      "analyzeOrchestrationAppQnaResponse.js",
+      "analyzeOrchestrationDirectTarget.js"
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"

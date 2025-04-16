@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { EncryptionAlgorithm } from "../../../src";
-import type { Suite } from "mocha";
+import { EncryptionAlgorithm } from "../../../src/index.js";
 import type {
   Database,
   Container,
   ContainerDefinition,
   OperationInput,
   PatchOperation,
-} from "../../../src";
-import {
-  CosmosClient,
   EncryptionKeyWrapMetadata,
   ClientEncryptionPolicy,
-  KeyEncryptionAlgorithm,
   ClientEncryptionIncludedPath,
+} from "../../../src/index.js";
+import {
+  CosmosClient,
+  KeyEncryptionAlgorithm,
   EncryptionType,
   EncryptionKeyResolverName,
   StatusCodes,
@@ -30,9 +29,9 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
-} from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { endpoint } from "../common/_testConfig";
+} from "../../../src/index.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import { endpoint } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -48,13 +47,11 @@ import {
   testReplaceItem,
   testDeleteItem,
   verifyDiagnostics,
-} from "../common/encryptionTestHelpers";
-import { removeAllDatabases } from "../common/TestHelpers";
-import { assert } from "chai";
-import {
-  CosmosEncryptedNumber,
-  CosmosEncryptedNumberType,
-} from "../../../src/encryption/CosmosEncryptedNumber";
+} from "../common/encryptionTestHelpers.js";
+import { removeAllDatabases } from "../common/TestHelpers.js";
+import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -68,8 +65,8 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("ClientSideEncryption", function (this: Suite) {
-  before(async () => {
+describe("ClientSideEncryption", () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     metadata1 = {
@@ -2418,7 +2415,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     assert.ok(unwrapCount === 1);
     newClient.dispose();
   });
-  after(async () => {
+
+  afterAll(async () => {
     await removeAllDatabases();
     encryptionClient.dispose();
   });

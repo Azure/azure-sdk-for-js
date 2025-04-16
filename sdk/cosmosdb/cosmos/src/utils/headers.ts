@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { hmac } from "./hmac";
-import type { HTTPMethod } from "../common";
-import { ResourceType, Constants } from "../common";
+import { hmac } from "./hmac.js";
+import type { HTTPMethod } from "../common/index.js";
+import { ResourceType, Constants } from "../common/index.js";
 
 export async function generateHeaders(
   masterKey: string,

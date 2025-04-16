@@ -1,7 +1,7 @@
 {
   "name": "@azure/eventhubs-checkpointstore-blob",
   "sdk-type": "client",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.1",
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -72,9 +72,9 @@
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
     "@azure/core-paging": "workspace:*",
-    "@azure/event-hubs": "6.0.0-beta.1",
+    "@azure/event-hubs": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@azure/storage-blob": "^12.26.0",
+    "@azure/storage-blob": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

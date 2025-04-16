@@ -159,6 +159,7 @@
     "src/request/globalStatistics.ts",
     "src/request/hybridSearchQueryResult.ts",
     "src/encryption/*",
+    "test/snippets.spec.ts",
     "test/public/common/TestHelpers.ts",
     "test/public/common/encryptionTestHelpers.ts",
     "test/public/integration/session.spec.ts",

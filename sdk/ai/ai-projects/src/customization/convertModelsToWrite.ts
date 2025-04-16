@@ -66,7 +66,11 @@ function convertToolDefinition(
       return convertFunctionToolDefinition(source as PublicModels.FunctionToolDefinition);
     case "bing_grounding":
       return convertBingGroundingToolDefinition(source as PublicModels.BingGroundingToolDefinition);
-    case "microsoft_fabric":
+    case "bing_custom_search":
+      return convertBingCustomSearchToolDefinition(
+        source as PublicModels.BingCustomSearchToolDefinition,
+      );
+    case "fabric_dataagent":
       return convertMicrosoftFabricToolDefinition(
         source as PublicModels.MicrosoftFabricToolDefinition,
       );
@@ -120,12 +124,27 @@ function convertBingGroundingToolDefinition(
   };
 }
 
+function convertBingCustomSearchToolDefinition(
+  source: PublicModels.BingCustomSearchToolDefinition,
+): GeneratedModels.BingCustomSearchToolDefinition {
+  return {
+    type: source.type,
+    bing_custom_search: source?.bingCustomSearch?.searchConfigurations
+      ? {
+          search_configurations: source.bingCustomSearch.searchConfigurations.map(
+            convertToolSearchConfiguration,
+          ),
+        }
+      : { search_configurations: [] },
+  };
+}
+
 function convertMicrosoftFabricToolDefinition(
   source: PublicModels.MicrosoftFabricToolDefinition,
 ): GeneratedModels.MicrosoftFabricToolDefinition {
   return {
     type: source.type,
-    fabric_aiskill: convertToolConnectionList(source.fabricAISkill),
+    fabric_dataagent: convertToolConnectionList(source.fabricDataAgent),
   };
 }
 
@@ -262,10 +281,15 @@ function convertAzureAISearchResource(
   };
 }
 
-function convertIndexResource(source: PublicModels.IndexResource): GeneratedModels.IndexResource {
+function convertIndexResource(
+  source: PublicModels.IndexResource,
+): GeneratedModels.AISearchIndexResource {
   return {
     index_connection_id: source.indexConnectionId,
     index_name: source.indexName,
+    query_type: source.queryType,
+    top_k: source.topK,
+    filter: source.filter,
   };
 }
 
@@ -530,5 +554,14 @@ function convertToolConnection(
 ): GeneratedModels.ToolConnection {
   return {
     connection_id: source.connectionId,
+  };
+}
+
+function convertToolSearchConfiguration(
+  source: PublicModels.SearchConfiguration,
+): GeneratedModels.SearchConfiguration {
+  return {
+    connection_id: source.connectionId,
+    instance_name: source.instanceName,
   };
 }

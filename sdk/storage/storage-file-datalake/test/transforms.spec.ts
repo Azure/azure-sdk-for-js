@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   toAccessControlItem,
   toAccessControlItemString,
@@ -17,7 +14,8 @@ import {
   toPublicAccessType,
   toRolePermissions,
   toRolePermissionsString,
-} from "../src/transforms";
+} from "../src/transforms.js";
+import { describe, it, assert } from "vitest";
 
 describe("transforms", () => {
   it("toBlobEndpointUrl", () => {

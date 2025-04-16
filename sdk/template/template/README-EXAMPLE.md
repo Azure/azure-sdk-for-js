@@ -125,7 +125,7 @@ let setting = await client.getConfigurationSetting({
 });
 
 // re-get the setting
-setting = await.getConfigurationSetting(setting);
+setting = await getConfigurationSetting(setting);
 ```
 
 ## Examples
@@ -149,7 +149,7 @@ async function run() {
     label: "optional-label",
   });
 
-  let retrievedSetting = await client.getConfigurationSetting({
+  const retrievedSetting = await client.getConfigurationSetting({
     key: "testkey",
     label: "optional-label",
   });
@@ -182,7 +182,6 @@ This module's tests are a mixture of live and unit tests, which require you to h
 1. `pnpm install`
 2. `pnpm build --filter=@azure/app-configuration...`
 3. Create a .env file with these contents in the `sdk\appconfiguration\app-configuration` folder:
-   `APPCONFIG_CONNECTION_STRING=connection string for your App Configuration instance`
 4. `cd sdk\appconfiguration\app-configuration`
 5. `npm run test`.
 
