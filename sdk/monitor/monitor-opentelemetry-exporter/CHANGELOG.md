@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.31()
+## 1.0.0-beta.31 ()
 
 ### Features Added
 
