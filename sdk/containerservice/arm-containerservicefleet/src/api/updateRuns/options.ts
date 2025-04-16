@@ -39,8 +39,7 @@ export interface UpdateRunsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface UpdateRunsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface UpdateRunsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** The request should only proceed if an entity matches this string. */

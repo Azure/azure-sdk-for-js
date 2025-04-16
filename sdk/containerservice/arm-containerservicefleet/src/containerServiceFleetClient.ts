@@ -18,22 +18,13 @@ import {
   FleetUpdateStrategiesOperations,
   _getFleetUpdateStrategiesOperations,
 } from "./classic/fleetUpdateStrategies/index.js";
-import {
-  UpdateRunsOperations,
-  _getUpdateRunsOperations,
-} from "./classic/updateRuns/index.js";
+import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
 import {
   FleetMembersOperations,
   _getFleetMembersOperations,
 } from "./classic/fleetMembers/index.js";
-import {
-  FleetsOperations,
-  _getFleetsOperations,
-} from "./classic/fleets/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -59,12 +50,9 @@ export class ContainerServiceFleetClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.autoUpgradeProfileOperations =
-      _getAutoUpgradeProfileOperationsOperations(this._client);
+    this.autoUpgradeProfileOperations = _getAutoUpgradeProfileOperationsOperations(this._client);
     this.autoUpgradeProfiles = _getAutoUpgradeProfilesOperations(this._client);
-    this.fleetUpdateStrategies = _getFleetUpdateStrategiesOperations(
-      this._client,
-    );
+    this.fleetUpdateStrategies = _getFleetUpdateStrategiesOperations(this._client);
     this.updateRuns = _getUpdateRunsOperations(this._client);
     this.fleetMembers = _getFleetMembersOperations(this._client);
     this.fleets = _getFleetsOperations(this._client);
