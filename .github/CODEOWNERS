@@ -517,6 +517,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
