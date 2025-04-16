@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.31()
+
+## Other Changes
+
+- Hide iKey in debug logs.
+- Add to statsbeat success count when a batch of envelopes is partially accepted by breeze.
+
 ## 1.0.0-beta.30 (2025-04-09)
 
 ### Features Added

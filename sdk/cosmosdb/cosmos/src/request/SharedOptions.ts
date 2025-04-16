@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /// <reference lib="dom" />
-import type { PriorityLevel } from "../documents/PriorityLevel";
-import type { CosmosHeaders } from "../index";
+import type { PriorityLevel } from "../documents/PriorityLevel.js";
+import type { CosmosHeaders } from "../index.js";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
