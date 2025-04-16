@@ -1,5 +1,15 @@
 # Release History
 
+## 1.11.0 ()
+
+### Features Added
+
+- Added support for Process Time Normalized and Exception Rate performance counters.
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+
 ## 1.10.0 (2025-04-09)
 
 ### Features Added
