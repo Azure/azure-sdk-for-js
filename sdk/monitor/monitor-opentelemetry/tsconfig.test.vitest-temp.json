@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "nodenext",
+    "lib": [],
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "composite": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleDetection": "force",
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "C:/Users/jacksonweber/Repositories/azure-sdk-for-js/common/temp/node_modules/.pnpm/vitest@3.1.1_@types+debug@4.1.12_@types+node@18.19.86_@vitest+browser@3.1.1_tsx@4.19.3_yaml@2.7.1/node_modules/vitest/dist/chunks/tsconfig.test.tmp.tsbuildinfo"
+  },
+  "include": [
+    "C:/Users/jacksonweber/Repositories/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry/test",
+    "C:/Users/jacksonweber/Repositories/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry/src"
+  ],
+  "exclude": [
+    "C:/Users/jacksonweber/Repositories/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry/test/stress",
+    "C:/Users/jacksonweber/Repositories/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry/test/snippets.spec.ts"
+  ]
+}

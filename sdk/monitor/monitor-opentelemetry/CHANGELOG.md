@@ -1,6 +1,10 @@
 # Release History
 
-## 1.10.1 ()
+## 1.11.0 ()
+
+### Features Added
+
+- Added support for Process Time Normalized and Exception Rate performance counters.
 
 ### Bugs Fixed
 
