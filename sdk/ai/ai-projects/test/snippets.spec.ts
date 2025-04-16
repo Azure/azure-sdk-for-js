@@ -403,6 +403,104 @@ describe("snippets", function () {
     console.log(`Created message, message ID: ${message.id}`);
   });
 
+  it("imageInputWithFile", async function () {
+    // Upload the local image file
+    const fileStream = fs.createReadStream(imagePath);
+    const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
+      fileName: "image_file.png",
+    });
+    console.log(`Uploaded file, file ID: ${imageFile.id}`);
+
+    // Create a message with both text and image content
+    console.log("Creating message with image content...");
+    const inputMessage = "Hello, what is in the image?";
+    const content = [
+      {
+        type: "text",
+        text: inputMessage,
+      },
+      {
+        type: "image_file",
+        image_file: {
+          file_id: imageFile.id,
+          detail: "high",
+        },
+      },
+    ];
+    const message = await client.agents.createMessage(thread.id, {
+      role: "user",
+      content: content,
+    });
+    console.log(`Created message, message ID: ${message.id}`);
+  });
+
+  it("imageInputWithUrl", async function () {
+    // Specify the public image URL
+    const imageUrl =
+      "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
+
+    // Create content directly referencing image URL
+    const inputMessage = "Hello, what is in the image?";
+    const content = [
+      {
+        type: "text",
+        text: inputMessage,
+      },
+      {
+        type: "image_url",
+        image_url: {
+          url: imageUrl,
+          detail: "high",
+        },
+      },
+    ];
+    const message = await client.agents.createMessage(thread.id, {
+      role: "user",
+      content: content,
+    });
+    console.log(`Created message, message ID: ${message.id}`);
+  });
+
+  it("imageInputWithBase64", async function () {
+    function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
+      try {
+        // Read the image file as binary
+        const imageBuffer = fs.readFileSync(imagePath);
+        // Convert to base64
+        const base64Data = imageBuffer.toString("base64");
+        // Format as a data URL
+        return `data:${mimeType};base64,${base64Data}`;
+      } catch (error) {
+        console.error(`Error reading image file at ${imagePath}:`, error);
+        throw error;
+      }
+    }
+
+    // Convert your image file to base64 format
+    const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
+
+    // Create a message with both text and image content
+    const inputMessage = "Hello, what is in the image?";
+    const content = [
+      {
+        type: "text",
+        text: inputMessage,
+      },
+      {
+        type: "image_url",
+        image_url: {
+          url: imageDataUrl,
+          detail: "high",
+        },
+      },
+    ];
+
+    const message = await client.agents.createMessage(thread.id, {
+      role: "user",
+      content: content,
+    });
+    console.log(`Created message, message ID: ${message.id}`);
+  });
   it("createRun", async function () {
     let run = await client.agents.createRun(thread.id, agent.id);
 
