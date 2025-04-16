@@ -237,7 +237,7 @@ stages:
       - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
       - ${{ each artifact in parameters.Artifacts }}:
-          - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(true, eq(variables['System.TeamProject'], 'internal'))))}}:
+          - ${{if and(ne(artifact.skipPublishDevFeed, 'true'), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))}}:
             - job: DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
               variables:
                 - template: /eng/pipelines/templates/variables/image.yml
