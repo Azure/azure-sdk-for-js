@@ -92,7 +92,7 @@ const user = await client.createUser();
 
 ### Creating a new user with customId and get user
 
-Use the `createUser` method to create a new user with externalId. This externalId can be used to map your application's user identities with Azure Communication Services identities. If you call the CreateUser method again with the same externalId, it will return the same user.Id. Therefore, you do not need to store this mapping yourself.
+Use the `createUser` method to create a new user with customId. This customId can be used to map your application's user identities with Azure Communication Services identities. If you call the CreateUser method again with the same customId, it will return the same user.Id. Therefore, you do not need to store this mapping yourself.
 
 ```ts snippet:ReadmeSampleCreateUser
 import { DefaultAzureCredential } from "@azure/identity";
@@ -103,7 +103,7 @@ const endpoint = "https://contoso.eastus.communications.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient(endpoint, credential);
 
-const user = await client.createUser( { externalId: "alice@contoso.com"});
+const user = await client.createUser( { customId: "alice@contoso.com"});
 const getResult = await client.getUser(user);
 ```
 
