@@ -1201,6 +1201,17 @@ export interface DeviceTwinMetadata {
 }
 
 // @public
+export interface EdgeSolutionVersionPublishedEventData {
+    apiVersion: string;
+    callbackUrl: string;
+    externalValidationId: string;
+    solutionTemplateId: string;
+    solutionTemplateVersionId: string;
+    solutionVersionId: string;
+    targetId: string;
+}
+
+// @public
 export class EventGridDeserializer {
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
     deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;

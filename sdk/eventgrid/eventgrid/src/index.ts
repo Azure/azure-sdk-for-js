@@ -115,6 +115,7 @@ export {
   KeyVaultAccessPolicyChangedEventData,
   SubscriptionValidationEventData,
   SubscriptionDeletedEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesModelDeployedEventData,
