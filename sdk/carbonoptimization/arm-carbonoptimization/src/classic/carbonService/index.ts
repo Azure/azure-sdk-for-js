@@ -42,9 +42,7 @@ function _getCarbonService(context: CarbonContext) {
   };
 }
 
-export function _getCarbonServiceOperations(
-  context: CarbonContext,
-): CarbonServiceOperations {
+export function _getCarbonServiceOperations(context: CarbonContext): CarbonServiceOperations {
   return {
     ..._getCarbonService(context),
   };

@@ -81,10 +81,7 @@ async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocation
     carbonScopeList: ["Scope1", "Scope3"],
     dateRange: { start: "2024-03-01", end: "2024-05-01" },
     locationList: ["east us", "west us"],
-    resourceTypeList: [
-      "microsoft.storage/storageaccounts",
-      "microsoft.databricks/workspaces",
-    ],
+    resourceTypeList: ["microsoft.storage/storageaccounts", "microsoft.databricks/workspaces"],
     resourceGroupUrlList: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg-name",
     ],
@@ -135,10 +132,7 @@ async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocation
     carbonScopeList: ["Scope1", "Scope3"],
     dateRange: { start: "2023-06-01", end: "2023-06-01" },
     locationList: ["east us", "west us"],
-    resourceTypeList: [
-      "microsoft.storage/storageaccounts",
-      "microsoft.databricks/workspaces",
-    ],
+    resourceTypeList: ["microsoft.storage/storageaccounts", "microsoft.databricks/workspaces"],
     resourceGroupUrlList: [
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg-name",
     ],

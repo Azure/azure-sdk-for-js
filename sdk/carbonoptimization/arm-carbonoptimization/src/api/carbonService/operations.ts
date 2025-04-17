@@ -43,15 +43,13 @@ export function _queryCarbonEmissionDataAvailableDateRangeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _queryCarbonEmissionDataAvailableDateRangeDeserialize(
@@ -74,10 +72,7 @@ export async function queryCarbonEmissionDataAvailableDateRange(
     requestOptions: {},
   },
 ): Promise<CarbonEmissionDataAvailableDateRange> {
-  const result = await _queryCarbonEmissionDataAvailableDateRangeSend(
-    context,
-    options,
-  );
+  const result = await _queryCarbonEmissionDataAvailableDateRangeSend(context, options);
   return _queryCarbonEmissionDataAvailableDateRangeDeserialize(result);
 }
 
@@ -97,17 +92,15 @@ export function _queryCarbonEmissionReportsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: queryFilterUnionSerializer(queryParameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: queryFilterUnionSerializer(queryParameters),
+  });
 }
 
 export async function _queryCarbonEmissionReportsDeserialize(

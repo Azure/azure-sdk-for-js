@@ -14,8 +14,7 @@ async function carbonServiceQueryCarbonEmissionDataAvailableDateRange(): Promise
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new CarbonClient(credential, subscriptionId);
-  const result =
-    await client.carbonService.queryCarbonEmissionDataAvailableDateRange();
+  const result = await client.carbonService.queryCarbonEmissionDataAvailableDateRange();
   console.log(result);
 }
 
