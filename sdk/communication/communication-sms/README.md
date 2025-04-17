@@ -158,7 +158,7 @@ const client = new SmsClient(endpoint, credential);
 
 const optOutAddResults = await client.optOuts.add(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-  ["<to-phone-number-1>", "<to-phone-number-2>"],
+  ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
 );
 
 for (const optOutAddResult of optOutAddResults) {
