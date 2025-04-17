@@ -14,18 +14,14 @@ async function retentionPoliciesCreateOrReplaceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "194D3C1E-462F-4738-9025-092A628C06EB";
   const client = new DurableTaskClient(credential, subscriptionId);
-  const result = await client.retentionPolicies.createOrReplace(
-    "rgdurabletask",
-    "testscheduler",
-    {
-      properties: {
-        retentionPolicies: [
-          { retentionPeriodInDays: 30 },
-          { retentionPeriodInDays: 10, orchestrationState: "Failed" },
-        ],
-      },
+  const result = await client.retentionPolicies.createOrReplace("rgdurabletask", "testscheduler", {
+    properties: {
+      retentionPolicies: [
+        { retentionPeriodInDays: 30 },
+        { retentionPeriodInDays: 10, orchestrationState: "Failed" },
+      ],
     },
-  );
+  });
   console.log(result);
 }
 

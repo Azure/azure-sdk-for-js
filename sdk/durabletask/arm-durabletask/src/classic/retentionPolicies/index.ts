@@ -84,14 +84,7 @@ function _getRetentionPolicies(context: DurableTaskContext) {
       schedulerName: string,
       resource: RetentionPolicy,
       options?: RetentionPoliciesCreateOrReplaceOptionalParams,
-    ) =>
-      createOrReplace(
-        context,
-        resourceGroupName,
-        schedulerName,
-        resource,
-        options,
-      ),
+    ) => createOrReplace(context, resourceGroupName, schedulerName, resource, options),
     get: (
       resourceGroupName: string,
       schedulerName: string,

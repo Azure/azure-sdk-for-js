@@ -9,12 +9,7 @@ import {
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "../../api/taskHubs/options.js";
-import {
-  listByScheduler,
-  $delete,
-  createOrUpdate,
-  get,
-} from "../../api/taskHubs/operations.js";
+import { listByScheduler, $delete, createOrUpdate, get } from "../../api/taskHubs/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -67,23 +62,14 @@ function _getTaskHubs(context: DurableTaskContext) {
       schedulerName: string,
       taskHubName: string,
       options?: TaskHubsDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, schedulerName, taskHubName, options),
+    ) => $delete(context, resourceGroupName, schedulerName, taskHubName, options),
     createOrUpdate: (
       resourceGroupName: string,
       schedulerName: string,
       taskHubName: string,
       resource: TaskHub,
       options?: TaskHubsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        schedulerName,
-        taskHubName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, schedulerName, taskHubName, resource, options),
     get: (
       resourceGroupName: string,
       schedulerName: string,
@@ -93,9 +79,7 @@ function _getTaskHubs(context: DurableTaskContext) {
   };
 }
 
-export function _getTaskHubsOperations(
-  context: DurableTaskContext,
-): TaskHubsOperations {
+export function _getTaskHubsOperations(context: DurableTaskContext): TaskHubsOperations {
   return {
     ..._getTaskHubs(context),
   };

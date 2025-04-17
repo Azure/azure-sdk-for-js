@@ -14,15 +14,11 @@ async function schedulersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
   const client = new DurableTaskClient(credential, subscriptionId);
-  const result = await client.schedulers.createOrUpdate(
-    "rgopenapi",
-    "testscheduler",
-    {
-      location: "northcentralus",
-      properties: { ipAllowlist: ["10.0.0.0/8"], sku: { name: "Dedicated" } },
-      tags: { department: "research", development: "true" },
-    },
-  );
+  const result = await client.schedulers.createOrUpdate("rgopenapi", "testscheduler", {
+    location: "northcentralus",
+    properties: { ipAllowlist: ["10.0.0.0/8"], sku: { name: "Dedicated" } },
+    tags: { department: "research", development: "true" },
+  });
   console.log(result);
 }
 
