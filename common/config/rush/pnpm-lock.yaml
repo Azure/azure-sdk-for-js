@@ -87,7 +87,7 @@ importers:
         version: file:projects/arm-apicenter.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
       '@rush-temp/arm-apimanagement':
         specifier: file:./projects/arm-apimanagement.tgz
-        version: file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
+        version: file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-appcomplianceautomation':
         specifier: file:./projects/arm-appcomplianceautomation.tgz
         version: file:projects/arm-appcomplianceautomation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -2441,7 +2441,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
-    resolution: {integrity: sha512-foP1d8jboDRGuSlc+8ZY2c9E8Vj63koTpqYxSZ52jW2ICAHuOKWYzUUfOQl/cSUmiP3jfBG/N65ino8NzmLoEw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-HsyZVoTmHvtuA9mbwPZOAq4k57FcYni+pLrXFLL0PO4ZwUOYvFXkWrNARQ3gFCCSi0vR/o5w/mpdt2PM67/esA==, tarball: file:projects/arm-apimanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
@@ -9443,26 +9443,29 @@ snapshots:
       - tsx
       - yaml
 
-  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)':
+  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
+      '@vitest/browser': 3.1.1(playwright@1.51.1)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.1)
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.5.0
+      playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -9470,6 +9473,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.2.6(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
