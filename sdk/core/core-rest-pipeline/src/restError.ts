@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isError } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
-import { custom } from "./util/inspect.js";
-import { Sanitizer } from "./util/sanitizer.js";
 
-const errorSanitizer = new Sanitizer();
+import type {
+  RestErrorOptions as TspRestErrorOptions} from "@typespec/ts-http-runtime";
+import {
+  RestError as TspRestError,
+  isRestError as tspIsRestError
+} from "@typespec/ts-http-runtime";
 
 /**
  * The options supported by RestError.
@@ -71,32 +73,13 @@ export class RestError extends Error {
 
   constructor(message: string, options: RestErrorOptions = {}) {
     super(message);
-    this.name = "RestError";
-    this.code = options.code;
-    this.statusCode = options.statusCode;
 
-    // The request and response may contain sensitive information in the headers or body.
-    // To help prevent this sensitive information being accidentally logged, the request and response
-    // properties are marked as non-enumerable here. This prevents them showing up in the output of
-    // JSON.stringify and console.log.
-    Object.defineProperty(this, "request", { value: options.request, enumerable: false });
-    Object.defineProperty(this, "response", { value: options.response, enumerable: false });
-
-    // Logging method for util.inspect in Node
-    Object.defineProperty(this, custom, {
-      value: () => {
-        // Extract non-enumerable properties and add them back. This is OK since in this output the request and
-        // response get sanitized.
-        return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
-          ...this,
-          request: this.request,
-          response: this.response,
-        })}`;
-      },
-      enumerable: false,
-    });
-
-    Object.setPrototypeOf(this, RestError.prototype);
+    // what is this??
+    // it turns out that you can return from a constructor and it causes
+    // calling `new` to return the value you return.
+    // this lets us wrap the TypeSpec RestError so that calling this constructor will give you the same type of object as calling the TypeSpec one,
+    // even though the constructor signatures (through RestErrorOptions) are slightly different.
+    return new TspRestError(message, options as TspRestErrorOptions);
   }
 }
 
@@ -105,8 +88,5 @@ export class RestError extends Error {
  * @param e - Something caught by a catch clause.
  */
 export function isRestError(e: unknown): e is RestError {
-  if (e instanceof RestError) {
-    return true;
-  }
-  return isError(e) && e.name === "RestError";
+  return tspIsRestError(e);
 }

@@ -12,11 +12,13 @@ import type {
   TlsSettings,
   TransferProgressEvent,
 } from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { randomUUID } from "@azure/core-util";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { HttpMethods } from "@azure/core-util";
+import {
+  createPipelineRequest as tspCreatePipelineRequest,
+  type PipelineRequestOptions as TspPipelineRequestOptions,
+} from "@typespec/ts-http-runtime";
 
 /**
  * Settings to initialize a request.
@@ -132,57 +134,14 @@ export interface PipelineRequestOptions {
   allowInsecureConnection?: boolean;
 }
 
-class PipelineRequestImpl implements PipelineRequest {
-  public url: string;
-  public method: HttpMethods;
-  public headers: HttpHeaders;
-  public timeout: number;
-  public withCredentials: boolean;
-  public body?: RequestBodyType;
-  public multipartBody?: MultipartRequestBody;
-  public formData?: FormDataMap;
-  public streamResponseStatusCodes?: Set<number>;
-  public enableBrowserStreams: boolean;
-  public proxySettings?: ProxySettings;
-  public disableKeepAlive: boolean;
-  public abortSignal?: AbortSignalLike;
-  public requestId: string;
-  public tracingOptions?: OperationTracingOptions;
-  public allowInsecureConnection?: boolean;
-  public onUploadProgress?: (progress: TransferProgressEvent) => void;
-  public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-  public agent?: Agent;
-  public tlsSettings?: TlsSettings;
-
-  constructor(options: PipelineRequestOptions) {
-    this.url = options.url;
-    this.body = options.body;
-    this.headers = options.headers ?? createHttpHeaders();
-    this.method = options.method ?? "GET";
-    this.timeout = options.timeout ?? 0;
-    this.multipartBody = options.multipartBody;
-    this.formData = options.formData;
-    this.disableKeepAlive = options.disableKeepAlive ?? false;
-    this.proxySettings = options.proxySettings;
-    this.streamResponseStatusCodes = options.streamResponseStatusCodes;
-    this.withCredentials = options.withCredentials ?? false;
-    this.abortSignal = options.abortSignal;
-    this.tracingOptions = options.tracingOptions;
-    this.onUploadProgress = options.onUploadProgress;
-    this.onDownloadProgress = options.onDownloadProgress;
-    this.requestId = options.requestId || randomUUID();
-    this.allowInsecureConnection = options.allowInsecureConnection ?? false;
-    this.enableBrowserStreams = options.enableBrowserStreams ?? false;
-    this.agent = options.agent;
-    this.tlsSettings = options.tlsSettings;
-  }
-}
-
 /**
  * Creates a new pipeline request with the given options.
  * This method is to allow for the easy setting of default values and not required.
  * @param options - The options to create the request with.
  */
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
-  return new PipelineRequestImpl(options);
+  // Cast required due to difference between ts-http-runtime requiring AbortSignal while core-rest-pipeline allows
+  // the more generic AbortSignalLike. The wrapAbortSignalLike pipeline policy will take care of ensuring that any AbortSignalLike in the request
+  // is converted into a true AbortSignal.
+  return tspCreatePipelineRequest(options as TspPipelineRequestOptions);
 }

@@ -4,7 +4,7 @@
 import { type UnknownObject, isObject } from "./object.js";
 
 /**
- * @internal
+ * Sanitizer options
  */
 export interface SanitizerOptions {
   /**
@@ -72,7 +72,7 @@ const defaultAllowedHeaderNames = [
 const defaultAllowedQueryParameters: string[] = ["api-version"];
 
 /**
- * @internal
+ * A utility class to sanitize objects for logging.
  */
 export class Sanitizer {
   private allowedHeaderNames: Set<string>;
@@ -89,6 +89,11 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
+  /**
+   * Sanitizes an object for logging.
+   * @param obj - The object to sanitize
+   * @returns - The sanitized object as a string
+   */
   public sanitize(obj: unknown): string {
     const seen = new Set<unknown>();
     return JSON.stringify(
@@ -132,6 +137,11 @@ export class Sanitizer {
     );
   }
 
+  /**
+   * Sanitizes a URL for logging.
+   * @param value - The URL to sanitize 
+   * @returns - The sanitized URL as a string
+   */
   public sanitizeUrl(value: string): string {
     if (typeof value !== "string" || value === null || value === "") {
       return value;

@@ -84,8 +84,6 @@ function hasRawContent(x: unknown): x is RawContent {
  * Extract the raw content from a given blob-like object. If the input was created using createFile
  * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
  * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
- *
- * @internal
  */
 export function getRawContent(
   blob: Blob,
