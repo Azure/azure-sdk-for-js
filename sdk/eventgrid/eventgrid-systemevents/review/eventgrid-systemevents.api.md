@@ -1119,6 +1119,17 @@ export interface DeviceTwinMetadata {
 }
 
 // @public
+export interface EdgeSolutionVersionPublishedEventData {
+    apiVersion: string;
+    callbackUrl: string;
+    externalValidationId: string;
+    solutionTemplateId: string;
+    solutionTemplateVersionId: string;
+    solutionVersionId: string;
+    targetId: string;
+}
+
+// @public
 export interface EventGridEvent<T> {
     data: T;
     dataVersion: string;
