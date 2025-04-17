@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe } from "vitest";
 import {
   createClientsAndDeployments,
   filterClientsAndDeployments,
