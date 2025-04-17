@@ -48,6 +48,17 @@ import type {
   UpdateRuntimeOptionsDefaultResponse,
   GetUserDefinedEndpointsModule200Response,
   GetUserDefinedEndpointsModuleDefaultResponse,
+  ListUserDefinedFunctions200Response,
+  ListUserDefinedFunctionsDefaultResponse,
+  DeleteUserDefinedFunction204Response,
+  DeleteUserDefinedFunctionDefaultResponse,
+  GetUserDefinedFunction200Response,
+  GetUserDefinedFunctionDefaultResponse,
+  CreateUserDefinedFunction200Response,
+  CreateUserDefinedFunction201Response,
+  CreateUserDefinedFunctionDefaultResponse,
+  ExecuteUserDefinedFunction200Response,
+  ExecuteUserDefinedFunctionDefaultResponse,
   GetUserDefinedRole200Response,
   GetUserDefinedRoleDefaultResponse,
   CreateUserDefinedRole200Response,
@@ -79,9 +90,14 @@ const responseMap: Record<string, string[]> = {
   "PATCH /app/ledgerUsers/{userId}": ["200"],
   "GET /app/userDefinedEndpoints": ["200"],
   "PUT /app/userDefinedEndpoints": ["201"],
-  "GET /app/userDefinedEndpoints/runTimeOptions": ["200"],
-  "PATCH /app/userDefinedEndpoints/runTimeOptions": ["200"],
+  "GET /app/userDefinedEndpoints/runtimeOptions": ["200"],
+  "PATCH /app/userDefinedEndpoints/runtimeOptions": ["200"],
   "GET /app/userDefinedEndpoints/modules": ["200"],
+  "GET /app/userDefinedFunctions": ["200"],
+  "DELETE /app/userDefinedFunctions/{functionId}": ["204"],
+  "GET /app/userDefinedFunctions/{functionId}": ["200"],
+  "PUT /app/userDefinedFunctions/{functionId}": ["200", "201"],
+  "POST /app/userDefinedFunctions/{functionId}:execute": ["200"],
   "GET /app/roles": ["200"],
   "PUT /app/roles": ["200"],
   "PATCH /app/roles": ["200"],
@@ -174,6 +190,32 @@ export function isUnexpected(
     | GetUserDefinedEndpointsModuleDefaultResponse,
 ): response is GetUserDefinedEndpointsModuleDefaultResponse;
 export function isUnexpected(
+  response:
+    | ListUserDefinedFunctions200Response
+    | ListUserDefinedFunctionsDefaultResponse,
+): response is ListUserDefinedFunctionsDefaultResponse;
+export function isUnexpected(
+  response:
+    | DeleteUserDefinedFunction204Response
+    | DeleteUserDefinedFunctionDefaultResponse,
+): response is DeleteUserDefinedFunctionDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetUserDefinedFunction200Response
+    | GetUserDefinedFunctionDefaultResponse,
+): response is GetUserDefinedFunctionDefaultResponse;
+export function isUnexpected(
+  response:
+    | CreateUserDefinedFunction200Response
+    | CreateUserDefinedFunction201Response
+    | CreateUserDefinedFunctionDefaultResponse,
+): response is CreateUserDefinedFunctionDefaultResponse;
+export function isUnexpected(
+  response:
+    | ExecuteUserDefinedFunction200Response
+    | ExecuteUserDefinedFunctionDefaultResponse,
+): response is ExecuteUserDefinedFunctionDefaultResponse;
+export function isUnexpected(
   response: GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse,
 ): response is GetUserDefinedRoleDefaultResponse;
 export function isUnexpected(
@@ -239,6 +281,17 @@ export function isUnexpected(
     | UpdateRuntimeOptionsDefaultResponse
     | GetUserDefinedEndpointsModule200Response
     | GetUserDefinedEndpointsModuleDefaultResponse
+    | ListUserDefinedFunctions200Response
+    | ListUserDefinedFunctionsDefaultResponse
+    | DeleteUserDefinedFunction204Response
+    | DeleteUserDefinedFunctionDefaultResponse
+    | GetUserDefinedFunction200Response
+    | GetUserDefinedFunctionDefaultResponse
+    | CreateUserDefinedFunction200Response
+    | CreateUserDefinedFunction201Response
+    | CreateUserDefinedFunctionDefaultResponse
+    | ExecuteUserDefinedFunction200Response
+    | ExecuteUserDefinedFunctionDefaultResponse
     | GetUserDefinedRole200Response
     | GetUserDefinedRoleDefaultResponse
     | CreateUserDefinedRole200Response
@@ -271,6 +324,11 @@ export function isUnexpected(
   | GetRuntimeOptionsDefaultResponse
   | UpdateRuntimeOptionsDefaultResponse
   | GetUserDefinedEndpointsModuleDefaultResponse
+  | ListUserDefinedFunctionsDefaultResponse
+  | DeleteUserDefinedFunctionDefaultResponse
+  | GetUserDefinedFunctionDefaultResponse
+  | CreateUserDefinedFunctionDefaultResponse
+  | ExecuteUserDefinedFunctionDefaultResponse
   | GetUserDefinedRoleDefaultResponse
   | CreateUserDefinedRoleDefaultResponse
   | UpdateUserDefinedRoleDefaultResponse

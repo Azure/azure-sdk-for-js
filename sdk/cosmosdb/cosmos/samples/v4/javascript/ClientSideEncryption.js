@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Client-Side Encryption
  */
 
-require("dotenv").config();
-
+require("dotenv/config");
 const { ClientSecretCredential } = require("@azure/identity");
-
 const {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
@@ -18,7 +16,7 @@ const {
   EncryptionType,
   EncryptionQueryBuilder,
 } = require("@azure/cosmos");
-const { finish, handleError, logStep } = require("./Shared/handleError");
+const { finish, handleError, logStep } = require("./Shared/handleError.js");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

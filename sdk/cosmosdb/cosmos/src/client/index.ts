@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./Conflict";
-export * from "./Container";
-export * from "./Database";
-export * from "./Item";
-export * from "./Offer";
-export * from "./Permission";
-export * from "./StoredProcedure";
-export * from "./Trigger";
-export * from "./User";
-export * from "./UserDefinedFunction";
-export * from "./Resource";
-export * from "./SasToken/SasTokenProperties";
+export * from "./Conflict/index.js";
+export * from "./Container/index.js";
+export * from "./Database/index.js";
+export * from "./Item/index.js";
+export * from "./Offer/index.js";
+export * from "./Permission/index.js";
+export * from "./StoredProcedure/index.js";
+export * from "./Trigger/index.js";
+export * from "./User/index.js";
+export * from "./UserDefinedFunction/index.js";
+export * from "./Resource.js";
+export * from "./SasToken/SasTokenProperties.js";

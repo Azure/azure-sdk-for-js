@@ -18,7 +18,7 @@ import type {
   RequestOptions,
   SqlQuerySpec,
   StatusCode,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   Constants,
   EncryptionAlgorithm,
@@ -26,8 +26,9 @@ import {
   EncryptionQueryBuilder,
   ErrorResponse,
   StatusCodes,
-} from "../../../src";
-import { assert } from "chai";
+} from "../../../src/index.js";
+import { assert } from "vitest";
+
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
   private keyInfo: { [key: string]: number } = {

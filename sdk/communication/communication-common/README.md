@@ -117,39 +117,44 @@ For scenarios where an Entra user can be used with Communication Services, you n
 Along with this, you must provide the URI of the Azure Communication Services resource and the scopes required for the Entra user token. These scopes determine the permissions granted to the token.
 If the scopes are not provided, by default, it sets the scopes to `https://communication.azure.com/clients/.default`.
 
-```typescript 
-const options: InteractiveBrowserCredentialInBrowserOptions = {
-      tenantId: "<your-tenant-id>",
-      clientId: "<your-client-id>",
-      redirectUri: "<your-redirect-uri>",
-    };
-const entraTokenCredential = new InteractiveBrowserCredential(options);
+```ts snippet:ReadmeSampleCredentialEntraUser 
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 
-const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
-    resourceEndpoint: "https://<your-resource>.communication.azure.com",
-    tokenCredential: entraTokenCredential,
-    scopes: ["https://communication.azure.com/clients/VoIP"]
-  };
+function fetchTokenFromMyServerForUser(user: string): Promise<string> {
+  // Your custom implementation to fetch a token for the user
+  return Promise.resolve("some-unique-token-for-" + user);
+}
 
-const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
+const tokenCredential = new AzureCommunicationTokenCredential({
+  tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
+  refreshProactively: true,
+  token:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+});
 ```
 
 The same approach can be used for authorizing an Entra user with a Teams license to use Teams Phone Extensibility features through your Azure Communication Services resource.
 This requires providing the `https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls` scope.
 
-```typescript 
-const options: InteractiveBrowserCredentialInBrowserOptions = {
-      tenantId: "<your-tenant-id>",
-      clientId: "<your-client-id>",
-      redirectUri: "<your-redirect-uri>",
-    };
+```ts snippet:ReadmeSampleCredentialEntraUserTeamsPhoneExtensibility 
+import { InteractiveBrowserCredential } from "@azure/identity";
+import {
+  EntraCommunicationTokenCredentialOptions,
+  AzureCommunicationTokenCredential,
+} from "@azure/communication-common";
+
+const options = {
+  tenantId: "<your-tenant-id>",
+  clientId: "<your-client-id>",
+  redirectUri: "<your-redirect-uri>",
+};
 const entraTokenCredential = new InteractiveBrowserCredential(options);
 
 const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
-    resourceEndpoint: "https://<your-resource>.communication.azure.com",
-    tokenCredential: entraTokenCredential,
-    scopes: ["https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls"]
-  };
+  resourceEndpoint: "https://<your-resource>.communication.azure.com",
+  tokenCredential: entraTokenCredential,
+  scopes: ["https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls"],
+};
 
 const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
 ```
