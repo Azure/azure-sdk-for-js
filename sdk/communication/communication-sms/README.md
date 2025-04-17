@@ -146,7 +146,7 @@ for (const optOutCheckResult of optOutCheckResults) {
 
 ## Add a list of recipients to Opt Out list
 
-To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.pptOuts` with a list of recipient phone numbers.
+To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutAdd
 import { DefaultAzureCredential } from "@azure/identity";
