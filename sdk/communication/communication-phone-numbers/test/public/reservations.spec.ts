@@ -13,7 +13,7 @@ import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getReservationId } from "./utils/testPhoneNumber.js";
 
-matrix([[false, false]], async (useAad) => {
+matrix([[true, false]], async (useAad) => {
   describe(`PhoneNumbersClient - reservations${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;

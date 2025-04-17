@@ -50,14 +50,11 @@ matrix([[true, false]], async (useAad) => {
           : "";
 
         assert.isNotEmpty(phoneNumberForPurchase);
-        const phoneNumbersReservation: PhoneNumbersReservation = {
-          phoneNumbers: { [String(phoneNumbers[0].id)]: phoneNumbers[0] },
-        };
+        const phoneNumbersList = [phoneNumbers[0]];
 
-        const reservationResponse = await client.createOrUpdateReservation(
-          reservationId,
-          phoneNumbersReservation,
-        );
+        const reservationResponse = await client.createReservation(phoneNumbersList, {
+          reservationId: getReservationId(),
+        });
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
         assert.isTrue(reservationResponse.id !== "");
