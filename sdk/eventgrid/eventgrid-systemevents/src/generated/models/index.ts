@@ -185,6 +185,7 @@ export {
   DataBoxStageName,
   DataBoxCopyCompletedEventData,
   DataBoxOrderCompletedEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   MapsGeofenceEvent,
   MapsGeofenceGeometry,

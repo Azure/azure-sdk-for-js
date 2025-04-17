@@ -429,13 +429,13 @@ export function apiManagementGatewayApiRemovedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueModified event. */
 export interface AppConfigurationKeyValueModifiedEventData {
   /** The key used to identify the key-value that was modified. */
-  key?: string;
+  key: string;
   /** The label, if any, used to identify the key-value that was modified. */
-  label?: string;
+  label: string | null;
   /** The etag representing the new state of the key-value. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationKeyValueModifiedEventDataDeserializer(
@@ -452,13 +452,13 @@ export function appConfigurationKeyValueModifiedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueDeleted event. */
 export interface AppConfigurationKeyValueDeletedEventData {
   /** The key used to identify the key-value that was deleted. */
-  key?: string;
+  key: string;
   /** The label, if any, used to identify the key-value that was deleted. */
-  label?: string;
+  label: string;
   /** The etag representing the key-value that was deleted. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationKeyValueDeletedEventDataDeserializer(
@@ -475,11 +475,11 @@ export function appConfigurationKeyValueDeletedEventDataDeserializer(
 /** Schema of common properties of snapshot events */
 export interface AppConfigurationSnapshotEventData {
   /** The name of the snapshot. */
-  name?: string;
+  name: string;
   /** The etag representing the new state of the snapshot. */
-  etag?: string;
+  etag: string;
   /** The sync token representing the server state after the event. */
-  syncToken?: string;
+  syncToken: string;
 }
 
 export function appConfigurationSnapshotEventDataDeserializer(
@@ -928,13 +928,13 @@ export function communicationIdentifierModelDeserializer(
 /** Communication model identifier kind */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
   /** Communication User */
-  communicationUser = "communicationUser",
+  CommunicationUser = "communicationUser",
   /** Phone Number */
-  phoneNumber = "phoneNumber",
+  PhoneNumber = "phoneNumber",
   /** Microsoft Teams User */
-  microsoftTeamsUser = "microsoftTeamsUser",
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -1000,11 +1000,11 @@ export function microsoftTeamsUserIdentifierModelDeserializer(
 /** Communication cloud environment model. */
 export enum KnownCommunicationCloudEnvironmentModel {
   /** Public */
-  "public" = "public",
+  Public = "public",
   /** Dod */
-  dod = "dod",
+  Dod = "dod",
   /** Gcch */
-  gcch = "gcch",
+  Gcch = "gcch",
 }
 
 /**
@@ -2089,9 +2089,9 @@ export function acsEmailEngagementTrackingReportReceivedEventDataDeserializer(
 /** The type of engagement user have with email. */
 export enum KnownAcsUserEngagement {
   /** View */
-  view = "view",
+  View = "view",
   /** Click */
-  click = "click",
+  Click = "click",
 }
 
 /**
@@ -3095,17 +3095,17 @@ export function acsMessageDeliveryStatusUpdatedEventDataDeserializer(
 /** Message delivery status */
 export enum KnownAcsMessageDeliveryStatus {
   /** Read */
-  read = "read",
+  Read = "read",
   /** Delivered */
-  delivered = "delivered",
+  Delivered = "delivered",
   /** Failed */
-  failed = "failed",
+  Failed = "failed",
   /** Sent */
-  sent = "sent",
+  Sent = "sent",
   /** Warning */
-  warning = "warning",
+  Warning = "warning",
   /** Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
 }
 
 /**
@@ -3125,7 +3125,7 @@ export type AcsMessageDeliveryStatus = string;
 /** Message channel kind */
 export enum KnownAcsMessageChannelKind {
   /** Updated message channel type is WhatsApp */
-  whatsapp = "whatsapp",
+  Whatsapp = "whatsapp",
 }
 
 /**
@@ -3295,11 +3295,11 @@ export function acsMessageInteractiveContentDeserializer(
 /** Interactive reply kind */
 export enum KnownAcsInteractiveReplyKind {
   /** Messaged interactive reply type is ButtonReply */
-  buttonReply = "buttonReply",
+  ButtonReply = "buttonReply",
   /** Messaged interactive reply type is ListReply */
-  listReply = "listReply",
+  ListReply = "listReply",
   /** Messaged interactive reply type is Unknown */
-  unknown = "unknown",
+  Unknown = "unknown",
 }
 
 /**
@@ -3671,11 +3671,11 @@ export function containerRegistryChartDeletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NewKubernetesVersionAvailable event */
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
   /** The highest PATCH Kubernetes version for the highest MINOR version supported by ManagedCluster resource */
-  latestSupportedKubernetesVersion?: string;
+  latestSupportedKubernetesVersion: string;
   /** The highest PATCH Kubernetes version for the MINOR version considered stable for the ManagedCluster resource */
-  latestStableKubernetesVersion?: string;
+  latestStableKubernetesVersion: string;
   /** The highest PATCH Kubernetes version for the lowest applicable MINOR version available for the ManagedCluster resource */
-  lowestMinorKubernetesVersion?: string;
+  lowestMinorKubernetesVersion: string;
   /** The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There might not be any version in preview at the time of publishing the event */
   latestPreviewKubernetesVersion?: string;
 }
@@ -3694,7 +3694,7 @@ export function containerServiceNewKubernetesVersionAvailableEventDataDeserializ
 /** Schema of common properties of cluster support events */
 export interface ContainerServiceClusterSupportEventData {
   /** The Kubernetes version of the ManagedCluster resource */
-  kubernetesVersion?: string;
+  kubernetesVersion: string;
 }
 
 export function containerServiceClusterSupportEventDataDeserializer(
@@ -3732,7 +3732,7 @@ export function containerServiceClusterSupportEndingEventDataDeserializer(
 /** Schema of common properties of node pool rolling events */
 export interface ContainerServiceNodePoolRollingEventData {
   /** The name of the node pool in the ManagedCluster resource */
-  nodePoolName?: string;
+  nodePoolName: string;
 }
 
 export function containerServiceNodePoolRollingEventDataDeserializer(
@@ -3860,22 +3860,54 @@ export function dataBoxOrderCompletedEventDataDeserializer(
   };
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Edge.SolutionVersionPublished event. */
+export interface EdgeSolutionVersionPublishedEventData {
+  /** A GUID to uniquely track External Solution Validation */
+  externalValidationId: string;
+  /** ARM ID of the Target resource */
+  targetId: string;
+  /** ARM ID of the Solution Template resource */
+  solutionTemplateId: string;
+  /** ARM ID of the Solution Template Version resource */
+  solutionTemplateVersionId: string;
+  /** ARM ID of the Solution Version resource */
+  solutionVersionId: string;
+  /** API Version supported for the resources */
+  apiVersion: string;
+  /** Direct URL to callback for updating validation status */
+  callbackUrl: string;
+}
+
+export function edgeSolutionVersionPublishedEventDataDeserializer(
+  item: any,
+): EdgeSolutionVersionPublishedEventData {
+  return {
+    externalValidationId: item["externalValidationId"],
+    targetId: item["targetId"],
+    solutionTemplateId: item["solutionTemplateId"],
+    solutionTemplateVersionId: item["solutionTemplateVersionId"],
+    solutionVersionId: item["solutionVersionId"],
+    apiVersion: item["apiVersion"],
+    callbackUrl: item["callbackUrl"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileUrl?: string;
+  fileUrl: string;
   /** The file type of the capture file. */
-  fileType?: string;
+  fileType: string;
   /** The shard ID. */
-  partitionId?: string;
+  partitionId: string;
   /** The file size. */
-  sizeInBytes?: number;
+  sizeInBytes: number;
   /** The number of events in the file. */
-  eventCount?: number;
+  eventCount: number;
   /** The smallest sequence number from the queue. */
-  firstSequenceNumber?: number;
+  firstSequenceNumber: number;
   /** The last sequence number from the queue. */
-  lastSequenceNumber?: number;
+  lastSequenceNumber: number;
   /** The first time from the queue. */
   firstEnqueueTime: Date;
   /** The last time from the queue. */
@@ -5261,13 +5293,13 @@ export function keyVaultAccessPolicyChangedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelRegistered event. */
 export interface MachineLearningServicesModelRegisteredEventData {
   /** The name of the model that was registered. */
-  modelName?: string;
+  modelName: string;
   /** The version of the model that was registered. */
-  modelVersion?: string;
+  modelVersion: string;
   /** The tags of the model that was registered. */
-  modelTags: Record<string, any>;
+  modelTags?: Record<string, any>;
   /** The properties of the model that was registered. */
-  modelProperties: Record<string, any>;
+  modelProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesModelRegisteredEventDataDeserializer(
@@ -5284,15 +5316,15 @@ export function machineLearningServicesModelRegisteredEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelDeployed event. */
 export interface MachineLearningServicesModelDeployedEventData {
   /** The name of the deployed service. */
-  serviceName?: string;
+  serviceName: string;
   /** The compute type (e.g. ACI, AKS) of the deployed service. */
-  serviceComputeType?: string;
+  serviceComputeType: string;
   /** A common separated list of model IDs. The IDs of the models deployed in the service. */
-  modelIds?: string;
+  modelIds: string;
   /** The tags of the deployed service. */
-  serviceTags: Record<string, any>;
+  serviceTags?: Record<string, any>;
   /** The properties of the deployed service. */
-  serviceProperties: Record<string, any>;
+  serviceProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesModelDeployedEventDataDeserializer(
@@ -5310,17 +5342,17 @@ export function machineLearningServicesModelDeployedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunCompleted event. */
 export interface MachineLearningServicesRunCompletedEventData {
   /** The ID of the experiment that the run belongs to. */
-  experimentId?: string;
+  experimentId: string;
   /** The name of the experiment that the run belongs to. */
-  experimentName?: string;
+  experimentName: string;
   /** The ID of the Run that was completed. */
-  runId?: string;
+  runId: string;
   /** The Run Type of the completed Run. */
-  runType?: string;
+  runType: string;
   /** The tags of the completed Run. */
-  runTags: Record<string, any>;
+  runTags?: Record<string, any>;
   /** The properties of the completed Run. */
-  runProperties: Record<string, any>;
+  runProperties?: Record<string, any>;
 }
 
 export function machineLearningServicesRunCompletedEventDataDeserializer(
@@ -5339,21 +5371,21 @@ export function machineLearningServicesRunCompletedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.DatasetDriftDetected event. */
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
   /** The ID of the data drift monitor that triggered the event. */
-  dataDriftId?: string;
+  dataDriftId: string;
   /** The name of the data drift monitor that triggered the event. */
-  dataDriftName?: string;
+  dataDriftName: string;
   /** The ID of the Run that detected data drift. */
-  runId?: string;
+  runId: string;
   /** The ID of the base Dataset used to detect drift. */
-  baseDatasetId?: string;
+  baseDatasetId: string;
   /** The ID of the target Dataset used to detect drift. */
-  targetDatasetId?: string;
+  targetDatasetId: string;
   /** The coefficient result that triggered the event. */
-  driftCoefficient?: number;
+  driftCoefficient: number;
   /** The start time of the target dataset time series that resulted in drift detection. */
-  startTime: Date;
+  startTime: Date | null;
   /** The end time of the target dataset time series that resulted in drift detection. */
-  endTime: Date;
+  endTime: Date | null;
 }
 
 export function machineLearningServicesDatasetDriftDetectedEventDataDeserializer(
@@ -5366,27 +5398,29 @@ export function machineLearningServicesDatasetDriftDetectedEventDataDeserializer
     baseDatasetId: item["baseDatasetId"],
     targetDatasetId: item["targetDatasetId"],
     driftCoefficient: item["driftCoefficient"],
-    startTime: new Date(item["startTime"]),
-    endTime: new Date(item["endTime"]),
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunStatusChanged event. */
 export interface MachineLearningServicesRunStatusChangedEventData {
   /** The ID of the experiment that the Machine Learning Run belongs to. */
-  experimentId?: string;
+  experimentId: string;
   /** The name of the experiment that the Machine Learning Run belongs to. */
-  experimentName?: string;
+  experimentName: string;
   /** The ID of the Machine Learning Run. */
-  runId?: string;
+  runId: string;
   /** The Run Type of the Machine Learning Run. */
-  runType?: string;
+  runType: string;
   /** The tags of the Machine Learning Run. */
-  runTags: Record<string, any>;
+  runTags?: Record<string, any>;
   /** The properties of the Machine Learning Run. */
-  runProperties: Record<string, any>;
+  runProperties?: Record<string, any>;
   /** The status of the Machine Learning Run. */
-  runStatus?: string;
+  runStatus: string;
 }
 
 export function machineLearningServicesRunStatusChangedEventDataDeserializer(
@@ -7848,6 +7882,6 @@ export function resourceNotificationsContainerServiceEventResourcesScheduledEven
 
 /** Known values of {@link ServiceApiVersions} that the service accepts. */
 export enum KnownServiceApiVersions {
-  v2018_01_01 = "2018-01-01",
-  v2024_01_01 = "2024-01-01",
+  V20180101 = "2018-01-01",
+  V20240101 = "2024-01-01",
 }
