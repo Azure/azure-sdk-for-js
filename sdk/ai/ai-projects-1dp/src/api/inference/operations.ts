@@ -12,6 +12,7 @@ import type {
   ModelClientOptions,
 } from "@azure-rest/ai-inference";
 import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
+import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext as Client } from "../index.js";
 import { AzureOpenAI } from "openai";
 import { ApiKeyCredentials, Connection } from "../../models/models.js";
@@ -187,14 +188,12 @@ export async function _getAzureOpenAIClient(
       // Get token provider from the context credential
       return new AzureOpenAI({
         azureADTokenProvider: async () => {
-          const token = await (context.getCredential() as TokenCredential).getToken(
+          const getAccessToken = getBearerTokenProvider(
+            context.getCredential() as TokenCredential,
             "https://cognitiveservices.azure.com/.default",
           );
-
-          if (!token) {
-            throw new Error("Failed to get token");
-          }
-          return token.token;
+          const token = await getAccessToken();
+          return token;
         },
         endpoint: azureEndpoint,
         apiVersion: options?.apiVersion,
