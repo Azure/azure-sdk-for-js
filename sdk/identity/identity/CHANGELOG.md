@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Update the order for conditional exports so that the most specific conditions are listed first
+- Fix a bug in which `self.location` is undefined in specific environment
+
 ### Other Changes
 
 ## 4.9.0 (2025-04-16)

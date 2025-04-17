@@ -28,6 +28,10 @@ import {
 } from "../../util/tenantIdUtils.js";
 import { DefaultTenantId } from "../../constants.js";
 
+// We keep a copy of the redirect hash.
+// Check if self and location object is defined.
+const isLocationDefined = typeof self !== "undefined" && self.location !== undefined;
+
 /**
  * Generates a MSAL configuration that generally works for browsers
  * @internal
@@ -45,7 +49,7 @@ function generateMsalBrowserConfiguration(
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
-      redirectUri: options.redirectUri || self.location.origin,
+      redirectUri: options.redirectUri || isLocationDefined ? self.location.origin : undefined,
     },
     cache: {
       cacheLocation: "sessionStorage",
@@ -71,7 +75,7 @@ export interface MsalBrowserClient {
 }
 
 // We keep a copy of the redirect hash.
-const redirectHash = self.location.hash;
+const redirectHash = isLocationDefined ? self.location.hash : undefined;
 
 /**
  * Uses MSAL Browser 2.X for browser authentication,
