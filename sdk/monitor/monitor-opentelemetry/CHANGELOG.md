@@ -1,6 +1,6 @@
 # Release History
 
-## 1.11.0 ()
+## 1.11.0 (2025-04-16)
 
 ### Features Added
 
@@ -9,6 +9,10 @@
 ### Bugs Fixed
 
 - Fixed process time normalized calculation returning NaN.
+
+### Other Changes
+
+- Hide iKey in debug logs.
 
 ## 1.10.0 (2025-04-09)
 
@@ -21,7 +25,6 @@
 - Add support for detecting the Application Insights shim on internal verison.
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#32819](https://github.com/Azure/azure-sdk-for-js/pull/32819)
 - Add undefined checks for document filtering functions.
-- Hide iKey in debug logs.
 
 ## 1.9.0 (2025-03-04)
 
