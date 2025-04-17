@@ -14,10 +14,7 @@ async function employeesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "11809CA1-E126-4017-945E-AA795CD5C5A9";
   const client = new ContosoClient(credential, subscriptionId);
-  const result = await client.employees.get(
-    "rgopenapi",
-    "le-8MU--J3W6q8D386p3-iT3",
-  );
+  const result = await client.employees.get("rgopenapi", "le-8MU--J3W6q8D386p3-iT3");
   console.log(result);
 }
 
