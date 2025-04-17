@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { HyperExecuteContext } from "../../api/hyperExecuteContext.js";
-import {
-  OrganizationResource,
-  OrganizationResourceUpdate,
-} from "../../models/models.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -71,9 +68,8 @@ export interface OrganizationsOperations {
 
 function _getOrganizations(context: HyperExecuteContext) {
   return {
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -88,21 +84,13 @@ function _getOrganizations(context: HyperExecuteContext) {
       organizationname: string,
       properties: OrganizationResourceUpdate,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, organizationname, properties, options),
+    ) => update(context, resourceGroupName, organizationname, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationname: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationname,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, organizationname, resource, options),
     get: (
       resourceGroupName: string,
       organizationname: string,
@@ -111,9 +99,7 @@ function _getOrganizations(context: HyperExecuteContext) {
   };
 }
 
-export function _getOrganizationsOperations(
-  context: HyperExecuteContext,
-): OrganizationsOperations {
+export function _getOrganizationsOperations(context: HyperExecuteContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };
