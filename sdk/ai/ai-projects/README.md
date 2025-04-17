@@ -592,7 +592,7 @@ for await (const eventMessage of streamEventMessages) {
 To retrieve messages from agents, use the following example:
 
 ```ts snippet:listMessages
-import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "../src/index.js";
+import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 while (messages.hasMore) {
@@ -627,7 +627,7 @@ import {
   isOutputOfType,
   MessageTextContentOutput,
   MessageImageFileContentOutput,
-} from "../src/index.js";
+} from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 // Get most recent message from the assistant
