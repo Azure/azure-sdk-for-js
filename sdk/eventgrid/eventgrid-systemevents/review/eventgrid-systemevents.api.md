@@ -751,18 +751,18 @@ export type AppAction = string;
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string;
+    syncToken: string;
 }
 
 // @public
 export interface AppConfigurationKeyValueModifiedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string | null;
+    syncToken: string;
 }
 
 // @public
@@ -771,9 +771,9 @@ export interface AppConfigurationSnapshotCreatedEventData extends AppConfigurati
 
 // @public
 export interface AppConfigurationSnapshotEventData {
-    etag?: string;
-    name?: string;
-    syncToken?: string;
+    etag: string;
+    name: string;
+    syncToken: string;
 }
 
 // @public
@@ -1001,20 +1001,20 @@ export interface ContainerServiceClusterSupportEndingEventData extends Container
 
 // @public
 export interface ContainerServiceClusterSupportEventData {
-    kubernetesVersion?: string;
+    kubernetesVersion: string;
 }
 
 // @public
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
     latestPreviewKubernetesVersion?: string;
-    latestStableKubernetesVersion?: string;
-    latestSupportedKubernetesVersion?: string;
-    lowestMinorKubernetesVersion?: string;
+    latestStableKubernetesVersion: string;
+    latestSupportedKubernetesVersion: string;
+    lowestMinorKubernetesVersion: string;
 }
 
 // @public
 export interface ContainerServiceNodePoolRollingEventData {
-    nodePoolName?: string;
+    nodePoolName: string;
 }
 
 // @public
@@ -1169,15 +1169,15 @@ export type EventGridMqttClientState = string;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
-    eventCount?: number;
-    fileType?: string;
-    fileUrl?: string;
+    eventCount: number;
+    fileType: string;
+    fileUrl: string;
     firstEnqueueTime: Date;
-    firstSequenceNumber?: number;
+    firstSequenceNumber: number;
     lastEnqueueTime: Date;
-    lastSequenceNumber?: number;
-    partitionId?: string;
-    sizeInBytes?: number;
+    lastSequenceNumber: number;
+    partitionId: string;
+    sizeInBytes: number;
 }
 
 // @public
@@ -1385,24 +1385,24 @@ export enum KnownAcsEmailDeliveryReportStatus {
 
 // @public
 export enum KnownAcsInteractiveReplyKind {
-    buttonReply = "buttonReply",
-    listReply = "listReply",
-    unknown = "unknown"
+    ButtonReply = "buttonReply",
+    ListReply = "listReply",
+    Unknown = "unknown"
 }
 
 // @public
 export enum KnownAcsMessageChannelKind {
-    whatsapp = "whatsapp"
+    Whatsapp = "whatsapp"
 }
 
 // @public
 export enum KnownAcsMessageDeliveryStatus {
-    delivered = "delivered",
-    failed = "failed",
-    read = "read",
-    sent = "sent",
-    unknown = "unknown",
-    warning = "warning"
+    Delivered = "delivered",
+    Failed = "failed",
+    Read = "read",
+    Sent = "sent",
+    Unknown = "unknown",
+    Warning = "warning"
 }
 
 // @public
@@ -1449,8 +1449,8 @@ export enum KnownAcsRouterWorkerSelectorState {
 
 // @public
 export enum KnownAcsUserEngagement {
-    click = "click",
-    view = "view"
+    Click = "click",
+    View = "view"
 }
 
 // @public
@@ -1477,17 +1477,17 @@ export enum KnownAsyncStatus {
 
 // @public
 export enum KnownCommunicationCloudEnvironmentModel {
-    dod = "dod",
-    gcch = "gcch",
-    "public" = "public"
+    Dod = "dod",
+    Gcch = "gcch",
+    Public = "public"
 }
 
 // @public
 export enum KnownCommunicationIdentifierModelKind {
-    communicationUser = "communicationUser",
-    microsoftTeamsUser = "microsoftTeamsUser",
-    phoneNumber = "phoneNumber",
-    unknown = "unknown"
+    CommunicationUser = "communicationUser",
+    MicrosoftTeamsUser = "microsoftTeamsUser",
+    PhoneNumber = "phoneNumber",
+    Unknown = "unknown"
 }
 
 // @public
@@ -1705,9 +1705,9 @@ export enum KnownRecordingFormatType {
 // @public
 export enum KnownServiceApiVersions {
     // (undocumented)
-    v2018_01_01 = "2018-01-01",
+    V20180101 = "2018-01-01",
     // (undocumented)
-    v2024_01_01 = "2024-01-01"
+    V20240101 = "2024-01-01"
 }
 
 // @public
@@ -1743,52 +1743,52 @@ export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
-    baseDatasetId?: string;
-    dataDriftId?: string;
-    dataDriftName?: string;
-    driftCoefficient?: number;
-    endTime: Date;
-    runId?: string;
-    startTime: Date;
-    targetDatasetId?: string;
+    baseDatasetId: string;
+    dataDriftId: string;
+    dataDriftName: string;
+    driftCoefficient: number;
+    endTime: Date | null;
+    runId: string;
+    startTime: Date | null;
+    targetDatasetId: string;
 }
 
 // @public
 export interface MachineLearningServicesModelDeployedEventData {
-    modelIds?: string;
-    serviceComputeType?: string;
-    serviceName?: string;
-    serviceProperties: Record<string, any>;
-    serviceTags: Record<string, any>;
+    modelIds: string;
+    serviceComputeType: string;
+    serviceName: string;
+    serviceProperties?: Record<string, any>;
+    serviceTags?: Record<string, any>;
 }
 
 // @public
 export interface MachineLearningServicesModelRegisteredEventData {
-    modelName?: string;
-    modelProperties: Record<string, any>;
-    modelTags: Record<string, any>;
-    modelVersion?: string;
+    modelName: string;
+    modelProperties?: Record<string, any>;
+    modelTags?: Record<string, any>;
+    modelVersion: string;
 }
 
 // @public
 export interface MachineLearningServicesRunCompletedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties: Record<string, any>;
-    runTags: Record<string, any>;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties?: Record<string, any>;
+    runTags?: Record<string, any>;
+    runType: string;
 }
 
 // @public
 export interface MachineLearningServicesRunStatusChangedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties: Record<string, any>;
-    runStatus?: string;
-    runTags: Record<string, any>;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties?: Record<string, any>;
+    runStatus: string;
+    runTags?: Record<string, any>;
+    runType: string;
 }
 
 // @public
