@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to use basic agent operations using image file input for the
+ * @summary This sample demonstrates how to use basic agent operations using image url input for the
  * Azure Agents service.
  *
  * @azsdk-skip-javascript
