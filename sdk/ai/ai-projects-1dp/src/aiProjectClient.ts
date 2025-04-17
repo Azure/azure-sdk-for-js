@@ -42,8 +42,8 @@ export class AIProjectClient {
     this.indexes = _getIndexesOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
     this.evaluations = _getEvaluationsOperations(this._client);
-    this.inference = _getInferenceOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
+    this.inference = _getInferenceOperations(this._client, this.connections);
   }
 
   /** The operation groups for redTeams */

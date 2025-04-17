@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { AzureOpenAI } from 'openai';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { GetChatCompletions } from '@azure-rest/ai-inference';
 import type { GetEmbeddings } from '@azure-rest/ai-inference';
