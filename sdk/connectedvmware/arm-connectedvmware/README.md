@@ -51,25 +51,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
-const { DefaultAzureCredential } = require("@azure/identity");
-// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new AzureArcVMwareManagementServiceAPI(new DefaultAzureCredential(), subscriptionId);
-
-// For client-side applications running in the browser, use this code instead:
-// const credential = new InteractiveBrowserCredential({
-//   tenantId: "<YOUR_TENANT_ID>",
-//   clientId: "<YOUR_CLIENT_ID>"
-// });
-// const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
@@ -89,7 +89,8 @@ To use this client library in the browser, first you need to use a bundler. For 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```ts snippet:SetLogLevel
-const { setLogLevel } = require("@azure/logger");
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 

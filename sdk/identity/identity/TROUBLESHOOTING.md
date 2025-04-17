@@ -121,6 +121,8 @@ setLogLevel("info");
 Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
 
 ```ts snippet:troubleshooting_dotenv
+import dotenv from "dotenv";
+
 dotenv.config({ path: ".env" });
 ```
 
