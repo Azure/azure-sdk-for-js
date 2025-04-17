@@ -2,6 +2,7 @@
   "name": "@azure/storage-internal-avro",
   "sdk-type": "client",
   "sideEffects": false,
+  "private": true,
   "author": "Microsoft Corporation",
   "version": "1.0.0",
   "description": "internal avro parser",

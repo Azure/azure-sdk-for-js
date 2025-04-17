@@ -2,6 +2,7 @@
   "name": "@azure/storage-common",
   "sdk-type": "client",
   "sideEffects": false,
+  "private": true,
   "author": "Microsoft Corporation",
   "version": "1.0.0",
   "description": "Azure Storage Common Client Library for JavaScript",
