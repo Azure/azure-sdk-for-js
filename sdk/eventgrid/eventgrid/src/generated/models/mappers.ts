@@ -8548,6 +8548,65 @@ export const ApiCenterApiDefinitionUpdatedEventData: coreClient.CompositeMapper 
     },
   };
 
+export const EdgeSolutionVersionPublishedEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "EdgeSolutionVersionPublishedEventData",
+      modelProperties: {
+        externalValidationId: {
+          serializedName: "externalValidationId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetId: {
+          serializedName: "targetId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        solutionTemplateId: {
+          serializedName: "solutionTemplateId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        solutionTemplateVersionId: {
+          serializedName: "solutionTemplateVersionId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        solutionVersionId: {
+          serializedName: "solutionVersionId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        apiVersion: {
+          serializedName: "apiVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        callbackUrl: {
+          serializedName: "callbackUrl",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper =
   {
     type: {
