@@ -158,4 +158,3 @@ export {
   CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";
-export { BulkOperations, OperationInputOptions } from "./bulk/index.js";
