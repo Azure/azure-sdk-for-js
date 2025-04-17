@@ -1,18 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DefaultAzureCredential } from "@azure/identity";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { PassThrough } from "node:stream";
 import { join } from "node:path";
 
 export interface AzureStorageClientOptions {
   containerName: string;
-  connectionString: string;
+  account: string;
 }
 
 export async function createAzureStorageClient(options: AzureStorageClientOptions) {
-  const { containerName, connectionString } = options;
-  const client = BlobServiceClient.fromConnectionString(connectionString);
+  const { containerName, account } = options;
+  const client = new BlobServiceClient(
+    `https://${account}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
+  );
+  console.log(
+    `Creating Azure Storage client for account: ${account}, container: ${containerName} at https://${account}.blob.core.windows.net`,
+  );
+
   const containerClient = client.getContainerClient(containerName);
   await containerClient.createIfNotExists();
   return {

@@ -19,17 +19,17 @@ app.use("/v8/artifacts", authenticateToken);
 app.use("/v8/artifacts", authenticateTeamId);
 
 const port = process.env.AZURE_CACHE_PORT || 3000;
-const azureStorageConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+const azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT;
 const azureStorageContainerName = process.env.AZURE_STORAGE_CONTAINER_NAME;
 const packageVersion = process.env.PACKAGE_VERSION || "1.0.0";
 
-if (!azureStorageConnectionString || !azureStorageContainerName) {
-  logger.error("Missing Azure Storage connection string or container name.");
+if (!azureStorageAccount || !azureStorageContainerName) {
+  logger.error("Missing Azure Storage account or container name.");
   process.exit(1);
 }
 const azureStorageClient = await createAzureStorageClient({
   containerName: azureStorageContainerName,
-  connectionString: azureStorageConnectionString,
+  account: azureStorageAccount,
 });
 
 // POST /v8/artifacts/events

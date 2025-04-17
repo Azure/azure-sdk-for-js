@@ -14,6 +14,12 @@ The cache is implemented using Azure Blob Storage, and it uses the `@azure/stora
 
 ### Running the Cache Locally
 
+You will need to log into Azure and create a storage account. You can do this using the Azure CLI:
+
+```bash
+az login
+```
+
 To build the package, run the following command:
 
 ```bash
@@ -32,7 +38,7 @@ CACHE_LOG_LEVEL=info
 TURBO_TOKEN=token1,token2
 
 # Azure Storage Configuration
-AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=your_account_name;AccountKey=your_account_key;EndpointSuffix=core.windows.net
+AZURE_STORAGE_ACCOUNT=your_account_name
 AZURE_STORAGE_CONTAINER_NAME=your_container_name
 ```
 
@@ -53,7 +59,14 @@ docker build -t azure-turborepo-remote-cache .
 Using an `.env` file is supported so you can run the container with the following command:
 
 ```bash
-docker run -p 3000:3000 azure-turborepo-remote-cache
+docker run -p 3000:3000 azure-turborepo-remote-cache /bin/bash
+```
+
+Then in the launched terminal, you can then log into Azure locally to set the token:
+
+
+```bash
+az login
 ```
 
 You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage connection string and container name, you can use the following command:
@@ -64,9 +77,17 @@ docker run -p 3000:3000 \
   -e PACKAGE_VERSION=1.0.0 \
   -e CACHE_LOG_LEVEL=info \
   -e TURBO_TOKEN=token1,token2 \
-  -e AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=your_account_name;AccountKey=your_account_key;EndpointSuffix=core.windows.net \
+  -e AZURE_STORAGE_ACCOUNT=your_account_name \
   -e AZURE_STORAGE_CONTAINER_NAME=your_container_name \
-  azure-turborepo-remote-cache
+  azure-turborepo-remote-cache \
+  /bin/bash
+```
+
+Then in the launched terminal, you can then log into Azure locally to set the token:
+
+
+```bash
+az login
 ```
 
 ### Configuring TurboRepo

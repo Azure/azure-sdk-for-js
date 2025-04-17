@@ -18,9 +18,6 @@ vi.mock("@azure/storage-blob", async (importActual) => {
   const actual = await importActual<typeof import("@azure/storage-blob")>();
 
   const mockBlobServiceClient = vi.fn();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  mockBlobServiceClient.fromConnectionString = vi.fn();
   mockBlobServiceClient.prototype.getContainerClient = vi.fn();
 
   const mockContainerClient = vi.fn();
@@ -58,7 +55,6 @@ describe("createAzureStorageClient", () => {
     mockBlobClient = new BlobClient(expect.anything());
     mockBlockBlobClient = new BlockBlobClient(expect.anything());
 
-    vi.mocked(BlobServiceClient.fromConnectionString).mockReturnValue(mockBlobServiceClient);
     vi.mocked(mockBlobServiceClient.getContainerClient).mockReturnValue(mockContainerClient);
     vi.mocked(mockContainerClient.createIfNotExists).mockResolvedValue({
       succeeded: true,
@@ -74,10 +70,9 @@ describe("createAzureStorageClient", () => {
   it("should create the container if it does not exist", async () => {
     await createAzureStorageClient({
       containerName: "test-container",
-      connectionString: "test-connection-string",
+      account: "test-account",
     });
 
-    expect(BlobServiceClient.fromConnectionString).toHaveBeenCalledWith("test-connection-string");
     expect(mockBlobServiceClient.getContainerClient).toHaveBeenCalledWith("test-container");
     expect(mockContainerClient.createIfNotExists).toHaveBeenCalled();
   });
@@ -89,7 +84,7 @@ describe("createAzureStorageClient", () => {
 
     const client = await createAzureStorageClient({
       containerName: "test-container",
-      connectionString: "test-connection-string",
+      account: "test-account",
     });
 
     const contentLength = await client.contentLength("team1", "hash1");
@@ -103,7 +98,7 @@ describe("createAzureStorageClient", () => {
 
     const client = await createAzureStorageClient({
       containerName: "test-container",
-      connectionString: "test-connection-string",
+      account: "test-account",
     });
 
     const exists = await client.exists("team1", "hash1");
@@ -120,7 +115,7 @@ describe("createAzureStorageClient", () => {
 
     const client = await createAzureStorageClient({
       containerName: "test-container",
-      connectionString: "test-connection-string",
+      account: "test-account",
     });
 
     const stream = await client.createReadStream("team1", "hash1");
@@ -132,7 +127,7 @@ describe("createAzureStorageClient", () => {
   it("should create a writable stream for a blob", async () => {
     const client = await createAzureStorageClient({
       containerName: "test-container",
-      connectionString: "test-connection-string",
+      account: "test-account",
     });
 
     const stream = await client.createWriteStream("team1", "hash1");

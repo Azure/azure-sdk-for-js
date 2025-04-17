@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
   && npm install -g pnpm \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 # Set the working directory in the container
 WORKDIR /app
 
