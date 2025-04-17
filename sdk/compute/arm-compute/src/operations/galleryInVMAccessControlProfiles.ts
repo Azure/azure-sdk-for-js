@@ -524,7 +524,7 @@ const listByGalleryOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -545,7 +545,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -576,7 +576,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.galleryInVMAccessControlProfile,
@@ -613,7 +613,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.GalleryInVMAccessControlProfilesUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.galleryInVMAccessControlProfile1,
@@ -646,7 +646,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -668,7 +668,7 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

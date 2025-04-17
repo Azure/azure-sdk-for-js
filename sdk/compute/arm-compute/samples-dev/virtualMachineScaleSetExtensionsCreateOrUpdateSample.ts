@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Pro
   const vmScaleSetName = "aaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineScaleSetExtension = {
-    name: "{extension-name}",
+    vmName: "{extension-name}",
     typePropertiesType: "{extension-Type}",
     autoUpgradeMinorVersion: true,
     enableAutomaticUpgrade: true,
@@ -57,7 +57,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Pro
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes an Image.
  *
  * @summary Deletes an Image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Images_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Images_Delete_MaximumSet_Gen.json
  */
 async function imageDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function imageDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Deletes an Image.
  *
  * @summary Deletes an Image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Images_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Images_Delete_MinimumSet_Gen.json
  */
 async function imageDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =

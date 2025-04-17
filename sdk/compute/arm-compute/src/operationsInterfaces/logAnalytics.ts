@@ -50,12 +50,12 @@ export interface LogAnalytics {
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
    * @param location The name of Azure region.
-   * @param body The request body
+   * @param parameters The request body
    * @param options The options parameters.
    */
   beginExportThrottledRequests(
     location: string,
-    body: ThrottledRequestsInput,
+    parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -66,12 +66,12 @@ export interface LogAnalytics {
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
    * @param location The name of Azure region.
-   * @param body The request body
+   * @param parameters The request body
    * @param options The options parameters.
    */
   beginExportThrottledRequestsAndWait(
     location: string,
-    body: ThrottledRequestsInput,
+    parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse>;
 }

@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  DiskRestorePoint,
   DiskRestorePointListByRestorePointOptionalParams,
-  DiskRestorePointListByRestorePointResponse,
   DiskRestorePointGetOptionalParams,
   DiskRestorePointGetResponse,
   GrantAccessData,
@@ -18,6 +19,7 @@ import {
   DiskRestorePointRevokeAccessOptionalParams,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiskRestorePointOperations. */
 export interface DiskRestorePointOperations {
   /**
@@ -33,7 +35,7 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     options?: DiskRestorePointListByRestorePointOptionalParams,
-  ): Promise<DiskRestorePointListByRestorePointResponse>;
+  ): PagedAsyncIterableIterator<DiskRestorePoint>;
   /**
    * Get disk restorePoint resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

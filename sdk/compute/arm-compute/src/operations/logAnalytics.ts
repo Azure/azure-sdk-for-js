@@ -133,12 +133,12 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
    * @param location The name of Azure region.
-   * @param body The request body
+   * @param parameters The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequests(
     location: string,
-    body: ThrottledRequestsInput,
+    parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -186,7 +186,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { location, body, options },
+      args: { location, parameters, options },
       spec: exportThrottledRequestsOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -204,17 +204,17 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
    * @param location The name of Azure region.
-   * @param body The request body
+   * @param parameters The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequestsAndWait(
     location: string,
-    body: ThrottledRequestsInput,
+    parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse> {
     const poller = await this.beginExportThrottledRequests(
       location,
-      body,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
@@ -240,10 +240,10 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -271,10 +271,10 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

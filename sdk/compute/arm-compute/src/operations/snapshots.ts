@@ -871,7 +871,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const grantAccessOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/grantAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess",
   httpMethod: "POST",
   responses: {
     200: {
@@ -903,7 +903,7 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const revokeAccessOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/revokeAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endgetaccess",
   httpMethod: "POST",
   responses: {
     200: {},

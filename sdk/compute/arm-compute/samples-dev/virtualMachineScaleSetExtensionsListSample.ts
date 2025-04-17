@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of all extensions in a VM scale set.
  *
  * @summary Gets a list of all extensions in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionListMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function virtualMachineScaleSetExtensionListMaximumSetGen(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSetExtensions.list(
+  for await (const item of client.virtualMachineScaleSetExtensions.list(
     resourceGroupName,
     vmScaleSetName,
   )) {
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetExtensionListMaximumSetGen(): Promise<void>
  * This sample demonstrates how to Gets a list of all extensions in a VM scale set.
  *
  * @summary Gets a list of all extensions in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionListMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetExtensionListMinimumSetGen(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSetExtensions.list(
+  for await (const item of client.virtualMachineScaleSetExtensions.list(
     resourceGroupName,
     vmScaleSetName,
   )) {

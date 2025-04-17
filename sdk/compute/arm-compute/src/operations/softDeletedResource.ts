@@ -196,14 +196,14 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByArtifactNameOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/{artifactType}/{artifactName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/softdeletedartifacttypes/{artifactType}/artifacts/{artifactName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.GallerySoftDeletedResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -226,7 +226,7 @@ const listByArtifactNameNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GallerySoftDeletedResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

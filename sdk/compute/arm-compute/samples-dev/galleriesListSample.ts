@@ -24,7 +24,7 @@ async function listGalleriesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleries.list()) {
+  for await (const item of client.galleries.list()) {
     resArray.push(item);
   }
   console.log(resArray);

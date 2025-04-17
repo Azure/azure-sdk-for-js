@@ -39,13 +39,13 @@ import {
   DiskAccessesUpdateOptionalParams,
   DiskAccessesUpdateResponse,
   DiskAccessesDeleteOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesListNextResponse,
   DiskAccessesListByResourceGroupNextResponse,
   DiskAccessesListPrivateEndpointConnectionsNextResponse,
@@ -602,25 +602,6 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * Gets the private link resources possible under disk access resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param options The options parameters.
-   */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    diskAccessName: string,
-    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, diskAccessName, options },
-      getPrivateLinkResourcesOperationSpec,
-    );
-  }
-
-  /**
    * List information about private endpoint connections under a disk access resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
@@ -876,6 +857,25 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
+   * Gets the private link resources possible under disk access resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, diskAccessName, options },
+      getPrivateLinkResourcesOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1075,27 +1075,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/getPrivateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.diskAccessName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
   httpMethod: "GET",
@@ -1197,6 +1176,27 @@ const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
     headerParameters: [Parameters.accept],
     serializer,
   };
+const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privatelinkresources",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

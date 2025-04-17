@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to simulate the eviction of spot virtual machine in a VM scale set.
  *
  * @summary The operation to simulate the eviction of spot virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_SimulateEviction.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_SimulateEviction.json
  */
 async function simulateEvictionAVirtualMachine(): Promise<void> {
   const subscriptionId =

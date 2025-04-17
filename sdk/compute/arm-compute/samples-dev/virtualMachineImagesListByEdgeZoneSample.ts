@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
  *
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen(): Promis
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
  *
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen(): Promise<void> {
   const subscriptionId =

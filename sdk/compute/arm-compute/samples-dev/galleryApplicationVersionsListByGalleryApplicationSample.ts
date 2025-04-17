@@ -28,7 +28,7 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition(): 
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryApplicationVersions.listByGalleryApplication(
+  for await (const item of client.galleryApplicationVersions.listByGalleryApplication(
     resourceGroupName,
     galleryName,
     galleryApplicationName,

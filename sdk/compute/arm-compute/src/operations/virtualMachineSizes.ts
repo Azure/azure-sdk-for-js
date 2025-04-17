@@ -137,7 +137,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -157,7 +157,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

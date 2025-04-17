@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineRedeployMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function virtualMachineRedeployMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
  *
  * @summary Shuts down the virtual machine, moves it to a new node, and powers it back on.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineRedeployMinimumSetGen(): Promise<void> {
   const subscriptionId =

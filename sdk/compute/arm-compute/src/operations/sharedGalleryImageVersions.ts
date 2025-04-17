@@ -215,7 +215,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
@@ -237,7 +237,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -260,7 +260,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

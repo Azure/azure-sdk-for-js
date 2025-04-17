@@ -56,7 +56,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunityGallery,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],

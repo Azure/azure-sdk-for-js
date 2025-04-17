@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHostGroups.listByResourceGroup(
+  for await (const item of client.dedicatedHostGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -38,7 +38,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<voi
  * This sample demonstrates how to Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function dedicatedHostGroupListByResourceGroupMinimumSetGen(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHostGroups.listByResourceGroup(
+  for await (const item of client.dedicatedHostGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

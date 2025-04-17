@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromABlob.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromABlob.json
  */
 async function createAVirtualMachineImageFromABlob(): Promise<void> {
   const subscriptionId =
@@ -86,7 +86,7 @@ async function createAVirtualMachineImageFromABlob(): Promise<void> {
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
@@ -123,7 +123,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
  */
 async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
   const subscriptionId =
@@ -158,7 +158,7 @@ async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
@@ -195,7 +195,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromASnapshot.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromASnapshot.json
  */
 async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
   const subscriptionId =
@@ -230,7 +230,7 @@ async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_CreateFromAVM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_CreateFromAVM.json
  */
 async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise<void> {
   const subscriptionId =
@@ -258,7 +258,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promise<void> {
   const subscriptionId =
@@ -299,7 +299,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promi
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk(): Promise<void> {
   const subscriptionId =
@@ -342,7 +342,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
  * This sample demonstrates how to Create or update an image.
  *
  * @summary Create or update an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): Promise<void> {
   const subscriptionId =

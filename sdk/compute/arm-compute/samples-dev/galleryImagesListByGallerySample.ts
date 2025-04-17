@@ -27,7 +27,7 @@ async function listGalleryImagesInAGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryImages.listByGallery(
+  for await (const item of client.galleryImages.listByGallery(
     resourceGroupName,
     galleryName,
   )) {

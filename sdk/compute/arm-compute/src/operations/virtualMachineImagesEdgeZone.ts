@@ -166,7 +166,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -197,7 +197,7 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -229,7 +229,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -262,7 +262,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMinimumSetGen(): Promise<void> {
   const subscriptionId =

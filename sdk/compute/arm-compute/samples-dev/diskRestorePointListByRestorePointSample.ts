@@ -27,12 +27,15 @@ async function getAnIncrementalDiskRestorePointResource(): Promise<void> {
   const vmRestorePointName = "vmrp";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskRestorePointOperations.listByRestorePoint(
+  const resArray = new Array();
+  for await (const item of client.diskRestorePointOperations.listByRestorePoint(
     resourceGroupName,
     restorePointCollectionName,
     vmRestorePointName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {

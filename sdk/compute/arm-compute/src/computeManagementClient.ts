@@ -49,7 +49,6 @@ import {
   SharedGalleriesImpl,
   SharedGalleryImagesImpl,
   SharedGalleryImageVersionsImpl,
-  SoftDeletedResourceImpl,
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
   GalleryImagesImpl,
@@ -57,6 +56,7 @@ import {
   GalleryInVMAccessControlProfilesImpl,
   GalleryInVMAccessControlProfileVersionsImpl,
   GallerySharingProfileImpl,
+  SoftDeletedResourceImpl,
   CloudServiceRoleInstancesImpl,
   CloudServiceRolesImpl,
   CloudServicesImpl,
@@ -103,7 +103,6 @@ import {
   SharedGalleries,
   SharedGalleryImages,
   SharedGalleryImageVersions,
-  SoftDeletedResource,
   GalleryApplications,
   GalleryApplicationVersions,
   GalleryImages,
@@ -111,6 +110,7 @@ import {
   GalleryInVMAccessControlProfiles,
   GalleryInVMAccessControlProfileVersions,
   GallerySharingProfile,
+  SoftDeletedResource,
   CloudServiceRoleInstances,
   CloudServiceRoles,
   CloudServices,
@@ -150,7 +150,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/23.0.0`;
+    const packageDetails = `azsdk-js-arm-compute/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -253,7 +253,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
     this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
-    this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
     this.galleryImages = new GalleryImagesImpl(this);
@@ -263,6 +262,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryInVMAccessControlProfileVersions =
       new GalleryInVMAccessControlProfileVersionsImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
+    this.softDeletedResource = new SoftDeletedResourceImpl(this);
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
     this.cloudServiceRoles = new CloudServiceRolesImpl(this);
     this.cloudServices = new CloudServicesImpl(this);
@@ -311,7 +311,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   sharedGalleries: SharedGalleries;
   sharedGalleryImages: SharedGalleryImages;
   sharedGalleryImageVersions: SharedGalleryImageVersions;
-  softDeletedResource: SoftDeletedResource;
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
   galleryImages: GalleryImages;
@@ -319,6 +318,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
   galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
   gallerySharingProfile: GallerySharingProfile;
+  softDeletedResource: SoftDeletedResource;
   cloudServiceRoleInstances: CloudServiceRoleInstances;
   cloudServiceRoles: CloudServiceRoles;
   cloudServices: CloudServices;

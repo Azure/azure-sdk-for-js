@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all available virtual machine sizes to which the specified virtual machine can be resized.
  *
  * @summary Lists all available virtual machine sizes to which the specified virtual machine can be resized.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_ListAvailableVmSizes.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_ListAvailableVmSizes.json
  */
 async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMachineCanBeResized(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.listAvailableSizes(
+  for await (const item of client.virtualMachines.listAvailableSizes(
     resourceGroupName,
     vmName,
   )) {

@@ -22,13 +22,13 @@ import {
   DiskAccessesUpdateOptionalParams,
   DiskAccessesUpdateResponse,
   DiskAccessesDeleteOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  DiskAccessesGetPrivateLinkResourcesResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -173,19 +173,6 @@ export interface DiskAccesses {
     options?: DiskAccessesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Gets the private link resources possible under disk access resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param options The options parameters.
-   */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    diskAccessName: string,
-    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
-  /**
    * Gets information about a private endpoint connection under a disk access resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
@@ -273,4 +260,17 @@ export interface DiskAccesses {
     privateEndpointConnectionName: string,
     options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   ): Promise<void>;
+  /**
+   * Gets the private link resources possible under disk access resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
 }

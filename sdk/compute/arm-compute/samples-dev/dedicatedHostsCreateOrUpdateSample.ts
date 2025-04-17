@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a dedicated host .
  *
  * @summary Create or update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHost(): Promise<void> {
   const subscriptionId =

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to delete the run command.
  *
  * @summary The operation to delete the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/runCommandExamples/VirtualMachineRunCommand_Delete.json
  */
 async function deleteARunCommand(): Promise<void> {
   const subscriptionId =

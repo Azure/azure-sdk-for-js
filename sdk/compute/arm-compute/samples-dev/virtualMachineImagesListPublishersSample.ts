@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMinimumSetGen(): Promise<void> {
   const subscriptionId =

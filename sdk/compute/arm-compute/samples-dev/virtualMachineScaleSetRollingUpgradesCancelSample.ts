@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen(): Promis
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary Cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen(): Promise<void> {
   const subscriptionId =

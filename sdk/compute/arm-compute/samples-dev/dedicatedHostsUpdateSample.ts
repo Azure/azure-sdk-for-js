@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -63,7 +63,7 @@ async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
  * This sample demonstrates how to Update a dedicated host .
  *
  * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_Resize.json
  */
 async function dedicatedHostUpdateResize(): Promise<void> {
   const subscriptionId =

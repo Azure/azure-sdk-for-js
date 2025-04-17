@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MaximumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function sshPublicKeyListBySubscriptionMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listBySubscription()) {
+  for await (const item of client.sshPublicKeys.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -34,7 +34,7 @@ async function sshPublicKeyListBySubscriptionMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MinimumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function sshPublicKeyListBySubscriptionMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listBySubscription()) {
+  for await (const item of client.sshPublicKeys.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

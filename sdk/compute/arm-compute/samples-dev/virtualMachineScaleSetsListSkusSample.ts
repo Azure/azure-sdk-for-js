@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetListSkusMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function virtualMachineScaleSetListSkusMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listSkus(
+  for await (const item of client.virtualMachineScaleSets.listSkus(
     resourceGroupName,
     vmScaleSetName,
   )) {
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetListSkusMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetListSkusMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function virtualMachineScaleSetListSkusMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listSkus(
+  for await (const item of client.virtualMachineScaleSets.listSkus(
     resourceGroupName,
     vmScaleSetName,
   )) {

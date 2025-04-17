@@ -26,7 +26,7 @@ async function listSharedGalleryImages(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sharedGalleryImages.list(
+  for await (const item of client.sharedGalleryImages.list(
     location,
     galleryUniqueName,
   )) {

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
  */
 async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> 
  * This sample demonstrates how to Create or update an availability set.
  *
  * @summary Create or update an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
 async function createAnAvailabilitySet(): Promise<void> {
   const subscriptionId =

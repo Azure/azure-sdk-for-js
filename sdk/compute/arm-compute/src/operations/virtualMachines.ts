@@ -58,6 +58,8 @@ import {
   VirtualMachinesInstallPatchesResponse,
   VirtualMachinesInstanceViewOptionalParams,
   VirtualMachinesInstanceViewResponse,
+  VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  VirtualMachinesMigrateToVMScaleSetResponse,
   VirtualMachinesPerformMaintenanceOptionalParams,
   VirtualMachinesPowerOffOptionalParams,
   VirtualMachinesReapplyOptionalParams,
@@ -1270,6 +1272,96 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginMigrateToVMScaleSet(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesMigrateToVMScaleSetResponse>,
+      VirtualMachinesMigrateToVMScaleSetResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VirtualMachinesMigrateToVMScaleSetResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmName, options },
+      spec: migrateToVMScaleSetOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VirtualMachinesMigrateToVMScaleSetResponse,
+      OperationState<VirtualMachinesMigrateToVMScaleSetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginMigrateToVMScaleSetAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<VirtualMachinesMigrateToVMScaleSetResponse> {
+    const poller = await this.beginMigrateToVMScaleSet(
+      resourceGroupName,
+      vmName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmName The name of the virtual machine.
@@ -2056,7 +2148,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2083,7 +2175,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.statusOnly,
-    Parameters.expand5,
+    Parameters.expand6,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -2103,7 +2195,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.expand6,
+    Parameters.expand7,
   ],
   urlParameters: [
     Parameters.$host,
@@ -2154,7 +2246,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2195,7 +2287,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2284,7 +2376,7 @@ const attachDetachDataDisksOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2316,7 +2408,7 @@ const captureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2444,6 +2536,38 @@ const instanceViewOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const migrateToVMScaleSetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/migrateToVirtualMachineScaleSet",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VirtualMachinesMigrateToVMScaleSetHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachinesMigrateToVMScaleSetHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachinesMigrateToVMScaleSetHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachinesMigrateToVMScaleSetHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const performMaintenanceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/performMaintenance",
   httpMethod: "POST",
@@ -2544,7 +2668,7 @@ const reimageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2622,7 +2746,7 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2704,7 +2828,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

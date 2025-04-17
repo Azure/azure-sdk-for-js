@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to get all run commands of an instance in Virtual Machine Scaleset.
  *
  * @summary The operation to get all run commands of an instance in Virtual Machine Scaleset.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
  */
 async function listRunCommandsInVmssInstance(): Promise<void> {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listRunCommandsInVmssInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSetVMRunCommands.list(
+  for await (const item of client.virtualMachineScaleSetVMRunCommands.list(
     resourceGroupName,
     vmScaleSetName,
     instanceId,

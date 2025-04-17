@@ -532,7 +532,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -548,7 +548,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -568,13 +568,13 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Gallery,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.select1,
-    Parameters.expand10,
+    Parameters.expand11,
   ],
   urlParameters: [
     Parameters.$host,
@@ -602,7 +602,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Gallery,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.gallery,
@@ -638,7 +638,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.GalleriesUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.gallery1,
@@ -662,7 +662,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -683,7 +683,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [
@@ -702,7 +702,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function dedicatedHostGroupUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion(): Promise<void> {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function copyARestorePointToADifferentRegion(): Promise<void> {
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint(): Promise<void> {
   const subscriptionId =

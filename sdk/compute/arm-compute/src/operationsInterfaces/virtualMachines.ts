@@ -39,6 +39,8 @@ import {
   VirtualMachinesInstallPatchesResponse,
   VirtualMachinesInstanceViewOptionalParams,
   VirtualMachinesInstanceViewResponse,
+  VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  VirtualMachinesMigrateToVMScaleSetResponse,
   VirtualMachinesPerformMaintenanceOptionalParams,
   VirtualMachinesPowerOffOptionalParams,
   VirtualMachinesReapplyOptionalParams,
@@ -391,6 +393,33 @@ export interface VirtualMachines {
     vmName: string,
     options?: VirtualMachinesInstanceViewOptionalParams,
   ): Promise<VirtualMachinesInstanceViewResponse>;
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginMigrateToVMScaleSet(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesMigrateToVMScaleSetResponse>,
+      VirtualMachinesMigrateToVMScaleSetResponse
+    >
+  >;
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginMigrateToVMScaleSetAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<VirtualMachinesMigrateToVMScaleSetResponse>;
   /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

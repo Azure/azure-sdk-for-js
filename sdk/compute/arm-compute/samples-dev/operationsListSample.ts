@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -25,7 +25,7 @@ async function operationsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -35,7 +35,7 @@ async function operationsListMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function operationsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

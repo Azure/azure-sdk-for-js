@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -440,7 +440,7 @@ async function virtualMachineScaleSetVMUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =

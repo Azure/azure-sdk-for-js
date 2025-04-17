@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =

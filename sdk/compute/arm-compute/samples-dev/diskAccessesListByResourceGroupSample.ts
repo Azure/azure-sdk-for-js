@@ -26,7 +26,7 @@ async function listAllDiskAccessResourcesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskAccesses.listByResourceGroup(
+  for await (const item of client.diskAccesses.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

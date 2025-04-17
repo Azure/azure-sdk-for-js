@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionNextOptionalParams,
   AvailabilitySetsListBySubscriptionOptionalParams,
@@ -33,6 +39,12 @@ import {
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
+  AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsConvertToVirtualMachineScaleSetResponse,
+  MigrateToVirtualMachineScaleSetInput,
+  AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse,
   AvailabilitySetsListAvailableSizesNextResponse,
@@ -353,6 +365,156 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   }
 
   /**
+   * Cancel the migration operation on an Availability Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  cancelMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, options },
+      cancelMigrationToVirtualMachineScaleSetOperationSpec,
+    );
+  }
+
+  /**
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  async beginConvertToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>,
+      AvailabilitySetsConvertToVirtualMachineScaleSetResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetName, options },
+      spec: convertToVirtualMachineScaleSetOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsConvertToVirtualMachineScaleSetResponse,
+      OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the
+   * Availability Set. This does not trigger a downtime on the Virtual Machines.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param options The options parameters.
+   */
+  async beginConvertToVirtualMachineScaleSetAndWait(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
+  ): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse> {
+    const poller = await this.beginConvertToVirtualMachineScaleSet(
+      resourceGroupName,
+      availabilitySetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine
+   * Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a
+   * downtime on the Virtual Machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param parameters Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  startMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    parameters: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, parameters, options },
+      startMigrationToVirtualMachineScaleSetOperationSpec,
+    );
+  }
+
+  /**
+   * Validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual
+   * Machine Scale Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetName The name of the availability set.
+   * @param parameters Parameters supplied to the migrate operation on the availability set.
+   * @param options The options parameters.
+   */
+  validateMigrationToVirtualMachineScaleSet(
+    resourceGroupName: string,
+    availabilitySetName: string,
+    parameters: MigrateToVirtualMachineScaleSetInput,
+    options?: AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, availabilitySetName, parameters, options },
+      validateMigrationToVirtualMachineScaleSetOperationSpec,
+    );
+  }
+
+  /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
    * existing availability set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -547,6 +709,106 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const cancelMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/cancelMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const convertToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/convertToVirtualMachineScaleSet",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.AvailabilitySetsConvertToVirtualMachineScaleSetHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.availabilitySetName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const startMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/startMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.parameters3,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const validateMigrationToVirtualMachineScaleSetOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/validateMigrationToVirtualMachineScaleSet",
+    httpMethod: "POST",
+    responses: {
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.parameters3,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.availabilitySetName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
   httpMethod: "GET",
