@@ -8,8 +8,8 @@
 
 ### Bugs Fixed
 
-- Update the order for conditional exports so that the most specific conditions are listed first
-- Fix a bug in which `self.location` is undefined in specific environment
+- Update the order for conditional exports so that the most specific conditions are listed first. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+- Fix a bug in which `self.location` is undefined in specific environment. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
 
 ### Other Changes
 
