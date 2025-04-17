@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { StatusCodes } from "../common/statusCodes.js";
 import type { RetryCallback } from "../utils/batch.js";
 import type { BulkBatcher } from "./BulkBatcher.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
@@ -134,9 +135,11 @@ export class LimiterQueue {
     while (!this.tasks.isEmpty()) {
       const queueItem = this.tasks.shift();
       if (!queueItem) break;
-      const operations = queueItem.batcher.getOperations();
-      for (const operation of operations) {
-        await this.retrier(operation, operation.operationContext.diagnosticNode);
+      if (customValue === StatusCodes.Gone) {
+        const operations = queueItem.batcher.getOperations();
+        for (const operation of operations) {
+          await this.retrier(operation, operation.operationContext.diagnosticNode);
+        }
       }
       queueItem.resolve(customValue);
     }

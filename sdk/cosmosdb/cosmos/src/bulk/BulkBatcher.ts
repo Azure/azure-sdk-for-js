@@ -38,10 +38,11 @@ export class BulkBatcher {
   private readonly encryptionEnabled: boolean;
   private readonly encryptionProcessor: EncryptionProcessor;
   private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
+  private readonly limiter: LimiterQueue;
   private processedOperationCountRef: { count: number };
 
   constructor(
-    private limiter: LimiterQueue,
+    limiter: LimiterQueue,
     executor: ExecuteCallback,
     retrier: RetryCallback,
     diagnosticLevel: CosmosDbDiagnosticLevel,
@@ -50,6 +51,7 @@ export class BulkBatcher {
     encryptionProcessor: EncryptionProcessor,
     processedOperationCountRef: { count: number },
   ) {
+    this.limiter = limiter;
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
@@ -113,18 +115,18 @@ export class BulkBatcher {
 
       const hasThrottles = 1;
       const noThrottle = 0;
-      const numThrottle = response.results.some(
-        (result) => "statusCode" in result && result.statusCode === StatusCodes.TooManyRequests,
+      const numThrottle = response?.results?.some(
+        (result) => "code" in result && result.code === StatusCodes.TooManyRequests,
       )
         ? hasThrottles
         : noThrottle;
-      const splitOrMerge = response.results.some(
-        (result) => "statusCode" in result && result.statusCode === StatusCodes.Gone,
+      const splitOrMerge = response?.results?.some(
+        (result) => "code" in result && result.code === StatusCodes.Gone,
       )
         ? true
         : false;
       if (splitOrMerge) {
-        this.limiter.pauseAndClear(null);
+        await this.limiter.pauseAndClear(StatusCodes.Gone);
       }
       partitionMetric.add(
         this.batchOperationsList.length,
@@ -149,8 +151,15 @@ export class BulkBatcher {
         }
         try {
           if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
-            bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(
-              bulkOperationResult.resourceBody,
+            diagnosticNode.beginEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+            const { body: decryptedBody, propertiesDecryptedCount } =
+              await this.encryptionProcessor.decrypt(bulkOperationResult.resourceBody);
+            bulkOperationResult.resourceBody = decryptedBody;
+            diagnosticNode.endEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+              propertiesDecryptedCount,
             );
           }
         } catch (error) {
@@ -168,7 +177,7 @@ export class BulkBatcher {
           this.clientConfigDiagnostics,
         );
         const bulkItemResponse: CosmosBulkOperationResult = {
-          operationInput: operation.operationInput,
+          operationInput: operation.plainTextOperationInput,
         };
         if (isErrorResponse(bulkOperationResult)) {
           bulkItemResponse.error = bulkOperationResult;

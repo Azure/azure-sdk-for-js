@@ -51,7 +51,6 @@ export interface RequestOptions extends SharedOptions {
    * by not sending the payload back over the network. Default value is true.
    *
    * NOTE: Currently, this option is only supported for bulk and batch operations.
-   * This will be supported for all write operations with v5 release.
    */
   contentResponseOnWriteEnabled?: boolean;
 }

@@ -55,7 +55,6 @@ export class BulkHelperPerPartition {
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.processedOperationCountRef = processedOperationCountRef;
-    this.currentBatcher = this.createBulkBatcher();
     this.lock = semaphore(1);
     this.dispatchLimiter = new LimiterQueue(
       this.initialConcurrency,
@@ -67,6 +66,7 @@ export class BulkHelperPerPartition {
       this.partitionMetric,
       this.oldPartitionMetric,
     );
+    this.currentBatcher = this.createBulkBatcher();
   }
 
   /**
@@ -89,7 +89,7 @@ export class BulkHelperPerPartition {
           resolve();
         } catch (err) {
           const response: CosmosBulkOperationResult = {
-            operationInput: operation.operationInput,
+            operationInput: operation.plainTextOperationInput,
             error: Object.assign(new Error(err.message), {
               code: StatusCodes.InternalServerError,
               diagnostics: operation.operationContext.diagnosticNode.toDiagnostic(
@@ -151,5 +151,9 @@ export class BulkHelperPerPartition {
 
   public runCongestionAlgorithm(): void {
     this.congestionControlAlgorithm.run();
+  }
+  public async dispose(): Promise<void> {
+    await this.dispatchLimiter.pauseAndClear(null);
+    this.currentBatcher = undefined;
   }
 }

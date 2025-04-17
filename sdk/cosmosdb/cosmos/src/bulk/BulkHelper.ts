@@ -49,6 +49,7 @@ export class BulkHelper {
   private operationPromisesList: Promise<CosmosBulkOperationResult>[] = [];
   private congestionControlTimer: NodeJS.Timeout;
   private readonly congestionControlDelayInMs: number = 1000;
+  private staleError: ErrorResponse | undefined;
 
   /**
    * @internal
@@ -75,9 +76,6 @@ export class BulkHelper {
    * @param operationInput - bulk operation or list of bulk operations
    */
   async execute(operationInput: OperationInput[]): Promise<CosmosBulkOperationResult[]> {
-    if (this.isCancelled) {
-      throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
-    }
     const addOperationPromises: Promise<void>[] = [];
     for (let i = 0; i < operationInput.length; i++) {
       if (i % 100 === 0) {
@@ -97,6 +95,9 @@ export class BulkHelper {
       clearInterval(this.congestionControlTimer);
     }
     const operationResults = await Promise.allSettled(this.operationPromisesList);
+    if (this.isCancelled && this.staleError) {
+      throw this.staleError;
+    }
     // TODO: check for error  response structure. response should be serialize for every case (e.g. context.fail)
     // check if we need to remove stack details from error.
     return operationResults.map((result) => {
@@ -306,8 +307,8 @@ export class BulkHelper {
         try {
           await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         } catch (err) {
-          this.cancelExecution();
-          return;
+          await this.cancelExecution(err);
+          return BulkResponse.createEmptyResponse(operations, 0, 0, {});
         }
       }
       return BulkResponse.fromResponseMessage(error, operations);
@@ -335,8 +336,13 @@ export class BulkHelper {
     helper.add(operation);
   }
 
-  private cancelExecution(): void {
+  private async cancelExecution(error: ErrorResponse): Promise<void> {
     this.isCancelled = true;
+    this.staleError = error;
+    for (const helper of this.helpersByPartitionKeyRangeId.values()) {
+      await helper.dispose();
+    }
+    this.helpersByPartitionKeyRangeId.clear();
   }
 
   private gethelperForPKRange(pkRangeId: string): BulkHelperPerPartition {

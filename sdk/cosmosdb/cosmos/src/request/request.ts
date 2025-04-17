@@ -12,7 +12,7 @@ import {
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { PartitionKeyInternal } from "../documents/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/index.js";
-import type { FeedOptions, RequestOptions } from "./index.js";
+import { ErrorResponse, type FeedOptions, type RequestOptions } from "./index.js";
 import { defaultLogger } from "../common/logger.js";
 import { ChangeFeedMode } from "../client/ChangeFeed/index.js";
 // ----------------------------------------------------------------------------
@@ -256,11 +256,16 @@ export async function getHeaders({
 
   if (
     resourceType === ResourceType.item &&
-    operationType === OperationType.Batch &&
     Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
     !options.contentResponseOnWriteEnabled
   ) {
-    headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PREFER_RETURN_MINIMAL;
+    if (operationType === OperationType.Batch) {
+      headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PREFER_RETURN_MINIMAL;
+    } else {
+      throw new ErrorResponse(
+        "Currently `contentResponseOnWriteEnabled` option is only supported for batch and bulk operations.",
+      );
+    }
   }
   return headers;
 }
