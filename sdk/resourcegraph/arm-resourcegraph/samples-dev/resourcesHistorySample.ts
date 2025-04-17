@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List all snapshots of a resource for a given time interval.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryMgsGet.json
  */
-async function resourceHistoryManagementGroupScopeQuery() {
+async function resourceHistoryManagementGroupScopeQuery(): Promise<void> {
   const request: ResourcesHistoryRequest = {
     managementGroups: ["e927f598-c1d4-4f72-8541-95d83a6a4ac8", "ProductionMG"],
     options: {
@@ -40,7 +40,7 @@ resourceHistoryManagementGroupScopeQuery().catch(console.error);
  * @summary List all snapshots of a resource for a given time interval.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryGet.json
  */
-async function resourceHistoryQuery() {
+async function resourceHistoryQuery(): Promise<void> {
   const request: ResourcesHistoryRequest = {
     options: {
       interval: {

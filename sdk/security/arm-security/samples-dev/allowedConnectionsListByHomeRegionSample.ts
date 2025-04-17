@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of all possible traffic between resources for the subscription and location.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of all possible traffic between resources for the subscription and location.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AllowedConnections/GetAllowedConnectionsSubscriptionLocation_example.json
  */
-async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation() {
+async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "3eeab341-f466-499c-a8be-85427e154bad";
   const ascLocation = "centralus";
@@ -30,7 +28,7 @@ async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllowedConnectionsOnASubscriptionFromSecurityDataLocation();
 }
 

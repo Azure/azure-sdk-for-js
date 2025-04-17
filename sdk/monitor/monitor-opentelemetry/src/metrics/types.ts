@@ -31,9 +31,11 @@ export enum PerformanceCounterMetricNames {
   PRIVATE_BYTES = "Private_Bytes",
   AVAILABLE_BYTES = "Available_Bytes",
   PROCESSOR_TIME = "Processor_Time",
-  PROCESS_TIME = "Process_Time",
+  PROCESS_TIME_STANDARD = "Process_Time_Standard",
   REQUEST_RATE = "Request_Rate",
   REQUEST_DURATION = "Request_Execution_Time",
+  PROCESS_TIME_NORMALIZED = "Process_Time_Normalized",
+  EXCEPTION_RATE = "Exception_Rate",
 }
 
 export type MetricDimensionTypeKeys =

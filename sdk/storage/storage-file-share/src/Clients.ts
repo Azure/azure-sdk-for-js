@@ -7,7 +7,7 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   CopyFileSmbInfo,
@@ -40,6 +40,8 @@ import type {
   FileUploadRangeResponse,
   HandleItem,
   LeaseAccessConditions,
+  ModeCopyMode,
+  OwnerCopyMode,
   RangeModel,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -92,25 +94,26 @@ import type {
   FileAbortCopyHeaders,
   FileListHandlesHeaders,
   RawFileDownloadResponse,
-} from "./generatedModels";
+  FileCreateHardLinkResponse,
+  FileSetHTTPHeadersHeaders,
+  FileCreateHardLinkHeaders,
+} from "./generatedModels.js";
 import type {
   FileRenameHeaders,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
-} from "./generated/src/models";
-import type { Share, Directory, File } from "./generated/src/operationsInterfaces";
-import type { Pipeline, PipelineLike } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+} from "./generated/src/models/index.js";
+import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
+import type { Pipeline, PipelineLike } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
   URLConstants,
-  FileAttributesPreserve,
-  FileAttributesNone,
-} from "./utils/constants";
-import type { WithResponse } from "./utils/utils.common";
+} from "./utils/constants.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   setURLParameter,
@@ -127,18 +130,19 @@ import {
   assertResponse,
   removeEmptyString,
   asSharePermission,
-} from "./utils/utils.common";
-import { Credential } from "../../storage-blob/src/credentials/Credential";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
+  parseOctalFileMode,
+  toOctalFileMode,
+} from "./utils/utils.common.js";
+import { Credential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileSystemAttributes } from "./FileSystemAttributes";
-import { FileDownloadResponse } from "./FileDownloadResponse";
-import type { Range } from "./Range";
-import { rangeToString } from "./Range";
+import { FileDownloadResponse } from "./FileDownloadResponse.js";
+import type { Range } from "./Range.js";
+import { rangeToString } from "./Range.js";
 import type {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
@@ -149,7 +153,8 @@ import type {
   HttpAuthorization,
   ShareClientOptions,
   ShareClientConfig,
-} from "./models";
+  FilePosixProperties,
+} from "./models.js";
 import {
   fileAttributesToString,
   fileCreationTimeToString,
@@ -159,32 +164,28 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   fileChangeTimeToString,
-} from "./models";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import type { Readable } from "stream";
+} from "./models.js";
+import { Batch } from "./utils/Batch.js";
+import { BufferScheduler } from "./utils/BufferScheduler.js";
 import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node";
-import type {
-  FileSetHttpHeadersHeaders,
-  StorageClient as StorageClientContext,
-} from "./generated/src/";
+} from "./utils/utils.js";
+import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import { randomUUID } from "@azure/core-util";
 import {
   generateFileSASQueryParameters,
   generateFileSASQueryParametersInternal,
-} from "./FileSASSignatureValues";
-import type { ShareSASPermissions } from "./ShareSASPermissions";
-import type { SASProtocol } from "./SASQueryParameters";
-import type { SasIPRange } from "./SasIPRange";
-import type { FileSASPermissions } from "./FileSASPermissions";
-import type { ListFilesIncludeType } from "./generated/src";
+} from "./FileSASSignatureValues.js";
+import type { ShareSASPermissions } from "./ShareSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { FileSASPermissions } from "./FileSASPermissions.js";
+import type { ListFilesIncludeType } from "./generated/src/index.js";
 
-export { ShareClientOptions, ShareClientConfig } from "./models";
+export { ShareClientOptions, ShareClientConfig } from "./models.js";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -730,7 +731,7 @@ export class ShareClient extends StorageClient {
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -1803,29 +1804,35 @@ export class ShareDirectoryClient extends StorageClient {
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
     if (!options.fileAttributes) {
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
-      // By default set it as a directory.
-      const attributes: FileSystemAttributes = new FileSystemAttributes();
-      attributes.directory = true;
-      options.fileAttributes = attributes;
     }
     return tracingClient.withSpan(
       "ShareDirectoryClient-create",
       options,
       async (updatedOptions) => {
-        return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(
-          await this.context.create(
-            updatedOptions.fileAttributes
-              ? fileAttributesToString(updatedOptions.fileAttributes!)
-              : FileAttributesNone,
-            {
-              ...updatedOptions,
-              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-              ...this.shareClientConfig,
-            },
-          ),
-        );
+        const rawResponse = await this.context.create({
+          ...updatedOptions,
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          fileAttributes: updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : undefined,
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+          ...this.shareClientConfig,
+        });
+        const wrappedRes = {
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+          },
+        };
+        return assertResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>(wrappedRes);
       },
     );
   }
@@ -1879,20 +1886,28 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-setProperties",
       properties,
       async (updatedOptions) => {
-        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>(
-          await this.context.setProperties(
-            updatedOptions.fileAttributes
-              ? fileAttributesToString(updatedOptions.fileAttributes!)
-              : FileAttributesPreserve,
-            {
-              ...updatedOptions,
-              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-              ...this.shareClientConfig,
-            },
-          ),
-        );
+        const rawResponse = await this.context.setProperties({
+          ...updatedOptions,
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          fileAttributes: updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : undefined,
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+          ...this.shareClientConfig,
+        });
+        return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+          },
+        } as any);
       },
     );
   }
@@ -1905,10 +1920,23 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const directoryClient = shareClient.getDirectoryClient("<directory name>");
+   * ```ts snippet:ReadmeSampleGetDirectoryClient
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const shareClient = serviceClient.getShareClient(shareName);
+   * const directoryClient = shareClient.getDirectoryClient(directoryName);
    * await directoryClient.create();
-   * console.log("Created directory successfully");
    * ```
    */
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
@@ -2039,16 +2067,31 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const content = "Hello world!"
+   * ```ts snippet:ReadmeSampleCreateFileAndUpload
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * const fileClient = directoryClient.getFileClient("<file name>");
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
    *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * const content = "Hello World!";
+   * const fileName = `newdirectory${+new Date()}`;
+   * const fileClient = directoryClient.getFileClient(fileName);
    * await fileClient.create(content.length);
-   * console.log("Created file successfully!");
+   * console.log(`Create file ${fileName} successfully`);
    *
+   * // Upload file range
    * await fileClient.uploadRange(content, 0, content.length);
-   * console.log("Updated file successfully!")
+   * console.log(`Upload file range "${content}" to ${fileName} successfully`);
    * ```
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
@@ -2104,9 +2147,20 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>(
-          await this.context.getProperties({ ...updatedOptions, ...this.shareClientConfig }),
-        );
+        const rawResponse = await this.context.getProperties({
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        });
+        return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            fileType: rawResponse.nfsFileType,
+          },
+        } as any);
       },
     );
   }
@@ -2259,82 +2313,141 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListFilesAndDirectories
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
    * let i = 1;
-   * for await (const entity of directoryClient.listFilesAndDirectories()) {
-   *   if (entity.kind === "directory") {
-   *     console.log(`${i++} - directory\t: ${entity.name}`);
+   * for await (const item of directoryClient.listFilesAndDirectories()) {
+   *   if (item.kind === "directory") {
+   *     console.log(`${i} - directory\t: ${item.name}`);
    *   } else {
-   *     console.log(`${i++} - file\t: ${entity.name}`);
+   *     console.log(`${i} - file\t: ${item.name}`);
    *   }
+   *   i++;
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListFilesAndDirectories_Iterator
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
    * let i = 1;
-   * let iter = directoryClient.listFilesAndDirectories();
-   * let entity = await iter.next();
-   * while (!entity.done) {
-   *   if (entity.value.kind === "directory") {
-   *     console.log(`${i++} - directory\t: ${entity.value.name}`);
+   * const iter = directoryClient.listFilesAndDirectories();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   if (value.kind === "directory") {
+   *     console.log(`${i} - directory\t: ${value.name}`);
    *   } else {
-   *     console.log(`${i++} - file\t: ${entity.value.name}`);
+   *     console.log(`${i} - file\t: ${value.name}`);
    *   }
-   *   entity = await iter.next();
+   *   ({ value, done } = await iter.next());
+   *   i++;
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListFilesAndDirectories_ByPage
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
    * let i = 1;
    * for await (const response of directoryClient
    *   .listFilesAndDirectories()
    *   .byPage({ maxPageSize: 20 })) {
-   *   for (const fileItem of response.segment.fileItems) {
-   *     console.log(`${i++} - file\t: ${fileItem.name}`);
+   *   console.log(`Page ${i++}:`);
+   *   for (const item of response.segment.directoryItems) {
+   *     console.log(`\tdirectory: ${item.name}`);
    *   }
-   *   for (const dirItem of response.segment.directoryItems) {
-   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
+   *   for (const item of response.segment.fileItems) {
+   *     console.log(`\tfile: ${item.name}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
-   * let i = 1;
-   * let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+   * ```ts snippet:ReadmeSampleListFilesAndDirectories_Continuation
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 2 });
    * let response = (await iterator.next()).value;
    *
-   * // Prints 3 file and directory names
-   * for (const fileItem of response.segment.fileItems) {
-   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * for await (const item of response.segment.directoryItems) {
+   *   console.log(`\tdirectory: ${item.name}`);
    * }
    *
-   * for (const dirItem of response.segment.directoryItems) {
-   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * for await (const item of response.segment.fileItems) {
+   *   console.log(`\tfile: ${item.name}`);
    * }
    *
    * // Gets next marker
-   * let dirMarker = response.continuationToken;
+   * let marker = response.continuationToken;
    *
    * // Passing next marker as continuationToken
    * iterator = directoryClient
    *   .listFilesAndDirectories()
-   *   .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
    * response = (await iterator.next()).value;
    *
-   * // Prints 10 file and directory names
-   * for (const fileItem of response.segment.fileItems) {
-   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * for await (const item of response.segment.directoryItems) {
+   *   console.log(`\tdirectory: ${item.name}`);
    * }
    *
-   * for (const dirItem of response.segment.directoryItems) {
-   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * for await (const item of response.segment.fileItems) {
+   *   console.log(`\tfile: ${item.name}`);
    * }
    * ```
    *
@@ -2493,67 +2606,114 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
-   * let i = 1;
-   * let iter = dirClient.listHandles();
-   * for await (const handle of iter) {
-   *   console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   * ```ts snippet:ReadmeSampleListHandles
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * for await (const handle of directoryClient.listHandles()) {
+   *   console.log(`Handle: ${handle.handleId}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
-   * let i = 1;
-   * let iter = dirClient.listHandles();
-   * let handleItem = await iter.next();
-   * while (!handleItem.done) {
-   *   console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
-   *   handleItem = await iter.next();
+   * ```ts snippet:ReadmeSampleListHandles_Iterator
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * const handleIter = directoryClient.listHandles();
+   * let { value, done } = await handleIter.next();
+   * while (!done) {
+   *   console.log(`Handle: ${value.handleId}`);
+   *   ({ value, done } = await handleIter.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListHandles_ByPage
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
    * let i = 1;
-   * for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
-   *   if (response.handleList) {
-   *     for (const handle of response.handleList) {
-   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *     }
+   * for await (const response of directoryClient.listHandles().byPage({ maxPageSize: 20 })) {
+   *   console.log(`Page ${i++}:`);
+   *   for (const handle of response.handleList || []) {
+   *     console.log(`\thandle: ${handle.handleId}`);
    *   }
    * }
    * ```
    *
    * Example using paging with a marker:
    *
-   * ```js
-   * let i = 1;
-   * let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
-   * let response = await iterator.next();
+   * ```ts snippet:ReadmeSampleListHandles_Continuation
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // Prints 2 handles
-   * if (response.value.handleList) {
-   *   for (const handle of response.value.handleList) {
-   *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *   }
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * let iterator = directoryClient.listHandles().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * for await (const handle of response.handleList || []) {
+   *   console.log(`\thandle: ${handle.handleId}`);
    * }
    *
    * // Gets next marker
-   * let marker = response.value.continuationToken;
+   * let marker = response.continuationToken;
    *
    * // Passing next marker as continuationToken
-   * console.log(`    continuation`);
-   * iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = await iterator.next();
+   * iterator = directoryClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
    *
-   * // Prints 2 more handles assuming you have more than four directory/files opened
-   * if (!response.done && response.value.handleList) {
-   *   for (const handle of response.value.handleList) {
-   *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *   }
+   * for await (const handle of response.handleList || []) {
+   *   console.log(`\thandle: ${handle.handleId}`);
    * }
    * ```
    *
@@ -2764,11 +2924,24 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleRenameDirectory
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // Rename the directory
-   * await diretoryClient.rename(destinationPath);
-   * console.log("Renamed directory successfully!");
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const destinationPath = "<destination path>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * await directoryClient.rename(destinationPath);
    * ```
    */
   public async rename(
@@ -2842,7 +3015,6 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * File HTTP headers like Content-Type.
    */
   fileHttpHeaders?: FileHttpHeaders;
-
   /**
    * A collection of key-value string pair to associate with the file storage object.
    */
@@ -3136,6 +3308,24 @@ export interface FileStartCopyOptions extends CommonOptions {
    * SMB info.
    */
   copyFileSmbInfo?: CopyFileSmbInfo;
+  /**
+   * Optional properties to set on NFS files.
+     Note that this property is only applicable to files created in NFS shares.
+   */
+  posixProperties?: FilePosixProperties;
+  /**
+   * Optional, only applicable to NFS Files.
+   * Applicable only when the copy source is a File. Determines the copy behavior of the mode bits of the file.
+   * source: The mode on the destination file is copied from the source file.
+   * override: The mode on the destination file is determined via the x-ms-mode header.
+   */
+  fileModeCopyMode?: ModeCopyMode;
+  /**
+   * Optional, only applicable to NFS Files. Determines the copy behavior of the owner user identifier (UID) and group identifier (GID) of the file.
+   * source: The owner user identifier (UID) and group identifier (GID) on the destination file is copied from the source file.
+   * override: The owner user identifier (UID) and group identifier (GID) on the destination file is determined via the x-ms-owner and x-ms-group  headers.
+   */
+  fileOwnerCopyMode?: OwnerCopyMode;
 }
 
 /**
@@ -3262,6 +3452,24 @@ export interface FileListHandlesOptions extends CommonOptions {
  * - {@link ShareFileClient.forceCloseHandle}
  */
 export interface FileForceCloseHandlesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure File - Create Hard Link operations.
+ *
+ * See:
+ * - {@link ShareFileClient.createHardLink}
+ */
+export interface FileCreateHardLinkOptions extends CommonOptions {
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -3720,16 +3928,31 @@ export class ShareFileClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const content = "Hello world!";
+   * ```ts snippet:ReadmeSampleCreateFileAndUpload
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // Create the file
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * const content = "Hello World!";
+   * const fileName = `newdirectory${+new Date()}`;
+   * const fileClient = directoryClient.getFileClient(fileName);
    * await fileClient.create(content.length);
-   * console.log("Created file successfully!");
+   * console.log(`Create file ${fileName} successfully`);
    *
-   * // Then upload data to the file
+   * // Upload file range
    * await fileClient.uploadRange(content, 0, content.length);
-   * console.log("Updated file successfully!")
+   * console.log(`Upload file range "${content}" to ${fileName} successfully`);
    * ```
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
@@ -3740,21 +3963,32 @@ export class ShareFileClient extends StorageClient {
 
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
-      return assertResponse<FileCreateHeaders, FileCreateHeaders>(
-        await this.context.create(
-          size,
-          updatedOptions.fileAttributes
-            ? fileAttributesToString(updatedOptions.fileAttributes!)
-            : FileAttributesNone,
-          {
-            ...updatedOptions,
-            fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-            fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-            fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-            ...this.shareClientConfig,
-          },
-        ),
-      );
+      const rawResponse = await this.context.create(size, {
+        ...updatedOptions,
+        fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+        fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+        fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+        fileAttributes: updatedOptions.fileAttributes
+          ? fileAttributesToString(updatedOptions.fileAttributes!)
+          : undefined,
+        owner: updatedOptions.posixProperties?.owner,
+        group: updatedOptions.posixProperties?.group,
+        fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+        nfsFileType: updatedOptions.posixProperties?.fileType,
+        ...this.shareClientConfig,
+      });
+
+      const wrappedRes = {
+        ...rawResponse,
+        _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          fileType: rawResponse.nfsFileType,
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+        },
+      };
+      return assertResponse<FileCreateHeaders, FileCreateHeaders>(wrappedRes);
     });
   }
 
@@ -3773,20 +4007,38 @@ export class ShareFileClient extends StorageClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
-   * // Download a file to a string
-   * const downloadFileResponse = await fileClient.download();
-   * console.log(
-   *   "Downloaded file content:",
-   *   (await streamToBuffer(downloadFileResponse.readableStreamBody)).toString()}
+   * ```ts snippet:ReadmeSampleDownloadFileAndConvertToString_Node
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+   *
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
    * );
    *
-   * // A helper method used to read a Node.js readable stream into string
-   * async function streamToBuffer(readableStream) {
+   * const shareName = "<share name>";
+   * const fileName = "<file name>";
+   * const fileClient = serviceClient
+   *   .getShareClient(shareName)
+   *   .rootDirectoryClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
+   * const downloadFileResponse = await fileClient.download();
+   * if (downloadFileResponse.readableStreamBody) {
+   *   const buffer = await streamToBuffer(downloadFileResponse.readableStreamBody);
+   *   console.log(`Downloaded file content: ${buffer.toString()}`);
+   * }
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -3798,24 +4050,25 @@ export class ShareFileClient extends StorageClient {
    *
    * Example usage (browsers):
    *
-   * ```js
-   * // Download a file to a string
-   * const downloadFileResponse = await fileClient.download(0);
-   * console.log(
-   *   "Downloaded file content:",
-   *   await blobToString(await downloadFileResponse.blobBody)}
-   * );
+   * ```ts snippet:ReadmeSampleDownloadFileAndConvertToString_Browser
+   * import { ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // A helper method used to convert a browser Blob into string.
-   * export async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const account = "<account name>";
+   * const sas = "<service Shared Access Signature Token>";
+   *
+   * const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net?${sas}`);
+   *
+   * const shareName = "<share name>";
+   * const fileName = "<file name>";
+   * const fileClient = serviceClient
+   *   .getShareClient(shareName)
+   *   .rootDirectoryClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
+   * const downloadFileResponse = await fileClient.download(0);
+   * if (downloadFileResponse.blobBody) {
+   *   console.log(`Downloaded file content: ${(await downloadFileResponse.blobBody).text()}`);
    * }
    * ```
    */
@@ -3830,19 +4083,28 @@ export class ShareFileClient extends StorageClient {
       }
 
       const downloadFullFile = offset === 0 && !count;
-      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>(
-        await this.context.download({
-          ...updatedOptions,
-          requestOptions: {
-            onDownloadProgress: isNode ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-          },
-          range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-          ...this.shareClientConfig,
-        }),
-      );
+      const rawResponse = await this.context.download({
+        ...updatedOptions,
+        requestOptions: {
+          onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        },
+        range: downloadFullFile ? undefined : rangeToString({ offset, count }),
+        ...this.shareClientConfig,
+      });
+
+      const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
+        ...rawResponse,
+        _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+          linkCount: rawResponse.linkCount,
+        },
+      } as any);
 
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeLike) {
         return res;
       }
 
@@ -3936,9 +4198,21 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-getProperties",
       options,
       async (updatedOptions) => {
-        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>(
-          await this.context.getProperties({ ...updatedOptions, ...this.shareClientConfig }),
-        );
+        const rawResponse = await this.context.getProperties({
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        });
+        return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
+        } as any);
       },
     );
   }
@@ -3959,20 +4233,30 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setProperties",
       properties,
       async (updatedOptions) => {
-        return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
-          await this.context.setHttpHeaders(
-            updatedOptions.fileAttributes
-              ? fileAttributesToString(updatedOptions.fileAttributes!)
-              : FileAttributesPreserve,
-            {
-              ...updatedOptions,
-              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-              ...this.shareClientConfig,
-            },
-          ),
-        );
+        const rawResponse = await this.context.setHttpHeaders({
+          ...updatedOptions,
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          fileAttributes: updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : undefined,
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+          ...this.shareClientConfig,
+        });
+
+        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
+        } as any);
       },
     );
   }
@@ -4070,21 +4354,30 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setHTTPHeaders",
       options,
       async (updatedOptions) => {
-        return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
-          await this.context.setHttpHeaders(
-            updatedOptions.fileAttributes
-              ? fileAttributesToString(updatedOptions.fileAttributes!)
-              : FileAttributesPreserve,
-            {
-              ...updatedOptions,
-              fileHttpHeaders,
-              fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
-              fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
-              fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
-              ...this.shareClientConfig,
-            },
-          ),
-        );
+        const rawResponse = await this.context.setHttpHeaders({
+          ...updatedOptions,
+          fileHttpHeaders,
+          fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileAttributes: updatedOptions.fileAttributes
+            ? fileAttributesToString(updatedOptions.fileAttributes!)
+            : undefined,
+          owner: updatedOptions.posixProperties?.owner,
+          group: updatedOptions.posixProperties?.group,
+          fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+          ...this.shareClientConfig,
+        });
+        return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
+        } as any);
       },
     );
   }
@@ -4110,16 +4403,28 @@ export class ShareFileClient extends StorageClient {
     // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
     options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
     return tracingClient.withSpan("ShareFileClient-resize", options, async (updatedOptions) => {
-      return assertResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>(
-        await this.context.setHttpHeaders(fileAttributesToString(updatedOptions.fileAttributes!), {
-          ...updatedOptions,
-          fileContentLength: length,
-          fileChangeOn: fileChangeTimeToString(options.changeTime),
-          fileCreatedOn: fileCreationTimeToString(options.creationTime),
-          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
-          ...this.shareClientConfig,
-        }),
-      );
+      const rawResponse = await this.context.setHttpHeaders({
+        ...updatedOptions,
+        fileContentLength: length,
+        fileChangeOn: fileChangeTimeToString(options.changeTime),
+        fileCreatedOn: fileCreationTimeToString(options.creationTime),
+        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+        fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
+        owner: updatedOptions.posixProperties?.owner,
+        group: updatedOptions.posixProperties?.group,
+        fileMode: toOctalFileMode(options.posixProperties?.fileMode),
+        ...this.shareClientConfig,
+      });
+      return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
+        ...rawResponse,
+        _response: (rawResponse as any)._response,
+        posixProperties: {
+          fileMode: parseOctalFileMode(rawResponse.fileMode),
+          owner: rawResponse.owner,
+          group: rawResponse.group,
+          linkCount: rawResponse.linkCount,
+        },
+      } as any);
     });
   }
 
@@ -4168,16 +4473,31 @@ export class ShareFileClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const content = "Hello world!";
+   * ```ts snippet:ReadmeSampleCreateFileAndUpload
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // Create the file
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
+   *
+   * const content = "Hello World!";
+   * const fileName = `newdirectory${+new Date()}`;
+   * const fileClient = directoryClient.getFileClient(fileName);
    * await fileClient.create(content.length);
-   * console.log("Created file successfully!");
+   * console.log(`Create file ${fileName} successfully`);
    *
-   * // Then upload data to the file
+   * // Upload file range
    * await fileClient.uploadRange(content, 0, content.length);
-   * console.log("Updated file successfully!")
+   * console.log(`Upload file range "${content}" to ${fileName} successfully`);
    * ```
    */
   public async uploadRange(
@@ -4392,6 +4712,11 @@ export class ShareFileClient extends StorageClient {
           await this.context.startCopy(copySource, {
             ...updatedOptions,
             ...this.shareClientConfig,
+            owner: updatedOptions.posixProperties?.owner,
+            group: updatedOptions.posixProperties?.group,
+            fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            fileModeCopyMode: updatedOptions.fileModeCopyMode,
+            fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
           }),
         );
       },
@@ -4434,7 +4759,7 @@ export class ShareFileClient extends StorageClient {
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -4793,7 +5118,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeJS.ReadableStream,
     size: number,
     bufferSize: number,
     maxBuffers: number,
@@ -5138,6 +5463,39 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * NFS only.  Creates a hard link to the file file specified by path.
+   * @param targetFile - Path of the file to create the hard link to, not including the share.
+   *  For example: "targetDirectory/targetSubDirectory/.../targetFile"
+   * @param options - Options to create hard link operation.
+   */
+  public async createHardLink(
+    targetFile: string,
+    options: FileCreateHardLinkOptions = {},
+  ): Promise<FileCreateHardLinkResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-createHardLink",
+      options,
+      async (updatedOptions) => {
+        const rawResponse = await this.context.createHardLink(targetFile, {
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        });
+        return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            fileType: rawResponse.nfsFileType,
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            linkCount: rawResponse.linkCount,
+          },
+        } as any);
+      },
+    );
+  }
+
+  /**
    * Get a {@link ShareLeaseClient} that manages leases on the file.
    *
    * @param proposeLeaseId - Initial proposed lease Id.
@@ -5216,11 +5574,28 @@ export class ShareFileClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleRenameFile
+   * import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
    *
-   * // Rename the file
+   * const account = "<account>";
+   * const accountKey = "<accountkey>";
+   *
+   * const credential = new StorageSharedKeyCredential(account, accountKey);
+   * const serviceClient = new ShareServiceClient(
+   *   `https://${account}.file.core.windows.net`,
+   *   credential,
+   * );
+   *
+   * const shareName = "<share name>";
+   * const directoryName = "<directory name>";
+   * const fileName = "<file name>";
+   * const destinationPath = "<destination path>";
+   * const fileClient = serviceClient
+   *   .getShareClient(shareName)
+   *   .getDirectoryClient(directoryName)
+   *   .getFileClient(fileName);
+   *
    * await fileClient.rename(destinationPath);
-   * console.log("Renamed file successfully!");
    * ```
    */
   public async rename(

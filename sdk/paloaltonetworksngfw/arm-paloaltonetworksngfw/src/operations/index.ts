@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./globalRulestack";
-export * from "./certificateObjectGlobalRulestack";
-export * from "./fqdnListGlobalRulestack";
-export * from "./postRules";
-export * from "./prefixListGlobalRulestack";
-export * from "./preRules";
-export * from "./operations";
-export * from "./firewalls";
-export * from "./localRulestacks";
-export * from "./firewallStatus";
-export * from "./certificateObjectLocalRulestack";
-export * from "./fqdnListLocalRulestack";
-export * from "./localRules";
-export * from "./prefixListLocalRulestack";
+export * from "./globalRulestack.js";
+export * from "./certificateObjectGlobalRulestack.js";
+export * from "./fqdnListGlobalRulestack.js";
+export * from "./postRules.js";
+export * from "./prefixListGlobalRulestack.js";
+export * from "./preRules.js";
+export * from "./operations.js";
+export * from "./firewalls.js";
+export * from "./localRulestacks.js";
+export * from "./firewallStatus.js";
+export * from "./certificateObjectLocalRulestack.js";
+export * from "./fqdnListLocalRulestack.js";
+export * from "./localRules.js";
+export * from "./prefixListLocalRulestack.js";

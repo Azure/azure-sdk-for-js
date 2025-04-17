@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common";
-import type { CosmosHeaders } from "../queryExecutionContext";
-import { ConsistencyLevel } from "./ConsistencyLevel";
+import { Constants } from "../common/index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/index.js";
+import { ConsistencyLevel } from "./ConsistencyLevel.js";
 
 /**
  * Represents a DatabaseAccount in the Azure Cosmos DB database service.

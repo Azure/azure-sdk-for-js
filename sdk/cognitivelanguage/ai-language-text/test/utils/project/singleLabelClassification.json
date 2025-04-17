@@ -1,0 +1,1498 @@
+{
+    "projectKind": "CustomSingleLabelClassification",
+    "classes": [
+        {
+            "category": "Computer_science"
+        },
+        {
+            "category": "Electrical_engineering"
+        },
+        {
+            "category": "Psychology"
+        },
+        {
+            "category": "Mechanical_engineering"
+        },
+        {
+            "category": "Civil_engineering"
+        },
+        {
+            "category": "Medical"
+        },
+        {
+            "category": "Biochemistry"
+        }
+    ],
+    "documents": [
+        {
+            "location": "109.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "132.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "208.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "107.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "191.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "035.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "005.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "025.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "119.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "105.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "205.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "151.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "137.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "170.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "174.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "084.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "196.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "077.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "062.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "181.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "143.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "116.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "042.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "022.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "044.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "010.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "074.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "085.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "016.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "180.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "094.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "161.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "031.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "057.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "142.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "090.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "207.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "040.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "200.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "141.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "054.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "195.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "134.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "015.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "097.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "187.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "039.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "079.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "206.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "145.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "169.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "058.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "102.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "100.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "012.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "133.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "198.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "160.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "017.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "028.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "112.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "023.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "043.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "121.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "008.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "070.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "101.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "159.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "018.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "185.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "076.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "130.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "113.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "188.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "038.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "115.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "075.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "192.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "167.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "065.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "086.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "061.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "153.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "163.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "067.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "146.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "131.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "168.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "114.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "033.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "002.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "051.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "138.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "034.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "210.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "089.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "164.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "064.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "144.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "120.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "126.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "199.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "032.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "125.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "091.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "201.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "124.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "046.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "176.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "029.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "136.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "123.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "003.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "189.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "155.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "098.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "006.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "014.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "099.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "209.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "013.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "172.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "052.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "183.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "081.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "026.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "041.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "068.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "024.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "148.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "009.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "157.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "060.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "158.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "110.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "104.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "072.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "078.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "036.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "092.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "027.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "071.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "171.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "019.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "204.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "129.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "117.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "194.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "152.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "059.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "082.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "179.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "004.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "011.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "053.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "021.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "173.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "037.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "197.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "118.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "165.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "020.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "139.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "128.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "056.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "156.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "108.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "122.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "083.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "093.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "184.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "166.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "127.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "103.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "045.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "162.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "096.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "190.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "080.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "140.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "111.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "066.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "007.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "202.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "047.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "154.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "186.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "150.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "106.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        },
+        {
+            "location": "069.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "193.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "135.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "030.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "055.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "178.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "147.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "050.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "175.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "048.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "149.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Civil_engineering"
+            }
+        },
+        {
+            "location": "088.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "182.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "001.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Computer_science"
+            }
+        },
+        {
+            "location": "049.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Electrical_engineering"
+            }
+        },
+        {
+            "location": "203.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Biochemistry"
+            }
+        },
+        {
+            "location": "073.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "087.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "063.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Psychology"
+            }
+        },
+        {
+            "location": "177.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Medical"
+            }
+        },
+        {
+            "location": "095.txt",
+            "language": "en-us",
+            "class": {
+                "category": "Mechanical_engineering"
+            }
+        }
+    ]
+}

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential } from "@azure/core-auth";
-import { ProjectsClient } from "./clientDefinitions.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ProjectsClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface ProjectsClientOptions extends ClientOptions {
@@ -14,10 +15,10 @@ export interface ProjectsClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `ProjectsClient`
- * @param endpointParam - The Azure AI Studio project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
+ * @param endpointParam - The Azure AI Foundry project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
  * @param subscriptionId - The Azure subscription ID.
  * @param resourceGroupName - The name of the Azure Resource Group.
- * @param projectName - The Azure AI Studio project name.
+ * @param projectName - The Azure AI Foundry project name.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
@@ -33,7 +34,7 @@ export default function createClient(
     options.endpoint ??
     options.baseUrl ??
     `${endpointParam}/agents/v1.0/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`;
-  const userAgentInfo = `azsdk-js-ai-projects-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-ai-projects-rest/1.0.0-beta.5`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

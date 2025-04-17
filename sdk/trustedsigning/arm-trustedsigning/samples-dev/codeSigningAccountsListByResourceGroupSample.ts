@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists trusted signing accounts within a resource group.
  * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_ListByResourceGroup.json
  */
-async function listsTrustedSigningAccountsWithinAResourceGroup() {
+async function listsTrustedSigningAccountsWithinAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listsTrustedSigningAccountsWithinAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsTrustedSigningAccountsWithinAResourceGroup();
 }
 

@@ -14,7 +14,7 @@ import {
   Advisor,
   DatabaseAdvisorsUpdateOptionalParams,
   DatabaseAdvisorsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DatabaseAdvisors. */
 export interface DatabaseAdvisors {

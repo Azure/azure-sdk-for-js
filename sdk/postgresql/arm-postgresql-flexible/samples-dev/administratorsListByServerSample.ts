@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the AAD administrators for a given server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/AdministratorsListByServer.json
  */
-async function administratorsListByServer() {
+async function administratorsListByServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -29,7 +29,7 @@ async function administratorsListByServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await administratorsListByServer();
 }
 

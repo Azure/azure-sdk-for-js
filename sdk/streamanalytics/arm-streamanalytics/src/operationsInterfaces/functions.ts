@@ -22,7 +22,7 @@ import {
   FunctionsTestResponse,
   FunctionsRetrieveDefaultDefinitionOptionalParams,
   FunctionsRetrieveDefaultDefinitionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Functions. */

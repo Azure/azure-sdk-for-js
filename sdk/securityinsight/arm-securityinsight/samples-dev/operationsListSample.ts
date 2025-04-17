@@ -7,9 +7,7 @@
  */
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all operations available Azure Security Insights Resource Provider.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all operations available Azure Security Insights Resource Provider.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/operations/ListOperations.json
  */
-async function getAllOperations() {
+async function getAllOperations(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getAllOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllOperations();
 }
 

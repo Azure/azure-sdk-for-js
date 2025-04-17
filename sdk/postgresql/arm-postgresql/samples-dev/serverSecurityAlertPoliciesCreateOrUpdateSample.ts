@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a threat detection policy.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMax.json
  */
-async function updateAServerThreatDetectionPolicyWithAllParameters() {
+async function updateAServerThreatDetectionPolicyWithAllParameters(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "securityalert-4799";
   const serverName = "securityalert-6440";
@@ -49,7 +49,7 @@ updateAServerThreatDetectionPolicyWithAllParameters().catch(console.error);
  * @summary Creates or updates a threat detection policy.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMin.json
  */
-async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
+async function updateAServerThreatDetectionPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "securityalert-4799";
   const serverName = "securityalert-6440";

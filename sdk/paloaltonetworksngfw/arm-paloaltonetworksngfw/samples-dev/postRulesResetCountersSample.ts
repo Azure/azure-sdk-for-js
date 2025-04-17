@@ -8,9 +8,7 @@
 import type { PostRulesResetCountersOptionalParams } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Reset counters
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Reset counters
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_resetCounters_MaximumSet_Gen.json
  */
-async function postRulesResetCountersMaximumSetGen() {
+async function postRulesResetCountersMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const firewallName = "firewall1";
@@ -35,7 +33,7 @@ async function postRulesResetCountersMaximumSetGen() {
  * @summary Reset counters
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_resetCounters_MinimumSet_Gen.json
  */
-async function postRulesResetCountersMinimumSetGen() {
+async function postRulesResetCountersMinimumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";
   const credential = new DefaultAzureCredential();
@@ -44,7 +42,7 @@ async function postRulesResetCountersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await postRulesResetCountersMaximumSetGen();
   await postRulesResetCountersMinimumSetGen();
 }

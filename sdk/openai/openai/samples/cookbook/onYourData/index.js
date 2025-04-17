@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Importing the @azure/search-documents library
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-// Importing the openai library
+const { SearchIndexClient } = require("@azure/search-documents");
 const { AzureOpenAI } = require("openai");
-
 const { DefaultAzureCredential } = require("@azure/identity");
-
-const fs = require("fs");
+const fs = require("fs/promises");
 
 // Importing the index definition and sample data
-const hotelData = JSON.parse(fs.readFileSync("./hotels.json"));
-const indexDefinition = JSON.parse(fs.readFileSync("./hotels_quickstart_index.json"));
+const hotelData = JSON.parse(await fs.readFile("./hotels.json"));
+const indexDefinition = JSON.parse(await fs.readFile("./hotels_quickstart_index.json"));
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // Getting search endpoint, search admin Key, Azure OpenAI endpoint, Azure API Key, and chat deployment id from .env file
 const azureSearchEndpoint = process.env.AZURE_SEARCH_ENDPOINT || "";
@@ -39,14 +34,14 @@ async function main() {
   await deleteIndexIfExists(indexClient, indexName);
 
   console.log("Creating index...");
-  let index = await indexClient.createIndex(indexDefinition);
+  const index = await indexClient.createIndex(indexDefinition);
   console.log(`Index named ${index.name} has been created.`);
 
   // Creating a search client to upload documents and issue queries
   const searchClient = indexClient.getSearchClient(indexName);
 
   console.log("Uploading documents...");
-  let indexDocumentsResult = await searchClient.mergeOrUploadDocuments(hotelData["value"]);
+  const indexDocumentsResult = await searchClient.mergeOrUploadDocuments(hotelData["value"]);
   console.log(`Index operations succeeded: ${JSON.stringify(indexDocumentsResult.results[0].succeeded)} `);
 
   // send example question to open AI instance
@@ -76,7 +71,7 @@ async function deleteIndexIfExists(indexClient, indexName) {
 async function askOpenAI(azureSearchIndexName, messages) {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const apiVersion = "2024-11-01-preview";
+  const apiVersion = "2025-01-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment: chatDeploymentId, apiVersion });
   const events = client.chat.completions.create({
     messages,
@@ -108,7 +103,7 @@ async function askOpenAI(azureSearchIndexName, messages) {
   for await (const event of events) {
     for (const choice of event.choices) {
       const newText = choice.delta?.content;
-      if (!!newText) {
+      if (newText) {
         chatGptAnswer += newText;
         // To see streaming results as they arrive, uncomment line below
         // console.log(newText);

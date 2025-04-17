@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all the load balancer backed address pools.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LBBackendAddressPoolListWithBackendAddressesPoolType.json
  */
-async function loadBalancerWithBackendAddressPoolContainingBackendAddresses() {
+async function loadBalancerWithBackendAddressPoolContainingBackendAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -45,7 +45,7 @@ loadBalancerWithBackendAddressPoolContainingBackendAddresses().catch(console.err
  * @summary Gets all the load balancer backed address pools.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerBackendAddressPoolList.json
  */
-async function loadBalancerBackendAddressPoolList() {
+async function loadBalancerBackendAddressPoolList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

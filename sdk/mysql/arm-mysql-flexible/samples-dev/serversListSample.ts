@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the servers in a given subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all the servers in a given subscription.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServersList.json
  */
-async function listServersInASubscription() {
+async function listServersInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listServersInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listServersInASubscription();
 }
 

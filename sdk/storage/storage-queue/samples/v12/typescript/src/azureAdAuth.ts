@@ -37,10 +37,9 @@ import { QueueServiceClient } from "@azure/storage-queue";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
 
@@ -51,7 +50,7 @@ export async function main() {
     !process.env.AZURE_CLIENT_SECRET
   ) {
     console.warn(
-      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -72,7 +71,7 @@ export async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
-    defaultAzureCredential
+    defaultAzureCredential,
   );
 
   console.log("Queues:");

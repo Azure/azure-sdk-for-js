@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageActionsManagementClient } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the storage task resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete the storage task resource.
  * x-ms-original-file: specification/storageactions/resource-manager/Microsoft.StorageActions/stable/2023-01-01/examples/storageTasksCrud/DeleteStorageTask.json
  */
-async function deleteStorageTask() {
+async function deleteStorageTask(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEACTIONS_SUBSCRIPTION_ID"] ||
     "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
@@ -36,7 +34,7 @@ async function deleteStorageTask() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteStorageTask();
 }
 

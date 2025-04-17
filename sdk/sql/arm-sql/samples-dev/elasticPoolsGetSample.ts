@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an elastic pool.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/HyperscaleElasticPoolGet.json
  */
-async function getAHyperscaleElasticPool() {
+async function getAHyperscaleElasticPool(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
@@ -35,7 +33,7 @@ async function getAHyperscaleElasticPool() {
  * @summary Gets an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolGet.json
  */
-async function getAnElasticPool() {
+async function getAnElasticPool(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
@@ -53,7 +51,7 @@ async function getAnElasticPool() {
  * @summary Gets an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/GetElasticPoolWithAvailabilityZone.json
  */
-async function getAnElasticPoolWithAvailabilityZone() {
+async function getAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
@@ -71,7 +69,7 @@ async function getAnElasticPoolWithAvailabilityZone() {
  * @summary Gets an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolGetWithPreferredEnclaveType.json
  */
-async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
+async function getAnElasticPoolWithPreferredEnclaveTypeParameter(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-2369";
@@ -83,7 +81,7 @@ async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAHyperscaleElasticPool();
   await getAnElasticPool();
   await getAnElasticPoolWithAvailabilityZone();

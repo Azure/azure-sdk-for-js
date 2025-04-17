@@ -17,7 +17,7 @@ import {
   CheckCapacityNameAvailabilityParameters as CheckCapacityNameAvailabilityParametersMapper,
   AutoScaleVCore as AutoScaleVCoreMapper,
   AutoScaleVCoreUpdateParameters as AutoScaleVCoreUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

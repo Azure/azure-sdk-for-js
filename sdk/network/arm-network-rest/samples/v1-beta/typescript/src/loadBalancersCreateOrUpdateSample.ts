@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreate.json
  */
-async function createLoadBalancer() {
+async function createLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -111,7 +111,7 @@ createLoadBalancer().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithZones.json
  */
-async function createLoadBalancerWithFrontendIPInZone1() {
+async function createLoadBalancerWithFrontendIPInZone1(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -210,7 +210,7 @@ createLoadBalancerWithFrontendIPInZone1().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
+async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -311,7 +311,7 @@ createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(console.erro
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
+async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -418,7 +418,7 @@ createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool().
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
  */
-async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
+async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -512,7 +512,7 @@ createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool().
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateGlobalTier.json
  */
-async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
+async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -609,7 +609,7 @@ createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().cat
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateStandardSku.json
  */
-async function createLoadBalancerWithStandardSku() {
+async function createLoadBalancerWithStandardSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -707,7 +707,7 @@ createLoadBalancerWithStandardSku().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithInboundNatPool.json
  */
-async function createLoadBalancerWithInboundNatPool() {
+async function createLoadBalancerWithInboundNatPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -778,7 +778,7 @@ createLoadBalancerWithInboundNatPool().catch(console.error);
  * @summary Creates or updates a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerCreateWithOutboundRules.json
  */
-async function createLoadBalancerWithOutboundRules() {
+async function createLoadBalancerWithOutboundRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -37,7 +37,7 @@ async function restartCloudServiceRoleInstancesInACloudService() {
 }
 
 async function main() {
-  restartCloudServiceRoleInstancesInACloudService();
+  await restartCloudServiceRoleInstancesInACloudService();
 }
 
 main().catch(console.error);

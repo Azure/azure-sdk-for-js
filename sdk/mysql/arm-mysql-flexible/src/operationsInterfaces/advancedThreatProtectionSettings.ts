@@ -19,7 +19,7 @@ import {
   AdvancedThreatProtectionSettingsUpdateResponse,
   AdvancedThreatProtectionSettingsUpdatePutOptionalParams,
   AdvancedThreatProtectionSettingsUpdatePutResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AdvancedThreatProtectionSettings. */

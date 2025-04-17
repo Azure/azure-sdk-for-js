@@ -4,48 +4,45 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type {
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-
-import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
   FileSystemItem,
-  FileSystemRenameResponse,
   ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse,
-  ServiceRenameFileSystemOptions,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
-} from "./models";
-import { StorageClient } from "./StorageClient";
+} from "./models.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
-} from "./utils/utils.common";
-import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
+} from "./utils/utils.common.js";
+import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms.js";
 import type {
   ServiceGetUserDelegationKeyOptions,
   ServiceGetUserDelegationKeyResponse,
-} from "./models";
-import { tracingClient } from "./utils/tracing";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+} from "./models.js";
+import { tracingClient } from "./utils/tracing.js";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions.js";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
-} from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
-import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
+} from "./sas/AccountSASSignatureValues.js";
+import { AccountSASServices } from "./sas/AccountSASServices.js";
+import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -83,7 +80,7 @@ export class DataLakeServiceClient extends StorageClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeLike) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -187,20 +184,38 @@ export class DataLakeServiceClient extends StorageClient {
    * bearer token authentication.
    *
    * @example
-   * ```js
+   * ```ts snippet:DatalakeServiceClientGetUserDelegationKey
+   * import {
+   *   DataLakeServiceClient,
+   *   generateDataLakeSASQueryParameters,
+   *   FileSystemSASPermissions,
+   *   SASProtocol,
+   * } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const accountName = "<account name>";
+   * const startsOn = new Date();
+   * const expiresOn = new Date(+new Date() + 86400 * 1000);
    * // Generate user delegation SAS for a file system
-   * const userDelegationKey = await dataLakeServiceClient.getUserDelegationKey(startsOn, expiresOn);
-   * const fileSystemSAS = generateDataLakeSASQueryParameters({
+   * const userDelegationKey = await datalakeServiceClient.getUserDelegationKey(startsOn, expiresOn);
+   * const fileSystemSAS = generateDataLakeSASQueryParameters(
+   *   {
    *     fileSystemName, // Required
    *     permissions: FileSystemSASPermissions.parse("racwdl"), // Required
    *     startsOn, // Required. Date type
    *     expiresOn, // Optional. Date type
    *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
    *     protocol: SASProtocol.HttpsAndHttp, // Optional
-   *     version: "2018-11-09" // Must greater than or equal to 2018-11-09 to generate user delegation SAS
+   *     version: "2018-11-09", // Must greater than or equal to 2018-11-09 to generate user delegation SAS
    *   },
    *   userDelegationKey, // UserDelegationKey
-   *   accountName
+   *   accountName,
    * ).toString();
    * ```
    * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
@@ -231,34 +246,61 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListFileSystems
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * for await (const fileSystem of serviceClient.listFileSystems()) {
-   *   console.log(`FileSystem ${i++}: ${fileSystem.name}`);
+   * const fileSystems = datalakeServiceClient.listFileSystems();
+   * for await (const fileSystem of fileSystems) {
+   *   console.log(`File system ${i++}: ${fileSystem.name}`);
    * }
    * ```
    *
    * Example using `iter.next()`:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleListFileSystems_Iterator
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * const iter = serviceClient.listFileSystems();
-   * let fileSystemItem = await iter.next();
-   * while (!fileSystemItem.done) {
-   *   console.log(`FileSystem ${i++}: ${fileSystemItem.value.name}`);
-   *   fileSystemItem = await iter.next();
+   * const fileSystems = datalakeServiceClient.listFileSystems();
+   * let { value, done } = await fileSystems.next();
+   * while (!done) {
+   *   console.log(`File system ${i++}: ${value.name}`);
+   *   ({ value, done } = await fileSystems.next());
    * }
    * ```
    *
    * Example using `byPage()`:
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
+   * ```ts snippet:ReadmeSampleListFileSystems_ByPage
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
    * let i = 1;
-   * for await (const response of serviceClient.listFileSystems().byPage({ maxPageSize: 20 })) {
+   * for await (const response of datalakeServiceClient.listFileSystems().byPage({ maxPageSize: 20 })) {
    *   if (response.fileSystemItems) {
    *     for (const fileSystem of response.fileSystemItems) {
-   *       console.log(`FileSystem ${i++}: ${fileSystem.name}`);
+   *       console.log(`File System ${i++}: ${fileSystem.name}`);
    *     }
    *   }
    * }
@@ -266,30 +308,36 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * Example using paging with a marker:
    *
-   * ```js
-   * let i = 1;
-   * let iterator = serviceClient.listFileSystems().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
+   * ```ts snippet:ReadmeSampleListFileSystems_Continuation
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * // Prints 2 file system names
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * let i = 1;
+   * let fileSystems = datalakeServiceClient.listFileSystems().byPage({ maxPageSize: 2 });
+   * let response = (await fileSystems.next()).value;
+   * // Prints 2 file systems
    * if (response.fileSystemItems) {
    *   for (const fileSystem of response.fileSystemItems) {
-   *     console.log(`FileSystem ${i++}: ${fileSystem.name}`);
+   *     console.log(`File system ${i++}: ${fileSystem.name}`);
    *   }
    * }
-   *
    * // Gets next marker
    * let marker = response.continuationToken;
    * // Passing next marker as continuationToken
-   * iterator = serviceClient
-   *   .listContainers()
+   * fileSystems = datalakeServiceClient
+   *   .listFileSystems()
    *   .byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 file system names
+   * response = (await fileSystems.next()).value;
+   * // Prints 10 file systems
    * if (response.fileSystemItems) {
    *   for (const fileSystem of response.fileSystemItems) {
-   *      console.log(`FileSystem ${i++}: ${fileSystem.name}`);
+   *     console.log(`File system ${i++}: ${fileSystem.name}`);
    *   }
    * }
    * ```
@@ -398,42 +446,6 @@ export class DataLakeServiceClient extends StorageClient {
       },
       this.credential,
     ).stringToSign;
-  }
-
-  /**
-   * Renames an existing File System.
-   *
-   * @param sourceFileSystemName - The name of the source File System.
-   * @param destinationContainerName - The new name of the File System.
-   * @param options - Options to configure File System Rename operation.
-   */
-  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
-  private async renameFileSystem(
-    sourceFileSystemName: string,
-    destinationFileSystemName: string,
-    options: ServiceRenameFileSystemOptions = {},
-  ): Promise<{
-    fileSystemClient: DataLakeFileSystemClient;
-    fileSystemRenameResponse: FileSystemRenameResponse;
-  }> {
-    return tracingClient.withSpan(
-      "DataLakeServiceClient-renameFileSystem",
-      options,
-      async (updatedOptions) => {
-        const res = await this.blobServiceClient["renameContainer"](
-          sourceFileSystemName,
-          destinationFileSystemName,
-          updatedOptions,
-        );
-
-        const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
-        return {
-          fileSystemClient,
-          fileSystemRenameResponse: res.containerRenameResponse,
-        };
-      },
-    );
   }
 
   /**

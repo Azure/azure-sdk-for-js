@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Check the availability of name for resource
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/CheckNameAvailability.json
  */
-async function nameAvailability() {
+async function nameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const nameAvailabilityRequest: CheckNameAvailabilityRequest = {
@@ -29,7 +29,7 @@ async function nameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await nameAvailability();
 }
 

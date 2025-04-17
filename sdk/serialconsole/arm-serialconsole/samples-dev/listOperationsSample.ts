@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets a list of Serial Console API operations.
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/GetOperationsExample.json
  */
-async function listAllSerialConsoleManagementOperationsSupportedBySerialConsoleRp() {
+async function listAllSerialConsoleManagementOperationsSupportedBySerialConsoleRp(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);

@@ -1,14 +1,46 @@
 # Release History
 
-## 1.0.0-beta.29 ()
+## 1.0.0-beta.31 ()
+
+### Features Added
+
+- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
+
+## Other Changes
+
+- Hide iKey in debug logs.
+- Add to statsbeat success count when a batch of envelopes is partially accepted by breeze.
+
+## 1.0.0-beta.30 (2025-04-09)
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
+
+### Features Added
+
+- Support setting the AiLocationIp on logs and events.
+- Add support for performance counters.
+
+### Other Changes
+
+- Filter OpenTelemetry semantic attributes from being double recorded as custom dimensions.
+- Add support for detecting the Application Insights shim on internal verison.
+- Do not filter out `_MS.ProcessedByMetricExtractors` value on envelopes.
+
+## 1.0.0-beta.29 (2025-03-04)
 
 ### Features Added
 
 - Support the AMW de-duping flag in AKS auto-attach scenarios.
+- Support sending custom events via specifying `microsoft.custom_event.name` on logs.
+- Support the stable OpenTelemetry HTTP semantic conventions.
 
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
+- Remove applying cloud.* tags to statsbeat telemetry.
+- Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
 

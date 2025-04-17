@@ -9,17 +9,17 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 import type {
   DirectoryItem,
   FileItem,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
-} from "../generatedModels";
-import type { HttpAuthorization } from "../models";
-import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
-import { isNode } from "@azure/core-util";
+} from "../generatedModels.js";
+import type { HttpAuthorization, NfsFileMode, PosixRolePermissions } from "../models.js";
+import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
+import { isNodeLike } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
@@ -103,7 +103,7 @@ function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature",
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {
@@ -195,6 +195,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"
@@ -372,7 +373,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -381,7 +382,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -400,14 +401,14 @@ export async function delay(
     /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
-    const abortHandler = () => {
+    const abortHandler = (): void => {
       if (timeout !== undefined) {
         clearTimeout(timeout);
       }
       reject(abortError);
     };
 
-    const resolveHandler = () => {
+    const resolveHandler = (): void => {
       if (aborter !== undefined) {
         aborter.removeEventListener("abort", abortHandler);
       }
@@ -778,5 +779,256 @@ export function asSharePermission(value: string | SharePermission): SharePermiss
 
   return {
     permission: value as string,
+  };
+}
+
+/**
+ * Parse 4-digit octal string representation of a File Mode to a {@link NfsFileMode} structure.
+ */
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
+  if (input === undefined) {
+    return undefined;
+  }
+
+  if (input?.length !== 4) {
+    throw new Error("Invalid format of input string");
+  }
+
+  const nfsFileMode: NfsFileMode = {
+    owner: parseOctalRolePermissions(input[1]),
+    group: parseOctalRolePermissions(input[2]),
+    other: parseOctalRolePermissions(input[3]),
+    effectiveUserIdentity: false,
+    effectiveGroupIdentity: false,
+    stickyBit: false,
+  };
+
+  const value: number = Number.parseInt(input[0]);
+
+  if ((value & 4) > 0) {
+    nfsFileMode.effectiveUserIdentity = true;
+  }
+
+  if ((value & 2) > 0) {
+    nfsFileMode.effectiveGroupIdentity = true;
+  }
+
+  if ((value & 1) > 0) {
+    nfsFileMode.stickyBit = true;
+  }
+
+  return nfsFileMode;
+}
+
+/**
+ * Convert {@link NfsFileMode} structure to a 4-digit octal string represenation.
+ */
+export function toOctalFileMode(input?: NfsFileMode): string | undefined {
+  if (input === undefined) return undefined;
+
+  let higherOrderDigit = 0;
+  if (input?.effectiveUserIdentity) {
+    higherOrderDigit |= 4;
+  }
+
+  if (input?.effectiveGroupIdentity) {
+    higherOrderDigit |= 2;
+  }
+
+  if (input?.stickyBit) {
+    higherOrderDigit |= 1;
+  }
+
+  let stringFileMode = higherOrderDigit.toString();
+  stringFileMode += toOctalRolePermissions(input!.owner);
+  stringFileMode += toOctalRolePermissions(input!.group);
+  stringFileMode += toOctalRolePermissions(input!.other);
+
+  return stringFileMode;
+}
+
+/**
+ * Convert a {@link NfsFileMode} to a string in symbolic notation.
+ */
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
+  if (input === undefined) return undefined;
+  let ownerPermissions = toSymbolicRolePermissions(input.owner);
+  let groupPermissions = toSymbolicRolePermissions(input.group);
+  let otherPermissions = toSymbolicRolePermissions(input.other);
+
+  if (input.effectiveUserIdentity) {
+    if (ownerPermissions[2] === "x") {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "s";
+    } else {
+      ownerPermissions = ownerPermissions.substring(0, 2) + "S";
+    }
+  }
+
+  if (input.effectiveGroupIdentity) {
+    if (groupPermissions[2] === "x") {
+      groupPermissions = groupPermissions.substring(0, 2) + "s";
+    } else {
+      groupPermissions = groupPermissions.substring(0, 2) + "S";
+    }
+  }
+
+  if (input.stickyBit) {
+    if (otherPermissions[2] === "x") {
+      otherPermissions = otherPermissions.substring(0, 2) + "t";
+    } else {
+      otherPermissions = otherPermissions.substring(0, 2) + "T";
+    }
+  }
+  return ownerPermissions + groupPermissions + otherPermissions;
+}
+
+/**
+ * Parse a 9-character symbolic string representation of a File Mode to a {@link NfsFileMode} structure.
+ */
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined {
+  if (input === undefined) return undefined;
+
+  if (input?.length !== 9) {
+    throw new Error("Invalid format of input string");
+  }
+  const ownerPermissions = parseSymbolicRolePermissions(input.substring(0, 3));
+  const groupPermissions = parseSymbolicRolePermissions(input.substring(3, 6));
+  const otherPermissions = parseSymbolicRolePermissions(input.substring(6, 9));
+  const nfsFileMode: NfsFileMode = {
+    owner: ownerPermissions.rolePermissions,
+    group: groupPermissions.rolePermissions,
+    other: otherPermissions.rolePermissions,
+    effectiveUserIdentity: ownerPermissions.setSticky,
+    effectiveGroupIdentity: groupPermissions.setSticky,
+    stickyBit: otherPermissions.setSticky,
+  };
+
+  return nfsFileMode;
+}
+
+export function parseOctalRolePermissions(c: string): PosixRolePermissions {
+  const rolePermissions: PosixRolePermissions = {
+    read: false,
+    write: false,
+    execute: false,
+  };
+
+  const value = Number.parseInt(c);
+
+  if (value < 0 || value > 7) {
+    throw new Error("MustBeBetweenInclusive");
+  }
+
+  if ((value & 4) > 0) {
+    rolePermissions.read = true;
+  }
+
+  if ((value & 2) > 0) {
+    rolePermissions.write = true;
+  }
+
+  if ((value & 1) > 0) {
+    rolePermissions.execute = true;
+  }
+
+  return rolePermissions;
+}
+
+export function toOctalRolePermissions(rolePermissions: PosixRolePermissions): string {
+  let result = 0;
+  if (rolePermissions.read === true) {
+    result |= 4;
+  }
+
+  if (rolePermissions.write === true) {
+    result |= 2;
+  }
+
+  if (rolePermissions.execute === true) {
+    result |= 1;
+  }
+
+  return result.toString();
+}
+
+export function toSymbolicRolePermissions(rolePermissions: PosixRolePermissions): string {
+  let symbolicRolePermissions = "";
+
+  if (rolePermissions.read === true) {
+    symbolicRolePermissions += "r";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.write === true) {
+    symbolicRolePermissions += "w";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+
+  if (rolePermissions.execute === true) {
+    symbolicRolePermissions += "x";
+  } else {
+    symbolicRolePermissions += "-";
+  }
+  return symbolicRolePermissions;
+}
+
+export function parseSymbolicRolePermissions(input: string): {
+  rolePermissions: PosixRolePermissions;
+  setSticky: boolean;
+} {
+  if (input.length !== 3) {
+    throw new Error("input must be 3 characters long");
+  }
+
+  const rolePermissions: PosixRolePermissions = {
+    read: false,
+    write: false,
+    execute: false,
+  };
+
+  let setSticky = false;
+
+  // Read character
+  if (input[0] === "r") {
+    rolePermissions.read = true;
+  } else if (input[0] !== "-") {
+    throw new Error(`Invalid character in symbolic role permission: ${input[0]}`);
+  }
+
+  // Write character
+  if (input[1] === "w") {
+    rolePermissions.write = true;
+  } else if (input[1] !== "-") {
+    throw new Error(`Invalid character in symbolic role permission: ${input[1]}`);
+  }
+
+  // Execute character
+  if (input[2] === "x" || input[2] === "s" || input[2] === "t") {
+    rolePermissions.execute = true;
+    if (input[2] === "s" || input[2] === "t") {
+      setSticky = true;
+    }
+  }
+
+  if (input[2] === "S" || input[2] === "T") {
+    setSticky = true;
+  }
+
+  if (
+    input[2] !== "x" &&
+    input[2] !== "s" &&
+    input[2] !== "S" &&
+    input[2] !== "t" &&
+    input[2] !== "T" &&
+    input[2] !== "-"
+  ) {
+    throw new Error(`Invalid character in symbolic role permission: ${input[2]}`);
+  }
+
+  return {
+    rolePermissions,
+    setSticky,
   };
 }

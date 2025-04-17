@@ -17,6 +17,7 @@ import type {
   ContentFilterDetailedResults,
   ContentFilterCompletionTextSpanResultOutput,
   ContentFilterCompletionTextSpan,
+  ErrorModel,
 } from "../../src/types/index.js";
 import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import type {
@@ -32,15 +33,26 @@ import type {
   CreateEmbeddingResponse,
   ImagesResponse,
 } from "openai/resources/index";
-import type { ErrorModel } from "@azure-rest/core-client";
 import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
 } from "openai/resources/chat/completions.mjs";
+import type {
+  ParsedChatCompletion,
+  ParsedChatCompletionMessage,
+  ParsedChoice,
+  ParsedFunctionToolCall,
+} from "openai/resources/beta/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";
 import { logger } from "./logger.js";
+import type {
+  ResponseTextDeltaEvent,
+  ResponseTextDoneEvent,
+  SessionCreatedEvent,
+} from "openai/resources/beta/realtime/realtime.mjs";
+import type { Session } from "openai/resources/beta/realtime/sessions.mjs";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -328,7 +340,8 @@ function assertTokenLogProbability(tokenLogprob: ChatCompletionTokenLogprob): vo
 function assertUsage(usage: CompletionUsage | undefined): void {
   assert.isDefined(usage);
   const castUsage = usage as CompletionUsage;
-  assert.isNumber(castUsage.completion_tokens);
+  // Some models don't return completion tokens
+  ifDefined(castUsage.completion_tokens, assert.isNumber);
   assert.isNumber(castUsage.prompt_tokens);
   assert.isNumber(castUsage.total_tokens);
 }
@@ -525,6 +538,119 @@ function assertBatchErrorData(error: BatchError): void {
   ifDefined(error.message, assert.isString);
   ifDefined(error.param, assert.isString);
   ifDefined(error.line, assert.isNumber);
+}
+
+export function assertParsedChatCompletion<ParsedT>(
+  completions: ParsedChatCompletion<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions = {},
+): void {
+  assertChatCompletions(completions, opts);
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) =>
+      assertParsedChoice(choice, validateParsedResponse),
+    );
+  }
+}
+
+function assertParsedChoice<ParsedT>(
+  choice: ParsedChoice<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
+  assert.isDefined(choice.message);
+  assertParsedMessage<ParsedT>(choice.message, validateParsedResponse);
+}
+
+function assertParsedMessage<ParsedT>(
+  message: ParsedChatCompletionMessage<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
+  assert.isDefined(message);
+  ifDefined(message.parsed, validateParsedResponse);
+  if (message.content && message.parsed) {
+    assert.deepEqual(message.content, JSON.stringify(message.parsed));
+  }
+  for (const item of message.tool_calls || []) {
+    assertParsedFunctionToolCall(item);
+  }
+}
+
+function assertParsedFunctionToolCall(parsedFunction: ParsedFunctionToolCall): void {
+  assert.isDefined(parsedFunction.function);
+}
+
+export function assertResponseTextDoneEvent(event: ResponseTextDoneEvent): void {
+  assert.isNumber(event.content_index);
+  assert.isString(event.event_id);
+  assert.isString(event.item_id);
+  assert.isNumber(event.output_index);
+  assert.isString(event.response_id);
+  assert.isString(event.text);
+  assert.equal(event.type, "response.text.done");
+}
+
+export function assertResponseTextDeltaEvent(event: ResponseTextDeltaEvent): void {
+  assert.isNumber(event.content_index);
+  assert.isString(event.delta);
+  assert.isString(event.event_id);
+  assert.isString(event.item_id);
+  assert.isNumber(event.output_index);
+  assert.isString(event.response_id);
+  assert.equal(event.type, "response.text.delta");
+}
+
+export function assertSessionCreatedEvent(event: SessionCreatedEvent): void {
+  assert.isString(event.event_id);
+  assertSession(event.session);
+  assert.equal(event.type, "session.created");
+}
+
+function assertSession(session: Session): void {
+  ifDefined(session.id, assert.isString);
+  ifDefined(session.input_audio_format, assert.isString);
+  ifDefined(session.input_audio_transcription, assertInputAudioTranscription);
+  ifDefined(session.instructions, assert.isString);
+  ifDefined(session.max_response_output_tokens, (tokens) => {
+    if (typeof tokens === "number") {
+      assert.isNumber(tokens);
+    } else {
+      assert.equal(tokens, "inf");
+    }
+  });
+  ifDefined(session.modalities, (modalities) => {
+    assert.isArray(modalities);
+    modalities.forEach((modality) => assert.isString(modality));
+  });
+  ifDefined(session.model, assert.isString);
+  ifDefined(session.output_audio_format, assert.isString);
+  ifDefined(session.temperature, (temp) => {
+    assert.isNumber(temp);
+  });
+  ifDefined(session.tool_choice, assert.isString);
+  ifDefined(session.tools, (tools) => {
+    assert.isArray(tools);
+    tools.forEach(assertTool);
+  });
+  ifDefined(session.turn_detection, assertTurnDetection);
+  ifDefined(session.voice, assert.isString);
+}
+
+function assertInputAudioTranscription(transcription: Session.InputAudioTranscription): void {
+  ifDefined(transcription.model, assert.isString);
+}
+
+function assertTool(tool: Session.Tool): void {
+  ifDefined(tool.name, assert.isString);
+  ifDefined(tool.description, assert.isString);
+  ifDefined(tool.parameters, assert.isObject);
+}
+
+function assertTurnDetection(turnDetection: Session.TurnDetection): void {
+  ifDefined(turnDetection.prefix_padding_ms, assert.isNumber);
+  ifDefined(turnDetection.prefix_padding_ms, assert.isNumber);
+  ifDefined(turnDetection.silence_duration_ms, assert.isNumber);
+  ifDefined(turnDetection.threshold, assert.isNumber);
+  ifDefined(turnDetection.type, (type) => assert.equal(type, "server_vad"));
 }
 
 interface CompletionTestOptions {

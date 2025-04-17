@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservations.json
  */
-async function reservationListAll() {
+async function reservationListAll(): Promise<void> {
   const filter = "(properties%2farchived+eq+false)";
   const orderby = "properties/displayName asc";
   const skiptoken = 50;
@@ -43,7 +41,7 @@ async function reservationListAll() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationListAll();
 }
 

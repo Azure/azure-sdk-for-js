@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all prefixes under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPrefixesByPeeringService.json
  */
-async function listAllThePrefixesAssociatedWithThePeeringService() {
+async function listAllThePrefixesAssociatedWithThePeeringService(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringServiceName = "peeringServiceName";

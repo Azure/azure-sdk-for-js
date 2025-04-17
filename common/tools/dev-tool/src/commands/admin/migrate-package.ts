@@ -10,7 +10,7 @@ import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { isWindows } from "../../util/platform";
 
 const log = createPrinter("migrate-package");
@@ -64,9 +64,10 @@ export const commandInfo = makeCommandInfo(
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
   log.info("Committing changes, message: ", message);
-  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "add", "."], { cwd: projectFolder, captureOutput: true });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
     cwd: projectFolder,
+    captureOutput: true,
   });
 }
 
@@ -88,7 +89,11 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["npm", "run", "format"], { cwd: projectFolder, shell: isWindows() });
+  await run(["npm", "run", "format"], {
+    cwd: projectFolder,
+    shell: isWindows(),
+    captureOutput: true,
+  });
   await commitChanges(projectFolder, "npm run format");
 
   log.info(
@@ -214,11 +219,13 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   }
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
 
-  const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
-  const projectName = basename(oldPath, ".d.ts");
+  if (apiExtractorJson.dtsRollup.publicTrimmedFilePath) {
+    const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
+    const projectName = basename(oldPath, ".d.ts");
+    apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
+  }
 
   apiExtractorJson.mainEntryPointFilePath = "dist/esm/index.d.ts";
-  apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
 
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
@@ -228,7 +235,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc", ".mocharc.json"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -308,10 +315,15 @@ async function upgradePackageJson(
   // Set files
   setFilesSection(packageJson);
 
+  const testDirectoryPath = resolve(projectFolder, "test");
+  const emptyTestDirectory =
+    !existsSync(testDirectoryPath) || readdirSync(testDirectoryPath).length === 0;
+
   // Set scripts
   setScriptsSection(packageJson.scripts, {
     ...options,
     isArm: packageJson.name.includes("@azure/arm-"),
+    formatTests: !emptyTestDirectory,
   });
 
   // Rename files and rewrite browser field
@@ -331,7 +343,7 @@ async function upgradePackageJson(
 
 function setScriptsSection(
   scripts: PackageJson["scripts"],
-  options: { browser: boolean; isArm: boolean },
+  options: { browser: boolean; isArm: boolean; formatTests: boolean },
 ): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
@@ -345,6 +357,12 @@ function setScriptsSection(
   if (options.isArm) {
     scripts["unit-test:browser"] = "echo skipped";
     scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
+  }
+
+  if (!options.formatTests) {
+    scripts["format"] = scripts["format"]
+      .replaceAll(`"test/**/*.{ts,cts,mts}" `, "")
+      .replaceAll(`"test/**/*.ts" `, "");
   }
 
   for (const script of Object.keys(scripts)) {
@@ -365,6 +383,12 @@ function setFilesSection(packageJson: any): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }): void {
+  // Do not remove subpath exports for modular package's package.json
+  if (packageJson["tshy"]) {
+    packageJson["tshy"].project = "./tsconfig.src.json";
+    return;
+  }
+
   packageJson["tshy"] = {
     project: "./tsconfig.src.json",
     exports: {
@@ -379,16 +403,6 @@ function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }
   // Remove the esmDialects for arm packages since we don't support ARM in the browser
   if (!options.browser) {
     delete packageJson["tshy"].esmDialects;
-  }
-
-  // Check if there are subpath exports
-  if (packageJson.exports) {
-    for (const key of Object.keys(packageJson.exports)) {
-      // Don't set for package.json or root
-      if (key !== "." && key !== "./package.json") {
-        packageJson["tshy"].exports[key] = `./src/${key.replace("./", "")}/index.ts`;
-      }
-    }
   }
 }
 
@@ -446,6 +460,13 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
       ).output;
     }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
+  }
+
+  // add workaround to fix nmet peer dependencies issue
+  packageJson.devDependencies["vitest"] = "^3.0.9";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.9";
+  if (options.browser) {
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.9";
   }
 
   // Freeze these packages until we have a chance to update them

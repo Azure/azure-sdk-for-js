@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,26 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.4 (2025-03-31)
+
+### Features Added
+
+- Adding Fabric support and sample.
+- Adding token usage sample
+
+## 1.0.0-beta.3 (2025-03-21)
+
+### Features Added
+
+- Adding Azure Functions and OpenAPI tool support
+- Upgrading core-lro package
+- Adding Fabric support and sample.
+
+### Bugs Fixed
+
+- Addresses issue in search tool deserialization step during streaming.
+- Addresses issue running samples
 
 ## 1.0.0-beta.2 (2024-12-19)
 

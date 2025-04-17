@@ -7,20 +7,18 @@
  */
 
 import { TableServiceClient, TableClient } from "@azure/data-tables";
-import { v4 } from "uuid";
+import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
+import { randomUUID } from "@azure/core-util";
+import "dotenv/config";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+const endpoint = process.env.TABLES_URL || "https://accountname.table.core.windows.net/";
+const tableSufix = randomUUID().replace(/-/g, "");
 
-const sasConnectionString = process.env["SAS_CONNECTION_STRING"] || "";
-const tableSufix = v4().replace(/-/g, "");
-
-async function createAndDeleteTable() {
+async function createAndDeleteTable(credential: TokenCredential): Promise<void> {
   console.log("== Delete and create table Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(sasConnectionString);
+  const serviceClient = new TableServiceClient(endpoint, credential);
 
   // Create a new table
   const tableName = `SampleCreateAndDeleteTable${tableSufix}`;
@@ -30,14 +28,14 @@ async function createAndDeleteTable() {
   await serviceClient.deleteTable(tableName);
 }
 
-async function createAndDeleteTableWithTableClient() {
+async function createAndDeleteTableWithTableClient(credential: TokenCredential): Promise<void> {
   // A table can also be created and deleted using a TableClient
   console.log("== Delete and create table with TableClient Sample ==");
 
   const tableName = "SampleCreateAndDeleteTable2";
 
   // Creating a new table client doesn't do a network call
-  const client = TableClient.fromConnectionString(sasConnectionString, tableName);
+  const client = new TableClient(endpoint, tableName, credential);
 
   // Will attempt to create a table with the tableName specified above
   await client.createTable();
@@ -46,9 +44,10 @@ async function createAndDeleteTableWithTableClient() {
   await client.deleteTable();
 }
 
-export async function main() {
-  await createAndDeleteTable();
-  await createAndDeleteTableWithTableClient();
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  await createAndDeleteTable(credential);
+  await createAndDeleteTableWithTableClient(credential);
 }
 
 main().catch((err) => {

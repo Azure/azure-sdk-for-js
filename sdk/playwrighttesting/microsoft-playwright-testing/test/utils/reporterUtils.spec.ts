@@ -1,11 +1,13 @@
-import { expect } from "@azure-tools/test-utils";
-import ReporterUtils from "../../src/utils/reporterUtils";
-import { TestResult as MPTTestResult } from "../../src/model/testResult";
-import { TestCase, TestResult } from "@playwright/test/reporter";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import ReporterUtils from "../../src/utils/reporterUtils.js";
+import type { TestResult as MPTTestResult } from "../../src/model/testResult.js";
+import type { TestCase, TestResult } from "@playwright/test/reporter";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Reporter Utils", () => {
   let reporterUtils: ReporterUtils;
-  let environmentVariables: NodeJS.ProcessEnv;
 
   beforeEach(() => {
     const envVariablesMock = {
@@ -19,12 +21,13 @@ describe("Reporter Utils", () => {
       correlationId: "test-correlation-id",
       region: "test-region",
     };
-    environmentVariables = process.env;
     reporterUtils = new ReporterUtils(envVariablesMock, {} as any, {} as any);
   });
+
   afterEach(() => {
-    process.env = { ...environmentVariables };
+    vi.unstubAllEnvs();
   });
+
   it("should set browserType to an empty string when browserName is undefined without throwing an error", () => {
     const testMock: TestCase = {
       outcome: () => "expected",

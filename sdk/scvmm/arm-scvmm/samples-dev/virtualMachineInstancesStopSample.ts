@@ -8,9 +8,7 @@
 import type { StopVirtualMachineOptions } from "@azure/arm-scvmm";
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to power off (stop) a virtual machine instance.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to power off (stop) a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Stop_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesStopMaximumSet() {
+async function virtualMachineInstancesStopMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: StopVirtualMachineOptions = { skipShutdown: "true" };
   const credential = new DefaultAzureCredential();
@@ -33,7 +31,7 @@ async function virtualMachineInstancesStopMaximumSet() {
  * @summary The operation to power off (stop) a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Stop_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesStopMinimumSet() {
+async function virtualMachineInstancesStopMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: StopVirtualMachineOptions = {};
   const credential = new DefaultAzureCredential();
@@ -42,7 +40,7 @@ async function virtualMachineInstancesStopMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualMachineInstancesStopMaximumSet();
   await virtualMachineInstancesStopMinimumSet();
 }

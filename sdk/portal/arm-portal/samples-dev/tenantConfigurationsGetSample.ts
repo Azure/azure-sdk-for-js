@@ -7,9 +7,7 @@
  */
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the tenant configuration.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the tenant configuration.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/GetTenantConfiguration.json
  */
-async function getTenantConfiguration() {
+async function getTenantConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const configurationName = "default";
@@ -27,7 +25,7 @@ async function getTenantConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getTenantConfiguration();
 }
 

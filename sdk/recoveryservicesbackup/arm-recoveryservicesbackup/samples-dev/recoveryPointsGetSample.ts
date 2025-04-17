@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
@@ -19,7 +17,7 @@ To know the status of the operation, call the GetProtectedItemOperationResult AP
 To know the status of the operation, call the GetProtectedItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/RecoveryPoints_Get.json
  */
-async function getAzureVMRecoveryPointDetails() {
+async function getAzureVMRecoveryPointDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "rshvault";
@@ -42,7 +40,7 @@ async function getAzureVMRecoveryPointDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAzureVMRecoveryPointDetails();
 }
 

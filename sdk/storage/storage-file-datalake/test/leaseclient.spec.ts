@@ -2,11 +2,18 @@
 // Licensed under the MIT License.
 
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
-
-import type { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
+import type {
+  DataLakeFileClient,
+  DataLakeDirectoryClient,
+  DataLakeFileSystemClient,
+} from "../src/index.js";
+import {
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {
   let fileSystemName: string;
@@ -14,8 +21,8 @@ describe("LeaseClient from FileSystem", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -30,7 +37,7 @@ describe("LeaseClient from FileSystem", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -154,8 +161,8 @@ describe("LeaseClient from File", () => {
   let fileClient: DataLakeFileClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -167,7 +174,7 @@ describe("LeaseClient from File", () => {
     await fileClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -279,8 +286,8 @@ describe("LeaseClient from Directory", () => {
   let directoryClient: DataLakeDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -292,7 +299,7 @@ describe("LeaseClient from Directory", () => {
     await directoryClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });

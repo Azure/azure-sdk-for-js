@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import type {
   BatchRequest,
   DocumentFilter,
@@ -10,9 +9,8 @@ import type {
   StorageInputType,
   StorageSource,
   TargetInput,
-} from "../../../src";
-import type { TestDocument } from "./TestDocument";
-import { createTestDocument } from "./TestDocument";
+} from "../../../src/index.js";
+import { isLiveMode } from "../../utils/injectables.js";
 
 export function createSourceInput(
   sourceUrl: string,
@@ -69,15 +67,5 @@ export function getTranslationOperationID(url: string): string {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, isPlaybackMode() ? 1 : ms));
-}
-
-export function createDummyTestDocuments(count: number): TestDocument[] {
-  const result: TestDocument[] = [];
-  for (let i = 0; i < count; i++) {
-    const fileName: string = `File_${i}.txt`;
-    const text: string = "some random text";
-    result.push(createTestDocument(fileName, text));
-  }
-  return result;
+  return new Promise((resolve) => setTimeout(resolve, isLiveMode() ? ms : 1));
 }

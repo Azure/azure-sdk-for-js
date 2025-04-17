@@ -10,17 +10,12 @@
  * @azsdk-weight 100
  */
 
-import {
-  ServiceBusClient,
-  ServiceBusAdministrationClient,
-  ServiceBusMessage,
-} from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusAdministrationClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
@@ -47,7 +42,7 @@ const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
 const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
 const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
   const sbAdminClient = new ServiceBusAdministrationClient(fqdn, credential);

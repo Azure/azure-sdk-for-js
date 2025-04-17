@@ -8,9 +8,7 @@
 import type { CloudExadataInfrastructure } from "@azure/arm-oracledatabase";
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a CloudExadataInfrastructure
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a CloudExadataInfrastructure
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/exaInfra_create.json
  */
-async function createExadataInfrastructure() {
+async function createExadataInfrastructure(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ORACLEDATABASE_RESOURCE_GROUP"] || "rg000";
@@ -44,7 +42,7 @@ async function createExadataInfrastructure() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createExadataInfrastructure();
 }
 

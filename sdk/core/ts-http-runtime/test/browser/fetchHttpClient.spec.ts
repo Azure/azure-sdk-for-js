@@ -7,7 +7,6 @@ import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { AbortError } from "../../src/abort-controller/AbortError.js";
-import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
 import { delay } from "../../src/util/helpers.js";
 
 const streamBody = new ReadableStream({
@@ -22,7 +21,7 @@ function createResponse(
   body = "",
   chunkDelay = 0,
   chunkNumber?: number,
-  abortSignal?: AbortSignalLike,
+  abortSignal?: AbortSignal,
 ): Response {
   const stream = new ReadableStream({
     async start(controller) {
@@ -84,7 +83,7 @@ describe("FetchHttpClient", function () {
     vi.mocked(fetch).mockImplementation(async (_url, options) => {
       await delay(timeoutLength);
       if (options?.signal) {
-        const signal: AbortSignalLike = options.signal;
+        const signal: AbortSignal = options.signal;
 
         if (signal.aborted) {
           throw new AbortError();
@@ -461,7 +460,7 @@ describe("FetchHttpClient", function () {
       await delay(timeoutLength);
 
       if (options?.signal) {
-        const signal: AbortSignalLike = options.signal;
+        const signal: AbortSignal = options.signal;
 
         if (signal.aborted) {
           throw new AbortError();

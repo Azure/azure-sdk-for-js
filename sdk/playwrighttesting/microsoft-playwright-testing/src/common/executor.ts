@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { basename } from "path";
-import fs from "fs";
+import { basename } from "node:path";
+import fs from "node:fs";
 import url from "url";
-import path from "path";
-import { ServiceErrorMessageConstants } from "./messages";
+import path from "node:path";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
 const getPackageJsonPath = (folderPath: string): string => {
   const packageJsonPath = path.join(folderPath, "package.json");

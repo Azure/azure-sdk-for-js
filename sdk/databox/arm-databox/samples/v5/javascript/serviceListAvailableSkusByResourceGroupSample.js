@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This method provides the list of available skus for the given subscription, resource group and location.
  *
  * @summary This method provides the list of available skus for the given subscription, resource group and location.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/AvailableSkusPost.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/AvailableSkusPost.json
  */
 async function availableSkusPost() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
@@ -30,10 +30,10 @@ async function availableSkusPost() {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.service.listAvailableSkusByResourceGroup(
+  for await (const item of client.service.listAvailableSkusByResourceGroup(
     resourceGroupName,
     location,
-    availableSkuRequest
+    availableSkuRequest,
   )) {
     resArray.push(item);
   }
@@ -41,7 +41,7 @@ async function availableSkusPost() {
 }
 
 async function main() {
-  availableSkusPost();
+  await availableSkusPost();
 }
 
 main().catch(console.error);

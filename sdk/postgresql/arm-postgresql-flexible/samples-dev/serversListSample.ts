@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the servers in a given subscription.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerList.json
  */
-async function serverList() {
+async function serverList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function serverList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await serverList();
 }
 

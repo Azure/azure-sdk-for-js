@@ -8,7 +8,12 @@
     "initScript": {
       "path": "sh .scripts/automation_init.sh",
       "stderr": {
-        "showInComment": ".*ERROR.*"
+        "showInComment": ".*ERROR.*",
+        "scriptError": ".*ERROR.*"
+      },
+      "stdout": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": ".*ERROR.*"
       }
     }
   },
@@ -16,7 +21,12 @@
     "generateScript": {
       "path": "sh .scripts/automation_generate.sh",
       "stderr": {
-        "showInComment": ".*ERROR.*"
+        "showInComment": ".*ERROR.*",
+        "scriptError": ".*ERROR.*"
+      },
+      "stdout": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": ".*ERROR.*"
       }
     },
     "parseGenerateOutput": true

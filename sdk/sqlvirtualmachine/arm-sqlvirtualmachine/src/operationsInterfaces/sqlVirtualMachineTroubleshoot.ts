@@ -11,7 +11,7 @@ import {
   SqlVmTroubleshooting,
   SqlVirtualMachineTroubleshootTroubleshootOptionalParams,
   SqlVirtualMachineTroubleshootTroubleshootResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlVirtualMachineTroubleshoot. */
 export interface SqlVirtualMachineTroubleshoot {

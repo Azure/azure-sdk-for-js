@@ -1,22 +1,56 @@
 # Release History
 
-## 4.7.0 (2025-02-11)
+## 4.9.1 (Unreleased)
 
 ### Features Added
 
-- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.9.0 (2025-04-16)
+
+### Features Added
+
+- Add `workerd` conditional exports support for Cloudflare environment. [#32422](https://github.com/Azure/azure-sdk-for-js/pull/32422)
+
+### Other Changes
+
+- Marked `VisualStudioCodeCredential`, `VisualStudioCodeCredentialOptions` and `VSCodeCredentialFinder` as deprecated. [#33413](https://github.com/Azure/azure-sdk-for-js/pull/33413)
+- Upgraded version of `@azure/msal-node` to v3.5.0 that has [a bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/7631) for Azure Machine Learning Managed Identity. [#33792](https://github.com/Azure/azure-sdk-for-js/pull/33792)
+
+## 4.8.0 (2025-03-11)
+
+### Features Added
+
+- `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
+
+### Other Changes
+
+- Deprecated `UsernamePasswordCredential` and `UsernamePasswordCredentialOptions`, as the credential doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136) and [#33312](https://github.com/Azure/azure-sdk-for-js/pull/33312)
+- For `AzureCliCredential` and `AzureDeveloperCliCredential`, if system root environment variable is not found on the Windows platform, the system root variable is set to the appropriate value with a warning logged as opposed to throwing an error. [#33178](https://github.com/Azure/azure-sdk-for-js/pull/33178)
+
+## 4.7.0 (2025-02-18)
+
+### Features Added
+
+- Added `subscription` property in `AzureCliCredentialOptions`. [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451)
 
 ### Bugs Fixed
 
 - Fixed the logic to return authority without the scheme and tenant ID [#31540](https://github.com/Azure/azure-sdk-for-js/pull/31540)
 - Fixed an issue where an incorrect tenant ID was presented in multi-tenant authentication errors [#32505](https://github.com/Azure/azure-sdk-for-js/pull/32505)
 - `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a ServiceFabric environment instead of silently ignoring it. [#32841](https://github.com/Azure/azure-sdk-for-js/pull/32841)
+- Fixed the bug in silent authentication behavior to happen only in scenarios where an account is present either in the persistent cache (if tokenCachePersistence is enabled and authentication record is provided) or the in-memory cache, instead of silently picking up the first account found in token cache. [#32134](https://github.com/Azure/azure-sdk-for-js/pull/32134)
+- Fixed the bug in interactive authentication request to account for the correct user login prompt based on the login hint provided, in case there are multiple accounts present. [#32134](https://github.com/Azure/azure-sdk-for-js/pull/32134)
+- Incorporated the [fix by @azure/msal-node (v 3.2.1)](https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/7469) for silent authentication to do token lookup in persistent cache.
 
 ### Other Changes
 
 - Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
-
 
 ## 4.6.0 (2025-01-16)
 

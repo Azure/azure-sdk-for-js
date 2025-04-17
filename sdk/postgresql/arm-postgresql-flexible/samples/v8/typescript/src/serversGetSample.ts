@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerGet.json
  */
-async function serverGet() {
+async function serverGet(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function serverGet() {
  * @summary Gets information about a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerGetWithPrivateEndpoints.json
  */
-async function serverGetWithPrivateEndpoints() {
+async function serverGetWithPrivateEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -59,7 +59,7 @@ async function serverGetWithPrivateEndpoints() {
  * @summary Gets information about a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerGetWithVnet.json
  */
-async function serverGetWithVnet() {
+async function serverGetWithVnet(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -75,7 +75,7 @@ async function serverGetWithVnet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   serverGet();
   serverGetWithPrivateEndpoints();
   serverGetWithVnet();

@@ -18,7 +18,7 @@ describe("Embeddings", function () {
       });
 
       describe("embeddings.create", function () {
-        it("embeddings test", async function () {
+        it("embeddings test", async () => {
           const prompt = ["This is text to be embedded"];
           await withDeployments(
             clientsAndDeployments,
@@ -28,7 +28,7 @@ describe("Embeddings", function () {
           );
         });
 
-        it("embeddings request with dimensions", async function () {
+        it("embeddings request with dimensions", async () => {
           const prompt = ["This is text to be embedded"];
           const dimensions = 512;
           await withDeployments(

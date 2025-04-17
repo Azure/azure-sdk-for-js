@@ -23,7 +23,7 @@ import {
   IpamPoolsDeleteResponse,
   IpamPoolsGetPoolUsageOptionalParams,
   IpamPoolsGetPoolUsageResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IpamPools. */

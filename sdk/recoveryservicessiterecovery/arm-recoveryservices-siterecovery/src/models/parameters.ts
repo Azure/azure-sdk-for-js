@@ -63,7 +63,7 @@ import {
   RecoveryPlanTestFailoverCleanupInput as RecoveryPlanTestFailoverCleanupInputMapper,
   RecoveryPlanUnplannedFailoverInput as RecoveryPlanUnplannedFailoverInputMapper,
   VaultSettingCreationInput as VaultSettingCreationInputMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

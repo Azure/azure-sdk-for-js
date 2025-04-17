@@ -22,6 +22,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
+  /** Enable Performance Counter feature */
+  enablePerformanceCounters?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
@@ -145,10 +147,11 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.8.1";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.10.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+export const APPLICATION_INSIGHTS_SHIM_VERSION = "APPLICATION_INSIGHTS_SHIM_VERSION";
 
 export enum AttachTypePrefix {
   INTEGRATED_AUTO = "i",

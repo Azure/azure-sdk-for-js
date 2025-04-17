@@ -20,7 +20,7 @@ import {
   TagsObject,
   NetworkProfilesUpdateTagsOptionalParams,
   NetworkProfilesUpdateTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkProfiles. */

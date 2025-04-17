@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes an existing prefix with the specified name under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeletePeeringServicePrefix.json
  */
-async function deleteAPrefixAssociatedWithThePeeringService() {
+async function deleteAPrefixAssociatedWithThePeeringService(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringServiceName = "peeringServiceName";

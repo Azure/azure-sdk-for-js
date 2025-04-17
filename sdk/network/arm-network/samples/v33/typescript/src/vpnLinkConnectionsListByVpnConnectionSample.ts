@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSiteLinkConnectionList.json
  */
-async function vpnSiteLinkConnectionList() {
+async function vpnSiteLinkConnectionList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
@@ -38,7 +36,7 @@ async function vpnSiteLinkConnectionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   vpnSiteLinkConnectionList();
 }
 

@@ -10,19 +10,20 @@
 // Licensed under the MIT License.
 const { DataBoxManagementClient } = require("@azure/arm-databox");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
  *
  * @summary [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateAddressPost.json
  */
 async function validateAddressPost() {
   const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
   const validateAddress = {
     deviceType: "DataBox",
+    model: "DataBox",
     shippingAddress: {
       addressType: "Commercial",
       city: "XXXX XXXX",
@@ -42,7 +43,7 @@ async function validateAddressPost() {
 }
 
 async function main() {
-  validateAddressPost();
+  await validateAddressPost();
 }
 
 main().catch(console.error);

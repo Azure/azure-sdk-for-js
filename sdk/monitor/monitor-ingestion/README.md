@@ -34,14 +34,11 @@ An authenticated client is required to ingest data. To authenticate, create an i
 
 To authenticate, the following example uses `DefaultAzureCredential` from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package:
 
-```ts
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import { DefaultAzureCredential } from "@azure/identity";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+const logsIngestionEndpoint = "https://<my-endpoint>.azure.com";
 
 const credential = new DefaultAzureCredential();
 const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
@@ -51,14 +48,11 @@ const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, crede
 
 By default, the client is configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating the client. For example:
 
-```ts
+```ts snippet:ReadmeSampleCreateClient_TokenCredential_SovereignCloud
 import { DefaultAzureCredential } from "@azure/identity";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+const logsIngestionEndpoint = "https://<my-endpoint>.azure.cn";
 
 const credential = new DefaultAzureCredential();
 const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential, {
@@ -107,154 +101,119 @@ You can familiarize yourself with different APIs using [Samples][azure_monitor_s
 
 You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://learn.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
 
-```js
-const { isAggregateLogsUploadError, DefaultAzureCredential } = require("@azure/identity");
-const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+```ts snippet:ReadmeSampleUploadLogs
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient, isAggregateLogsUploadError } from "@azure/monitor-ingestion";
 
-require("dotenv").config();
+const logsIngestionEndpoint = "https://<my-endpoint>.azure.com";
+const ruleId = "data_collection_rule_id";
+const streamName = "data_stream_name";
 
-async function main() {
-  const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-  const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
-  const streamName = process.env.STREAM_NAME || "data_stream_name";
-  const credential = new DefaultAzureCredential();
-  const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
-  const logs = [
-    {
-      Time: "2021-12-08T23:51:14.1104269Z",
-      Computer: "Computer1",
-      AdditionalContext: "context-2",
-    },
-    {
-      Time: "2021-12-08T23:51:14.1104269Z",
-      Computer: "Computer2",
-      AdditionalContext: "context",
-    },
-  ];
-  try{
-    await client.upload(ruleId, streamName, logs);
-  }
-  catch(e){
-    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
-    if (aggregateErrors.length > 0) {
-      console.log("Some logs have failed to complete ingestion");
-      for (const error of aggregateErrors) {
-        console.log(`Error - ${JSON.stringify(error.cause)}`);
-        console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
-      }
-    } else {
-      console.log(e);
+const credential = new DefaultAzureCredential();
+const logsIngestionClient = new LogsIngestionClient(logsIngestionEndpoint, credential);
+
+const logs = [
+  {
+    Time: "2021-12-08T23:51:14.1104269Z",
+    Computer: "Computer1",
+    AdditionalContext: "context-2",
+  },
+  {
+    Time: "2021-12-08T23:51:14.1104269Z",
+    Computer: "Computer2",
+    AdditionalContext: "context",
+  },
+];
+
+try {
+  await logsIngestionClient.upload(ruleId, streamName, logs);
+} catch (e) {
+  const aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
+  if (aggregateErrors.length > 0) {
+    console.log("Some logs have failed to complete ingestion");
+    for (const error of aggregateErrors) {
+      console.log(`Error - ${JSON.stringify(error.cause)}`);
+      console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
     }
+  } else {
+    console.log(`An error occurred: ${e}`);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
-
-module.exports = { main };
 ```
 
 ### Verify logs
 
 You can verify that your data has been uploaded correctly by using the [@azure/monitor-query](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs.
 
-```js
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+```ts snippet:ReadmeSampleVerifyLogs
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient } from "@azure/monitor-query";
 
-/**
- * @summary Demonstrates how to run query against a Log Analytics workspace to verify if the logs were uploaded
- */
+const monitorWorkspaceId = "workspace_id";
+const tableName = "table_name";
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsQueryClient } = require("@azure/monitor-query");
+const credential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(credential);
 
-const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID || "workspace_id";
-const tableName = process.env.TABLE_NAME || "table_name";
-require("dotenv").config();
+const queriesBatch = [
+  {
+    workspaceId: monitorWorkspaceId,
+    query: tableName + " | count;",
+    timespan: { duration: "P1D" },
+  },
+];
 
-async function main() {
-  const credential = new DefaultAzureCredential();
-  const logsQueryClient = new LogsQueryClient(credential);
-  const queriesBatch = [
-    {
-      workspaceId: monitorWorkspaceId,
-      query: tableName + " | count;",
-      timespan: { duration: "P1D" },
-    },
-  ];
-
-  const result = await logsQueryClient.queryBatch(queriesBatch);
-  if (result[0].status === "Success") {
-    console.log("Table entry count: ", JSON.stringify(result[0].tables));
-  } else {
-    console.log(
-      `Some error encountered while retrieving the count. Status = ${result[0].status}`,
-      JSON.stringify(result[0])
-    );
-  }
+const result = await logsQueryClient.queryBatch(queriesBatch);
+if (result[0].status === "Success") {
+  console.log("Table entry count: ", JSON.stringify(result[0].tables));
+} else {
+  console.log(
+    `Some error encountered while retrieving the count. Status = ${result[0].status}`,
+    JSON.stringify(result[0]),
+  );
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
-
-module.exports = { main };
 ```
 
 ### Uploading large batches of logs
 
 When uploading more than 1MB of logs in a single call to the `upload` method on `LogsIngestionClient`, the upload will be split into several smaller batches, each no larger than 1MB. By default, these batches will be uploaded in parallel, with a maximum of 5 batches being uploaded concurrently. It may be desirable to decrease the maximum concurrency if memory usage is a concern. The maximum number of concurrent uploads can be controlled using the `maxConcurrency` option, as shown in this example:
 
-```js
-const { DefaultAzureCredential } = require("@azure/identity");
-const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
+```ts snippet:ReadmeSampleUploadLargeBatches
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsIngestionClient, isAggregateLogsUploadError } from "@azure/monitor-ingestion";
 
-require("dotenv").config();
+const logsIngestionEndpoint = "https://<my-endpoint>.azure.com";
+const ruleId = "data_collection_rule_id";
+const streamName = "data_stream_name";
 
-async function main() {
-  const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-  const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
-  const streamName = process.env.STREAM_NAME || "data_stream_name";
-  const credential = new DefaultAzureCredential();
-  const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
+const credential = new DefaultAzureCredential();
+const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
 
-  // Constructing a large number of logs to ensure batching takes place
-  const logs = [];
-  for (let i = 0; i < 100000; ++i) {
-    logs.push({
-      Time: "2021-12-08T23:51:14.1104269Z",
-      Computer: "Computer1",
-      AdditionalContext: `context-${i}`,
-    });
-  }
+// Constructing a large number of logs to ensure batching takes place
+const logs = [];
+for (let i = 0; i < 100000; ++i) {
+  logs.push({
+    Time: "2021-12-08T23:51:14.1104269Z",
+    Computer: "Computer1",
+    AdditionalContext: `context-${i}`,
+  });
+}
 
-  try{
-    // Set the maximum concurrency to 1 to prevent concurrent requests entirely
-    await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
-  }
-  catch(e){
-    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
-    if (aggregateErrors.length > 0) {
-      console.log("Some logs have failed to complete ingestion");
-      for (const error of aggregateErrors) {
-        console.log(`Error - ${JSON.stringify(error.cause)}`);
-        console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
-      }
-    } else {
-      console.log(e);
+try {
+  // Set the maximum concurrency to 1 to prevent concurrent requests entirely
+  await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
+} catch (e) {
+  let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
+  if (aggregateErrors.length > 0) {
+    console.log("Some logs have failed to complete ingestion");
+    for (const error of aggregateErrors) {
+      console.log(`Error - ${JSON.stringify(error.cause)}`);
+      console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
     }
+  } else {
+    console.log(e);
   }
 }
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
-
-module.exports = { main };
 ```
 
 ### Retrieve logs
