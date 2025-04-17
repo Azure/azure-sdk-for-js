@@ -12,7 +12,7 @@ import {
   IssueListByServiceOptionalParams,
   IssueGetOptionalParams,
   IssueGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Issue. */

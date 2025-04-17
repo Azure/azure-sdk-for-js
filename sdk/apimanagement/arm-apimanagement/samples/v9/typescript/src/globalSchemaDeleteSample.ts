@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes specific Schema.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGlobalSchema.json
  */
-async function apiManagementDeleteSchema() {
+async function apiManagementDeleteSchema(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementDeleteSchema() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteSchema();
 }
 

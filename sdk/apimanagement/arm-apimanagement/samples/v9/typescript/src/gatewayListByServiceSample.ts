@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a collection of gateways registered with service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListGateways.json
  */
-async function apiManagementListGateways() {
+async function apiManagementListGateways(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListGateways() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListGateways();
 }
 

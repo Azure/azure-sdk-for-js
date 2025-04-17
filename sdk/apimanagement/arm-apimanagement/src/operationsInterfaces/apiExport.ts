@@ -11,7 +11,7 @@ import {
   ExportApi,
   ApiExportGetOptionalParams,
   ApiExportGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ApiExport. */
 export interface ApiExport {

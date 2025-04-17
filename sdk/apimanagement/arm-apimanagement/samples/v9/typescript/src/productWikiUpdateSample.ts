@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the details of the Wiki for a Product specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateProductWiki.json
  */
-async function apiManagementUpdateProductWiki() {
+async function apiManagementUpdateProductWiki(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementUpdateProductWiki() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateProductWiki();
 }
 

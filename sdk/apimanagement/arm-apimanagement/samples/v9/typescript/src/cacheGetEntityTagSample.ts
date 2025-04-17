@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the Cache specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadCache.json
  */
-async function apiManagementHeadCache() {
+async function apiManagementHeadCache(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementHeadCache() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementHeadCache();
 }
 

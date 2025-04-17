@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { WikiContract, ProductWikisListOptionalParams } from "../models";
+import { WikiContract, ProductWikisListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductWikis. */

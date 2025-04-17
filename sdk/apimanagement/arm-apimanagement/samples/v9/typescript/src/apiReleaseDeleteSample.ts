@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the specified release in the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiRelease.json
  */
-async function apiManagementDeleteApiRelease() {
+async function apiManagementDeleteApiRelease(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementDeleteApiRelease() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementDeleteApiRelease();
 }
 

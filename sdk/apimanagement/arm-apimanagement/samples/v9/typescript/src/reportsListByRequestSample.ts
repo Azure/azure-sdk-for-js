@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists report records by Request.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsByRequest.json
  */
-async function apiManagementGetReportsByRequest() {
+async function apiManagementGetReportsByRequest(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementGetReportsByRequest() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetReportsByRequest();
 }
 

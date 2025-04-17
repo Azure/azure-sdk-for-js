@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiVersionSet.json
  */
-async function apiManagementHeadApiVersionSet() {
+async function apiManagementHeadApiVersionSet(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementHeadApiVersionSet() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementHeadApiVersionSet();
 }
 

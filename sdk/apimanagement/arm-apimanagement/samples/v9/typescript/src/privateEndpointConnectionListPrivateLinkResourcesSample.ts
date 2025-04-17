@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the private link resources
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPrivateLinkGroupResources.json
  */
-async function apiManagementListPrivateLinkGroupResources() {
+async function apiManagementListPrivateLinkGroupResources(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementListPrivateLinkGroupResources() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPrivateLinkGroupResources();
 }
 

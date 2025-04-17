@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all Tags associated with the Operation.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiOperationTags.json
  */
-async function apiManagementListApiOperationTags() {
+async function apiManagementListApiOperationTags(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementListApiOperationTags() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListApiOperationTags();
 }
 

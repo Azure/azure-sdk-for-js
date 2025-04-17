@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists developer portal's revisions.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPortalRevisions.json
  */
-async function apiManagementListPortalRevisions() {
+async function apiManagementListPortalRevisions(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListPortalRevisions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPortalRevisions();
 }
 

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Detach the tag from the Operation.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiOperationTag.json
  */
-async function apiManagementDeleteApiOperationTag() {
+async function apiManagementDeleteApiOperationTag(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementDeleteApiOperationTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteApiOperationTag();
 }
 

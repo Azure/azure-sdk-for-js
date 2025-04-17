@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GatewayCertificateAuthority } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GatewayCertificateAuthority } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   GatewayCertificateAuthorityContract,
   GatewayCertificateAuthorityListByServiceNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   GatewayCertificateAuthorityCreateOrUpdateResponse,
   GatewayCertificateAuthorityDeleteOptionalParams,
   GatewayCertificateAuthorityListByServiceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayCertificateAuthority operations. */

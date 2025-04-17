@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a collection of authorization providers defined within a authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListAuthorizationsAuthCode.json
  */
-async function apiManagementListAuthorizationsAuthCode() {
+async function apiManagementListAuthorizationsAuthCode(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementListAuthorizationsAuthCode() {
  * @summary Lists a collection of authorization providers defined within a authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListAuthorizationsClientCred.json
  */
-async function apiManagementListAuthorizationsClientCred() {
+async function apiManagementListAuthorizationsClientCred(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -61,7 +61,7 @@ async function apiManagementListAuthorizationsClientCred() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListAuthorizationsAuthCode();
   apiManagementListAuthorizationsClientCred();
 }

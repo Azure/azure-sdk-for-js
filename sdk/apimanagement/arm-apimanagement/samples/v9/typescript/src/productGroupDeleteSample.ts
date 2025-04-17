@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the association between the specified group and product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductGroup.json
  */
-async function apiManagementDeleteProductGroup() {
+async function apiManagementDeleteProductGroup(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementDeleteProductGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteProductGroup();
 }
 

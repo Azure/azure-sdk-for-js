@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the schema configuration at the API level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiSchemas.json
  */
-async function apiManagementListApiSchemas() {
+async function apiManagementListApiSchemas(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListApiSchemas() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiSchemas();
 }
 

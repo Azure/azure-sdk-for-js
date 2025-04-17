@@ -17,7 +17,7 @@ import {
   GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   GatewayCertificateAuthorityCreateOrUpdateResponse,
   GatewayCertificateAuthorityDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GatewayCertificateAuthority. */

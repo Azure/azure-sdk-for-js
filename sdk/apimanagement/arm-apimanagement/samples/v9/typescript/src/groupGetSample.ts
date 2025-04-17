@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the group specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetGroup.json
  */
-async function apiManagementGetGroup() {
+async function apiManagementGetGroup(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementGetGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetGroup();
 }
 

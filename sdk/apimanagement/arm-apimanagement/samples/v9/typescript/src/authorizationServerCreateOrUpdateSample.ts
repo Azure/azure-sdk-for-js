@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates new authorization server or updates an existing authorization server.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationServer.json
  */
-async function apiManagementCreateAuthorizationServer() {
+async function apiManagementCreateAuthorizationServer(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -54,7 +54,7 @@ async function apiManagementCreateAuthorizationServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateAuthorizationServer();
 }
 

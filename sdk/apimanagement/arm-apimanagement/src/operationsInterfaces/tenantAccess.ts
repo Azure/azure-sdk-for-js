@@ -25,7 +25,7 @@ import {
   TenantAccessRegenerateSecondaryKeyOptionalParams,
   TenantAccessListSecretsOptionalParams,
   TenantAccessListSecretsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TenantAccess. */

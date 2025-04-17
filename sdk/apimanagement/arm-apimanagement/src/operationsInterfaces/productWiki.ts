@@ -18,7 +18,7 @@ import {
   ProductWikiUpdateOptionalParams,
   ProductWikiUpdateResponse,
   ProductWikiDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProductWiki. */
 export interface ProductWiki {

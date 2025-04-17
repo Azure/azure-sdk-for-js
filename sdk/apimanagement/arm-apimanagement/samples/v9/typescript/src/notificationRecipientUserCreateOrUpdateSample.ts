@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Adds the API Management User to the list of Recipients for the Notification.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNotificationRecipientUser.json
  */
-async function apiManagementCreateNotificationRecipientUser() {
+async function apiManagementCreateNotificationRecipientUser(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementCreateNotificationRecipientUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateNotificationRecipientUser();
 }
 

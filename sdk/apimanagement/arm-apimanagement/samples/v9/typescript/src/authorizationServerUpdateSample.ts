@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the details of the authorization server specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateAuthorizationServer.json
  */
-async function apiManagementUpdateAuthorizationServer() {
+async function apiManagementUpdateAuthorizationServer(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -44,7 +44,7 @@ async function apiManagementUpdateAuthorizationServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateAuthorizationServer();
 }
 

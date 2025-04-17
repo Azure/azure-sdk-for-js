@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all Tags associated with the Product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductTags.json
  */
-async function apiManagementListProductTags() {
+async function apiManagementListProductTags(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListProductTags() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListProductTags();
 }
 

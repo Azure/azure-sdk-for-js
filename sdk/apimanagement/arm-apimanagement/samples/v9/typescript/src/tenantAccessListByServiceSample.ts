@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns list of access infos - for Git and Management endpoints.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTenantAccess.json
  */
-async function apiManagementListTenantAccess() {
+async function apiManagementListTenantAccess(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListTenantAccess() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListTenantAccess();
 }
 

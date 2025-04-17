@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Regenerates specified gateway key invalidating any tokens created with it.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGatewayRegenerateKey.json
  */
-async function apiManagementGatewayRegenerateKey() {
+async function apiManagementGatewayRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementGatewayRegenerateKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGatewayRegenerateKey();
 }
 

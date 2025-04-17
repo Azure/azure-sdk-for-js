@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PortalSettings } from "../operationsInterfaces";
+import { PortalSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   PortalSettingsListByServiceOptionalParams,
   PortalSettingsListByServiceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PortalSettings operations. */
 export class PortalSettingsImpl implements PortalSettings {

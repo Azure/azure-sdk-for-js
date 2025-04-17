@@ -24,7 +24,7 @@ import {
   IdentityProviderDeleteOptionalParams,
   IdentityProviderListSecretsOptionalParams,
   IdentityProviderListSecretsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IdentityProvider. */

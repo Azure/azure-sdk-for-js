@@ -18,7 +18,7 @@ import {
   WorkspacePolicyCreateOrUpdateOptionalParams,
   WorkspacePolicyCreateOrUpdateResponse,
   WorkspacePolicyDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspacePolicy. */

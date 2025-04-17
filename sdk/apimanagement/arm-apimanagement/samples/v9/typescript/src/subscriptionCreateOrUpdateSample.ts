@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates the subscription of specified user to the specified product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateSubscription.json
  */
-async function apiManagementCreateSubscription() {
+async function apiManagementCreateSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -43,7 +43,7 @@ async function apiManagementCreateSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateSubscription();
 }
 

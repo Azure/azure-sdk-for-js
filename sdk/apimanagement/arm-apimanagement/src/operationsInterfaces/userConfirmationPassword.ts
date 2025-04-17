@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { UserConfirmationPasswordSendOptionalParams } from "../models";
+import { UserConfirmationPasswordSendOptionalParams } from "../models/index.js";
 
 /** Interface representing a UserConfirmationPassword. */
 export interface UserConfirmationPassword {

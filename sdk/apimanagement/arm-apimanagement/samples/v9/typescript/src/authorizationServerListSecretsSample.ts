@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the client secret details of the authorization server.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementAuthorizationServerListSecrets.json
  */
-async function apiManagementAuthorizationServerListSecrets() {
+async function apiManagementAuthorizationServerListSecrets(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementAuthorizationServerListSecrets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementAuthorizationServerListSecrets();
 }
 

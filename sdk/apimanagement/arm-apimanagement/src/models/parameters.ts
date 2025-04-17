@@ -107,7 +107,7 @@ import {
   UserTokenParameters as UserTokenParametersMapper,
   DiagnosticUpdateContract as DiagnosticUpdateContractMapper,
   WorkspaceContract as WorkspaceContractMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all the Global Policy definitions of the Api Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPolicies.json
  */
-async function apiManagementListPolicies() {
+async function apiManagementListPolicies(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementListPolicies() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPolicies();
 }
 

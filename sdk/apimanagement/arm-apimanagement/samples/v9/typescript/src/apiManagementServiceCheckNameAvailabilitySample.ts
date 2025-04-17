@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks availability and correctness of a name for an API Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceCheckNameAvailability.json
  */
-async function apiManagementServiceCheckNameAvailability() {
+async function apiManagementServiceCheckNameAvailability(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const parameters: ApiManagementServiceCheckNameAvailabilityParameters = {
@@ -32,7 +32,7 @@ async function apiManagementServiceCheckNameAvailability() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementServiceCheckNameAvailability();
 }
 

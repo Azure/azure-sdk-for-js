@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the specified Wiki from a Product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductWiki.json
  */
-async function apiManagementDeleteProductWiki() {
+async function apiManagementDeleteProductWiki(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementDeleteProductWiki() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteProductWiki();
 }
 

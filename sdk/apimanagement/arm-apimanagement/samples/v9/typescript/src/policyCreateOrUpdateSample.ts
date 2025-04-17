@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Creates or updates the global policy configuration of the Api Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreatePolicy.json
  */
-async function apiManagementCreatePolicy() {
+async function apiManagementCreatePolicy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function apiManagementCreatePolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreatePolicy();
 }
 

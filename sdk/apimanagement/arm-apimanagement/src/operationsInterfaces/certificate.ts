@@ -20,7 +20,7 @@ import {
   CertificateDeleteOptionalParams,
   CertificateRefreshSecretOptionalParams,
   CertificateRefreshSecretResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Certificate. */

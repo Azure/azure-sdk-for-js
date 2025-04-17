@@ -20,7 +20,7 @@ import {
   WorkspaceProductUpdateOptionalParams,
   WorkspaceProductUpdateResponse,
   WorkspaceProductDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceProduct. */

@@ -18,7 +18,7 @@ import {
   WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams,
   WorkspaceApiOperationPolicyCreateOrUpdateResponse,
   WorkspaceApiOperationPolicyDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceApiOperationPolicy. */

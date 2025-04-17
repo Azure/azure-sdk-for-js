@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Creates or updates an External Cache to be used in Api Management instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCache.json
  */
-async function apiManagementCreateCache() {
+async function apiManagementCreateCache(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementCreateCache() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateCache();
 }
 

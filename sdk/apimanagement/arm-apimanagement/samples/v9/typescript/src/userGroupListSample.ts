@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all user groups.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListUserGroups.json
  */
-async function apiManagementListUserGroups() {
+async function apiManagementListUserGroups(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListUserGroups() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListUserGroups();
 }
 

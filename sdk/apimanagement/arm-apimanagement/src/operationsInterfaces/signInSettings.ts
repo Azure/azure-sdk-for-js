@@ -15,7 +15,7 @@ import {
   SignInSettingsUpdateOptionalParams,
   SignInSettingsCreateOrUpdateOptionalParams,
   SignInSettingsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SignInSettings. */
 export interface SignInSettings {

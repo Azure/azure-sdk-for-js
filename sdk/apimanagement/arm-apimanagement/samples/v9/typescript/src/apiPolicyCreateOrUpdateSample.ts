@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Creates or updates policy configuration for the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiPolicy.json
  */
-async function apiManagementCreateApiPolicy() {
+async function apiManagementCreateApiPolicy(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -53,7 +53,7 @@ async function apiManagementCreateApiPolicy() {
  * @summary Creates or updates policy configuration for the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiPolicyNonXmlEncoded.json
  */
-async function apiManagementCreateApiPolicyNonXmlEncoded() {
+async function apiManagementCreateApiPolicyNonXmlEncoded(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -81,7 +81,7 @@ async function apiManagementCreateApiPolicyNonXmlEncoded() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementCreateApiPolicy();
     apiManagementCreateApiPolicyNonXmlEncoded();
 }

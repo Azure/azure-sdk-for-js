@@ -20,7 +20,7 @@ import {
   WorkspaceApiDiagnosticUpdateOptionalParams,
   WorkspaceApiDiagnosticUpdateResponse,
   WorkspaceApiDiagnosticDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceApiDiagnostic. */

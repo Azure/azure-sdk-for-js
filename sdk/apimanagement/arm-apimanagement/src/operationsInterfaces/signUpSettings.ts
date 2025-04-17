@@ -15,7 +15,7 @@ import {
   SignUpSettingsUpdateOptionalParams,
   SignUpSettingsCreateOrUpdateOptionalParams,
   SignUpSettingsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SignUpSettings. */
 export interface SignUpSettings {

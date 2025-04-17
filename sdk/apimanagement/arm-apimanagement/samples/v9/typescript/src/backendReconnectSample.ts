@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Notifies the API Management gateway to create a new connection to the backend after the specified timeout. If no timeout was specified, timeout of 2 minutes is used.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementBackendReconnect.json
  */
-async function apiManagementBackendReconnect() {
+async function apiManagementBackendReconnect(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementBackendReconnect() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementBackendReconnect();
 }
 

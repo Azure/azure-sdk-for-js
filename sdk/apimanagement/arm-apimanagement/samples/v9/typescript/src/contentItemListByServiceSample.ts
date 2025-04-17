@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists developer portal's content items specified by the provided content type.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypeContentItems.json
  */
-async function apiManagementListContentTypeContentItems() {
+async function apiManagementListContentTypeContentItems(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListContentTypeContentItems() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListContentTypeContentItems();
 }
 

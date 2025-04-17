@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the details of a subscription specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateSubscription.json
  */
-async function apiManagementUpdateSubscription() {
+async function apiManagementUpdateSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementUpdateSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateSubscription();
 }
 

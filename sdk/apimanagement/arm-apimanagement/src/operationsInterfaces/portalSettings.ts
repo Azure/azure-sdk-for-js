@@ -9,7 +9,7 @@
 import {
   PortalSettingsListByServiceOptionalParams,
   PortalSettingsListByServiceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PortalSettings. */
 export interface PortalSettings {

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the product specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetProduct.json
  */
-async function apiManagementGetProduct() {
+async function apiManagementGetProduct(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementGetProduct() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetProduct();
 }
 

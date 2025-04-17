@@ -15,7 +15,7 @@ import {
   NotificationRecipientEmailCreateOrUpdateOptionalParams,
   NotificationRecipientEmailCreateOrUpdateResponse,
   NotificationRecipientEmailDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NotificationRecipientEmail. */
 export interface NotificationRecipientEmail {

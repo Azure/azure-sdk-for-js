@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderAADAuthCode.json
  */
-async function apiManagementCreateAuthorizationProviderAadAuthCode() {
+async function apiManagementCreateAuthorizationProviderAadAuthCode(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function apiManagementCreateAuthorizationProviderAadAuthCode() {
  * @summary Creates or updates authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderAADClientCred.json
  */
-async function apiManagementCreateAuthorizationProviderAadClientCred() {
+async function apiManagementCreateAuthorizationProviderAadClientCred(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -96,7 +96,7 @@ async function apiManagementCreateAuthorizationProviderAadClientCred() {
  * @summary Creates or updates authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderGenericOAuth2.json
  */
-async function apiManagementCreateAuthorizationProviderGenericOAuth2() {
+async function apiManagementCreateAuthorizationProviderGenericOAuth2(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -138,7 +138,7 @@ async function apiManagementCreateAuthorizationProviderGenericOAuth2() {
  * @summary Creates or updates authorization provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationProviderOOBGoogle.json
  */
-async function apiManagementCreateAuthorizationProviderOobGoogle() {
+async function apiManagementCreateAuthorizationProviderOobGoogle(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -172,7 +172,7 @@ async function apiManagementCreateAuthorizationProviderOobGoogle() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateAuthorizationProviderAadAuthCode();
   apiManagementCreateAuthorizationProviderAadClientCred();
   apiManagementCreateAuthorizationProviderGenericOAuth2();

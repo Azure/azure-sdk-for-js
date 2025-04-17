@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a collection of loggers in the specified service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListLoggers.json
  */
-async function apiManagementListLoggers() {
+async function apiManagementListLoggers(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListLoggers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListLoggers();
 }
 

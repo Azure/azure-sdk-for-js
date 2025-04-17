@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Restores a backup of an API Management service created using the ApiManagementService_Backup operation on the current service. This is a long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementRestoreWithAccessKey.json
  */
-async function apiManagementRestoreService() {
+async function apiManagementRestoreService(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementRestoreService() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementRestoreService();
 }
 

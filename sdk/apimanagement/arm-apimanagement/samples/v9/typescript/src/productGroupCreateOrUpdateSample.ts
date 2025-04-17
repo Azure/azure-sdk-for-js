@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Adds the association between the specified developer group with the specified product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProductGroup.json
  */
-async function apiManagementCreateProductGroup() {
+async function apiManagementCreateProductGroup(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementCreateProductGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateProductGroup();
 }
 

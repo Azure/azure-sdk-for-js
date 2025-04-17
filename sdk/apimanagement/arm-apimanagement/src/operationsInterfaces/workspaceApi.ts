@@ -22,7 +22,7 @@ import {
   WorkspaceApiUpdateOptionalParams,
   WorkspaceApiUpdateResponse,
   WorkspaceApiDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceApi. */

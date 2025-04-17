@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all revisions of an API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiRevisions.json
  */
-async function apiManagementListApiRevisions() {
+async function apiManagementListApiRevisions(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListApiRevisions() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiRevisions();
 }
 

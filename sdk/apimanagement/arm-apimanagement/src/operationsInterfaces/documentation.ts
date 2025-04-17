@@ -20,7 +20,7 @@ import {
   DocumentationUpdateOptionalParams,
   DocumentationUpdateResponse,
   DocumentationDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Documentation. */

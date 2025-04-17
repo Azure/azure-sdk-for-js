@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the user specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetUser.json
  */
-async function apiManagementGetUser() {
+async function apiManagementGetUser(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -28,7 +28,7 @@ async function apiManagementGetUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetUser();
 }
 

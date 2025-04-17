@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the details of the resolver in the GraphQL API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateGraphQLApiResolver.json
  */
-async function apiManagementUpdateGraphQlApiResolver() {
+async function apiManagementUpdateGraphQlApiResolver(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function apiManagementUpdateGraphQlApiResolver() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateGraphQlApiResolver();
 }
 

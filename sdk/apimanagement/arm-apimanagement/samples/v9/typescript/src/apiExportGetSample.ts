@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiExportInOpenApi2dot0.json
  */
-async function apiManagementGetApiExportInOpenApi2Dot0() {
+async function apiManagementGetApiExportInOpenApi2Dot0(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -42,7 +42,7 @@ async function apiManagementGetApiExportInOpenApi2Dot0() {
  * @summary Gets the details of the API specified by its identifier in the format specified to the Storage Blob with SAS Key valid for 5 minutes.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiExportInOpenApi3dot0.json
  */
-async function apiManagementGetApiExportInOpenApi3Dot0() {
+async function apiManagementGetApiExportInOpenApi3Dot0(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -63,7 +63,7 @@ async function apiManagementGetApiExportInOpenApi3Dot0() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementGetApiExportInOpenApi2Dot0();
     apiManagementGetApiExportInOpenApi3Dot0();
 }

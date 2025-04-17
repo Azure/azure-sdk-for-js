@@ -10,7 +10,7 @@ import {
   AuthorizationLoginRequestContract,
   AuthorizationLoginLinksPostOptionalParams,
   AuthorizationLoginLinksPostResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AuthorizationLoginLinks. */
 export interface AuthorizationLoginLinks {

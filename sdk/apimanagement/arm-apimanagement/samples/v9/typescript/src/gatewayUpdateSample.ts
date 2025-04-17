@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Updates the details of the gateway specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateGateway.json
  */
-async function apiManagementUpdateGateway() {
+async function apiManagementUpdateGateway(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementUpdateGateway() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateGateway();
 }
 

@@ -17,7 +17,7 @@ import {
   DelegationSettingsCreateOrUpdateResponse,
   DelegationSettingsListSecretsOptionalParams,
   DelegationSettingsListSecretsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DelegationSettings. */
 export interface DelegationSettings {

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on API level but tag may be assigned to the Operations
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiTagDescriptions.json
  */
-async function apiManagementListApiTagDescriptions() {
+async function apiManagementListApiTagDescriptions(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListApiTagDescriptions() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiTagDescriptions();
 }
 

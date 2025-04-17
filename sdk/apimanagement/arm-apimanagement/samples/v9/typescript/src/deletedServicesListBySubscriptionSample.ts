@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all soft-deleted services available for undelete for the given subscription.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeletedServicesListBySubscription.json
  */
-async function apiManagementDeletedServicesListBySubscription() {
+async function apiManagementDeletedServicesListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function apiManagementDeletedServicesListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeletedServicesListBySubscription();
 }
 

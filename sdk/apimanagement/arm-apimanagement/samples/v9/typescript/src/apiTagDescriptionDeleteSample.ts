@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Delete tag description for the Api.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiTagDescription.json
  */
-async function apiManagementDeleteApiTagDescription() {
+async function apiManagementDeleteApiTagDescription(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementDeleteApiTagDescription() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementDeleteApiTagDescription();
 }
 

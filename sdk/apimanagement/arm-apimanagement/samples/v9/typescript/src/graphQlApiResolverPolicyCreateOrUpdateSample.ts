@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Creates or updates policy configuration for the GraphQL API Resolver level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGraphQLApiResolverPolicy.json
  */
-async function apiManagementCreateGraphQlApiResolverPolicy() {
+async function apiManagementCreateGraphQlApiResolverPolicy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -51,7 +51,7 @@ async function apiManagementCreateGraphQlApiResolverPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateGraphQlApiResolverPolicy();
 }
 

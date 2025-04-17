@@ -15,7 +15,7 @@ import {
   WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams,
   WorkspaceNotificationRecipientUserCreateOrUpdateResponse,
   WorkspaceNotificationRecipientUserDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceNotificationRecipientUser. */
 export interface WorkspaceNotificationRecipientUser {

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the value of the quota counter associated with the counter-key in the policy for the specific period in service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetQuotaCounterKeysByQuotaPeriod.json
  */
-async function apiManagementGetQuotaCounterKeysByQuotaPeriod() {
+async function apiManagementGetQuotaCounterKeysByQuotaPeriod(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementGetQuotaCounterKeysByQuotaPeriod() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetQuotaCounterKeysByQuotaPeriod();
 }
 

@@ -25,7 +25,7 @@ import {
   WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams,
   WorkspaceSubscriptionListSecretsOptionalParams,
   WorkspaceSubscriptionListSecretsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceSubscription. */

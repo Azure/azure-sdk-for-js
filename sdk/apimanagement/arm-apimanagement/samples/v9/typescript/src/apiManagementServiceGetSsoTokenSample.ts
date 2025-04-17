@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetSsoToken.json
  */
-async function apiManagementServiceGetSsoToken() {
+async function apiManagementServiceGetSsoToken(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementServiceGetSsoToken() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementServiceGetSsoToken();
 }
 

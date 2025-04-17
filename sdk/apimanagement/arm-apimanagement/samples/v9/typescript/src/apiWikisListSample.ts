@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the wikis for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiWikis.json
  */
-async function apiManagementListApiWikis() {
+async function apiManagementListApiWikis(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListApiWikis() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiWikis();
 }
 

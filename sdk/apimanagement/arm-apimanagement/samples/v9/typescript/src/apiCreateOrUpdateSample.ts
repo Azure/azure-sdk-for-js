@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApi.json
  */
-async function apiManagementCreateApi() {
+async function apiManagementCreateApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -56,7 +56,7 @@ async function apiManagementCreateApi() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiClone.json
  */
-async function apiManagementCreateApiClone() {
+async function apiManagementCreateApiClone(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -91,7 +91,7 @@ async function apiManagementCreateApiClone() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiNewVersionUsingExistingApi.json
  */
-async function apiManagementCreateApiNewVersionUsingExistingApi() {
+async function apiManagementCreateApiNewVersionUsingExistingApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -130,7 +130,7 @@ async function apiManagementCreateApiNewVersionUsingExistingApi() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiRevisionFromExistingApi.json
  */
-async function apiManagementCreateApiRevisionFromExistingApi() {
+async function apiManagementCreateApiRevisionFromExistingApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -161,7 +161,7 @@ async function apiManagementCreateApiRevisionFromExistingApi() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiUsingImportOverrideServiceUrl.json
  */
-async function apiManagementCreateApiUsingImportOverrideServiceUrl() {
+async function apiManagementCreateApiUsingImportOverrideServiceUrl(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -191,7 +191,7 @@ async function apiManagementCreateApiUsingImportOverrideServiceUrl() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiUsingOai3Import.json
  */
-async function apiManagementCreateApiUsingOai3Import() {
+async function apiManagementCreateApiUsingOai3Import(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -221,7 +221,7 @@ async function apiManagementCreateApiUsingOai3Import() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct.json
  */
-async function apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct() {
+async function apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -252,7 +252,7 @@ async function apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryPa
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiUsingSwaggerImport.json
  */
-async function apiManagementCreateApiUsingSwaggerImport() {
+async function apiManagementCreateApiUsingSwaggerImport(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -281,7 +281,7 @@ async function apiManagementCreateApiUsingSwaggerImport() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiUsingWadlImport.json
  */
-async function apiManagementCreateApiUsingWadlImport() {
+async function apiManagementCreateApiUsingWadlImport(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -311,7 +311,7 @@ async function apiManagementCreateApiUsingWadlImport() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiWithMultipleAuthServers.json
  */
-async function apiManagementCreateApiWithMultipleAuthServers() {
+async function apiManagementCreateApiWithMultipleAuthServers(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -355,7 +355,7 @@ async function apiManagementCreateApiWithMultipleAuthServers() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiWithMultipleOpenIdConnectProviders.json
  */
-async function apiManagementCreateApiWithMultipleOpenIdConnectProviders() {
+async function apiManagementCreateApiWithMultipleOpenIdConnectProviders(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -399,7 +399,7 @@ async function apiManagementCreateApiWithMultipleOpenIdConnectProviders() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiWithOpenIdConnect.json
  */
-async function apiManagementCreateApiWithOpenIdConnect() {
+async function apiManagementCreateApiWithOpenIdConnect(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -441,7 +441,7 @@ async function apiManagementCreateApiWithOpenIdConnect() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGraphQLApi.json
  */
-async function apiManagementCreateGraphQlApi() {
+async function apiManagementCreateGraphQlApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -473,7 +473,7 @@ async function apiManagementCreateGraphQlApi() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateSoapPassThroughApiUsingWsdlImport.json
  */
-async function apiManagementCreateSoapPassThroughApiUsingWsdlImport() {
+async function apiManagementCreateSoapPassThroughApiUsingWsdlImport(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -507,7 +507,7 @@ async function apiManagementCreateSoapPassThroughApiUsingWsdlImport() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateSoapToRestApiUsingWsdlImport.json
  */
-async function apiManagementCreateSoapToRestApiUsingWsdlImport() {
+async function apiManagementCreateSoapToRestApiUsingWsdlImport(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -540,7 +540,7 @@ async function apiManagementCreateSoapToRestApiUsingWsdlImport() {
  * @summary Creates new or updates existing specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateWebsocketApi.json
  */
-async function apiManagementCreateWebSocketApi() {
+async function apiManagementCreateWebSocketApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -566,7 +566,7 @@ async function apiManagementCreateWebSocketApi() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementCreateApi();
     apiManagementCreateApiClone();
     apiManagementCreateApiNewVersionUsingExistingApi();

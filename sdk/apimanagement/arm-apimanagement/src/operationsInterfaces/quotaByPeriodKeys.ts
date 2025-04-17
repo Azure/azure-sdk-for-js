@@ -12,7 +12,7 @@ import {
   QuotaCounterValueUpdateContract,
   QuotaByPeriodKeysUpdateOptionalParams,
   QuotaByPeriodKeysUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a QuotaByPeriodKeys. */
 export interface QuotaByPeriodKeys {

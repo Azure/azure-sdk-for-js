@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all attachments for the Issue associated with the specified API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiIssueAttachments.json
  */
-async function apiManagementListApiIssueAttachments() {
+async function apiManagementListApiIssueAttachments(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementListApiIssueAttachments() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiIssueAttachments();
 }
 

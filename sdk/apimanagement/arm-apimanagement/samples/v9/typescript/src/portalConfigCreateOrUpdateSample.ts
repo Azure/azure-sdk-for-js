@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update the developer portal configuration.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreatePortalConfig.json
  */
-async function apiManagementCreatePortalConfig() {
+async function apiManagementCreatePortalConfig(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function apiManagementCreatePortalConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreatePortalConfig();
 }
 

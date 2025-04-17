@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the issue Attachment for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiIssueAttachment.json
  */
-async function apiManagementHeadApiIssueAttachment() {
+async function apiManagementHeadApiIssueAttachment(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementHeadApiIssueAttachment() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementHeadApiIssueAttachment();
 }
 

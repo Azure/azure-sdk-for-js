@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PolicyRestrictionValidationsByServiceOptionalParams,
   PolicyRestrictionValidationsByServiceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PolicyRestrictionValidations. */
 export interface PolicyRestrictionValidations {

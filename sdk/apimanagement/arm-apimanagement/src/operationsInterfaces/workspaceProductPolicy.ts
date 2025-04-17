@@ -18,7 +18,7 @@ import {
   WorkspaceProductPolicyCreateOrUpdateOptionalParams,
   WorkspaceProductPolicyCreateOrUpdateResponse,
   WorkspaceProductPolicyDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceProductPolicy. */
 export interface WorkspaceProductPolicy {

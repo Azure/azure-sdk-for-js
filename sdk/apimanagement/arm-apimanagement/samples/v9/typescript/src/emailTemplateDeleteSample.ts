@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Reset the Email Template to default template provided by the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteTemplate.json
  */
-async function apiManagementDeleteTemplate() {
+async function apiManagementDeleteTemplate(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementDeleteTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteTemplate();
 }
 

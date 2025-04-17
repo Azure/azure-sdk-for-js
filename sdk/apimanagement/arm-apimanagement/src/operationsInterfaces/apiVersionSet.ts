@@ -20,7 +20,7 @@ import {
   ApiVersionSetUpdateOptionalParams,
   ApiVersionSetUpdateResponse,
   ApiVersionSetDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiVersionSet. */

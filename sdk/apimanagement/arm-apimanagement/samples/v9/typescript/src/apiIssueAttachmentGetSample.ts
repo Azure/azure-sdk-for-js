@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the issue Attachment for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiIssueAttachment.json
  */
-async function apiManagementGetApiIssueAttachment() {
+async function apiManagementGetApiIssueAttachment(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementGetApiIssueAttachment() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementGetApiIssueAttachment();
 }
 

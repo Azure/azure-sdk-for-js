@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the SignUpSettings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadSignUpSettings.json
  */
-async function apiManagementHeadSignUpSettings() {
+async function apiManagementHeadSignUpSettings(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementHeadSignUpSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementHeadSignUpSettings();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates an existing API Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServiceDisableTls10.json
  */
-async function apiManagementUpdateServiceDisableTls10() {
+async function apiManagementUpdateServiceDisableTls10(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -45,7 +45,7 @@ async function apiManagementUpdateServiceDisableTls10() {
  * @summary Updates an existing API Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServicePublisherDetails.json
  */
-async function apiManagementUpdateServicePublisherDetails() {
+async function apiManagementUpdateServicePublisherDetails(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -71,7 +71,7 @@ async function apiManagementUpdateServicePublisherDetails() {
  * @summary Updates an existing API Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateServiceToNewVnetAndAZs.json
  */
-async function apiManagementUpdateServiceToNewVnetAndAvailabilityZones() {
+async function apiManagementUpdateServiceToNewVnetAndAvailabilityZones(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -111,7 +111,7 @@ async function apiManagementUpdateServiceToNewVnetAndAvailabilityZones() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementUpdateServiceDisableTls10();
     apiManagementUpdateServicePublisherDetails();
     apiManagementUpdateServiceToNewVnetAndAvailabilityZones();

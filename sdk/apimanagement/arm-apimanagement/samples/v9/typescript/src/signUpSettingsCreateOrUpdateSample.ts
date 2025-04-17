@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Create or Update Sign-Up settings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsPutSignUp.json
  */
-async function apiManagementPortalSettingsUpdateSignUp() {
+async function apiManagementPortalSettingsUpdateSignUp(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +46,7 @@ async function apiManagementPortalSettingsUpdateSignUp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementPortalSettingsUpdateSignUp();
 }
 

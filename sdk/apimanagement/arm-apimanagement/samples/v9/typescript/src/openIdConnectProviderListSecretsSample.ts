@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the client secret details of the OpenID Connect Provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementOpenidConnectProviderListSecrets.json
  */
-async function apiManagementOpenidConnectProviderListSecrets() {
+async function apiManagementOpenidConnectProviderListSecrets(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementOpenidConnectProviderListSecrets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementOpenidConnectProviderListSecrets();
 }
 

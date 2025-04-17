@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all API Management services within a resource group.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListServiceBySubscriptionAndResourceGroup.json
  */
-async function apiManagementListServiceBySubscriptionAndResourceGroup() {
+async function apiManagementListServiceBySubscriptionAndResourceGroup(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -31,7 +31,7 @@ async function apiManagementListServiceBySubscriptionAndResourceGroup() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListServiceBySubscriptionAndResourceGroup();
 }
 

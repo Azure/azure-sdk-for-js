@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a collection of Identity Provider configured in the specified service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListIdentityProviders.json
  */
-async function apiManagementListIdentityProviders() {
+async function apiManagementListIdentityProviders(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListIdentityProviders() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListIdentityProviders();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Confirm valid consent code to suppress Authorizations anti-phishing page.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPostAuthorizationConfirmConsentCodeRequest.json
  */
-async function apiManagementPostAuthorizationConfirmConsentCodeRequest() {
+async function apiManagementPostAuthorizationConfirmConsentCodeRequest(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementPostAuthorizationConfirmConsentCodeRequest() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementPostAuthorizationConfirmConsentCodeRequest();
 }
 

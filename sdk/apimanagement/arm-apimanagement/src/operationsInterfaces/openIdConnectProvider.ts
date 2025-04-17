@@ -22,7 +22,7 @@ import {
   OpenIdConnectProviderDeleteOptionalParams,
   OpenIdConnectProviderListSecretsOptionalParams,
   OpenIdConnectProviderListSecretsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OpenIdConnectProvider. */

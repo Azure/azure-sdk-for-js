@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns the etag of an API release.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiRelease.json
  */
-async function apiManagementHeadApiRelease() {
+async function apiManagementHeadApiRelease(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementHeadApiRelease() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementHeadApiRelease();
 }
 

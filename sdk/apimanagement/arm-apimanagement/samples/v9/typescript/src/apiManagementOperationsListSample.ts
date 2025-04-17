@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all of the available REST API operations of the Microsoft.ApiManagement provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListOperations.json
  */
-async function apiManagementListOperations() {
+async function apiManagementListOperations(): Promise<void> {
     const credential = new DefaultAzureCredential();
     const client = new ApiManagementClient(credential);
     const resArray = new Array();
@@ -25,7 +25,7 @@ async function apiManagementListOperations() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListOperations();
 }
 

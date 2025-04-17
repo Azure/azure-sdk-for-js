@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Regenerates primary key of existing subscription of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementSubscriptionRegeneratePrimaryKey.json
  */
-async function apiManagementSubscriptionRegeneratePrimaryKey() {
+async function apiManagementSubscriptionRegeneratePrimaryKey(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementSubscriptionRegeneratePrimaryKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementSubscriptionRegeneratePrimaryKey();
 }
 

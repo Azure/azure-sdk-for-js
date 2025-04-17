@@ -15,7 +15,7 @@ import {
   WorkspaceProductGroupLinkCreateOrUpdateOptionalParams,
   WorkspaceProductGroupLinkCreateOrUpdateResponse,
   WorkspaceProductGroupLinkDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceProductGroupLink. */

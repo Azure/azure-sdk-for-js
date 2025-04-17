@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the named value specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetNamedValue.json
  */
-async function apiManagementGetNamedValue() {
+async function apiManagementGetNamedValue(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function apiManagementGetNamedValue() {
  * @summary Gets the details of the named value specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetNamedValueWithKeyVault.json
  */
-async function apiManagementGetNamedValueWithKeyVault() {
+async function apiManagementGetNamedValueWithKeyVault(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -55,7 +55,7 @@ async function apiManagementGetNamedValueWithKeyVault() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetNamedValue();
   apiManagementGetNamedValueWithKeyVault();
 }

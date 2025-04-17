@@ -15,7 +15,7 @@ import {
   WorkspaceTagOperationLinkCreateOrUpdateOptionalParams,
   WorkspaceTagOperationLinkCreateOrUpdateResponse,
   WorkspaceTagOperationLinkDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceTagOperationLink. */

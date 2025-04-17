@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets all policy fragments.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPolicyFragments.json
  */
-async function apiManagementListPolicyFragments() {
+async function apiManagementListPolicyFragments(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementListPolicyFragments() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPolicyFragments();
 }
 

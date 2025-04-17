@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists the collection of subscriptions to the specified product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductSubscriptions.json
  */
-async function apiManagementListProductSubscriptions() {
+async function apiManagementListProductSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListProductSubscriptions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListProductSubscriptions();
 }
 

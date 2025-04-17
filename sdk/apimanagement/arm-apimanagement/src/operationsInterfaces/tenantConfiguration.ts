@@ -19,7 +19,7 @@ import {
   TenantConfigurationValidateResponse,
   TenantConfigurationGetSyncStateOptionalParams,
   TenantConfigurationGetSyncStateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a TenantConfiguration. */
 export interface TenantConfiguration {

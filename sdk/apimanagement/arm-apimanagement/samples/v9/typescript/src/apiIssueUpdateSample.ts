@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates an existing issue for an API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApiIssue.json
  */
-async function apiManagementUpdateApiIssue() {
+async function apiManagementUpdateApiIssue(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementUpdateApiIssue() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementUpdateApiIssue();
 }
 

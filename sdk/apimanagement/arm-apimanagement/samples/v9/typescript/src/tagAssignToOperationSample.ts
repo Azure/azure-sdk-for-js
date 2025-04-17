@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Assign tag to the Operation.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiOperationTag.json
  */
-async function apiManagementCreateApiOperationTag() {
+async function apiManagementCreateApiOperationTag(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementCreateApiOperationTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateApiOperationTag();
 }
 

@@ -18,7 +18,7 @@ import {
   ApiTagDescriptionCreateOrUpdateOptionalParams,
   ApiTagDescriptionCreateOrUpdateResponse,
   ApiTagDescriptionDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiTagDescription. */

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the Diagnostic specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadDiagnostic.json
  */
-async function apiManagementHeadDiagnostic() {
+async function apiManagementHeadDiagnostic(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementHeadDiagnostic() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementHeadDiagnostic();
 }
 

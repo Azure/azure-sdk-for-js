@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { QuotaByCounterKeys } from "../operationsInterfaces";
+import { QuotaByCounterKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   QuotaByCounterKeysListByServiceOptionalParams,
   QuotaByCounterKeysListByServiceResponse,
   QuotaCounterValueUpdateContract,
   QuotaByCounterKeysUpdateOptionalParams,
   QuotaByCounterKeysUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing QuotaByCounterKeys operations. */
 export class QuotaByCounterKeysImpl implements QuotaByCounterKeys {

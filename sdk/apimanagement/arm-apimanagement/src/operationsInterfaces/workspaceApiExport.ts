@@ -11,7 +11,7 @@ import {
   ExportApi,
   WorkspaceApiExportGetOptionalParams,
   WorkspaceApiExportGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceApiExport. */
 export interface WorkspaceApiExport {

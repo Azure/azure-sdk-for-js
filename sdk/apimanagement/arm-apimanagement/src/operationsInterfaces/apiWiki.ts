@@ -18,7 +18,7 @@ import {
   ApiWikiUpdateOptionalParams,
   ApiWikiUpdateResponse,
   ApiWikiDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ApiWiki. */
 export interface ApiWiki {

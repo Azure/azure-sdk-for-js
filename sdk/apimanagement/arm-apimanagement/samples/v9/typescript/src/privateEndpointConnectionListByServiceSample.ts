@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all private endpoint connections of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPrivateEndpointConnections.json
  */
-async function apiManagementListPrivateEndpointConnections() {
+async function apiManagementListPrivateEndpointConnections(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListPrivateEndpointConnections() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPrivateEndpointConnections();
 }
 

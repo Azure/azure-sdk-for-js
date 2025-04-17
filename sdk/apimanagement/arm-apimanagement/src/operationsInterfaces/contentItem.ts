@@ -17,7 +17,7 @@ import {
   ContentItemCreateOrUpdateOptionalParams,
   ContentItemCreateOrUpdateResponse,
   ContentItemDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContentItem. */

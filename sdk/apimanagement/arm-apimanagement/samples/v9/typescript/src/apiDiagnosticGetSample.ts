@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the details of the Diagnostic for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiDiagnostic.json
  */
-async function apiManagementGetApiDiagnostic() {
+async function apiManagementGetApiDiagnostic(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementGetApiDiagnostic() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementGetApiDiagnostic();
 }
 

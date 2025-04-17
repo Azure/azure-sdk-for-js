@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the API operation policy specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiOperationPolicy.json
  */
-async function apiManagementHeadApiOperationPolicy() {
+async function apiManagementHeadApiOperationPolicy(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementHeadApiOperationPolicy() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementHeadApiOperationPolicy();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new resolver in the GraphQL API or updates an existing one.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGraphQLApiResolver.json
  */
-async function apiManagementCreateGraphQlApiResolver() {
+async function apiManagementCreateGraphQlApiResolver(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -43,7 +43,7 @@ async function apiManagementCreateGraphQlApiResolver() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateGraphQlApiResolver();
 }
 

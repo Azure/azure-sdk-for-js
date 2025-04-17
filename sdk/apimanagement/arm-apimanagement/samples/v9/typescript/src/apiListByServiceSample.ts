@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all APIs of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApis.json
  */
-async function apiManagementListApis() {
+async function apiManagementListApis(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListApis() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApis();
 }
 

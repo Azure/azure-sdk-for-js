@@ -11,7 +11,7 @@ import {
   NetworkStatusListByServiceResponse,
   NetworkStatusListByLocationOptionalParams,
   NetworkStatusListByLocationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NetworkStatus. */
 export interface NetworkStatus {

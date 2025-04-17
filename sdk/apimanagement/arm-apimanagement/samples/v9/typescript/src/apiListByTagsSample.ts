@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a collection of apis associated with tags.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApisByTags.json
  */
-async function apiManagementListApisByTags() {
+async function apiManagementListApisByTags(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListApisByTags() {
     console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApisByTags();
 }
 

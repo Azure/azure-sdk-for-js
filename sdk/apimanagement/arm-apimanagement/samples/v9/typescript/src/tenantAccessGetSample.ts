@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get tenant access information details without secrets.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantAccess.json
  */
-async function apiManagementGetTenantAccess() {
+async function apiManagementGetTenantAccess(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function apiManagementGetTenantAccess() {
  * @summary Get tenant access information details without secrets.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantGitAccess.json
  */
-async function apiManagementGetTenantGitAccess() {
+async function apiManagementGetTenantGitAccess(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -55,7 +55,7 @@ async function apiManagementGetTenantGitAccess() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetTenantAccess();
   apiManagementGetTenantGitAccess();
 }

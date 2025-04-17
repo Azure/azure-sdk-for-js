@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the secret validation key of the DelegationSettings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSecretsPortalSettingsValidationKey.json
  */
-async function apiManagementListSecretsPortalSettings() {
+async function apiManagementListSecretsPortalSettings(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function apiManagementListSecretsPortalSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListSecretsPortalSettings();
 }
 

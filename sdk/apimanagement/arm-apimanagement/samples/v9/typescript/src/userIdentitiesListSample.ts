@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List of all user identities.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListUserIdentities.json
  */
-async function apiManagementListUserIdentities() {
+async function apiManagementListUserIdentities(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function apiManagementListUserIdentities() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListUserIdentities();
 }
 

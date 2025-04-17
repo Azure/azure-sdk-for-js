@@ -9,7 +9,7 @@
 import {
   PolicyDescriptionListByServiceOptionalParams,
   PolicyDescriptionListByServiceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PolicyDescription. */
 export interface PolicyDescription {

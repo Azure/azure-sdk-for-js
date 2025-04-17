@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Removes the specified developer portal's content item.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteContentTypeContentItem.json
  */
-async function apiManagementDeleteContentTypeContentItem() {
+async function apiManagementDeleteContentTypeContentItem(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementDeleteContentTypeContentItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteContentTypeContentItem();
 }
 

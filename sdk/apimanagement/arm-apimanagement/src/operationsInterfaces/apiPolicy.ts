@@ -18,7 +18,7 @@ import {
   ApiPolicyCreateOrUpdateOptionalParams,
   ApiPolicyCreateOrUpdateResponse,
   ApiPolicyDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ApiPolicy. */
 export interface ApiPolicy {

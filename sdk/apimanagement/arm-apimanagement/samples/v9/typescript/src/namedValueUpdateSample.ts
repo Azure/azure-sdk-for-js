@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the specific named value.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateNamedValue.json
  */
-async function apiManagementUpdateNamedValue() {
+async function apiManagementUpdateNamedValue(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -44,7 +44,7 @@ async function apiManagementUpdateNamedValue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateNamedValue();
 }
 

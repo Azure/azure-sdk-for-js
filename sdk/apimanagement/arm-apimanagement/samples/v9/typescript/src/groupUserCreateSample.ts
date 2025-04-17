@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Add existing user to existing group
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroupUser.json
  */
-async function apiManagementCreateGroupUser() {
+async function apiManagementCreateGroupUser(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementCreateGroupUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateGroupUser();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new developer portal's content item specified by the provided content type.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateContentTypeContentItem.json
  */
-async function apiManagementCreateContentTypeContentItem() {
+async function apiManagementCreateContentTypeContentItem(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -50,7 +50,7 @@ async function apiManagementCreateContentTypeContentItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateContentTypeContentItem();
 }
 

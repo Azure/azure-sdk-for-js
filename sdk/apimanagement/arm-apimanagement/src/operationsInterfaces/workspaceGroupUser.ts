@@ -15,7 +15,7 @@ import {
   WorkspaceGroupUserCreateOptionalParams,
   WorkspaceGroupUserCreateResponse,
   WorkspaceGroupUserDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceGroupUser. */

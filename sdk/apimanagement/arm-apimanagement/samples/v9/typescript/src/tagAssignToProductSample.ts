@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Assign tag to the Product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProductTag.json
  */
-async function apiManagementCreateProductTag() {
+async function apiManagementCreateProductTag(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementCreateProductTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateProductTag();
 }
 

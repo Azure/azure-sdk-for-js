@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Adds an API to the specified Gateway.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGatewayApi.json
  */
-async function apiManagementCreateGatewayApi() {
+async function apiManagementCreateGatewayApi(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function apiManagementCreateGatewayApi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateGatewayApi();
 }
 

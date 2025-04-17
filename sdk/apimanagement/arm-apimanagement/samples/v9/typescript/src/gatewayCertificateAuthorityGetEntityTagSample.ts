@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGatewayCertificateAuthority.json
  */
-async function apiManagementHeadGatewayCertificateAuthority() {
+async function apiManagementHeadGatewayCertificateAuthority(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -34,7 +34,7 @@ async function apiManagementHeadGatewayCertificateAuthority() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementHeadGatewayCertificateAuthority();
 }
 

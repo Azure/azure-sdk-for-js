@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the details of the Api VersionSet specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApiVersionSet.json
  */
-async function apiManagementUpdateApiVersionSet() {
+async function apiManagementUpdateApiVersionSet(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -43,7 +43,7 @@ async function apiManagementUpdateApiVersionSet() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementUpdateApiVersionSet();
 }
 

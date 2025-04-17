@@ -9,7 +9,7 @@
 import {
   ApiManagementWorkspaceLinkGetOptionalParams,
   ApiManagementWorkspaceLinkGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ApiManagementWorkspaceLink. */
 export interface ApiManagementWorkspaceLink {

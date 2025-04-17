@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Public settings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTenantSettings.json
  */
-async function apiManagementListTenantSettings() {
+async function apiManagementListTenantSettings(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListTenantSettings() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListTenantSettings();
 }
 

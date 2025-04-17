@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates an existing IdentityProvider configuration.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateIdentityProvider.json
  */
-async function apiManagementUpdateIdentityProvider() {
+async function apiManagementUpdateIdentityProvider(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function apiManagementUpdateIdentityProvider() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateIdentityProvider();
 }
 

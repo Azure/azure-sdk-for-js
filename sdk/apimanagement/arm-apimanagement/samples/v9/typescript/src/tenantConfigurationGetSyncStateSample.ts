@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the status of the most recent synchronization between the configuration database and the Git repository.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementTenantAccessSyncState.json
  */
-async function apiManagementTenantAccessSyncState() {
+async function apiManagementTenantAccessSyncState(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function apiManagementTenantAccessSyncState() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementTenantAccessSyncState();
 }
 
