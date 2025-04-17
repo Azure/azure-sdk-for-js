@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { EncryptionType } from "../../../../src";
-import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm";
-import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey";
+import { EncryptionType } from "../../../../src/index.js";
+import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm/index.js";
+import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey/index.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 class TestDataEncryptionKey extends DataEncryptionKey {
   constructor(rootKey: Buffer) {

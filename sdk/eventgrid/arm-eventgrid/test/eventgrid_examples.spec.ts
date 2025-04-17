@@ -58,7 +58,7 @@ describe("Eventgrid test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "east us2 euap";
+    location = "eastus";
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";

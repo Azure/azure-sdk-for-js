@@ -9,9 +9,11 @@
  */
 
 import { TableClient, TableTransaction } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
+const endpoint = process.env.TABLES_URL || "";
+
 async function batchOperations(): Promise<void> {
   console.log("== TableTransaction Sample ==");
 
@@ -19,7 +21,7 @@ async function batchOperations(): Promise<void> {
   const tableName = `transactionHelper`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = TableClient.fromConnectionString(connectionString, tableName);
+  const client = new TableClient(endpoint, tableName, new DefaultAzureCredential());
 
   // Create the table
   await client.createTable();

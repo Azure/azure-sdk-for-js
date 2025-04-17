@@ -72,6 +72,7 @@ import {
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils.js";
 import { getCloudRole, getCloudRoleInstance } from "../utils.js";
+import { Logger } from "../../shared/logging/logger.js";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -655,10 +656,14 @@ export class LiveMetrics {
   }
 
   private getProcessorTimeNormalized(observableResult: ObservableResult): void {
-    const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
-    observableResult.observe(cpuUsagePercent);
-    this.lastHrTime = process.hrtime.bigint();
-    this.lastCpuUsage = process.cpuUsage();
+    if (process && process.hrtime) {
+      const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
+      observableResult.observe(cpuUsagePercent);
+      this.lastHrTime = process.hrtime.bigint();
+      this.lastCpuUsage = process.cpuUsage();
+    } else {
+      Logger.getInstance().debug("Getting Normalized Processor Time Failed. No process available.");
+    }
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
@@ -675,6 +680,9 @@ export class LiveMetrics {
   }
 
   private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.documentStreams.forEach((documentStreamInfo) => {
       documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
         try {
@@ -761,6 +769,10 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    // eslint-disable-next-line eqeqeq
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.metrics.forEach((derivedMetricInfo) => {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {

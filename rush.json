@@ -1,7 +1,8 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */
+{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -366,11 +367,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-language-textauthoring",
-      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
@@ -593,7 +589,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/mock-hub",
+      "packageName": "@azure-tools/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
     },
@@ -714,6 +710,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
       "versionPolicyName": "client"
@@ -819,11 +820,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
@@ -904,11 +900,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -962,11 +953,6 @@
       "packageName": "@azure-tests/perf-schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-network",
@@ -1546,11 +1532,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {
@@ -2304,8 +2285,18 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-agricultureplatform",
+      "projectFolder": "sdk/agricultureplatform/arm-agricultureplatform",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-connectedcache",
       "projectFolder": "sdk/connectedcache/arm-connectedcache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-arizeaiobservabilityeval",
+      "projectFolder": "sdk/liftrarize/arm-arizeaiobservabilityeval",
       "versionPolicyName": "management"
     },
     {
@@ -2326,6 +2317,21 @@
     {
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-durabletask",
+      "projectFolder": "sdk/durabletask/arm-durabletask",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationassessment",
+      "projectFolder": "sdk/migrate/arm-migrationassessment",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-weightsandbiases",
+      "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
       "versionPolicyName": "management"
     }
   ]

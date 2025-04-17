@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./components.js";
 export * from "./annotations.js";
 export * from "./aPIKeys.js";
 export * from "./exportConfigurations.js";
@@ -19,9 +20,9 @@ export * from "./favorites.js";
 export * from "./webTestLocations.js";
 export * from "./webTests.js";
 export * from "./analyticsItems.js";
+export * from "./operations.js";
 export * from "./workbookTemplates.js";
-export * from "./myWorkbooks.js";
 export * from "./workbooks.js";
-export * from "./components.js";
-export * from "./componentLinkedStorageAccountsOperations.js";
 export * from "./liveToken.js";
+export * from "./componentLinkedStorageAccountsOperations.js";
+export * from "./deletedWorkbooks.js";

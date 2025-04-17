@@ -5,8 +5,6 @@
 
 // This file is ignored by the linter because it is impossible to move the copyright header above the shebang line.
 
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { writeFile } from "node:fs/promises";
 import { DocumentModelAdministrationClient } from "../documentModelAdministrationClient.js";
@@ -29,32 +27,18 @@ Options:
  -o, --output\tdetermines where to output the model
 
  --endpoint <endpoint>\tthe Form Recognizer resource's endpoint
- --api-key <api-key>  \tthe Form Recognizer resource's API key
 
 Default values:
 
-If the \`--endpoint\` or \`--api-key\` options are not provided, then the values
-of the \`FORM_RECOGNIZER_ENDPOINT\` and \`FORM_RECOGNIZER_API_KEY\` environment
-variables will be used as defaults, respectively.
+If the \`--endpoint\` option is not provided, then the value
+of the \`FORM_RECOGNIZER_ENDPOINT\` environment
+variable will be used as default.
 
 Authentication:
 
-If an API key is available (via. the \`--api-key\` option or \`FORM_RECOGNIZER_API_KEY\`
-environment variable), then it will be used to authenticate requests to the Form
-Recognizer service.
-
-Otherwise, if the \`@azure/identity\` package is installed, the \`DefaultAzureCredential\`
+If the \`@azure/identity\` package is installed, the \`DefaultAzureCredential\`
 from that package will be used.
-
-One of these methods must be available to authenticate with the service.`);
-}
-
-function tryAad(): DefaultAzureCredential {
-  try {
-    return new DefaultAzureCredential();
-  } catch {
-    throw new Error();
-  }
+`);
 }
 
 /**
@@ -66,7 +50,6 @@ async function main(): Promise<void> {
 
   let modelId: string | undefined = undefined;
   let endpoint = process.env.FORM_RECOGNIZER_ENDPOINT;
-  let apiKey = process.env.FORM_RECOGNIZER_API_KEY;
   let output: string | undefined = undefined;
   let test: boolean = false;
 
@@ -82,9 +65,6 @@ async function main(): Promise<void> {
     switch (args[idx]) {
       case "--endpoint":
         endpoint = args[(idx += 1)];
-        break;
-      case "--api-key":
-        apiKey = args[(idx += 1)];
         break;
       case "-o":
       case "--output":
@@ -112,28 +92,7 @@ async function main(): Promise<void> {
     throw new Error("no endpoint provided");
   }
 
-  // We try API key-based authentication first, then AAD. If neither works, then we throw an error.
-  let credential: KeyCredential | TokenCredential;
-
-  if (apiKey) {
-    console.error("Using API key authentication.");
-    credential = new AzureKeyCredential(apiKey);
-  } else {
-    try {
-      credential = tryAad();
-      console.error("Using Azure Active Directory authentication (DefaultAzureCredential).");
-    } catch {
-      throw new Error(
-        [
-          "no authentication method is available;",
-          "provide an API key or install and configure the `@azure/identity` package",
-          "(`npm i --save-dev @azure/identity`)",
-        ].join(" "),
-      );
-    }
-  }
-
-  const client = new DocumentModelAdministrationClient(endpoint, credential);
+  const client = new DocumentModelAdministrationClient(endpoint, new DefaultAzureCredential());
 
   const modelInfo = await client.getDocumentModel(modelId);
 

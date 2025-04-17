@@ -9,6 +9,7 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
+  SearchConfigurationOutput,
   OpenApiFunctionDefinition,
   OpenApiToolDefinition,
   RequiredActionOutput,
@@ -21,6 +22,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
 } from "./inputOutputs.js";
+import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
 /**
  * Determines if the given output is of the specified type.
@@ -42,18 +44,21 @@ export enum connectionToolType {
   /** Bing grounding search tool */
   BingGrounding = "bing_grounding",
   /** Microsoft Fabric tool */
-  MicrosoftFabric = "microsoft_fabric",
+  MicrosoftFabric = "fabric_dataagent",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
   AzureFunction = "azure_function",
+  /** Bing custom search tool */
+  BingCustomSearch = "bing_custom_search",
 }
 
 const toolMap = {
   bing_grounding: "bingGrounding",
-  microsoft_fabric: "microsoftFabric",
+  fabric_dataagent: "fabric_dataagent",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
+  bing_custom_search: "bingCustomSearch",
 };
 
 /**
@@ -76,6 +81,30 @@ export class ToolUtility {
         type: toolType,
         [toolMap[toolType]]: {
           connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a bing custom search tool
+   *
+   * @param searchConfigurations - The ID of bing search connection and instanceName.
+   *
+   * @returns An object containing the definition and resources for the bing custom search tool
+   */
+
+  static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+    definition: ToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "bing_custom_search",
+        bingCustomSearch: {
+          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+            connectionId: searchConfiguration.connectionId,
+            instanceName: searchConfiguration.instanceName,
+          })),
         },
       },
     };
@@ -164,12 +193,38 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
+    options?: CreateAzureAISearchToolOptions,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
       resources: {
         azureAISearch: {
-          indexes: [{ indexConnectionId: indexConnectionId, indexName: indexName }],
+          indexes: [
+            {
+              indexConnectionId: indexConnectionId,
+              indexName: indexName,
+              queryType: options?.queryType,
+              topK: options?.topK,
+              filter: options?.filter,
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a Microsoft Fabric tool
+   *
+   * @param connectionIds - A list of the IDs of the Fabric connections to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  static createFabricTool(connectionId: string): { definition: ToolDefinition } {
+    return {
+      definition: {
+        type: "fabric_dataagent",
+        fabricDataAgent: {
+          connections: [{ connectionId: connectionId }],
         },
       },
     };
@@ -339,6 +394,17 @@ export class ToolSet {
     );
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };
+    return tool;
+  }
+  /**
+   * Adds a Microsoft Fabric tool to the tool set.
+   *
+   * @param connectionId - The ID of the Fabric connection to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  addFabricTool(connectionId: string): { definition: ToolDefinition } {
+    const tool = ToolUtility.createFabricTool(connectionId);
+    this.toolDefinitions.push(tool.definition);
     return tool;
   }
 }

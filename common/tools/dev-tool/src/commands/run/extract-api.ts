@@ -12,7 +12,6 @@ import {
   IConfigFile,
 } from "@microsoft/api-extractor";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-
 import { createPrinter } from "../../util/printer";
 import path from "path";
 import { readFile, writeFile, unlink, mkdir } from "node:fs/promises";

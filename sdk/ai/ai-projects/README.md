@@ -33,6 +33,7 @@ Use the AI Projects client library (in preview) to:
       - [Bing grounding](#create-agent-with-bing-grounding)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
+      - [Fabric Data](#create-an-agent-with-fabric)
     - [Create thread](#create-thread) with
       - [Tool resource](#create-thread-with-tool-resource)
     - [Create message](#create-message) with:
@@ -378,6 +379,30 @@ const agent = await client.agents.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
+#### Create an Agent with Fabric
+
+To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
+
+Here is an example:
+
+```ts snippet:createAgentWithFabric
+import { ToolUtility } from "@azure/ai-projects";
+
+const fabricConnection = await client.connections.getConnection(
+  process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
+);
+const connectionId = fabricConnection.id;
+// Initialize agent Microsoft Fabric tool with the connection id
+const fabricTool = ToolUtility.createFabricTool(connectionId);
+// Create agent with the Microsoft Fabric tool and process assistant run
+const agent = await client.agents.createAgent("gpt-4o", {
+  name: "my-agent",
+  instructions: "You are a helpful agent",
+  tools: [fabricTool.definition],
+});
+console.log(`Created agent, agent ID : ${agent.id}`);
+```
+
 #### Create Thread
 
 For each session or conversation, a thread is required. Here is an example:
@@ -462,7 +487,6 @@ const agent = await client.agents.createAgent("gpt-4-1106-preview", {
   tools: [codeInterpreterTool.definition],
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
-
 const thread = await client.agents.createThread();
 console.log(`Created thread, thread ID: ${thread.id}`);
 const message = await client.agents.createMessage(thread.id, {
@@ -499,7 +523,7 @@ To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 
 Here is an example:
 
-```javascript
+```ts snippet:createThreadAndRun
 const run = await client.agents.createThreadAndRun(agent.id, {
   thread: {
     messages: [
@@ -568,7 +592,7 @@ for await (const eventMessage of streamEventMessages) {
 To retrieve messages from agents, use the following example:
 
 ```ts snippet:listMessages
-import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "../src/index.js";
+import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 while (messages.hasMore) {
@@ -579,7 +603,6 @@ while (messages.hasMore) {
   messages.hasMore = nextMessages.hasMore;
   messages.lastId = nextMessages.lastId;
 }
-
 // The messages are following in the reverse order,
 // we will iterate them and output only text contents.
 for (const dataPoint of messages.data.reverse()) {
@@ -604,7 +627,7 @@ import {
   isOutputOfType,
   MessageTextContentOutput,
   MessageImageFileContentOutput,
-} from "../src/index.js";
+} from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 // Get most recent message from the assistant
